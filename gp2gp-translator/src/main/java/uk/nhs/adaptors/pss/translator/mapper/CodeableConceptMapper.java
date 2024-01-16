@@ -223,6 +223,8 @@ public class CodeableConceptMapper {
                     .setSystem(CodeSystemsUtil.getFhirCodeSystem(codedData.getCodeSystem()))
                     .setDisplay(codedData.getDisplayName());
 
+            //codeableConcept.getCoding().add(coding);
+            //codeableConcept.getCoding().add(codeableConcept.getCoding().size(), coding);
             codeableConcept.getCoding().add(index, coding);
         }
     }

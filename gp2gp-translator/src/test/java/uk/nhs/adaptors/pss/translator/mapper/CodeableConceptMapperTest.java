@@ -808,6 +808,27 @@ public class CodeableConceptMapperTest {
     }
 
     @Test
+    public void mapKnownNonSnomedCodeInCodeWithoutOriginalTextTest() {
+        var inputXML = """
+                <code xmlns="urn:hl7-org:v3" code="459032018" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Child HC &lt; 0.4th centile">
+                    
+                </code>
+                """;
+
+        var codedData = unmarshallCodeElementFromXMLString(XML_HEADER + inputXML);
+        var codeableConcept = codeableConceptMapper.mapToCodeableConcept(codedData);
+
+        assertThat(codeableConcept.getText())
+                .isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+        assertThat(codeableConcept.getCodingFirstRep().getCode())
+                .isEqualTo("ALLERGY138185NEMIS");
+        assertThat(codeableConcept.getCodingFirstRep().getSystem())
+                .isEqualTo("https://fhir.hl7.org.uk/Id/egton-codes");
+        assertThat(codeableConcept.getCodingFirstRep().getDisplay())
+                .isEqualTo("Adverse reaction to Comirnaty Covid-19 mRna Vaccine");
+    }
+
+    @Test
     public void mapKnownNonSnomedCodeInValue() {
         var inputXML = """
                 <value xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CD"

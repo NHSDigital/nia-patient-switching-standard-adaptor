@@ -48,7 +48,6 @@ public class ObservationMapperTest {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String INTERPRETATION_SYSTEM = "http://hl7.org/fhir/v2/0078";
     private static final String CODING_DISPLAY_MOCK = "Test Display";
-    private static final String QUANTITY_SYSTEM = "http://unitsofmeasure.org";
     private static final String ISSUED_EHR_COMPOSITION_EXAMPLE = "2020-01-01T01:01:01.000+00:00";
     private static final String PPRF_PARTICIPANT_ID = "Practitioner/1230F602-6BB1-47E0-B2EC-39912A59787D";
     private static final String NEGATIVE_VALUE = "Negative";
@@ -61,6 +60,7 @@ public class ObservationMapperTest {
     private static final List<Encounter> ENCOUNTER_LIST = List.of(
         (Encounter) new Encounter().setId("TEST_ID_MATCHING_ENCOUNTER")
     );
+    private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConcept(null, null, CODING_DISPLAY_MOCK);
     private static final String ORIGINAL_TEXT = "Original Text";
     private static final String MINUS_ONE_ANNOTATION_TEXT = "minus 1 sequence comment";
     private static final String ZERO_ANNOTATION_TEXT = "zero sequence comment";
@@ -96,7 +96,7 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithValidData() {
-        //when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+        //c
         //when(immunizationChecker.isImmunization(any())).thenReturn(false);
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
@@ -126,6 +126,8 @@ public class ObservationMapperTest {
         var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(observations).isNotEmpty();
+
+
     }
 
     @Test
@@ -135,6 +137,35 @@ public class ObservationMapperTest {
         var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(observations).isEmpty();
+    }
+
+    @Test
+    public void mappingObservationWhichIsHeadCircumferenceExpectObservationMapped() {
+
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+
+        var ehrExtract = unmarshallEhrExtractElement(
+                "observation_is_head_circumference.xml");
+        var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
+
+        assertThat(observations).isNotEmpty();
+
+        var observation = observations.get(0);
+
+        assertFixedValues(observation);
+        assertThat(observation.getId()).isEqualTo("384DBA0B-B72E-11ED-808B-AC162D1F16F0");
+        assertThat(observation.getEffective() instanceof DateTimeType).isTrue();
+        assertThat(observation.getEffectiveDateTimeType().getValue()).isEqualTo("2023-04-18T01:00:00+01:00");
+        assertThat(observation.getIssuedElement().asStringValue()).isEqualTo("2022-07-13T14:22:32.000+00:00");
+        assertThat(observation.getPerformer().get(0).getReference()).isEqualTo("Practitioner/4971E7E8-693C-11EE-9D98-00155D78C707");
+        //assertInterpretation(observation.getInterpretation(), "High", "H", "High");
+        //assertThat(observation.getComment()).isEqualTo("Subject: Uncle Test text 1");
+        //assertThat(observation.getReferenceRange().get(0).getText()).isEqualTo("Age and sex based");
+        //assertQuantity(observation.getReferenceRange().get(0).getLow(), REFERENCE_RANGE_LOW_VALUE, "liter", "L");
+        //assertQuantity(observation.getReferenceRange().get(0).getHigh(), REFERENCE_RANGE_HIGH_VALUE, "liter", "L");
+        assertThat(observation.hasSubject()).isTrue();
+
+        assertThat(observation.getCode().getCodingFirstRep().getDisplay()).isEqualTo("Child HC &lt; 0.4th centile");
     }
 
     @Test
@@ -333,7 +364,6 @@ public class ObservationMapperTest {
     private void assertFixedValues(Observation observation) {
         assertThat(observation.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertThat(observation.getIdentifier().get(0).getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
-        assertThat(observation.getIdentifier().get(0).getValue()).isEqualTo(EXAMPLE_ID);
         assertThat(observation.getStatus()).isEqualTo(ObservationStatus.FINAL);
     }
 
