@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+    <availabilityTime value="20200101000000" />
+    <component typeCode="COMP">
+        <ehrFolder classCode="FOLDER" moodCode="EVN">
+            <component typeCode="COMP">
+                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                    <id root="62A39454-299F-432E-993E-5A6232B4E099"/>
+                    <availabilityTime value="20190708"/>
+                    <Participant2 typeCode="PRF" contextControlCode="OP" nullFlavor="UNK" />
+                    <component typeCode="COMP">
+                        <CompoundStatement classCode="CATEGORY" moodCode="EVN">
+                            <id root="394559384658936"/>
+                            <code code="14L..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: drug allergy"/>
+                            <effectiveTime nullFlavor="UNK" />
+                            <availabilityTime nullFlavor="UNK" />
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <ObservationStatement classCode="OBS" moodCode="ENV">
+                                    <id root="394559384658936"/>
+                                    <code nullFlavor="UNK"><originalText>Mocked code</originalText></code>
+                                </ObservationStatement>
+                            </component>
+                        </CompoundStatement>
+                    </component>
+                </ehrComposition>
+            </component>
+        </ehrFolder>
+    </component>
+</EhrExtract>

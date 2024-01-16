@@ -395,7 +395,32 @@ public class AllergyIntoleranceMapperTest {
                 .isEqualTo(EPISODICITY_WITHOUT_ORIGINAL_TEXT_NOTE_TEXT);
     }
 
+    @ParameterizedTest
+    @MethodSource("allergyStructuresWithDifferentAssertedDateLocations")
+    public void When_AllergyIntoleranceIsMappingAssertedDate_Expect_TheCorrectValueMapped(
+            String filename,
+            String expectedAssertedDateAsString) {
 
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
+                .thenReturn(defaultCodeableConcept());
+
+        var ehrExtract = unmarshallEhrExtract(filename);
+
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+                getEncounterList(), PRACTISE_CODE);
+
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo(expectedAssertedDateAsString);
+    }
+
+    public static Stream<Arguments> allergyStructuresWithDifferentAssertedDateLocations() {
+        return Stream.of(
+                Arguments.of("allergy-with-compound-statement-availability-time.xml", "1978-12-31"),
+                Arguments.of("allergy-without-compound-statement-availability-time.xml", "2019-07-08"),
+                Arguments.of("allergy-with-only-ehr-composition-author-time.xml", "2019-12-25")
+        );
+    }
 
     @ParameterizedTest
     @MethodSource("allergyStructuresWithTranslations")

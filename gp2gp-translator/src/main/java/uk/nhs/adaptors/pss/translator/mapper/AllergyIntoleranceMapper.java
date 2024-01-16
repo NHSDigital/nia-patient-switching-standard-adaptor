@@ -67,7 +67,6 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                         .filter(Objects::nonNull)
                         .filter(ResourceFilterUtil::isAllergyIntolerance)
                         .map(compoundStatement -> mapAllergyIntolerance(
-                                ehrExtract,
                                 composition,
                                 compoundStatement,
                                 practiseCode,
@@ -76,8 +75,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         ).toList();
     }
 
-    private AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UK04EhrExtract ehrExtract,
-                                                     RCMRMT030101UK04EhrComposition ehrComposition,
+    private AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UK04EhrComposition ehrComposition,
                                                      RCMRMT030101UK04CompoundStatement compoundStatement,
                                                      String practiseCode,
                                                      List<Encounter> encounters,
@@ -92,7 +90,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
 
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
-            .setAssertedDateElement(getAssertedDateElement(compoundStatement.getAvailabilityTime(), ehrExtract, ehrComposition))
+            .setAssertedDateElement(getAssertedDateElement(compoundStatement.getAvailabilityTime(), ehrComposition))
             .setPatient(new Reference(patient))
             .setClinicalStatus(ACTIVE)
             .setVerificationStatus(UNCONFIRMED)
@@ -236,16 +234,19 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         }
     }
 
-    private DateTimeType getAssertedDateElement(TS availabilityTime, RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04EhrComposition ehrComposition) {
+    private DateTimeType getAssertedDateElement(TS availabilityTime, RCMRMT030101UK04EhrComposition ehrComposition) {
         if (availabilityTime != null && availabilityTime.hasValue()) {
             return parseToDateTimeType(availabilityTime.getValue());
-        } else {
-            if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
-                return parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
-            } else if (ehrExtract.getAvailabilityTime() != null && ehrExtract.getAvailabilityTime().hasValue()) {
-                return parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
-            }
+        }
+
+        if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
+            return parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
+        }
+
+        if (ehrComposition.hasAuthor()
+                && ehrComposition.getAuthor().hasTime()
+                && ehrComposition.getAuthor().getTime().hasValue()) {
+            return parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
         }
 
         return null;
