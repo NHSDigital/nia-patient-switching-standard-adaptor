@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import lombok.AccessLevel;
@@ -12,11 +13,15 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04Participant;
 import org.hl7.v3.RCMRMT030101UK04Participant2;
 
+import static uk.nhs.adaptors.pss.translator.util.AuthorUtil.getAuthorReference;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ParticipantReferenceUtil {
     private static final String PRF_TYPE_CODE = "PRF";
     private static final String PPRF_TYPE_CODE = "PPRF";
     private static final String PRACTITIONER_REFERENCE_PREFIX = "Practitioner/%s";
+    public static final String ASSERTER = "asserter";
+    public static final String RECORDER = "recorder";
 
     public static Reference getParticipantReference(List<RCMRMT030101UK04Participant> participantList,
         RCMRMT030101UK04EhrComposition ehrComposition) {
@@ -52,6 +57,15 @@ public class ParticipantReferenceUtil {
             .filter(II::hasRoot)
             .map(II::getRoot)
             .findFirst();
+    }
+
+
+    public static Map<String, Optional<Reference>> fetchRecorderAndAsserter(RCMRMT030101UK04EhrComposition ehrComposition) {
+
+        var practitioner = Optional.ofNullable(getParticipant2Reference(ehrComposition, "RESP"));
+        var author = getAuthorReference(ehrComposition);
+
+        return Map.of(RECORDER, author, ASSERTER, practitioner);
     }
 
     public static Reference getParticipant2Reference(RCMRMT030101UK04EhrComposition ehrComposition, String typeCode) {

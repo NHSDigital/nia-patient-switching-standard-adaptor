@@ -5,6 +5,9 @@
             <component typeCode="COMP">
                 <ehrComposition classCode="COMPOSITION" moodCode="EVN">
                     <id root="62A39454-299F-432E-993E-5A6232B4E099" />
+                    <author typeCode="AUT" contextControlCode="OP">
+                        <time value="20170101010101"/>
+                    </author>
                     <component typeCode="COMP" >
                         <PlanStatement classCode="OBS" moodCode="INT">
                             <id root="6DFFAEC4-7527-4D80-A2BD-81BDEBA04400" />
