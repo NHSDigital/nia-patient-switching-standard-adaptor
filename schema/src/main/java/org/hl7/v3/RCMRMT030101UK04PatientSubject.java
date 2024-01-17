@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -50,8 +51,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 })
 public class RCMRMT030101UK04PatientSubject {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04Patient patient;
+    @XmlAnyElement
+    protected RCMRMT030101UKPatient patient;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -73,7 +74,7 @@ public class RCMRMT030101UK04PatientSubject {
      *     {@link RCMRMT030101UK04Patient }
      *     
      */
-    public RCMRMT030101UK04Patient getPatient() {
+    public RCMRMT030101UKPatient getPatient() {
         return patient;
     }
 

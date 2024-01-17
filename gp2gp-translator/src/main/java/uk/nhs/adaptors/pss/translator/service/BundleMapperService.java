@@ -28,6 +28,7 @@ import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04Patient;
+import org.hl7.v3.RCMRMT030101UKPatient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -233,7 +234,7 @@ public class BundleMapperService {
     }
 
     private Patient mapPatient(RCMRMT030101UK04EhrExtract ehrExtract, Organization organization) {
-        RCMRMT030101UK04Patient xmlPatient = ehrExtract.getRecordTarget().getPatient();
+        RCMRMT030101UKPatient xmlPatient = ehrExtract.getRecordTarget().getPatient();
         return patientMapper.mapToPatient(xmlPatient, organization);
     }
 
