@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -44,14 +46,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.PatientSubject", propOrder = {
     "patient"
 })
 public class RCMRMT030101UK04PatientSubject {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04Patient patient;
+    @XmlElement(required = true, type = RCMRMT030101UK04Patient.class)
+    protected RCMRMT030101UKPatient patient;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -73,7 +76,7 @@ public class RCMRMT030101UK04PatientSubject {
      *     {@link RCMRMT030101UK04Patient }
      *     
      */
-    public RCMRMT030101UK04Patient getPatient() {
+    public RCMRMT030101UKPatient getPatient() {
         return patient;
     }
 
@@ -85,7 +88,7 @@ public class RCMRMT030101UK04PatientSubject {
      *     {@link RCMRMT030101UK04Patient }
      *     
      */
-    public void setPatient(RCMRMT030101UK04Patient value) {
+    public void setPatient(RCMRMT030101UKPatient value) {
         this.patient = value;
     }
 

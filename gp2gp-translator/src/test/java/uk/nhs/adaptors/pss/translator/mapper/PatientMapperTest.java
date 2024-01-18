@@ -9,6 +9,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRMT030101UK04Patient;
+import org.hl7.v3.RCMRMT030101UKPatient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,7 +49,7 @@ public class PatientMapperTest {
 
     @Test
     public void testIdMetaAndNhsNumberIsAddedToPatient() {
-        RCMRMT030101UK04Patient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML);
+        RCMRMT030101UKPatient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML);
 
         Patient patient = patientMapper.mapToPatient(patientXml, null);
 
@@ -67,7 +68,7 @@ public class PatientMapperTest {
 
     @Test
     public void testOrganizationReferenceIsAddedToPatient() {
-        RCMRMT030101UK04Patient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML);
+        RCMRMT030101UKPatient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML);
 
         Patient patient = patientMapper.mapToPatient(patientXml, ORGANIZATION);
 
