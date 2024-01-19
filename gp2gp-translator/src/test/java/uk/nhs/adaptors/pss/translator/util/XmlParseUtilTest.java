@@ -4,7 +4,6 @@ import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRIN030000UK06ControlActEvent;
 import org.hl7.v3.RCMRIN030000UK06Subject;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04PatientSubject;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UKPatient;
 import org.hl7.v3.RCMRMT030101UKPatientSubject;

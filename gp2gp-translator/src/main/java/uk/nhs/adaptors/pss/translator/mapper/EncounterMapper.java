@@ -30,7 +30,6 @@ import org.hl7.v3.CD;
 import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.II;
 import org.hl7.v3.LinkableComponent;
-import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
@@ -41,6 +40,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04Participant2;
+import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -332,7 +332,7 @@ public class EncounterMapper {
         return null;
     }
 
-    private EncounterParticipantComponent getRecorder(RCMRMT030101UK04Author author) {
+    private EncounterParticipantComponent getRecorder(RCMRMT030101UKAuthor author) {
         var recorder = new EncounterParticipantComponent();
 
         return recorder
@@ -352,8 +352,8 @@ public class EncounterMapper {
             .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + participant2.getAgentRef().getId().getRoot()));
     }
 
-    private List<EncounterParticipantComponent> getParticipants(RCMRMT030101UK04Author author,
-        List<RCMRMT030101UK04Participant2> participant2List) {
+    private List<EncounterParticipantComponent> getParticipants(RCMRMT030101UKAuthor author,
+                                                                List<RCMRMT030101UK04Participant2> participant2List) {
         List<EncounterParticipantComponent> participants = new ArrayList<>();
 
         if (author.getNullFlavor() == null) {

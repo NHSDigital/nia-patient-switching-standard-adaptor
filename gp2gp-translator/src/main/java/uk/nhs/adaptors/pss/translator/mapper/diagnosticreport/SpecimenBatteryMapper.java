@@ -29,7 +29,6 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -38,6 +37,7 @@ import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04Participant;
 import org.hl7.v3.RCMRMT030101UK04Participant2;
+import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -219,7 +219,7 @@ public class SpecimenBatteryMapper {
         return Optional.empty();
     }
 
-    private boolean hasValidTimeValue(RCMRMT030101UK04Author author) {
+    private boolean hasValidTimeValue(RCMRMT030101UKAuthor author) {
         return author != null && author.hasTime()
             && author.getTime().hasValue()
             && !author.getTime().hasNullFlavor();

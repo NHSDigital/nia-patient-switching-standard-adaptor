@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -54,6 +55,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.EhrComposition", propOrder = {
     "id",
@@ -79,9 +81,10 @@ public class RCMRMT030101UK04EhrComposition {
     protected IVLTS effectiveTime;
     @XmlElement(required = true)
     protected TS availabilityTime;
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04Author author;
-    protected RCMRMT030101UK04Location location;
+    @XmlElement(required = true, type = RCMRMT030101UK04Author.class)
+    protected RCMRMT030101UKAuthor author;
+    @XmlElement(type = RCMRMT030101UK04Location.class)
+    protected RCMRMT030101UKLocation location;
     @XmlElement(name = "Participant2")
     protected List<RCMRMT030101UK04Participant2> participant2;
     @XmlElement(required = true)
@@ -232,7 +235,7 @@ public class RCMRMT030101UK04EhrComposition {
      *     {@link RCMRMT030101UK04Author }
      *     
      */
-    public RCMRMT030101UK04Author getAuthor() {
+    public RCMRMT030101UKAuthor getAuthor() {
         return author;
     }
 
@@ -244,7 +247,7 @@ public class RCMRMT030101UK04EhrComposition {
      *     {@link RCMRMT030101UK04Author }
      *     
      */
-    public void setAuthor(RCMRMT030101UK04Author value) {
+    public void setAuthor(RCMRMT030101UKAuthor value) {
         this.author = value;
     }
 
@@ -260,7 +263,7 @@ public class RCMRMT030101UK04EhrComposition {
      *     {@link RCMRMT030101UK04Location }
      *     
      */
-    public RCMRMT030101UK04Location getLocation() {
+    public RCMRMT030101UKLocation getLocation() {
         return location;
     }
 
@@ -272,7 +275,7 @@ public class RCMRMT030101UK04EhrComposition {
      *     {@link RCMRMT030101UK04Location }
      *     
      */
-    public void setLocation(RCMRMT030101UK04Location value) {
+    public void setLocation(RCMRMT030101UKLocation value) {
         this.location = value;
     }
 
