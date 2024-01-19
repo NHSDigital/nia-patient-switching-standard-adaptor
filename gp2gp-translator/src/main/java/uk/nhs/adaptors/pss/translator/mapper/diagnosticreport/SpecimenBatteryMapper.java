@@ -36,7 +36,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04Participant;
-import org.hl7.v3.RCMRMT030101UK04Participant2;
+import org.hl7.v3.RCMRMT030101UKParticipant2;
 import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,7 +171,7 @@ public class SpecimenBatteryMapper {
             referenceOpt = ehrComposition.getParticipant2()
                 .stream()
                 .filter(participant2 -> !participant2.hasNullFlavor())
-                .map(RCMRMT030101UK04Participant2::getAgentRef)
+                .map(RCMRMT030101UKParticipant2::getAgentRef)
                 .filter(Objects::nonNull)
                 .findFirst()
                 .map(agentRef -> new Reference(new IdType(ResourceType.Practitioner.name(), agentRef.getId().getRoot())));

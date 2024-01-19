@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -45,14 +46,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Participant2", propOrder = {
     "agentRef"
 })
-public class RCMRMT030101UK04Participant2 {
+public class RCMRMT030101UK04Participant2 implements RCMRMT030101UKParticipant2 {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04AgentRef agentRef;
+    @XmlElement(required = true, type = RCMRMT030101UK04AgentRef.class)
+    protected RCMRMT030101UKAgentRef agentRef;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -76,7 +78,8 @@ public class RCMRMT030101UK04Participant2 {
      *     {@link RCMRMT030101UK04AgentRef }
      *     
      */
-    public RCMRMT030101UK04AgentRef getAgentRef() {
+    @Override
+    public RCMRMT030101UKAgentRef getAgentRef() {
         return agentRef;
     }
 
@@ -88,7 +91,8 @@ public class RCMRMT030101UK04Participant2 {
      *     {@link RCMRMT030101UK04AgentRef }
      *     
      */
-    public void setAgentRef(RCMRMT030101UK04AgentRef value) {
+    @Override
+    public void setAgentRef(RCMRMT030101UKAgentRef value) {
         this.agentRef = value;
     }
 
@@ -100,6 +104,7 @@ public class RCMRMT030101UK04Participant2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Participation";
@@ -116,6 +121,7 @@ public class RCMRMT030101UK04Participant2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -142,6 +148,7 @@ public class RCMRMT030101UK04Participant2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<String>();
@@ -171,6 +178,7 @@ public class RCMRMT030101UK04Participant2 {
      * 
      * 
      */
+    @Override
     public List<String> getContextControlCode() {
         if (contextControlCode == null) {
             contextControlCode = new ArrayList<String>();
@@ -200,6 +208,7 @@ public class RCMRMT030101UK04Participant2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -229,6 +238,7 @@ public class RCMRMT030101UK04Participant2 {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -244,6 +254,7 @@ public class RCMRMT030101UK04Participant2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -256,10 +267,12 @@ public class RCMRMT030101UK04Participant2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
 
+    @Override
     public boolean hasNullFlavor() {
         return nullFlavor != null && !nullFlavor.equals("");
     }

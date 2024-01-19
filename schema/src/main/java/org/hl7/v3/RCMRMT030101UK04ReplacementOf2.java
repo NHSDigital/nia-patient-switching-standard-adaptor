@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -44,14 +45,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.ReplacementOf2", propOrder = {
     "priorCompositionRef"
 })
-public class RCMRMT030101UK04ReplacementOf2 {
+public class RCMRMT030101UK04ReplacementOf2 implements RCMRMT030101UKReplacementOf2 {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04CompositionRef priorCompositionRef;
+    @XmlElement(required = true, type = RCMRMT030101UK04CompositionRef.class)
+    protected RCMRMT030101UKCompositionRef priorCompositionRef;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -73,7 +75,8 @@ public class RCMRMT030101UK04ReplacementOf2 {
      *     {@link RCMRMT030101UK04CompositionRef }
      *     
      */
-    public RCMRMT030101UK04CompositionRef getPriorCompositionRef() {
+    @Override
+    public RCMRMT030101UKCompositionRef getPriorCompositionRef() {
         return priorCompositionRef;
     }
 
@@ -85,7 +88,8 @@ public class RCMRMT030101UK04ReplacementOf2 {
      *     {@link RCMRMT030101UK04CompositionRef }
      *     
      */
-    public void setPriorCompositionRef(RCMRMT030101UK04CompositionRef value) {
+    @Override
+    public void setPriorCompositionRef(RCMRMT030101UKCompositionRef value) {
         this.priorCompositionRef = value;
     }
 
@@ -97,6 +101,7 @@ public class RCMRMT030101UK04ReplacementOf2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -113,6 +118,7 @@ public class RCMRMT030101UK04ReplacementOf2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -139,6 +145,7 @@ public class RCMRMT030101UK04ReplacementOf2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<String>();
@@ -168,6 +175,7 @@ public class RCMRMT030101UK04ReplacementOf2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -197,6 +205,7 @@ public class RCMRMT030101UK04ReplacementOf2 {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -212,6 +221,7 @@ public class RCMRMT030101UK04ReplacementOf2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -224,6 +234,7 @@ public class RCMRMT030101UK04ReplacementOf2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

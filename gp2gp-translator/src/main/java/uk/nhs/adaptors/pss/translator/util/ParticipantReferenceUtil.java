@@ -8,10 +8,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04AgentRef;
+import org.hl7.v3.RCMRMT030101UKAgentRef;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04Participant;
-import org.hl7.v3.RCMRMT030101UK04Participant2;
+import org.hl7.v3.RCMRMT030101UKParticipant2;
 
 import static uk.nhs.adaptors.pss.translator.util.AuthorUtil.getAuthorReference;
 
@@ -53,7 +53,7 @@ public class ParticipantReferenceUtil {
             .filter(participant -> hasTypeCode(participant, typeCode))
             .filter(ParticipantReferenceUtil::hasAgentReference)
             .map(RCMRMT030101UK04Participant::getAgentRef)
-            .map(RCMRMT030101UK04AgentRef::getId)
+            .map(RCMRMT030101UKAgentRef::getId)
             .filter(II::hasRoot)
             .map(II::getRoot)
             .findFirst();
@@ -73,8 +73,8 @@ public class ParticipantReferenceUtil {
         var participant2Reference = ehrComposition.getParticipant2().stream()
             .filter(participant2 -> participant2.getNullFlavor() == null)
             .filter(participant2 -> typeCode.equals(participant2.getTypeCode().get(0)))
-            .map(RCMRMT030101UK04Participant2::getAgentRef)
-            .map(RCMRMT030101UK04AgentRef::getId)
+            .map(RCMRMT030101UKParticipant2::getAgentRef)
+            .map(RCMRMT030101UKAgentRef::getId)
             .filter(II::hasRoot)
             .map(II::getRoot)
             .findFirst();
@@ -88,8 +88,8 @@ public class ParticipantReferenceUtil {
     private static Optional<String> getParticipant2Reference(RCMRMT030101UK04EhrComposition ehrComposition) {
         return ehrComposition.getParticipant2().stream()
             .filter(participant2 -> participant2.getNullFlavor() == null)
-            .map(RCMRMT030101UK04Participant2::getAgentRef)
-            .map(RCMRMT030101UK04AgentRef::getId)
+            .map(RCMRMT030101UKParticipant2::getAgentRef)
+            .map(RCMRMT030101UKAgentRef::getId)
             .filter(II::hasRoot)
             .map(II::getRoot)
             .findFirst();

@@ -39,8 +39,8 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
-import org.hl7.v3.RCMRMT030101UK04Participant2;
 import org.hl7.v3.RCMRMT030101UKAuthor;
+import org.hl7.v3.RCMRMT030101UKParticipant2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -340,11 +340,11 @@ public class EncounterMapper {
             .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + author.getAgentRef().getId().getRoot()));
     }
 
-    private boolean isNonNullParticipant2(RCMRMT030101UK04Participant2 participant2) {
+    private boolean isNonNullParticipant2(RCMRMT030101UKParticipant2 participant2) {
         return participant2.getNullFlavor() == null;
     }
 
-    private EncounterParticipantComponent getPerformer(RCMRMT030101UK04Participant2 participant2) {
+    private EncounterParticipantComponent getPerformer(RCMRMT030101UKParticipant2 participant2) {
         var performer = new EncounterParticipantComponent();
 
         return performer
@@ -353,7 +353,7 @@ public class EncounterMapper {
     }
 
     private List<EncounterParticipantComponent> getParticipants(RCMRMT030101UKAuthor author,
-                                                                List<RCMRMT030101UK04Participant2> participant2List) {
+                                                                List<RCMRMT030101UKParticipant2> participant2List) {
         List<EncounterParticipantComponent> participants = new ArrayList<>();
 
         if (author.getNullFlavor() == null) {

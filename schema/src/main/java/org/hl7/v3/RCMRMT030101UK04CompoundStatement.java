@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -59,6 +60,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.CompoundStatement", propOrder = {
     "id",
@@ -99,8 +101,10 @@ public class RCMRMT030101UK04CompoundStatement {
     protected List<RCMRMT030101UK04Participant> participant;
     protected List<RCMRMT030101UK04ReplacementOf> replacementOf;
     protected List<RCMRMT030101UK04Reason> reason;
-    protected List<RCMRMT030101UK04Reference> reference;
-    protected List<RCMRMT030101UK04SequelTo> sequelTo;
+    @XmlElement(type = RCMRMT030101UK04Reference.class)
+    protected List<RCMRMT030101UKReference> reference;
+    @XmlElement(type = RCMRMT030101UK04SequelTo.class)
+    protected List<RCMRMT030101UKSequelTo> sequelTo;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -493,9 +497,9 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Reference> getReference() {
+    public List<RCMRMT030101UKReference> getReference() {
         if (reference == null) {
-            reference = new ArrayList<RCMRMT030101UK04Reference>();
+            reference = new ArrayList<>();
         }
         return this.reference;
     }
@@ -522,9 +526,9 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04SequelTo> getSequelTo() {
+    public List<RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
-            sequelTo = new ArrayList<RCMRMT030101UK04SequelTo>();
+            sequelTo = new ArrayList<>();
         }
         return this.sequelTo;
     }
