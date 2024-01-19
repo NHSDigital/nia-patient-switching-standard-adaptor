@@ -35,7 +35,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04Participant;
+import org.hl7.v3.RCMRMT030101UKParticipant;
 import org.hl7.v3.RCMRMT030101UKParticipant2;
 import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.TS;
@@ -162,7 +162,7 @@ public class SpecimenBatteryMapper {
                 .stream()
                 .filter(participant -> !participant.hasNullFlavour())
                 .filter(this::hasTypeCode)
-                .map(RCMRMT030101UK04Participant::getAgentRef)
+                .map(RCMRMT030101UKParticipant::getAgentRef)
                 .filter(Objects::nonNull)
                 .findFirst()
                 .map(agentRef -> new Reference(new IdType(ResourceType.Practitioner.name(), agentRef.getId().getRoot())));
@@ -179,7 +179,7 @@ public class SpecimenBatteryMapper {
         return referenceOpt;
     }
 
-    private boolean hasTypeCode(RCMRMT030101UK04Participant participant) {
+    private boolean hasTypeCode(RCMRMT030101UKParticipant participant) {
         return participant.getTypeCode()
             .stream()
             .anyMatch(typeCode -> TYPECODE_PRF.equals(typeCode) || TYPECODE_PPRF.equals(typeCode));

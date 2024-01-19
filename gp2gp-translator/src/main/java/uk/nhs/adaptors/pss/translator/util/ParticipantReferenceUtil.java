@@ -10,7 +10,7 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UKAgentRef;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04Participant;
+import org.hl7.v3.RCMRMT030101UKParticipant;
 import org.hl7.v3.RCMRMT030101UKParticipant2;
 
 import static uk.nhs.adaptors.pss.translator.util.AuthorUtil.getAuthorReference;
@@ -23,7 +23,7 @@ public class ParticipantReferenceUtil {
     public static final String ASSERTER = "asserter";
     public static final String RECORDER = "recorder";
 
-    public static Reference getParticipantReference(List<RCMRMT030101UK04Participant> participantList,
+    public static Reference getParticipantReference(List<RCMRMT030101UKParticipant> participantList,
         RCMRMT030101UK04EhrComposition ehrComposition) {
         var nonNullFlavorParticipants = participantList.stream()
             .filter(ParticipantReferenceUtil::isNotNullFlavour)
@@ -47,12 +47,12 @@ public class ParticipantReferenceUtil {
         return null;
     }
 
-    private static Optional<String> getParticipantReference(List<RCMRMT030101UK04Participant> participantList, String typeCode) {
+    private static Optional<String> getParticipantReference(List<RCMRMT030101UKParticipant> participantList, String typeCode) {
 
         return participantList.stream()
             .filter(participant -> hasTypeCode(participant, typeCode))
             .filter(ParticipantReferenceUtil::hasAgentReference)
-            .map(RCMRMT030101UK04Participant::getAgentRef)
+            .map(RCMRMT030101UKParticipant::getAgentRef)
             .map(RCMRMT030101UKAgentRef::getId)
             .filter(II::hasRoot)
             .map(II::getRoot)
@@ -95,15 +95,15 @@ public class ParticipantReferenceUtil {
             .findFirst();
     }
 
-    private static boolean hasAgentReference(RCMRMT030101UK04Participant participant) {
+    private static boolean hasAgentReference(RCMRMT030101UKParticipant participant) {
         return participant.getAgentRef() != null && participant.getAgentRef().getId() != null;
     }
 
-    private static boolean hasTypeCode(RCMRMT030101UK04Participant participant, String typeCode) {
+    private static boolean hasTypeCode(RCMRMT030101UKParticipant participant, String typeCode) {
         return !participant.getTypeCode().isEmpty() && participant.getTypeCode().get(0).equals(typeCode);
     }
 
-    private static boolean isNotNullFlavour(RCMRMT030101UK04Participant participant) {
+    private static boolean isNotNullFlavour(RCMRMT030101UKParticipant participant) {
         return participant.getNullFlavor() == null;
     }
 }

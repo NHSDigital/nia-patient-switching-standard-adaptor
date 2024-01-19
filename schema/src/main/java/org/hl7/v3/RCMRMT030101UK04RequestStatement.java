@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -58,6 +59,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.RequestStatement", propOrder = {
     "id",
@@ -91,8 +93,8 @@ public class RCMRMT030101UK04RequestStatement {
     protected CV priorityCode;
     protected RCMRMT030101UK04ResponsibleParty3 responsibleParty;
     protected List<RCMRMT030101UK04Informant> informant;
-    @XmlElement(name = "Participant")
-    protected List<RCMRMT030101UK04Participant> participant;
+    @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
+    protected List<RCMRMT030101UKParticipant> participant;
     protected List<RCMRMT030101UK04ReplacementOf> replacementOf;
     protected List<RCMRMT030101UK04Reason> reason;
     protected List<RCMRMT030101UK04Reference> reference;
@@ -360,9 +362,9 @@ public class RCMRMT030101UK04RequestStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Participant> getParticipant() {
+    public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
-            participant = new ArrayList<RCMRMT030101UK04Participant>();
+            participant = new ArrayList<>();
         }
         return this.participant;
     }

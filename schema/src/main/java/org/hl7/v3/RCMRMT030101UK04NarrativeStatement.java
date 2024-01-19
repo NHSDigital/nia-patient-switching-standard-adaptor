@@ -78,8 +78,8 @@ public class RCMRMT030101UK04NarrativeStatement {
     @XmlElement(required = true)
     protected TS availabilityTime;
     protected List<RCMRMT030101UK04Informant> informant;
-    @XmlElement(name = "Participant")
-    protected List<RCMRMT030101UK04Participant> participant;
+    @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
+    protected List<RCMRMT030101UKParticipant> participant;
     protected List<RCMRMT030101UK04ReplacementOf> replacementOf;
     protected List<RCMRMT030101UK04Reason> reason;
     protected List<RCMRMT030101UK04Reference> reference;
@@ -254,9 +254,9 @@ public class RCMRMT030101UK04NarrativeStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Participant> getParticipant() {
+    public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
-            participant = new ArrayList<RCMRMT030101UK04Participant>();
+            participant = new ArrayList<>();
         }
         return this.participant;
     }
@@ -285,7 +285,7 @@ public class RCMRMT030101UK04NarrativeStatement {
      */
     public List<RCMRMT030101UK04ReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
-            replacementOf = new ArrayList<RCMRMT030101UK04ReplacementOf>();
+            replacementOf = new ArrayList<>();
         }
         return this.replacementOf;
     }
@@ -314,7 +314,7 @@ public class RCMRMT030101UK04NarrativeStatement {
      */
     public List<RCMRMT030101UK04Reason> getReason() {
         if (reason == null) {
-            reason = new ArrayList<RCMRMT030101UK04Reason>();
+            reason = new ArrayList<>();
         }
         return this.reason;
     }
@@ -343,7 +343,7 @@ public class RCMRMT030101UK04NarrativeStatement {
      */
     public List<RCMRMT030101UK04Reference> getReference() {
         if (reference == null) {
-            reference = new ArrayList<RCMRMT030101UK04Reference>();
+            reference = new ArrayList<>();
         }
         return this.reference;
     }
@@ -372,7 +372,7 @@ public class RCMRMT030101UK04NarrativeStatement {
      */
     public List<RCMRMT030101UK04SequelTo> getSequelTo() {
         if (sequelTo == null) {
-            sequelTo = new ArrayList<RCMRMT030101UK04SequelTo>();
+            sequelTo = new ArrayList<>();
         }
         return this.sequelTo;
     }
@@ -429,7 +429,7 @@ public class RCMRMT030101UK04NarrativeStatement {
      */
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -458,7 +458,7 @@ public class RCMRMT030101UK04NarrativeStatement {
      */
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -487,7 +487,7 @@ public class RCMRMT030101UK04NarrativeStatement {
      */
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -516,7 +516,7 @@ public class RCMRMT030101UK04NarrativeStatement {
      */
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
