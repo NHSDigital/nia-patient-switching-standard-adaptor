@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -53,6 +54,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.EhrExtract", propOrder = {
     "id",
@@ -73,18 +75,18 @@ public class RCMRMT030101UK04EhrExtract {
     protected CS statusCode;
     @XmlElement(required = true)
     protected TS availabilityTime;
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04PatientSubject recordTarget;
+    @XmlElement(required = true, type = RCMRMT030101UK04PatientSubject.class)
+    protected RCMRMT030101UKPatientSubject recordTarget;
     @XmlElement(required = true)
     protected RCMRMT030101UK04Author3 author;
     @XmlElement(required = true)
     protected RCMRMT030101UK04Destination destination;
     @XmlElement(required = true)
     protected List<RCMRMT030101UK04Component> component;
-    @XmlElement(required = true)
+    @XmlElement(required = true, type = RCMRMT030101UK04InFulfillmentOf2.class)
     protected RCMRMT030101UK04InFulfillmentOf2 inFulfillmentOf;
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04Limitation limitation;
+    @XmlElement(required = true, type = RCMRMT030101UK04Limitation.class)
+    protected RCMRMT030101UKLimitation limitation;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -180,7 +182,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04PatientSubject }
      *     
      */
-    public RCMRMT030101UK04PatientSubject getRecordTarget() {
+    public RCMRMT030101UKPatientSubject getRecordTarget() {
         return recordTarget;
     }
 
@@ -192,7 +194,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04PatientSubject }
      *     
      */
-    public void setRecordTarget(RCMRMT030101UK04PatientSubject value) {
+    public void setRecordTarget(RCMRMT030101UKPatientSubject value) {
         this.recordTarget = value;
     }
 
@@ -309,7 +311,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04Limitation }
      *     
      */
-    public RCMRMT030101UK04Limitation getLimitation() {
+    public RCMRMT030101UKLimitation getLimitation() {
         return limitation;
     }
 
@@ -321,7 +323,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04Limitation }
      *     
      */
-    public void setLimitation(RCMRMT030101UK04Limitation value) {
+    public void setLimitation(RCMRMT030101UKLimitation value) {
         this.limitation = value;
     }
 

@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -44,14 +45,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.InFulfillmentOf2", propOrder = {
     "priorEhrRequest"
 })
 public class RCMRMT030101UK04InFulfillmentOf2 {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04EhrRequest priorEhrRequest;
+    @XmlElement(required = true, type = RCMRMT030101UK04EhrRequest.class)
+    protected RCMRMT030101UKEhrRequest priorEhrRequest;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -73,7 +75,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      *     {@link RCMRMT030101UK04EhrRequest }
      *     
      */
-    public RCMRMT030101UK04EhrRequest getPriorEhrRequest() {
+    public RCMRMT030101UKEhrRequest getPriorEhrRequest() {
         return priorEhrRequest;
     }
 
@@ -85,7 +87,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      *     {@link RCMRMT030101UK04EhrRequest }
      *     
      */
-    public void setPriorEhrRequest(RCMRMT030101UK04EhrRequest value) {
+    public void setPriorEhrRequest(RCMRMT030101UKEhrRequest value) {
         this.priorEhrRequest = value;
     }
 

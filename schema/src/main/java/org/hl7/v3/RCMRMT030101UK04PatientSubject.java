@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "RCMR_MT030101UK04.PatientSubject", propOrder = {
     "patient"
 })
-public class RCMRMT030101UK04PatientSubject {
+public class RCMRMT030101UK04PatientSubject implements RCMRMT030101UKPatientSubject {
 
     @XmlElement(required = true, type = RCMRMT030101UK04Patient.class)
     protected RCMRMT030101UKPatient patient;
@@ -76,6 +76,7 @@ public class RCMRMT030101UK04PatientSubject {
      *     {@link RCMRMT030101UK04Patient }
      *     
      */
+    @Override
     public RCMRMT030101UKPatient getPatient() {
         return patient;
     }
@@ -88,6 +89,7 @@ public class RCMRMT030101UK04PatientSubject {
      *     {@link RCMRMT030101UK04Patient }
      *     
      */
+    @Override
     public void setPatient(RCMRMT030101UKPatient value) {
         this.patient = value;
     }
@@ -100,6 +102,7 @@ public class RCMRMT030101UK04PatientSubject {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Participation";
@@ -116,6 +119,7 @@ public class RCMRMT030101UK04PatientSubject {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -142,6 +146,7 @@ public class RCMRMT030101UK04PatientSubject {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<String>();
@@ -171,6 +176,7 @@ public class RCMRMT030101UK04PatientSubject {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -200,6 +206,7 @@ public class RCMRMT030101UK04PatientSubject {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -215,6 +222,7 @@ public class RCMRMT030101UK04PatientSubject {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -227,6 +235,7 @@ public class RCMRMT030101UK04PatientSubject {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

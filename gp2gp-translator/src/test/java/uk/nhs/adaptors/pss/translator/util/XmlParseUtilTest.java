@@ -7,6 +7,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04PatientSubject;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UKPatient;
+import org.hl7.v3.RCMRMT030101UKPatientSubject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +40,7 @@ public class XmlParseUtilTest {
     @Mock
     private RCMRMT030101UK04EhrExtract rcmrmt030101UK04EhrExtract;
     @Mock
-    private RCMRMT030101UK04PatientSubject rcmrmt030101UK04PatientSubject;
+    private RCMRMT030101UKPatientSubject rcmrmt030101UK04PatientSubject;
     @Mock
     private RCMRMT030101UKPatient rcmrmt030101UK04Patient;
     @Mock
