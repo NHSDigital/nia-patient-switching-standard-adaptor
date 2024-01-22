@@ -60,6 +60,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private static final String SELF_REFERRAL = "SelfReferral";
     private static final String URGENCY = "Urgency";
     private static final String TEXT = "Text";
+    private static final String EPISODICITY_COMMENT = "Episodicity : %s";
     private static final BigInteger MINUS_ONE = new BigInteger("-1");
 
     private final CodeableConceptMapper codeableConceptMapper;
@@ -101,8 +102,12 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             .setIssuedElement(getIssued(ehrExtract, ehrComposition))
             .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
             .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
-            .setComment(getComment(observationStatement.getPertinentInformation(), observationStatement.getSubject(),
-                observationStatement.getCode()))
+            .setComment(getComment(
+                    observationStatement.getPertinentInformation(),
+                    observationStatement.getSubject(),
+                    observationStatement.getCode(),
+                    observationStatement.getCode().getQualifier()
+            ))
             .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
             .setSubject(new Reference(patient));
         observation.setId(id);
@@ -194,7 +199,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return null;
     }
 
-    private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation, RCMRMT030101UK04Subject subject, CD code) {
+    private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation, RCMRMT030101UK04Subject subject, CD code, List<CR> qualifiers) {
         StringJoiner stringJoiner = new StringJoiner(StringUtils.SPACE);
 
         if (subjectHasOriginalText(subject)) {
@@ -218,7 +223,39 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         zeroSequenceComment.ifPresent(stringJoiner::add);
         postFixedSequenceComments.ifPresent(stringJoiner::add);
 
+        // Append episodicity to the comment.
+        appendEpisodicity(qualifiers, stringJoiner);
+
         return stringJoiner.toString();
+    }
+
+    private void appendEpisodicity(List<CR> qualifiers, StringJoiner stringJoiner) {
+        qualifiers.stream()
+                .map(this::buildEpisodicityText)
+                .filter(Objects::nonNull)
+                .forEach(et -> {
+                    if (stringJoiner.length() > 0) {
+                        stringJoiner.add("<br>");
+                    }
+                    stringJoiner.add(EPISODICITY_COMMENT.formatted(et));
+                });
+    }
+
+    private String buildEpisodicityText(CR qualifier) {
+        var qualifierName = qualifier.getName();
+
+        if (qualifierName == null) {
+            return null;
+        }
+
+        var text = "code=" + qualifierName.getCode()
+                + ", displayName=" + qualifierName.getDisplayName();
+
+        if (qualifierName.hasOriginalText()) {
+            return text + ", originalText=" + qualifierName.getOriginalText();
+        }
+
+        return text;
     }
 
     private Optional<String> extractSequenceCommentOfValue(BigInteger value,
