@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -44,12 +45,13 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Part", propOrder = {
     "agent",
     "agentSDS"
 })
-public class RCMRMT030101UK04Part {
+public class RCMRMT030101UK04Part implements RCMRMT030101UKPart {
 
     @XmlElement(name = "Agent")
     protected RCCTMT120101UK01Agent agent;
@@ -76,6 +78,7 @@ public class RCMRMT030101UK04Part {
      *     {@link RCCTMT120101UK01Agent }
      *     
      */
+    @Override
     public RCCTMT120101UK01Agent getAgent() {
         return agent;
     }
@@ -88,6 +91,7 @@ public class RCMRMT030101UK04Part {
      *     {@link RCCTMT120101UK01Agent }
      *     
      */
+    @Override
     public void setAgent(RCCTMT120101UK01Agent value) {
         this.agent = value;
     }
@@ -100,6 +104,7 @@ public class RCMRMT030101UK04Part {
      *     {@link RCCTMT120101UK01AgentSDS }
      *     
      */
+    @Override
     public RCCTMT120101UK01AgentSDS getAgentSDS() {
         return agentSDS;
     }
@@ -112,6 +117,7 @@ public class RCMRMT030101UK04Part {
      *     {@link RCCTMT120101UK01AgentSDS }
      *     
      */
+    @Override
     public void setAgentSDS(RCCTMT120101UK01AgentSDS value) {
         this.agentSDS = value;
     }
@@ -124,6 +130,7 @@ public class RCMRMT030101UK04Part {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "RoleLink";
@@ -140,6 +147,7 @@ public class RCMRMT030101UK04Part {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -152,6 +160,7 @@ public class RCMRMT030101UK04Part {
      *     {@link String }
      *     
      */
+    @Override
     public String getTypeCode() {
         if (typeCode == null) {
             return "PART";
@@ -168,6 +177,7 @@ public class RCMRMT030101UK04Part {
      *     {@link String }
      *     
      */
+    @Override
     public void setTypeCode(String value) {
         this.typeCode = value;
     }
@@ -194,9 +204,10 @@ public class RCMRMT030101UK04Part {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -223,9 +234,10 @@ public class RCMRMT030101UK04Part {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -238,6 +250,7 @@ public class RCMRMT030101UK04Part {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -250,6 +263,7 @@ public class RCMRMT030101UK04Part {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

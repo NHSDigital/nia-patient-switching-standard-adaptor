@@ -108,8 +108,8 @@ public class RCMRMT030101UK04ObservationStatement {
     @XmlElement(type=RCMRMT030101UK04ReferenceRange.class)
     protected List<RCMRMT030101UK04ReferenceRange> referenceRange;
     protected List<RCMRMT030101UK04Informant> informant;
-    @XmlElement(name = "Participant")
-    protected List<RCMRMT030101UK04Participant> participant;
+    @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
+    protected List<RCMRMT030101UKParticipant> participant;
     protected List<RCMRMT030101UK04ReplacementOf> replacementOf;
     protected List<RCMRMT030101UK04Reason> reason;
     protected List<RCMRMT030101UK04Reference> reference;
@@ -384,7 +384,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<RCMRMT030101UK04Specimen> getSpecimen() {
         if (specimen == null) {
-            specimen = new ArrayList<RCMRMT030101UK04Specimen>();
+            specimen = new ArrayList<>();
         }
         return this.specimen;
     }
@@ -413,7 +413,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<RCMRMT030101UK04PertinentInformation02> getPertinentInformation() {
         if (pertinentInformation == null) {
-            pertinentInformation = new ArrayList<RCMRMT030101UK04PertinentInformation02>();
+            pertinentInformation = new ArrayList<>();
         }
         return this.pertinentInformation;
     }
@@ -442,7 +442,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<RCMRMT030101UK04ReferenceRange> getReferenceRange() {
         if (referenceRange == null) {
-            referenceRange = new ArrayList<RCMRMT030101UK04ReferenceRange>();
+            referenceRange = new ArrayList<>();
         }
         return this.referenceRange;
     }
@@ -471,7 +471,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<RCMRMT030101UK04Informant> getInformant() {
         if (informant == null) {
-            informant = new ArrayList<RCMRMT030101UK04Informant>();
+            informant = new ArrayList<>();
         }
         return this.informant;
     }
@@ -498,9 +498,9 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04Participant> getParticipant() {
+    public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
-            participant = new ArrayList<RCMRMT030101UK04Participant>();
+            participant = new ArrayList<>();
         }
         return this.participant;
     }
@@ -529,7 +529,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<RCMRMT030101UK04ReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
-            replacementOf = new ArrayList<RCMRMT030101UK04ReplacementOf>();
+            replacementOf = new ArrayList<>();
         }
         return this.replacementOf;
     }
@@ -558,7 +558,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<RCMRMT030101UK04Reason> getReason() {
         if (reason == null) {
-            reason = new ArrayList<RCMRMT030101UK04Reason>();
+            reason = new ArrayList<>();
         }
         return this.reason;
     }
@@ -587,7 +587,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<RCMRMT030101UK04Reference> getReference() {
         if (reference == null) {
-            reference = new ArrayList<RCMRMT030101UK04Reference>();
+            reference = new ArrayList<>();
         }
         return this.reference;
     }
@@ -616,7 +616,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<RCMRMT030101UK04SequelTo> getSequelTo() {
         if (sequelTo == null) {
-            sequelTo = new ArrayList<RCMRMT030101UK04SequelTo>();
+            sequelTo = new ArrayList<>();
         }
         return this.sequelTo;
     }

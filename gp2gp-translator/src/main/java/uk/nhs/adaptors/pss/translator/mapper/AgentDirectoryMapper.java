@@ -28,8 +28,8 @@ import org.hl7.v3.PN;
 import org.hl7.v3.RCCTMT120101UK01Agent;
 import org.hl7.v3.RCCTMT120101UK01Organization;
 import org.hl7.v3.RCCTMT120101UK01Person;
-import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
-import org.hl7.v3.RCMRMT030101UK04Part;
+import org.hl7.v3.RCMRMT030101UKPart;
+import org.hl7.v3.RCMRMT030101UKAgentDirectory;
 import org.hl7.v3.TEL;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -55,14 +55,14 @@ public class AgentDirectoryMapper {
     private static final String UNKNOWN = "Unknown";
     private static final String GMP_NUMBER_SYSTEM_CODE = "https://fhir.hl7.org.uk/Id/gmp-number";
 
-    public List<? extends DomainResource> mapAgentDirectory(RCMRMT030101UK04AgentDirectory agentDirectory) {
+    public List<? extends DomainResource> mapAgentDirectory(RCMRMT030101UKAgentDirectory agentDirectory) {
         var partList = agentDirectory.getPart();
         if (!CollectionUtils.isEmpty(partList)) {
 
             List<DomainResource> agentResources = Collections.synchronizedList(new ArrayList<>());
 
             partList.stream()
-                .map(RCMRMT030101UK04Part::getAgent)
+                .map(RCMRMT030101UKPart::getAgent)
                 .forEach(agent -> mapAgent(agent, agentResources));
 
             return agentResources;

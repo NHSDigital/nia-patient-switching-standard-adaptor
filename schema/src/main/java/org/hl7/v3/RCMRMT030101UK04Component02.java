@@ -91,8 +91,8 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
     protected RCMRMT030101UK04PlanStatement planStatement;
     @XmlElement(name = "RegistrationStatement")
     protected RCMRMT030101UK04RegistrationStatement registrationStatement;
-    @XmlElement(name = "RequestStatement")
-    protected RCMRMT030101UK04RequestStatement requestStatement;
+    @XmlElement(name = "RequestStatement", type = RCMRMT030101UK04RequestStatement.class)
+    protected RCMRMT030101UKRequestStatement requestStatement;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -387,7 +387,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      *     {@link RCMRMT030101UK04RequestStatement }
      *     
      */
-    public RCMRMT030101UK04RequestStatement getRequestStatement() {
+    public RCMRMT030101UKRequestStatement getRequestStatement() {
         return requestStatement;
     }
 
@@ -399,7 +399,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      *     {@link RCMRMT030101UK04RequestStatement }
      *     
      */
-    public void setRequestStatement(RCMRMT030101UK04RequestStatement value) {
+    public void setRequestStatement(RCMRMT030101UKRequestStatement value) {
         this.requestStatement = value;
     }
 
@@ -459,7 +459,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      */
     public List<String> getTypeCode() {
         if (typeCode == null) {
-            typeCode = new ArrayList<String>();
+            typeCode = new ArrayList<>();
         }
         return this.typeCode;
     }
@@ -516,7 +516,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      */
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -545,7 +545,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      */
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }

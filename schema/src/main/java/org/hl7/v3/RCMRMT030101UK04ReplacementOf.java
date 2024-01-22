@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -44,14 +45,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.ReplacementOf", propOrder = {
     "priorStatementRef"
 })
-public class RCMRMT030101UK04ReplacementOf {
+public class RCMRMT030101UK04ReplacementOf implements RCMRMT030101UKReplacementOf {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04StatementRef priorStatementRef;
+    @XmlElement(required = true, type = RCMRMT030101UK04StatementRef.class)
+    protected RCMRMT030101UKStatementRef priorStatementRef;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -73,7 +75,8 @@ public class RCMRMT030101UK04ReplacementOf {
      *     {@link RCMRMT030101UK04StatementRef }
      *     
      */
-    public RCMRMT030101UK04StatementRef getPriorStatementRef() {
+    @Override
+    public RCMRMT030101UKStatementRef getPriorStatementRef() {
         return priorStatementRef;
     }
 
@@ -85,7 +88,8 @@ public class RCMRMT030101UK04ReplacementOf {
      *     {@link RCMRMT030101UK04StatementRef }
      *     
      */
-    public void setPriorStatementRef(RCMRMT030101UK04StatementRef value) {
+    @Override
+    public void setPriorStatementRef(RCMRMT030101UKStatementRef value) {
         this.priorStatementRef = value;
     }
 
@@ -97,6 +101,7 @@ public class RCMRMT030101UK04ReplacementOf {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -113,6 +118,7 @@ public class RCMRMT030101UK04ReplacementOf {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -139,9 +145,10 @@ public class RCMRMT030101UK04ReplacementOf {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
-            typeCode = new ArrayList<String>();
+            typeCode = new ArrayList<>();
         }
         return this.typeCode;
     }
@@ -168,9 +175,10 @@ public class RCMRMT030101UK04ReplacementOf {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -197,9 +205,10 @@ public class RCMRMT030101UK04ReplacementOf {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -212,6 +221,7 @@ public class RCMRMT030101UK04ReplacementOf {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -224,6 +234,7 @@ public class RCMRMT030101UK04ReplacementOf {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

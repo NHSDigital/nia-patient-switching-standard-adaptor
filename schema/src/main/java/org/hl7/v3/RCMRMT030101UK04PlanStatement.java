@@ -88,8 +88,8 @@ public class RCMRMT030101UK04PlanStatement {
     protected TS availabilityTime;
     protected CV priorityCode;
     protected List<RCMRMT030101UK04Informant> informant;
-    @XmlElement(name = "Participant")
-    protected List<RCMRMT030101UK04Participant> participant;
+    @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
+    protected List<RCMRMT030101UKParticipant> participant;
     protected List<RCMRMT030101UK04ReplacementOf> replacementOf;
     protected List<RCMRMT030101UK04Reason> reason;
     protected List<RCMRMT030101UK04Reference> reference;
@@ -328,9 +328,9 @@ public class RCMRMT030101UK04PlanStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Participant> getParticipant() {
+    public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
-            participant = new ArrayList<RCMRMT030101UK04Participant>();
+            participant = new ArrayList<>();
         }
         return this.participant;
     }

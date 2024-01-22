@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -51,6 +52,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.EhrFolder", propOrder = {
     "id",
@@ -72,9 +74,9 @@ public class RCMRMT030101UK04EhrFolder {
     @XmlElement(required = true)
     protected TS availabilityTime;
     @XmlElement(required = true, type = RCMRMT030101UK04Author2.class)
-    protected RCMRMT030101UK04Author2 author;
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04ResponsibleParty responsibleParty;
+    protected RCMRMT030101UKAuthor2 author;
+    @XmlElement(required = true, type = RCMRMT030101UK04ResponsibleParty.class)
+    protected RCMRMT030101UKResponsibleParty responsibleParty;
     @XmlElement(required = true)
     protected List<RCMRMT030101UK04Component3> component;
     @XmlAttribute(name = "type")
@@ -196,7 +198,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link RCMRMT030101UK04Author2 }
      *     
      */
-    public RCMRMT030101UK04Author2 getAuthor() {
+    public RCMRMT030101UKAuthor2 getAuthor() {
         return author;
     }
 
@@ -208,7 +210,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link RCMRMT030101UK04Author2 }
      *     
      */
-    public void setAuthor(RCMRMT030101UK04Author2 value) {
+    public void setAuthor(RCMRMT030101UKAuthor2 value) {
         this.author = value;
     }
 
@@ -220,7 +222,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link RCMRMT030101UK04ResponsibleParty }
      *     
      */
-    public RCMRMT030101UK04ResponsibleParty getResponsibleParty() {
+    public RCMRMT030101UKResponsibleParty getResponsibleParty() {
         return responsibleParty;
     }
 
@@ -232,7 +234,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link RCMRMT030101UK04ResponsibleParty }
      *     
      */
-    public void setResponsibleParty(RCMRMT030101UK04ResponsibleParty value) {
+    public void setResponsibleParty(RCMRMT030101UKResponsibleParty value) {
         this.responsibleParty = value;
     }
 

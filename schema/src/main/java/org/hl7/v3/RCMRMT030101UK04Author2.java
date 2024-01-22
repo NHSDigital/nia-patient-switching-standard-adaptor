@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -47,6 +48,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Author2", propOrder = {
     "time",
@@ -54,7 +56,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "signatureText",
     "agentOrgSDS"
 })
-public class RCMRMT030101UK04Author2 {
+public class RCMRMT030101UK04Author2 implements RCMRMT030101UKAuthor2 {
 
     @XmlElement(required = true)
     protected TS time;
@@ -83,6 +85,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getTime() {
         return time;
     }
@@ -95,6 +98,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link TS }
      *     
      */
+    @Override
     public void setTime(TS value) {
         this.time = value;
     }
@@ -107,6 +111,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link CV }
      *     
      */
+    @Override
     public CV getSignatureCode() {
         return signatureCode;
     }
@@ -119,6 +124,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link CV }
      *     
      */
+    @Override
     public void setSignatureCode(CV value) {
         this.signatureCode = value;
     }
@@ -131,6 +137,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link ED }
      *     
      */
+    @Override
     public ED getSignatureText() {
         return signatureText;
     }
@@ -143,6 +150,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link ED }
      *     
      */
+    @Override
     public void setSignatureText(ED value) {
         this.signatureText = value;
     }
@@ -155,6 +163,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link UKCTMT120501UK03AgentOrgSDS }
      *     
      */
+    @Override
     public UKCTMT120501UK03AgentOrgSDS getAgentOrgSDS() {
         return agentOrgSDS;
     }
@@ -167,6 +176,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link UKCTMT120501UK03AgentOrgSDS }
      *     
      */
+    @Override
     public void setAgentOrgSDS(UKCTMT120501UK03AgentOrgSDS value) {
         this.agentOrgSDS = value;
     }
@@ -179,6 +189,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Participation";
@@ -195,6 +206,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -221,6 +233,7 @@ public class RCMRMT030101UK04Author2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<String>();
@@ -250,6 +263,7 @@ public class RCMRMT030101UK04Author2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -279,6 +293,7 @@ public class RCMRMT030101UK04Author2 {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -294,6 +309,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -306,6 +322,7 @@ public class RCMRMT030101UK04Author2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
