@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     api 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:5.6.2'
-    api 'org.springframework.boot:spring-boot-starter-jdbc:2.5.6'
+    api 'org.springframework.boot:spring-boot-starter-jdbc:3.2.2'
     api 'org.springframework.boot:spring-boot-starter-actuator'
     api 'org.springframework.boot:spring-boot-starter-web'
     api 'org.springframework.boot:spring-boot-starter-webflux'
