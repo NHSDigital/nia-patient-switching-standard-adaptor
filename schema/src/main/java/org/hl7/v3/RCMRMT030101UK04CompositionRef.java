@@ -151,7 +151,7 @@ public class RCMRMT030101UK04CompositionRef implements RCMRMT030101UKComposition
     @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -181,7 +181,7 @@ public class RCMRMT030101UK04CompositionRef implements RCMRMT030101UKComposition
     @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -211,7 +211,7 @@ public class RCMRMT030101UK04CompositionRef implements RCMRMT030101UKComposition
     @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -241,7 +241,7 @@ public class RCMRMT030101UK04CompositionRef implements RCMRMT030101UKComposition
     @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
