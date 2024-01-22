@@ -17,7 +17,7 @@ import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
-import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ResourceReferenceUtil {
+
     private static final String QUESTIONNAIRE_ID = "%s-QRSP";
     private static final String OBSERVATION_REFERENCE = "Observation/%s";
     private static final String QUESTIONNAIRE_REFERENCE = "QuestionnaireResponse/%s";
@@ -167,7 +168,7 @@ public class ResourceReferenceUtil {
         }
     }
 
-    private static void addRequestStatementEntry(RCMRMT030101UK04RequestStatement requestStatement,
+    private static void addRequestStatementEntry(RCMRMT030101UKRequestStatement requestStatement,
                                                  List<Reference> entryReferences) {
         if (requestStatement != null) {
 

@@ -28,7 +28,8 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
-import org.hl7.v3.RCMRMT030101UK04ResponsibleParty3;
+import org.hl7.v3.RCMRMT030101UKRequestStatement;
+import org.hl7.v3.RCMRMT030101UKResponsibleParty3;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +70,10 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     }
 
     public ReferralRequest mapToReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04RequestStatement requestStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+                                                RCMRMT030101UKRequestStatement requestStatement,
+                                                Patient patient,
+                                                List<Encounter> encounters,
+                                                String practiseCode) {
         var referralRequest = new ReferralRequest();
         var id = requestStatement.getId().get(0).getRoot();
         var identifier = buildIdentifier(id, practiseCode);
@@ -106,7 +110,8 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                 .map(Reference::new)
                 .ifPresent(referralRequest::setContext);
     }
-    private void setReferralRequestRecipient(ReferralRequest referralRequest, RCMRMT030101UK04ResponsibleParty3 responsibleParty) {
+    private void setReferralRequestRecipient(ReferralRequest referralRequest,
+                                             RCMRMT030101UKResponsibleParty3 responsibleParty) {
         if (!hasIdValue(responsibleParty)) {
             return;
         }
@@ -133,7 +138,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         return null;
     }
 
-    private List<Annotation> getNotes(RCMRMT030101UK04RequestStatement requestStatement) {
+    private List<Annotation> getNotes(RCMRMT030101UKRequestStatement requestStatement) {
         var priority = getPriorityText(requestStatement.getPriorityCode());
         var actionDate = getActionDateText(requestStatement.getEffectiveTime());
         var text = requestStatement.getText();
@@ -176,7 +181,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         return ACTION_DATE_PREFIX + effectiveTimeValue.asStringValue();
     }
 
-    private ReferralPriority getReferralPriority(RCMRMT030101UK04RequestStatement requestStatement) {
+    private ReferralPriority getReferralPriority(RCMRMT030101UKRequestStatement requestStatement) {
 
         var priorityCode = requestStatement.getPriorityCode();
         if (snomedCodeNotPresent(priorityCode)) {
@@ -196,7 +201,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             || !SNOMED_CODE_SYSTEM.equals(codeElement.getCodeSystem());
     }
 
-    private boolean hasIdValue(RCMRMT030101UK04ResponsibleParty3 responsibleParty) {
+    private boolean hasIdValue(RCMRMT030101UKResponsibleParty3 responsibleParty) {
         return responsibleParty != null
                 && responsibleParty.getTypeCode().stream().anyMatch(RESP_PARTY_TYPE_CODE::equals)
                 && responsibleParty.getAgentRef() != null

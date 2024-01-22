@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "RCMR_MT030101UK04.Informant", propOrder = {
     "informantRole"
 })
-public class RCMRMT030101UK04Informant {
+public class RCMRMT030101UK04Informant implements RCMRMT030101UKInformant {
 
     @XmlElement(required = true, type = RCMRMT030101UK04InformantRole.class)
     protected RCMRMT030101UKInformantRole informantRole;
@@ -78,6 +78,7 @@ public class RCMRMT030101UK04Informant {
      *     {@link RCMRMT030101UK04InformantRole }
      *     
      */
+    @Override
     public RCMRMT030101UKInformantRole getInformantRole() {
         return informantRole;
     }
@@ -90,6 +91,7 @@ public class RCMRMT030101UK04Informant {
      *     {@link RCMRMT030101UK04InformantRole }
      *     
      */
+    @Override
     public void setInformantRole(RCMRMT030101UKInformantRole value) {
         this.informantRole = value;
     }
@@ -102,6 +104,7 @@ public class RCMRMT030101UK04Informant {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Participation";
@@ -118,6 +121,7 @@ public class RCMRMT030101UK04Informant {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -144,6 +148,7 @@ public class RCMRMT030101UK04Informant {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -173,6 +178,7 @@ public class RCMRMT030101UK04Informant {
      * 
      * 
      */
+    @Override
     public List<String> getContextControlCode() {
         if (contextControlCode == null) {
             contextControlCode = new ArrayList<>();
@@ -202,6 +208,7 @@ public class RCMRMT030101UK04Informant {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -231,6 +238,7 @@ public class RCMRMT030101UK04Informant {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -246,6 +254,7 @@ public class RCMRMT030101UK04Informant {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -258,6 +267,7 @@ public class RCMRMT030101UK04Informant {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

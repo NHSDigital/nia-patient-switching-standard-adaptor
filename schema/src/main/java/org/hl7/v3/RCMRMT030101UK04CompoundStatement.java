@@ -94,9 +94,10 @@ public class RCMRMT030101UK04CompoundStatement {
     protected CV priorityCode;
     protected CV uncertaintyCode;
     protected List<RCMRMT030101UK04Specimen03> specimen;
-    @XmlElement(required = true)
+    @XmlElement(required = true, type = RCMRMT030101UK04Component02.class)
     protected List<RCMRMT030101UK04Component02> component;
-    protected List<RCMRMT030101UK04Informant> informant;
+    @XmlElement(type = RCMRMT030101UK04Informant.class)
+    protected List<RCMRMT030101UKInformant> informant;
     @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
     protected List<RCMRMT030101UKParticipant> participant;
     @XmlElement(type = RCMRMT030101UK04ReplacementOf.class)
@@ -383,7 +384,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Informant> getInformant() {
+    public List<RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
             informant = new ArrayList<>();
         }
