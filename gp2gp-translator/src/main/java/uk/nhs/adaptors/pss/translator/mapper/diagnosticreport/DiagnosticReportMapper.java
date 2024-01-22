@@ -27,12 +27,12 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
@@ -211,7 +211,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             && !compoundStatement.getAvailabilityTime().hasNullFlavor();
     }
 
-    private boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {
+    private boolean authorHasValidTimeValue(RCMRMT030101UKAuthor author) {
         return author != null && author.hasTime()
             && author.getTime().hasValue()
             && !author.getTime().hasNullFlavor();

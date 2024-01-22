@@ -18,11 +18,11 @@ import org.hl7.v3.CV;
 import org.hl7.v3.IVLPQ;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.PQ;
-import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
 import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
+import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.TS;
 
 import org.springframework.stereotype.Component;
@@ -197,7 +197,7 @@ public class ObservationUtil {
         }
     }
 
-    private static boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {
+    private static boolean authorHasValidTimeValue(RCMRMT030101UKAuthor author) {
         return author != null && author.getTime() != null
             && author.getTime().getValue() != null
             && author.getTime().getNullFlavor() == null;
