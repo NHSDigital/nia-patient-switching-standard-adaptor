@@ -2,11 +2,14 @@ package org.hl7.v3;
 
 import java.util.List;
 
-public interface RCMRMT030101UKReplacementOf {
+public interface RCMRMT030101UKPertinentInformation02 {
+    INT getSequenceNumber();
 
-    RCMRMT030101UKStatementRef getPriorStatementRef();
+    void setSequenceNumber(INT value);
 
-    void setPriorStatementRef(RCMRMT030101UKStatementRef value);
+    RCMRMT030101UKAnnotation getPertinentAnnotation();
+
+    void setPertinentAnnotation(RCMRMT030101UKAnnotation value);
 
     String getType();
 

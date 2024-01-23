@@ -2,11 +2,10 @@ package org.hl7.v3;
 
 import java.util.List;
 
-public interface RCMRMT030101UKReplacementOf {
+public interface RCMRMT030101UKReferenceRange {
+    RCMRMT030101UKInterpretationRange getReferenceInterpretationRange();
 
-    RCMRMT030101UKStatementRef getPriorStatementRef();
-
-    void setPriorStatementRef(RCMRMT030101UKStatementRef value);
+    void setReferenceInterpretationRange(RCMRMT030101UKInterpretationRange value);
 
     String getType();
 

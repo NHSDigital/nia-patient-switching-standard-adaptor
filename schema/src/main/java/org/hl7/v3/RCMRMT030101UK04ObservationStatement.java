@@ -104,16 +104,31 @@ public class RCMRMT030101UK04ObservationStatement {
     protected CV interpretationCode;
     protected RCMRMT030101UK04Subject subject;
     protected List<RCMRMT030101UK04Specimen> specimen;
-    protected List<RCMRMT030101UK04PertinentInformation02> pertinentInformation;
-    @XmlElement(type=RCMRMT030101UK04ReferenceRange.class)
-    protected List<RCMRMT030101UK04ReferenceRange> referenceRange;
-    protected List<RCMRMT030101UK04Informant> informant;
+
+    @XmlElement(type = RCMRMT030101UK04PertinentInformation02.class)
+    protected List<RCMRMT030101UKPertinentInformation02> pertinentInformation;
+
+    @XmlElement(type = RCMRMT030101UK04ReferenceRange.class)
+    protected List<RCMRMT030101UKReferenceRange> referenceRange;
+
+    @XmlElement(type = RCMRMT030101UK04Informant.class)
+    protected List<RCMRMT030101UKInformant> informant;
+
     @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
     protected List<RCMRMT030101UKParticipant> participant;
-    protected List<RCMRMT030101UK04ReplacementOf> replacementOf;
-    protected List<RCMRMT030101UK04Reason> reason;
-    protected List<RCMRMT030101UK04Reference> reference;
-    protected List<RCMRMT030101UK04SequelTo> sequelTo;
+
+    @XmlElement(type = RCMRMT030101UK04ReplacementOf.class)
+    protected List<RCMRMT030101UKReplacementOf> replacementOf;
+
+    @XmlElement(type = RCMRMT030101UK04Reason.class)
+    protected List<RCMRMT030101UKReason> reason;
+
+    @XmlElement(type = RCMRMT030101UK04Reference.class)
+    protected List<RCMRMT030101UKReference> reference;
+
+    @XmlElement(type = RCMRMT030101UK04SequelTo.class)
+    protected List<RCMRMT030101UKSequelTo> sequelTo;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -411,7 +426,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04PertinentInformation02> getPertinentInformation() {
+    public List<RCMRMT030101UKPertinentInformation02> getPertinentInformation() {
         if (pertinentInformation == null) {
             pertinentInformation = new ArrayList<>();
         }
@@ -440,7 +455,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04ReferenceRange> getReferenceRange() {
+    public List<RCMRMT030101UKReferenceRange> getReferenceRange() {
         if (referenceRange == null) {
             referenceRange = new ArrayList<>();
         }
@@ -469,7 +484,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04Informant> getInformant() {
+    public List<RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
             informant = new ArrayList<>();
         }
@@ -527,7 +542,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04ReplacementOf> getReplacementOf() {
+    public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
             replacementOf = new ArrayList<>();
         }
@@ -556,7 +571,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04Reason> getReason() {
+    public List<RCMRMT030101UKReason> getReason() {
         if (reason == null) {
             reason = new ArrayList<>();
         }
@@ -585,7 +600,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04Reference> getReference() {
+    public List<RCMRMT030101UKReference> getReference() {
         if (reference == null) {
             reference = new ArrayList<>();
         }
@@ -614,7 +629,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04SequelTo> getSequelTo() {
+    public List<RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
             sequelTo = new ArrayList<>();
         }
@@ -673,7 +688,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -702,7 +717,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -731,7 +746,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -760,7 +775,7 @@ public class RCMRMT030101UK04ObservationStatement {
      */
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }

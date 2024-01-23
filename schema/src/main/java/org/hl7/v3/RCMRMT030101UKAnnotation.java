@@ -2,17 +2,19 @@ package org.hl7.v3;
 
 import java.util.List;
 
-public interface RCMRMT030101UKReplacementOf {
+public interface RCMRMT030101UKAnnotation {
 
-    RCMRMT030101UKStatementRef getPriorStatementRef();
+    String getText();
 
-    void setPriorStatementRef(RCMRMT030101UKStatementRef value);
+    void setText(String value);
 
     String getType();
 
     void setType(String value);
 
-    List<String> getTypeCode();
+    List<String> getClassCode();
+
+    List<String> getMoodCode();
 
     List<String> getTypeID();
 

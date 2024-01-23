@@ -16,7 +16,7 @@ import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
+import org.hl7.v3.RCMRMT030101UKPlanStatement;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -160,7 +160,7 @@ public class ResourceReferenceUtil {
                 observationStatement.getId().getRoot()));
     }
 
-    private static void addPlanStatementEntry(RCMRMT030101UK04PlanStatement planStatement,
+    private static void addPlanStatementEntry(RCMRMT030101UKPlanStatement planStatement,
                                               List<Reference> entryReferences) {
         if (planStatement != null) {
             entryReferences.add(createResourceReference(ResourceType.ProcedureRequest.name(),

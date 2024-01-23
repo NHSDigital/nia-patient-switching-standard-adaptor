@@ -25,11 +25,11 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -199,8 +199,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         return observationStatement
             .getPertinentInformation()
             .stream()
-            .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
-            .map(RCMRMT030101UK04Annotation::getText)
+            .map(RCMRMT030101UKPertinentInformation02::getPertinentAnnotation)
+            .map(RCMRMT030101UKAnnotation::getText)
             .map(this::buildAnnotation)
             .collect(Collectors.toList());
     }

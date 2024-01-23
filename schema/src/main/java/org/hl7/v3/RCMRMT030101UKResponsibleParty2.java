@@ -2,11 +2,11 @@ package org.hl7.v3;
 
 import java.util.List;
 
-public interface RCMRMT030101UKReplacementOf {
+public interface RCMRMT030101UKResponsibleParty2 {
 
-    RCMRMT030101UKStatementRef getPriorStatementRef();
+    RCMRMT030101UKAgentRef getAgentRef();
 
-    void setPriorStatementRef(RCMRMT030101UKStatementRef value);
+    void setAgentRef(RCMRMT030101UKAgentRef value);
 
     String getType();
 

@@ -32,7 +32,7 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -40,6 +40,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -135,7 +136,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                 .filter(this::pertinentInformationHasText)
                 .map(RCMRMT030101UK04PertinentInformation02.class::cast)
                 .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
-                .map(RCMRMT030101UK04Annotation::getText)
+                .map(RCMRMT030101UKAnnotation::getText)
                 .map(text -> {
 
                     var code = extractSnomedCode(observationStatement.getCode());
@@ -168,7 +169,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         return stringBuilder.toString().trim();
     }
 
-    private boolean pertinentInformationHasText(RCMRMT030101UK04PertinentInformation02 pertinentInformation) {
+    private boolean pertinentInformationHasText(RCMRMT030101UKPertinentInformation02 pertinentInformation) {
         return pertinentInformation != null && pertinentInformation.getPertinentAnnotation() != null
             && StringUtils.isNotEmpty(pertinentInformation.getPertinentAnnotation().getText());
     }

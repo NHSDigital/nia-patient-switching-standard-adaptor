@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -57,6 +58,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Component02", propOrder = {
     "sequenceNumber",
@@ -85,12 +87,16 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
     protected RCMRMT030101UK04MedicationStatement medicationStatement;
     @XmlElement(name = "NarrativeStatement")
     protected RCMRMT030101UK04NarrativeStatement narrativeStatement;
+
     @XmlElement(name = "ObservationStatement")
     protected RCMRMT030101UK04ObservationStatement observationStatement;
-    @XmlElement(name = "PlanStatement")
-    protected RCMRMT030101UK04PlanStatement planStatement;
-    @XmlElement(name = "RegistrationStatement")
-    protected RCMRMT030101UK04RegistrationStatement registrationStatement;
+
+    @XmlElement(name = "PlanStatement", type = RCMRMT030101UK04PlanStatement.class)
+    protected RCMRMT030101UKPlanStatement planStatement;
+
+    @XmlElement(name = "RegistrationStatement", type = RCMRMT030101UK04RegistrationStatement.class)
+    protected RCMRMT030101UKRegistrationStatement registrationStatement;
+
     @XmlElement(name = "RequestStatement", type = RCMRMT030101UK04RequestStatement.class)
     protected RCMRMT030101UKRequestStatement requestStatement;
     @XmlAttribute(name = "type")
@@ -332,7 +338,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      *     {@link RCMRMT030101UK04PlanStatement }
      *     
      */
-    public RCMRMT030101UK04PlanStatement getPlanStatement() {
+    public RCMRMT030101UKPlanStatement getPlanStatement() {
         return planStatement;
     }
 
@@ -344,7 +350,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      *     {@link RCMRMT030101UK04PlanStatement }
      *     
      */
-    public void setPlanStatement(RCMRMT030101UK04PlanStatement value) {
+    public void setPlanStatement(RCMRMT030101UKPlanStatement value) {
         this.planStatement = value;
     }
 
@@ -360,7 +366,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      *     {@link RCMRMT030101UK04RegistrationStatement }
      *     
      */
-    public RCMRMT030101UK04RegistrationStatement getRegistrationStatement() {
+    public RCMRMT030101UKRegistrationStatement getRegistrationStatement() {
         return registrationStatement;
     }
 
@@ -372,7 +378,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      *     {@link RCMRMT030101UK04RegistrationStatement }
      *     
      */
-    public void setRegistrationStatement(RCMRMT030101UK04RegistrationStatement value) {
+    public void setRegistrationStatement(RCMRMT030101UKRegistrationStatement value) {
         this.registrationStatement = value;
     }
 
