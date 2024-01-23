@@ -15,7 +15,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPlanStatement;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +98,7 @@ public class ResourceReferenceUtil {
             || !references.contains(OBSERVATION_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot()));
     }
 
-    private void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement,
+    private void addObservationStatementEntry(RCMRMT030101UKObservationStatement observationStatement,
                                               List<Reference> entryReferences, RCMRMT030101UK04CompoundStatement compoundStatement) {
         if (observationStatement != null && isNotIgnoredResource(compoundStatement, entryReferences)) {
             if (isBloodPressure(compoundStatement)) {
@@ -148,13 +148,13 @@ public class ResourceReferenceUtil {
                 compoundStatement.getId().get(0).getRoot()));
     }
 
-    private static void addImmunizationEntry(RCMRMT030101UK04ObservationStatement observationStatement,
+    private static void addImmunizationEntry(RCMRMT030101UKObservationStatement observationStatement,
                                              List<Reference> entryReferences) {
         entryReferences.add(createResourceReference(ResourceType.Immunization.name(),
                 observationStatement.getId().getRoot()));
     }
 
-    private static void addUncategorisedObservationEntry(RCMRMT030101UK04ObservationStatement observationStatement,
+    private static void addUncategorisedObservationEntry(RCMRMT030101UKObservationStatement observationStatement,
                                                          List<Reference> entryReferences) {
         entryReferences.add(createResourceReference(ResourceType.Observation.name(),
                 observationStatement.getId().getRoot()));

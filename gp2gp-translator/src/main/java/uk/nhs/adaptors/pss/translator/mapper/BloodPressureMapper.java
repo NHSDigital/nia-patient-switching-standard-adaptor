@@ -38,8 +38,8 @@ import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.springframework.stereotype.Service;
 
@@ -110,10 +110,10 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         return null;
     }
 
-    private List<ObservationComponentComponent> getComponent(List<RCMRMT030101UK04ObservationStatement> observationStatements) {
+    private List<ObservationComponentComponent> getComponent(List<RCMRMT030101UKObservationStatement> observationStatements) {
         var components = new ArrayList<ObservationComponentComponent>();
 
-        for (RCMRMT030101UK04ObservationStatement observationStatement
+        for (RCMRMT030101UKObservationStatement observationStatement
             : observationStatements) {
             components.add(new ObservationComponentComponent()
                 .setCode(getCode(observationStatement.getCode()))
@@ -126,11 +126,11 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         return components;
     }
 
-    private String getComment(List<RCMRMT030101UK04ObservationStatement> observationStatements,
+    private String getComment(List<RCMRMT030101UKObservationStatement> observationStatements,
         List<RCMRMT030101UK04NarrativeStatement> narrativeStatements) {
         var stringBuilder = new StringBuilder();
 
-        for (RCMRMT030101UK04ObservationStatement observationStatement
+        for (RCMRMT030101UKObservationStatement observationStatement
             : observationStatements) {
             var bloodPressureText = observationStatement.getPertinentInformation().stream()
                 .filter(this::pertinentInformationHasText)
@@ -174,7 +174,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
             && StringUtils.isNotEmpty(pertinentInformation.getPertinentAnnotation().getText());
     }
 
-    private List<RCMRMT030101UK04ObservationStatement> getObservationStatementsFromCompoundStatement(
+    private List<RCMRMT030101UKObservationStatement> getObservationStatementsFromCompoundStatement(
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent().stream()
             .map(RCMRMT030101UK04Component02::getObservationStatement)

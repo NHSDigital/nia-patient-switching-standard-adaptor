@@ -77,19 +77,24 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
 
     protected INT sequenceNumber;
     protected BL seperatableInd;
-    @XmlElement(name = "CompoundStatement")
+
+    @XmlElement(name = "CompoundStatement", type = RCMRMT030101UK04CompoundStatement.class)
     protected RCMRMT030101UK04CompoundStatement compoundStatement;
+
     @XmlElement(name = "EhrEmpty")
     protected RCMRMT030101UK04EhrEmpty ehrEmpty;
+
     @XmlElement(name = "LinkSet")
     protected RCMRMT030101UK04LinkSet linkSet;
-    @XmlElement(name = "MedicationStatement")
-    protected RCMRMT030101UK04MedicationStatement medicationStatement;
-    @XmlElement(name = "NarrativeStatement")
-    protected RCMRMT030101UK04NarrativeStatement narrativeStatement;
 
-    @XmlElement(name = "ObservationStatement")
-    protected RCMRMT030101UK04ObservationStatement observationStatement;
+    @XmlElement(name = "MedicationStatement", type = RCMRMT030101UK04MedicationStatement.class)
+    protected RCMRMT030101UK04MedicationStatement medicationStatement;
+
+    @XmlElement(name = "NarrativeStatement", type = RCMRMT030101UK04NarrativeStatement.class)
+    protected RCMRMT030101UKNarrativeStatement narrativeStatement;
+
+    @XmlElement(name = "ObservationStatement", type = RCMRMT030101UK04ObservationStatement.class)
+    protected RCMRMT030101UKObservationStatement observationStatement;
 
     @XmlElement(name = "PlanStatement", type = RCMRMT030101UK04PlanStatement.class)
     protected RCMRMT030101UKPlanStatement planStatement;
@@ -282,7 +287,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      *     {@link RCMRMT030101UK04NarrativeStatement }
      *     
      */
-    public RCMRMT030101UK04NarrativeStatement getNarrativeStatement() {
+    public RCMRMT030101UKNarrativeStatement getNarrativeStatement() {
         return narrativeStatement;
     }
 
@@ -294,7 +299,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      *     {@link RCMRMT030101UK04NarrativeStatement }
      *     
      */
-    public void setNarrativeStatement(RCMRMT030101UK04NarrativeStatement value) {
+    public void setNarrativeStatement(RCMRMT030101UKNarrativeStatement value) {
         this.narrativeStatement = value;
     }
 
@@ -310,7 +315,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      *     {@link RCMRMT030101UK04ObservationStatement }
      *     
      */
-    public RCMRMT030101UK04ObservationStatement getObservationStatement() {
+    public RCMRMT030101UKObservationStatement getObservationStatement() {
         return observationStatement;
     }
 
@@ -322,7 +327,7 @@ public class RCMRMT030101UK04Component02 implements LinkableComponent {
      *     {@link RCMRMT030101UK04ObservationStatement }
      *     
      */
-    public void setObservationStatement(RCMRMT030101UK04ObservationStatement value) {
+    public void setObservationStatement(RCMRMT030101UKObservationStatement value) {
         this.observationStatement = value;
     }
 

@@ -23,7 +23,7 @@ import org.hl7.fhir.dstu3.model.Specimen.SpecimenCollectionComponent;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04SpecimenRole;
+import org.hl7.v3.RCMRMT030101UKSpecimenRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -139,7 +139,7 @@ public class SpecimenMapper {
         return Optional.empty();
     }
 
-    private Optional<RCMRMT030101UK04SpecimenRole> getSpecimenRole(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
+    private Optional<RCMRMT030101UKSpecimenRole> getSpecimenRole(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
         return !specimenCompoundStatement.getSpecimen().isEmpty()
             ? Optional.ofNullable(specimenCompoundStatement.getSpecimen().get(0).getSpecimenRole())
             : Optional.empty();

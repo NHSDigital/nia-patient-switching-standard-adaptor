@@ -6,6 +6,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -48,6 +50,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Component2", propOrder = {
     "ehrSupplyAuthorise",
@@ -60,12 +63,17 @@ public class RCMRMT030101UK04Component2 {
     protected RCMRMT030101UK04Authorise ehrSupplyAuthorise;
     protected RCMRMT030101UK04Discontinue ehrSupplyDiscontinue;
     protected RCMRMT030101UK04Dispense ehrSupplyDispense;
+
+    @XmlElement(type = RCMRMT030101UK04Prescribe.class)
     protected RCMRMT030101UK04Prescribe ehrSupplyPrescribe;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
+
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
     @XmlAttribute(name = "realmCode")
