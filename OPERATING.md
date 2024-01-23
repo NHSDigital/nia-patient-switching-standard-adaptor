@@ -290,6 +290,7 @@ See also the [Apache Tomcat SSL/TLS guidance](https://tomcat.apache.org/tomcat-9
   - `GPC_FACADE_USER_DB_PASSWORD`: DB password for the `gpc_user` user
 
 ### Translator
+The recommended heap space for the PS Adaptor Translator is 4 GB. Also, it should be run on (at least) two CPUs for better GC performance.
 
 #### HTTP
 

@@ -145,11 +145,6 @@ public class SpecimenCompoundsMapper {
                     .setType(ObservationRelationshipType.DERIVEDFROM)
                 );
             }
-
-            if (!containsRelatedComponent(observation, observationComment.getId())) {
-                observation.addRelated(new ObservationRelatedComponent(new Reference(observationComment))
-                    .setType(ObservationRelationshipType.HASMEMBER));
-            }
         }
     }
 

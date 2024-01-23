@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -54,6 +55,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.EhrComposition", propOrder = {
     "id",
@@ -79,14 +81,16 @@ public class RCMRMT030101UK04EhrComposition {
     protected IVLTS effectiveTime;
     @XmlElement(required = true)
     protected TS availabilityTime;
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04Author author;
-    protected RCMRMT030101UK04Location location;
-    @XmlElement(name = "Participant2")
-    protected List<RCMRMT030101UK04Participant2> participant2;
-    @XmlElement(required = true)
+    @XmlElement(required = true, type = RCMRMT030101UK04Author.class)
+    protected RCMRMT030101UKAuthor author;
+    @XmlElement(type = RCMRMT030101UK04Location.class)
+    protected RCMRMT030101UKLocation location;
+    @XmlElement(name = "Participant2", type = RCMRMT030101UK04Participant2.class)
+    protected List<RCMRMT030101UKParticipant2> participant2;
+    @XmlElement(required = true, type = RCMRMT030101UK04Component4.class)
     protected List<RCMRMT030101UK04Component4> component;
-    protected RCMRMT030101UK04ReplacementOf2 replacementOf;
+    @XmlElement(type = RCMRMT030101UK04ReplacementOf2.class)
+    protected RCMRMT030101UKReplacementOf2 replacementOf;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -222,7 +226,7 @@ public class RCMRMT030101UK04EhrComposition {
         this.availabilityTime = value;
     }
 
-    public boolean hasAvailabilityTime() {return availabilityTime != null; }
+    public boolean hasAvailabilityTime() { return availabilityTime != null; }
 
     /**
      * Gets the value of the author property.
@@ -232,7 +236,7 @@ public class RCMRMT030101UK04EhrComposition {
      *     {@link RCMRMT030101UK04Author }
      *     
      */
-    public RCMRMT030101UK04Author getAuthor() {
+    public RCMRMT030101UKAuthor getAuthor() {
         return author;
     }
 
@@ -244,7 +248,7 @@ public class RCMRMT030101UK04EhrComposition {
      *     {@link RCMRMT030101UK04Author }
      *     
      */
-    public void setAuthor(RCMRMT030101UK04Author value) {
+    public void setAuthor(RCMRMT030101UKAuthor value) {
         this.author = value;
     }
 
@@ -260,7 +264,7 @@ public class RCMRMT030101UK04EhrComposition {
      *     {@link RCMRMT030101UK04Location }
      *     
      */
-    public RCMRMT030101UK04Location getLocation() {
+    public RCMRMT030101UKLocation getLocation() {
         return location;
     }
 
@@ -272,7 +276,7 @@ public class RCMRMT030101UK04EhrComposition {
      *     {@link RCMRMT030101UK04Location }
      *     
      */
-    public void setLocation(RCMRMT030101UK04Location value) {
+    public void setLocation(RCMRMT030101UKLocation value) {
         this.location = value;
     }
 
@@ -298,9 +302,9 @@ public class RCMRMT030101UK04EhrComposition {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Participant2> getParticipant2() {
+    public List<RCMRMT030101UKParticipant2> getParticipant2() {
         if (participant2 == null) {
-            participant2 = new ArrayList<RCMRMT030101UK04Participant2>();
+            participant2 = new ArrayList<>();
         }
         return this.participant2;
     }
@@ -333,7 +337,7 @@ public class RCMRMT030101UK04EhrComposition {
      */
     public List<RCMRMT030101UK04Component4> getComponent() {
         if (component == null) {
-            component = new ArrayList<RCMRMT030101UK04Component4>();
+            component = new ArrayList<>();
         }
         return this.component;
     }
@@ -358,7 +362,7 @@ public class RCMRMT030101UK04EhrComposition {
      *     {@link RCMRMT030101UK04ReplacementOf2 }
      *     
      */
-    public RCMRMT030101UK04ReplacementOf2 getReplacementOf() {
+    public RCMRMT030101UKReplacementOf2 getReplacementOf() {
         return replacementOf;
     }
 
@@ -426,7 +430,7 @@ public class RCMRMT030101UK04EhrComposition {
      */
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -455,7 +459,7 @@ public class RCMRMT030101UK04EhrComposition {
      */
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -484,7 +488,7 @@ public class RCMRMT030101UK04EhrComposition {
      */
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -513,7 +517,7 @@ public class RCMRMT030101UK04EhrComposition {
      */
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }

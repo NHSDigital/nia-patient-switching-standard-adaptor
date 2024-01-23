@@ -29,15 +29,15 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04Author;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04Participant;
-import org.hl7.v3.RCMRMT030101UK04Participant2;
+import org.hl7.v3.RCMRMT030101UKParticipant;
+import org.hl7.v3.RCMRMT030101UKParticipant2;
+import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -162,7 +162,7 @@ public class SpecimenBatteryMapper {
                 .stream()
                 .filter(participant -> !participant.hasNullFlavour())
                 .filter(this::hasTypeCode)
-                .map(RCMRMT030101UK04Participant::getAgentRef)
+                .map(RCMRMT030101UKParticipant::getAgentRef)
                 .filter(Objects::nonNull)
                 .findFirst()
                 .map(agentRef -> new Reference(new IdType(ResourceType.Practitioner.name(), agentRef.getId().getRoot())));
@@ -171,7 +171,7 @@ public class SpecimenBatteryMapper {
             referenceOpt = ehrComposition.getParticipant2()
                 .stream()
                 .filter(participant2 -> !participant2.hasNullFlavor())
-                .map(RCMRMT030101UK04Participant2::getAgentRef)
+                .map(RCMRMT030101UKParticipant2::getAgentRef)
                 .filter(Objects::nonNull)
                 .findFirst()
                 .map(agentRef -> new Reference(new IdType(ResourceType.Practitioner.name(), agentRef.getId().getRoot())));
@@ -179,7 +179,7 @@ public class SpecimenBatteryMapper {
         return referenceOpt;
     }
 
-    private boolean hasTypeCode(RCMRMT030101UK04Participant participant) {
+    private boolean hasTypeCode(RCMRMT030101UKParticipant participant) {
         return participant.getTypeCode()
             .stream()
             .anyMatch(typeCode -> TYPECODE_PRF.equals(typeCode) || TYPECODE_PPRF.equals(typeCode));
@@ -219,7 +219,7 @@ public class SpecimenBatteryMapper {
         return Optional.empty();
     }
 
-    private boolean hasValidTimeValue(RCMRMT030101UK04Author author) {
+    private boolean hasValidTimeValue(RCMRMT030101UKAuthor author) {
         return author != null && author.hasTime()
             && author.getTime().hasValue()
             && !author.getTime().hasNullFlavor();

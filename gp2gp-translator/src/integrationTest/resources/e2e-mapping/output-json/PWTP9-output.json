@@ -47,10 +47,12 @@
             ]
           }
         ],
-        "identifier": [ {
-          "system": "https://fhir.hl7.org.uk/Id/gmp-number",
-          "value": "7882315"
-        } ]
+        "identifier": [
+          {
+            "system": "https://fhir.hl7.org.uk/Id/gmp-number",
+            "value": "7882315"
+          }
+        ]
       }
     },
     {
@@ -97,10 +99,12 @@
             ]
           }
         ],
-        "identifier": [ {
-          "system": "https://fhir.hl7.org.uk/Id/gmp-number",
-          "value": "7889233"
-        } ]
+        "identifier": [
+          {
+            "system": "https://fhir.hl7.org.uk/Id/gmp-number",
+            "value": "7889233"
+          }
+        ]
       }
     },
     {
@@ -9285,14 +9289,6 @@
               "value": 4
             }
           }
-        ],
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/DB841CCA-E32E-4E80-89A4-9A138A45633B"
-            }
-          }
         ]
       }
     },
@@ -9393,14 +9389,6 @@
               "value": 29
             }
           }
-        ],
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/89F6985C-DAF1-46A6-B48F-D69B2CDEA717"
-            }
-          }
         ]
       }
     },
@@ -9499,14 +9487,6 @@
             },
             "high": {
               "value": 70
-            }
-          }
-        ],
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/D843FEFE-A2B9-4A81-849A-26274A768246"
             }
           }
         ]
@@ -10102,14 +10082,6 @@
               "value": 46
             }
           }
-        ],
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/0818199A-C60F-4317-8E4C-7D2C767342C8"
-            }
-          }
         ]
       }
     },
@@ -10196,14 +10168,6 @@
               "value": 6
             }
           }
-        ],
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/91709DC8-E41A-4077-AB4F-DFC4F9280E30"
-            }
-          }
         ]
       }
     },
@@ -10260,15 +10224,7 @@
         "comment": "                                                                                    Non fasting specimen.",
         "specimen": {
           "reference": "Specimen/9608BE52-16AF-4065-AECC-513856303FE0"
-        },
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/C4B28488-A574-4EA4-9E24-3649D76691AA"
-            }
-          }
-        ]
+        }
       }
     },
     {
@@ -11907,15 +11863,7 @@
         "comment": "                                                                                    Negative                                                                                    I.M.Screen",
         "specimen": {
           "reference": "Specimen/7D57ADE4-B274-44FE-91A2-7E794CB5DA42"
-        },
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/5B5F5691-1E84-40D9-ADB8-D56DC681C7B2"
-            }
-          }
-        ]
+        }
       }
     },
     {
@@ -11987,15 +11935,7 @@
         "comment": "                                                                                    WBC MORPHOLOGY NORMAL                                                                                    RBC MORPHOLOGY NORMAL",
         "specimen": {
           "reference": "Specimen/7D57ADE4-B274-44FE-91A2-7E794CB5DA42"
-        },
-        "related": [
-          {
-            "type": "has-member",
-            "target": {
-              "reference": "Observation/BCDD3845-B4E9-4C87-8F65-F91706634AF2"
-            }
-          }
-        ]
+        }
       }
     },
     {

@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -45,14 +46,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Informant", propOrder = {
     "informantRole"
 })
-public class RCMRMT030101UK04Informant {
+public class RCMRMT030101UK04Informant implements RCMRMT030101UKInformant {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04InformantRole informantRole;
+    @XmlElement(required = true, type = RCMRMT030101UK04InformantRole.class)
+    protected RCMRMT030101UKInformantRole informantRole;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -76,7 +78,8 @@ public class RCMRMT030101UK04Informant {
      *     {@link RCMRMT030101UK04InformantRole }
      *     
      */
-    public RCMRMT030101UK04InformantRole getInformantRole() {
+    @Override
+    public RCMRMT030101UKInformantRole getInformantRole() {
         return informantRole;
     }
 
@@ -88,7 +91,8 @@ public class RCMRMT030101UK04Informant {
      *     {@link RCMRMT030101UK04InformantRole }
      *     
      */
-    public void setInformantRole(RCMRMT030101UK04InformantRole value) {
+    @Override
+    public void setInformantRole(RCMRMT030101UKInformantRole value) {
         this.informantRole = value;
     }
 
@@ -100,6 +104,7 @@ public class RCMRMT030101UK04Informant {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Participation";
@@ -116,6 +121,7 @@ public class RCMRMT030101UK04Informant {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -142,9 +148,10 @@ public class RCMRMT030101UK04Informant {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
-            typeCode = new ArrayList<String>();
+            typeCode = new ArrayList<>();
         }
         return this.typeCode;
     }
@@ -171,9 +178,10 @@ public class RCMRMT030101UK04Informant {
      * 
      * 
      */
+    @Override
     public List<String> getContextControlCode() {
         if (contextControlCode == null) {
-            contextControlCode = new ArrayList<String>();
+            contextControlCode = new ArrayList<>();
         }
         return this.contextControlCode;
     }
@@ -200,9 +208,10 @@ public class RCMRMT030101UK04Informant {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -229,9 +238,10 @@ public class RCMRMT030101UK04Informant {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -244,6 +254,7 @@ public class RCMRMT030101UK04Informant {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -256,6 +267,7 @@ public class RCMRMT030101UK04Informant {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
