@@ -31,7 +31,7 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
@@ -133,7 +133,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .stream()
             .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)
-            .map(RCMRMT030101UK04NarrativeStatement::getText)
+            .map(RCMRMT030101UKNarrativeStatement::getText)
             .filter(comment -> comment.contains(LAB_REPORT_COMMENT_TYPE))
             .map(TextUtil::extractPmipComment)
             .collect(Collectors.joining(StringUtils.LF));

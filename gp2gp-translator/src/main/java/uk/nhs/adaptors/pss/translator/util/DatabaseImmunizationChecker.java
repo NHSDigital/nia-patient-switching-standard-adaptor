@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ public class DatabaseImmunizationChecker implements ImmunizationChecker {
     private final ImmunizationSnomedCTDao immunizationSnomedDao;
 
     @Override
-    public boolean isImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
+    public boolean isImmunization(RCMRMT030101UKObservationStatement observationStatement) {
         ImmunizationSnomedCT immunizationCode = null;
 
         if (!observationStatement.getCode().getTranslation().isEmpty()) {

@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -47,29 +48,36 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Material", propOrder = {
     "code",
     "quantity",
     "expirationTime"
 })
-public class RCMRMT030101UK04Material {
+public class RCMRMT030101UK04Material implements RCMRMT030101UKMaterial {
 
     @XmlElement(required = true)
     protected CE code;
     protected PQ quantity;
     protected TS expirationTime;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
+
     @XmlAttribute(name = "determinerCode", required = true)
     protected List<String> determinerCode;
+
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
+
     @XmlAttribute(name = "realmCode")
     protected List<String> realmCode;
+
     @XmlAttribute(name = "nullFlavor")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String nullFlavor;
@@ -82,6 +90,7 @@ public class RCMRMT030101UK04Material {
      *     {@link CE }
      *     
      */
+    @Override
     public CE getCode() {
         return code;
     }
@@ -94,10 +103,12 @@ public class RCMRMT030101UK04Material {
      *     {@link CE }
      *     
      */
+    @Override
     public void setCode(CE value) {
         this.code = value;
     }
 
+    @Override
     public boolean hasCode() {
         return code != null;
     }
@@ -110,6 +121,7 @@ public class RCMRMT030101UK04Material {
      *     {@link PQ }
      *     
      */
+    @Override
     public PQ getQuantity() {
         return quantity;
     }
@@ -122,6 +134,7 @@ public class RCMRMT030101UK04Material {
      *     {@link PQ }
      *     
      */
+    @Override
     public void setQuantity(PQ value) {
         this.quantity = value;
     }
@@ -134,6 +147,7 @@ public class RCMRMT030101UK04Material {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getExpirationTime() {
         return expirationTime;
     }
@@ -146,6 +160,7 @@ public class RCMRMT030101UK04Material {
      *     {@link TS }
      *     
      */
+    @Override
     public void setExpirationTime(TS value) {
         this.expirationTime = value;
     }
@@ -158,6 +173,7 @@ public class RCMRMT030101UK04Material {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ManufacturedMaterial";
@@ -174,6 +190,7 @@ public class RCMRMT030101UK04Material {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -200,6 +217,7 @@ public class RCMRMT030101UK04Material {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<String>();
@@ -229,6 +247,7 @@ public class RCMRMT030101UK04Material {
      * 
      * 
      */
+    @Override
     public List<String> getDeterminerCode() {
         if (determinerCode == null) {
             determinerCode = new ArrayList<String>();
@@ -258,6 +277,7 @@ public class RCMRMT030101UK04Material {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -287,6 +307,7 @@ public class RCMRMT030101UK04Material {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -302,6 +323,7 @@ public class RCMRMT030101UK04Material {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -314,6 +336,7 @@ public class RCMRMT030101UK04Material {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

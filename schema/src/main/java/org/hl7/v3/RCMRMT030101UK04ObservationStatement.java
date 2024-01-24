@@ -7,9 +7,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import org.hl7.v3.RCMRMT030101UK04Specimen;
 
 
 /**
@@ -63,6 +65,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.ObservationStatement", propOrder = {
     "id",
@@ -85,7 +88,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "reference",
     "sequelTo"
 })
-public class RCMRMT030101UK04ObservationStatement {
+public class RCMRMT030101UK04ObservationStatement implements RCMRMT030101UKObservationStatement {
 
     @XmlElement(required = true)
     protected II id;
@@ -99,21 +102,41 @@ public class RCMRMT030101UK04ObservationStatement {
     protected TS availabilityTime;
     protected CV priorityCode;
     protected CV uncertaintyCode;
+
     @XmlJavaTypeAdapter(ValueAdapter.class)
     protected Object value;
     protected CV interpretationCode;
-    protected RCMRMT030101UK04Subject subject;
-    protected List<RCMRMT030101UK04Specimen> specimen;
-    protected List<RCMRMT030101UK04PertinentInformation02> pertinentInformation;
-    @XmlElement(type=RCMRMT030101UK04ReferenceRange.class)
-    protected List<RCMRMT030101UK04ReferenceRange> referenceRange;
-    protected List<RCMRMT030101UK04Informant> informant;
+
+    @XmlElement(type = RCMRMT030101UK04Subject.class)
+    protected RCMRMT030101UKSubject subject;
+
+    @XmlElement(type = RCMRMT030101UK04Specimen.class)
+    protected List<RCMRMT030101UKSpecimen> specimen;
+
+    @XmlElement(type = RCMRMT030101UK04PertinentInformation02.class)
+    protected List<RCMRMT030101UKPertinentInformation02> pertinentInformation;
+
+    @XmlElement(type = RCMRMT030101UK04ReferenceRange.class)
+    protected List<RCMRMT030101UKReferenceRange> referenceRange;
+
+    @XmlElement(type = RCMRMT030101UK04Informant.class)
+    protected List<RCMRMT030101UKInformant> informant;
+
     @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
     protected List<RCMRMT030101UKParticipant> participant;
-    protected List<RCMRMT030101UK04ReplacementOf> replacementOf;
-    protected List<RCMRMT030101UK04Reason> reason;
-    protected List<RCMRMT030101UK04Reference> reference;
-    protected List<RCMRMT030101UK04SequelTo> sequelTo;
+
+    @XmlElement(type = RCMRMT030101UK04ReplacementOf.class)
+    protected List<RCMRMT030101UKReplacementOf> replacementOf;
+
+    @XmlElement(type = RCMRMT030101UK04Reason.class)
+    protected List<RCMRMT030101UKReason> reason;
+
+    @XmlElement(type = RCMRMT030101UK04Reference.class)
+    protected List<RCMRMT030101UKReference> reference;
+
+    @XmlElement(type = RCMRMT030101UK04SequelTo.class)
+    protected List<RCMRMT030101UKSequelTo> sequelTo;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -137,6 +160,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link II }
      *
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -149,6 +173,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link II }
      *
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -161,6 +186,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link CD }
      *
      */
+    @Override
     public CD getCode() {
         return code;
     }
@@ -173,10 +199,12 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link CD }
      *
      */
+    @Override
     public void setCode(CD value) {
         this.code = value;
     }
 
+    @Override
     public boolean hasCode() {
         return code != null;
     }
@@ -189,6 +217,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link CS }
      *
      */
+    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -201,6 +230,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link CS }
      *
      */
+    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -213,6 +243,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link IVLTS }
      *
      */
+    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -225,10 +256,12 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link IVLTS }
      *
      */
+    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
 
+    @Override
     public boolean hasEffectiveTime() {
         return effectiveTime != null;
     }
@@ -241,6 +274,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link TS }
      *
      */
+    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -253,10 +287,12 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link TS }
      *
      */
+    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
 
+    @Override
     public boolean hasAvailabilityTime() {
         return availabilityTime != null;
     }
@@ -269,6 +305,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link CV }
      *
      */
+    @Override
     public CV getPriorityCode() {
         return priorityCode;
     }
@@ -281,6 +318,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link CV }
      *
      */
+    @Override
     public void setPriorityCode(CV value) {
         this.priorityCode = value;
     }
@@ -293,6 +331,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link CV }
      *
      */
+    @Override
     public CV getUncertaintyCode() {
         return uncertaintyCode;
     }
@@ -305,10 +344,12 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link CV }
      *
      */
+    @Override
     public void setUncertaintyCode(CV value) {
         this.uncertaintyCode = value;
     }
 
+    @Override
     public boolean hasUncertaintyCode() {
         return uncertaintyCode != null;
     }
@@ -320,6 +361,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link CV }
      *
      */
+    @Override
     public CV getInterpretationCode() {
         return interpretationCode;
     }
@@ -332,6 +374,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link CV }
      *
      */
+    @Override
     public void setInterpretationCode(CV value) {
         this.interpretationCode = value;
     }
@@ -344,7 +387,8 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link RCMRMT030101UK04Subject }
      *
      */
-    public RCMRMT030101UK04Subject getSubject() {
+    @Override
+    public RCMRMT030101UKSubject getSubject() {
         return subject;
     }
 
@@ -356,7 +400,8 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link RCMRMT030101UK04Subject }
      *
      */
-    public void setSubject(RCMRMT030101UK04Subject value) {
+    @Override
+    public void setSubject(RCMRMT030101UKSubject value) {
         this.subject = value;
     }
 
@@ -382,7 +427,8 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04Specimen> getSpecimen() {
+    @Override
+    public List<RCMRMT030101UKSpecimen> getSpecimen() {
         if (specimen == null) {
             specimen = new ArrayList<>();
         }
@@ -411,7 +457,8 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04PertinentInformation02> getPertinentInformation() {
+    @Override
+    public List<RCMRMT030101UKPertinentInformation02> getPertinentInformation() {
         if (pertinentInformation == null) {
             pertinentInformation = new ArrayList<>();
         }
@@ -440,7 +487,8 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04ReferenceRange> getReferenceRange() {
+    @Override
+    public List<RCMRMT030101UKReferenceRange> getReferenceRange() {
         if (referenceRange == null) {
             referenceRange = new ArrayList<>();
         }
@@ -469,7 +517,8 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04Informant> getInformant() {
+    @Override
+    public List<RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
             informant = new ArrayList<>();
         }
@@ -498,6 +547,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
+    @Override
     public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
             participant = new ArrayList<>();
@@ -527,7 +577,8 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04ReplacementOf> getReplacementOf() {
+    @Override
+    public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
             replacementOf = new ArrayList<>();
         }
@@ -556,7 +607,8 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04Reason> getReason() {
+    @Override
+    public List<RCMRMT030101UKReason> getReason() {
         if (reason == null) {
             reason = new ArrayList<>();
         }
@@ -585,7 +637,8 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04Reference> getReference() {
+    @Override
+    public List<RCMRMT030101UKReference> getReference() {
         if (reference == null) {
             reference = new ArrayList<>();
         }
@@ -614,7 +667,8 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
-    public List<RCMRMT030101UK04SequelTo> getSequelTo() {
+    @Override
+    public List<RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
             sequelTo = new ArrayList<>();
         }
@@ -629,6 +683,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link String }
      *
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Observation";
@@ -645,6 +700,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link String }
      *
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -671,9 +727,10 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -700,9 +757,10 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -729,9 +787,10 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -758,9 +817,10 @@ public class RCMRMT030101UK04ObservationStatement {
      *
      *
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -773,6 +833,7 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link String }
      *
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -785,18 +846,22 @@ public class RCMRMT030101UK04ObservationStatement {
      *     {@link String }
      *
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
 
+    @Override
     public Object getValue() {
         return value;
     }
 
+    @Override
     public void setValue(Object value) {
         this.value = value;
     }
 
+    @Override
     public boolean hasValue() {
         return value != null;
     }

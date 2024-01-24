@@ -11,17 +11,17 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
-import org.hl7.v3.RCMRMT030101UK04Authorise;
+import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Discontinue;
+import org.hl7.v3.RCMRMT030101UKDiscontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
-import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation2;
+import org.hl7.v3.RCMRMT030101UKSupplyAnnotation;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -68,7 +68,9 @@ public class MedicationRequestPlanMapper {
     private final MedicationMapper medicationMapper;
 
     public MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Authorise supplyAuthorise, String practiseCode) {
+                                                        RCMRMT030101UK04MedicationStatement medicationStatement,
+                                                        RCMRMT030101UKAuthorise supplyAuthorise,
+                                                        String practiseCode) {
 
         var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);
 
@@ -112,7 +114,7 @@ public class MedicationRequestPlanMapper {
         return null;
     }
 
-    private List<Extension> getStatusChangedExtensions(RCMRMT030101UK04Discontinue discontinue) {
+    private List<Extension> getStatusChangedExtensions(RCMRMT030101UKDiscontinue discontinue) {
         List<Extension> statusChangeExtensions = new ArrayList<>();
         var dateExt = buildStatusChangeDateExtension(discontinue);
 
@@ -126,7 +128,7 @@ public class MedicationRequestPlanMapper {
         return statusChangeExtensions;
     }
 
-    private Optional<Extension> extractSupplyAuthoriseRepeatInformation(RCMRMT030101UK04Authorise supplyAuthorise) {
+    private Optional<Extension> extractSupplyAuthoriseRepeatInformation(RCMRMT030101UKAuthorise supplyAuthorise) {
         if (supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() != 0) {
             return Optional.of(
                 new Extension(REPEATS_ALLOWED_URL, new UnsignedIntType(supplyAuthorise.getRepeatNumber().getValue().intValue())));
@@ -135,7 +137,7 @@ public class MedicationRequestPlanMapper {
     }
 
     private Optional<Extension> extractRepeatInformationIssued(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04Authorise supplyAuthorise, String supplyAuthoriseId) {
+        RCMRMT030101UKAuthorise supplyAuthorise, String supplyAuthoriseId) {
 
         if ((supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() != 0)
             || !supplyAuthorise.hasRepeatNumber()) {
@@ -160,7 +162,7 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private Optional<Extension> extractAuthorisationExpiryDate(RCMRMT030101UK04Authorise supplyAuthorise) {
+    private Optional<Extension> extractAuthorisationExpiryDate(RCMRMT030101UKAuthorise supplyAuthorise) {
 
         if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {
             return Optional.of(new Extension(
@@ -170,7 +172,7 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private String extractTermText(RCMRMT030101UK04Discontinue discontinue) {
+    private String extractTermText(RCMRMT030101UKDiscontinue discontinue) {
 
         var stringBuilder = new StringBuilder();
         if (discontinue.hasCode() && discontinue.getCode().hasOriginalText()) {
@@ -185,8 +187,8 @@ public class MedicationRequestPlanMapper {
 
         var pertinentInfo = discontinue.getPertinentInformation()
                 .stream()
-                .map(RCMRMT030101UK04PertinentInformation2::getPertinentSupplyAnnotation)
-                .map(RCMRMT030101UK04SupplyAnnotation::getText)
+                .map(RCMRMT030101UKPertinentInformation2::getPertinentSupplyAnnotation)
+                .map(RCMRMT030101UKSupplyAnnotation::getText)
                 .filter(StringUtils::isNotBlank)
                 .collect(Collectors.joining(", "));
 
@@ -195,7 +197,7 @@ public class MedicationRequestPlanMapper {
         return stringBuilder.toString();
     }
 
-    private Optional<Reference> extractPriorPrescription(RCMRMT030101UK04Authorise supplyAuthorise) {
+    private Optional<Reference> extractPriorPrescription(RCMRMT030101UKAuthorise supplyAuthorise) {
         if (supplyAuthorise.hasPredecessor() && supplyAuthorise.getPredecessorFirstRep().hasPriorMedicationRef()
             && supplyAuthorise.getPredecessorFirstRep().getPriorMedicationRef().hasId()
             && supplyAuthorise.getPredecessorFirstRep().getPriorMedicationRef().getId().hasRoot()) {
@@ -207,7 +209,7 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private MedicationRequest.MedicationRequestStatus buildMedicationRequestStatus(RCMRMT030101UK04Authorise supplyAuthorise) {
+    private MedicationRequest.MedicationRequestStatus buildMedicationRequestStatus(RCMRMT030101UKAuthorise supplyAuthorise) {
         if (supplyAuthorise.hasStatusCode() && supplyAuthorise.getStatusCode().hasCode()
             && COMPLETE.equals(supplyAuthorise.getStatusCode().getCode())) {
             return COMPLETED;
@@ -226,7 +228,7 @@ public class MedicationRequestPlanMapper {
     }
 
     private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForAuthorise(
-        RCMRMT030101UK04Authorise supplyAuthorise, RCMRMT030101UK04MedicationStatement medicationStatement) {
+        RCMRMT030101UKAuthorise supplyAuthorise, RCMRMT030101UK04MedicationStatement medicationStatement) {
         MedicationRequest.MedicationRequestDispenseRequestComponent dispenseRequest
             = new MedicationRequest.MedicationRequestDispenseRequestComponent();
 
@@ -247,7 +249,7 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private Optional<Extension> buildStatusChangeDateExtension(RCMRMT030101UK04Discontinue discontinue) {
+    private Optional<Extension> buildStatusChangeDateExtension(RCMRMT030101UKDiscontinue discontinue) {
         if (discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasValue()) {
             return Optional.of(
                 new Extension(STATUS_CHANGE_DATE_URL,
@@ -261,7 +263,7 @@ public class MedicationRequestPlanMapper {
         return new Extension(STATUS_REASON, new CodeableConcept().setText(statusReason));
     }
 
-    private List<Annotation> buildNotesForAuthorise(RCMRMT030101UK04Authorise supplyAuthorise) {
+    private List<Annotation> buildNotesForAuthorise(RCMRMT030101UKAuthorise supplyAuthorise) {
         var notes = buildNotes(supplyAuthorise.getPertinentInformation());
         if (supplyAuthorise.hasCode() && supplyAuthorise.getCode().hasDisplayName()
             && !NHS_PRESCRIPTION.equalsIgnoreCase(supplyAuthorise.getCode().getDisplayName())) {
