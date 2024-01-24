@@ -60,12 +60,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 })
 public class RCMRMT030101UK04Component2 {
 
-    protected RCMRMT030101UK04Authorise ehrSupplyAuthorise;
+    @XmlElement(type = RCMRMT030101UK04Authorise.class)
+    protected RCMRMT030101UKAuthorise ehrSupplyAuthorise;
+
     protected RCMRMT030101UK04Discontinue ehrSupplyDiscontinue;
+
     protected RCMRMT030101UK04Dispense ehrSupplyDispense;
 
     @XmlElement(type = RCMRMT030101UK04Prescribe.class)
-    protected RCMRMT030101UK04Prescribe ehrSupplyPrescribe;
+    protected RCMRMT030101UKPrescribe ehrSupplyPrescribe;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -90,7 +93,7 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Authorise }
      *     
      */
-    public RCMRMT030101UK04Authorise getEhrSupplyAuthorise() {
+    public RCMRMT030101UKAuthorise getEhrSupplyAuthorise() {
         return ehrSupplyAuthorise;
     }
 
@@ -102,7 +105,7 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Authorise }
      *     
      */
-    public void setEhrSupplyAuthorise(RCMRMT030101UK04Authorise value) {
+    public void setEhrSupplyAuthorise(RCMRMT030101UKAuthorise value) {
         this.ehrSupplyAuthorise = value;
     }
 
@@ -169,7 +172,7 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Prescribe }
      *     
      */
-    public RCMRMT030101UK04Prescribe getEhrSupplyPrescribe() {
+    public RCMRMT030101UKPrescribe getEhrSupplyPrescribe() {
         return ehrSupplyPrescribe;
     }
 
@@ -181,7 +184,7 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Prescribe }
      *     
      */
-    public void setEhrSupplyPrescribe(RCMRMT030101UK04Prescribe value) {
+    public void setEhrSupplyPrescribe(RCMRMT030101UKPrescribe value) {
         this.ehrSupplyPrescribe = value;
     }
 

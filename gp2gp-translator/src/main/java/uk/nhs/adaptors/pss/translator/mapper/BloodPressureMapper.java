@@ -37,8 +37,8 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.springframework.stereotype.Service;
@@ -127,7 +127,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
     }
 
     private String getComment(List<RCMRMT030101UKObservationStatement> observationStatements,
-        List<RCMRMT030101UK04NarrativeStatement> narrativeStatements) {
+        List<RCMRMT030101UKNarrativeStatement> narrativeStatements) {
         var stringBuilder = new StringBuilder();
 
         for (RCMRMT030101UKObservationStatement observationStatement
@@ -160,7 +160,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
 
         if (!narrativeStatements.isEmpty()) {
             stringBuilder.append(BP_NOTE);
-            for (RCMRMT030101UK04NarrativeStatement narrativeStatement
+            for (RCMRMT030101UKNarrativeStatement narrativeStatement
                 : narrativeStatements) {
                 stringBuilder.append(narrativeStatement.getText()).append(StringUtils.SPACE);
             }
@@ -182,7 +182,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
             .toList();
     }
 
-    private List<RCMRMT030101UK04NarrativeStatement> getNarrativeStatementsFromCompoundStatement(
+    private List<RCMRMT030101UKNarrativeStatement> getNarrativeStatementsFromCompoundStatement(
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent().stream()
             .map(RCMRMT030101UK04Component02::getNarrativeStatement)

@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -55,6 +56,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Authorise", propOrder = {
     "id",
@@ -69,7 +71,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "consumable",
     "pertinentInformation"
 })
-public class RCMRMT030101UK04Authorise {
+public class RCMRMT030101UK04Authorise implements RCMRMT030101UKAuthorise {
 
     @XmlElement(required = true)
     protected II id;
@@ -83,10 +85,19 @@ public class RCMRMT030101UK04Authorise {
     protected INT repeatNumber;
     @XmlElement(required = true)
     protected PQ quantity;
-    protected List<RCMRMT030101UK04Predecessor> predecessor;
-    protected RCMRMT030101UK04Performer performer;
-    protected RCMRMT030101UK04Product consumable;
-    protected List<RCMRMT030101UK04PertinentInformation2> pertinentInformation;
+
+    @XmlElement(type = RCMRMT030101UK04Predecessor.class)
+    protected List<RCMRMT030101UKPredecessor> predecessor;
+
+    @XmlElement(type = RCMRMT030101UK04Performer.class)
+    protected RCMRMT030101UKPerformer performer;
+
+    @XmlElement(type = RCMRMT030101UK04Product.class)
+    protected RCMRMT030101UKProduct consumable;
+
+    @XmlElement(type = RCMRMT030101UK04PertinentInformation2.class)
+    protected List<RCMRMT030101UKPertinentInformation2> pertinentInformation;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -110,6 +121,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -122,10 +134,12 @@ public class RCMRMT030101UK04Authorise {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
 
+    @Override
     public boolean hasId() {
         return id != null;
     }
@@ -138,6 +152,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link CV }
      *     
      */
+    @Override
     public CV getCode() {
         return code;
     }
@@ -150,10 +165,12 @@ public class RCMRMT030101UK04Authorise {
      *     {@link CV }
      *     
      */
+    @Override
     public void setCode(CV value) {
         this.code = value;
     }
 
+    @Override
     public boolean hasCode() {
         return code != null;
     }
@@ -166,6 +183,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link CS }
      *     
      */
+    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -178,10 +196,12 @@ public class RCMRMT030101UK04Authorise {
      *     {@link CS }
      *     
      */
+    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
 
+    @Override
     public boolean hasStatusCode() {
         return statusCode != null;
     }
@@ -194,6 +214,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -206,10 +227,12 @@ public class RCMRMT030101UK04Authorise {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
 
+    @Override
     public boolean hasEffectiveTime() {
         return effectiveTime != null;
     }
@@ -222,6 +245,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -234,10 +258,12 @@ public class RCMRMT030101UK04Authorise {
      *     {@link TS }
      *     
      */
+    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
 
+    @Override
     public boolean hasAvailabilityTime() {
         return availabilityTime != null;
     }
@@ -250,6 +276,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link INT }
      *     
      */
+    @Override
     public INT getRepeatNumber() {
         return repeatNumber;
     }
@@ -262,10 +289,12 @@ public class RCMRMT030101UK04Authorise {
      *     {@link INT }
      *     
      */
+    @Override
     public void setRepeatNumber(INT value) {
         this.repeatNumber = value;
     }
 
+    @Override
     public boolean hasRepeatNumber() {
         return repeatNumber != null;
     }
@@ -278,6 +307,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link PQ }
      *     
      */
+    @Override
     public PQ getQuantity() {
         return quantity;
     }
@@ -290,10 +320,12 @@ public class RCMRMT030101UK04Authorise {
      *     {@link PQ }
      *     
      */
+    @Override
     public void setQuantity(PQ value) {
         this.quantity = value;
     }
 
+    @Override
     public boolean hasQuantity() {
         return quantity != null;
     }
@@ -320,20 +352,23 @@ public class RCMRMT030101UK04Authorise {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Predecessor> getPredecessor() {
+    @Override
+    public List<RCMRMT030101UKPredecessor> getPredecessor() {
         if (predecessor == null) {
-            predecessor = new ArrayList<RCMRMT030101UK04Predecessor>();
+            predecessor = new ArrayList<>();
         }
         return this.predecessor;
     }
 
-    public RCMRMT030101UK04Predecessor getPredecessorFirstRep() {
+    @Override
+    public RCMRMT030101UKPredecessor getPredecessorFirstRep() {
         if (!predecessor.isEmpty()) {
             return predecessor.get(0);
         }
         return null;
     }
 
+    @Override
     public boolean hasPredecessor() {
         return predecessor != null && !predecessor.isEmpty();
     }
@@ -346,7 +381,8 @@ public class RCMRMT030101UK04Authorise {
      *     {@link RCMRMT030101UK04Performer }
      *     
      */
-    public RCMRMT030101UK04Performer getPerformer() {
+    @Override
+    public RCMRMT030101UKPerformer getPerformer() {
         return performer;
     }
 
@@ -358,7 +394,8 @@ public class RCMRMT030101UK04Authorise {
      *     {@link RCMRMT030101UK04Performer }
      *     
      */
-    public void setPerformer(RCMRMT030101UK04Performer value) {
+    @Override
+    public void setPerformer(RCMRMT030101UKPerformer value) {
         this.performer = value;
     }
 
@@ -370,7 +407,8 @@ public class RCMRMT030101UK04Authorise {
      *     {@link RCMRMT030101UK04Product }
      *     
      */
-    public RCMRMT030101UK04Product getConsumable() {
+    @Override
+    public RCMRMT030101UKProduct getConsumable() {
         return consumable;
     }
 
@@ -382,7 +420,8 @@ public class RCMRMT030101UK04Authorise {
      *     {@link RCMRMT030101UK04Product }
      *     
      */
-    public void setConsumable(RCMRMT030101UK04Product value) {
+    @Override
+    public void setConsumable(RCMRMT030101UKProduct value) {
         this.consumable = value;
     }
 
@@ -408,9 +447,10 @@ public class RCMRMT030101UK04Authorise {
      * 
      * 
      */
-    public List<RCMRMT030101UK04PertinentInformation2> getPertinentInformation() {
+    @Override
+    public List<RCMRMT030101UKPertinentInformation2> getPertinentInformation() {
         if (pertinentInformation == null) {
-            pertinentInformation = new ArrayList<RCMRMT030101UK04PertinentInformation2>();
+            pertinentInformation = new ArrayList<>();
         }
         return this.pertinentInformation;
     }
@@ -423,6 +463,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Supply";
@@ -439,6 +480,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -465,9 +507,10 @@ public class RCMRMT030101UK04Authorise {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -494,9 +537,10 @@ public class RCMRMT030101UK04Authorise {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -523,9 +567,10 @@ public class RCMRMT030101UK04Authorise {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -552,9 +597,10 @@ public class RCMRMT030101UK04Authorise {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -567,6 +613,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -579,6 +626,7 @@ public class RCMRMT030101UK04Authorise {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

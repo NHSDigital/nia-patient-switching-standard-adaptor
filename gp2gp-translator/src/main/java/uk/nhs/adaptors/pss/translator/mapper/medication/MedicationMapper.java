@@ -11,7 +11,7 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UK04Consumable;
 import org.hl7.v3.RCMRMT030101UK04ManufacturedProduct;
-import org.hl7.v3.RCMRMT030101UK04Material;
+import org.hl7.v3.RCMRMT030101UKMaterial;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +55,7 @@ public class MedicationMapper {
                 .filter(MedicationMapper::hasManufacturedMaterial)
                 .map(RCMRMT030101UK04Consumable::getManufacturedProduct)
                 .map(RCMRMT030101UK04ManufacturedProduct::getManufacturedMaterial)
-                .map(RCMRMT030101UK04Material::getCode)
+                .map(RCMRMT030101UKMaterial::getCode)
                 .findFirst();
 
             return medicationCode

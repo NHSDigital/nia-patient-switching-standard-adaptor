@@ -22,7 +22,7 @@ import org.hl7.fhir.dstu3.model.SimpleQuantity;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.II;
 import org.hl7.v3.PQ;
-import org.hl7.v3.RCMRMT030101UK04Authorise;
+import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component2;
@@ -32,15 +32,15 @@ import org.hl7.v3.RCMRMT030101UK04Discontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04MedicationDosage;
 import org.hl7.v3.RCMRMT030101UK04MedicationRef;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation2;
 import org.hl7.v3.RCMRMT030101UK04ReversalOf;
-import org.hl7.v3.RCMRMT030101UK04SupplyAnnotation;
+import org.hl7.v3.RCMRMT030101UKMedicationDosage;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hl7.v3.RCMRMT030101UKSupplyAnnotation;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -63,7 +63,7 @@ public class MedicationMapperUtils {
             .setId(id);
     }
 
-    public static Optional<Extension> buildPrescriptionTypeExtension(RCMRMT030101UK04Authorise supplyAuthorise) {
+    public static Optional<Extension> buildPrescriptionTypeExtension(RCMRMT030101UKAuthorise supplyAuthorise) {
         if (supplyAuthorise != null && supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() == 0) {
             return Optional.of(new Extension(PRESCRIPTION_TYPE_EXTENSION_URL, new CodeableConcept(
                 new Coding(PRESCRIPTION_TYPE_CODING_SYSTEM, ACUTE.toLowerCase(), ACUTE)
@@ -74,26 +74,26 @@ public class MedicationMapperUtils {
         )));
     }
 
-    public static List<Annotation> buildNotes(List<RCMRMT030101UK04PertinentInformation2> pertinentInformationList) {
+    public static List<Annotation> buildNotes(List<RCMRMT030101UKPertinentInformation2> pertinentInformationList) {
         return pertinentInformationList
             .stream()
-            .filter(RCMRMT030101UK04PertinentInformation2::hasPertinentSupplyAnnotation)
-            .map(RCMRMT030101UK04PertinentInformation2::getPertinentSupplyAnnotation)
-            .filter(RCMRMT030101UK04SupplyAnnotation::hasText)
-            .map(RCMRMT030101UK04SupplyAnnotation::getText)
+            .filter(RCMRMT030101UKPertinentInformation2::hasPertinentSupplyAnnotation)
+            .map(RCMRMT030101UKPertinentInformation2::getPertinentSupplyAnnotation)
+            .filter(RCMRMT030101UKSupplyAnnotation::hasText)
+            .map(RCMRMT030101UKSupplyAnnotation::getText)
             .map(text -> text + System.lineSeparator())
             .map(StringType::new)
             .map(Annotation::new)
             .collect(Collectors.toList());
     }
 
-    public static Dosage buildDosage(List<RCMRMT030101UK04PertinentInformation> pertinentInformationList) {
+    public static Dosage buildDosage(List<RCMRMT030101UKPertinentInformation> pertinentInformationList) {
         Dosage dosage = new Dosage();
         var pertinentInformationDosage = pertinentInformationList.stream()
-            .filter(RCMRMT030101UK04PertinentInformation::hasPertinentMedicationDosage)
-            .map(RCMRMT030101UK04PertinentInformation::getPertinentMedicationDosage)
-            .filter(RCMRMT030101UK04MedicationDosage::hasText)
-            .map(RCMRMT030101UK04MedicationDosage::getText)
+            .filter(RCMRMT030101UKPertinentInformation::hasPertinentMedicationDosage)
+            .map(RCMRMT030101UKPertinentInformation::getPertinentMedicationDosage)
+            .filter(RCMRMT030101UKMedicationDosage::hasText)
+            .map(RCMRMT030101UKMedicationDosage::getText)
             .findFirst();
 
         pertinentInformationDosage.ifPresentOrElse(dosage::setText,
@@ -112,14 +112,14 @@ public class MedicationMapperUtils {
         return Optional.of(quantity);
     }
 
-    public static Optional<String> extractEhrSupplyAuthoriseId(RCMRMT030101UK04Authorise supplyAuthorise) {
+    public static Optional<String> extractEhrSupplyAuthoriseId(RCMRMT030101UKAuthorise supplyAuthorise) {
         if (supplyAuthorise.hasId() && supplyAuthorise.getId().hasRoot()) {
             return Optional.of(supplyAuthorise.getId().getRoot());
         }
         return Optional.empty();
     }
 
-    public static RCMRMT030101UK04Authorise extractSupplyAuthorise(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+    public static RCMRMT030101UKAuthorise extractSupplyAuthorise(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
         return ehrExtract.getComponent()
             .stream()
             .map(RCMRMT030101UK04Component::getEhrFolder)
@@ -139,7 +139,7 @@ public class MedicationMapperUtils {
             .orElse(null);
     }
 
-    public static Optional<DateTimeType> extractDispenseRequestPeriodStart(RCMRMT030101UK04Authorise supplyAuthorise) {
+    public static Optional<DateTimeType> extractDispenseRequestPeriodStart(RCMRMT030101UKAuthorise supplyAuthorise) {
         if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasCenter()
             && supplyAuthorise.getEffectiveTime().getCenter().hasValue()) {
             return Optional.of(DateFormatUtil.parseToDateTimeType(supplyAuthorise.getEffectiveTime().getCenter().getValue()));
@@ -161,7 +161,7 @@ public class MedicationMapperUtils {
         );
     }
 
-    public static Period buildDispenseRequestPeriodEnd(RCMRMT030101UK04Authorise supplyAuthorise,
+    public static Period buildDispenseRequestPeriodEnd(RCMRMT030101UKAuthorise supplyAuthorise,
                                                        RCMRMT030101UK04MedicationStatement medicationStatement) {
 
         if (supplyAuthorise.hasEffectiveTime() && supplyAuthorise.getEffectiveTime().hasHigh()) {

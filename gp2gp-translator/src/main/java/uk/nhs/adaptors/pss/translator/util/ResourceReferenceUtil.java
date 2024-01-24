@@ -14,7 +14,7 @@ import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPlanStatement;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
@@ -192,7 +192,7 @@ public class ResourceReferenceUtil {
         }
     }
 
-    private static void addNarrativeStatementEntry(RCMRMT030101UK04NarrativeStatement narrativeStatement,
+    private static void addNarrativeStatementEntry(RCMRMT030101UKNarrativeStatement narrativeStatement,
                                                    List<Reference> entryReferences) {
         if (narrativeStatement != null) {
             if (isDocumentReference(narrativeStatement)) {

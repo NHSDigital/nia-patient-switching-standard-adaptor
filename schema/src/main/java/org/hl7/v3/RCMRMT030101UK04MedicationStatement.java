@@ -340,7 +340,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04PertinentInformation> getPertinentInformation() {
+    public List<RCMRMT030101UKPertinentInformation> getPertinentInformation() {
         if (pertinentInformation == null) {
             pertinentInformation = new ArrayList<>();
         }
