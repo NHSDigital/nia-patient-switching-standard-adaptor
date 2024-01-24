@@ -58,14 +58,16 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "ehrSupplyDispense",
     "ehrSupplyPrescribe"
 })
-public class RCMRMT030101UK04Component2 {
+public class RCMRMT030101UK04Component2 implements RCMRMT030101UKComponent2 {
 
     @XmlElement(type = RCMRMT030101UK04Authorise.class)
     protected RCMRMT030101UKAuthorise ehrSupplyAuthorise;
 
-    protected RCMRMT030101UK04Discontinue ehrSupplyDiscontinue;
+    @XmlElement(type = RCMRMT030101UK04Discontinue.class)
+    protected RCMRMT030101UKDiscontinue ehrSupplyDiscontinue;
 
-    protected RCMRMT030101UK04Dispense ehrSupplyDispense;
+    @XmlElement(type = RCMRMT030101UK04Dispense.class)
+    protected RCMRMT030101UKDispense ehrSupplyDispense;
 
     @XmlElement(type = RCMRMT030101UK04Prescribe.class)
     protected RCMRMT030101UKPrescribe ehrSupplyPrescribe;
@@ -93,6 +95,7 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Authorise }
      *     
      */
+    @Override
     public RCMRMT030101UKAuthorise getEhrSupplyAuthorise() {
         return ehrSupplyAuthorise;
     }
@@ -105,10 +108,12 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Authorise }
      *     
      */
+    @Override
     public void setEhrSupplyAuthorise(RCMRMT030101UKAuthorise value) {
         this.ehrSupplyAuthorise = value;
     }
 
+    @Override
     public boolean hasEhrSupplyAuthorise() {
         return ehrSupplyAuthorise != null;
     }
@@ -120,7 +125,8 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Discontinue }
      *     
      */
-    public RCMRMT030101UK04Discontinue getEhrSupplyDiscontinue() {
+    @Override
+    public RCMRMT030101UKDiscontinue getEhrSupplyDiscontinue() {
         return ehrSupplyDiscontinue;
     }
 
@@ -132,10 +138,12 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Discontinue }
      *     
      */
-    public void setEhrSupplyDiscontinue(RCMRMT030101UK04Discontinue value) {
+    @Override
+    public void setEhrSupplyDiscontinue(RCMRMT030101UKDiscontinue value) {
         this.ehrSupplyDiscontinue = value;
     }
 
+    @Override
     public boolean hasEhrSupplyDiscontinue() {
         return ehrSupplyDiscontinue != null;
     }
@@ -148,7 +156,8 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Dispense }
      *     
      */
-    public RCMRMT030101UK04Dispense getEhrSupplyDispense() {
+    @Override
+    public RCMRMT030101UKDispense getEhrSupplyDispense() {
         return ehrSupplyDispense;
     }
 
@@ -160,7 +169,8 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Dispense }
      *     
      */
-    public void setEhrSupplyDispense(RCMRMT030101UK04Dispense value) {
+    @Override
+    public void setEhrSupplyDispense(RCMRMT030101UKDispense value) {
         this.ehrSupplyDispense = value;
     }
 
@@ -172,6 +182,7 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Prescribe }
      *     
      */
+    @Override
     public RCMRMT030101UKPrescribe getEhrSupplyPrescribe() {
         return ehrSupplyPrescribe;
     }
@@ -184,10 +195,12 @@ public class RCMRMT030101UK04Component2 {
      *     {@link RCMRMT030101UK04Prescribe }
      *     
      */
+    @Override
     public void setEhrSupplyPrescribe(RCMRMT030101UKPrescribe value) {
         this.ehrSupplyPrescribe = value;
     }
 
+    @Override
     public boolean hasEhrSupplyPrescribe() {
         return ehrSupplyPrescribe != null;
     }
@@ -199,6 +212,7 @@ public class RCMRMT030101UK04Component2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -215,6 +229,7 @@ public class RCMRMT030101UK04Component2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -241,9 +256,10 @@ public class RCMRMT030101UK04Component2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
-            typeCode = new ArrayList<String>();
+            typeCode = new ArrayList<>();
         }
         return this.typeCode;
     }
@@ -270,9 +286,10 @@ public class RCMRMT030101UK04Component2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -299,9 +316,10 @@ public class RCMRMT030101UK04Component2 {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -314,6 +332,7 @@ public class RCMRMT030101UK04Component2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -326,6 +345,7 @@ public class RCMRMT030101UK04Component2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

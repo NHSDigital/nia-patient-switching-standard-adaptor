@@ -15,12 +15,12 @@ import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Discontinue;
+import org.hl7.v3.RCMRMT030101UKDiscontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation2;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation2;
 import org.hl7.v3.RCMRMT030101UKSupplyAnnotation;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -114,7 +114,7 @@ public class MedicationRequestPlanMapper {
         return null;
     }
 
-    private List<Extension> getStatusChangedExtensions(RCMRMT030101UK04Discontinue discontinue) {
+    private List<Extension> getStatusChangedExtensions(RCMRMT030101UKDiscontinue discontinue) {
         List<Extension> statusChangeExtensions = new ArrayList<>();
         var dateExt = buildStatusChangeDateExtension(discontinue);
 
@@ -172,7 +172,7 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private String extractTermText(RCMRMT030101UK04Discontinue discontinue) {
+    private String extractTermText(RCMRMT030101UKDiscontinue discontinue) {
 
         var stringBuilder = new StringBuilder();
         if (discontinue.hasCode() && discontinue.getCode().hasOriginalText()) {
@@ -187,7 +187,7 @@ public class MedicationRequestPlanMapper {
 
         var pertinentInfo = discontinue.getPertinentInformation()
                 .stream()
-                .map(RCMRMT030101UK04PertinentInformation2::getPertinentSupplyAnnotation)
+                .map(RCMRMT030101UKPertinentInformation2::getPertinentSupplyAnnotation)
                 .map(RCMRMT030101UKSupplyAnnotation::getText)
                 .filter(StringUtils::isNotBlank)
                 .collect(Collectors.joining(", "));
@@ -249,7 +249,7 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private Optional<Extension> buildStatusChangeDateExtension(RCMRMT030101UK04Discontinue discontinue) {
+    private Optional<Extension> buildStatusChangeDateExtension(RCMRMT030101UKDiscontinue discontinue) {
         if (discontinue.hasAvailabilityTime() && discontinue.getAvailabilityTime().hasValue()) {
             return Optional.of(
                 new Extension(STATUS_CHANGE_DATE_URL,

@@ -31,12 +31,12 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Discontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
+import org.hl7.v3.RCMRMT030101UKDiscontinue;
 import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
@@ -116,7 +116,7 @@ public class MedicationStatementMapper {
         return null;
     }
 
-    private Period mapEffectiveTime(RCMRMT030101UKAuthorise authorise, RCMRMT030101UK04Discontinue discontinue,
+    private Period mapEffectiveTime(RCMRMT030101UKAuthorise authorise, RCMRMT030101UKDiscontinue discontinue,
         RCMRMT030101UK04MedicationStatement medicationStatement, DateTimeType authoredOn) {
         Optional<Period> discontinuePeriod = buildMedicationStatementEffectivePeriodEnd(discontinue);
 
@@ -149,7 +149,7 @@ public class MedicationStatementMapper {
 
     }
 
-    private MedicationStatement.MedicationStatementStatus buildMedicationStatementStatus(RCMRMT030101UK04Discontinue supplyDiscontinue) {
+    private MedicationStatement.MedicationStatementStatus buildMedicationStatementStatus(RCMRMT030101UKDiscontinue supplyDiscontinue) {
         if (supplyDiscontinue.hasAvailabilityTime() && supplyDiscontinue.getAvailabilityTime().hasValue()) {
             return STOPPED;
         }

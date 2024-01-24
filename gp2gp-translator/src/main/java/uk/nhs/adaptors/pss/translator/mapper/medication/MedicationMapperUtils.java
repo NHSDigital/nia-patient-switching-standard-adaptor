@@ -28,18 +28,18 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
-import org.hl7.v3.RCMRMT030101UK04Discontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04MedicationRef;
+import org.hl7.v3.RCMRMT030101UKDiscontinue;
+import org.hl7.v3.RCMRMT030101UKMedicationRef;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation2;
-import org.hl7.v3.RCMRMT030101UK04ReversalOf;
 import org.hl7.v3.RCMRMT030101UKMedicationDosage;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hl7.v3.RCMRMT030101UKReversalOf;
 import org.hl7.v3.RCMRMT030101UKSupplyAnnotation;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -185,7 +185,7 @@ public class MedicationMapperUtils {
         return new Period();
     }
 
-    public static Optional<Period> buildMedicationStatementEffectivePeriodEnd(RCMRMT030101UK04Discontinue supplyDiscontinue) {
+    public static Optional<Period> buildMedicationStatementEffectivePeriodEnd(RCMRMT030101UKDiscontinue supplyDiscontinue) {
         if (supplyDiscontinue.hasAvailabilityTime() && supplyDiscontinue.getAvailabilityTime().hasValue()) {
             return Optional.of(new Period().setEndElement(
                DateFormatUtil.parseToDateTimeType(supplyDiscontinue.getAvailabilityTime().getValue())
@@ -195,8 +195,8 @@ public class MedicationMapperUtils {
         return Optional.empty();
     }
 
-    public static Optional<RCMRMT030101UK04Discontinue> extractMatchingDiscontinue(String supplyAuthoriseId,
-        RCMRMT030101UK04EhrExtract ehrExtract) {
+    public static Optional<RCMRMT030101UKDiscontinue> extractMatchingDiscontinue(String supplyAuthoriseId,
+                                                                                 RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent()
             .stream()
             .filter(RCMRMT030101UK04Component::hasEhrFolder)
@@ -217,10 +217,10 @@ public class MedicationMapperUtils {
             .findFirst();
     }
 
-    private static boolean hasReversalIdMatchingAuthorise(List<RCMRMT030101UK04ReversalOf> reversalOf, String supplyAuthoriseId) {
+    private static boolean hasReversalIdMatchingAuthorise(List<RCMRMT030101UKReversalOf> reversalOf, String supplyAuthoriseId) {
         return reversalOf.stream()
-            .map(RCMRMT030101UK04ReversalOf::getPriorMedicationRef)
-            .map(RCMRMT030101UK04MedicationRef::getId)
+            .map(RCMRMT030101UKReversalOf::getPriorMedicationRef)
+            .map(RCMRMT030101UKMedicationRef::getId)
             .map(II::getRoot)
             .anyMatch(supplyAuthoriseId::equals);
     }
