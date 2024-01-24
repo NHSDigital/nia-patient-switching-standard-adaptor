@@ -66,9 +66,12 @@ public class ObservationMapperTest {
     private static final String ZERO_ANNOTATION_TEXT = "zero sequence comment";
     private static final String PLUS_ONE_ANNOTATION_TEXT = "plus 1 sequence comment";
     private static final String NULL_FLAVOR_ANNOTATION_TEXT = "nullFlavor sequence comment";
-    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT = "Episodicity : code=255217005, displayName=First";
-    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_ORIGINAL_TEXT = "Episodicity : code=303350001, displayName=Ongoing, originalText=Review";
-    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_EXISTING_COMMENT = "Subject: Uncle Test text 1 <br> Episodicity : code=303350001, displayName=Ongoing, originalText=Review";
+    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT =
+            "Episodicity : code=255217005, displayName=First";
+    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_ORIGINAL_TEXT =
+            "Episodicity : code=303350001, displayName=Ongoing, originalText=Review";
+    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_EXISTING_COMMENT =
+            "Subject: Uncle Test text 1 <br> Episodicity : code=303350001, displayName=Ongoing, originalText=Review";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -120,7 +123,7 @@ public class ObservationMapperTest {
 
     /**
      * Testing episodicity comment renders without any existing comments being present.
-     * Formatting should be similar to Allergy Intolerance. 
+     * Formatting should be similar to Allergy Intolerance.
      */
     @Test
     public void mapObservationWithEpisodicity() {

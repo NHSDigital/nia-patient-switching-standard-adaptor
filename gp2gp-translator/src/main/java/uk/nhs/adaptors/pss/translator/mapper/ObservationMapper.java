@@ -202,7 +202,10 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return null;
     }
 
-    private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation, RCMRMT030101UK04Subject subject, CD code, Optional<List<CR>> qualifiers) {
+    private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation,
+                              RCMRMT030101UK04Subject subject,
+                              CD code,
+                              Optional<List<CR>> qualifiers) {
         StringJoiner stringJoiner = new StringJoiner(StringUtils.SPACE);
 
         if (subjectHasOriginalText(subject)) {
