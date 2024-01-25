@@ -17,11 +17,11 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CR;
 import org.hl7.v3.CV;
-import org.hl7.v3.RCMRMT030101UKAnnotation;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.hl7.v3.RCMRMT030101UKSubject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,8 +202,8 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return null;
     }
 
-    private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation,
-                              RCMRMT030101UK04Subject subject,
+    private String getComment(List<RCMRMT030101UKPertinentInformation02> pertinentInformation,
+                              RCMRMT030101UKSubject subject,
                               CD code,
                               Optional<List<CR>> qualifiers) {
         StringJoiner stringJoiner = new StringJoiner(StringUtils.SPACE);
