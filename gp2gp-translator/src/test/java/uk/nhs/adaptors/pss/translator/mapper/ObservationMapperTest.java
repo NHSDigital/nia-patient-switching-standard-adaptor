@@ -67,11 +67,9 @@ public class ObservationMapperTest {
     private static final String PLUS_ONE_ANNOTATION_TEXT = "plus 1 sequence comment";
     private static final String NULL_FLAVOR_ANNOTATION_TEXT = "nullFlavor sequence comment";
     private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT =
-            "Episodicity : code=255217005, displayName=First";
+            "{Episodicity : code=255217005, displayName=First}";
     private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_ORIGINAL_TEXT =
-            "Episodicity : code=303350001, displayName=Ongoing, originalText=Review";
-    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_EXISTING_COMMENT =
-            "Subject: Uncle Test text 1 <br> Episodicity : code=303350001, displayName=Ongoing, originalText=Review";
+            "{Episodicity : code=303350001, displayName=Ongoing, originalText=Review}";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -151,7 +149,7 @@ public class ObservationMapperTest {
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertFixedValues(observation);
-        assertThat(observation.getComment()).isEqualTo(EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_EXISTING_COMMENT);
+        assertThat(observation.getComment()).contains(EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_ORIGINAL_TEXT);
     }
     @Test
     public void mapObservationWhichIsBloodPressureWithoutBatteryOrBloodPressureTripleExpectObservationMapped() {

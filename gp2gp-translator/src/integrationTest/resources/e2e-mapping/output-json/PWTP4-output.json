@@ -23342,7 +23342,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is problem"
+        "comment": "This is problem {Episodicity : code=255217005, displayName=First}"
       }
     },
     {

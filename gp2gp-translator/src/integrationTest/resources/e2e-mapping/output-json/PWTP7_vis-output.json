@@ -3214,7 +3214,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is a hayfever problem"
+        "comment": "This is a hayfever problem {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -3272,7 +3272,8 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -3447,7 +3448,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is a dry eyes problem"
+        "comment": "This is a dry eyes problem {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
