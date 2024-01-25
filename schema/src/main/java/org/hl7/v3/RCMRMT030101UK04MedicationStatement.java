@@ -77,20 +77,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "reference",
     "sequelTo"
 })
-public class RCMRMT030101UK04MedicationStatement {
+public class RCMRMT030101UK04MedicationStatement implements RCMRMT030101UKMedicationStatement {
 
     @XmlElement(required = true)
     protected II id;
+
     @XmlElement(required = true)
     protected CS statusCode;
     protected IVLTS effectiveTime;
+
     @XmlElement(required = true)
     protected TS availabilityTime;
+
     protected CV priorityCode;
-    protected List<RCMRMT030101UK04Consumable> consumable;
+
+    @XmlElement(type = RCMRMT030101UK04Consumable.class)
+    protected List<RCMRMT030101UKConsumable> consumable;
 
     @XmlElement(type = RCMRMT030101UK04Component2.class)
-    protected List<RCMRMT030101UK04Component2> component;
+    protected List<RCMRMT030101UKComponent2> component;
 
     @XmlElement(type = RCMRMT030101UK04PertinentInformation.class)
     protected List<RCMRMT030101UKPertinentInformation> pertinentInformation;
@@ -116,14 +121,19 @@ public class RCMRMT030101UK04MedicationStatement {
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
+
     @XmlAttribute(name = "moodCode", required = true)
     protected List<String> moodCode;
+
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
+
     @XmlAttribute(name = "realmCode")
     protected List<String> realmCode;
+
     @XmlAttribute(name = "nullFlavor")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String nullFlavor;
@@ -136,6 +146,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -148,6 +159,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -160,6 +172,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link CS }
      *     
      */
+    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -172,6 +185,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link CS }
      *     
      */
+    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -184,6 +198,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -196,10 +211,12 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
 
+    @Override
     public boolean hasEffectiveTime() {
         return effectiveTime != null;
     }
@@ -212,6 +229,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -224,6 +242,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link TS }
      *     
      */
+    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
@@ -236,6 +255,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link CV }
      *     
      */
+    @Override
     public CV getPriorityCode() {
         return priorityCode;
     }
@@ -248,6 +268,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link CV }
      *     
      */
+    @Override
     public void setPriorityCode(CV value) {
         this.priorityCode = value;
     }
@@ -274,13 +295,15 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Consumable> getConsumable() {
+    @Override
+    public List<RCMRMT030101UKConsumable> getConsumable() {
         if (consumable == null) {
             consumable = new ArrayList<>();
         }
         return this.consumable;
     }
 
+    @Override
     public boolean hasConsumable() {
         return consumable != null && !consumable.isEmpty();
     }
@@ -307,13 +330,15 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Component2> getComponent() {
+    @Override
+    public List<RCMRMT030101UKComponent2> getComponent() {
         if (component == null) {
             component = new ArrayList<>();
         }
         return this.component;
     }
 
+    @Override
     public boolean hasComponent() {
         return component != null;
     }
@@ -340,6 +365,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKPertinentInformation> getPertinentInformation() {
         if (pertinentInformation == null) {
             pertinentInformation = new ArrayList<>();
@@ -347,6 +373,7 @@ public class RCMRMT030101UK04MedicationStatement {
         return this.pertinentInformation;
     }
 
+    @Override
     public boolean hasPertinentInformation() {
         return pertinentInformation != null && pertinentInformation.size() > 0;
     }
@@ -373,6 +400,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
             informant = new ArrayList<>();
@@ -402,6 +430,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
             participant = new ArrayList<>();
@@ -409,6 +438,7 @@ public class RCMRMT030101UK04MedicationStatement {
         return this.participant;
     }
 
+    @Override
     public boolean hasParticipant() {
         return participant != null && !participant.isEmpty();
     }
@@ -435,6 +465,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
             replacementOf = new ArrayList<>();
@@ -464,6 +495,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKReason> getReason() {
         if (reason == null) {
             reason = new ArrayList<>();
@@ -493,6 +525,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKReference> getReference() {
         if (reference == null) {
             reference = new ArrayList<>();
@@ -522,6 +555,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
             sequelTo = new ArrayList<>();
@@ -537,6 +571,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "SubstanceAdministration";
@@ -553,6 +588,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -579,6 +615,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -608,6 +645,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
             moodCode = new ArrayList<>();
@@ -637,6 +675,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -666,6 +705,7 @@ public class RCMRMT030101UK04MedicationStatement {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -681,6 +721,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -693,6 +734,7 @@ public class RCMRMT030101UK04MedicationStatement {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

@@ -24,8 +24,8 @@ import org.hl7.v3.II;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component2;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -132,7 +132,7 @@ public class MedicationMapperUtils {
             .filter(Objects::nonNull)
             .map(RCMRMT030101UK04MedicationStatement::getComponent)
             .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
             .filter(Objects::nonNull)
             .filter(authorise -> authorise.getId().getRoot().equals(id))
             .findFirst()
@@ -211,8 +211,8 @@ public class MedicationMapperUtils {
             .map(RCMRMT030101UK04Component4::getMedicationStatement)
             .map(RCMRMT030101UK04MedicationStatement::getComponent)
             .flatMap(List::stream)
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyDiscontinue)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyDiscontinue)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyDiscontinue)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyDiscontinue)
             .filter(discontinue1 -> hasReversalIdMatchingAuthorise(discontinue1.getReversalOf(), supplyAuthoriseId))
             .findFirst();
     }
@@ -242,7 +242,7 @@ public class MedicationMapperUtils {
     private static Stream<RCMRMT030101UK04MedicationStatement> extractNestedMedications(RCMRMT030101UK04Component4 component4) {
         return component4.hasCompoundStatement()
             ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                RCMRMT030101UK04Component02::hasMedicationStatement, RCMRMT030101UK04Component02::getMedicationStatement)
+                RCMRMT030101UKComponent02::hasMedicationStatement, RCMRMT030101UKComponent02::getMedicationStatement)
             .stream()
             .map(RCMRMT030101UK04MedicationStatement.class::cast)
             : Stream.empty();

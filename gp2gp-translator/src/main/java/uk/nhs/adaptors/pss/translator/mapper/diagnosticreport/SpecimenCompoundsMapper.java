@@ -19,11 +19,12 @@ import org.hl7.fhir.dstu3.model.Observation.ObservationRelatedComponent;
 import org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +105,7 @@ public class SpecimenCompoundsMapper {
         return batteryObservations;
     }
 
-    private void handleObservationStatement(RCMRMT030101UK04CompoundStatement specimenCompoundStatement,
+    private void handleObservationStatement(RCMRMT030101UKCompoundStatement specimenCompoundStatement,
         Observation observation) {
         final Reference specimenReference = new Reference(new IdType(
             Specimen.name(),
@@ -114,7 +115,7 @@ public class SpecimenCompoundsMapper {
         observation.addCategory(createCategory());
     }
 
-    private void handleNarrativeStatements(RCMRMT030101UK04CompoundStatement compoundStatement,
+    private void handleNarrativeStatements(RCMRMT030101UKCompoundStatement compoundStatement,
         List<Observation> observationComments, Observation observation) {
 
         List<Observation> surplusObservationComments = new ArrayList<>();
@@ -148,12 +149,13 @@ public class SpecimenCompoundsMapper {
         }
     }
 
-    private void handleClusterCompoundStatement(RCMRMT030101UK04CompoundStatement specimenCompoundStatement,
-        RCMRMT030101UK04CompoundStatement clusterCompoundStatement,
+    private void handleClusterCompoundStatement(RCMRMT030101UKCompoundStatement specimenCompoundStatement,
+        RCMRMT030101UKCompoundStatement clusterCompoundStatement,
         List<Observation> observations, List<Observation> observationComments, DiagnosticReport diagnosticReport, boolean isNestedCluster) {
+
         var nestedObservationStatements = clusterCompoundStatement.getComponent().stream()
-            .filter(RCMRMT030101UK04Component02::hasObservationStatement)
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .filter(RCMRMT030101UKComponent02::hasObservationStatement)
+            .map(RCMRMT030101UKComponent02::getObservationStatement)
             .toList();
 
         for (var observationStatement : nestedObservationStatements) {
@@ -170,14 +172,14 @@ public class SpecimenCompoundsMapper {
         }
     }
 
-    private void handleBatteryCompoundStatement(RCMRMT030101UK04CompoundStatement specimenCompoundStatement,
-        RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
+    private void handleBatteryCompoundStatement(RCMRMT030101UKCompoundStatement specimenCompoundStatement,
+        RCMRMT030101UKCompoundStatement batteryCompoundStatement,
 
         List<Observation> observations, List<Observation> observationComments, DiagnosticReport diagnosticReport) {
 
         var compoundStatements = batteryCompoundStatement.getComponent().stream()
-            .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
+            .map(RCMRMT030101UKComponent02::getCompoundStatement)
             .filter(compoundStatement -> CLUSTER_CLASSCODE.equals(compoundStatement.getClassCode().get(0)))
             .toList();
 
@@ -188,19 +190,19 @@ public class SpecimenCompoundsMapper {
         }
 
         batteryCompoundStatement.getComponent().stream()
-            .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
+            .map(RCMRMT030101UKComponent02::getCompoundStatement)
             .forEach(compoundStatement -> compoundStatement.getComponent().stream()
-                .filter(RCMRMT030101UK04Component02::hasObservationStatement)
-                .map(RCMRMT030101UK04Component02::getObservationStatement)
+                .filter(RCMRMT030101UKComponent02::hasObservationStatement)
+                .map(RCMRMT030101UKComponent02::getObservationStatement)
                 .findFirst()
                 .flatMap(observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()))
                 .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation)
                 ));
 
         var observationStatements = batteryCompoundStatement.getComponent().stream()
-            .filter(RCMRMT030101UK04Component02::hasObservationStatement)
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .filter(RCMRMT030101UKComponent02::hasObservationStatement)
+            .map(RCMRMT030101UKComponent02::getObservationStatement)
             .toList();
 
         observationStatements.forEach(observationStatement -> getObservationById(observations, observationStatement.getId().getRoot())
@@ -237,39 +239,42 @@ public class SpecimenCompoundsMapper {
         return createCodeableConcept(CODING_CODE, CODING_SYSTEM, CODING_DISPLAY, null);
     }
 
-    private List<RCMRMT030101UK04CompoundStatement> getSpecimenCompoundStatements(
+    private List<RCMRMT030101UKCompoundStatement> getSpecimenCompoundStatements(
         RCMRMT030101UK04CompoundStatement parentCompoundStatement) {
         return parentCompoundStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
+            .map(RCMRMT030101UKComponent02::getCompoundStatement)
             .toList();
     }
 
     private List<RCMRMT030101UKObservationStatement> getObservationStatementsInCompound(
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component02::hasObservationStatement)
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .filter(RCMRMT030101UKComponent02::hasObservationStatement)
+            .map(RCMRMT030101UKComponent02::getObservationStatement)
             .toList();
     }
 
     private List<RCMRMT030101UKNarrativeStatement> getNarrativeStatementsInCompound(
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
-            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .filter(RCMRMT030101UKComponent02::hasNarrativeStatement)
+            .map(RCMRMT030101UKComponent02::getNarrativeStatement)
             .toList();
     }
 
-    private List<RCMRMT030101UK04CompoundStatement> getCompoundStatementsInSpecimenCompound(
-        RCMRMT030101UK04CompoundStatement specimenCompoundStatement, String classCode) {
+    private List<RCMRMT030101UKCompoundStatement> getCompoundStatementsInSpecimenCompound(
+        RCMRMT030101UKCompoundStatement specimenCompoundStatement, String classCode) {
+
         return specimenCompoundStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
+            .map(RCMRMT030101UKComponent02::getCompoundStatement)
             .filter(compoundStatement -> classCode.equals(compoundStatement.getClassCode().get(0)))
             .toList();
     }

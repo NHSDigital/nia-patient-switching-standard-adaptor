@@ -9,10 +9,10 @@ import org.hl7.fhir.dstu3.model.Medication;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.CD;
-import org.hl7.v3.RCMRMT030101UK04Consumable;
-import org.hl7.v3.RCMRMT030101UK04ManufacturedProduct;
+import org.hl7.v3.RCMRMT030101UKConsumable;
+import org.hl7.v3.RCMRMT030101UKManufacturedProduct;
 import org.hl7.v3.RCMRMT030101UKMaterial;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class MedicationMapper {
     private CodeableConceptMapper codeableConceptMapper;
     private MedicationMapperContext medicationMapperContext;
 
-    public Medication createMedication(RCMRMT030101UK04Consumable consumable) {
+    public Medication createMedication(RCMRMT030101UKConsumable consumable) {
         if (hasManufacturedMaterial(consumable)) {
             CD code = consumable.getManufacturedProduct().getManufacturedMaterial().getCode();
             if (!medicationMapperContext.contains(code)) {
@@ -48,13 +48,13 @@ public class MedicationMapper {
         return null;
     }
 
-    public Optional<Reference> extractMedicationReference(RCMRMT030101UK04MedicationStatement medicationStatement) {
+    public Optional<Reference> extractMedicationReference(RCMRMT030101UKMedicationStatement medicationStatement) {
         if (medicationStatement.hasConsumable()) {
             var medicationCode = medicationStatement.getConsumable()
                 .stream()
                 .filter(MedicationMapper::hasManufacturedMaterial)
-                .map(RCMRMT030101UK04Consumable::getManufacturedProduct)
-                .map(RCMRMT030101UK04ManufacturedProduct::getManufacturedMaterial)
+                .map(RCMRMT030101UKConsumable::getManufacturedProduct)
+                .map(RCMRMT030101UKManufacturedProduct::getManufacturedMaterial)
                 .map(RCMRMT030101UKMaterial::getCode)
                 .findFirst();
 
@@ -66,7 +66,7 @@ public class MedicationMapper {
         return Optional.empty();
     }
 
-    private static boolean hasManufacturedMaterial(RCMRMT030101UK04Consumable consumable) {
+    private static boolean hasManufacturedMaterial(RCMRMT030101UKConsumable consumable) {
         return consumable.hasManufacturedProduct() && consumable.getManufacturedProduct().hasManufacturedMaterial()
             && consumable.getManufacturedProduct().getManufacturedMaterial().hasCode();
     }

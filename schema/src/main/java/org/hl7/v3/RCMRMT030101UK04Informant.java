@@ -55,9 +55,11 @@ public class RCMRMT030101UK04Informant implements RCMRMT030101UKInformant {
 
     @XmlElement(required = true, type = RCMRMT030101UK04InformantRole.class)
     protected RCMRMT030101UKInformantRole informantRole;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
     @XmlAttribute(name = "contextControlCode")

@@ -28,7 +28,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
 import org.hl7.v3.CR;
-import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -349,7 +349,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     private RCMRMT030101UKObservationStatement extractObservationStatement(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent()
                 .stream()
-                .map(RCMRMT030101UK04Component02::getObservationStatement)
+                .map(RCMRMT030101UKComponent02::getObservationStatement)
                 .findFirst()
                 .orElse(null);
     }

@@ -33,7 +33,7 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UKAnnotation;
-import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -177,7 +177,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
     private List<RCMRMT030101UKObservationStatement> getObservationStatementsFromCompoundStatement(
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent().stream()
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .map(RCMRMT030101UKComponent02::getObservationStatement)
             .filter(Objects::nonNull)
             .toList();
     }
@@ -185,7 +185,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
     private List<RCMRMT030101UKNarrativeStatement> getNarrativeStatementsFromCompoundStatement(
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent().stream()
-            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .map(RCMRMT030101UKComponent02::getNarrativeStatement)
             .filter(Objects::nonNull)
             .toList();
     }

@@ -25,6 +25,7 @@ import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -233,7 +234,8 @@ public class SpecimenBatteryMapperTest {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
     }
 
-    private RCMRMT030101UK04CompoundStatement getSpecimenCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKCompoundStatement getSpecimenCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+
         return getEhrComposition(ehrExtract).getComponent().get(0).getCompoundStatement()
             .getComponent().get(0).getCompoundStatement();
     }

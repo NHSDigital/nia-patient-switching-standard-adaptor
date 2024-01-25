@@ -29,7 +29,7 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component2;
+import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -170,8 +170,8 @@ public class MedicationStatementMapper {
             .filter(Objects::nonNull)
             .map(RCMRMT030101UK04MedicationStatement::getComponent)
             .flatMap(List::stream)
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
             .filter(prescribe -> hasLinkedInFulfillment(prescribe, id))
             .filter(RCMRMT030101UKPrescribe::hasAvailabilityTime)
             .map(RCMRMT030101UKPrescribe::getAvailabilityTime)

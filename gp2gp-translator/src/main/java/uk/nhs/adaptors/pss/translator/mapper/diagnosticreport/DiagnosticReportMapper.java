@@ -27,7 +27,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -86,8 +86,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .filter(Objects::nonNull)
             .filter(ResourceFilterUtil::isDiagnosticReport)
             .flatMap(e -> e.getComponent().stream())
-            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
-            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .filter(RCMRMT030101UKComponent02::hasNarrativeStatement)
+            .map(RCMRMT030101UKComponent02::getNarrativeStatement)
             .map(narrativeStatement -> getObservationCommentById(observationComments, narrativeStatement.getId().getRoot()))
             .flatMap(Optional::stream)
             .forEach(observationComment -> {
@@ -131,8 +131,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private String getConclusion(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
-            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .filter(RCMRMT030101UKComponent02::hasNarrativeStatement)
+            .map(RCMRMT030101UKComponent02::getNarrativeStatement)
             .map(RCMRMT030101UKNarrativeStatement::getText)
             .filter(comment -> comment.contains(LAB_REPORT_COMMENT_TYPE))
             .map(TextUtil::extractPmipComment)
@@ -142,8 +142,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private List<Reference> getSpecimenReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
+            .map(RCMRMT030101UKComponent02::getCompoundStatement)
             .filter(ResourceFilterUtil::isSpecimen)
             .map(compoundStatement1 -> new Reference(new IdType(ResourceType.Specimen.name(), compoundStatement1.getId().get(0).getRoot())))
             .toList();
@@ -152,8 +152,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private void setResultReferences(RCMRMT030101UK04CompoundStatement compoundStatement, DiagnosticReport diagnosticReport) {
         var resultReferences = compoundStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
-            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .filter(RCMRMT030101UKComponent02::hasNarrativeStatement)
+            .map(RCMRMT030101UKComponent02::getNarrativeStatement)
             .filter(narrativeStatement -> !narrativeStatement.getText().contains(LAB_REPORT_COMMENT_TYPE))
             .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
             .collect(toCollection(ArrayList::new));

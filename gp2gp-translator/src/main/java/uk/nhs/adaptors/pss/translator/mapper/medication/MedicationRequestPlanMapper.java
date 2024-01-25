@@ -13,8 +13,8 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
+import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKDiscontinue;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -274,7 +274,7 @@ public class MedicationRequestPlanMapper {
         return notes;
     }
 
-    private boolean hasInFulfillmentOfReference(RCMRMT030101UK04Component2 component, String id) {
+    private boolean hasInFulfillmentOfReference(RCMRMT030101UKComponent2 component, String id) {
         return component.hasEhrSupplyPrescribe()
             && component.getEhrSupplyPrescribe().hasInFulfillmentOf()
             && component.getEhrSupplyPrescribe().getInFulfillmentOf().hasPriorMedicationRef()

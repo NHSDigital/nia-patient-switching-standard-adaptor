@@ -17,10 +17,11 @@ import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04Component2;
+import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
@@ -122,7 +123,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         }
     }
 
-    private List<Medication> mapMedications(RCMRMT030101UK04MedicationStatement medicationStatement) {
+    private List<Medication> mapMedications(RCMRMT030101UKMedicationStatement medicationStatement) {
         return medicationStatement.getConsumable()
             .stream()
             .map(medicationMapper::createMedication)
@@ -134,8 +135,8 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         RCMRMT030101UK04MedicationStatement medicationStatement, String practiseCode) {
         return medicationStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
             .map(supplyPrescribe -> medicationRequestOrderMapper.mapToOrderMedicationRequest(ehrExtract, medicationStatement,
                 supplyPrescribe, practiseCode))
             .filter(Objects::nonNull)
@@ -146,8 +147,8 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         RCMRMT030101UK04MedicationStatement medicationStatement, String practiseCode) {
         return medicationStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
             .map(supplyAuthorise -> medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, medicationStatement,
                 supplyAuthorise, practiseCode))
             .filter(Objects::nonNull)
@@ -159,8 +160,8 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         DateTimeType authoredOn, String practiseCode, DateTimeType dateAsserted) {
         return medicationStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
             .map(supplyAuthorise -> medicationStatementMapper
                 .mapToMedicationStatement(ehrExtract, medicationStatement, supplyAuthorise, practiseCode, authoredOn))
             .filter(Objects::nonNull)

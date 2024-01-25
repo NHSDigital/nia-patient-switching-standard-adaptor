@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -44,23 +45,29 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Consumable", propOrder = {
     "manufacturedProduct"
 })
-public class RCMRMT030101UK04Consumable {
+public class RCMRMT030101UK04Consumable implements RCMRMT030101UKConsumable {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04ManufacturedProduct manufacturedProduct;
+    @XmlElement(required = true, type = RCMRMT030101UK04ManufacturedProduct.class)
+    protected RCMRMT030101UKManufacturedProduct manufacturedProduct;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
+
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
+
     @XmlAttribute(name = "realmCode")
     protected List<String> realmCode;
+
     @XmlAttribute(name = "nullFlavor")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String nullFlavor;
@@ -73,7 +80,8 @@ public class RCMRMT030101UK04Consumable {
      *     {@link RCMRMT030101UK04ManufacturedProduct }
      *     
      */
-    public RCMRMT030101UK04ManufacturedProduct getManufacturedProduct() {
+    @Override
+    public RCMRMT030101UKManufacturedProduct getManufacturedProduct() {
         return manufacturedProduct;
     }
 
@@ -85,10 +93,12 @@ public class RCMRMT030101UK04Consumable {
      *     {@link RCMRMT030101UK04ManufacturedProduct }
      *     
      */
-    public void setManufacturedProduct(RCMRMT030101UK04ManufacturedProduct value) {
+    @Override
+    public void setManufacturedProduct(RCMRMT030101UKManufacturedProduct value) {
         this.manufacturedProduct = value;
     }
 
+    @Override
     public boolean hasManufacturedProduct() {
         return manufacturedProduct != null;
     }
@@ -101,6 +111,7 @@ public class RCMRMT030101UK04Consumable {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Participation";
@@ -117,6 +128,7 @@ public class RCMRMT030101UK04Consumable {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -143,6 +155,7 @@ public class RCMRMT030101UK04Consumable {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<String>();
@@ -172,6 +185,7 @@ public class RCMRMT030101UK04Consumable {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -201,6 +215,7 @@ public class RCMRMT030101UK04Consumable {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -216,6 +231,7 @@ public class RCMRMT030101UK04Consumable {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -228,6 +244,7 @@ public class RCMRMT030101UK04Consumable {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

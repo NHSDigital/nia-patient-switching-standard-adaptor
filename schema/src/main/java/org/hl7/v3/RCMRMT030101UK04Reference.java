@@ -54,9 +54,11 @@ public class RCMRMT030101UK04Reference implements RCMRMT030101UKReference {
 
     @XmlElement(required = true, type = RCMRMT030101UK04ExternalDocument.class)
     protected RCMRMT030101UKExternalDocument referredToExternalDocument;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
     @XmlAttribute(name = "typeID")

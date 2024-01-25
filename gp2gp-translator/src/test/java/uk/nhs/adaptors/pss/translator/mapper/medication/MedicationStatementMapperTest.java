@@ -20,7 +20,7 @@ import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component2;
+import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
@@ -57,8 +57,8 @@ public class MedicationStatementMapperTest {
         var medicationStatement = unmarshallMedicationStatement("medicationStatementAuthoriseAllOptionals_MedicationStatement.xml");
         var authorise = medicationStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
             .findFirst();
 
         when(medicationMapper.extractMedicationReference(any()))
@@ -89,8 +89,8 @@ public class MedicationStatementMapperTest {
         var medicationStatement = unmarshallMedicationStatement("medicationStatementAuthoriseNoOptionals_MedicationStatement.xml");
         var authorise = medicationStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
             .findFirst();
 
         when(medicationMapper.extractMedicationReference(any()))
@@ -251,8 +251,8 @@ public class MedicationStatementMapperTest {
     private Optional<RCMRMT030101UKAuthorise> extractAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement) {
         return medicationStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
             .findFirst();
     }
 }

@@ -6,35 +6,37 @@ import java.util.stream.Stream;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompoundStatementUtil {
 
-    public static List<RCMRMT030101UK04CompoundStatement> extractCompoundsFromCompound(
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+    public static List<RCMRMT030101UKCompoundStatement> extractCompoundsFromCompound(
+        RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
+            .map(RCMRMT030101UKComponent02::getCompoundStatement)
             .flatMap(CompoundStatementUtil::flattenCompounds)
             .toList();
     }
 
-    public static Stream<RCMRMT030101UK04CompoundStatement> flattenCompounds(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    public static Stream<RCMRMT030101UKCompoundStatement> flattenCompounds(RCMRMT030101UKCompoundStatement compoundStatement) {
         return Stream.concat(
             Stream.of(compoundStatement),
             compoundStatement.getComponent()
                 .stream()
-                .filter(RCMRMT030101UK04Component02::hasCompoundStatement)
-                .map(RCMRMT030101UK04Component02::getCompoundStatement)
+                .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
+                .map(RCMRMT030101UKComponent02::getCompoundStatement)
         );
     }
 
-    public static List<RCMRMT030101UK04Component02> extractResourcesFromCompound(
-            RCMRMT030101UK04CompoundStatement compoundStatement,
-            Function<RCMRMT030101UK04Component02, Boolean> checker
+    public static List<RCMRMT030101UKComponent02> extractResourcesFromCompound(
+            RCMRMT030101UKCompoundStatement compoundStatement,
+            Function<RCMRMT030101UKComponent02, Boolean> checker
     ) {
         return compoundStatement
             .getComponent()
@@ -45,9 +47,9 @@ public class CompoundStatementUtil {
     }
 
     public static List<?> extractResourcesFromCompound(
-            RCMRMT030101UK04CompoundStatement compoundStatement,
-            Function<RCMRMT030101UK04Component02, Boolean> checker,
-            Function<RCMRMT030101UK04Component02, ?> extractor
+            RCMRMT030101UKCompoundStatement compoundStatement,
+            Function<RCMRMT030101UKComponent02, Boolean> checker,
+            Function<RCMRMT030101UKComponent02, ?> extractor
     ) {
         return extractResourcesFromCompound(compoundStatement, checker)
             .stream()
@@ -57,9 +59,9 @@ public class CompoundStatementUtil {
 
     public static List<?> extractResourcesFromCompound(
             RCMRMT030101UK04CompoundStatement compoundStatement,
-            Function<RCMRMT030101UK04Component02, Boolean> checker,
-            Function<RCMRMT030101UK04Component02, ?> extractor,
-            Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker
+            Function<RCMRMT030101UKComponent02, Boolean> checker,
+            Function<RCMRMT030101UKComponent02, ?> extractor,
+            Function<RCMRMT030101UKCompoundStatement, Boolean> compoundStatementChecker
     ) {
 
         if (compoundStatementChecker.apply(compoundStatement)) {
@@ -75,7 +77,7 @@ public class CompoundStatementUtil {
         return List.of();
     }
 
-    private static Stream<RCMRMT030101UK04Component02> flatten(RCMRMT030101UK04Component02 component02) {
+    private static Stream<RCMRMT030101UKComponent02> flatten(RCMRMT030101UKComponent02 component02) {
         return Stream.concat(
             Stream.of(component02),
             component02.hasCompoundStatement()
@@ -88,9 +90,9 @@ public class CompoundStatementUtil {
         );
     }
 
-    private static Stream<RCMRMT030101UK04Component02> flatten(
-            RCMRMT030101UK04Component02 component02,
-            Function<RCMRMT030101UK04CompoundStatement, Boolean> compoundStatementChecker
+    private static Stream<RCMRMT030101UKComponent02> flatten(
+            RCMRMT030101UKComponent02 component02,
+            Function<RCMRMT030101UKCompoundStatement, Boolean> compoundStatementChecker
     ) {
         return Stream.concat(
             Stream.of(component02),

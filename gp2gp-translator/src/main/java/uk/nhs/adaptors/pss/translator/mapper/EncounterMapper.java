@@ -31,7 +31,7 @@ import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.II;
 import org.hl7.v3.LinkableComponent;
 import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
@@ -40,6 +40,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UKAuthor;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKParticipant2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -149,7 +150,7 @@ public class EncounterMapper {
         RCMRMT030101UK04EhrComposition ehrComposition) {
 
         var components = topicCompoundStatement.getComponent().stream()
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .map(RCMRMT030101UKComponent02::getCompoundStatement)
             .filter(Objects::nonNull)
             .flatMap(categoryCompoundStatement -> categoryCompoundStatement.getComponent().stream())
             .toList();
@@ -227,16 +228,16 @@ public class EncounterMapper {
         });
     }
 
-    private List<RCMRMT030101UK04CompoundStatement> getCategoryCompoundStatements(RCMRMT030101UK04CompoundStatement
+    private List<RCMRMT030101UKCompoundStatement> getCategoryCompoundStatements(RCMRMT030101UK04CompoundStatement
         topicCompoundStatement) {
         return topicCompoundStatement.getComponent()
             .stream()
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
+            .map(RCMRMT030101UKComponent02::getCompoundStatement)
             .filter(this::hasValidCategoryCompoundStatement)
             .toList();
     }
 
-    private boolean hasValidCategoryCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private boolean hasValidCategoryCompoundStatement(RCMRMT030101UKCompoundStatement compoundStatement) {
         return compoundStatement != null && CATEGORY_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
     }
 

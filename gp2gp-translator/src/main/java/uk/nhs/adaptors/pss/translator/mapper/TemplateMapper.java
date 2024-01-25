@@ -26,7 +26,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04Component02;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -85,7 +85,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
 
                 List<String> childObservationIds = CompoundStatementUtil
                     .extractResourcesFromCompound(parentCompoundStatement,
-                        RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
+                        RCMRMT030101UKComponent02::hasObservationStatement, RCMRMT030101UKComponent02::getObservationStatement)
                     .stream()
                     .map(RCMRMT030101UK04ObservationStatement.class::cast)
                     .map(observationStatement -> observationStatement.getId().getRoot())
@@ -182,7 +182,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
 
     private boolean isObservationStatementTemplateParent(RCMRMT030101UK04CompoundStatement compoundStatement) {
         var hasObservationStatement = compoundStatement.getComponent().stream()
-            .anyMatch(RCMRMT030101UK04Component02::hasObservationStatement);
+            .anyMatch(RCMRMT030101UKComponent02::hasObservationStatement);
 
         var onlyHasObservationOrNarrative = compoundStatement.getComponent().stream()
             .allMatch(component -> component.hasObservationStatement() || component.hasNarrativeStatement());

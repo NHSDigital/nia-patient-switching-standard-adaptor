@@ -75,21 +75,29 @@ public class RCMRMT030101UK04EhrExtract {
     protected CS statusCode;
     @XmlElement(required = true)
     protected TS availabilityTime;
+
     @XmlElement(required = true, type = RCMRMT030101UK04PatientSubject.class)
     protected RCMRMT030101UKPatientSubject recordTarget;
+
     @XmlElement(required = true)
     protected RCMRMT030101UK04Author3 author;
+
     @XmlElement(required = true)
     protected RCMRMT030101UK04Destination destination;
+
     @XmlElement(required = true)
     protected List<RCMRMT030101UK04Component> component;
+
     @XmlElement(required = true, type = RCMRMT030101UK04InFulfillmentOf2.class)
     protected RCMRMT030101UK04InFulfillmentOf2 inFulfillmentOf;
+
     @XmlElement(required = true, type = RCMRMT030101UK04Limitation.class)
     protected RCMRMT030101UKLimitation limitation;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
     @XmlAttribute(name = "moodCode")
