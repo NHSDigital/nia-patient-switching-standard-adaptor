@@ -17,6 +17,7 @@ import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompoundStatementResourceExtractors {
@@ -68,14 +69,14 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
-    public static Stream<RCMRMT030101UK04ObservationStatement> extractInnerObservationStatements(RCMRMT030101UK04Component02 component02) {
+    public static Stream<RCMRMT030101UKObservationStatement> extractInnerObservationStatements(RCMRMT030101UK04Component02 component02) {
         return Stream.concat(
             Stream.of(component02.getObservationStatement()),
             component02.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component02.getCompoundStatement(),
                     RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
                     .stream()
-                    .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                    .map(RCMRMT030101UKObservationStatement.class::cast)
                 : Stream.empty()
         );
     }

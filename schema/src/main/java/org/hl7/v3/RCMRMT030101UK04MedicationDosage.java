@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -45,11 +46,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.MedicationDosage", propOrder = {
     "text"
 })
-public class RCMRMT030101UK04MedicationDosage {
+public class RCMRMT030101UK04MedicationDosage implements RCMRMT030101UKMedicationDosage {
 
     @XmlElement(required = true)
     protected String text;
@@ -76,6 +78,7 @@ public class RCMRMT030101UK04MedicationDosage {
      *     {@link String }
      *     
      */
+    @Override
     public String getText() {
         return text;
     }
@@ -88,10 +91,12 @@ public class RCMRMT030101UK04MedicationDosage {
      *     {@link String }
      *     
      */
+    @Override
     public void setText(String value) {
         this.text = value;
     }
 
+    @Override
     public boolean hasText() {
         return text != null && !text.equals("");
     }
@@ -104,6 +109,7 @@ public class RCMRMT030101UK04MedicationDosage {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "SubstanceAdministration";
@@ -120,6 +126,7 @@ public class RCMRMT030101UK04MedicationDosage {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -146,6 +153,7 @@ public class RCMRMT030101UK04MedicationDosage {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<String>();
@@ -175,6 +183,7 @@ public class RCMRMT030101UK04MedicationDosage {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
             moodCode = new ArrayList<String>();
@@ -204,6 +213,7 @@ public class RCMRMT030101UK04MedicationDosage {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -233,6 +243,7 @@ public class RCMRMT030101UK04MedicationDosage {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -248,6 +259,7 @@ public class RCMRMT030101UK04MedicationDosage {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -260,6 +272,7 @@ public class RCMRMT030101UK04MedicationDosage {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

@@ -37,7 +37,7 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
 import org.hl7.v3.RCMRMT030101UK04Component;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04Component3;
@@ -49,7 +49,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrFolder;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04StatementRef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -416,9 +416,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
         observationStatement.ifPresent(observationStatement1 -> observationStatement1.getPertinentInformation()
             .stream()
-            .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
+            .map(RCMRMT030101UKPertinentInformation02::getPertinentAnnotation)
             .filter(Objects::nonNull)
-            .map(RCMRMT030101UK04Annotation::getText)
+            .map(RCMRMT030101UKAnnotation::getText)
             .filter(StringUtils::isNotBlank)
             .map(StringType::new)
             .map(Annotation::new)

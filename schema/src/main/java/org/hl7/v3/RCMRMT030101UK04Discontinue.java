@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -52,6 +53,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Discontinue", propOrder = {
     "id",
@@ -63,23 +65,36 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "consumable",
     "pertinentInformation"
 })
-public class RCMRMT030101UK04Discontinue {
+public class RCMRMT030101UK04Discontinue implements RCMRMT030101UKDiscontinue {
 
     @XmlElement(required = true)
     protected II id;
+
     @XmlElement(required = true)
     protected CD code;
+
     @XmlElement(required = true)
     protected CS statusCode;
+
     @XmlElement(required = true)
     protected TS availabilityTime;
-    protected List<RCMRMT030101UK04ReversalOf> reversalOf;
-    protected RCMRMT030101UK04Performer performer;
-    protected RCMRMT030101UK04Product consumable;
-    protected List<RCMRMT030101UK04PertinentInformation2> pertinentInformation;
+
+    @XmlElement(type = RCMRMT030101UK04ReversalOf.class)
+    protected List<RCMRMT030101UKReversalOf> reversalOf;
+
+    @XmlElement(type = RCMRMT030101UK04Performer.class)
+    protected RCMRMT030101UKPerformer performer;
+
+    @XmlElement(type = RCMRMT030101UK04Product.class)
+    protected RCMRMT030101UKProduct consumable;
+
+    @XmlElement(type = RCMRMT030101UK04PertinentInformation2.class)
+    protected List<RCMRMT030101UKPertinentInformation2> pertinentInformation;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
     @XmlAttribute(name = "moodCode")
@@ -100,6 +115,7 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -112,6 +128,7 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -124,6 +141,7 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link CD }
      *     
      */
+    @Override
     public CD getCode() {
         return code;
     }
@@ -136,10 +154,12 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link CD }
      *     
      */
+    @Override
     public void setCode(CD value) {
         this.code = value;
     }
 
+    @Override
     public boolean hasCode() {
         return code != null;
     }
@@ -152,6 +172,7 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link CS }
      *     
      */
+    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -164,6 +185,7 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link CS }
      *     
      */
+    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -176,6 +198,7 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -188,10 +211,12 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link TS }
      *     
      */
+    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
 
+    @Override
     public boolean hasAvailabilityTime() {
         return availabilityTime != null;
     }
@@ -218,9 +243,10 @@ public class RCMRMT030101UK04Discontinue {
      * 
      * 
      */
-    public List<RCMRMT030101UK04ReversalOf> getReversalOf() {
+    @Override
+    public List<RCMRMT030101UKReversalOf> getReversalOf() {
         if (reversalOf == null) {
-            reversalOf = new ArrayList<RCMRMT030101UK04ReversalOf>();
+            reversalOf = new ArrayList<>();
         }
         return this.reversalOf;
     }
@@ -233,7 +259,8 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link RCMRMT030101UK04Performer }
      *     
      */
-    public RCMRMT030101UK04Performer getPerformer() {
+    @Override
+    public RCMRMT030101UKPerformer getPerformer() {
         return performer;
     }
 
@@ -245,7 +272,8 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link RCMRMT030101UK04Performer }
      *     
      */
-    public void setPerformer(RCMRMT030101UK04Performer value) {
+    @Override
+    public void setPerformer(RCMRMT030101UKPerformer value) {
         this.performer = value;
     }
 
@@ -257,7 +285,8 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link RCMRMT030101UK04Product }
      *     
      */
-    public RCMRMT030101UK04Product getConsumable() {
+    @Override
+    public RCMRMT030101UKProduct getConsumable() {
         return consumable;
     }
 
@@ -269,7 +298,8 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link RCMRMT030101UK04Product }
      *     
      */
-    public void setConsumable(RCMRMT030101UK04Product value) {
+    @Override
+    public void setConsumable(RCMRMT030101UKProduct value) {
         this.consumable = value;
     }
 
@@ -295,9 +325,10 @@ public class RCMRMT030101UK04Discontinue {
      * 
      * 
      */
-    public List<RCMRMT030101UK04PertinentInformation2> getPertinentInformation() {
+    @Override
+    public List<RCMRMT030101UKPertinentInformation2> getPertinentInformation() {
         if (pertinentInformation == null) {
-            pertinentInformation = new ArrayList<RCMRMT030101UK04PertinentInformation2>();
+            pertinentInformation = new ArrayList<>();
         }
         return this.pertinentInformation;
     }
@@ -310,6 +341,7 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Supply";
@@ -326,6 +358,7 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -352,9 +385,10 @@ public class RCMRMT030101UK04Discontinue {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -381,9 +415,10 @@ public class RCMRMT030101UK04Discontinue {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -410,9 +445,10 @@ public class RCMRMT030101UK04Discontinue {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -439,9 +475,10 @@ public class RCMRMT030101UK04Discontinue {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -454,6 +491,7 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -466,6 +504,7 @@ public class RCMRMT030101UK04Discontinue {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

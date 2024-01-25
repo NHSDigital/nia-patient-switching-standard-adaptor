@@ -10,7 +10,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourceFilterUtil {
@@ -22,7 +22,7 @@ public class ResourceFilterUtil {
     private static final String BATTERY_VALUE = "BATTERY";
     private static final String CLUSTER_VALUE = "CLUSTER";
 
-    public static boolean isDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+    public static boolean isDocumentReference(RCMRMT030101UKNarrativeStatement narrativeStatement) {
         return narrativeStatement.getReference()
             .stream()
             .anyMatch(reference -> reference.getReferredToExternalDocument() != null);

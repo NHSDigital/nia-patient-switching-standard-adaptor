@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -56,6 +57,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.RegistrationStatement", propOrder = {
     "id",
@@ -71,7 +73,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "reference",
     "sequelTo"
 })
-public class RCMRMT030101UK04RegistrationStatement {
+public class RCMRMT030101UK04RegistrationStatement implements RCMRMT030101UKRegistrationStatement {
 
     @XmlElement(required = true)
     protected II id;
@@ -83,25 +85,44 @@ public class RCMRMT030101UK04RegistrationStatement {
     protected IVLTS effectiveTime;
     @XmlElement(required = true)
     protected TS availabilityTime;
-    protected RCMRMT030101UK04ResponsibleParty2 responsibleParty;
-    protected List<RCMRMT030101UK04Informant> informant;
-    @XmlElement(name = "Participant")
-    protected List<RCMRMT030101UK04Participant> participant;
-    protected List<RCMRMT030101UK04ReplacementOf> replacementOf;
-    protected List<RCMRMT030101UK04Reason> reason;
-    protected List<RCMRMT030101UK04Reference> reference;
-    protected List<RCMRMT030101UK04SequelTo> sequelTo;
+
+    @XmlElement(type = RCMRMT030101UK04ResponsibleParty2.class)
+    protected RCMRMT030101UKResponsibleParty2 responsibleParty;
+
+    @XmlElement(type = RCMRMT030101UK04Informant.class)
+    protected List<RCMRMT030101UKInformant> informant;
+
+    @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
+    protected List<RCMRMT030101UKParticipant> participant;
+
+    @XmlElement(type = RCMRMT030101UK04ReplacementOf.class)
+    protected List<RCMRMT030101UKReplacementOf> replacementOf;
+
+    @XmlElement(type = RCMRMT030101UK04Reason.class)
+    protected List<RCMRMT030101UKReason> reason;
+
+    @XmlElement(type = RCMRMT030101UK04Reference.class)
+    protected List<RCMRMT030101UKReference> reference;
+
+    @XmlElement(type = RCMRMT030101UK04SequelTo.class)
+    protected List<RCMRMT030101UKSequelTo> sequelTo;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
+
     @XmlAttribute(name = "moodCode")
     protected List<String> moodCode;
+
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
+
     @XmlAttribute(name = "realmCode")
     protected List<String> realmCode;
+
     @XmlAttribute(name = "nullFlavor")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String nullFlavor;
@@ -114,6 +135,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -126,6 +148,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -138,6 +161,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link CE }
      *     
      */
+    @Override
     public CE getCode() {
         return code;
     }
@@ -150,6 +174,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link CE }
      *     
      */
+    @Override
     public void setCode(CE value) {
         this.code = value;
     }
@@ -162,6 +187,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link CS }
      *     
      */
+    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -174,6 +200,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link CS }
      *     
      */
+    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -186,6 +213,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -198,6 +226,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
@@ -210,6 +239,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -222,6 +252,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link TS }
      *     
      */
+    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
@@ -234,7 +265,8 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link RCMRMT030101UK04ResponsibleParty2 }
      *     
      */
-    public RCMRMT030101UK04ResponsibleParty2 getResponsibleParty() {
+    @Override
+    public RCMRMT030101UKResponsibleParty2 getResponsibleParty() {
         return responsibleParty;
     }
 
@@ -246,7 +278,8 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link RCMRMT030101UK04ResponsibleParty2 }
      *     
      */
-    public void setResponsibleParty(RCMRMT030101UK04ResponsibleParty2 value) {
+    @Override
+    public void setResponsibleParty(RCMRMT030101UKResponsibleParty2 value) {
         this.responsibleParty = value;
     }
 
@@ -272,9 +305,10 @@ public class RCMRMT030101UK04RegistrationStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Informant> getInformant() {
+    @Override
+    public List<RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
-            informant = new ArrayList<RCMRMT030101UK04Informant>();
+            informant = new ArrayList<>();
         }
         return this.informant;
     }
@@ -301,9 +335,10 @@ public class RCMRMT030101UK04RegistrationStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Participant> getParticipant() {
+    @Override
+    public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
-            participant = new ArrayList<RCMRMT030101UK04Participant>();
+            participant = new ArrayList<>();
         }
         return this.participant;
     }
@@ -330,9 +365,10 @@ public class RCMRMT030101UK04RegistrationStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04ReplacementOf> getReplacementOf() {
+    @Override
+    public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
-            replacementOf = new ArrayList<RCMRMT030101UK04ReplacementOf>();
+            replacementOf = new ArrayList<>();
         }
         return this.replacementOf;
     }
@@ -359,9 +395,10 @@ public class RCMRMT030101UK04RegistrationStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Reason> getReason() {
+    @Override
+    public List<RCMRMT030101UKReason> getReason() {
         if (reason == null) {
-            reason = new ArrayList<RCMRMT030101UK04Reason>();
+            reason = new ArrayList<>();
         }
         return this.reason;
     }
@@ -388,9 +425,10 @@ public class RCMRMT030101UK04RegistrationStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Reference> getReference() {
+    @Override
+    public List<RCMRMT030101UKReference> getReference() {
         if (reference == null) {
-            reference = new ArrayList<RCMRMT030101UK04Reference>();
+            reference = new ArrayList<>();
         }
         return this.reference;
     }
@@ -417,9 +455,10 @@ public class RCMRMT030101UK04RegistrationStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04SequelTo> getSequelTo() {
+    @Override
+    public List<RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
-            sequelTo = new ArrayList<RCMRMT030101UK04SequelTo>();
+            sequelTo = new ArrayList<>();
         }
         return this.sequelTo;
     }
@@ -432,6 +471,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Observation";
@@ -448,6 +488,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -474,9 +515,10 @@ public class RCMRMT030101UK04RegistrationStatement {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -503,9 +545,10 @@ public class RCMRMT030101UK04RegistrationStatement {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -532,9 +575,10 @@ public class RCMRMT030101UK04RegistrationStatement {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -561,9 +605,10 @@ public class RCMRMT030101UK04RegistrationStatement {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -576,6 +621,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -588,6 +634,7 @@ public class RCMRMT030101UK04RegistrationStatement {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

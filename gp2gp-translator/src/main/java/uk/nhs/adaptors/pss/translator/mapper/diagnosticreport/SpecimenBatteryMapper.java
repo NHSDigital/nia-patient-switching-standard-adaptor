@@ -33,8 +33,8 @@ import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKParticipant;
 import org.hl7.v3.RCMRMT030101UKParticipant2;
 import org.hl7.v3.RCMRMT030101UKAuthor;
@@ -148,7 +148,7 @@ public class SpecimenBatteryMapper {
         observationComments.removeAll(surplusObservationComments);
 
         return narrativeStatements.stream()
-            .map(RCMRMT030101UK04NarrativeStatement::getText)
+            .map(RCMRMT030101UKNarrativeStatement::getText)
             .filter(text -> !text.contains(USER_COMMENT_HEADER))
             .map(TextUtil::extractPmipComment)
             .collect(Collectors.joining(StringUtils.LF));
@@ -249,7 +249,7 @@ public class SpecimenBatteryMapper {
         ).toList();
     }
 
-    private Stream<RCMRMT030101UK04NarrativeStatement> getDirectNarrativeStatements(
+    private Stream<RCMRMT030101UKNarrativeStatement> getDirectNarrativeStatements(
         RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
         return batteryCompoundStatement.getComponent()
             .stream()

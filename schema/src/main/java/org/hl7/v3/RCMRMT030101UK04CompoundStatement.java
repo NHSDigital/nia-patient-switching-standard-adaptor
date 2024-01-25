@@ -93,24 +93,35 @@ public class RCMRMT030101UK04CompoundStatement {
     protected TS availabilityTime;
     protected CV priorityCode;
     protected CV uncertaintyCode;
-    protected List<RCMRMT030101UK04Specimen03> specimen;
+
+    @XmlElement(type = RCMRMT030101UK04Specimen03.class)
+    protected List<RCMRMT030101UKSpecimen03> specimen;
+
     @XmlElement(required = true, type = RCMRMT030101UK04Component02.class)
     protected List<RCMRMT030101UK04Component02> component;
+
     @XmlElement(type = RCMRMT030101UK04Informant.class)
     protected List<RCMRMT030101UKInformant> informant;
+
     @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
     protected List<RCMRMT030101UKParticipant> participant;
+
     @XmlElement(type = RCMRMT030101UK04ReplacementOf.class)
     protected List<RCMRMT030101UKReplacementOf> replacementOf;
+
     @XmlElement(type = RCMRMT030101UK04Reason.class)
     protected List<RCMRMT030101UKReason> reason;
+
     @XmlElement(type = RCMRMT030101UK04Reference.class)
     protected List<RCMRMT030101UKReference> reference;
+
     @XmlElement(type = RCMRMT030101UK04SequelTo.class)
     protected List<RCMRMT030101UKSequelTo> sequelTo;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
     @XmlAttribute(name = "moodCode")
@@ -326,9 +337,9 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Specimen03> getSpecimen() {
+    public List<RCMRMT030101UKSpecimen03> getSpecimen() {
         if (specimen == null) {
-            specimen = new ArrayList<RCMRMT030101UK04Specimen03>();
+            specimen = new ArrayList<>();
         }
         return this.specimen;
     }
@@ -357,7 +368,7 @@ public class RCMRMT030101UK04CompoundStatement {
      */
     public List<RCMRMT030101UK04Component02> getComponent() {
         if (component == null) {
-            component = new ArrayList<RCMRMT030101UK04Component02>();
+            component = new ArrayList<>();
         }
         return this.component;
     }

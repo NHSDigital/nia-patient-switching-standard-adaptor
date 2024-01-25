@@ -24,8 +24,8 @@ import org.hl7.v3.RCMRMT030101UK04Component3;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -246,7 +246,7 @@ public class SpecimenCompoundsMapper {
             .toList();
     }
 
-    private List<RCMRMT030101UK04ObservationStatement> getObservationStatementsInCompound(
+    private List<RCMRMT030101UKObservationStatement> getObservationStatementsInCompound(
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent()
             .stream()
@@ -255,7 +255,7 @@ public class SpecimenCompoundsMapper {
             .toList();
     }
 
-    private List<RCMRMT030101UK04NarrativeStatement> getNarrativeStatementsInCompound(
+    private List<RCMRMT030101UKNarrativeStatement> getNarrativeStatementsInCompound(
         RCMRMT030101UK04CompoundStatement compoundStatement) {
         return compoundStatement.getComponent()
             .stream()
