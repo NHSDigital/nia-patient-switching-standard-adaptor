@@ -10,9 +10,8 @@ import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.CR;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKLinkSet;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
@@ -35,7 +34,7 @@ public class ResourceReferenceUtil {
 
     private final DatabaseImmunizationChecker immunizationChecker;
 
-    public void extractChildReferencesFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition,
+    public void extractChildReferencesFromEhrComposition(RCMRMT030101UKEhrComposition ehrComposition,
                                                          List<Reference> entryReferences) {
 
         ehrComposition.getComponent().forEach(component -> {
@@ -74,8 +73,9 @@ public class ResourceReferenceUtil {
         }
     }
 
-    public void extractChildReferencesFromTemplate(RCMRMT030101UK04CompoundStatement compoundStatement,
+    public void extractChildReferencesFromTemplate(RCMRMT030101UKCompoundStatement compoundStatement,
                                                    List<Reference> entryReferences) {
+
         compoundStatement.getComponent().forEach(component -> {
             addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
             addPlanStatementEntry(component.getPlanStatement(), entryReferences);

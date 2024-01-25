@@ -67,7 +67,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "inFulfillmentOf",
     "limitation"
 })
-public class RCMRMT030101UK04EhrExtract {
+public class RCMRMT030101UK04EhrExtract implements RCMRMT030101UKEhrExtract {
 
     @XmlElement(required = true)
     protected II id;
@@ -79,17 +79,17 @@ public class RCMRMT030101UK04EhrExtract {
     @XmlElement(required = true, type = RCMRMT030101UK04PatientSubject.class)
     protected RCMRMT030101UKPatientSubject recordTarget;
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04Author3 author;
+    @XmlElement(required = true, type = RCMRMT030101UK04Author3.class)
+    protected RCMRMT030101UKAuthor3 author;
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04Destination destination;
+    @XmlElement(required = true, type = RCMRMT030101UK04Destination.class)
+    protected RCMRMT030101UKDestination destination;
 
-    @XmlElement(required = true)
-    protected List<RCMRMT030101UK04Component> component;
+    @XmlElement(required = true, type = RCMRMT030101UK04Component.class)
+    protected List<RCMRMT030101UKComponent> component;
 
     @XmlElement(required = true, type = RCMRMT030101UK04InFulfillmentOf2.class)
-    protected RCMRMT030101UK04InFulfillmentOf2 inFulfillmentOf;
+    protected RCMRMT030101UKInFulfillmentOf2 inFulfillmentOf;
 
     @XmlElement(required = true, type = RCMRMT030101UK04Limitation.class)
     protected RCMRMT030101UKLimitation limitation;
@@ -118,6 +118,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -130,6 +131,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -142,6 +144,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link CS }
      *     
      */
+    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -154,6 +157,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link CS }
      *     
      */
+    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -166,6 +170,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -178,6 +183,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link TS }
      *     
      */
+    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
@@ -190,6 +196,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04PatientSubject }
      *     
      */
+    @Override
     public RCMRMT030101UKPatientSubject getRecordTarget() {
         return recordTarget;
     }
@@ -202,6 +209,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04PatientSubject }
      *     
      */
+    @Override
     public void setRecordTarget(RCMRMT030101UKPatientSubject value) {
         this.recordTarget = value;
     }
@@ -214,10 +222,12 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04Author3 }
      *     
      */
-    public RCMRMT030101UK04Author3 getAuthor() {
+    @Override
+    public RCMRMT030101UKAuthor3 getAuthor() {
         return author;
     }
 
+    @Override
     public boolean hasAuthor() {
         return author != null;
     }
@@ -230,7 +240,8 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04Author3 }
      *     
      */
-    public void setAuthor(RCMRMT030101UK04Author3 value) {
+    @Override
+    public void setAuthor(RCMRMT030101UKAuthor3 value) {
         this.author = value;
     }
 
@@ -242,7 +253,8 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04Destination }
      *     
      */
-    public RCMRMT030101UK04Destination getDestination() {
+    @Override
+    public RCMRMT030101UKDestination getDestination() {
         return destination;
     }
 
@@ -254,7 +266,8 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04Destination }
      *     
      */
-    public void setDestination(RCMRMT030101UK04Destination value) {
+    @Override
+    public void setDestination(RCMRMT030101UKDestination value) {
         this.destination = value;
     }
 
@@ -280,9 +293,10 @@ public class RCMRMT030101UK04EhrExtract {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Component> getComponent() {
+    @Override
+    public List<RCMRMT030101UKComponent> getComponent() {
         if (component == null) {
-            component = new ArrayList<RCMRMT030101UK04Component>();
+            component = new ArrayList<>();
         }
         return this.component;
     }
@@ -295,7 +309,8 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04InFulfillmentOf2 }
      *     
      */
-    public RCMRMT030101UK04InFulfillmentOf2 getInFulfillmentOf() {
+    @Override
+    public RCMRMT030101UKInFulfillmentOf2 getInFulfillmentOf() {
         return inFulfillmentOf;
     }
 
@@ -307,7 +322,8 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04InFulfillmentOf2 }
      *     
      */
-    public void setInFulfillmentOf(RCMRMT030101UK04InFulfillmentOf2 value) {
+    @Override
+    public void setInFulfillmentOf(RCMRMT030101UKInFulfillmentOf2 value) {
         this.inFulfillmentOf = value;
     }
 
@@ -319,6 +335,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04Limitation }
      *     
      */
+    @Override
     public RCMRMT030101UKLimitation getLimitation() {
         return limitation;
     }
@@ -331,6 +348,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link RCMRMT030101UK04Limitation }
      *     
      */
+    @Override
     public void setLimitation(RCMRMT030101UKLimitation value) {
         this.limitation = value;
     }
@@ -343,6 +361,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActHeir";
@@ -359,6 +378,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -385,9 +405,10 @@ public class RCMRMT030101UK04EhrExtract {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -414,9 +435,10 @@ public class RCMRMT030101UK04EhrExtract {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -443,9 +465,10 @@ public class RCMRMT030101UK04EhrExtract {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -472,9 +495,10 @@ public class RCMRMT030101UK04EhrExtract {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -487,6 +511,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -499,6 +524,7 @@ public class RCMRMT030101UK04EhrExtract {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

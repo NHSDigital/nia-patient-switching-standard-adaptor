@@ -28,9 +28,10 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.TS;
@@ -59,8 +60,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     @Override
-    public List<DiagnosticReport> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+    public List<DiagnosticReport> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+                                               String practiseCode) {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllCompoundStatements(component)
                 .filter(Objects::nonNull)
@@ -103,8 +104,10 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         observationComments.removeAll(conclusionComments);
     }
 
-    private DiagnosticReport createDiagnosticReport(RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient,
-        RCMRMT030101UK04EhrComposition composition, List<Encounter> encounters, String practiceCode) {
+    private DiagnosticReport createDiagnosticReport(RCMRMT030101UKCompoundStatement compoundStatement, Patient patient,
+                                                    RCMRMT030101UKEhrComposition composition, List<Encounter> encounters,
+                                                    String practiceCode) {
+
         final DiagnosticReport diagnosticReport = new DiagnosticReport();
         final String id = compoundStatement.getId().get(0).getRoot();
 
@@ -128,7 +131,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         return diagnosticReport;
     }
 
-    private String getConclusion(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private String getConclusion(RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent02::hasNarrativeStatement)
@@ -139,7 +143,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .collect(Collectors.joining(StringUtils.LF));
     }
 
-    private List<Reference> getSpecimenReferences(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private List<Reference> getSpecimenReferences(RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
@@ -149,7 +154,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .toList();
     }
 
-    private void setResultReferences(RCMRMT030101UK04CompoundStatement compoundStatement, DiagnosticReport diagnosticReport) {
+    private void setResultReferences(RCMRMT030101UKCompoundStatement compoundStatement, DiagnosticReport diagnosticReport) {
+
         var resultReferences = compoundStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent02::hasNarrativeStatement)
@@ -181,15 +187,17 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         return Optional.empty();
     }
 
-    private Optional<Reference> buildContext(RCMRMT030101UK04EhrComposition ehrComposition, List<Encounter> encounters) {
+    private Optional<Reference> buildContext(RCMRMT030101UKEhrComposition ehrComposition, List<Encounter> encounters) {
+
         return encounters.stream()
             .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
             .findFirst()
             .map(Reference::new);
     }
 
-    private Optional<InstantType> getIssued(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04CompoundStatement compoundStatement, RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Optional<InstantType> getIssued(RCMRMT030101UKEhrExtract ehrExtract,
+        RCMRMT030101UKCompoundStatement compoundStatement, RCMRMT030101UKEhrComposition ehrComposition) {
+
         if (compoundStatementHasValidAvailabilityTime(compoundStatement)) {
             return Optional.of(parseToInstantType(compoundStatement.getAvailabilityTime().getValue()));
         }
@@ -205,7 +213,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         return Optional.empty();
     }
 
-    private boolean compoundStatementHasValidAvailabilityTime(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private boolean compoundStatementHasValidAvailabilityTime(RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement != null && compoundStatement.getAvailabilityTime() != null
             && compoundStatement.getAvailabilityTime().hasValue()
             && !compoundStatement.getAvailabilityTime().hasNullFlavor();

@@ -67,26 +67,35 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "registrationStatement",
     "requestStatement"
 })
-public class RCMRMT030101UK04Component4 implements LinkableComponent {
+public class RCMRMT030101UK04Component4 implements RCMRMT030101UKComponent4 {
 
     @XmlElement(name = "CompoundStatement", type = RCMRMT030101UK04CompoundStatement.class)
-    protected RCMRMT030101UK04CompoundStatement compoundStatement;
-    @XmlElement(name = "EhrEmpty")
-    protected RCMRMT030101UK04EhrEmpty ehrEmpty;
-    @XmlElement(name = "LinkSet")
-    protected RCMRMT030101UK04LinkSet linkSet;
-    @XmlElement(name = "MedicationStatement")
-    protected RCMRMT030101UK04MedicationStatement medicationStatement;
-    @XmlElement(name = "NarrativeStatement")
-    protected RCMRMT030101UK04NarrativeStatement narrativeStatement;
-    @XmlElement(name = "ObservationStatement")
-    protected RCMRMT030101UK04ObservationStatement observationStatement;
-    @XmlElement(name = "PlanStatement")
-    protected RCMRMT030101UK04PlanStatement planStatement;
-    @XmlElement(name = "RegistrationStatement")
-    protected RCMRMT030101UK04RegistrationStatement registrationStatement;
-    @XmlElement(name = "RequestStatement")
-    protected RCMRMT030101UK04RequestStatement requestStatement;
+    protected RCMRMT030101UKCompoundStatement compoundStatement;
+
+    @XmlElement(name = "EhrEmpty", type = RCMRMT030101UK04EhrEmpty.class)
+    protected RCMRMT030101UKEhrEmpty ehrEmpty;
+
+    @XmlElement(name = "LinkSet", type = RCMRMT030101UK04LinkSet.class)
+    protected RCMRMT030101UKLinkSet linkSet;
+
+    @XmlElement(name = "MedicationStatement", type = RCMRMT030101UK04MedicationStatement.class)
+    protected RCMRMT030101UKMedicationStatement medicationStatement;
+
+    @XmlElement(name = "NarrativeStatement", type = RCMRMT030101UK04NarrativeStatement.class)
+    protected RCMRMT030101UKNarrativeStatement narrativeStatement;
+
+    @XmlElement(name = "ObservationStatement", type = RCMRMT030101UK04ObservationStatement.class)
+    protected RCMRMT030101UKObservationStatement observationStatement;
+
+    @XmlElement(name = "PlanStatement", type = RCMRMT030101UK04PlanStatement.class)
+    protected RCMRMT030101UKPlanStatement planStatement;
+
+    @XmlElement(name = "RegistrationStatement", type = RCMRMT030101UK04RegistrationStatement.class)
+    protected RCMRMT030101UKRegistrationStatement registrationStatement;
+
+    @XmlElement(name = "RequestStatement", type = RCMRMT030101UK04RequestStatement.class)
+    protected RCMRMT030101UKRequestStatement requestStatement;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -108,7 +117,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04CompoundStatement }
      *     
      */
-    public RCMRMT030101UK04CompoundStatement getCompoundStatement() {
+    @Override
+    public RCMRMT030101UKCompoundStatement getCompoundStatement() {
         return compoundStatement;
     }
 
@@ -120,10 +130,12 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04CompoundStatement }
      *     
      */
-    public void setCompoundStatement(RCMRMT030101UK04CompoundStatement value) {
+    @Override
+    public void setCompoundStatement(RCMRMT030101UKCompoundStatement value) {
         this.compoundStatement = value;
     }
 
+    @Override
     public boolean hasCompoundStatement() {
         return compoundStatement != null;
     }
@@ -136,7 +148,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04EhrEmpty }
      *     
      */
-    public RCMRMT030101UK04EhrEmpty getEhrEmpty() {
+    @Override
+    public RCMRMT030101UKEhrEmpty getEhrEmpty() {
         return ehrEmpty;
     }
 
@@ -148,7 +161,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04EhrEmpty }
      *     
      */
-    public void setEhrEmpty(RCMRMT030101UK04EhrEmpty value) {
+    @Override
+    public void setEhrEmpty(RCMRMT030101UKEhrEmpty value) {
         this.ehrEmpty = value;
     }
 
@@ -160,7 +174,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04LinkSet }
      *     
      */
-    public RCMRMT030101UK04LinkSet getLinkSet() {
+    @Override
+    public RCMRMT030101UKLinkSet getLinkSet() {
         return linkSet;
     }
 
@@ -172,7 +187,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04LinkSet }
      *     
      */
-    public void setLinkSet(RCMRMT030101UK04LinkSet value) {
+    @Override
+    public void setLinkSet(RCMRMT030101UKLinkSet value) {
         this.linkSet = value;
     }
 
@@ -184,7 +200,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04MedicationStatement }
      *     
      */
-    public RCMRMT030101UK04MedicationStatement getMedicationStatement() {
+    @Override
+    public RCMRMT030101UKMedicationStatement getMedicationStatement() {
         return medicationStatement;
     }
 
@@ -196,10 +213,12 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04MedicationStatement }
      *     
      */
-    public void setMedicationStatement(RCMRMT030101UK04MedicationStatement value) {
+    @Override
+    public void setMedicationStatement(RCMRMT030101UKMedicationStatement value) {
         this.medicationStatement = value;
     }
 
+    @Override
     public boolean hasMedicationStatement() {
         return medicationStatement != null;
     }
@@ -212,7 +231,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04NarrativeStatement }
      *     
      */
-    public RCMRMT030101UK04NarrativeStatement getNarrativeStatement() {
+    @Override
+    public RCMRMT030101UKNarrativeStatement getNarrativeStatement() {
         return narrativeStatement;
     }
 
@@ -224,7 +244,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04NarrativeStatement }
      *     
      */
-    public void setNarrativeStatement(RCMRMT030101UK04NarrativeStatement value) {
+    @Override
+    public void setNarrativeStatement(RCMRMT030101UKNarrativeStatement value) {
         this.narrativeStatement = value;
     }
 
@@ -236,7 +257,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04ObservationStatement }
      *     
      */
-    public RCMRMT030101UK04ObservationStatement getObservationStatement() {
+    @Override
+    public RCMRMT030101UKObservationStatement getObservationStatement() {
         return observationStatement;
     }
 
@@ -248,7 +270,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04ObservationStatement }
      *     
      */
-    public void setObservationStatement(RCMRMT030101UK04ObservationStatement value) {
+    @Override
+    public void setObservationStatement(RCMRMT030101UKObservationStatement value) {
         this.observationStatement = value;
     }
 
@@ -260,7 +283,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04PlanStatement }
      *     
      */
-    public RCMRMT030101UK04PlanStatement getPlanStatement() {
+    @Override
+    public RCMRMT030101UKPlanStatement getPlanStatement() {
         return planStatement;
     }
 
@@ -272,7 +296,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04PlanStatement }
      *     
      */
-    public void setPlanStatement(RCMRMT030101UK04PlanStatement value) {
+    @Override
+    public void setPlanStatement(RCMRMT030101UKPlanStatement value) {
         this.planStatement = value;
     }
 
@@ -284,7 +309,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04RegistrationStatement }
      *     
      */
-    public RCMRMT030101UK04RegistrationStatement getRegistrationStatement() {
+    @Override
+    public RCMRMT030101UKRegistrationStatement getRegistrationStatement() {
         return registrationStatement;
     }
 
@@ -296,7 +322,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04RegistrationStatement }
      *     
      */
-    public void setRegistrationStatement(RCMRMT030101UK04RegistrationStatement value) {
+    @Override
+    public void setRegistrationStatement(RCMRMT030101UKRegistrationStatement value) {
         this.registrationStatement = value;
     }
 
@@ -308,7 +335,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04RequestStatement }
      *     
      */
-    public RCMRMT030101UK04RequestStatement getRequestStatement() {
+    @Override
+    public RCMRMT030101UKRequestStatement getRequestStatement() {
         return requestStatement;
     }
 
@@ -320,7 +348,8 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link RCMRMT030101UK04RequestStatement }
      *     
      */
-    public void setRequestStatement(RCMRMT030101UK04RequestStatement value) {
+    @Override
+    public void setRequestStatement(RCMRMT030101UKRequestStatement value) {
         this.requestStatement = value;
     }
 
@@ -332,6 +361,7 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -348,6 +378,7 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -374,6 +405,7 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<String>();
@@ -403,6 +435,7 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -432,6 +465,7 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -447,6 +481,7 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -459,6 +494,7 @@ public class RCMRMT030101UK04Component4 implements LinkableComponent {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

@@ -21,7 +21,7 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.hl7.v3.TS;
@@ -39,7 +39,7 @@ public class MedicationRequestOrderMapper {
 
     private final MedicationMapper medicationMapper;
 
-    public MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
+    public MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UKEhrExtract ehrExtract,
                                                          RCMRMT030101UKMedicationStatement medicationStatement,
                                                          RCMRMT030101UKPrescribe supplyPrescribe,
                                                          String practiseCode) {

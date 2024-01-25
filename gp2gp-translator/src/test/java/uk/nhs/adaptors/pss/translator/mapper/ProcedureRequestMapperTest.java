@@ -17,9 +17,9 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKPlanStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -193,7 +193,7 @@ public class ProcedureRequestMapperTest {
         assertThat(procedureRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
-    private void assertFixedValues(RCMRMT030101UK04PlanStatement planStatement, ProcedureRequest procedureRequest) {
+    private void assertFixedValues(RCMRMT030101UKPlanStatement planStatement, ProcedureRequest procedureRequest) {
         assertThat(procedureRequest.getId()).isEqualTo(planStatement.getId().getRoot());
         assertThat(procedureRequest.getIntent()).isEqualTo(ProcedureRequestIntent.PLAN);
         assertThat(procedureRequest.getStatus()).isEqualTo(ProcedureRequestStatus.ACTIVE);
@@ -203,14 +203,15 @@ public class ProcedureRequestMapperTest {
         assertThat(procedureRequest.getSubject().getResource().getIdElement().getValue()).isEqualTo(SUBJECT.getId());
     }
 
-    private RCMRMT030101UK04PlanStatement getPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKPlanStatement getPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0)
             .getEhrFolder().getComponent().get(0)
             .getEhrComposition().getComponent().get(0)
             .getPlanStatement();
     }
 
-    private RCMRMT030101UK04EhrComposition getEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
+
         return ehrExtract.getComponent().get(0)
             .getEhrFolder().getComponent().get(0)
             .getEhrComposition();

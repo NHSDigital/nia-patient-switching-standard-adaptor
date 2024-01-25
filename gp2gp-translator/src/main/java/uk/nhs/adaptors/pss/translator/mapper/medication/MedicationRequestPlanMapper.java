@@ -12,14 +12,14 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
-import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component3;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKDiscontinue;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation2;
 import org.hl7.v3.RCMRMT030101UKSupplyAnnotation;
 import org.springframework.stereotype.Service;
@@ -67,8 +67,8 @@ public class MedicationRequestPlanMapper {
 
     private final MedicationMapper medicationMapper;
 
-    public MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
-                                                        RCMRMT030101UK04MedicationStatement medicationStatement,
+    public MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UKEhrExtract ehrExtract,
+                                                        RCMRMT030101UKMedicationStatement medicationStatement,
                                                         RCMRMT030101UKAuthorise supplyAuthorise,
                                                         String practiseCode) {
 
@@ -136,22 +136,22 @@ public class MedicationRequestPlanMapper {
         return Optional.empty();
     }
 
-    private Optional<Extension> extractRepeatInformationIssued(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UKAuthorise supplyAuthorise, String supplyAuthoriseId) {
+    private Optional<Extension> extractRepeatInformationIssued(RCMRMT030101UKEhrExtract ehrExtract,
+                                                               RCMRMT030101UKAuthorise supplyAuthorise, String supplyAuthoriseId) {
 
         if ((supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() != 0)
             || !supplyAuthorise.hasRepeatNumber()) {
 
             var repeatCount = ehrExtract.getComponent().stream()
-                .map(RCMRMT030101UK04Component::getEhrFolder)
-                .map(RCMRMT030101UK04EhrFolder::getComponent)
+                .map(RCMRMT030101UKComponent::getEhrFolder)
+                .map(RCMRMT030101UKEhrFolder::getComponent)
                 .flatMap(List::stream)
-                .map(RCMRMT030101UK04Component3::getEhrComposition)
-                .map(RCMRMT030101UK04EhrComposition::getComponent)
+                .map(RCMRMT030101UKComponent3::getEhrComposition)
+                .map(RCMRMT030101UKEhrComposition::getComponent)
                 .flatMap(List::stream)
                 .flatMap(MedicationMapperUtils::extractAllMedications)
                 .filter(Objects::nonNull)
-                .map(RCMRMT030101UK04MedicationStatement::getComponent)
+                .map(RCMRMT030101UKMedicationStatement::getComponent)
                 .flatMap(List::stream)
                 .filter(prescribe -> hasInFulfillmentOfReference(prescribe, supplyAuthoriseId))
                 .count();
@@ -228,7 +228,8 @@ public class MedicationRequestPlanMapper {
     }
 
     private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForAuthorise(
-        RCMRMT030101UKAuthorise supplyAuthorise, RCMRMT030101UK04MedicationStatement medicationStatement) {
+        RCMRMT030101UKAuthorise supplyAuthorise, RCMRMT030101UKMedicationStatement medicationStatement) {
+
         MedicationRequest.MedicationRequestDispenseRequestComponent dispenseRequest
             = new MedicationRequest.MedicationRequestDispenseRequestComponent();
 
@@ -275,6 +276,7 @@ public class MedicationRequestPlanMapper {
     }
 
     private boolean hasInFulfillmentOfReference(RCMRMT030101UKComponent2 component, String id) {
+
         return component.hasEhrSupplyPrescribe()
             && component.getEhrSupplyPrescribe().hasInFulfillmentOf()
             && component.getEhrSupplyPrescribe().getInFulfillmentOf().hasPriorMedicationRef()

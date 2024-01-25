@@ -12,7 +12,6 @@ import org.hl7.fhir.dstu3.model.ListResource.ListMode;
 import org.hl7.fhir.dstu3.model.ListResource.ListStatus;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +85,7 @@ public class ConsultationListMapper {
         }
     }
 
-    public ListResource mapToTopic(ListResource consultation, RCMRMT030101UK04CompoundStatement compoundStatement) {
+    public ListResource mapToTopic(ListResource consultation, RCMRMT030101UKCompoundStatement compoundStatement) {
         ListResource topic = new ListResource();
 
         topic
@@ -105,7 +104,7 @@ public class ConsultationListMapper {
         return topic;
     }
 
-    private String getTopicId(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private String getTopicId(RCMRMT030101UKCompoundStatement compoundStatement) {
         return compoundStatement != null ? compoundStatement.getId().get(0).getRoot() : idGenerator.generateUuid();
     }
 

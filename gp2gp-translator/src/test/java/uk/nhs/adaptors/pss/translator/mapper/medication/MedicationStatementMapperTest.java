@@ -19,15 +19,16 @@ import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04Component;
+import org.hl7.v3.RCMRMT030101UKComponent;
 import org.hl7.v3.RCMRMT030101UKComponent2;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKComponent4;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -234,21 +235,22 @@ public class MedicationStatementMapperTest {
             ehrExtract, medicationStatement.orElseThrow(), authorise.orElseThrow(), PRACTISE_CODE, authoredOn);
     }
 
-    private Optional<RCMRMT030101UK04MedicationStatement> extractMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private Optional<RCMRMT030101UKMedicationStatement> extractMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract
             .getComponent()
             .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .map(RCMRMT030101UKComponent::getEhrFolder)
+            .map(RCMRMT030101UKEhrFolder::getComponent)
             .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .map(RCMRMT030101UK04EhrComposition::getComponent)
+            .map(RCMRMT030101UKComponent3::getEhrComposition)
+            .map(RCMRMT030101UKEhrComposition::getComponent)
             .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component4::getMedicationStatement)
+            .map(RCMRMT030101UKComponent4::getMedicationStatement)
             .findFirst();
     }
 
-    private Optional<RCMRMT030101UKAuthorise> extractAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement) {
+    private Optional<RCMRMT030101UKAuthorise> extractAuthorise(RCMRMT030101UKMedicationStatement medicationStatement) {
+
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)

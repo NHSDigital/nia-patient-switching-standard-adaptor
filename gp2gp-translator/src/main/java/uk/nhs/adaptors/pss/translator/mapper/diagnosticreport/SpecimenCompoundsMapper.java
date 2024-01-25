@@ -20,11 +20,10 @@ import org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +47,10 @@ public class SpecimenCompoundsMapper {
 
     private final SpecimenBatteryMapper batteryMapper;
 
-    public List<Observation> handleSpecimenChildComponents(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observations,
-        List<Observation> observationComments, List<DiagnosticReport> diagnosticReports,
-        Patient patient, List<Encounter> encounters, String practiseCode) {
+    public List<Observation> handleSpecimenChildComponents(RCMRMT030101UKEhrExtract ehrExtract, List<Observation> observations,
+                                                           List<Observation> observationComments, List<DiagnosticReport> diagnosticReports,
+                                                           Patient patient, List<Encounter> encounters, String practiseCode) {
+
         final List<Observation> batteryObservations = new ArrayList<>();
 
         for (var diagnosticReport : diagnosticReports) {
@@ -209,7 +209,8 @@ public class SpecimenCompoundsMapper {
             .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation)));
     }
 
-    private Optional<RCMRMT030101UK04CompoundStatement> getCompoundStatementByDRId(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+    private Optional<RCMRMT030101UKCompoundStatement> getCompoundStatementByDRId(RCMRMT030101UKEhrExtract ehrExtract, String id) {
+
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
             .stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
@@ -240,7 +241,8 @@ public class SpecimenCompoundsMapper {
     }
 
     private List<RCMRMT030101UKCompoundStatement> getSpecimenCompoundStatements(
-        RCMRMT030101UK04CompoundStatement parentCompoundStatement) {
+        RCMRMT030101UKCompoundStatement parentCompoundStatement) {
+
         return parentCompoundStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
@@ -279,12 +281,13 @@ public class SpecimenCompoundsMapper {
             .toList();
     }
 
-    private RCMRMT030101UK04EhrComposition getCurrentEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04CompoundStatement parentCompoundStatement) {
+    private RCMRMT030101UKEhrComposition getCurrentEhrComposition(RCMRMT030101UKEhrExtract ehrExtract,
+                                                                  RCMRMT030101UKCompoundStatement parentCompoundStatement) {
+
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component3::hasEhrComposition)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .filter(RCMRMT030101UKComponent3::hasEhrComposition)
+            .map(RCMRMT030101UKComponent3::getEhrComposition)
             .filter(e -> e.getComponent()
                 .stream()
                 .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)

@@ -18,9 +18,8 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UKComponent2;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,8 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
     private static final String PPRF = "PPRF";
     private static final String PRF = "PRF";
-    public List<DomainResource> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+
+    public List<DomainResource> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
         try {
             return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
@@ -54,9 +54,10 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         }
     }
 
-    private Stream<DomainResource> mapMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04MedicationStatement medicationStatement,
-        Patient subject, List<Encounter> encounters, String practiseCode) {
+    private Stream<DomainResource> mapMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract,
+                                                          RCMRMT030101UKEhrComposition ehrComposition,
+                                                          RCMRMT030101UKMedicationStatement medicationStatement,
+                                                          Patient subject, List<Encounter> encounters, String practiseCode) {
 
         var context = encounters.stream()
             .filter(encounter1 -> encounter1.getId().equals(ehrComposition.getId().getRoot())).findFirst();
@@ -97,8 +98,9 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         return resource;
     }
 
-    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UK04EhrExtract ehrExtract,
-                                       RCMRMT030101UK04EhrComposition ehrComposition) {
+    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UKEhrExtract ehrExtract,
+                                       RCMRMT030101UKEhrComposition ehrComposition) {
+
         if (availabilityTime != null && availabilityTime.hasValue()) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         } else {
@@ -112,7 +114,8 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         return null;
     }
 
-    private DateTimeType extractDateAsserted(RCMRMT030101UK04EhrComposition ehrComposition, RCMRMT030101UK04EhrExtract ehrExtract) {
+    private DateTimeType extractDateAsserted(RCMRMT030101UKEhrComposition ehrComposition, RCMRMT030101UKEhrExtract ehrExtract) {
+
         if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
             return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
         } else {
@@ -131,8 +134,10 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .toList();
     }
 
-    private List<MedicationRequest> mapMedicationRequestsOrder(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement, String practiseCode) {
+    private List<MedicationRequest> mapMedicationRequestsOrder(RCMRMT030101UKEhrExtract ehrExtract,
+                                                               RCMRMT030101UKMedicationStatement medicationStatement,
+                                                               String practiseCode) {
+
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
@@ -143,8 +148,9 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .toList();
     }
 
-    private List<MedicationRequest> mapMedicationRequestsPlan(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement, String practiseCode) {
+    private List<MedicationRequest> mapMedicationRequestsPlan(RCMRMT030101UKEhrExtract ehrExtract,
+        RCMRMT030101UKMedicationStatement medicationStatement, String practiseCode) {
+
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
@@ -155,9 +161,10 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .toList();
     }
 
-    private List<MedicationStatement> mapMedicationStatements(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement, Optional<Encounter> context, Patient subject,
+    private List<MedicationStatement> mapMedicationStatements(RCMRMT030101UKEhrExtract ehrExtract,
+        RCMRMT030101UKMedicationStatement medicationStatement, Optional<Encounter> context, Patient subject,
         DateTimeType authoredOn, String practiseCode, DateTimeType dateAsserted) {
+
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
@@ -173,8 +180,9 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .toList();
     }
 
-    private Optional<Reference> extractRequester(RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04MedicationStatement medicationStatement) {
+    private Optional<Reference> extractRequester(RCMRMT030101UKEhrComposition ehrComposition,
+        RCMRMT030101UKMedicationStatement medicationStatement) {
+
         if (medicationStatement.hasParticipant()) {
             var pprfRequester = medicationStatement.getParticipant()
                 .stream()
@@ -204,8 +212,9 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         return Optional.empty();
     }
 
-    private Optional<Reference> extractRecorder(RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04MedicationStatement medicationStatement) {
+    private Optional<Reference> extractRecorder(RCMRMT030101UKEhrComposition ehrComposition,
+                                                RCMRMT030101UKMedicationStatement medicationStatement) {
+
         return extractRequester(ehrComposition, medicationStatement);
     }
 }

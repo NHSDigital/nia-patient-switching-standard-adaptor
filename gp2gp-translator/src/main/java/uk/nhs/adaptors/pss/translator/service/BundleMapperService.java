@@ -24,9 +24,9 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRIN030000UK07Message;
 import org.hl7.v3.RCMRIN030000UKMessage;
-import org.hl7.v3.RCMRMT030101UK04Component3;
+import org.hl7.v3.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKPatient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,7 +95,7 @@ public class BundleMapperService {
 
             Bundle bundle = generator.generateBundle();
             final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
-            final RCMRMT030101UK04EhrFolder ehrFolder = getEhrFolder(xmlMessage);
+            final RCMRMT030101UKEhrFolder ehrFolder = getEhrFolder(xmlMessage);
 
             var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
 
@@ -207,14 +207,14 @@ public class BundleMapperService {
         return encounterMapper.mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations);
     }
 
-    private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UK04EhrFolder ehrFolder) {
+    private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UKEhrFolder ehrFolder) {
         return agentDirectoryMapper.mapAgentDirectory(ehrFolder.getResponsibleParty().getAgentDirectory());
     }
 
-    private List<Location> mapLocations(RCMRMT030101UK04EhrFolder ehrFolder, String losingPracticeOdsCode) {
+    private List<Location> mapLocations(RCMRMT030101UKEhrFolder ehrFolder, String losingPracticeOdsCode) {
 
         return ehrFolder.getComponent().stream()
-                .map(RCMRMT030101UK04Component3::getEhrComposition)
+                .map(RCMRMT030101UKComponent3::getEhrComposition)
                 .filter(ehrComposition -> ehrComposition.getLocation() != null)
                 .map(
                         ehrComposition -> locationMapper.mapToLocation(
@@ -245,7 +245,7 @@ public class BundleMapperService {
             .orElse(null);
     }
 
-    private RCMRMT030101UK04EhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
+    private RCMRMT030101UKEhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
         if (xmlMessage instanceof RCMRIN030000UK07Message) {
             return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent()
                                                          .getSubject()

@@ -8,9 +8,8 @@ import java.util.Optional;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -52,8 +51,9 @@ public class ResourceFilterUtil {
         return false;
     }
 
-    public static boolean hasDiagnosticReportParent(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+    public static boolean hasDiagnosticReportParent(RCMRMT030101UKEhrExtract ehrExtract,
+                                                    RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
@@ -73,7 +73,8 @@ public class ResourceFilterUtil {
         return false;
     }
 
-    public static boolean isTemplate(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    public static boolean isTemplate(RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement != null
             && !isBloodPressure(compoundStatement)
             && !isDiagnosticReport(compoundStatement)

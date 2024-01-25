@@ -30,11 +30,10 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKParticipant;
 import org.hl7.v3.RCMRMT030101UKParticipant2;
@@ -158,7 +157,8 @@ public class SpecimenBatteryMapper {
     }
 
     private Optional<Reference> getPerformer(RCMRMT030101UKCompoundStatement batteryCompoundStatement,
-        RCMRMT030101UK04EhrComposition ehrComposition) {
+        RCMRMT030101UKEhrComposition ehrComposition) {
+
         Optional<Reference> referenceOpt = Optional.empty();
         if (!batteryCompoundStatement.getParticipant().isEmpty()) {
             referenceOpt = batteryCompoundStatement.getParticipant()
@@ -188,7 +188,7 @@ public class SpecimenBatteryMapper {
             .anyMatch(typeCode -> TYPECODE_PRF.equals(typeCode) || TYPECODE_PPRF.equals(typeCode));
     }
 
-    private Optional<Reference> getContext(List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Optional<Reference> getContext(List<Encounter> encounters, RCMRMT030101UKEhrComposition ehrComposition) {
         return encounters.stream()
             .filter(encounter -> ehrComposition.getId().getRoot().equals(encounter.getId()))
             .findFirst()
@@ -210,7 +210,8 @@ public class SpecimenBatteryMapper {
         return new Reference(new IdType(Specimen.name(), specimenCompoundStatement.getId().get(0).getRoot()));
     }
 
-    private Optional<InstantType> getIssued(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Optional<InstantType> getIssued(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition) {
+
         if (hasValidTimeValue(ehrComposition.getAuthor())) {
             return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
         }
@@ -274,10 +275,10 @@ public class SpecimenBatteryMapper {
     @Getter
     @Builder
     public static class SpecimenBatteryParameters {
-        private RCMRMT030101UK04EhrExtract ehrExtract;
+        private RCMRMT030101UKEhrExtract ehrExtract;
         private RCMRMT030101UKCompoundStatement batteryCompoundStatement;
         private RCMRMT030101UKCompoundStatement specimenCompoundStatement;
-        private RCMRMT030101UK04EhrComposition ehrComposition;
+        private RCMRMT030101UKEhrComposition ehrComposition;
         private DiagnosticReport diagnosticReport;
         private Patient patient;
         private List<Encounter> encounters;

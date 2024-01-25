@@ -21,11 +21,10 @@ import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -230,7 +229,7 @@ public class SpecimenBatteryMapperTest {
         assertThat(observation.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
     }
 
-    private RCMRMT030101UK04EhrComposition getEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
     }
 
@@ -247,7 +246,8 @@ public class SpecimenBatteryMapperTest {
         );
     }
 
-    private RCMRMT030101UK04CompoundStatement getBatteryCompoundStatements(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKCompoundStatement getBatteryCompoundStatements(RCMRMT030101UK04EhrExtract ehrExtract) {
+
         return getEhrComposition(ehrExtract).getComponent()
             .stream()
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)

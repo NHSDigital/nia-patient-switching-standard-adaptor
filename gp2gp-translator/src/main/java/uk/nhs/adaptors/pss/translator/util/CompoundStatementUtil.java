@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -58,7 +57,7 @@ public class CompoundStatementUtil {
     }
 
     public static List<?> extractResourcesFromCompound(
-            RCMRMT030101UK04CompoundStatement compoundStatement,
+            RCMRMT030101UKCompoundStatement compoundStatement,
             Function<RCMRMT030101UKComponent02, Boolean> checker,
             Function<RCMRMT030101UKComponent02, ?> extractor,
             Function<RCMRMT030101UKCompoundStatement, Boolean> compoundStatementChecker

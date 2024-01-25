@@ -22,14 +22,15 @@ import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
-import org.hl7.v3.RCMRMT030101UKComponent2;
-import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UKComponent2;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKComponent4;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,7 +82,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingAuthoriseResourceWithAllOptionals_Expect_AllFieldsToBeMappedCorrectly() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract2.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         assertThat(medicationStatement.isPresent()).isTrue();
 
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.get());
@@ -120,7 +121,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingAuthoriseResourceWithNoEffectiveTime_Expect_NoExpiryDateExtensionAdded() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract5.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         assertThat(medicationStatement.isPresent()).isTrue();
 
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.get());
@@ -140,7 +141,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingAuthoriseResourceEffectiveTimeWithNullHighValue_Expect_NoExpiryDateExtensionAdded() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract6.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         assertThat(medicationStatement.isPresent()).isTrue();
 
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.get());
@@ -160,7 +161,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingDiscontinue_With_PertinentInformation_Expect_StatusReasonAdded() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract2.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
 
         var medicationRequest =
@@ -181,7 +182,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingDiscontinue_With_MissingPertinentInformationAndCodeDisplayPresent_Expect_DefaultTextAddedAsReason() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract7.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
 
         var medicationRequest =
@@ -201,7 +202,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingDiscontinue_With_NoPertinentInformationAndHasCodeOriginalText_Expect_CorrectText() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract8.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
 
         var medicationRequest =
@@ -221,7 +222,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingDiscontinue_With_MissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract9.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
 
         var medicationRequest =
@@ -241,7 +242,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingAuthoriseResource_WithActiveStatusAndNoDiscontinue_Expect_ActiveStatusAndNoStatus() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract10.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
 
         var medicationRequest =
@@ -254,7 +255,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingAuthoriseResource_WithCompleteStatusAndNoDiscontinue_Expect_CompletedStatus() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract11.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
 
         var medicationRequest =
@@ -267,7 +268,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingAuthoriseResource_With_NoDiscontinue_Expect_NoStatusReasonExtension() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract11.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
 
         var medicationRequest =
@@ -281,7 +282,7 @@ public class MedicationRequestPlanMapperTest {
     @Test
     public void When_MappingDiscontinue_With_UnknownDate_Expect_DiscontinueIgnored() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract12.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
 
         var medicationRequest =
@@ -295,7 +296,7 @@ public class MedicationRequestPlanMapperTest {
 
     @Test void When_MappingDiscontinue_With_CodingOriginalTextAndPertinentInformation_Expect_CorrectText() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract13.xml");
-        Optional<RCMRMT030101UK04MedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
+        Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         Optional<RCMRMT030101UKAuthorise> supplyAuthorise = extractSupplyAuthorise(medicationStatement.orElseThrow());
 
         var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
@@ -311,7 +312,7 @@ public class MedicationRequestPlanMapperTest {
         assertThat(statusReason.getText()).isEqualTo("(Ended) Patient no longer requires these");
     }
 
-    private Optional<RCMRMT030101UKAuthorise> extractSupplyAuthorise(RCMRMT030101UK04MedicationStatement medicationStatement) {
+    private Optional<RCMRMT030101UKAuthorise> extractSupplyAuthorise(RCMRMT030101UKMedicationStatement medicationStatement) {
         return medicationStatement
             .getComponent()
             .stream()
@@ -343,22 +344,22 @@ public class MedicationRequestPlanMapperTest {
         assertThat(date).isEqualTo(DateFormatUtil.parseToDateTimeType("20060427").toString());
     }
 
-    private Optional<RCMRMT030101UK04MedicationStatement> extractMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private Optional<RCMRMT030101UKMedicationStatement> extractMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract
             .getComponent()
             .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .map(RCMRMT030101UKComponent::getEhrFolder)
+            .map(RCMRMT030101UKEhrFolder::getComponent)
             .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .map(RCMRMT030101UK04EhrComposition::getComponent)
+            .map(RCMRMT030101UKComponent3::getEhrComposition)
+            .map(RCMRMT030101UKEhrComposition::getComponent)
             .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component4::getMedicationStatement)
+            .map(RCMRMT030101UKComponent4::getMedicationStatement)
             .findFirst();
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
     }
 }

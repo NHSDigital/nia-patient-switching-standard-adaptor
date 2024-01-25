@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -45,19 +46,24 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UKCT_MT120501UK03.ServiceDeliveryLocation", propOrder = {
     "code",
     "location"
 })
-public class UKCTMT120501UK03ServiceDeliveryLocation {
+public class UKCTMT120501UK03ServiceDeliveryLocation implements UKCTMT120501UKServiceDeliveryLocation {
 
     @XmlElement(required = true)
     protected CV code;
-    protected UKCTMT120501UK03Place location;
+
+    @XmlElement(type = UKCTMT120501UK03Place.class)
+    protected UKCTMT120501UKPlace location;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
     @XmlAttribute(name = "typeID")
@@ -76,6 +82,7 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      *     {@link CV }
      *     
      */
+    @Override
     public CV getCode() {
         return code;
     }
@@ -88,6 +95,7 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      *     {@link CV }
      *     
      */
+    @Override
     public void setCode(CV value) {
         this.code = value;
     }
@@ -100,7 +108,8 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      *     {@link UKCTMT120501UK03Place }
      *     
      */
-    public UKCTMT120501UK03Place getLocation() {
+    @Override
+    public UKCTMT120501UKPlace getLocation() {
         return location;
     }
 
@@ -112,7 +121,8 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      *     {@link UKCTMT120501UK03Place }
      *     
      */
-    public void setLocation(UKCTMT120501UK03Place value) {
+    @Override
+    public void setLocation(UKCTMT120501UKPlace value) {
         this.location = value;
     }
 
@@ -124,6 +134,7 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "RoleHeir";
@@ -140,6 +151,7 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -166,9 +178,10 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -195,9 +208,10 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -224,9 +238,10 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -239,6 +254,7 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -251,6 +267,7 @@ public class UKCTMT120501UK03ServiceDeliveryLocation {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
