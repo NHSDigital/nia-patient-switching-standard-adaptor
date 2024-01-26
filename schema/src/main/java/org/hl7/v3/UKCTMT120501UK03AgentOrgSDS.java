@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -46,21 +47,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UKCT_MT120501UK03.AgentOrgSDS", propOrder = {
     "id",
     "code",
     "agentOrganizationSDS"
 })
-public class UKCTMT120501UK03AgentOrgSDS {
+public class UKCTMT120501UK03AgentOrgSDS implements UKCTMT120501UKAgentOrgSDS {
 
     protected II id;
     protected CV code;
-    @XmlElement(required = true)
-    protected UKCTMT120501UK03OrganizationSDS agentOrganizationSDS;
+
+    @XmlElement(required = true, type = UKCTMT120501UK03OrganizationSDS.class)
+    protected UKCTMT120501UKOrganizationSDS agentOrganizationSDS;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
     @XmlAttribute(name = "typeID")
@@ -79,6 +84,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -91,6 +97,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -103,6 +110,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      *     {@link CV }
      *     
      */
+    @Override
     public CV getCode() {
         return code;
     }
@@ -115,6 +123,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      *     {@link CV }
      *     
      */
+    @Override
     public void setCode(CV value) {
         this.code = value;
     }
@@ -127,7 +136,8 @@ public class UKCTMT120501UK03AgentOrgSDS {
      *     {@link UKCTMT120501UK03OrganizationSDS }
      *     
      */
-    public UKCTMT120501UK03OrganizationSDS getAgentOrganizationSDS() {
+    @Override
+    public UKCTMT120501UKOrganizationSDS getAgentOrganizationSDS() {
         return agentOrganizationSDS;
     }
 
@@ -139,7 +149,8 @@ public class UKCTMT120501UK03AgentOrgSDS {
      *     {@link UKCTMT120501UK03OrganizationSDS }
      *     
      */
-    public void setAgentOrganizationSDS(UKCTMT120501UK03OrganizationSDS value) {
+    @Override
+    public void setAgentOrganizationSDS(UKCTMT120501UKOrganizationSDS value) {
         this.agentOrganizationSDS = value;
     }
 
@@ -151,6 +162,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "RoleHeir";
@@ -167,6 +179,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -193,6 +206,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<String>();
@@ -222,6 +236,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -251,6 +266,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -266,6 +282,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -278,6 +295,7 @@ public class UKCTMT120501UK03AgentOrgSDS {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

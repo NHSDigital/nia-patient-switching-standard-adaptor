@@ -18,9 +18,9 @@ import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
     private static final String CODING_CODE = "37331000000100";
     private static final String CODING_DISPLAY = "Comment note";
 
-    public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    public List<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                           String practiseCode) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
@@ -49,8 +49,10 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
             .collect(Collectors.toList());
     }
 
-    private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04NarrativeStatement narrativeStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+    private Observation mapObservation(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition,
+                                       RCMRMT030101UKNarrativeStatement narrativeStatement, Patient patient, List<Encounter> encounters,
+                                       String practiseCode) {
+
         var narrativeStatementId = narrativeStatement.getId();
         var observation = new Observation();
         observation.setId(narrativeStatement.getId().getRoot());
@@ -81,7 +83,8 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
         }
     }
 
-    private InstantType createIssued(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition composition) {
+    private InstantType createIssued(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition composition) {
+
         if (!composition.getAuthor().getTime().hasNullFlavor()) {
             return DateFormatUtil.parseToInstantType(composition.getAuthor().getTime().getValue());
         }
@@ -89,7 +92,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
         return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
     }
 
-    private Reference createPerformer(RCMRMT030101UK04EhrComposition composition, RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+    private Reference createPerformer(RCMRMT030101UKEhrComposition composition, RCMRMT030101UKNarrativeStatement narrativeStatement) {
         return ParticipantReferenceUtil.getParticipantReference(narrativeStatement.getParticipant(), composition);
     }
 

@@ -54,9 +54,11 @@ public class RCMRMT030101UK04Reason implements RCMRMT030101UKReason {
 
     @XmlElement(required = true, type = RCMRMT030101UK04StatementRef.class)
     protected RCMRMT030101UKStatementRef justifyingStatementRef;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
     @XmlAttribute(name = "typeID")

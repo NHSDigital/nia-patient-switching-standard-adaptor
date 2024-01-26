@@ -18,11 +18,11 @@ import org.hl7.v3.CD;
 import org.hl7.v3.CR;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKAnnotation;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.hl7.v3.RCMRMT030101UKSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,8 +65,8 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private final CodeableConceptMapper codeableConceptMapper;
     private final DatabaseImmunizationChecker immunizationChecker;
 
-    public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+    public List<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+                                          String practiseCode) {
 
         List<Observation> selfReferralObservations =
                 mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
@@ -90,8 +90,9 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return Stream.concat(selfReferralObservations.stream(), observations.stream()).collect(Collectors.toList());
     }
 
-    private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04ObservationStatement observationStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+    private Observation mapObservation(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition,
+        RCMRMT030101UKObservationStatement observationStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+
         var id = observationStatement.getId().getRoot();
 
         Observation observation = new Observation()
@@ -117,10 +118,11 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
-    private Observation mapObservationFromRequestStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-                                                           RCMRMT030101UK04EhrComposition ehrComposition,
-                                                           RCMRMT030101UK04RequestStatement requestStatement, Patient patient,
+    private Observation mapObservationFromRequestStatement(RCMRMT030101UKEhrExtract ehrExtract,
+                                                           RCMRMT030101UKEhrComposition ehrComposition,
+                                                           RCMRMT030101UKRequestStatement requestStatement, Patient patient,
                                                            List<Encounter> encounters, String practiseCode) {
+
         var id = requestStatement.getId().get(0).getRoot();
 
         Observation observation = new Observation()
@@ -143,14 +145,16 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
-    private boolean isNotImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private boolean isNotImmunization(RCMRMT030101UKObservationStatement observationStatement) {
+
         if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
             return !immunizationChecker.isImmunization(observationStatement);
         }
         return true;
     }
 
-    private boolean isSelfReferral(RCMRMT030101UK04RequestStatement requestStatement) {
+    private boolean isSelfReferral(RCMRMT030101UKRequestStatement requestStatement) {
+
         for (CR qualifier : requestStatement.getCode().getQualifier()) {
             if (qualifier.getValue().getCode().equals(SELF_REFERRAL)) {
                 return true;
@@ -262,8 +266,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return subject != null && subject.getPersonalRelationship() != null
             && subject.getPersonalRelationship().getCode() != null && subject.getPersonalRelationship().getCode().getDisplayName() != null;
     }
-    private List<Observation.ObservationComponentComponent> createComponentList(RCMRMT030101UK04RequestStatement
-                                                                                        requestStatement) {
+    private List<Observation.ObservationComponentComponent> createComponentList(RCMRMT030101UKRequestStatement requestStatement) {
         List<Observation.ObservationComponentComponent> componentList = new ArrayList<>();
 
         Observation.ObservationComponentComponent urgency =

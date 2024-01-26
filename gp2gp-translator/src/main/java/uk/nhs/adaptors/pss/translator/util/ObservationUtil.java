@@ -18,9 +18,9 @@ import org.hl7.v3.CV;
 import org.hl7.v3.IVLPQ;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.PQ;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UKAuthor;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKInterpretationRange;
 import org.hl7.v3.RCMRMT030101UKReferenceRange;
 import org.hl7.v3.TS;
@@ -110,7 +110,8 @@ public class ObservationUtil {
         return outputReferenceRanges;
     }
 
-    public static InstantType getIssued(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition matchingEhrComposition) {
+    public static InstantType getIssued(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition matchingEhrComposition) {
+
         if (authorHasValidTimeValue(matchingEhrComposition.getAuthor())) {
             return DateFormatUtil.parseToInstantType(matchingEhrComposition.getAuthor().getTime().getValue());
         }

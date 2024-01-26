@@ -9,8 +9,8 @@ import java.util.Optional;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BloodPressureValidatorUtil {
@@ -78,10 +78,10 @@ public class BloodPressureValidatorUtil {
             && (validDiastolic.contains(observationStatement1) || validDiastolic.contains(observationStatement2));
     }
 
-    public static boolean containsValidBloodPressureTriple(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    public static boolean containsValidBloodPressureTriple(RCMRMT030101UKCompoundStatement compoundStatement) {
         var observationStatements = compoundStatement.getComponent()
             .stream()
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .map(RCMRMT030101UKComponent02::getObservationStatement)
             .filter(Objects::nonNull)
             .toList();
 
@@ -102,7 +102,7 @@ public class BloodPressureValidatorUtil {
     }
 
     public static boolean isBloodPressureWithBatteryAndBloodPressureTriple(
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        RCMRMT030101UKCompoundStatement compoundStatement) {
         return BATTERY_VALUE.equals(compoundStatement.getClassCode().get(0))
             && containsValidBloodPressureTriple(compoundStatement);
     }
