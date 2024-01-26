@@ -34,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
@@ -47,6 +48,7 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
     private static final String END_DATE_PREFIX = "End Date: ";
     private static final String RECORDED_DATE_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-DateRecorded-1";
+    private static final String IMMUNIZATION_ROLE_URL = "http://hl7.org/fhir/stu3/valueset-immunization-role.html";
     public static final String ASSERTER = "asserter";
     public static final String RECORDER = "recorder";
 
@@ -127,8 +129,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
 
         ImmunizationPractitionerComponent recorder = new ImmunizationPractitionerComponent(practitionerReference);
         if (StringUtils.isNotEmpty(role)) {
-            var epRole = new CodeableConcept().setText(role);
-            recorder.setRole(epRole);
+            var epCodeableConceptRole = CodeableConceptUtils.createCodeableConcept(role, IMMUNIZATION_ROLE_URL, null);
+            recorder.setRole(epCodeableConceptRole);
         }
 
         return recorder;

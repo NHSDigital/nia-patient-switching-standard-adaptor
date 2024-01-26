@@ -29801,7 +29801,12 @@
         "primarySource": true,
         "practitioner": [ {
           "role": {
-            "text": "EP"
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/stu3/valueset-immunization-role.html",
+                "code": "EP"
+              }
+            ]
           },
           "actor": {
             "reference": "Practitioner/2E86E940-9011-11EC-B1E5-0800200C9A66"
@@ -29875,7 +29880,12 @@
         "primarySource": true,
         "practitioner": [ {
           "role": {
-            "text": "EP"
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/stu3/valueset-immunization-role.html",
+                "code": "EP"
+              }
+            ]
           },
           "actor": {
             "reference": "Practitioner/2E86E940-9011-11EC-B1E5-0800200C9A66"
