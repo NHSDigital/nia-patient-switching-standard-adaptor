@@ -28,13 +28,13 @@ import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component2;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent2;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UKDiscontinue;
 import org.hl7.v3.RCMRMT030101UKPrescribe;
@@ -63,8 +63,8 @@ public class MedicationStatementMapper {
 
     private final MedicationMapper medicationMapper;
 
-    public MedicationStatement mapToMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-                                                        RCMRMT030101UK04MedicationStatement medicationStatement,
+    public MedicationStatement mapToMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract,
+                                                        RCMRMT030101UKMedicationStatement medicationStatement,
                                                         RCMRMT030101UKAuthorise supplyAuthorise,
                                                         String practiseCode,
                                                         DateTimeType authoredOn) {
@@ -117,7 +117,7 @@ public class MedicationStatementMapper {
     }
 
     private Period mapEffectiveTime(RCMRMT030101UKAuthorise authorise, RCMRMT030101UKDiscontinue discontinue,
-        RCMRMT030101UK04MedicationStatement medicationStatement, DateTimeType authoredOn) {
+        RCMRMT030101UKMedicationStatement medicationStatement, DateTimeType authoredOn) {
         Optional<Period> discontinuePeriod = buildMedicationStatementEffectivePeriodEnd(discontinue);
 
         if (discontinuePeriod.isEmpty()) {
@@ -129,8 +129,8 @@ public class MedicationStatementMapper {
             .orElse(discontinuePeriod.orElseThrow().setStartElement(authoredOn));
     }
 
-    private Period mapEffectiveTime(RCMRMT030101UKAuthorise authorise, RCMRMT030101UK04MedicationStatement medicationStatement,
-        DateTimeType authoredOn) {
+    private Period mapEffectiveTime(RCMRMT030101UKAuthorise authorise, RCMRMT030101UKMedicationStatement medicationStatement,
+                                    DateTimeType authoredOn) {
 
         Period endPeriod = buildDispenseRequestPeriodEnd(authorise, medicationStatement);
 
@@ -157,21 +157,22 @@ public class MedicationStatementMapper {
         return COMPLETED;
     }
 
-    private Optional<DateTimeType> extractHighestSupplyPrescribeTime(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+    private Optional<DateTimeType> extractHighestSupplyPrescribeTime(RCMRMT030101UKEhrExtract ehrExtract, String id) {
+
         return ehrExtract.getComponent()
             .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .map(RCMRMT030101UKComponent::getEhrFolder)
+            .map(RCMRMT030101UKEhrFolder::getComponent)
             .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .map(RCMRMT030101UK04EhrComposition::getComponent)
+            .map(RCMRMT030101UKComponent3::getEhrComposition)
+            .map(RCMRMT030101UKEhrComposition::getComponent)
             .flatMap(List::stream)
             .flatMap(MedicationMapperUtils::extractAllMedications)
             .filter(Objects::nonNull)
-            .map(RCMRMT030101UK04MedicationStatement::getComponent)
+            .map(RCMRMT030101UKMedicationStatement::getComponent)
             .flatMap(List::stream)
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
             .filter(prescribe -> hasLinkedInFulfillment(prescribe, id))
             .filter(RCMRMT030101UKPrescribe::hasAvailabilityTime)
             .map(RCMRMT030101UKPrescribe::getAvailabilityTime)

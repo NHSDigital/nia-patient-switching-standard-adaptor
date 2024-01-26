@@ -56,11 +56,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class RCMRMT030101UK04Participant implements RCMRMT030101UKParticipant {
 
     protected IVLTS time;
+
     @XmlElement(required = true, type = RCMRMT030101UK04AgentRef.class)
     protected RCMRMT030101UKAgentRef agentRef;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode", required = true)
     protected List<String> typeCode;
     @XmlAttribute(name = "contextControlCode")

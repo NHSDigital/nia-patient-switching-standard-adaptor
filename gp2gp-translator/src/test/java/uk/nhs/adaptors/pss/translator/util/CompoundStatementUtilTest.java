@@ -9,8 +9,9 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 
 import org.hl7.v3.CD;
-import org.hl7.v3.RCMRMT030101UK04Component02;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
@@ -45,14 +46,14 @@ public class CompoundStatementUtilTest {
         var compoundStatement = unmarshallCompoundStatement("NestedMedicationsCompoundStatement.xml");
         var mappedValues = CompoundStatementUtil
             .extractResourcesFromCompound(compoundStatement,
-                RCMRMT030101UK04Component02::hasCompoundStatement);
+                RCMRMT030101UKComponent02::hasCompoundStatement);
 
         assertThat(mappedValues.size()).isEqualTo(EXPECTED_DISPLAYED_NAMES.size());
 
         var displayNames = mappedValues
             .stream()
-            .map(RCMRMT030101UK04Component02::getCompoundStatement)
-            .map(RCMRMT030101UK04CompoundStatement::getCode)
+            .map(RCMRMT030101UKComponent02::getCompoundStatement)
+            .map(RCMRMT030101UKCompoundStatement::getCode)
             .map(CD::getDisplayName)
             .toList();
         assertTrue(EXPECTED_DISPLAYED_NAMES.containsAll(displayNames));
@@ -63,8 +64,8 @@ public class CompoundStatementUtilTest {
         var compoundStatement = unmarshallCompoundStatement("NestedMedicationsCompoundStatement.xml");
         var mappedValues = CompoundStatementUtil
             .extractResourcesFromCompound(compoundStatement,
-                RCMRMT030101UK04Component02::hasMedicationStatement,
-                RCMRMT030101UK04Component02::getMedicationStatement);
+                RCMRMT030101UKComponent02::hasMedicationStatement,
+                RCMRMT030101UKComponent02::getMedicationStatement);
 
         assertThat(mappedValues.size()).isEqualTo(EXPECTED_MEDICATION_STATEMENT_COUNT);
         mappedValues.forEach(
@@ -77,8 +78,8 @@ public class CompoundStatementUtilTest {
         var compoundStatement = unmarshallCompoundStatement("NestedObservationCompoundStatement.xml");
         var mappedValues = CompoundStatementUtil
             .extractResourcesFromCompound(compoundStatement,
-                RCMRMT030101UK04Component02::hasObservationStatement,
-                RCMRMT030101UK04Component02::getObservationStatement);
+                RCMRMT030101UKComponent02::hasObservationStatement,
+                RCMRMT030101UKComponent02::getObservationStatement);
 
         assertThat(mappedValues.size()).isEqualTo(EXPECTED_OBSERVATION_STATEMENT_COUNT);
         mappedValues.forEach(
@@ -91,8 +92,8 @@ public class CompoundStatementUtilTest {
         var compoundStatement = unmarshallCompoundStatement("NestedLinkSetsStatement.xml");
         var mappedValues = CompoundStatementUtil
             .extractResourcesFromCompound(compoundStatement,
-                RCMRMT030101UK04Component02::hasLinkSet,
-                RCMRMT030101UK04Component02::getLinkSet);
+                RCMRMT030101UKComponent02::hasLinkSet,
+                RCMRMT030101UKComponent02::getLinkSet);
 
         assertThat(mappedValues.size()).isEqualTo(EXPECTED_LINKSET_COUNT);
         mappedValues.forEach(
@@ -105,16 +106,16 @@ public class CompoundStatementUtilTest {
         var compoundStatement = unmarshallCompoundStatement("NestedResourcesStatement.xml");
         var mappedValuesLinkSet = CompoundStatementUtil
             .extractResourcesFromCompound(compoundStatement,
-                RCMRMT030101UK04Component02::hasLinkSet,
-                RCMRMT030101UK04Component02::getLinkSet);
+                RCMRMT030101UKComponent02::hasLinkSet,
+                RCMRMT030101UKComponent02::getLinkSet);
         var mappedValuesObservationStatement = CompoundStatementUtil
             .extractResourcesFromCompound(compoundStatement,
-                RCMRMT030101UK04Component02::hasObservationStatement,
-                RCMRMT030101UK04Component02::getObservationStatement);
+                RCMRMT030101UKComponent02::hasObservationStatement,
+                RCMRMT030101UKComponent02::getObservationStatement);
         var mappedValuesMedicationStatement = CompoundStatementUtil
             .extractResourcesFromCompound(compoundStatement,
-                RCMRMT030101UK04Component02::hasMedicationStatement,
-                RCMRMT030101UK04Component02::getMedicationStatement);
+                RCMRMT030101UKComponent02::hasMedicationStatement,
+                RCMRMT030101UKComponent02::getMedicationStatement);
 
         assertThat(mappedValuesLinkSet.size()).isEqualTo(EXPECTED_LINKSET_MIXED_COUNT);
         assertThat(mappedValuesObservationStatement.size()).isEqualTo(EXPECTED_OBSERVATION_STATEMENT_MIXED_COUNT);
@@ -132,7 +133,7 @@ public class CompoundStatementUtilTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04CompoundStatement unmarshallCompoundStatement(String fileName) {
+    private RCMRMT030101UKCompoundStatement unmarshallCompoundStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_COMPOUND_STATEMENTS + fileName),
             RCMRMT030101UK04CompoundStatement.class);
     }

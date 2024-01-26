@@ -55,9 +55,11 @@ public class RCMRMT030101UK04StatementRef implements RCMRMT030101UKStatementRef 
 
     @XmlElement(required = true)
     protected II id;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode", required = true)
     protected List<String> classCode;
     @XmlAttribute(name = "moodCode", required = true)

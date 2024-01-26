@@ -33,11 +33,11 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UKAnnotation;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
@@ -57,8 +57,8 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+    public List<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+                                          String practiseCode) {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllCompoundStatements(component)
                 .filter(Objects::nonNull)
@@ -69,8 +69,9 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
             .toList();
     }
 
-    private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+    private Observation mapObservation(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition,
+                                       RCMRMT030101UKCompoundStatement compoundStatement, Patient patient, List<Encounter> encounters,
+                                       String practiseCode) {
         var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
         var id = compoundStatement.getId().get(0);
 
@@ -175,17 +176,18 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
     }
 
     private List<RCMRMT030101UKObservationStatement> getObservationStatementsFromCompoundStatement(
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement.getComponent().stream()
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .map(RCMRMT030101UKComponent02::getObservationStatement)
             .filter(Objects::nonNull)
             .toList();
     }
 
     private List<RCMRMT030101UKNarrativeStatement> getNarrativeStatementsFromCompoundStatement(
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+        RCMRMT030101UKCompoundStatement compoundStatement) {
         return compoundStatement.getComponent().stream()
-            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .map(RCMRMT030101UKComponent02::getNarrativeStatement)
             .filter(Objects::nonNull)
             .toList();
     }
