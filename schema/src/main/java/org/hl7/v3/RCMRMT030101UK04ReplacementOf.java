@@ -54,9 +54,11 @@ public class RCMRMT030101UK04ReplacementOf implements RCMRMT030101UKReplacementO
 
     @XmlElement(required = true, type = RCMRMT030101UK04StatementRef.class)
     protected RCMRMT030101UKStatementRef priorStatementRef;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
     @XmlAttribute(name = "typeID")

@@ -50,19 +50,24 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "RCMR_MT030101UK04.Component3", propOrder = {
     "ehrComposition"
 })
-public class RCMRMT030101UK04Component3 {
+public class RCMRMT030101UK04Component3 implements RCMRMT030101UKComponent3 {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04EhrComposition ehrComposition;
+    @XmlElement(required = true, type = RCMRMT030101UK04EhrComposition.class)
+    protected RCMRMT030101UKEhrComposition ehrComposition;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
+
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
+
     @XmlAttribute(name = "realmCode")
     protected List<String> realmCode;
+
     @XmlAttribute(name = "nullFlavor")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String nullFlavor;
@@ -75,7 +80,8 @@ public class RCMRMT030101UK04Component3 {
      *     {@link RCMRMT030101UK04EhrComposition }
      *     
      */
-    public RCMRMT030101UK04EhrComposition getEhrComposition() {
+    @Override
+    public RCMRMT030101UKEhrComposition getEhrComposition() {
         return ehrComposition;
     }
 
@@ -87,10 +93,12 @@ public class RCMRMT030101UK04Component3 {
      *     {@link RCMRMT030101UK04EhrComposition }
      *     
      */
-    public void setEhrComposition(RCMRMT030101UK04EhrComposition value) {
+    @Override
+    public void setEhrComposition(RCMRMT030101UKEhrComposition value) {
         this.ehrComposition = value;
     }
 
+    @Override
     public boolean hasEhrComposition() {
         return ehrComposition != null;
     }
@@ -103,6 +111,7 @@ public class RCMRMT030101UK04Component3 {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -119,6 +128,7 @@ public class RCMRMT030101UK04Component3 {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -145,9 +155,10 @@ public class RCMRMT030101UK04Component3 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
-            typeCode = new ArrayList<String>();
+            typeCode = new ArrayList<>();
         }
         return this.typeCode;
     }
@@ -174,9 +185,10 @@ public class RCMRMT030101UK04Component3 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -203,9 +215,10 @@ public class RCMRMT030101UK04Component3 {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -218,6 +231,7 @@ public class RCMRMT030101UK04Component3 {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -230,6 +244,7 @@ public class RCMRMT030101UK04Component3 {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

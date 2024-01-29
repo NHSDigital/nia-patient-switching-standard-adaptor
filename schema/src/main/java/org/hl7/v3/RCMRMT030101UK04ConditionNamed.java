@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -45,17 +46,20 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.ConditionNamed", propOrder = {
     "namedStatementRef"
 })
-public class RCMRMT030101UK04ConditionNamed {
+public class RCMRMT030101UK04ConditionNamed implements RCMRMT030101UKConditionNamed {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04StatementRef namedStatementRef;
+    @XmlElement(required = true, type = RCMRMT030101UK04StatementRef.class)
+    protected RCMRMT030101UKStatementRef namedStatementRef;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
     @XmlAttribute(name = "inversionInd")
@@ -76,7 +80,8 @@ public class RCMRMT030101UK04ConditionNamed {
      *     {@link RCMRMT030101UK04StatementRef }
      *     
      */
-    public RCMRMT030101UK04StatementRef getNamedStatementRef() {
+    @Override
+    public RCMRMT030101UKStatementRef getNamedStatementRef() {
         return namedStatementRef;
     }
 
@@ -88,7 +93,8 @@ public class RCMRMT030101UK04ConditionNamed {
      *     {@link RCMRMT030101UK04StatementRef }
      *     
      */
-    public void setNamedStatementRef(RCMRMT030101UK04StatementRef value) {
+    @Override
+    public void setNamedStatementRef(RCMRMT030101UKStatementRef value) {
         this.namedStatementRef = value;
     }
 
@@ -100,6 +106,7 @@ public class RCMRMT030101UK04ConditionNamed {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -116,6 +123,7 @@ public class RCMRMT030101UK04ConditionNamed {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -142,6 +150,7 @@ public class RCMRMT030101UK04ConditionNamed {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<String>();
@@ -157,6 +166,7 @@ public class RCMRMT030101UK04ConditionNamed {
      *     {@link Boolean }
      *     
      */
+    @Override
     public boolean isInversionInd() {
         if (inversionInd == null) {
             return true;
@@ -173,6 +183,7 @@ public class RCMRMT030101UK04ConditionNamed {
      *     {@link Boolean }
      *     
      */
+    @Override
     public void setInversionInd(Boolean value) {
         this.inversionInd = value;
     }
@@ -199,6 +210,7 @@ public class RCMRMT030101UK04ConditionNamed {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -228,6 +240,7 @@ public class RCMRMT030101UK04ConditionNamed {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -243,6 +256,7 @@ public class RCMRMT030101UK04ConditionNamed {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -255,6 +269,7 @@ public class RCMRMT030101UK04ConditionNamed {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

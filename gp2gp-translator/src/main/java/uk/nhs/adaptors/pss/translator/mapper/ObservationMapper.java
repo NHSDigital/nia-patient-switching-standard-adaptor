@@ -17,13 +17,13 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CR;
 import org.hl7.v3.CV;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
-import org.hl7.v3.RCMRMT030101UK04RequestStatement;
-import org.hl7.v3.RCMRMT030101UK04Subject;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKRequestStatement;
+import org.hl7.v3.RCMRMT030101UKSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
@@ -65,8 +65,8 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private final CodeableConceptMapper codeableConceptMapper;
     private final DatabaseImmunizationChecker immunizationChecker;
 
-    public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+    public List<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+                                          String practiseCode) {
 
         List<Observation> selfReferralObservations =
                 mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
@@ -90,8 +90,9 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return Stream.concat(selfReferralObservations.stream(), observations.stream()).collect(Collectors.toList());
     }
 
-    private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04ObservationStatement observationStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+    private Observation mapObservation(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition,
+        RCMRMT030101UKObservationStatement observationStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+
         var id = observationStatement.getId().getRoot();
 
         Observation observation = new Observation()
@@ -117,10 +118,11 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
-    private Observation mapObservationFromRequestStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-                                                           RCMRMT030101UK04EhrComposition ehrComposition,
-                                                           RCMRMT030101UK04RequestStatement requestStatement, Patient patient,
+    private Observation mapObservationFromRequestStatement(RCMRMT030101UKEhrExtract ehrExtract,
+                                                           RCMRMT030101UKEhrComposition ehrComposition,
+                                                           RCMRMT030101UKRequestStatement requestStatement, Patient patient,
                                                            List<Encounter> encounters, String practiseCode) {
+
         var id = requestStatement.getId().get(0).getRoot();
 
         Observation observation = new Observation()
@@ -143,14 +145,16 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
-    private boolean isNotImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private boolean isNotImmunization(RCMRMT030101UKObservationStatement observationStatement) {
+
         if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
             return !immunizationChecker.isImmunization(observationStatement);
         }
         return true;
     }
 
-    private boolean isSelfReferral(RCMRMT030101UK04RequestStatement requestStatement) {
+    private boolean isSelfReferral(RCMRMT030101UKRequestStatement requestStatement) {
+
         for (CR qualifier : requestStatement.getCode().getQualifier()) {
             if (qualifier.getValue().getCode().equals(SELF_REFERRAL)) {
                 return true;
@@ -194,7 +198,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return null;
     }
 
-    private String getComment(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation, RCMRMT030101UK04Subject subject, CD code) {
+    private String getComment(List<RCMRMT030101UKPertinentInformation02> pertinentInformation, RCMRMT030101UKSubject subject, CD code) {
         StringJoiner stringJoiner = new StringJoiner(StringUtils.SPACE);
 
         if (subjectHasOriginalText(subject)) {
@@ -222,23 +226,23 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     }
 
     private Optional<String> extractSequenceCommentOfValue(BigInteger value,
-        List<RCMRMT030101UK04PertinentInformation02> pertinentInformation) {
+        List<RCMRMT030101UKPertinentInformation02> pertinentInformation) {
         return pertinentInformation.stream()
             .filter(this::pertinentInformationHasOriginalText)
             .filter(pertinentInfo -> !pertinentInfo.getSequenceNumber().hasNullFlavor())
             .filter(pertinentInfo -> pertinentInfo.getSequenceNumber().getValue().equals(value))
-            .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
-            .map(RCMRMT030101UK04Annotation::getText)
+            .map(RCMRMT030101UKPertinentInformation02::getPertinentAnnotation)
+            .map(RCMRMT030101UKAnnotation::getText)
             .findFirst();
     }
 
-    private Optional<String> extractAllPostFixedSequenceComments(List<RCMRMT030101UK04PertinentInformation02> pertinentInformation) {
+    private Optional<String> extractAllPostFixedSequenceComments(List<RCMRMT030101UKPertinentInformation02> pertinentInformation) {
         String postFixedSequenceComments = pertinentInformation.stream()
             .filter(this::pertinentInformationHasOriginalText)
             .filter(pertinentInfo -> pertinentInfo.getSequenceNumber().hasNullFlavor()
                 || pertinentInfo.getSequenceNumber().getValue().equals(ONE))
-            .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
-            .map(RCMRMT030101UK04Annotation::getText)
+            .map(RCMRMT030101UKPertinentInformation02::getPertinentAnnotation)
+            .map(RCMRMT030101UKAnnotation::getText)
             .collect(Collectors.joining(StringUtils.SPACE));
 
         if (StringUtils.isEmpty(postFixedSequenceComments)) {
@@ -248,22 +252,21 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return Optional.of(postFixedSequenceComments);
     }
 
-    private boolean pertinentInformationHasOriginalText(RCMRMT030101UK04PertinentInformation02 pertinentInformation) {
+    private boolean pertinentInformationHasOriginalText(RCMRMT030101UKPertinentInformation02 pertinentInformation) {
         return pertinentInformation != null && pertinentInformation.getPertinentAnnotation() != null
             && pertinentInformation.getPertinentAnnotation().getText() != null;
     }
 
-    private boolean subjectHasOriginalText(RCMRMT030101UK04Subject subject) {
+    private boolean subjectHasOriginalText(RCMRMT030101UKSubject subject) {
         return subject != null && subject.getPersonalRelationship() != null
             && subject.getPersonalRelationship().getCode() != null && subject.getPersonalRelationship().getCode().getOriginalText() != null;
     }
 
-    private boolean subjectHasDisplayName(RCMRMT030101UK04Subject subject) {
+    private boolean subjectHasDisplayName(RCMRMT030101UKSubject subject) {
         return subject != null && subject.getPersonalRelationship() != null
             && subject.getPersonalRelationship().getCode() != null && subject.getPersonalRelationship().getCode().getDisplayName() != null;
     }
-    private List<Observation.ObservationComponentComponent> createComponentList(RCMRMT030101UK04RequestStatement
-                                                                                        requestStatement) {
+    private List<Observation.ObservationComponentComponent> createComponentList(RCMRMT030101UKRequestStatement requestStatement) {
         List<Observation.ObservationComponentComponent> componentList = new ArrayList<>();
 
         Observation.ObservationComponentComponent urgency =

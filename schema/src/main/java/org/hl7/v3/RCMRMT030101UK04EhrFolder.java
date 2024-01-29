@@ -63,7 +63,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "responsibleParty",
     "component"
 })
-public class RCMRMT030101UK04EhrFolder {
+public class RCMRMT030101UK04EhrFolder implements RCMRMT030101UKEhrFolder {
 
     @XmlElement(required = true)
     protected II id;
@@ -73,15 +73,20 @@ public class RCMRMT030101UK04EhrFolder {
     protected IVLTS effectiveTime;
     @XmlElement(required = true)
     protected TS availabilityTime;
+
     @XmlElement(required = true, type = RCMRMT030101UK04Author2.class)
     protected RCMRMT030101UKAuthor2 author;
+
     @XmlElement(required = true, type = RCMRMT030101UK04ResponsibleParty.class)
     protected RCMRMT030101UKResponsibleParty responsibleParty;
-    @XmlElement(required = true)
-    protected List<RCMRMT030101UK04Component3> component;
+
+    @XmlElement(required = true, type = RCMRMT030101UK04Component3.class)
+    protected List<RCMRMT030101UKComponent3> component;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
     @XmlAttribute(name = "moodCode")
@@ -102,6 +107,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -114,6 +120,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -126,6 +133,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link CS }
      *     
      */
+    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -138,6 +146,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link CS }
      *     
      */
+    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -150,6 +159,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -162,6 +172,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
@@ -174,6 +185,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -186,6 +198,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link TS }
      *     
      */
+    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
@@ -198,6 +211,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link RCMRMT030101UK04Author2 }
      *     
      */
+    @Override
     public RCMRMT030101UKAuthor2 getAuthor() {
         return author;
     }
@@ -210,6 +224,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link RCMRMT030101UK04Author2 }
      *     
      */
+    @Override
     public void setAuthor(RCMRMT030101UKAuthor2 value) {
         this.author = value;
     }
@@ -222,6 +237,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link RCMRMT030101UK04ResponsibleParty }
      *     
      */
+    @Override
     public RCMRMT030101UKResponsibleParty getResponsibleParty() {
         return responsibleParty;
     }
@@ -234,6 +250,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link RCMRMT030101UK04ResponsibleParty }
      *     
      */
+    @Override
     public void setResponsibleParty(RCMRMT030101UKResponsibleParty value) {
         this.responsibleParty = value;
     }
@@ -260,9 +277,10 @@ public class RCMRMT030101UK04EhrFolder {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Component3> getComponent() {
+    @Override
+    public List<RCMRMT030101UKComponent3> getComponent() {
         if (component == null) {
-            component = new ArrayList<RCMRMT030101UK04Component3>();
+            component = new ArrayList<>();
         }
         return this.component;
     }
@@ -275,6 +293,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActHeir";
@@ -291,6 +310,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -317,9 +337,10 @@ public class RCMRMT030101UK04EhrFolder {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -346,9 +367,10 @@ public class RCMRMT030101UK04EhrFolder {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -375,9 +397,10 @@ public class RCMRMT030101UK04EhrFolder {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -404,9 +427,10 @@ public class RCMRMT030101UK04EhrFolder {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -419,6 +443,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -431,6 +456,7 @@ public class RCMRMT030101UK04EhrFolder {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

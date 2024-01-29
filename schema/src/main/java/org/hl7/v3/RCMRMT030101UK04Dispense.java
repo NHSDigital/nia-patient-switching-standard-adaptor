@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -53,6 +54,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Dispense", propOrder = {
     "id",
@@ -65,7 +67,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "consumable",
     "pertinentInformation"
 })
-public class RCMRMT030101UK04Dispense {
+public class RCMRMT030101UK04Dispense implements RCMRMT030101UKDispense {
 
     @XmlElement(required = true)
     protected II id;
@@ -77,21 +79,35 @@ public class RCMRMT030101UK04Dispense {
     protected TS availabilityTime;
     @XmlElement(required = true)
     protected PQ quantity;
-    protected RCMRMT030101UK04InFulfillmentOf inFulfillmentOf;
-    protected RCMRMT030101UK04Performer performer;
-    protected RCMRMT030101UK04Product consumable;
-    protected List<RCMRMT030101UK04PertinentInformation2> pertinentInformation;
+
+    @XmlElement(type = RCMRMT030101UK04InFulfillmentOf.class)
+    protected RCMRMT030101UKInFulfillmentOf inFulfillmentOf;
+
+    @XmlElement(type = RCMRMT030101UK04Performer.class)
+    protected RCMRMT030101UKPerformer performer;
+
+    @XmlElement(type = RCMRMT030101UK04Product.class)
+    protected RCMRMT030101UKProduct consumable;
+
+    @XmlElement(type = RCMRMT030101UK04PertinentInformation2.class)
+    protected List<RCMRMT030101UKPertinentInformation2> pertinentInformation;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
+
     @XmlAttribute(name = "moodCode")
     protected List<String> moodCode;
+
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
+
     @XmlAttribute(name = "realmCode")
     protected List<String> realmCode;
+
     @XmlAttribute(name = "nullFlavor")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String nullFlavor;
@@ -104,6 +120,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -116,6 +133,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -128,6 +146,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link CV }
      *     
      */
+    @Override
     public CV getCode() {
         return code;
     }
@@ -140,6 +159,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link CV }
      *     
      */
+    @Override
     public void setCode(CV value) {
         this.code = value;
     }
@@ -152,6 +172,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link CS }
      *     
      */
+    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -164,6 +185,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link CS }
      *     
      */
+    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -176,6 +198,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -188,6 +211,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link TS }
      *     
      */
+    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
@@ -200,6 +224,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link PQ }
      *     
      */
+    @Override
     public PQ getQuantity() {
         return quantity;
     }
@@ -212,6 +237,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link PQ }
      *     
      */
+    @Override
     public void setQuantity(PQ value) {
         this.quantity = value;
     }
@@ -224,7 +250,8 @@ public class RCMRMT030101UK04Dispense {
      *     {@link RCMRMT030101UK04InFulfillmentOf }
      *     
      */
-    public RCMRMT030101UK04InFulfillmentOf getInFulfillmentOf() {
+    @Override
+    public RCMRMT030101UKInFulfillmentOf getInFulfillmentOf() {
         return inFulfillmentOf;
     }
 
@@ -236,7 +263,8 @@ public class RCMRMT030101UK04Dispense {
      *     {@link RCMRMT030101UK04InFulfillmentOf }
      *     
      */
-    public void setInFulfillmentOf(RCMRMT030101UK04InFulfillmentOf value) {
+    @Override
+    public void setInFulfillmentOf(RCMRMT030101UKInFulfillmentOf value) {
         this.inFulfillmentOf = value;
     }
 
@@ -248,7 +276,8 @@ public class RCMRMT030101UK04Dispense {
      *     {@link RCMRMT030101UK04Performer }
      *     
      */
-    public RCMRMT030101UK04Performer getPerformer() {
+    @Override
+    public RCMRMT030101UKPerformer getPerformer() {
         return performer;
     }
 
@@ -260,7 +289,8 @@ public class RCMRMT030101UK04Dispense {
      *     {@link RCMRMT030101UK04Performer }
      *     
      */
-    public void setPerformer(RCMRMT030101UK04Performer value) {
+    @Override
+    public void setPerformer(RCMRMT030101UKPerformer value) {
         this.performer = value;
     }
 
@@ -272,7 +302,8 @@ public class RCMRMT030101UK04Dispense {
      *     {@link RCMRMT030101UK04Product }
      *     
      */
-    public RCMRMT030101UK04Product getConsumable() {
+    @Override
+    public RCMRMT030101UKProduct getConsumable() {
         return consumable;
     }
 
@@ -284,7 +315,8 @@ public class RCMRMT030101UK04Dispense {
      *     {@link RCMRMT030101UK04Product }
      *     
      */
-    public void setConsumable(RCMRMT030101UK04Product value) {
+    @Override
+    public void setConsumable(RCMRMT030101UKProduct value) {
         this.consumable = value;
     }
 
@@ -310,9 +342,10 @@ public class RCMRMT030101UK04Dispense {
      * 
      * 
      */
-    public List<RCMRMT030101UK04PertinentInformation2> getPertinentInformation() {
+    @Override
+    public List<RCMRMT030101UKPertinentInformation2> getPertinentInformation() {
         if (pertinentInformation == null) {
-            pertinentInformation = new ArrayList<RCMRMT030101UK04PertinentInformation2>();
+            pertinentInformation = new ArrayList<>();
         }
         return this.pertinentInformation;
     }
@@ -325,6 +358,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Supply";
@@ -341,6 +375,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -367,9 +402,10 @@ public class RCMRMT030101UK04Dispense {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -396,9 +432,10 @@ public class RCMRMT030101UK04Dispense {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -425,9 +462,10 @@ public class RCMRMT030101UK04Dispense {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -454,9 +492,10 @@ public class RCMRMT030101UK04Dispense {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -469,6 +508,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -481,6 +521,7 @@ public class RCMRMT030101UK04Dispense {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

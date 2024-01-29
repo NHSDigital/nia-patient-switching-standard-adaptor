@@ -10,13 +10,13 @@ import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.CR;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04LinkSet;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.RCMRMT030101UKPlanStatement;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class ResourceReferenceUtil {
 
     private final DatabaseImmunizationChecker immunizationChecker;
 
-    public void extractChildReferencesFromEhrComposition(RCMRMT030101UK04EhrComposition ehrComposition,
+    public void extractChildReferencesFromEhrComposition(RCMRMT030101UKEhrComposition ehrComposition,
                                                          List<Reference> entryReferences) {
 
         ehrComposition.getComponent().forEach(component -> {
@@ -48,7 +48,7 @@ public class ResourceReferenceUtil {
         });
     }
 
-    public void extractChildReferencesFromCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement,
+    public void extractChildReferencesFromCompoundStatement(RCMRMT030101UKCompoundStatement compoundStatement,
                                                             List<Reference> entryReferences) {
         if (compoundStatement != null) {
             if (isDiagnosticReport(compoundStatement)) {
@@ -73,8 +73,9 @@ public class ResourceReferenceUtil {
         }
     }
 
-    public void extractChildReferencesFromTemplate(RCMRMT030101UK04CompoundStatement compoundStatement,
+    public void extractChildReferencesFromTemplate(RCMRMT030101UKCompoundStatement compoundStatement,
                                                    List<Reference> entryReferences) {
+
         compoundStatement.getComponent().forEach(component -> {
             addObservationStatementEntry(component.getObservationStatement(), entryReferences, compoundStatement);
             addPlanStatementEntry(component.getPlanStatement(), entryReferences);
@@ -86,8 +87,9 @@ public class ResourceReferenceUtil {
         });
     }
 
-    private static boolean isNotIgnoredResource(RCMRMT030101UK04CompoundStatement compoundStatement,
+    private static boolean isNotIgnoredResource(RCMRMT030101UKCompoundStatement compoundStatement,
                                                 List<Reference> entryReferences) {
+
         var references = entryReferences.stream()
             .map(Reference::getReference)
             .toList();
@@ -98,8 +100,8 @@ public class ResourceReferenceUtil {
             || !references.contains(OBSERVATION_REFERENCE.formatted(compoundStatement.getId().get(0).getRoot()));
     }
 
-    private void addObservationStatementEntry(RCMRMT030101UK04ObservationStatement observationStatement,
-                                              List<Reference> entryReferences, RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private void addObservationStatementEntry(RCMRMT030101UKObservationStatement observationStatement,
+                                              List<Reference> entryReferences, RCMRMT030101UKCompoundStatement compoundStatement) {
         if (observationStatement != null && isNotIgnoredResource(compoundStatement, entryReferences)) {
             if (isBloodPressure(compoundStatement)) {
                 addBloodPressureEntry(compoundStatement, entryReferences);
@@ -113,21 +115,22 @@ public class ResourceReferenceUtil {
         }
     }
 
-    private static void addAllergyIntoleranceEntry(RCMRMT030101UK04CompoundStatement compoundStatement,
+    private static void addAllergyIntoleranceEntry(RCMRMT030101UKCompoundStatement compoundStatement,
                                                    List<Reference> entryReferences) {
+
         var observationStatementPart = compoundStatement.getComponent().get(0).getObservationStatement();
 
         entryReferences.add(createResourceReference(ResourceType.AllergyIntolerance.name(),
                 observationStatementPart.getId().getRoot()));
     }
 
-    private static void addDiagnosticReportEntry(RCMRMT030101UK04CompoundStatement compoundStatement,
+    private static void addDiagnosticReportEntry(RCMRMT030101UKCompoundStatement compoundStatement,
                                                  List<Reference> entryReferences) {
         entryReferences.add(createResourceReference(ResourceType.DiagnosticReport.name(),
                 compoundStatement.getId().get(0).getRoot()));
     }
 
-    private static void addMedicationEntry(RCMRMT030101UK04MedicationStatement medicationStatement,
+    private static void addMedicationEntry(RCMRMT030101UKMedicationStatement medicationStatement,
                                            List<Reference> entryReferences) {
         if (medicationStatement != null) {
             medicationStatement.getComponent().forEach(component -> {
@@ -142,25 +145,26 @@ public class ResourceReferenceUtil {
         }
     }
 
-    private static void addBloodPressureEntry(RCMRMT030101UK04CompoundStatement compoundStatement,
+    private static void addBloodPressureEntry(RCMRMT030101UKCompoundStatement compoundStatement,
                                               List<Reference> entryReferences) {
+
         entryReferences.add(createResourceReference(ResourceType.Observation.name(),
                 compoundStatement.getId().get(0).getRoot()));
     }
 
-    private static void addImmunizationEntry(RCMRMT030101UK04ObservationStatement observationStatement,
+    private static void addImmunizationEntry(RCMRMT030101UKObservationStatement observationStatement,
                                              List<Reference> entryReferences) {
         entryReferences.add(createResourceReference(ResourceType.Immunization.name(),
                 observationStatement.getId().getRoot()));
     }
 
-    private static void addUncategorisedObservationEntry(RCMRMT030101UK04ObservationStatement observationStatement,
+    private static void addUncategorisedObservationEntry(RCMRMT030101UKObservationStatement observationStatement,
                                                          List<Reference> entryReferences) {
         entryReferences.add(createResourceReference(ResourceType.Observation.name(),
                 observationStatement.getId().getRoot()));
     }
 
-    private static void addPlanStatementEntry(RCMRMT030101UK04PlanStatement planStatement,
+    private static void addPlanStatementEntry(RCMRMT030101UKPlanStatement planStatement,
                                               List<Reference> entryReferences) {
         if (planStatement != null) {
             entryReferences.add(createResourceReference(ResourceType.ProcedureRequest.name(),
@@ -192,7 +196,7 @@ public class ResourceReferenceUtil {
         }
     }
 
-    private static void addNarrativeStatementEntry(RCMRMT030101UK04NarrativeStatement narrativeStatement,
+    private static void addNarrativeStatementEntry(RCMRMT030101UKNarrativeStatement narrativeStatement,
                                                    List<Reference> entryReferences) {
         if (narrativeStatement != null) {
             if (isDocumentReference(narrativeStatement)) {
@@ -207,7 +211,7 @@ public class ResourceReferenceUtil {
         }
     }
 
-    private static void addLinkSetEntry(RCMRMT030101UK04LinkSet linkSet,
+    private static void addLinkSetEntry(RCMRMT030101UKLinkSet linkSet,
                                         List<Reference> entryReferences) {
         if (linkSet != null) {
             entryReferences.add(createResourceReference(ResourceType.Condition.name(), linkSet.getId().getRoot()));

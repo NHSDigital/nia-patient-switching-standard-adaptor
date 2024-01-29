@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UKAgentRef;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKParticipant;
 import org.hl7.v3.RCMRMT030101UKParticipant2;
 
@@ -24,7 +24,8 @@ public class ParticipantReferenceUtil {
     public static final String RECORDER = "recorder";
 
     public static Reference getParticipantReference(List<RCMRMT030101UKParticipant> participantList,
-        RCMRMT030101UK04EhrComposition ehrComposition) {
+                                                    RCMRMT030101UKEhrComposition ehrComposition) {
+
         var nonNullFlavorParticipants = participantList.stream()
             .filter(ParticipantReferenceUtil::isNotNullFlavour)
             .toList();
@@ -60,7 +61,7 @@ public class ParticipantReferenceUtil {
     }
 
 
-    public static Map<String, Optional<Reference>> fetchRecorderAndAsserter(RCMRMT030101UK04EhrComposition ehrComposition) {
+    public static Map<String, Optional<Reference>> fetchRecorderAndAsserter(RCMRMT030101UKEhrComposition ehrComposition) {
 
         var practitioner = Optional.ofNullable(getParticipant2Reference(ehrComposition, "RESP"));
         var author = getAuthorReference(ehrComposition);
@@ -68,7 +69,7 @@ public class ParticipantReferenceUtil {
         return Map.of(RECORDER, author, ASSERTER, practitioner);
     }
 
-    public static Reference getParticipant2Reference(RCMRMT030101UK04EhrComposition ehrComposition, String typeCode) {
+    public static Reference getParticipant2Reference(RCMRMT030101UKEhrComposition ehrComposition, String typeCode) {
 
         var participant2Reference = ehrComposition.getParticipant2().stream()
             .filter(participant2 -> participant2.getNullFlavor() == null)
@@ -85,7 +86,8 @@ public class ParticipantReferenceUtil {
         return null;
     }
 
-    private static Optional<String> getParticipant2Reference(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private static Optional<String> getParticipant2Reference(RCMRMT030101UKEhrComposition ehrComposition) {
+
         return ehrComposition.getParticipant2().stream()
             .filter(participant2 -> participant2.getNullFlavor() == null)
             .map(RCMRMT030101UKParticipant2::getAgentRef)

@@ -50,19 +50,24 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "RCMR_MT030101UK04.InFulfillmentOf2", propOrder = {
     "priorEhrRequest"
 })
-public class RCMRMT030101UK04InFulfillmentOf2 {
+public class RCMRMT030101UK04InFulfillmentOf2 implements RCMRMT030101UKInFulfillmentOf2 {
 
     @XmlElement(required = true, type = RCMRMT030101UK04EhrRequest.class)
     protected RCMRMT030101UKEhrRequest priorEhrRequest;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
+
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
+
     @XmlAttribute(name = "realmCode")
     protected List<String> realmCode;
+
     @XmlAttribute(name = "nullFlavor")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String nullFlavor;
@@ -75,6 +80,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      *     {@link RCMRMT030101UK04EhrRequest }
      *     
      */
+    @Override
     public RCMRMT030101UKEhrRequest getPriorEhrRequest() {
         return priorEhrRequest;
     }
@@ -87,6 +93,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      *     {@link RCMRMT030101UK04EhrRequest }
      *     
      */
+    @Override
     public void setPriorEhrRequest(RCMRMT030101UKEhrRequest value) {
         this.priorEhrRequest = value;
     }
@@ -99,6 +106,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -115,6 +123,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -141,6 +150,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<String>();
@@ -170,6 +180,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -199,6 +210,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -214,6 +226,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -226,6 +239,7 @@ public class RCMRMT030101UK04InFulfillmentOf2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

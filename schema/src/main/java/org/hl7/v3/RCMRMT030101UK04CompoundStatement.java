@@ -79,38 +79,53 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "reference",
     "sequelTo"
 })
-public class RCMRMT030101UK04CompoundStatement {
+public class RCMRMT030101UK04CompoundStatement implements RCMRMT030101UKCompoundStatement {
 
     @XmlElement(required = true)
     protected List<II> id;
+
     @XmlElement(required = true)
     protected CD code;
+
     @XmlElement(required = true)
     protected CS statusCode;
+
     @XmlElement(required = true)
     protected IVLTS effectiveTime;
+
     @XmlElement(required = true)
     protected TS availabilityTime;
     protected CV priorityCode;
     protected CV uncertaintyCode;
-    protected List<RCMRMT030101UK04Specimen03> specimen;
+
+    @XmlElement(type = RCMRMT030101UK04Specimen03.class)
+    protected List<RCMRMT030101UKSpecimen03> specimen;
+
     @XmlElement(required = true, type = RCMRMT030101UK04Component02.class)
-    protected List<RCMRMT030101UK04Component02> component;
+    protected List<RCMRMT030101UKComponent02> component;
+
     @XmlElement(type = RCMRMT030101UK04Informant.class)
     protected List<RCMRMT030101UKInformant> informant;
+
     @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
     protected List<RCMRMT030101UKParticipant> participant;
+
     @XmlElement(type = RCMRMT030101UK04ReplacementOf.class)
     protected List<RCMRMT030101UKReplacementOf> replacementOf;
+
     @XmlElement(type = RCMRMT030101UK04Reason.class)
     protected List<RCMRMT030101UKReason> reason;
+
     @XmlElement(type = RCMRMT030101UK04Reference.class)
     protected List<RCMRMT030101UKReference> reference;
+
     @XmlElement(type = RCMRMT030101UK04SequelTo.class)
     protected List<RCMRMT030101UKSequelTo> sequelTo;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
     @XmlAttribute(name = "moodCode")
@@ -145,6 +160,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<II> getId() {
         if (id == null) {
             id = new ArrayList<II>();
@@ -160,6 +176,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link CD }
      *     
      */
+    @Override
     public CD getCode() {
         return code;
     }
@@ -172,10 +189,12 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link CD }
      *     
      */
+    @Override
     public void setCode(CD value) {
         this.code = value;
     }
 
+    @Override
     public boolean hasCode() {
         return code != null;
     }
@@ -188,6 +207,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link CS }
      *     
      */
+    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -200,6 +220,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link CS }
      *     
      */
+    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -212,10 +233,12 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
 
+    @Override
     public boolean hasEffectiveTime() {
         return effectiveTime != null;
     }
@@ -228,6 +251,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
@@ -240,6 +264,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -252,6 +277,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link TS }
      *     
      */
+    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
@@ -264,6 +290,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link CV }
      *     
      */
+    @Override
     public CV getPriorityCode() {
         return priorityCode;
     }
@@ -276,6 +303,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link CV }
      *     
      */
+    @Override
     public void setPriorityCode(CV value) {
         this.priorityCode = value;
     }
@@ -288,6 +316,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link CV }
      *     
      */
+    @Override
     public CV getUncertaintyCode() {
         return uncertaintyCode;
     }
@@ -300,6 +329,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link CV }
      *     
      */
+    @Override
     public void setUncertaintyCode(CV value) {
         this.uncertaintyCode = value;
     }
@@ -326,9 +356,10 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Specimen03> getSpecimen() {
+    @Override
+    public List<RCMRMT030101UKSpecimen03> getSpecimen() {
         if (specimen == null) {
-            specimen = new ArrayList<RCMRMT030101UK04Specimen03>();
+            specimen = new ArrayList<>();
         }
         return this.specimen;
     }
@@ -355,9 +386,10 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Component02> getComponent() {
+    @Override
+    public List<RCMRMT030101UKComponent02> getComponent() {
         if (component == null) {
-            component = new ArrayList<RCMRMT030101UK04Component02>();
+            component = new ArrayList<>();
         }
         return this.component;
     }
@@ -384,6 +416,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
             informant = new ArrayList<>();
@@ -413,6 +446,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
             participant = new ArrayList<>();
@@ -442,6 +476,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
             replacementOf = new ArrayList<>();
@@ -471,6 +506,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKReason> getReason() {
         if (reason == null) {
             reason = new ArrayList<>();
@@ -500,6 +536,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKReference> getReference() {
         if (reference == null) {
             reference = new ArrayList<>();
@@ -529,6 +566,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
             sequelTo = new ArrayList<>();
@@ -544,6 +582,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActHeir";
@@ -560,6 +599,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -586,6 +626,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -615,6 +656,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
             moodCode = new ArrayList<>();
@@ -644,6 +686,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -673,6 +716,7 @@ public class RCMRMT030101UK04CompoundStatement {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -688,6 +732,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -700,6 +745,7 @@ public class RCMRMT030101UK04CompoundStatement {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

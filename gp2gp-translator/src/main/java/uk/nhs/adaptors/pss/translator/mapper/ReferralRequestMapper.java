@@ -25,9 +25,8 @@ import org.hl7.v3.CD;
 import org.hl7.v3.CR;
 import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.hl7.v3.RCMRMT030101UKResponsibleParty3;
 import org.hl7.v3.TS;
@@ -56,7 +55,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<ReferralRequest> mapResources(RCMRMT030101UK04EhrExtract ehrExtract,
+    public List<ReferralRequest> mapResources(RCMRMT030101UKEhrExtract ehrExtract,
                                               Patient patient,
                                               List<Encounter> encounters,
                                               String practiseCode) {
@@ -69,7 +68,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             .toList();
     }
 
-    public ReferralRequest mapToReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
+    public ReferralRequest mapToReferralRequest(RCMRMT030101UKEhrComposition ehrComposition,
                                                 RCMRMT030101UKRequestStatement requestStatement,
                                                 Patient patient,
                                                 List<Encounter> encounters,
@@ -100,7 +99,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     }
 
     private void setReferralRequestContext(ReferralRequest referralRequest,
-                                           RCMRMT030101UK04EhrComposition ehrComposition,
+                                           RCMRMT030101UKEhrComposition ehrComposition,
                                            List<Encounter> encounters) {
 
         encounters
@@ -214,7 +213,8 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                 && effectiveTime.getCenter().getValue() != null;
     }
 
-    private boolean isNotSelfReferral(RCMRMT030101UK04RequestStatement requestStatement) {
+    private boolean isNotSelfReferral(RCMRMT030101UKRequestStatement requestStatement) {
+
         for (CR qualifier : requestStatement.getCode().getQualifier()) {
             if (qualifier.getValue().getCode().equals(SELF_REFERRAL)) {
                 return false;
