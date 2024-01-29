@@ -248,9 +248,9 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         qualifiers.stream()
                 .map(this::buildEpisodicityText)
                 .filter(Objects::nonNull)
-                .forEach(et -> {
-                    stringJoiner.add("{" + EPISODICITY_COMMENT.formatted(et) + "}");
-                });
+                .forEach(et -> 
+                    stringJoiner.add("{" + EPISODICITY_COMMENT.formatted(et) + "}")
+                );
     }
 
     /**
