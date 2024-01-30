@@ -1303,7 +1303,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "hhhh"
+        "comment": "hhhh {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -1347,7 +1347,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "What does this really mean?"
+        "comment": "What does this really mean? {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -1406,7 +1406,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "hhh €"
+        "comment": "hhh € {Episodicity : code=255217005, displayName=First}"
       }
     },
     {

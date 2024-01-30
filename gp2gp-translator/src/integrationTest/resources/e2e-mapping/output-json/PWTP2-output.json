@@ -8418,7 +8418,8 @@
           {
             "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=288527008, displayName=New}"
       }
     },
     {
@@ -9381,7 +9382,8 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -10010,7 +10012,8 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -10069,7 +10072,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Happy Puppet"
+        "comment": "Happy Puppet {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -10128,7 +10131,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Synonym \"Heart Attack\" selected"
+        "comment": "Synonym \"Heart Attack\" selected {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -10444,7 +10447,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is a standalone note with extended chars Ñ§¬"
+        "comment": "This is a standalone note with extended chars Ñ§¬ {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
