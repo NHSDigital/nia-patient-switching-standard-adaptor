@@ -39,7 +39,7 @@ dependencies {
     liquibaseRuntime 'org.postgresql:postgresql:42.7.1'
     liquibaseRuntime 'org.yaml:snakeyaml:1.17'
 
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
