@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.4.2] - 2024-01-31
+
+### Added
+
+### Changed
+* Added episodicity to comment property in Observations. If existing comment exists, separate with <br>.
+* Codings are now provided (code, display and system) in `PractionionerRole.code` and `Organization.type` fields, 
+  where only the `text` attribute was provided previously.
+
+
+## [1.4.1] - 2024-01-17
+
 ### Added
 * Assigning a role to a practitioner who records vaccinations
 
@@ -16,13 +28,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [1.4.0] - 2024-01-10
 
 ### Changed
-* Added episodicity to comment property in Observations. If existing comment exists, separate with <br>.
 * REST buffer size has been set to 150Mb
 
 ### Fixed
 * Fixed issue where mapping failed due to a Referral Request Priority not being found.
-* Codings are now provided (code, display and system) in `PractionionerRole.code` and `Organization.type` fields,
-  where only the `text` attribute was provided previously.
 * Fixed a bug which could lead to medication resource not being mapped if a failure had occurred when processing the previous EhrExtract during the medication mapping stage
 
 
