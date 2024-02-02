@@ -8,12 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [1.4.2] - 2024-01-31
 
 ### Added
+* Added Episodicity information to `comment` property of Observations.
 
-### Changed
-* Added episodicity to comment property in Observations. If existing comment exists, separate with <br>.
-* Codings are now provided (code, display and system) in `PractionionerRole.code` and `Organization.type` fields, 
-  where only the `text` attribute was provided previously.
-
+### Fixed
+* Fixed malformed role coding defect introduced in version 1.4.1
 
 ## [1.4.1] - 2024-01-17
 
@@ -32,6 +30,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 * Fixed issue where mapping failed due to a Referral Request Priority not being found.
+* Codings are now provided (code, display and system) in `PractionionerRole.code` and `Organization.type` fields,
+  where only the `text` attribute was provided previously.
 * Fixed a bug which could lead to medication resource not being mapped if a failure had occurred when processing the previous EhrExtract during the medication mapping stage
 
 
