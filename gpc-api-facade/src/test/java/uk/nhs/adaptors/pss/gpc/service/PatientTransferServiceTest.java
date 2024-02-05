@@ -77,7 +77,7 @@ public class PatientTransferServiceTest {
     private Parameters parameters;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         parameters = CreateParametersUtil.createValidParametersResource(PATIENT_NHS_NUMBER);
     }
 
