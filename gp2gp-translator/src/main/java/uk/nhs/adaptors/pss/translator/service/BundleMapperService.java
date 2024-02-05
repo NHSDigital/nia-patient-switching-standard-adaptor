@@ -1,61 +1,26 @@
 package uk.nhs.adaptors.pss.translator.service;
 
 
-import static uk.nhs.adaptors.pss.translator.util.OrganizationUtil.organisationIsNotDuplicate;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.TreeSet;
-import java.util.ArrayList;
-import java.util.Comparator;
-
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.dstu3.model.DomainResource;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.ListResource;
-import org.hl7.fhir.dstu3.model.Location;
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Organization;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRIN030000UK06Message;
-import org.hl7.v3.RCMRIN030000UK07Message;
-import org.hl7.v3.RCMRIN030000UKMessage;
-import org.hl7.v3.RCMRMT030101UKComponent3;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.RCMRMT030101UKPatient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hl7.fhir.dstu3.model.*;
+import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
+import org.hl7.v3.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
-import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
-import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
-import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
-import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
-import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
+import uk.nhs.adaptors.pss.translator.mapper.*;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.DiagnosticReportMapper;
-import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
-import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
-import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
-import uk.nhs.adaptors.pss.translator.mapper.ObservationCommentMapper;
-import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
-import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
-import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
-import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
-import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenCompoundsMapper;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenMapper;
-import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
-import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static uk.nhs.adaptors.pss.translator.util.OrganizationUtil.organisationIsNotDuplicate;
 
 @Slf4j
 @Service
@@ -94,7 +59,7 @@ public class BundleMapperService {
         try {
 
             Bundle bundle = generator.generateBundle();
-            final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
+            final RCMRMT030101UKEhrExtract ehrExtract =  getEhrExtract(xmlMessage);
             final RCMRMT030101UKEhrFolder ehrFolder = getEhrFolder(xmlMessage);
 
             var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
@@ -163,7 +128,7 @@ public class BundleMapperService {
         }
     }
 
-    private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         List<Observation> observations, List<Observation> observationComments, String practiceCode) {
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode);
 
@@ -200,7 +165,7 @@ public class BundleMapperService {
     }
 
     private Map<String, List<? extends DomainResource>> mapEncounters(
-            RCMRMT030101UK04EhrExtract ehrExtract,
+            RCMRMT030101UKEhrExtract ehrExtract,
             Patient patient,
             String losingPracticeOdsCode,
             List<Location> locations) {
@@ -232,7 +197,7 @@ public class BundleMapperService {
                 );
     }
 
-    private Patient mapPatient(RCMRMT030101UK04EhrExtract ehrExtract, Organization organization) {
+    private Patient mapPatient(RCMRMT030101UKEhrExtract ehrExtract, Organization organization) {
         RCMRMT030101UKPatient xmlPatient = ehrExtract.getRecordTarget().getPatient();
         return patientMapper.mapToPatient(xmlPatient, organization);
     }
@@ -263,7 +228,7 @@ public class BundleMapperService {
         }
     }
 
-    private RCMRMT030101UK04EhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
+    private RCMRMT030101UKEhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
         if (xmlMessage instanceof RCMRIN030000UK07Message) {
             return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
         } else {

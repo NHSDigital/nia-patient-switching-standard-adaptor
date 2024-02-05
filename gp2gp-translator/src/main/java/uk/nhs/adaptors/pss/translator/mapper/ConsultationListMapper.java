@@ -1,27 +1,21 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-
-import java.util.List;
-
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.DateTimeType;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.ListResource;
+import lombok.RequiredArgsConstructor;
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.ListResource.ListMode;
 import org.hl7.fhir.dstu3.model.ListResource.ListStatus;
-import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
-import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+
+import java.util.List;
+
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -42,7 +36,7 @@ public class ConsultationListMapper {
     private final IdGeneratorService idGenerator;
     private final CodeableConceptMapper codeableConceptMapper;
 
-    public ListResource mapToConsultation(RCMRMT030101UK04EhrExtract ehrExtract, Encounter encounter) {
+    public ListResource mapToConsultation(RCMRMT030101UKEhrExtract ehrExtract, Encounter encounter) {
         ListResource consultation = new ListResource();
         consultation
             .setStatus(ListStatus.CURRENT)
@@ -77,7 +71,7 @@ public class ConsultationListMapper {
         return null;
     }
 
-    private DateTimeType getConsultationDate(Period period, RCMRMT030101UK04EhrExtract ehrExtract) {
+    private DateTimeType getConsultationDate(Period period, RCMRMT030101UKEhrExtract ehrExtract) {
         if (period != null && period.hasStart()) {
             return period.getStartElement();
         } else {
@@ -111,6 +105,7 @@ public class ConsultationListMapper {
     public ListResource mapToCategory(ListResource topic, RCMRMT030101UKCompoundStatement compoundStatement) {
         ListResource category = new ListResource();
 
+        var id = compoundStatement.getId() != null ? compoundStatement.getId().get(0).getRoot() : "";
         category
             .setStatus(ListStatus.CURRENT)
             .setMode(ListMode.SNAPSHOT)
@@ -122,7 +117,7 @@ public class ConsultationListMapper {
             .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
                 LIST_ORDERED_BY_DISPLAY, null))
             .setMeta(generateMeta(LIST_META_PROFILE))
-            .setId(compoundStatement.getId().get(0).getRoot());
+            .setId(id);
 
         return category;
     }

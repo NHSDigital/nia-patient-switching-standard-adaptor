@@ -1,36 +1,27 @@
 package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
-import static uk.nhs.adaptors.pss.translator.util.CDUtil.extractSnomedCode;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.dstu3.model.*;
+import org.hl7.fhir.dstu3.model.Specimen.SpecimenCollectionComponent;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKSpecimenRole;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import uk.nhs.adaptors.pss.translator.mapper.DateTimeMapper;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
-import org.hl7.fhir.dstu3.model.Annotation;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.DiagnosticReport;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Specimen;
-import org.hl7.fhir.dstu3.model.Specimen.SpecimenCollectionComponent;
-import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.RCMRMT030101UKSpecimenRole;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.mapper.DateTimeMapper;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
+import static uk.nhs.adaptors.pss.translator.util.CDUtil.extractSnomedCode;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -42,7 +33,7 @@ public class SpecimenMapper {
 
     private final DateTimeMapper dateTimeMapper;
 
-    public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports,
+    public List<Specimen> mapSpecimen(RCMRMT030101UKEhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports,
         Patient patient, String practiceCode) {
 
         return diagnosticReports.stream()
@@ -58,7 +49,7 @@ public class SpecimenMapper {
             .toList();
     }
 
-    public List<Observation> removeSurplusObservationComments(RCMRMT030101UK04EhrExtract ehrExtract,
+    public List<Observation> removeSurplusObservationComments(RCMRMT030101UKEhrExtract ehrExtract,
         List<Observation> observationComments) {
 
         var specimenCompoundStatements = findAllSpecimenCompoundStatements(ehrExtract);
@@ -153,7 +144,7 @@ public class SpecimenMapper {
     }
 
     private Optional<RCMRMT030101UKCompoundStatement> getParentCompoundStatementByChildId(
-        RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+            RCMRMT030101UKEhrExtract ehrExtract, String id) {
 
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())

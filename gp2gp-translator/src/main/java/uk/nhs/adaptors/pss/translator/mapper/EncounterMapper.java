@@ -1,55 +1,24 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.DomainResource;
-import org.hl7.fhir.dstu3.model.Encounter;
+import lombok.RequiredArgsConstructor;
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterLocationComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
-import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.ListResource.ListEntryComponent;
-import org.hl7.fhir.dstu3.model.Location;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.CD;
-import org.hl7.v3.CsNullFlavor;
-import org.hl7.v3.II;
-import org.hl7.v3.LinkableComponent;
-import org.hl7.v3.RCMRMT030101UKComponent;
-import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UKComponent3;
-import org.hl7.v3.RCMRMT030101UKComponent4;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.RCMRMT030101UKLinkSet;
-import org.hl7.v3.RCMRMT030101UKAuthor;
-import org.hl7.v3.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKParticipant2;
+import org.hl7.v3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
-import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
+
+import java.util.*;
+
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -80,7 +49,7 @@ public class EncounterMapper {
     private final ResourceReferenceUtil resourceReferenceUtil;
 
     public Map<String, List<? extends DomainResource>> mapEncounters(
-            RCMRMT030101UK04EhrExtract ehrExtract,
+            RCMRMT030101UKEhrExtract ehrExtract,
             Patient patient,
             String practiseCode,
             List<Location> entryLocations
@@ -242,7 +211,7 @@ public class EncounterMapper {
         return compoundStatement != null && CATEGORY_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
     }
 
-    private List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract
             .getComponent()
             .stream()
