@@ -41,7 +41,7 @@ dependencies {
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
     testImplementation 'org.awaitility:awaitility:4.2.0'
 
-    implementation 'com.azure:azure-storage-blob:12.15.0'
+    implementation 'com.azure:azure-storage-blob:12.25.1'
 
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
     implementation 'com.amazonaws:aws-java-sdk-s3'
