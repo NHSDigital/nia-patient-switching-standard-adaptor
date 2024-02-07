@@ -1,24 +1,54 @@
 package uk.nhs.adaptors.pss.translator.service;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hl7.fhir.dstu3.model.*;
+import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.v3.*;
+import org.hl7.fhir.dstu3.model.Resource;
+import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Observation;
+import org.hl7.fhir.dstu3.model.Organization;
+import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.v3.RCMRIN030000UKMessage;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKPatient;
+import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.generator.BundleGenerator;
-import uk.nhs.adaptors.pss.translator.mapper.*;
+import uk.nhs.adaptors.pss.translator.mapper.AgentDirectoryMapper;
+import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
+import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.DiagnosticReportMapper;
+import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ObservationCommentMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ObservationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
+import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
+import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenCompoundsMapper;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenMapper;
+import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
+import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
-
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 import static uk.nhs.adaptors.pss.translator.util.OrganizationUtil.organisationIsNotDuplicate;
 
@@ -76,40 +106,55 @@ public class BundleMapperService {
 
             var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations);
             var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
+            List<Resource> locationsR = locations.stream().map(s -> (Resource) s).toList();
 
-            addEntries(bundle, locations);
+            addEntries(bundle, locationsR);
 
             var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, procedureRequests);
+            List<Resource> procedureRequestsR = procedureRequests.stream().map(s -> (Resource) s).toList();
+
+            addEntries(bundle, procedureRequestsR);
 
             var referralRequests = referralRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, referralRequests);
+            List<Resource> referralRequestsR = referralRequests.stream().map(s -> (Resource) s).toList();
+
+            addEntries(bundle, referralRequestsR);
 
             var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, medicationResources);
+            var medicationResourcesR = medicationResources.stream().map(s -> (Resource) medicationResources).toList();
+
+
+            addEntries(bundle, medicationResourcesR);
 
             var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, bloodPressures);
+            List<Resource> bloodPressuresR = bloodPressures.stream().map(s -> (Resource) s).toList();
+            addEntries(bundle, bloodPressuresR);
 
             var observations = observationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, observations);
+            List<Resource> observationsR = bloodPressures.stream().map(s -> (Resource) s).toList();
+            addEntries(bundle, observationsR);
 
             var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, immunizations);
+            List<Resource> immunizationsR = immunizations.stream().map(s -> (Resource) s).toList();
+            addEntries(bundle, immunizationsR);
 
             var conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, conditions);
+            List<Resource> conditionsR = conditions.stream().map(s -> (Resource) s).toList();
+            addEntries(bundle, conditionsR);
 
             var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
 
             var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg, attachments);
-            addEntries(bundle, documentReferences);
+            List<Resource> documentReferencesR = documentReferences.stream().map(s -> (Resource) s).toList();
+            addEntries(bundle, documentReferencesR);
 
             var templates = templateMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, templates);
+            List<Resource> templatesR = templates.stream().map(s -> (Resource) s).toList();
+            addEntries(bundle, templatesR);
 
             var allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, allergyIntolerances);
+            List<Resource> allergyIntolerancesR = allergyIntolerances.stream().map(s -> (Resource) s).toList();
+            addEntries(bundle, allergyIntolerancesR);
 
             mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, losingPracticeOdsCode);
 
@@ -131,40 +176,47 @@ public class BundleMapperService {
     private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         List<Observation> observations, List<Observation> observationComments, String practiceCode) {
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode);
+        List<Resource> diagnosticReportsR = diagnosticReports.stream().map(s -> (Resource) s).toList();
 
         diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);
 
         var specimen = specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
-        addEntries(bundle, diagnosticReports);
-        addEntries(bundle, specimen);
+        List<Resource> specimenR = specimen.stream().map(s -> (Resource) s).toList();
+
+        addEntries(bundle, diagnosticReportsR);
+        addEntries(bundle, specimenR);
 
         observationComments = specimenMapper.removeSurplusObservationComments(ehrExtract, observationComments);
 
         var batteryObservations = specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments,
             diagnosticReports, patient, encounters, practiceCode);
 
-        addEntries(bundle, observationComments);
-        addEntries(bundle, batteryObservations);
+        List<Resource> observationCommentsR = observationComments.stream().map(s -> (Resource) s).toList();
+        List<Resource> batteryObservationsR = batteryObservations.stream().map(s -> (Resource) s).toList();
+
+        addEntries(bundle, observationCommentsR);
+        addEntries(bundle, batteryObservationsR);
     }
 
     private List<Encounter> handleMappedEncounterResources(
-            Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,
+            Map<String, List<Resource>> mappedEncounterEhrCompositions,
             Bundle bundle
     ) {
-        var encounters = (List<Encounter>) mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
-        var consultations = (List<ListResource>) mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
-        var topics = (List<ListResource>) mappedEncounterEhrCompositions.get(TOPIC_KEY);
-        var categories = (List<ListResource>) mappedEncounterEhrCompositions.get(CATEGORY_KEY);
+        var encounters = mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
+        var consultations = mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
+        var topics =  mappedEncounterEhrCompositions.get(TOPIC_KEY);
+        var categories =  mappedEncounterEhrCompositions.get(CATEGORY_KEY);
+        List<Encounter> encountersE = encounters.stream().map(s -> (Encounter) s).toList();
 
         addEntries(bundle, encounters);
         addEntries(bundle, consultations);
         addEntries(bundle, topics);
         addEntries(bundle, categories);
 
-        return encounters;
+        return encountersE;
     }
 
-    private Map<String, List<? extends DomainResource>> mapEncounters(
+    private Map<String, List<Resource>> mapEncounters(
             RCMRMT030101UKEhrExtract ehrExtract,
             Patient patient,
             String losingPracticeOdsCode,
@@ -172,7 +224,7 @@ public class BundleMapperService {
         return encounterMapper.mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations);
     }
 
-    private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UKEhrFolder ehrFolder) {
+    private List<Resource> mapAgentDirectories(RCMRMT030101UKEhrFolder ehrFolder) {
         return agentDirectoryMapper.mapAgentDirectory(ehrFolder.getResponsibleParty().getAgentDirectory());
     }
 
@@ -202,7 +254,7 @@ public class BundleMapperService {
         return patientMapper.mapToPatient(xmlPatient, organization);
     }
 
-    private Organization getPatientOrganization(List<? extends DomainResource> agents) {
+    private Organization getPatientOrganization(List<Resource> agents) {
         return agents.stream()
             .filter(agent -> ResourceType.Organization.equals(agent.getResourceType()))
             .map(Organization.class::cast)
@@ -211,36 +263,23 @@ public class BundleMapperService {
     }
 
     private RCMRMT030101UKEhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
-        if (xmlMessage instanceof RCMRIN030000UK07Message) {
-            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent()
+        return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent()
                                                          .getSubject()
                                                          .getEhrExtract()
                                                          .getComponent()
                                                          .get(0)
                                                          .getEhrFolder();
-        } else {
-            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent()
-                                                         .getSubject()
-                                                         .getEhrExtract()
-                                                         .getComponent()
-                                                         .get(0)
-                                                         .getEhrFolder();
-        }
     }
 
     private RCMRMT030101UKEhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
-        if (xmlMessage instanceof RCMRIN030000UK07Message) {
-            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
-        } else {
-            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
-        }
+        return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
     }
 
-    private <T extends DomainResource> void addEntries(Bundle bundle, Collection<T> resources) {
+    private <Resource> void addEntries(Bundle bundle, Collection<Resource> resources) {
         resources.forEach(it -> addEntry(bundle, it));
     }
 
-    private <T extends DomainResource> void addEntry(Bundle bundle, T resource) {
-        bundle.addEntry(new BundleEntryComponent().setResource(resource));
+    private <Resource> void addEntry(Bundle bundle, Resource resource) {
+        bundle.addEntry(new BundleEntryComponent().setResource((org.hl7.fhir.dstu3.model.Resource) resource));
     }
 }

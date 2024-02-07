@@ -14,7 +14,6 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
 import org.hl7.fhir.dstu3.model.ListResource;
@@ -22,6 +21,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 
@@ -139,7 +139,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -161,7 +161,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
             ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -190,7 +190,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
             ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -215,7 +215,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -253,7 +253,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -303,7 +303,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_LINK_SET_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
             ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -336,7 +336,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -366,7 +366,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_FLAT_ENCOUNTER_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -397,7 +397,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_RESOURCES_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -435,7 +435,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_RESOURCES_XML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -468,7 +468,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -497,7 +497,7 @@ public class EncounterMapperTest {
     public void testInvalidEhrCompositions(String inputXML) {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
 
-        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 

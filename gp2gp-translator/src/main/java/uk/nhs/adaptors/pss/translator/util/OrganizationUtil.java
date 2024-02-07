@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.fhir.dstu3.model.Resource;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrganizationUtil {
@@ -16,7 +16,7 @@ public class OrganizationUtil {
     private static final String ORG_IDENTIFIER_SYSTEM = "https://fhir.nhs.uk/Id/ods-organization-code";
 
     public static Optional<Organization> findDuplicateOrganisation(Organization newOrganisation,
-        List<? extends DomainResource> agentResources) {
+        List<Resource> agentResources) {
         var newOdsCode = getOdsCode(newOrganisation);
 
         if (newOdsCode.isEmpty()) {
@@ -32,7 +32,7 @@ public class OrganizationUtil {
             }).findFirst();
     }
 
-    public static boolean organisationIsNotDuplicate(Organization organization, List<? extends DomainResource> agentResources) {
+    public static boolean organisationIsNotDuplicate(Organization organization, List<Resource> agentResources) {
         return findDuplicateOrganisation(organization, agentResources).isEmpty();
     }
 

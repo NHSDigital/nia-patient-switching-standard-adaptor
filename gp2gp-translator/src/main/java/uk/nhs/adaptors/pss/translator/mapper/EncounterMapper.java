@@ -1,12 +1,36 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import lombok.RequiredArgsConstructor;
-import org.hl7.fhir.dstu3.model.*;
+import org.hl7.fhir.dstu3.model.Resource;
+import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.fhir.dstu3.model.IdType;
+import org.hl7.fhir.dstu3.model.ListResource;
+import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterLocationComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
 import org.hl7.fhir.dstu3.model.ListResource.ListEntryComponent;
-import org.hl7.v3.*;
+import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Extension;
+import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Period;
+import org.hl7.v3.CD;
+import org.hl7.v3.CsNullFlavor;
+import org.hl7.v3.II;
+import org.hl7.v3.LinkableComponent;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKComponent4;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
+import org.hl7.v3.RCMRMT030101UKAuthor;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKParticipant2;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -14,11 +38,17 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
 
-import java.util.*;
-
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -48,7 +78,7 @@ public class EncounterMapper {
     private final ConsultationListMapper consultationListMapper;
     private final ResourceReferenceUtil resourceReferenceUtil;
 
-    public Map<String, List<? extends DomainResource>> mapEncounters(
+    public Map<String, List<Resource>> mapEncounters(
             RCMRMT030101UKEhrExtract ehrExtract,
             Patient patient,
             String practiseCode,
@@ -59,13 +89,13 @@ public class EncounterMapper {
         List<ListResource> topics = new ArrayList<>();
         List<ListResource> categories = new ArrayList<>();
 
-        Map<String, List<? extends DomainResource>> map = new HashMap<>();
+        Map<String, List<Resource>> map = new HashMap<>();
 
         List<RCMRMT030101UKEhrComposition> ehrCompositionList = getEncounterEhrCompositions(ehrExtract);
 
         ehrCompositionList.forEach(ehrComposition -> {
-            var encounter = mapToEncounter(ehrComposition, patient, practiseCode, entryLocations);
-            var consultation = consultationListMapper.mapToConsultation(ehrExtract, encounter);
+            Resource encounter = mapToEncounter(ehrComposition, patient, practiseCode, entryLocations);
+            ListResource consultation = consultationListMapper.mapToConsultation(ehrExtract, (Encounter) encounter);
 
             var topicCompoundStatementList = getTopicCompoundStatements(ehrComposition);
             if (CollectionUtils.isEmpty(topicCompoundStatementList)) {
@@ -74,14 +104,18 @@ public class EncounterMapper {
                 generateStructuredConsultation(topicCompoundStatementList, ehrComposition, consultation, topics, categories);
             }
 
-            encounters.add(encounter);
-            consultations.add(consultation);
+            encounters.add((Encounter) encounter);
+            consultations.add((ListResource) consultation);
         });
 
-        map.put(ENCOUNTER_KEY, encounters);
-        map.put(CONSULTATION_KEY, consultations);
-        map.put(TOPIC_KEY, topics);
-        map.put(CATEGORY_KEY, categories);
+        List<Resource> encountersR = encounters.stream().map(s -> (Resource) s).toList();
+        List<Resource> consultationsR = consultations.stream().map(s -> (Resource) s).toList();
+        List<Resource> topicsR = topics.stream().map(s -> (Resource) s).toList();
+        List<Resource> categoriesR = categories.stream().map(s -> (Resource) s).toList();
+        map.put(ENCOUNTER_KEY,  encountersR);
+        map.put(CONSULTATION_KEY, consultationsR);
+        map.put(TOPIC_KEY, topicsR);
+        map.put(CATEGORY_KEY, categoriesR);
 
         return map;
     }
@@ -89,7 +123,7 @@ public class EncounterMapper {
     private void generateFlatConsultation(ListResource consultation, List<ListResource> topics,
         RCMRMT030101UKEhrComposition ehrComposition) {
 
-        var topic = consultationListMapper.mapToTopic(consultation, null);
+        var topic = consultationListMapper.mapToTopic((ListResource) consultation, null);
 
         List<Reference> entryReferences = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, entryReferences);

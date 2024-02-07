@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.fhir.dstu3.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class OrganizationMapper {
 
     private final IdGeneratorService idGenerator;
 
-    public Organization mapAuthorOrganization(String odsCode, List<? extends DomainResource> agents) {
+    public Organization mapAuthorOrganization(String odsCode, List<Resource> agents) {
 
         Map<String, Organization> organisations = getMappedOrganisationsByOdsCode(agents);
 
@@ -43,7 +43,7 @@ public class OrganizationMapper {
         return organization;
     }
 
-    private Map<String, Organization> getMappedOrganisationsByOdsCode(List<? extends DomainResource> agents) {
+    private Map<String, Organization> getMappedOrganisationsByOdsCode(List<Resource> agents) {
         return agents.stream()
             .filter(resource -> resource.getResourceType().equals(ResourceType.Organization))
             .map(Organization.class::cast)
