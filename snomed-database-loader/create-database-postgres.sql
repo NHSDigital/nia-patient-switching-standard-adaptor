@@ -73,5 +73,20 @@ WITH RECURSIVE immunization_heirarchy AS (
 SELECT conceptId
 FROM immunization_heirarchy;
 
+CREATE INDEX immunization_codes_conceptid_idx ON immunization_codes
+    USING btree (conceptid);
+
+CREATE MATERIALIZED VIEW preferred_terms AS
+SELECT d.id, d.conceptid, d.term
+FROM langrefset_s l
+         INNER JOIN description_s d
+             ON l.referencedcomponentid=d.id
+  WHERE l.refsetid IN ('999001261000000100','999000691000001104')
+  AND d.typeid = '900000000000013009'
+  AND l.acceptabilityid = '900000000000548007';
+
+CREATE INDEX preferred_terms_conceptid_idx ON preferred_terms
+    USING btree (conceptid);
+
 GRANT USAGE ON SCHEMA snomedct TO application_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA snomedct TO application_user;

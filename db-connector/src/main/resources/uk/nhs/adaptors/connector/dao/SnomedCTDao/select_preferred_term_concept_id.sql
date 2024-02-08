@@ -1,1 +1,1 @@
-SELECT d.id, d.conceptid, d.term from "snomedct".langrefset_s l INNER JOIN "snomedct".description_s d ON l.referencedcomponentid=d.id WHERE l.refsetid IN ('999001261000000100','999000691000001104') AND d.typeid = '900000000000013009' AND l.acceptabilityid = '900000000000548007' AND d.conceptid = :conceptId;
+SELECT id, conceptid, term from "snomedct".preferred_terms where conceptid = :conceptId ORDER BY active
