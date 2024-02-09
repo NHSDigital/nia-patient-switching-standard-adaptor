@@ -1,1 +1,1 @@
-SELECT id, conceptid, term from "snomedct".preferred_terms where conceptid = :conceptId ORDER BY active
+SELECT id, conceptid, term from "snomedct".preferred_terms where conceptid = :conceptId ORDER BY active DESC

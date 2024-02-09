@@ -77,7 +77,7 @@ CREATE INDEX immunization_codes_conceptid_idx ON immunization_codes
     USING btree (conceptid);
 
 CREATE MATERIALIZED VIEW preferred_terms AS
-SELECT d.id, d.conceptid, d.term
+SELECT d.id, d.conceptid, d.term, d.active
 FROM langrefset_s l
          INNER JOIN description_s d
              ON l.referencedcomponentid=d.id
