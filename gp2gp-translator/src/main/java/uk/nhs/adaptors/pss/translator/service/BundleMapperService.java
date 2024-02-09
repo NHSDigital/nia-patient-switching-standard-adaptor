@@ -11,7 +11,13 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.*;
+import org.hl7.v3.RCMRIN030000UKMessage;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKPatient;
+import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UK07Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
@@ -266,7 +272,7 @@ public class BundleMapperService {
                     .getComponent()
                     .get(0)
                     .getEhrFolder();
-        } catch(ClassCastException e) {
+        } catch (ClassCastException e) {
             return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent()
                     .getSubject()
                     .getEhrExtract()
@@ -279,7 +285,7 @@ public class BundleMapperService {
     private RCMRMT030101UKEhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
         try {
             return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
-        } catch(ClassCastException e) {
+        } catch (ClassCastException e) {
             return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
         }
     }

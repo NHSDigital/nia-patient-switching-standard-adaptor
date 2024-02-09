@@ -76,17 +76,15 @@ public class EhrExtractMessageHandler {
 
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
 
-    public void
-
-    handleMessage(InboundMessage inboundMessage, String conversationId, Class<? extends RCMRIN030000UKMessage> destinationClass)
-        throws
-        JAXBException,
-        JsonProcessingException,
-        InlineAttachmentProcessingException,
-        BundleMappingException,
-        AttachmentNotFoundException,
-        ParseException,
-        SAXException, TransformerException, UnsupportedFileTypeException {
+    public void handleMessage(InboundMessage inboundMessage, String conversationId, Class<? extends RCMRIN030000UKMessage> destinationClass)
+            throws
+            JAXBException,
+            JsonProcessingException,
+            InlineAttachmentProcessingException,
+            BundleMappingException,
+            AttachmentNotFoundException,
+            ParseException,
+            SAXException, TransformerException, UnsupportedFileTypeException {
 
         RCMRIN030000UKMessage payload = unmarshallString(inboundMessage.getPayload(), destinationClass);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
