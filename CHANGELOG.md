@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+* THIS RELEASE WILL REQUIRE THE SNOMED DATABASE LOADER SCRIPT ([load_release-postgresql.sh](snomed-database-loader/load_release-postgresql.sh)) TO BE RUN BEFORE RUNNING THE NEW VERSION OF THE ADAPTOR
+* Added Materialised View in the SnomedCT database to be used when querying for preferred terms.
+
 ## [1.4.2] - 2024-01-31
 
 ### Added
