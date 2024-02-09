@@ -11,12 +11,7 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRIN030000UKMessage;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.RCMRMT030101UKComponent3;
-import org.hl7.v3.RCMRMT030101UKPatient;
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
@@ -56,6 +51,8 @@ import static uk.nhs.adaptors.pss.translator.util.OrganizationUtil.organisationI
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BundleMapperService {
+    private static final String EHR_EXTRACT_INTERACTION_ID06 = "RCMR_IN030000UK06";
+    private static final String EHR_EXTRACT_INTERACTION_ID07 = "RCMR_IN030000UK07";
     private static final String ENCOUNTER_KEY = "encounters";
     private static final String CONSULTATION_KEY = "consultations";
     private static final String TOPIC_KEY = "topics";
@@ -89,7 +86,7 @@ public class BundleMapperService {
         try {
 
             Bundle bundle = generator.generateBundle();
-            final RCMRMT030101UKEhrExtract ehrExtract =  getEhrExtract(xmlMessage);
+            final RCMRMT030101UKEhrExtract ehrExtract = getEhrExtract(xmlMessage);
             final RCMRMT030101UKEhrFolder ehrFolder = getEhrFolder(xmlMessage);
 
             var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
@@ -121,8 +118,7 @@ public class BundleMapperService {
             addEntries(bundle, referralRequestsR);
 
             var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            var medicationResourcesR = medicationResources.stream().map(s -> (Resource) medicationResources).toList();
-
+            var medicationResourcesR = medicationResources.stream().map(s -> (Resource) s).toList();
 
             addEntries(bundle, medicationResourcesR);
 
@@ -263,16 +259,29 @@ public class BundleMapperService {
     }
 
     private RCMRMT030101UKEhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
-        return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent()
-                                                         .getSubject()
-                                                         .getEhrExtract()
-                                                         .getComponent()
-                                                         .get(0)
-                                                         .getEhrFolder();
+        try {
+            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent()
+                    .getSubject()
+                    .getEhrExtract()
+                    .getComponent()
+                    .get(0)
+                    .getEhrFolder();
+        } catch(ClassCastException e) {
+            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent()
+                    .getSubject()
+                    .getEhrExtract()
+                    .getComponent()
+                    .get(0)
+                    .getEhrFolder();
+        }
     }
 
     private RCMRMT030101UKEhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
-        return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
+        try {
+            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
+        } catch(ClassCastException e) {
+            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
+        }
     }
 
     private <Resource> void addEntries(Bundle bundle, Collection<Resource> resources) {

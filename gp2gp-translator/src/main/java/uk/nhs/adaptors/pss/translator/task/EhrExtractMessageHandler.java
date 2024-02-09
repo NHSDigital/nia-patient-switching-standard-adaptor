@@ -76,7 +76,9 @@ public class EhrExtractMessageHandler {
 
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId, Class<? extends RCMRIN030000UKMessage> destinationClass)
+    public void
+
+    handleMessage(InboundMessage inboundMessage, String conversationId, Class<? extends RCMRIN030000UKMessage> destinationClass)
         throws
         JAXBException,
         JsonProcessingException,
