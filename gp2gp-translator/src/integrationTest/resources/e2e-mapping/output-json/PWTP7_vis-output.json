@@ -3127,7 +3127,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "183561008",
-              "display": "Referral to GP"
+              "display": "Referral to GP (general practitioner)"
             }
           ],
           "text": "Referral to G.P."

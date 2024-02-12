@@ -5627,7 +5627,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "545211000001106",
-              "display": "E45 cream (Karo Pharma)"
+              "display": "E45 cream (Karo Pharma UK Ltd)"
             }
           ],
           "text": "E45 cream (Forum Health Products Ltd)"
@@ -8906,7 +8906,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "643911000001108",
-              "display": "Lipitor 10mg tablets (Upjohn UK Ltd)"
+              "display": "Lipitor 10mg tablets (Viatris UK Healthcare Ltd)"
             }
           ],
           "text": "Lipitor 10mg tablets (Pfizer Ltd)"
@@ -9064,7 +9064,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "330295009",
-              "display": "Chloramphenicol 1% eye ointment"
+              "display": "Chloramphenicol 10 mg/g eye ointment"
             }
           ],
           "text": "Chloramphenicol 1% eye ointment"
@@ -9380,7 +9380,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "936411000001108",
-              "display": "Lustral 50mg tablets (Upjohn UK Ltd)"
+              "display": "Lustral 50mg tablets (Viatris UK Healthcare Ltd)"
             }
           ],
           "text": "Lustral 50mg tablets (Pfizer Ltd)"
@@ -12965,7 +12965,7 @@
             {
               "system": "http://snomed.info/sct",
               "code": "365611000001101",
-              "display": "Xalatan 50micrograms/ml eye drops (Upjohn UK Ltd)"
+              "display": "Xalatan 50micrograms/ml eye drops (Viatris UK Healthcare Ltd)"
             }
           ],
           "text": "Xalatan 50micrograms/ml eye drops (Pfizer Ltd)"

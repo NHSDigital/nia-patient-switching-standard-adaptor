@@ -1,1 +1,1 @@
-SELECT d.id, d.conceptid, d.term FROM "snomedct".description_s d WHERE conceptid = :conceptId;
+SELECT d.id, d.conceptid, d.term FROM "snomedct".description_s d WHERE d.conceptid = :conceptId ORDER BY d.active DESC;

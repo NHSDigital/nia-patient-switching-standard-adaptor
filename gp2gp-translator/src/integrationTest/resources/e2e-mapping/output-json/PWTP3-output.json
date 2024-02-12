@@ -1909,7 +1909,7 @@
                   "extension": [
                     {
                       "url": "descriptionId",
-                      "valueId": "274791000000115"
+                      "valueId": "282071000000117"
                     },
                     {
                       "url": "descriptionDisplay",
@@ -2008,7 +2008,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "417424008",
-              "display": "History of - combined calcium and vitamin D3 preparation allergy"
+              "display": "History of combined calcium and vitamin D3 preparation allergy"
             }
           ],
           "text": "H/O: combined calcium and vitamin D3 preparation allergy"
@@ -3034,7 +3034,7 @@
                   "extension": [
                     {
                       "url": "descriptionId",
-                      "valueId": "274791000000115"
+                      "valueId": "282071000000117"
                     },
                     {
                       "url": "descriptionDisplay",
@@ -3102,7 +3102,7 @@
                   "extension": [
                     {
                       "url": "descriptionId",
-                      "valueId": "274791000000115"
+                      "valueId": "282071000000117"
                     },
                     {
                       "url": "descriptionDisplay",
@@ -3181,7 +3181,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "417424008",
-              "display": "History of - combined calcium and vitamin D3 preparation allergy"
+              "display": "History of combined calcium and vitamin D3 preparation allergy"
             }
           ],
           "text": "H/O: combined calcium and vitamin D3 preparation allergy"
