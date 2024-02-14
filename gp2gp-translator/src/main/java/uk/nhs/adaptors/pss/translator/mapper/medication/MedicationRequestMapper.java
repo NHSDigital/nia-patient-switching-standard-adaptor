@@ -22,6 +22,7 @@ import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.TS;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -61,7 +62,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
         var context = encounters.stream()
             .filter(encounter1 -> encounter1.getId().equals(ehrComposition.getId().getRoot())).findFirst();
-        var authoredOn = getAuthoredOn(medicationStatement.getAvailabilityTime(), ehrExtract, ehrComposition);
+        var authoredOn = getAuthoredOn(ehrComposition);
         var dateAsserted = extractDateAsserted(ehrComposition, ehrExtract);
         var requester = extractRequester(ehrComposition, medicationStatement);
         var recorder = extractRecorder(ehrComposition, medicationStatement);
@@ -98,17 +99,10 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         return resource;
     }
 
-    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UKEhrExtract ehrExtract,
-                                       RCMRMT030101UKEhrComposition ehrComposition) {
+    private DateTimeType getAuthoredOn(RCMRMT030101UKEhrComposition ehrComposition) {
 
-        if (availabilityTime != null && availabilityTime.hasValue()) {
-            return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
-        } else {
-            if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
-                return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
-            } else if (ehrExtract.getAvailabilityTime() != null && ehrExtract.getAvailabilityTime().hasValue()) {
-                return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
-            }
+        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
         }
 
         return null;

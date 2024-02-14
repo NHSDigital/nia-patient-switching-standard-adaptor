@@ -77,7 +77,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         var id = requestStatement.getId().get(0).getRoot();
         var identifier = buildIdentifier(id, practiseCode);
         var agent = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition);
-        var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
+        var authoredOn = getAuthoredOn(ehrComposition);
         var referralPriority = getReferralPriority(requestStatement);
 
         referralRequest.setId(id);
@@ -130,10 +130,12 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         referralRequest.getReasonCode().add(reasonCode);
     }
 
-    private DateTimeType getAuthoredOn(TS availabilityTime) {
-        if (availabilityTime != null && availabilityTime.hasValue()) {
-            return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
+    private DateTimeType getAuthoredOn(RCMRMT030101UKEhrComposition ehrComposition) {
+
+        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
         }
+
         return null;
     }
 
