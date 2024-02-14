@@ -9,10 +9,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Practitioner;
-import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.PractitionerRole;
 import org.hl7.fhir.dstu3.model.HumanName.NameUse;
 import org.hl7.fhir.dstu3.model.HumanName;
@@ -55,11 +55,11 @@ public class AgentDirectoryMapper {
     private static final String UNKNOWN = "Unknown";
     private static final String GMP_NUMBER_SYSTEM_CODE = "https://fhir.hl7.org.uk/Id/gmp-number";
 
-    public List<Resource> mapAgentDirectory(RCMRMT030101UKAgentDirectory agentDirectory) {
+    public List<? extends DomainResource> mapAgentDirectory(RCMRMT030101UKAgentDirectory agentDirectory) {
         var partList = agentDirectory.getPart();
         if (!CollectionUtils.isEmpty(partList)) {
 
-            List<Resource> agentResources = Collections.synchronizedList(new ArrayList<>());
+            List<DomainResource> agentResources = Collections.synchronizedList(new ArrayList<>());
 
             partList.stream()
                 .map(RCMRMT030101UKPart::getAgent)
@@ -71,7 +71,7 @@ public class AgentDirectoryMapper {
         return List.of();
     }
 
-    private void mapAgent(RCCTMT120101UK01Agent agent, List<Resource> agentResourceList) {
+    private void mapAgent(RCCTMT120101UK01Agent agent, List<DomainResource> agentResourceList) {
         var agentPerson = agent.getAgentPerson();
         var agentOrganization = agent.getAgentOrganization();
         var representedOrganization = agent.getRepresentedOrganization();

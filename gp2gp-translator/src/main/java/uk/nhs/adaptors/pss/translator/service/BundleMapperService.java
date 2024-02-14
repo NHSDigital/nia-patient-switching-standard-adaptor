@@ -1,23 +1,25 @@
 package uk.nhs.adaptors.pss.translator.service;
 
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.dstu3.model.Resource;
+import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UK07Message;
 import org.hl7.v3.RCMRIN030000UKMessage;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UKPatient;
-import org.hl7.v3.RCMRIN030000UK06Message;
-import org.hl7.v3.RCMRIN030000UK07Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
@@ -28,7 +30,6 @@ import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
-import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.DiagnosticReportMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
@@ -38,11 +39,13 @@ import uk.nhs.adaptors.pss.translator.mapper.OrganizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.PatientMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ProcedureRequestMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ReferralRequestMapper;
-import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenCompoundsMapper;
-import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenMapper;
 import uk.nhs.adaptors.pss.translator.mapper.TemplateMapper;
 import uk.nhs.adaptors.pss.translator.mapper.UnknownPractitionerHandler;
+import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.DiagnosticReportMapper;
+import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenCompoundsMapper;
+import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenMapper;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationRequestMapper;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +60,6 @@ import static uk.nhs.adaptors.pss.translator.util.OrganizationUtil.organisationI
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BundleMapperService {
-    private static final String EHR_EXTRACT_INTERACTION_ID06 = "RCMR_IN030000UK06";
-    private static final String EHR_EXTRACT_INTERACTION_ID07 = "RCMR_IN030000UK07";
     private static final String ENCOUNTER_KEY = "encounters";
     private static final String CONSULTATION_KEY = "consultations";
     private static final String TOPIC_KEY = "topics";
@@ -92,7 +93,7 @@ public class BundleMapperService {
         try {
 
             Bundle bundle = generator.generateBundle();
-            final RCMRMT030101UKEhrExtract ehrExtract = getEhrExtract(xmlMessage);
+            final RCMRMT030101UKEhrExtract ehrExtract =  getEhrExtract(xmlMessage);
             final RCMRMT030101UKEhrFolder ehrFolder = getEhrFolder(xmlMessage);
 
             var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
@@ -109,54 +110,40 @@ public class BundleMapperService {
 
             var mappedEncounterEhrCompositions = mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations);
             var encounters = handleMappedEncounterResources(mappedEncounterEhrCompositions, bundle);
-            List<Resource> locationsR = locations.stream().map(s -> (Resource) s).toList();
 
-            addEntries(bundle, locationsR);
+            addEntries(bundle, locations);
 
             var procedureRequests = procedureRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            List<Resource> procedureRequestsR = procedureRequests.stream().map(s -> (Resource) s).toList();
-
-            addEntries(bundle, procedureRequestsR);
+            addEntries(bundle, procedureRequests);
 
             var referralRequests = referralRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            List<Resource> referralRequestsR = referralRequests.stream().map(s -> (Resource) s).toList();
-
-            addEntries(bundle, referralRequestsR);
+            addEntries(bundle, referralRequests);
 
             var medicationResources = medicationRequestMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            var medicationResourcesR = medicationResources.stream().map(s -> (Resource) s).toList();
-
-            addEntries(bundle, medicationResourcesR);
+            addEntries(bundle, medicationResources);
 
             var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            List<Resource> bloodPressuresR = bloodPressures.stream().map(s -> (Resource) s).toList();
-            addEntries(bundle, bloodPressuresR);
+            addEntries(bundle, bloodPressures);
 
             var observations = observationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            List<Resource> observationsR = bloodPressures.stream().map(s -> (Resource) s).toList();
-            addEntries(bundle, observationsR);
+            addEntries(bundle, observations);
 
             var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            List<Resource> immunizationsR = immunizations.stream().map(s -> (Resource) s).toList();
-            addEntries(bundle, immunizationsR);
+            addEntries(bundle, immunizations);
 
             var conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            List<Resource> conditionsR = conditions.stream().map(s -> (Resource) s).toList();
-            addEntries(bundle, conditionsR);
+            addEntries(bundle, conditions);
 
             var observationComments = observationCommentMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
 
             var documentReferences = documentReferenceMapper.mapResources(ehrExtract, patient, encounters, authorOrg, attachments);
-            List<Resource> documentReferencesR = documentReferences.stream().map(s -> (Resource) s).toList();
-            addEntries(bundle, documentReferencesR);
+            addEntries(bundle, documentReferences);
 
             var templates = templateMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            List<Resource> templatesR = templates.stream().map(s -> (Resource) s).toList();
-            addEntries(bundle, templatesR);
+            addEntries(bundle, templates);
 
             var allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            List<Resource> allergyIntolerancesR = allergyIntolerances.stream().map(s -> (Resource) s).toList();
-            addEntries(bundle, allergyIntolerancesR);
+            addEntries(bundle, allergyIntolerances);
 
             mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, losingPracticeOdsCode);
 
@@ -176,49 +163,42 @@ public class BundleMapperService {
     }
 
     private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        List<Observation> observations, List<Observation> observationComments, String practiceCode) {
+                                      List<Observation> observations, List<Observation> observationComments, String practiceCode) {
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode);
-        List<Resource> diagnosticReportsR = diagnosticReports.stream().map(s -> (Resource) s).toList();
 
         diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);
 
         var specimen = specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
-        List<Resource> specimenR = specimen.stream().map(s -> (Resource) s).toList();
-
-        addEntries(bundle, diagnosticReportsR);
-        addEntries(bundle, specimenR);
+        addEntries(bundle, diagnosticReports);
+        addEntries(bundle, specimen);
 
         observationComments = specimenMapper.removeSurplusObservationComments(ehrExtract, observationComments);
 
         var batteryObservations = specimenCompoundsMapper.handleSpecimenChildComponents(ehrExtract, observations, observationComments,
-            diagnosticReports, patient, encounters, practiceCode);
+                diagnosticReports, patient, encounters, practiceCode);
 
-        List<Resource> observationCommentsR = observationComments.stream().map(s -> (Resource) s).toList();
-        List<Resource> batteryObservationsR = batteryObservations.stream().map(s -> (Resource) s).toList();
-
-        addEntries(bundle, observationCommentsR);
-        addEntries(bundle, batteryObservationsR);
+        addEntries(bundle, observationComments);
+        addEntries(bundle, batteryObservations);
     }
 
     private List<Encounter> handleMappedEncounterResources(
-            Map<String, List<Resource>> mappedEncounterEhrCompositions,
+            Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,
             Bundle bundle
     ) {
-        var encounters = mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
-        var consultations = mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
-        var topics =  mappedEncounterEhrCompositions.get(TOPIC_KEY);
-        var categories =  mappedEncounterEhrCompositions.get(CATEGORY_KEY);
-        List<Encounter> encountersE = encounters.stream().map(s -> (Encounter) s).toList();
+        var encounters = (List<Encounter>) mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
+        var consultations = (List<ListResource>) mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
+        var topics = (List<ListResource>) mappedEncounterEhrCompositions.get(TOPIC_KEY);
+        var categories = (List<ListResource>) mappedEncounterEhrCompositions.get(CATEGORY_KEY);
 
         addEntries(bundle, encounters);
         addEntries(bundle, consultations);
         addEntries(bundle, topics);
         addEntries(bundle, categories);
 
-        return encountersE;
+        return encounters;
     }
 
-    private Map<String, List<Resource>> mapEncounters(
+    private Map<String, List<? extends DomainResource>> mapEncounters(
             RCMRMT030101UKEhrExtract ehrExtract,
             Patient patient,
             String losingPracticeOdsCode,
@@ -226,7 +206,7 @@ public class BundleMapperService {
         return encounterMapper.mapEncounters(ehrExtract, patient, losingPracticeOdsCode, locations);
     }
 
-    private List<Resource> mapAgentDirectories(RCMRMT030101UKEhrFolder ehrFolder) {
+    private List<? extends DomainResource> mapAgentDirectories(RCMRMT030101UKEhrFolder ehrFolder) {
         return agentDirectoryMapper.mapAgentDirectory(ehrFolder.getResponsibleParty().getAgentDirectory());
     }
 
@@ -256,24 +236,24 @@ public class BundleMapperService {
         return patientMapper.mapToPatient(xmlPatient, organization);
     }
 
-    private Organization getPatientOrganization(List<Resource> agents) {
+    private Organization getPatientOrganization(List<? extends DomainResource> agents) {
         return agents.stream()
-            .filter(agent -> ResourceType.Organization.equals(agent.getResourceType()))
-            .map(Organization.class::cast)
-            .findFirst()
-            .orElse(null);
+                .filter(agent -> ResourceType.Organization.equals(agent.getResourceType()))
+                .map(Organization.class::cast)
+                .findFirst()
+                .orElse(null);
     }
 
     private RCMRMT030101UKEhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
-        try {
-            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent()
+        if (xmlMessage instanceof RCMRIN030000UK07Message) {
+            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent()
                     .getSubject()
                     .getEhrExtract()
                     .getComponent()
                     .get(0)
                     .getEhrFolder();
-        } catch (ClassCastException e) {
-            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent()
+        } else {
+            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent()
                     .getSubject()
                     .getEhrExtract()
                     .getComponent()
@@ -283,18 +263,18 @@ public class BundleMapperService {
     }
 
     private RCMRMT030101UKEhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
-        try {
-            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
-        } catch (ClassCastException e) {
+        if (xmlMessage instanceof RCMRIN030000UK07Message) {
             return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
+        } else {
+            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
         }
     }
 
-    private <Resource> void addEntries(Bundle bundle, Collection<Resource> resources) {
+    private <T extends DomainResource> void addEntries(Bundle bundle, Collection<T> resources) {
         resources.forEach(it -> addEntry(bundle, it));
     }
 
-    private <Resource> void addEntry(Bundle bundle, Resource resource) {
-        bundle.addEntry(new BundleEntryComponent().setResource((org.hl7.fhir.dstu3.model.Resource) resource));
+    private <T extends DomainResource> void addEntry(Bundle bundle, T resource) {
+        bundle.addEntry(new BundleEntryComponent().setResource(resource));
     }
 }

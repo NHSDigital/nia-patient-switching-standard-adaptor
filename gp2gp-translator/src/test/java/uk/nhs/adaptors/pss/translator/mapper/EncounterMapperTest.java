@@ -14,6 +14,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
 import org.hl7.fhir.dstu3.model.ListResource;
@@ -21,7 +22,6 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Location;
-import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 
@@ -132,14 +132,14 @@ public class EncounterMapperTest {
     @Test
     public void testEncountersWithMultipleCompoundStatements() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -154,15 +154,15 @@ public class EncounterMapperTest {
     @Test
     public void testMapValidEncounterWithSnomedCode() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
-            ehrExtract, patient, PRACTISE_CODE, entryLocations
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+                ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
@@ -173,7 +173,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertThat(encounter.getType().get(0).getCodingFirstRep().getDisplay())
-            .isEqualTo(CODING_DISPLAY);
+                .isEqualTo(CODING_DISPLAY);
     }
 
     @Test
@@ -183,15 +183,15 @@ public class EncounterMapperTest {
 
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
-            ehrExtract, patient, PRACTISE_CODE, entryLocations
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+                ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
@@ -202,20 +202,20 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertThat(encounter.getType().get(0).getCodingFirstRep())
-            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+                .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
     }
 
     @Test
     public void testValidEncounterWithFullDataWithStructuredConsultation() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -227,7 +227,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
+                "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -235,25 +235,25 @@ public class EncounterMapperTest {
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntryFirstRep().getItem().getReference())
-            .isEqualTo(ENCOUNTER_ID);
+                .isEqualTo(ENCOUNTER_ID);
 
         var category = (ListResource) mappedResources.get(CATEGORY_KEY).get(0);
         assertThat(category.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(topic.getEntryFirstRep().getItem().getReference())
-            .isEqualTo(ENCOUNTER_ID);
+                .isEqualTo(ENCOUNTER_ID);
     }
 
     @Test
     public void testValidEncounterWithLinkSetWithStructuredConsultation() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -278,7 +278,7 @@ public class EncounterMapperTest {
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntry().get(0).getItem().getReference())
-            .isEqualTo(ENCOUNTER_ID);
+                .isEqualTo(ENCOUNTER_ID);
 
         var relatedProblemExt = topic.getExtensionsByUrl(RELATED_PROBLEM_EXT_URL);
         assertThat(relatedProblemExt.size()).isOne();
@@ -292,19 +292,19 @@ public class EncounterMapperTest {
         var category = (ListResource) mappedResources.get(CATEGORY_KEY).get(0);
         assertThat(category.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(topic.getEntryFirstRep().getItem().getReference())
-            .isEqualTo(ENCOUNTER_ID);
+                .isEqualTo(ENCOUNTER_ID);
     }
 
     @Test
     public void testValidEncounterWithFlatConsultationWithLinkSet() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
-            .thenReturn(getList());
+                .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_LINK_SET_XML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
-            ehrExtract, patient, PRACTISE_CODE, entryLocations
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+                ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
@@ -315,7 +315,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
+                "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -331,12 +331,12 @@ public class EncounterMapperTest {
     @Test
     public void testValidEncounterWithFullDataWithFlatConsultation() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
-            .thenReturn(getList());
+                .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_XML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -348,7 +348,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
+                "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -361,12 +361,12 @@ public class EncounterMapperTest {
     @Test
     public void testValidEncounterWithNoOptionalDataWithFlatConsultation() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
-            .thenReturn(getList());
+                .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_FLAT_ENCOUNTER_XML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -390,14 +390,14 @@ public class EncounterMapperTest {
     @Test
     public void testEncounterWithMappedResourcesWithStructuredConsultation() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_RESOURCES_XML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -409,7 +409,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
+                "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -417,12 +417,12 @@ public class EncounterMapperTest {
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntryFirstRep().getItem().getReference())
-            .isEqualTo(ENCOUNTER_ID);
+                .isEqualTo(ENCOUNTER_ID);
 
         var category = (ListResource) mappedResources.get(CATEGORY_KEY).get(0);
         assertThat(category.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(topic.getEntryFirstRep().getItem().getReference())
-            .isEqualTo(ENCOUNTER_ID);
+                .isEqualTo(ENCOUNTER_ID);
 
         verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromCompoundStatement(any(), any());
     }
@@ -430,12 +430,12 @@ public class EncounterMapperTest {
     @Test
     public void testEncounterWithMappedResourcesWithFlatConsultation() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
-            .thenReturn(getList());
+                .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_RESOURCES_XML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -447,7 +447,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
+                "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -463,12 +463,12 @@ public class EncounterMapperTest {
     @MethodSource("encounterPeriodTestFiles")
     public void testEncounterPeriod(String inputXML, String startDate, String endDate) {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+                .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
-            .thenReturn(getList());
+                .thenReturn(getList());
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -481,14 +481,14 @@ public class EncounterMapperTest {
 
     private static Stream<Arguments> encounterPeriodTestFiles() {
         return Stream.of(
-            Arguments.of(EFFECTIVE_CENTER_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
-            Arguments.of(EFFECTIVE_LOW_AND_HIGH_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", "2015-01-13T15:20:00+00:00"),
-            Arguments.of(EFFECTIVE_LOW_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
-            Arguments.of(EFFECTIVE_HIGH_ENCOUNTER_PERIOD_XML, null, "2010-01-13T15:20:00+00:00"),
-            Arguments.of(EFFECTIVE_CENTER_UNK_NULL_FLAVOR_ENCOUNTER_PERIOD_XML, null, null),
-            Arguments.of(AVAILABILITY_TIME_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
-            Arguments.of(NO_ENCOUNTER_PERIOD_XML, "2012-06-15T14:20:00+00:00", null),
-            Arguments.of(NULL_FLAVOR_EFFECTIVE_TIMES_XML, "2010-01-13T15:20:00+00:00", null)
+                Arguments.of(EFFECTIVE_CENTER_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
+                Arguments.of(EFFECTIVE_LOW_AND_HIGH_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", "2015-01-13T15:20:00+00:00"),
+                Arguments.of(EFFECTIVE_LOW_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
+                Arguments.of(EFFECTIVE_HIGH_ENCOUNTER_PERIOD_XML, null, "2010-01-13T15:20:00+00:00"),
+                Arguments.of(EFFECTIVE_CENTER_UNK_NULL_FLAVOR_ENCOUNTER_PERIOD_XML, null, null),
+                Arguments.of(AVAILABILITY_TIME_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
+                Arguments.of(NO_ENCOUNTER_PERIOD_XML, "2012-06-15T14:20:00+00:00", null),
+                Arguments.of(NULL_FLAVOR_EFFECTIVE_TIMES_XML, "2010-01-13T15:20:00+00:00", null)
         );
     }
 
@@ -497,7 +497,7 @@ public class EncounterMapperTest {
     public void testInvalidEhrCompositions(String inputXML) {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
 
-        Map<String, List<Resource>> mappedResources = encounterMapper.mapEncounters(
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
@@ -509,10 +509,10 @@ public class EncounterMapperTest {
 
     private static Stream<Arguments> invalidEhrCompositionTestFiles() {
         return Stream.of(
-            Arguments.of(INVALID_ENCOUNTER_CODE_1_XML),
-            Arguments.of(INVALID_ENCOUNTER_CODE_2_XML),
-            Arguments.of(SUPPRESSED_COMPOSITION_WITH_EHR_EMPTY_XML),
-            Arguments.of(SUPPRESSED_COMPOSITION_WITH_REGISTRATION_STATEMENT_XML)
+                Arguments.of(INVALID_ENCOUNTER_CODE_1_XML),
+                Arguments.of(INVALID_ENCOUNTER_CODE_2_XML),
+                Arguments.of(SUPPRESSED_COMPOSITION_WITH_EHR_EMPTY_XML),
+                Arguments.of(SUPPRESSED_COMPOSITION_WITH_REGISTRATION_STATEMENT_XML)
         );
     }
 
@@ -537,7 +537,7 @@ public class EncounterMapperTest {
     private void assertLocation(Encounter encounter, String id, boolean hasLocation) {
         if (hasLocation) {
             assertThat(encounter.getLocationFirstRep().getLocation().getReference())
-                .isEqualTo(LOCATION_PREFIX + id);
+                    .isEqualTo(LOCATION_PREFIX + id);
         } else {
             assertThat(encounter.getLocation().size()).isZero();
         }
