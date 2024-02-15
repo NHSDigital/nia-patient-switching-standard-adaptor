@@ -78,8 +78,6 @@ public class ProcedureRequestMapperTest {
         assertThat(procedureRequest.getNoteFirstRep().getText()).isEqualTo(planStatement.getText());
         assertThat(procedureRequest.getOccurrenceDateTimeType().getValue()).isEqualTo(
             DateFormatUtil.parseToDateTimeType(planStatement.getEffectiveTime().getCenter().getValue()).getValue());
-        assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
-            DateFormatUtil.parseToDateTimeType(planStatement.getAvailabilityTime().getValue()).getValue());
         assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getRequester().getAgent().getReference())
@@ -171,8 +169,7 @@ public class ProcedureRequestMapperTest {
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
-        assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
-            DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue()).getValue());
+        assertThat(procedureRequest.getAuthoredOn()).isNull();
         assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);

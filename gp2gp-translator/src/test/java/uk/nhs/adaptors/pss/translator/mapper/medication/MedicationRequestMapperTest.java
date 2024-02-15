@@ -101,9 +101,8 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
-    public void When_MappingMedicationRequestWithAvailabilityTimeInMedicationStatement_Expect_UseThatAvailabilityTime() {
+    public void When_MappingMedicationRequestWithAvailabilityTimeInMedicationStatement_Expect_NullAuthoredOn() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeSetInMedicationStatement.xml");
-        var expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100116");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any()))
                 .thenReturn(new MedicationRequest());
@@ -126,11 +125,11 @@ public class MedicationRequestMapperTest {
                         .findFirst()
                 .get();
 
-        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAvailabilityTime.getValue());
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isNull();
     }
 
     @Test
-    public void When_MappingMedicationRequestWithAvailabilityTimeNotInMedicationStatement_Expect_UseEhrCompositionAvailabilityTime() {
+    public void When_MappingMedicationRequestWithAvailabilityTimeNotInMedicationStatement_Expect_NullAuthoredOn() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeNotInMedicationStatement.xml");
         var expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100117");
 
@@ -151,7 +150,7 @@ public class MedicationRequestMapperTest {
                 .findFirst()
                 .get();
 
-        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAvailabilityTime.getValue());
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isNull();
     }
 
     @Test
