@@ -255,6 +255,56 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
+    public void When_MappingMedicationRequestWithAuthoredOnValidDateInExtractAndComposition_Expect_AuthoredOnToUseExtractValue() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract_hasAuthorTimeInExtract.xml");
+        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20230101010101");
+
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any())).thenReturn(new Medication());
+
+        var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
+                PRACTISE_CODE);
+
+        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+
+        var medicationRequest = resources
+                .stream()
+                .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
+                .map(MedicationRequest.class::cast)
+                .findFirst()
+                .get();
+
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAuthoredOn.getValue());
+    }
+
+    @Test
+    public void When_MappingMedicationRequestWithAuthoredOnValidDateInExtractOnly_Expect_AuthoredOnToUseExtractValue() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract_hasAuthorTimeInExtractOnly.xml");
+        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20230101010101");
+
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any())).thenReturn(new Medication());
+
+        var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
+                PRACTISE_CODE);
+
+        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+
+        var medicationRequest = resources
+                .stream()
+                .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
+                .map(MedicationRequest.class::cast)
+                .findFirst()
+                .get();
+
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAuthoredOn.getValue());
+    }
+
+    @Test
     public void When_MedicationRequestMapperThrowsException_Expect_MedicationMapperContextToBeReset() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
 
