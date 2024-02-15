@@ -87,8 +87,6 @@ public class MedicationRequestMapperTest {
             .map(MedicationRequest.class::cast)
             .forEach(medicationRequest -> {
                 assertThat(medicationRequest.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID);
-                assertThat(medicationRequest.getAuthoredOnElement().getValue())
-                    .isEqualTo(EXPECTED_DATE_TIME_TYPE.getValue());
             });
 
         resources
@@ -209,9 +207,8 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
-    public void When_MappingMedicationRequestWithAvailabilityTimeOnlyInEhrExtract_Expect_UseEhrExtractAvailabilityTime() {
+    public void When_MappingMedicationRequestWithNoAuthoredOn_Expect_NullAuthoredOn() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeNotInMedicationStatementOrEhrComposition.xml");
-        var expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100118");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
@@ -230,7 +227,32 @@ public class MedicationRequestMapperTest {
                 .findFirst()
                 .get();
 
-        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAvailabilityTime.getValue());
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isNull();
+    }
+
+    @Test
+    public void When_MappingMedicationRequestWithAuthoredOnValidDate_Expect_AuthoredOnToUseDateValue() {
+        var ehrExtract = unmarshallEhrExtract("ehrExtract_hasAuthorTime.xml");
+        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20220101010101");
+
+        when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
+        when(medicationStatementMapper.mapToMedicationStatement(any(), any(), any(), any(), any())).thenReturn(new MedicationStatement());
+        when(medicationMapper.createMedication(any())).thenReturn(new Medication());
+
+        var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
+                PRACTISE_CODE);
+
+        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+
+        var medicationRequest = resources
+                .stream()
+                .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
+                .map(MedicationRequest.class::cast)
+                .findFirst()
+                .get();
+
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAuthoredOn.getValue());
     }
 
     @Test
