@@ -12,7 +12,7 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -154,7 +154,7 @@ public class ObservationCommentMapperTest {
         assertThat(observations.get(0).getComment()).isEqualTo(null);
     }
 
-    private RCMRMT030101UK04NarrativeStatement getNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKNarrativeStatement getNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0)
             .getEhrFolder().getComponent().get(0)
             .getEhrComposition().getComponent().get(0)

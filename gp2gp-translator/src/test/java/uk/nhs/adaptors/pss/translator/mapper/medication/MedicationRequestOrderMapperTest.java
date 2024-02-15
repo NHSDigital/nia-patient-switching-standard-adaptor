@@ -18,7 +18,7 @@ import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04Component2;
+import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.junit.jupiter.api.Test;
@@ -54,8 +54,8 @@ public class MedicationRequestOrderMapperTest {
         var medicationStatement = unmarshallMedicationStatement("medicationStatementPrescribeAllOptionals.xml");
         var prescribe = medicationStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
             .findFirst();
 
         when(medicationMapper.extractMedicationReference(any()))
@@ -81,8 +81,8 @@ public class MedicationRequestOrderMapperTest {
         var medicationStatement = unmarshallMedicationStatement("medicationStatementPrescribeNoOptionals.xml");
         var prescribe = medicationStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
             .findFirst();
 
         when(medicationMapper.extractMedicationReference(any()))

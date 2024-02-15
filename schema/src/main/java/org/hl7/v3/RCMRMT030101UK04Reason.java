@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -44,17 +45,20 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Reason", propOrder = {
     "justifyingStatementRef"
 })
-public class RCMRMT030101UK04Reason {
+public class RCMRMT030101UK04Reason implements RCMRMT030101UKReason {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04StatementRef justifyingStatementRef;
+    @XmlElement(required = true, type = RCMRMT030101UK04StatementRef.class)
+    protected RCMRMT030101UKStatementRef justifyingStatementRef;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
     @XmlAttribute(name = "typeID")
@@ -73,7 +77,8 @@ public class RCMRMT030101UK04Reason {
      *     {@link RCMRMT030101UK04StatementRef }
      *     
      */
-    public RCMRMT030101UK04StatementRef getJustifyingStatementRef() {
+    @Override
+    public RCMRMT030101UKStatementRef getJustifyingStatementRef() {
         return justifyingStatementRef;
     }
 
@@ -85,7 +90,8 @@ public class RCMRMT030101UK04Reason {
      *     {@link RCMRMT030101UK04StatementRef }
      *     
      */
-    public void setJustifyingStatementRef(RCMRMT030101UK04StatementRef value) {
+    @Override
+    public void setJustifyingStatementRef(RCMRMT030101UKStatementRef value) {
         this.justifyingStatementRef = value;
     }
 
@@ -97,6 +103,7 @@ public class RCMRMT030101UK04Reason {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -113,6 +120,7 @@ public class RCMRMT030101UK04Reason {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -139,6 +147,7 @@ public class RCMRMT030101UK04Reason {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<String>();
@@ -168,6 +177,7 @@ public class RCMRMT030101UK04Reason {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -197,6 +207,7 @@ public class RCMRMT030101UK04Reason {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -212,6 +223,7 @@ public class RCMRMT030101UK04Reason {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -224,6 +236,7 @@ public class RCMRMT030101UK04Reason {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

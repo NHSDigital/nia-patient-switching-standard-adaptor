@@ -21,9 +21,9 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04Prescribe;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +39,10 @@ public class MedicationRequestOrderMapper {
 
     private final MedicationMapper medicationMapper;
 
-    public MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement, RCMRMT030101UK04Prescribe supplyPrescribe, String practiseCode) {
+    public MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UKEhrExtract ehrExtract,
+                                                         RCMRMT030101UKMedicationStatement medicationStatement,
+                                                         RCMRMT030101UKPrescribe supplyPrescribe,
+                                                         String practiseCode) {
 
         var ehrSupplyPrescribeIdExtract = extractEhrSupplyPrescribeId(supplyPrescribe);
         var inFulfillmentOfId = extractInFulfillmentOfId(supplyPrescribe);
@@ -74,7 +76,7 @@ public class MedicationRequestOrderMapper {
     }
 
     private MedicationRequest.MedicationRequestDispenseRequestComponent buildDispenseRequestForPrescribe(
-        RCMRMT030101UK04Prescribe supplyPrescribe) {
+        RCMRMT030101UKPrescribe supplyPrescribe) {
         MedicationRequest.MedicationRequestDispenseRequestComponent dispenseRequest
             = new MedicationRequest.MedicationRequestDispenseRequestComponent();
 
@@ -90,7 +92,7 @@ public class MedicationRequestOrderMapper {
         return dispenseRequest;
     }
 
-    private List<Annotation> buildNotesForPrescribe(RCMRMT030101UK04Prescribe supplyPrescribe) {
+    private List<Annotation> buildNotesForPrescribe(RCMRMT030101UKPrescribe supplyPrescribe) {
         var notes = buildNotes(supplyPrescribe.getPertinentInformation());
         if (supplyPrescribe.hasCode() && supplyPrescribe.getCode().hasDisplayName()
             && !NHS_PRESCRIPTION.equalsIgnoreCase(supplyPrescribe.getCode().getDisplayName())) {
@@ -105,7 +107,7 @@ public class MedicationRequestOrderMapper {
         return new Period().setStartElement(DateFormatUtil.parseToDateTimeType(timestamp.getValue()));
     }
 
-    private Optional<String> extractInFulfillmentOfId(RCMRMT030101UK04Prescribe supplyPrescribe) {
+    private Optional<String> extractInFulfillmentOfId(RCMRMT030101UKPrescribe supplyPrescribe) {
         if (supplyPrescribe.hasInFulfillmentOf()
             && supplyPrescribe.getInFulfillmentOf().hasPriorMedicationRef()
             && supplyPrescribe.getInFulfillmentOf().getPriorMedicationRef().hasId()
@@ -116,7 +118,7 @@ public class MedicationRequestOrderMapper {
         return Optional.empty();
     }
 
-    private Optional<String> extractEhrSupplyPrescribeId(RCMRMT030101UK04Prescribe supplyPrescribe) {
+    private Optional<String> extractEhrSupplyPrescribeId(RCMRMT030101UKPrescribe supplyPrescribe) {
         if (supplyPrescribe.hasId() && supplyPrescribe.getId().hasRoot()) {
             return Optional.of(supplyPrescribe.getId().getRoot());
         }

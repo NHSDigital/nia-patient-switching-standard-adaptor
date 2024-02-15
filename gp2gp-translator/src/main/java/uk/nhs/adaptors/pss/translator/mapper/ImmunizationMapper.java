@@ -25,15 +25,16 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
@@ -41,19 +42,21 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @Service
 @AllArgsConstructor
 public class ImmunizationMapper extends AbstractMapper<Immunization> {
+
     private static final String META_PROFILE = "Immunization-1";
     private static final String VACCINE_PROCEDURE_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-VaccinationProcedure-1";
     private static final String END_DATE_PREFIX = "End Date: ";
     private static final String RECORDED_DATE_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-DateRecorded-1";
+    private static final String IMMUNIZATION_ROLE_URL = "http://hl7.org/fhir/stu3/valueset-immunization-role.html";
     public static final String ASSERTER = "asserter";
     public static final String RECORDER = "recorder";
 
     private CodeableConceptMapper codeableConceptMapper;
     private DatabaseImmunizationChecker immunizationChecker;
 
-    public List<Immunization> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patientResource,
-        List<Encounter> encounterList, String practiseCode) {
+    public List<Immunization> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patientResource,
+                                           List<Encounter> encounterList, String practiseCode) {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllObservationStatements(component)
                 .filter(Objects::nonNull)
@@ -63,16 +66,18 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
             .toList();
     }
 
-    private boolean isImmunization(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private boolean isImmunization(RCMRMT030101UKObservationStatement observationStatement) {
+
         if (observationStatement.hasCode() && observationStatement.getCode().hasCode()) {
             return immunizationChecker.isImmunization(observationStatement);
         }
         return false;
     }
 
-    private Immunization mapImmunization(RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04ObservationStatement observationStatement, Patient patientResource, List<Encounter> encounterList,
-        String practiseCode) {
+    private Immunization mapImmunization(RCMRMT030101UKEhrComposition ehrComposition,
+                                         RCMRMT030101UKObservationStatement observationStatement, Patient patientResource,
+                                         List<Encounter> encounterList, String practiseCode) {
+
         Immunization immunization = new Immunization();
 
         var id = observationStatement.getId().getRoot();
@@ -124,8 +129,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
 
         ImmunizationPractitionerComponent recorder = new ImmunizationPractitionerComponent(practitionerReference);
         if (StringUtils.isNotEmpty(role)) {
-            var epRole = new CodeableConcept().setText(role);
-            recorder.setRole(epRole);
+            var epCodeableConceptRole = CodeableConceptUtils.createCodeableConcept(role, IMMUNIZATION_ROLE_URL, null);
+            recorder.setRole(epCodeableConceptRole);
         }
 
         return recorder;
@@ -149,7 +154,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         return encounterId.equals(ehrCompositionId.getRoot());
     }
 
-    private Extension createRecordedTimeExtension(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Extension createRecordedTimeExtension(RCMRMT030101UKEhrComposition ehrComposition) {
+
         var extension = new Extension();
         extension.setUrl(RECORDED_DATE_EXTENSION_URL);
 
@@ -166,7 +172,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         return null;
     }
 
-    private Extension createVaccineProcedureExtension(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private Extension createVaccineProcedureExtension(RCMRMT030101UKObservationStatement observationStatement) {
+
         return new Extension()
                     .setUrl(VACCINE_PROCEDURE_URL)
                     .setValue(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
@@ -176,7 +183,8 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         return new Annotation(new StringType(annotation));
     }
 
-    private void setDateFields(Immunization immunization, RCMRMT030101UK04ObservationStatement observationStatement) {
+    private void setDateFields(Immunization immunization, RCMRMT030101UKObservationStatement observationStatement) {
+
         if (observationStatement.hasEffectiveTime()) {
             var effectiveTime = observationStatement.getEffectiveTime();
 
@@ -195,12 +203,13 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         }
     }
 
-    private List<Annotation> buildNote(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private List<Annotation> buildNote(RCMRMT030101UKObservationStatement observationStatement) {
+
         return observationStatement
             .getPertinentInformation()
             .stream()
-            .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
-            .map(RCMRMT030101UK04Annotation::getText)
+            .map(RCMRMT030101UKPertinentInformation02::getPertinentAnnotation)
+            .map(RCMRMT030101UKAnnotation::getText)
             .map(this::buildAnnotation)
             .collect(Collectors.toList());
     }

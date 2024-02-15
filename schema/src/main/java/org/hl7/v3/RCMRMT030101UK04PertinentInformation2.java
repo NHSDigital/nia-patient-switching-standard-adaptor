@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -44,23 +45,29 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.PertinentInformation2", propOrder = {
     "pertinentSupplyAnnotation"
 })
-public class RCMRMT030101UK04PertinentInformation2 {
+public class RCMRMT030101UK04PertinentInformation2 implements RCMRMT030101UKPertinentInformation2 {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04SupplyAnnotation pertinentSupplyAnnotation;
+    @XmlElement(required = true, type = RCMRMT030101UK04SupplyAnnotation.class)
+    protected RCMRMT030101UKSupplyAnnotation pertinentSupplyAnnotation;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
+
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
+
     @XmlAttribute(name = "realmCode")
     protected List<String> realmCode;
+
     @XmlAttribute(name = "nullFlavor")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String nullFlavor;
@@ -73,7 +80,8 @@ public class RCMRMT030101UK04PertinentInformation2 {
      *     {@link RCMRMT030101UK04SupplyAnnotation }
      *     
      */
-    public RCMRMT030101UK04SupplyAnnotation getPertinentSupplyAnnotation() {
+    @Override
+    public RCMRMT030101UKSupplyAnnotation getPertinentSupplyAnnotation() {
         return pertinentSupplyAnnotation;
     }
 
@@ -85,10 +93,12 @@ public class RCMRMT030101UK04PertinentInformation2 {
      *     {@link RCMRMT030101UK04SupplyAnnotation }
      *     
      */
-    public void setPertinentSupplyAnnotation(RCMRMT030101UK04SupplyAnnotation value) {
+    @Override
+    public void setPertinentSupplyAnnotation(RCMRMT030101UKSupplyAnnotation value) {
         this.pertinentSupplyAnnotation = value;
     }
 
+    @Override
     public boolean hasPertinentSupplyAnnotation() {
         return pertinentSupplyAnnotation != null;
     }
@@ -101,6 +111,7 @@ public class RCMRMT030101UK04PertinentInformation2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -117,6 +128,7 @@ public class RCMRMT030101UK04PertinentInformation2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -143,9 +155,10 @@ public class RCMRMT030101UK04PertinentInformation2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
-            typeCode = new ArrayList<String>();
+            typeCode = new ArrayList<>();
         }
         return this.typeCode;
     }
@@ -172,9 +185,10 @@ public class RCMRMT030101UK04PertinentInformation2 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -201,9 +215,10 @@ public class RCMRMT030101UK04PertinentInformation2 {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -216,6 +231,7 @@ public class RCMRMT030101UK04PertinentInformation2 {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -228,6 +244,7 @@ public class RCMRMT030101UK04PertinentInformation2 {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

@@ -66,6 +66,10 @@ public class ObservationMapperTest {
     private static final String ZERO_ANNOTATION_TEXT = "zero sequence comment";
     private static final String PLUS_ONE_ANNOTATION_TEXT = "plus 1 sequence comment";
     private static final String NULL_FLAVOR_ANNOTATION_TEXT = "nullFlavor sequence comment";
+    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT =
+            "{Episodicity : code=255217005, displayName=First}";
+    private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_ORIGINAL_TEXT =
+            "{Episodicity : code=303350001, displayName=Ongoing, originalText=Review}";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -96,15 +100,11 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithValidData() {
-        //when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
-        //when(immunizationChecker.isImmunization(any())).thenReturn(false);
-
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertFixedValues(observation);
         assertThat(observation.getId()).isEqualTo(EXAMPLE_ID);
-        //assertThat(observation.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_MOCK);
         assertThat(observation.getEffective() instanceof DateTimeType).isTrue();
         assertThat(observation.getEffectiveDateTimeType().getValue()).isEqualTo("2019-07-08T13:35:00+00:00");
         assertThat(observation.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EHR_COMPOSITION_EXAMPLE);
@@ -119,6 +119,38 @@ public class ObservationMapperTest {
         assertThat(observation.hasSubject()).isTrue();
     }
 
+    /**
+     * Testing episodicity comment renders without any existing comments being present.
+     * Formatting should be similar to Allergy Intolerance.
+     */
+    @Test
+    public void mapObservationWithEpisodicity() {
+        var ehrExtract = unmarshallEhrExtractElement("data_observation_with_episodicity.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        assertFixedValues(observation);
+        assertThat(observation.getComment()).isEqualTo(EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT);
+    }
+
+    /**
+     * Testing when episodicity contains an originalText element.
+     */
+    @Test
+    public void mapObservationWithEpisodicityWithOriginalText() {
+        var ehrExtract = unmarshallEhrExtractElement("data_observation_with_episodicity_with_original_text.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        assertFixedValues(observation);
+        assertThat(observation.getComment()).isEqualTo(EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_ORIGINAL_TEXT);
+    }
+    @Test
+    public void mapObservationWithEpisodicityWithOriginalTextAndExistingComment() {
+        var ehrExtract = unmarshallEhrExtractElement("data_observation_with_episodicity_with_existing_comment.xml");
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        assertFixedValues(observation);
+        assertThat(observation.getComment()).contains(EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_ORIGINAL_TEXT);
+    }
     @Test
     public void mapObservationWhichIsBloodPressureWithoutBatteryOrBloodPressureTripleExpectObservationMapped() {
         var ehrExtract = unmarshallEhrExtractElement(

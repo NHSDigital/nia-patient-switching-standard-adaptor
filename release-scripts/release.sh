@@ -2,7 +2,7 @@
 
 set -e
 
-export BUILD_TAG=1.2.1
+export BUILD_TAG=1.4.3
 
 git fetch
 git checkout $BUILD_TAG
