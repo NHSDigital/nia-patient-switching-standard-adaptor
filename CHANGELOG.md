@@ -5,8 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-* THIS RELEASE WILL REQUIRE THE SNOMED DATABASE LOADER SCRIPT ([load_release-postgresql.sh](snomed-database-loader/load_release-postgresql.sh)) TO BE RUN BEFORE RUNNING THE NEW VERSION OF THE ADAPTOR
+## [1.4.3] - 2024-02-15
+
+### Added
 * Added Materialised View in the SnomedCT database to be used when querying for preferred terms.
+
+> [!NOTE]
+> **Upgrade information** This release includes an update to the SNOMED database
+> Users will need to perform an [update of their patient switching SNOMED database](OPERATING.md#updating-the-snomed-database).
+> This will need to be performed first, followed by deploying the updated version of the translator image.
 
 ## [1.4.2] - 2024-01-31
 
