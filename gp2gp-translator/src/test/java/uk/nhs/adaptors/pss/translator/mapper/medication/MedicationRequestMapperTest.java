@@ -255,9 +255,9 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
-    public void When_MappingMedicationRequestWithAuthoredOnValidDateInExtractAndComposition_Expect_AuthoredOnToUseExtractValue() {
+    public void When_MappingMedicationRequestWithAuthoredOnValidDateInExtractAndComposition_Expect_AuthoredOnToUseCompositionValue() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_hasAuthorTimeInExtract.xml");
-        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20230101010101");
+        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20220101010101");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());

@@ -103,12 +103,12 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
     private DateTimeType getAuthoredOn(RCMRMT030101UKEhrExtract ehrExtract,
                                        RCMRMT030101UKEhrComposition ehrComposition) {
 
-        if (ehrExtract.hasAuthor() && ehrExtract.getAuthor().hasTime() && ehrExtract.getAuthor().getTime().hasValue()) {
-            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAuthor().getTime().getValue());
-        }
-
         if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
             return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
+        }
+
+        if (ehrExtract.hasAuthor() && ehrExtract.getAuthor().hasTime() && ehrExtract.getAuthor().getTime().hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAuthor().getTime().getValue());
         }
 
         return null;
