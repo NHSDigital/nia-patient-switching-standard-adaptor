@@ -160,7 +160,6 @@ public class ProcedureRequestMapperTest {
     @Test
     public void mapProcedureRequestWithEhrCompositionAvailabilityTime() {
         var ehrExtract = unmarshallCodeElement("ehr_composition_availability_time_example.xml");
-        var ehrComposition = getEhrComposition(ehrExtract);
         var planStatement = getPlanStatement(ehrExtract);
         setUpCodeableConceptMock();
 

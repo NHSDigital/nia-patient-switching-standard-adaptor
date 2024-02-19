@@ -131,7 +131,6 @@ public class MedicationRequestMapperTest {
     @Test
     public void When_MappingMedicationRequestWithAvailabilityTimeNotInMedicationStatement_Expect_NullAuthoredOn() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeNotInMedicationStatement.xml");
-        var expectedAvailabilityTime = DateFormatUtil.parseToDateTimeType("20100117");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
