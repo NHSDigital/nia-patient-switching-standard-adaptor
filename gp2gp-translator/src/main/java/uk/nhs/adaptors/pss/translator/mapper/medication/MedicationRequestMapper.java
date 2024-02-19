@@ -21,8 +21,6 @@ import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
-import org.hl7.v3.TS;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;

@@ -20,7 +20,6 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKPlanStatement;
-import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
