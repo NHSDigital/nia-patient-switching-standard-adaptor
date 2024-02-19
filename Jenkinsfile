@@ -129,7 +129,7 @@ pipeline {
                                 ]
                             )
                             sh '''
-                               docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml down --rmi all --remove-orphans
+                               docker-compose -f docker/docker-compose.yml -f docker/docker-compose-checks.yml down --rmi all --remove-orphans --volumes
                                docker network rm ps-network
                             '''
                             sh "rm -rf db-connector-build"
