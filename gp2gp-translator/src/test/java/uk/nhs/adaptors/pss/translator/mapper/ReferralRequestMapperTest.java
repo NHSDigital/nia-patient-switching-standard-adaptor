@@ -310,7 +310,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapReferralRequestWithAuthorTime(){
+    public void mapReferralRequestWithAuthorTime() {
         var inputXml = """
                 <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
                     <author typeCode="AUT">
@@ -340,7 +340,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapReferralRequestWithNoAuthorTime(){
+    public void mapReferralRequestWithNoAuthorTime() {
         var inputXml = """
                 <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
                     <id root="72A39454-299F-432E-993E-5A6232B4E099" />

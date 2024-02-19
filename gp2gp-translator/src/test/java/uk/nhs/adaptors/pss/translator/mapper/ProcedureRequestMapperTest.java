@@ -17,7 +17,6 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKPlanStatement;
@@ -176,6 +175,7 @@ public class ProcedureRequestMapperTest {
     }
 
     @Test
+    @SuppressWarnings("LineLength")
     public void mapProcedureRequestWithAuthorTime() {
         var inputXml = """
                 <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
@@ -216,6 +216,7 @@ public class ProcedureRequestMapperTest {
     }
 
     @Test
+    @SuppressWarnings("LineLength")
     public void mapProcedureRequestWithoutAuthorTime() {
         var inputXml = """
                 <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
