@@ -17,9 +17,9 @@ import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKPlanStatement;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +36,9 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
 
     private final CodeableConceptMapper codeableConceptMapper;
 
-    public List<ProcedureRequest> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+    public List<ProcedureRequest> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+                                               String practiseCode) {
+
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllPlanStatements(component)
                 .filter(Objects::nonNull)
@@ -47,8 +48,8 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
     }
 
     public ProcedureRequest mapToProcedureRequest(
-            RCMRMT030101UK04EhrComposition ehrComposition,
-            RCMRMT030101UK04PlanStatement planStatement,
+            RCMRMT030101UKEhrComposition ehrComposition,
+            RCMRMT030101UKPlanStatement planStatement,
             Patient patient,
             List<Encounter> encounters,
             String practiseCode
@@ -83,8 +84,8 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         return procedureRequest;
     }
 
-    private void setProcedureRequestContext(ProcedureRequest procedureRequest, RCMRMT030101UK04EhrComposition ehrComposition,
-        List<Encounter> encounters) {
+    private void setProcedureRequestContext(ProcedureRequest procedureRequest, RCMRMT030101UKEhrComposition ehrComposition,
+                                            List<Encounter> encounters) {
 
         encounters
             .stream()
@@ -103,7 +104,8 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         return null;
     }
 
-    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UK04EhrComposition ehrComposition) {
+    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UKEhrComposition ehrComposition) {
+
         if (availabilityTime != null && availabilityTime.hasValue()) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         } else if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {

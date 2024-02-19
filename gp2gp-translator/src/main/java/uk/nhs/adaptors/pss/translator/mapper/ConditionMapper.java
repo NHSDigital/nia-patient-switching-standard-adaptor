@@ -37,20 +37,21 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component2;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
-import org.hl7.v3.RCMRMT030101UK04Component6;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent2;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKComponent4;
+import org.hl7.v3.RCMRMT030101UKComponent6;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04LinkSet;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
-import org.hl7.v3.RCMRMT030101UK04StatementRef;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKStatementRef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,8 +89,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
-    public List<Condition> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+    public List<Condition> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+                                        String practiseCode) {
+
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
                 extractAllLinkSets(component)
                     .filter(Objects::nonNull)
@@ -104,8 +106,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .toList();
     }
 
-    private Condition getCondition(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        RCMRMT030101UK04EhrComposition composition, RCMRMT030101UK04LinkSet linkSet, String practiseCode) {
+    private Condition getCondition(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+                                   RCMRMT030101UKEhrComposition composition, RCMRMT030101UKLinkSet linkSet, String practiseCode) {
+
         String id = linkSet.getId().getRoot();
         Condition condition = (Condition) new Condition()
             .addIdentifier(buildIdentifier(id, practiseCode))
@@ -147,7 +150,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     public void addHierarchyReferencesToConditions(List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
         var allLinkSets = getCompositionsContainingLinkSets(ehrExtract).stream()
                 .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
-                .map(RCMRMT030101UK04Component4::getLinkSet)
+                .map(RCMRMT030101UKComponent4::getLinkSet)
                 .filter(Objects::nonNull)
                 .toList();
 
@@ -158,7 +161,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
             condition.ifPresent(value -> linkSet.getComponent()
                     .stream()
-                    .map(RCMRMT030101UK04Component6::getStatementRef)
+                    .map(RCMRMT030101UKComponent6::getStatementRef)
                     .forEach(ref -> {
                         var childLinkSet = allLinkSets
                                 .stream()
@@ -183,7 +186,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     public void addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
         getCompositionsContainingLinkSets(ehrExtract).stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
-            .map(RCMRMT030101UK04Component4::getLinkSet)
+            .map(RCMRMT030101UKComponent4::getLinkSet)
             .filter(Objects::nonNull)
             .forEach(linkSet -> conditions.stream()
                     .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
@@ -211,14 +214,15 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
                         var statementRefs = linkSet.getComponent()
                                 .stream()
-                                .map(RCMRMT030101UK04Component6::getStatementRef)
+                                .map(RCMRMT030101UKComponent6::getStatementRef)
                                 .toList();
 
                         buildRelatedClinicalContent(bundle, statementRefs, ehrExtract).forEach(condition::addExtension);
                     }));
     }
 
-    private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UK04LinkSet linkSet) {
+    private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UKLinkSet linkSet) {
+
         if (linkSet.getEffectiveTime() != null) {
             IVLTS effectiveTime = linkSet.getEffectiveTime();
             if (effectiveTime.hasLow()) {
@@ -240,7 +244,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         return Optional.empty();
     }
 
-    private Optional<DateTimeType> buildAssertedDateTimeType(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Optional<DateTimeType> buildAssertedDateTimeType(RCMRMT030101UKEhrComposition ehrComposition) {
+
         if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime()
             && ehrComposition.getAuthor().getTime().hasValue()
             && !ehrComposition.getAuthor().getTime().hasNullFlavor()) {
@@ -249,7 +254,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         return Optional.empty();
     }
 
-    private Optional<Reference> buildContext(RCMRMT030101UK04EhrComposition composition, List<Encounter> encounters) {
+    private Optional<Reference> buildContext(RCMRMT030101UKEhrComposition composition, List<Encounter> encounters) {
+
         return encounters
             .stream()
             .filter(encounter -> encounter.getId().equals(composition.getId().getRoot()))
@@ -257,7 +263,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .map(Reference::new);
     }
 
-    private Optional<Extension> buildActualProblem(Bundle bundle, RCMRMT030101UK04StatementRef namedStatementRef) {
+    private Optional<Extension> buildActualProblem(Bundle bundle, RCMRMT030101UKStatementRef namedStatementRef) {
         if (namedStatementRef != null) {
             var resourceOpt = bundle.getEntry()
                 .stream()
@@ -326,8 +332,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                                      PROBLEM_LIST_ITEM_DISPLAY);
     }
 
-    private List<Extension> buildRelatedClinicalContent(Bundle bundle,
-        List<RCMRMT030101UK04StatementRef> relatedClinicalStatementReferences, RCMRMT030101UK04EhrExtract ehrExtract) {
+    private List<Extension> buildRelatedClinicalContent(Bundle bundle, List<RCMRMT030101UKStatementRef> relatedClinicalStatementReferences,
+                                                        RCMRMT030101UK04EhrExtract ehrExtract) {
 
         // Filter for bundle entries where entry ID exists in both streams
         var bundleIds = bundle.getEntry()
@@ -358,7 +364,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
     }
 
-    private List<String> getMedicationRequestIds(RCMRMT030101UK04EhrExtract ehrExtract, List<RCMRMT030101UK04StatementRef> statementRefs) {
+    private List<String> getMedicationRequestIds(RCMRMT030101UK04EhrExtract ehrExtract, List<RCMRMT030101UKStatementRef> statementRefs) {
+
         var medicationStatements = getMedicationStatements(ehrExtract);
         Map<String, String> medicationStatementIdMapping = getMedicationStatementIdMapping(medicationStatements);
         List<String> medicationRequestIds = new ArrayList<>();
@@ -374,7 +381,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         return medicationRequestIds;
     }
 
-    private Map<String, String> getMedicationStatementIdMapping(List<RCMRMT030101UK04MedicationStatement> medicationStatements) {
+    private Map<String, String> getMedicationStatementIdMapping(List<RCMRMT030101UKMedicationStatement> medicationStatements) {
 
         Map<String, String> statementToRequestMap = new HashMap<>();
 
@@ -385,8 +392,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             switch (moodCode) {
                 case MEDICATION_MOOD_ORDER -> {
                     var medicationRequestOrderId = medicationStatement.getComponent().stream()
-                        .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
-                        .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
+                        .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
+                        .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
                         .map(prescribe -> prescribe.getId().getRoot())
                         .findFirst();
 
@@ -394,8 +401,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 }
                 case MEDICATION_MOOD_INTENTION -> {
                     var medicationRequestPlanId = medicationStatement.getComponent().stream()
-                        .filter(RCMRMT030101UK04Component2::hasEhrSupplyAuthorise)
-                        .map(RCMRMT030101UK04Component2::getEhrSupplyAuthorise)
+                        .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
+                        .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
                         .map(authorise -> authorise.getId().getRoot())
                         .findFirst();
 
@@ -410,15 +417,16 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         return statementToRequestMap;
     }
 
-    private List<Annotation> buildNotes(Optional<RCMRMT030101UK04ObservationStatement> observationStatement,
-        RCMRMT030101UK04LinkSet linkSet) {
+    private List<Annotation> buildNotes(Optional<RCMRMT030101UKObservationStatement> observationStatement,
+                                        RCMRMT030101UKLinkSet linkSet) {
+
         List<Annotation> annotationList = new ArrayList<>();
 
         observationStatement.ifPresent(observationStatement1 -> observationStatement1.getPertinentInformation()
             .stream()
-            .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
+            .map(RCMRMT030101UKPertinentInformation02::getPertinentAnnotation)
             .filter(Objects::nonNull)
-            .map(RCMRMT030101UK04Annotation::getText)
+            .map(RCMRMT030101UKAnnotation::getText)
             .filter(StringUtils::isNotBlank)
             .map(StringType::new)
             .map(Annotation::new)
@@ -432,10 +440,11 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         return annotationList;
     }
 
-    private List<RCMRMT030101UK04EhrComposition> getCompositionsContainingLinkSets(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private List<RCMRMT030101UKEhrComposition> getCompositionsContainingLinkSets(RCMRMT030101UK04EhrExtract ehrExtract) {
+
         return ehrExtract.getComponent().stream()
             .flatMap(component -> component.getEhrFolder().getComponent().stream())
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .map(RCMRMT030101UKComponent3::getEhrComposition)
             .filter(ehrComposition -> ehrComposition.getComponent()
                 .stream()
                 .flatMap(CompoundStatementResourceExtractors::extractAllLinkSets)
@@ -443,13 +452,13 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .toList();
     }
 
-    private Optional<RCMRMT030101UK04ObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+    private Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
 
-        List<RCMRMT030101UK04ObservationStatement> observationStatements = ehrExtract.getComponent().stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
+        List<RCMRMT030101UKObservationStatement> observationStatements = ehrExtract.getComponent().stream()
+            .map(RCMRMT030101UKComponent::getEhrFolder)
+            .map(RCMRMT030101UKEhrFolder::getComponent)
             .flatMap(Collection::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
+            .map(RCMRMT030101UKComponent3::getEhrComposition)
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .flatMap(CompoundStatementResourceExtractors::extractAllObservationStatements)
             .toList();

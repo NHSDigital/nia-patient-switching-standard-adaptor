@@ -28,11 +28,11 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
 import org.hl7.v3.CR;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,8 +59,8 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     private final CodeableConceptMapper codeableConceptMapper;
 
     @Override
-    public List<AllergyIntolerance> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+    public List<AllergyIntolerance> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+                                                 String practiseCode) {
         return mapEhrExtractToFhirResource(
                 ehrExtract,
                 (extract, composition, component) -> extractAllCompoundStatements(component)
@@ -121,8 +121,8 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         return allergyIntolerance;
     }
 
-    private void buildParticipantReferences(RCMRMT030101UK04EhrComposition ehrComposition,
-                                            RCMRMT030101UK04CompoundStatement compoundStatement,
+    private void buildParticipantReferences(RCMRMT030101UKEhrComposition ehrComposition,
+                                            RCMRMT030101UKCompoundStatement compoundStatement,
                                             AllergyIntolerance allergyIntolerance) {
 
         var recorderAndAsserter = fetchRecorderAndAsserter(ehrComposition);
@@ -142,8 +142,9 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         }
     }
 
-    private void buildExtension(RCMRMT030101UK04EhrComposition ehrComposition, List<Encounter> encounters,
+    private void buildExtension(RCMRMT030101UKEhrComposition ehrComposition, List<Encounter> encounters,
         AllergyIntolerance allergyIntolerance) {
+
         encounters
             .stream()
             .filter(encounter -> encounter.getId().equals(ehrComposition.getId().getRoot()))
@@ -152,13 +153,14 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
             .ifPresent(reference -> allergyIntolerance.addExtension(new Extension(ENCOUNTER_URL, reference)));
     }
 
-    private AllergyIntolerance.AllergyIntoleranceCategory getCategory(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private AllergyIntolerance.AllergyIntoleranceCategory getCategory(RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement.getCode().getCode().equals(DRUG_ALLERGY_CODE)
                 ? MEDICATION
                 : ENVIRONMENT;
     }
 
-    private CodeableConcept getCodeableConceptFromNonEgtonCodeValue(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private CodeableConcept getCodeableConceptFromNonEgtonCodeValue(RCMRMT030101UKObservationStatement observationStatement) {
         if (observationStatement.hasValue()
             && observationStatement.getValue() instanceof CD value
             && !EGTON_CODE_SYSTEM.equals(value.getCodeSystem())) {
@@ -169,7 +171,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     }
 
     private void buildCode(AllergyIntolerance allergyIntolerance,
-                           RCMRMT030101UK04ObservationStatement observationStatement,
+                           RCMRMT030101UKObservationStatement observationStatement,
                            String compoundCode,
                            CodeableConcept codeableConceptFromCode,
                            CodeableConcept codeableConceptFromValue
@@ -221,7 +223,8 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
     }
 
-    private void buildOnset(RCMRMT030101UK04CompoundStatement compoundStatement, AllergyIntolerance allergyIntolerance) {
+    private void buildOnset(RCMRMT030101UKCompoundStatement compoundStatement, AllergyIntolerance allergyIntolerance) {
+
         var effectiveTime = compoundStatement.getEffectiveTime();
         var availabilityTime = compoundStatement.getAvailabilityTime();
 
@@ -234,7 +237,9 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         }
     }
 
-    private DateTimeType getAssertedDateElement(TS availabilityTime, RCMRMT030101UK04EhrComposition ehrComposition) {
+    private DateTimeType getAssertedDateElement(TS availabilityTime, RCMRMT030101UKEhrExtract ehrExtract,
+        RCMRMT030101UKEhrComposition ehrComposition) {
+
         if (availabilityTime != null && availabilityTime.hasValue()) {
             return parseToDateTimeType(availabilityTime.getValue());
         }
@@ -253,7 +258,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     }
 
     private void buildAllergyIntoleranceText(
-            RCMRMT030101UK04ObservationStatement observationStatement,
+            RCMRMT030101UKObservationStatement observationStatement,
             AllergyIntolerance allergyIntolerance) {
 
         if (allergyIntolerance.getCode() != null) {
@@ -272,7 +277,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     }
 
     private void buildNote(AllergyIntolerance allergyIntolerance,
-                           RCMRMT030101UK04ObservationStatement observationStatement,
+                           RCMRMT030101UKObservationStatement observationStatement,
                            String compoundCode,
                            CodeableConcept codeableConceptFromCode,
                            CodeableConcept codeableConceptFromValue) {
@@ -288,7 +293,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         allergyIntolerance.setNote(allergyIntoleranceNotes.toList());
     }
 
-    private Stream<Annotation> getEpisodicityAnnotations(RCMRMT030101UK04ObservationStatement observationStatement) {
+    private Stream<Annotation> getEpisodicityAnnotations(RCMRMT030101UKObservationStatement observationStatement) {
 
         return observationStatement
                 .getCode()
@@ -317,7 +322,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     }
 
     private Stream<Annotation> getPertinentInformationAnnotations(
-            RCMRMT030101UK04ObservationStatement observationStatement) {
+            RCMRMT030101UKObservationStatement observationStatement) {
 
         return observationStatement
                 .getPertinentInformation()
@@ -347,10 +352,11 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         return null;
     }
 
-    private RCMRMT030101UK04ObservationStatement extractObservationStatement(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private RCMRMT030101UKObservationStatement extractObservationStatement(RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement.getComponent()
                 .stream()
-                .map(RCMRMT030101UK04Component02::getObservationStatement)
+                .map(RCMRMT030101UKComponent02::getObservationStatement)
                 .findFirst()
                 .orElse(null);
     }

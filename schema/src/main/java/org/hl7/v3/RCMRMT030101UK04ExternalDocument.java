@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -51,6 +52,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.ExternalDocument", propOrder = {
     "id",
@@ -61,7 +63,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "versionNumber",
     "author"
 })
-public class RCMRMT030101UK04ExternalDocument {
+public class RCMRMT030101UK04ExternalDocument implements RCMRMT030101UKExternalDocument {
 
     @XmlElement(required = true)
     protected II id;
@@ -72,7 +74,8 @@ public class RCMRMT030101UK04ExternalDocument {
     protected IVLTS effectiveTime;
     protected II setId;
     protected INT versionNumber;
-    protected List<RCMRMT030101UK04Author4> author;
+    @XmlElement(type = RCMRMT030101UK04Author4.class)
+    protected List<RCMRMT030101UKAuthor4> author;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -96,6 +99,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -108,6 +112,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -120,10 +125,12 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link CD }
      *     
      */
+    @Override
     public CD getCode() {
         return code;
     }
 
+    @Override
     public boolean hasCode() {
         return code != null;
     }
@@ -136,6 +143,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link CD }
      *     
      */
+    @Override
     public void setCode(CD value) {
         this.code = value;
     }
@@ -148,10 +156,12 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link ED }
      *     
      */
+    @Override
     public ED getText() {
         return text;
     }
 
+    @Override
     public boolean hasText() {
         return text != null;
     }
@@ -164,6 +174,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link ED }
      *     
      */
+    @Override
     public void setText(ED value) {
         this.text = value;
     }
@@ -176,6 +187,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -188,6 +200,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
@@ -200,6 +213,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link II }
      *     
      */
+    @Override
     public II getSetId() {
         return setId;
     }
@@ -212,6 +226,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link II }
      *     
      */
+    @Override
     public void setSetId(II value) {
         this.setId = value;
     }
@@ -224,6 +239,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link INT }
      *     
      */
+    @Override
     public INT getVersionNumber() {
         return versionNumber;
     }
@@ -236,6 +252,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link INT }
      *     
      */
+    @Override
     public void setVersionNumber(INT value) {
         this.versionNumber = value;
     }
@@ -262,9 +279,10 @@ public class RCMRMT030101UK04ExternalDocument {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Author4> getAuthor() {
+    @Override
+    public List<RCMRMT030101UKAuthor4> getAuthor() {
         if (author == null) {
-            author = new ArrayList<RCMRMT030101UK04Author4>();
+            author = new ArrayList<>();
         }
         return this.author;
     }
@@ -277,6 +295,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Document";
@@ -293,6 +312,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -319,9 +339,10 @@ public class RCMRMT030101UK04ExternalDocument {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -348,9 +369,10 @@ public class RCMRMT030101UK04ExternalDocument {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -377,9 +399,10 @@ public class RCMRMT030101UK04ExternalDocument {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -406,9 +429,10 @@ public class RCMRMT030101UK04ExternalDocument {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -421,6 +445,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -433,6 +458,7 @@ public class RCMRMT030101UK04ExternalDocument {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

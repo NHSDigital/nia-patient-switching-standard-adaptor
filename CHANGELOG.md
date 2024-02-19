@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.4.3] - 2024-02-15
+
+### Added
+* Added Materialised View in the SnomedCT database to be used when querying for preferred terms.
+
+> [!NOTE]
+> **Upgrade information** This release includes an update to the SNOMED database
+> Users will need to perform an [update of their patient switching SNOMED database](OPERATING.md#updating-the-snomed-database).
+> This will need to be performed first, followed by deploying the updated version of the translator image.
+
+## [1.4.2] - 2024-01-31
+
+### Added
+* Added Episodicity information to `comment` property of Observations.
+
+### Fixed
+* Fixed malformed role coding defect introduced in version 1.4.1
+
+## [1.4.1] - 2024-01-17
+
 ### Added
 * Assigning a role to a practitioner who records vaccinations
 

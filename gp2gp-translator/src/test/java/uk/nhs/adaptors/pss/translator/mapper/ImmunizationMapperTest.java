@@ -95,7 +95,9 @@ public class ImmunizationMapperTest {
         assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C",
                                     immunization.getPractitioner().get(0).getActor().getReference());
         assertEquals("EP",
-                                    immunization.getPractitioner().get(0).getRole().getText());
+                     immunization.getPractitioner().get(0).getRole().getCoding().get(0).getCode());
+        assertEquals("http://hl7.org/fhir/stu3/valueset-immunization-role.html",
+                     immunization.getPractitioner().get(0).getRole().getCoding().get(0).getSystem());
         assertEquals("Practitioner/9A5D5A78-1F63-434C-9637-1D7E7843341B",
                                     immunization.getPractitioner().get(1).getActor().getReference());
         assertNull(immunization.getPractitioner().get(1).getRole().getText());

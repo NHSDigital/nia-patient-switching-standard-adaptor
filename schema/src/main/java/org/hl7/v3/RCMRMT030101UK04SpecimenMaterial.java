@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -45,11 +46,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.SpecimenMaterial", propOrder = {
     "desc"
 })
-public class RCMRMT030101UK04SpecimenMaterial {
+public class RCMRMT030101UK04SpecimenMaterial implements RCMRMT030101UKSpecimenMaterial {
 
     @XmlElement(required = true)
     protected String desc;
@@ -76,6 +78,7 @@ public class RCMRMT030101UK04SpecimenMaterial {
      *     {@link String }
      *     
      */
+    @Override
     public String getDesc() {
         return desc;
     }
@@ -88,6 +91,7 @@ public class RCMRMT030101UK04SpecimenMaterial {
      *     {@link String }
      *     
      */
+    @Override
     public void setDesc(String value) {
         this.desc = value;
     }
@@ -100,6 +104,7 @@ public class RCMRMT030101UK04SpecimenMaterial {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Material";
@@ -116,6 +121,7 @@ public class RCMRMT030101UK04SpecimenMaterial {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -142,6 +148,7 @@ public class RCMRMT030101UK04SpecimenMaterial {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<String>();
@@ -171,6 +178,7 @@ public class RCMRMT030101UK04SpecimenMaterial {
      * 
      * 
      */
+    @Override
     public List<String> getDeterminerCode() {
         if (determinerCode == null) {
             determinerCode = new ArrayList<String>();
@@ -200,6 +208,7 @@ public class RCMRMT030101UK04SpecimenMaterial {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -229,6 +238,7 @@ public class RCMRMT030101UK04SpecimenMaterial {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -244,6 +254,7 @@ public class RCMRMT030101UK04SpecimenMaterial {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -256,6 +267,7 @@ public class RCMRMT030101UK04SpecimenMaterial {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

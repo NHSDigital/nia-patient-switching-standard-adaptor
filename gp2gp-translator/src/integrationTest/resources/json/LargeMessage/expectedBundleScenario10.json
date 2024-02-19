@@ -9234,7 +9234,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176901003",
-              "display": "Bilateral excision of adnexa of uterus"
+              "display": "Excision of bilateral adnexa of uterus"
             }
           ],
           "text": "Bilateral excision of adnexa of uterus"
@@ -9466,7 +9466,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176901003",
-              "display": "Bilateral excision of adnexa of uterus"
+              "display": "Excision of bilateral adnexa of uterus"
             }
           ],
           "text": "Other specified bilateral excision of adnexa of uterus"
@@ -9524,7 +9524,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176901003",
-              "display": "Bilateral excision of adnexa of uterus"
+              "display": "Excision of bilateral adnexa of uterus"
             }
           ],
           "text": "Bilateral excision of adnexa of uterus NOS"
@@ -11586,7 +11586,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176936004",
-              "display": "Open bilateral occlusion of fallopian tubes"
+              "display": "Open occlusion of bilateral fallopian tubes"
             }
           ],
           "text": "Open bilateral occlusion of fallopian tubes"
@@ -11648,7 +11648,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176936004",
-              "display": "Open bilateral occlusion of fallopian tubes"
+              "display": "Open occlusion of bilateral fallopian tubes"
             }
           ],
           "text": "Open bilateral female sterilisation"
@@ -11710,7 +11710,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176937008",
-              "display": "Open bilateral ligation of fallopian tubes"
+              "display": "Open ligation of bilateral fallopian tubes"
             }
           ],
           "text": "Open bilateral ligation of fallopian tubes"
@@ -11772,7 +11772,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176937008",
-              "display": "Open bilateral ligation of fallopian tubes"
+              "display": "Open ligation of bilateral fallopian tubes"
             }
           ],
           "text": "Pomeroy open bilateral ligation of fallopian tubes"
@@ -11834,7 +11834,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "265071006",
-              "display": "Open bilateral clipping of fallopian tubes"
+              "display": "Open clipping of bilateral fallopian tubes"
             }
           ],
           "text": "Open bilateral clipping of fallopian tubes"
@@ -11896,7 +11896,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "274975009",
-              "display": "Open bilateral ringing of fallopian tubes"
+              "display": "Open ringing of bilateral fallopian tubes"
             }
           ],
           "text": "Open bilateral ringing of fallopian tubes"
@@ -11954,7 +11954,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176936004",
-              "display": "Open bilateral occlusion of fallopian tubes"
+              "display": "Open occlusion of bilateral fallopian tubes"
             }
           ],
           "text": "Other specified open bilateral occlusion of fallopian tubes"
@@ -12012,7 +12012,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "176936004",
-              "display": "Open bilateral occlusion of fallopian tubes"
+              "display": "Open occlusion of bilateral fallopian tubes"
             }
           ],
           "text": "Open bilateral occlusion of fallopian tubes NOS"

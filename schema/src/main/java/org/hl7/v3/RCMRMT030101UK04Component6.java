@@ -48,10 +48,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "RCMR_MT030101UK04.Component6", propOrder = {
     "statementRef"
 })
-public class RCMRMT030101UK04Component6 {
+public class RCMRMT030101UK04Component6 implements RCMRMT030101UKComponent6 {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04StatementRef statementRef;
+    @XmlElement(required = true, type = RCMRMT030101UK04StatementRef.class)
+    protected RCMRMT030101UKStatementRef statementRef;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -73,7 +74,8 @@ public class RCMRMT030101UK04Component6 {
      *     {@link RCMRMT030101UK04StatementRef }
      *     
      */
-    public RCMRMT030101UK04StatementRef getStatementRef() {
+    @Override
+    public RCMRMT030101UKStatementRef getStatementRef() {
         return statementRef;
     }
 
@@ -85,7 +87,8 @@ public class RCMRMT030101UK04Component6 {
      *     {@link RCMRMT030101UK04StatementRef }
      *     
      */
-    public void setStatementRef(RCMRMT030101UK04StatementRef value) {
+    @Override
+    public void setStatementRef(RCMRMT030101UKStatementRef value) {
         this.statementRef = value;
     }
 
@@ -97,6 +100,7 @@ public class RCMRMT030101UK04Component6 {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -113,6 +117,7 @@ public class RCMRMT030101UK04Component6 {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -139,6 +144,7 @@ public class RCMRMT030101UK04Component6 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<String>();
@@ -168,6 +174,7 @@ public class RCMRMT030101UK04Component6 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<String>();
@@ -197,6 +204,7 @@ public class RCMRMT030101UK04Component6 {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<String>();
@@ -212,6 +220,7 @@ public class RCMRMT030101UK04Component6 {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -224,6 +233,7 @@ public class RCMRMT030101UK04Component6 {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
