@@ -216,8 +216,7 @@ public class ProcedureRequestMapperTest {
     @MethodSource("planStatementStatuses")
     public void When_PlanStatementTextStartsWithStatus_Expect_CorrectStatusIsMapped(
             String statusIdentifier,
-            ProcedureRequestStatus expectedStatus)
-    {
+            ProcedureRequestStatus expectedStatus) {
         var inputXml = """
                 <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
                     <component typeCode="COMP">
@@ -253,8 +252,7 @@ public class ProcedureRequestMapperTest {
     }
 
     @Test
-    public void When_PlanStatementDoesNotContainText_Expect_StatusIsSetToUnknown()
-    {
+    public void When_PlanStatementDoesNotContainText_Expect_StatusIsSetToUnknown() {
         var inputXml = """
                 <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
                     <component typeCode="COMP">
