@@ -559,7 +559,7 @@
             "value": "2FD02B22-C71D-4022-B800-04718374D0EC"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
@@ -606,7 +606,7 @@
             "value": "1B1C6F50-D8BE-4480-83D6-EF25AC5F1836"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
