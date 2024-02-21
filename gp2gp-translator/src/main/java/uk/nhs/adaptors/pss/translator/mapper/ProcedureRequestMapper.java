@@ -34,6 +34,11 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
     private static final String META_PROFILE = "ProcedureRequest-1";
 
+    private static final String STATUS_PENDING = "status: pending";
+    private static final String STATUS_CLINICIAN_CANCELLED = "status: cancelled by clinician";
+    private static final String STATUS_SUPERSEDED = "status: superseded";
+    private static final String STATUS_SEEN = "status: seen";
+
     private final CodeableConceptMapper codeableConceptMapper;
 
     public List<ProcedureRequest> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
@@ -58,7 +63,7 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         var id = planStatement.getId().getRoot();
         var procedureRequest = new ProcedureRequest();
         procedureRequest
-            .setStatus(ProcedureRequestStatus.ACTIVE)
+            .setStatus(getStatus(planStatement.getText()))
             .setIntent(ProcedureRequestIntent.PLAN)
             .setAuthoredOnElement(getAuthoredOn(planStatement.getAvailabilityTime(), ehrComposition))
             .setOccurrence(getOccurrenceDate(planStatement.getEffectiveTime()))
@@ -102,6 +107,23 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         }
 
         return null;
+    }
+
+    private ProcedureRequestStatus getStatus(String planStatementText) {
+        if (planStatementText == null || planStatementText.isEmpty()) {
+            return ProcedureRequestStatus.UNKNOWN;
+        }
+        var text = planStatementText.toLowerCase();
+
+        if (text.startsWith(STATUS_PENDING)) {
+            return ProcedureRequestStatus.ACTIVE;
+        } else if (text.startsWith(STATUS_SEEN)) {
+            return ProcedureRequestStatus.COMPLETED;
+        } else if (text.startsWith(STATUS_CLINICIAN_CANCELLED) || text.startsWith(STATUS_SUPERSEDED)) {
+            return ProcedureRequestStatus.CANCELLED;
+        }
+
+        return ProcedureRequestStatus.UNKNOWN;
     }
 
     private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UKEhrComposition ehrComposition) {
