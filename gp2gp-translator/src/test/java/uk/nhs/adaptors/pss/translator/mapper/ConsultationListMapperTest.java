@@ -92,7 +92,7 @@ public class ConsultationListMapperTest {
 
         var consultation = listMapper.mapToConsultation(ehrExtract, encounter);
 
-        assertConsultation(consultation, "20200101010101", "test-display");
+        assertConsultation(consultation, null, "test-display");
     }
 
     @Test
@@ -195,12 +195,17 @@ public class ConsultationListMapperTest {
         assertThat(consultation.getStatus()).isEqualTo(ListStatus.CURRENT);
         assertThat(consultation.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(consultation.getEncounter().getResource()).isEqualTo(encounter);
-        assertThat(consultation.getDateElement().getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType(date).getValueAsString());
         assertThat(consultation.getTitle()).isEqualTo(title);
         assertThat(consultation.getEntry().size()).isZero();
         assertCoding(consultation.getCode().getCodingFirstRep(), LIST_CODE_SYSTEM, CONSULTATION_CODE_CODE, CONSULTATION_CODE_DISPLAY);
         assertCoding(consultation.getOrderedBy().getCodingFirstRep(), LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE,
             LIST_ORDERED_BY_DISPLAY);
+
+        if(date == null){
+            assertThat(consultation.getDateElement().getValue()).isNull();
+        } else {
+            assertThat(consultation.getDateElement().getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType(date).getValueAsString());
+        }
     }
 
     private void assertCoding(Coding coding, String system, String code, String display) {

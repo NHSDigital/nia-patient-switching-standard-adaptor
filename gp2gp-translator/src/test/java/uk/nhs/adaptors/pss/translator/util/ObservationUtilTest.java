@@ -139,13 +139,13 @@ public class ObservationUtilTest {
     }
 
     @Test
-    public void mapIssuedUsingEhrExtract() {
+    public void mapIssuedUsingEhrExtract_ExpectNull() {
         var ehrExtract = unmarshallEhrExtractElement("issued_using_ehr_extract_observation_example.xml");
         var ehrComposition = getEhrCompositionFromEhrExtract(ehrExtract);
 
         InstantType issued = ObservationUtil.getIssued(ehrComposition);
 
-        assertThat(issued.asStringValue()).isEqualTo(ISSUED_EHR_EXTRACT_EXAMPLE);
+        assertThat(issued).isNull();
     }
 
     @Test

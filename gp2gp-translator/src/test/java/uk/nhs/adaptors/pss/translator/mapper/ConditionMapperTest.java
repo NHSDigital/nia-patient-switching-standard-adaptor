@@ -114,7 +114,7 @@ public class ConditionMapperTest {
 
         assertThat(condition.getOnsetDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
         assertThat(condition.getAbatementDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
-        assertThat(condition.getAssertedDateElement().getValue()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME.getValue());
+        assertThat(condition.getAssertedDateElement().getValue()).isNull();
 
         assertThat(condition.getNote().size()).isEqualTo(0);
     }
@@ -185,7 +185,7 @@ public class ConditionMapperTest {
         assertThat(conditions.get(0).getClinicalStatus().getDisplay()).isEqualTo("Inactive");
 
         assertThat(conditions.get(0).getAbatementDateTimeType()).isNull();
-        assertThat(conditions.get(0).getAssertedDateElement().getValue()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME.getValue());
+        assertThat(conditions.get(0).getAssertedDateElement().getValue()).isNull();
     }
 
     @Test
