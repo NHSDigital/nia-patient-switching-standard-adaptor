@@ -20,6 +20,7 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKPlanStatement;
+import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +60,7 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         procedureRequest
             .setStatus(ProcedureRequestStatus.ACTIVE)
             .setIntent(ProcedureRequestIntent.PLAN)
-            .setAuthoredOnElement(getAuthoredOn(ehrComposition))
+            .setAuthoredOnElement(getAuthoredOn(planStatement.getAvailabilityTime(), ehrComposition))
             .setOccurrence(getOccurrenceDate(planStatement.getEffectiveTime()))
             .setSubject(new Reference(patient))
             .setMeta(generateMeta(META_PROFILE))
@@ -103,9 +104,13 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         return null;
     }
 
-    private DateTimeType getAuthoredOn(RCMRMT030101UKEhrComposition ehrComposition) {
+    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UKEhrComposition ehrComposition) {
 
-        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
+        if (availabilityTime != null && availabilityTime.hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
+        } else if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
+        } else if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
             return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
         }
 

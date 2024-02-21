@@ -33,7 +33,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @ExtendWith(MockitoExtension.class)
@@ -82,6 +81,8 @@ public class ReferralRequestMapperTest {
                         .isEqualTo("Action Date: 2005-04-06"),
                 () -> assertThat(referralRequest.getNote().get(2).getText())
                         .isEqualTo("Test request statement text\nNew line"),
+                () -> assertThat(referralRequest.getAuthoredOn())
+                        .isEqualTo("2010-01-01T12:30:00+00:00"),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isEqualTo(PRACTITIONER_ID),
                 () -> assertThat(referralRequest.getRecipient().get(0).getReference())
@@ -117,6 +118,8 @@ public class ReferralRequestMapperTest {
                         .isEqualTo(EXAMPLE_ID),
                 () -> assertThat(referralRequest.getNote().size())
                         .isZero(),
+                () -> assertThat(referralRequest.getAuthoredOn()).
+                        isNull(),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isNull(),
                 () -> assertThat(referralRequest.getRecipient().size())
@@ -183,6 +186,8 @@ public class ReferralRequestMapperTest {
                         .isEqualTo(EXAMPLE_ID),
                 () -> assertThat(referralRequest.getNote().size())
                         .isZero(),
+                () -> assertThat(referralRequest.getAuthoredOn())
+                        .isNull(),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isEqualTo(PRACTITIONER_ID),
                 () -> assertThat(referralRequest.getRecipient().size())
@@ -226,6 +231,8 @@ public class ReferralRequestMapperTest {
                         .isEqualTo(EXAMPLE_ID),
                 () -> assertThat(referralRequest.getNote().size())
                         .isZero(),
+                () -> assertThat(referralRequest.getAuthoredOn())
+                        .isNull(),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isEqualTo(EHR_COMPOSITION_PRACTITIONER2_ID),
                 () -> assertThat(referralRequest.getRecipient().size())
@@ -264,6 +271,8 @@ public class ReferralRequestMapperTest {
                         .isEqualTo(EXAMPLE_ID),
                 () -> assertThat(referralRequest.getNote().size())
                         .isZero(),
+                () -> assertThat(referralRequest.getAuthoredOn())
+                        .isNull(),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isNull(),
                 () -> assertThat(referralRequest.getRecipient().size())
@@ -300,6 +309,8 @@ public class ReferralRequestMapperTest {
                         .isEqualTo(EXAMPLE_ID),
                 () -> assertThat(referralRequest.getNote().get(0).getText())
                         .isEqualTo("Priority: Normal"),
+                () -> assertThat(referralRequest.getAuthoredOn())
+                        .isNull(),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isNull(),
                 () -> assertThat(referralRequest.getRecipient().size())
@@ -307,61 +318,6 @@ public class ReferralRequestMapperTest {
                 () -> assertThat(referralRequest.getReasonCode().size())
                         .isZero()
         );
-    }
-
-    @Test
-    public void mapReferralRequestWithAuthorTime() {
-        var inputXml = """
-                <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
-                    <author typeCode="AUT">
-                        <time value="20220101010101" />
-                    </author>
-                    <id root="72A39454-299F-432E-993E-5A6232B4E099" />
-                    <availabilityTime value="20190708143500"/>
-                    <component typeCode="COMP" >
-                        <RequestStatement classCode="OBS" moodCode="RQO">
-                            <id root="B4303C92-4D1C-11E3-A2DD-010000000161"/>
-                            <statusCode code="COMPLETE"/>
-                            <priorityCode code="394848005"
-                            displayName="Normal"
-                            codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                        </RequestStatement>
-                    </component>
-                </ehrComposition>
-                """;
-        var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
-
-        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20220101010101");
-
-        ReferralRequest referralRequest = mapReferralRequest(ehrComposition,
-                composition -> composition.getComponent().get(0).getRequestStatement());
-
-        assertThat(referralRequest.getAuthoredOn()).isEqualTo(expectedAuthoredOn.getValue());
-    }
-
-    @Test
-    public void mapReferralRequestWithNoAuthorTime() {
-        var inputXml = """
-                <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
-                    <id root="72A39454-299F-432E-993E-5A6232B4E099" />
-                    <availabilityTime value="20190708143500"/>
-                    <component typeCode="COMP" >
-                        <RequestStatement classCode="OBS" moodCode="RQO">
-                            <id root="B4303C92-4D1C-11E3-A2DD-010000000161"/>
-                            <statusCode code="COMPLETE"/>
-                            <priorityCode code="394848005"
-                            displayName="Normal"
-                            codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                        </RequestStatement>
-                    </component>
-                </ehrComposition>
-                """;
-        var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
-
-        ReferralRequest referralRequest = mapReferralRequest(ehrComposition,
-                composition -> composition.getComponent().get(0).getRequestStatement());
-
-        assertThat(referralRequest.getAuthoredOn()).isNull();
     }
 
     @Test
