@@ -1,21 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.DERIVEDFROM;
-import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.HASMEMBER;
-import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
-
-import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
-import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
-import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
-import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
-import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.hasDiagnosticReportParent;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
+import lombok.RequiredArgsConstructor;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -27,20 +12,33 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
-import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
-import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
+
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.DERIVEDFROM;
+import static org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType.HASMEMBER;
+import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
+import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
+import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
+import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
+import static uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil.hasDiagnosticReportParent;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -64,7 +62,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
 
     }
 
-    public void addReferences(List<DomainResource> templates, List<Observation> observations, RCMRMT030101UK04EhrExtract ehrExtract) {
+    public void addReferences(List<DomainResource> templates, List<Observation> observations, RCMRMT030101UKEhrExtract ehrExtract) {
         List<Observation> parentObservations = templates.stream()
             .filter(Observation.class::isInstance)
             .map(Observation.class::cast)
@@ -173,7 +171,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
         return parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
     }
 
-    private List<RCMRMT030101UKCompoundStatement> getCompoundStatementsByIds(RCMRMT030101UK04EhrExtract ehrExtract, List<String> ids) {
+    private List<RCMRMT030101UKCompoundStatement> getCompoundStatementsByIds(RCMRMT030101UKEhrExtract ehrExtract, List<String> ids) {
 
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
             .stream()

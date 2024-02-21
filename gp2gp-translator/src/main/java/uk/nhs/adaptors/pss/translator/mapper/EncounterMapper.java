@@ -1,5 +1,44 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import lombok.RequiredArgsConstructor;
+import org.hl7.fhir.dstu3.model.DomainResource;
+import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.fhir.dstu3.model.IdType;
+import org.hl7.fhir.dstu3.model.ListResource;
+import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Encounter.EncounterLocationComponent;
+import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
+import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
+import org.hl7.fhir.dstu3.model.ListResource.ListEntryComponent;
+import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Extension;
+import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Period;
+import org.hl7.v3.CD;
+import org.hl7.v3.CsNullFlavor;
+import org.hl7.v3.II;
+import org.hl7.v3.LinkableComponent;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKComponent4;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
+import org.hl7.v3.RCMRMT030101UKAuthor;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKParticipant2;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
+import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
+
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
@@ -10,46 +49,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.DomainResource;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Encounter.EncounterLocationComponent;
-import org.hl7.fhir.dstu3.model.Encounter.EncounterParticipantComponent;
-import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
-import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.ListResource;
-import org.hl7.fhir.dstu3.model.ListResource.ListEntryComponent;
-import org.hl7.fhir.dstu3.model.Location;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.CD;
-import org.hl7.v3.CsNullFlavor;
-import org.hl7.v3.II;
-import org.hl7.v3.LinkableComponent;
-import org.hl7.v3.RCMRMT030101UKComponent;
-import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UKComponent3;
-import org.hl7.v3.RCMRMT030101UKComponent4;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.RCMRMT030101UKLinkSet;
-import org.hl7.v3.RCMRMT030101UKAuthor;
-import org.hl7.v3.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKParticipant2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
-import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
-import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -80,7 +79,7 @@ public class EncounterMapper {
     private final ResourceReferenceUtil resourceReferenceUtil;
 
     public Map<String, List<? extends DomainResource>> mapEncounters(
-            RCMRMT030101UK04EhrExtract ehrExtract,
+            RCMRMT030101UKEhrExtract ehrExtract,
             Patient patient,
             String practiseCode,
             List<Location> entryLocations
@@ -118,7 +117,7 @@ public class EncounterMapper {
     }
 
     private void generateFlatConsultation(ListResource consultation, List<ListResource> topics,
-        RCMRMT030101UKEhrComposition ehrComposition) {
+                                          RCMRMT030101UKEhrComposition ehrComposition) {
 
         var topic = consultationListMapper.mapToTopic(consultation, null);
 
@@ -131,8 +130,9 @@ public class EncounterMapper {
     }
 
     private void generateStructuredConsultation(List<RCMRMT030101UKCompoundStatement> topicCompoundStatementList,
-        RCMRMT030101UKEhrComposition ehrComposition, ListResource consultation, List<ListResource> topics,
-        List<ListResource> categories) {
+                                                RCMRMT030101UKEhrComposition ehrComposition, ListResource consultation,
+                                                List<ListResource> topics,
+                                                List<ListResource> categories) {
 
         topicCompoundStatementList.forEach(topicCompoundStatement -> {
             var topic = consultationListMapper.mapToTopic(consultation, topicCompoundStatement);
@@ -148,13 +148,13 @@ public class EncounterMapper {
     }
 
     private List<Extension> getRelatedProblemsForStructuredConsultation(RCMRMT030101UKCompoundStatement topicCompoundStatement,
-        RCMRMT030101UKEhrComposition ehrComposition) {
+                                                                        RCMRMT030101UKEhrComposition ehrComposition) {
 
         var components = topicCompoundStatement.getComponent().stream()
-            .map(RCMRMT030101UKComponent02::getCompoundStatement)
-            .filter(Objects::nonNull)
-            .flatMap(categoryCompoundStatement -> categoryCompoundStatement.getComponent().stream())
-            .toList();
+                .map(RCMRMT030101UKComponent02::getCompoundStatement)
+                .filter(Objects::nonNull)
+                .flatMap(categoryCompoundStatement -> categoryCompoundStatement.getComponent().stream())
+                .toList();
 
         return buildRelatedProblemExtensions(getLinkSetNamedStatementIds(components), getLinkSets(ehrComposition));
 
@@ -163,18 +163,18 @@ public class EncounterMapper {
     private Set<String> getLinkSetNamedStatementIds(List<? extends LinkableComponent> components) {
 
         List<String> observationStatementIds = components.stream()
-            .map(LinkableComponent::getObservationStatement)
-            .filter(Objects::nonNull)
-            .map(observationStatement -> observationStatement.getId().getRoot())
-            .toList();
+                .map(LinkableComponent::getObservationStatement)
+                .filter(Objects::nonNull)
+                .map(observationStatement -> observationStatement.getId().getRoot())
+                .toList();
 
         List<String> requestStatementIds = components.stream()
-            .map(LinkableComponent::getRequestStatement)
-            .filter(Objects::nonNull)
-            .flatMap(requestStatement -> requestStatement.getId().stream())
-            .map(II::getRoot)
-            .filter(root -> !root.equals(IDENTIFIER_EXTERNAL))
-            .toList();
+                .map(LinkableComponent::getRequestStatement)
+                .filter(Objects::nonNull)
+                .flatMap(requestStatement -> requestStatement.getId().stream())
+                .map(II::getRoot)
+                .filter(root -> !root.equals(IDENTIFIER_EXTERNAL))
+                .toList();
 
         HashSet<String> statementIds = new HashSet<>();
         statementIds.addAll(observationStatementIds);
@@ -191,12 +191,12 @@ public class EncounterMapper {
             var conditionNamed = linkSet.getConditionNamed();
 
             if (conditionNamed != null
-                && statementIds.contains(conditionNamed.getNamedStatementRef().getId().getRoot())) {
+                    && statementIds.contains(conditionNamed.getNamedStatementRef().getId().getRoot())) {
 
                 var extension = new Extension(RELATED_PROBLEM_URL);
 
                 extension.addExtension(new Extension(RELATED_PROBLEM_TARGET_URL,
-                    new Reference(new IdType(ResourceType.Condition.name(), linkSet.getId().getRoot()))));
+                        new Reference(new IdType(ResourceType.Condition.name(), linkSet.getId().getRoot()))));
 
                 extensions.add(extension);
             }
@@ -208,14 +208,14 @@ public class EncounterMapper {
     private List<RCMRMT030101UKLinkSet> getLinkSets(RCMRMT030101UKEhrComposition ehrComposition) {
 
         return ehrComposition.getComponent()
-            .stream()
-            .map(RCMRMT030101UKComponent4::getLinkSet)
-            .filter(Objects::nonNull)
-            .toList();
+                .stream()
+                .map(RCMRMT030101UKComponent4::getLinkSet)
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     private void generateCategoryLists(RCMRMT030101UKCompoundStatement topicCompoundStatement, ListResource topic,
-        List<ListResource> categories) {
+                                       List<ListResource> categories) {
         var categoryCompoundStatements = getCategoryCompoundStatements(topicCompoundStatement);
         categoryCompoundStatements.forEach(categoryCompoundStatement -> {
             var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
@@ -230,35 +230,35 @@ public class EncounterMapper {
     }
 
     private List<RCMRMT030101UKCompoundStatement> getCategoryCompoundStatements(RCMRMT030101UKCompoundStatement
-        topicCompoundStatement) {
+                                                                                        topicCompoundStatement) {
         return topicCompoundStatement.getComponent()
-            .stream()
-            .map(RCMRMT030101UKComponent02::getCompoundStatement)
-            .filter(this::hasValidCategoryCompoundStatement)
-            .toList();
+                .stream()
+                .map(RCMRMT030101UKComponent02::getCompoundStatement)
+                .filter(this::hasValidCategoryCompoundStatement)
+                .toList();
     }
 
     private boolean hasValidCategoryCompoundStatement(RCMRMT030101UKCompoundStatement compoundStatement) {
         return compoundStatement != null && CATEGORY_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
     }
 
-    private List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract
-            .getComponent()
-            .stream()
-            .filter(RCMRMT030101UKComponent::hasEhrFolder)
-            .map(RCMRMT030101UKComponent::getEhrFolder)
-            .map(RCMRMT030101UKEhrFolder::getComponent)
-            .flatMap(List::stream)
-            .filter(RCMRMT030101UKComponent3::hasEhrComposition)
-            .map(RCMRMT030101UKComponent3::getEhrComposition)
-            .filter(this::isEncounterEhrComposition)
-            .toList();
+                .getComponent()
+                .stream()
+                .filter(RCMRMT030101UKComponent::hasEhrFolder)
+                .map(RCMRMT030101UKComponent::getEhrFolder)
+                .map(RCMRMT030101UKEhrFolder::getComponent)
+                .flatMap(List::stream)
+                .filter(RCMRMT030101UKComponent3::hasEhrComposition)
+                .map(RCMRMT030101UKComponent3::getEhrComposition)
+                .filter(this::isEncounterEhrComposition)
+                .toList();
     }
 
     private boolean isEncounterEhrComposition(RCMRMT030101UKEhrComposition ehrComposition) {
         return !INVALID_CODES.contains(ehrComposition.getCode().getCode())
-            && ehrComposition.getComponent().stream().noneMatch(this::hasSuppressedContent);
+                && ehrComposition.getComponent().stream().noneMatch(this::hasSuppressedContent);
     }
 
     private boolean hasSuppressedContent(RCMRMT030101UKComponent4 component) {
@@ -267,11 +267,11 @@ public class EncounterMapper {
 
     private List<RCMRMT030101UKCompoundStatement> getTopicCompoundStatements(RCMRMT030101UKEhrComposition ehrComposition) {
         return ehrComposition
-            .getComponent()
-            .stream()
-            .map(RCMRMT030101UKComponent4::getCompoundStatement)
-            .filter(this::hasValidTopicCompoundStatement)
-            .toList();
+                .getComponent()
+                .stream()
+                .map(RCMRMT030101UKComponent4::getCompoundStatement)
+                .filter(this::hasValidTopicCompoundStatement)
+                .toList();
     }
 
     private boolean hasValidTopicCompoundStatement(RCMRMT030101UKCompoundStatement compoundStatement) {
@@ -288,14 +288,14 @@ public class EncounterMapper {
 
         var encounter = new Encounter();
         encounter
-            .setParticipant(getParticipants(ehrComposition.getAuthor(), ehrComposition.getParticipant2()))
-            .setStatus(EncounterStatus.FINISHED)
-            .setSubject(new Reference(patient))
-            .setType(getType(ehrComposition.getCode()))
-            .setPeriod(getPeriod(ehrComposition))
-            .addIdentifier(buildIdentifier(id, practiseCode))
-            .setMeta(generateMeta(ENCOUNTER_META_PROFILE))
-            .setId(id);
+                .setParticipant(getParticipants(ehrComposition.getAuthor(), ehrComposition.getParticipant2()))
+                .setStatus(EncounterStatus.FINISHED)
+                .setSubject(new Reference(patient))
+                .setType(getType(ehrComposition.getCode()))
+                .setPeriod(getPeriod(ehrComposition))
+                .addIdentifier(buildIdentifier(id, practiseCode))
+                .setMeta(generateMeta(ENCOUNTER_META_PROFILE))
+                .setId(id);
 
         setEncounterLocation(encounter, ehrComposition, entryLocations);
 
@@ -318,14 +318,14 @@ public class EncounterMapper {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getCenter().getValue()));
         } else if (effectiveTime.hasLow() && effectiveTime.hasHigh()) {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue()))
-                .setEndElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()));
+                    .setEndElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()));
         } else if (effectiveTime.hasLow() && !effectiveTime.hasHigh()) {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getLow().getValue()));
         } else if (!effectiveTime.hasLow() && effectiveTime.hasHigh()) {
             return period.setEndElement(DateFormatUtil.parseToDateTimeType(effectiveTime.getHigh().getValue()));
         } else if (effectiveTime.getCenter() != null
-            && effectiveTime.getCenter().hasNullFlavor()
-            && CsNullFlavor.UNK.value().equals(effectiveTime.getCenter().getNullFlavor().value())) {
+                && effectiveTime.getCenter().hasNullFlavor()
+                && CsNullFlavor.UNK.value().equals(effectiveTime.getCenter().getNullFlavor().value())) {
             return null;
         } else if (availabilityTime.hasValue()) {
             return period.setStartElement(DateFormatUtil.parseToDateTimeType(availabilityTime.getValue()));
@@ -338,8 +338,8 @@ public class EncounterMapper {
         var recorder = new EncounterParticipantComponent();
 
         return recorder
-            .addType(createCodeableConcept(RECORDER_CODE, RECORDER_SYSTEM, RECORDER_DISPLAY))
-            .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + author.getAgentRef().getId().getRoot()));
+                .addType(createCodeableConcept(RECORDER_CODE, RECORDER_SYSTEM, RECORDER_DISPLAY))
+                .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + author.getAgentRef().getId().getRoot()));
     }
 
     private boolean isNonNullParticipant2(RCMRMT030101UKParticipant2 participant2) {
@@ -350,8 +350,8 @@ public class EncounterMapper {
         var performer = new EncounterParticipantComponent();
 
         return performer
-            .addType(createCodeableConcept(PERFORMER_CODE, PERFORMER_SYSTEM, PERFORMER_DISPLAY))
-            .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + participant2.getAgentRef().getId().getRoot()));
+                .addType(createCodeableConcept(PERFORMER_CODE, PERFORMER_SYSTEM, PERFORMER_DISPLAY))
+                .setIndividual(new Reference(PRACTITIONER_REFERENCE_PREFIX + participant2.getAgentRef().getId().getRoot()));
     }
 
     private List<EncounterParticipantComponent> getParticipants(RCMRMT030101UKAuthor author,
@@ -363,10 +363,10 @@ public class EncounterMapper {
         }
 
         participant2List
-            .stream()
-            .filter(this::isNonNullParticipant2)
-            .findFirst()
-            .ifPresent(participant2 -> participants.add(getPerformer(participant2)));
+                .stream()
+                .filter(this::isNonNullParticipant2)
+                .findFirst()
+                .ifPresent(participant2 -> participants.add(getPerformer(participant2)));
 
         return participants;
     }
@@ -391,3 +391,4 @@ public class EncounterMapper {
         list.addEntry(new ListEntryComponent(reference));
     }
 }
+
