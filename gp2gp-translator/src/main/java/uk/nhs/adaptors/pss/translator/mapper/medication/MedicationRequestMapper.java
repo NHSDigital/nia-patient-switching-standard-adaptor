@@ -106,8 +106,9 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
                 return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
             }
-
         }
+
+        return null;
     }
 
     private DateTimeType extractDateAsserted(RCMRMT030101UKEhrComposition ehrComposition, RCMRMT030101UKEhrExtract ehrExtract) {
