@@ -101,8 +101,9 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
-    public void When_MappingMedicationRequestWithAvailabilityTimeInMedicationStatement_Expect_NullAuthoredOn() {
+    public void When_MappingMedicationRequestWithAvailabilityTimeInMedicationStatement_Expect_UseThatAvailabilityTime() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeSetInMedicationStatement.xml");
+        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20100116");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any()))
                 .thenReturn(new MedicationRequest());
@@ -125,12 +126,13 @@ public class MedicationRequestMapperTest {
                         .findFirst()
                 .get();
 
-        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isNull();
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAuthoredOn.getValue());
     }
 
     @Test
-    public void When_MappingMedicationRequestWithAvailabilityTimeNotInMedicationStatement_Expect_NullAuthoredOn() {
+    public void When_MappingMedicationRequestWithAvailabilityTimeNotInMedicationStatement_Expect_AuthoredOnMapped() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_AvailabilityTimeNotInMedicationStatement.xml");
+        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20100117");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
@@ -149,7 +151,7 @@ public class MedicationRequestMapperTest {
                 .findFirst()
                 .get();
 
-        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isNull();
+        assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAuthoredOn.getValue());
     }
 
     @Test
@@ -229,9 +231,9 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
-    public void When_MappingMedicationRequestWithAuthoredOnValidDate_Expect_AuthoredOnToUseDateValue() {
+    public void When_MappingMedicationRequestWithAuthoredOnValidDate_Expect_AuthoredOnToUseMedicationAvailabilityTime() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_hasAuthorTime.xml");
-        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20220101010101");
+        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20100115");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
@@ -256,7 +258,7 @@ public class MedicationRequestMapperTest {
     @Test
     public void When_MappingMedicationRequestWithAuthoredOnValidDateInExtractAndComposition_Expect_AuthoredOnToUseCompositionValue() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_hasAuthorTimeInExtract.xml");
-        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20220101010101");
+        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20100115");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
@@ -281,7 +283,7 @@ public class MedicationRequestMapperTest {
     @Test
     public void When_MappingMedicationRequestWithAuthoredOnValidDateInExtractOnly_Expect_AuthoredOnToUseExtractValue() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_hasAuthorTimeInExtractOnly.xml");
-        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20230101010101");
+        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20100115");
 
         when(medicationRequestPlanMapper.mapToPlanMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
         when(medicationRequestOrderMapper.mapToOrderMedicationRequest(any(), any(), any(), any())).thenReturn(new MedicationRequest());
