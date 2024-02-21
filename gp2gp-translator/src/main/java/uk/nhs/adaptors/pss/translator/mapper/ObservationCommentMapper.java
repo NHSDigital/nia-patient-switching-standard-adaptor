@@ -10,6 +10,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -59,7 +60,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
         observation.setMeta(generateMeta(META_URL));
         observation.setStatus(FINAL);
         observation.setSubject(new Reference(patient));
-        observation.setIssuedElement(createIssued(ehrExtract, ehrComposition));
+        observation.setIssuedElement(createIssued(ehrComposition));
         observation.setCode(createCodeableConcept());
         observation.addPerformer(createPerformer(ehrComposition, narrativeStatement));
         observation.addIdentifier(buildIdentifier(narrativeStatementId.getRoot(), practiseCode));
@@ -83,13 +84,13 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
         }
     }
 
-    private InstantType createIssued(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition composition) {
+    private InstantType createIssued(RCMRMT030101UKEhrComposition composition) {
 
         if (!composition.getAuthor().getTime().hasNullFlavor()) {
             return DateFormatUtil.parseToInstantType(composition.getAuthor().getTime().getValue());
         }
 
-        return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
+        return null;
     }
 
     private Reference createPerformer(RCMRMT030101UKEhrComposition composition, RCMRMT030101UKNarrativeStatement narrativeStatement) {

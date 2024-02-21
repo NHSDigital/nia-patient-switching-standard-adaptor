@@ -84,7 +84,7 @@ public class SpecimenBatteryMapper {
             batteryParameters.getBatteryCompoundStatement(), batteryParameters.getObservationComments()));
         getContext(batteryParameters.getEncounters(), ehrComposition).ifPresent(observation::setContext);
         addEffective(batteryCompoundStatement, observation);
-        getIssued(ehrExtract, ehrComposition).ifPresent(observation::setIssuedElement);
+        getIssued(ehrComposition).ifPresent(observation::setIssuedElement);
         getPerformer(batteryCompoundStatement, ehrComposition).ifPresent(observation::addPerformer);
         getRelated(batteryCompoundStatement).forEach(observation::addRelated);
         handleDirectChildNarrativeStatementUserComments(batteryCompoundStatement, observation, batteryParameters.getObservationComments());
@@ -210,14 +210,10 @@ public class SpecimenBatteryMapper {
         return new Reference(new IdType(Specimen.name(), specimenCompoundStatement.getId().get(0).getRoot()));
     }
 
-    private Optional<InstantType> getIssued(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition) {
+    private Optional<InstantType> getIssued(RCMRMT030101UKEhrComposition ehrComposition) {
 
         if (hasValidTimeValue(ehrComposition.getAuthor())) {
             return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
-        }
-
-        if (availabilityTimeHasValue(ehrExtract.getAvailabilityTime())) {
-            return Optional.of(parseToInstantType(ehrExtract.getAvailabilityTime().getValue()));
         }
 
         return Optional.empty();
