@@ -110,14 +110,10 @@ public class ObservationUtil {
         return outputReferenceRanges;
     }
 
-    public static InstantType getIssued(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition matchingEhrComposition) {
+    public static InstantType getIssued(RCMRMT030101UKEhrComposition matchingEhrComposition) {
 
         if (authorHasValidTimeValue(matchingEhrComposition.getAuthor())) {
             return DateFormatUtil.parseToInstantType(matchingEhrComposition.getAuthor().getTime().getValue());
-        }
-
-        if (availabilityTimeHasValue(ehrExtract.getAvailabilityTime())) {
-            return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
         }
 
         return null;

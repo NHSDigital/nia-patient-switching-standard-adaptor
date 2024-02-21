@@ -17,10 +17,7 @@ import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UKComponent2;
-import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.*;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -60,7 +57,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
         var context = encounters.stream()
             .filter(encounter1 -> encounter1.getId().equals(ehrComposition.getId().getRoot())).findFirst();
-        var authoredOn = getAuthoredOn(ehrExtract, ehrComposition);
+        var authoredOn = getAuthoredOn(medicationStatement.getAvailabilityTime(), ehrComposition);
         var dateAsserted = extractDateAsserted(ehrComposition, ehrExtract);
         var requester = extractRequester(ehrComposition, medicationStatement);
         var recorder = extractRecorder(ehrComposition, medicationStatement);
@@ -98,18 +95,19 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
     }
 
 
-    private DateTimeType getAuthoredOn(RCMRMT030101UKEhrExtract ehrExtract,
+    private DateTimeType getAuthoredOn(TS availabilityTime,
                                        RCMRMT030101UKEhrComposition ehrComposition) {
+        if (availabilityTime != null && availabilityTime.hasValue()) {
+            return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
+        } else {
+            if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
+                return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
+            }
+            if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
+                return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
+            }
 
-        if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
-            return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
         }
-
-        if (ehrExtract.hasAuthor() && ehrExtract.getAuthor().hasTime() && ehrExtract.getAuthor().getTime().hasValue()) {
-            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAuthor().getTime().getValue());
-        }
-
-        return null;
     }
 
     private DateTimeType extractDateAsserted(RCMRMT030101UKEhrComposition ehrComposition, RCMRMT030101UKEhrExtract ehrExtract) {
