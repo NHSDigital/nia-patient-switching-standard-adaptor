@@ -133,9 +133,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         buildOnsetDateTimeType(linkSet).ifPresent(condition::setOnset);
         buildAbatementDateTimeType(linkSet.getEffectiveTime()).ifPresent(condition::setAbatement);
 
-        buildAssertedDateTimeType(composition).ifPresentOrElse(
-            condition::setAssertedDateElement,
-            () -> condition.setAssertedDateElement(parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue())));
+        buildAssertedDateTimeType(composition).ifPresent(condition::setAssertedDateElement);
 
         composition.getParticipant2()
             .stream()
