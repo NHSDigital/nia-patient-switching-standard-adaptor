@@ -30,7 +30,6 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @ExtendWith(MockitoExtension.class)
 public class ProcedureRequestMapperTest {
@@ -77,6 +76,8 @@ public class ProcedureRequestMapperTest {
         assertThat(procedureRequest.getNoteFirstRep().getText()).isEqualTo(planStatement.getText());
         assertThat(procedureRequest.getOccurrenceDateTimeType().getValue()).isEqualTo(
             DateFormatUtil.parseToDateTimeType(planStatement.getEffectiveTime().getCenter().getValue()).getValue());
+        assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
+            DateFormatUtil.parseToDateTimeType(planStatement.getAvailabilityTime().getValue()).getValue());
         assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getRequester().getAgent().getReference())
@@ -168,87 +169,28 @@ public class ProcedureRequestMapperTest {
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
-        assertThat(procedureRequest.getAuthoredOn()).isNull();
+        assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
+            DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue()).getValue());
         assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
             planStatement.getCode().getDisplayName());
         assertThat(procedureRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
     @Test
-    @SuppressWarnings("LineLength")
     public void mapProcedureRequestWithAuthorTime() {
-        var inputXml = """
-                <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
-                    <availabilityTime value="20200101010101" />
-                    <component typeCode="COMP">
-                        <ehrFolder classCode="FOLDER" moodCode="EVN">
-                            <component typeCode="COMP">
-                                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
-                                    <author typeCode="AUT" contextControlCode="OP">
-                                        <time value="20170101010101"/>
-                                    </author>
-                                    <id root="62A39454-299F-432E-993E-5A6232B4E099" />
-                                    <component typeCode="COMP" >
-                                        <PlanStatement classCode="OBS" moodCode="INT">
-                                            <id root="6DFFAEC4-7527-4D80-A2BD-81BDEBA04400" />
-                                            <code code="2534664018" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Ischaemic heart disease"></code>
-                                            <statusCode code="COMPLETE" />
-                                        </PlanStatement>
-                                    </component>
-                                </ehrComposition>
-                            </component>
-                        </ehrFolder>
-                    </component>
-                </EhrExtract>
-                """;
-
-        var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20170101010101");
-
-        var ehrExtract = unmarshallStringToEhrCompositionElement(inputXml);
-
+        var ehrExtract = unmarshallCodeElement("ehr_extract_author_time_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
         setUpCodeableConceptMock();
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
-                planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
+            planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
-        assertThat(procedureRequest.getAuthoredOn()).isEqualTo(expectedAuthoredOn.getValue());
-    }
-
-    @Test
-    @SuppressWarnings("LineLength")
-    public void mapProcedureRequestWithoutAuthorTime() {
-        var inputXml = """
-                <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
-                    <availabilityTime value="20200101010101" />
-                    <component typeCode="COMP">
-                        <ehrFolder classCode="FOLDER" moodCode="EVN">
-                            <component typeCode="COMP">
-                                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
-                                    <id root="62A39454-299F-432E-993E-5A6232B4E099" />
-                                    <component typeCode="COMP" >
-                                        <PlanStatement classCode="OBS" moodCode="INT">
-                                            <id root="6DFFAEC4-7527-4D80-A2BD-81BDEBA04400" />
-                                            <code code="2534664018" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Ischaemic heart disease"></code>
-                                            <statusCode code="COMPLETE" />
-                                        </PlanStatement>
-                                    </component>
-                                </ehrComposition>
-                            </component>
-                        </ehrFolder>
-                    </component>
-                </EhrExtract>
-                """;
-
-        var ehrExtract = unmarshallStringToEhrCompositionElement(inputXml);
-
-        var planStatement = getPlanStatement(ehrExtract);
-        setUpCodeableConceptMock();
-
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
-                planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
-
-        assertThat(procedureRequest.getAuthoredOn()).isNull();
+        assertFixedValues(planStatement, procedureRequest);
+        assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
+            DateFormatUtil.parseToDateTimeType(getEhrComposition(ehrExtract).getAuthor().getTime().getValue()).getValue());
+        assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
+            planStatement.getCode().getDisplayName());
+        assertThat(procedureRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
     private void assertFixedValues(RCMRMT030101UKPlanStatement planStatement, ProcedureRequest procedureRequest) {
@@ -283,10 +225,5 @@ public class ProcedureRequestMapperTest {
     @SneakyThrows
     private RCMRMT030101UK04EhrExtract unmarshallCodeElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
-    }
-
-    @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallStringToEhrCompositionElement(String inputXml) {
-        return unmarshallString(inputXml, RCMRMT030101UK04EhrExtract.class);
     }
 }
