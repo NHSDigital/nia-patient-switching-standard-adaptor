@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "55cc36f1-c9f7-4aa7-96cf-71187409cf11",
+  "id": "a86c9990-d33d-46ed-bcf8-b0fc8b249cbf",
   "meta": {
     "profile": [
       "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1"
@@ -11,7 +11,7 @@
     {
       "resource": {
         "resourceType": "Patient",
-        "id": "17474b5c-ebaf-4371-ad97-2ba89b653165",
+        "id": "40767a25-713d-4f77-b9ee-9019b40ca53c",
         "meta": {
           "versionId": "1521806400000",
           "profile": [
@@ -35,12 +35,6 @@
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
           ]
         },
-        "identifier": [
-          {
-            "system": "https://fhir.hl7.org.uk/Id/gmp-number",
-            "value": "7882315"
-          }
-        ],
         "name": [
           {
             "use": "official",
@@ -52,7 +46,11 @@
               "Dr"
             ]
           }
-        ]
+        ],
+        "identifier": [ {
+          "system": "https://fhir.hl7.org.uk/Id/gmp-number",
+          "value": "7882315"
+        } ]
       }
     },
     {
@@ -64,12 +62,6 @@
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Practitioner-1"
           ]
         },
-        "identifier": [
-          {
-            "system": "https://fhir.hl7.org.uk/Id/gmp-number",
-            "value": "7889233"
-          }
-        ],
         "name": [
           {
             "use": "official",
@@ -81,7 +73,11 @@
               "Dr"
             ]
           }
-        ]
+        ],
+        "identifier": [ {
+          "system": "https://fhir.hl7.org.uk/Id/gmp-number",
+          "value": "7889233"
+        } ]
       }
     },
     {
@@ -124,7 +120,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "participant": [
           {
@@ -166,7 +162,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/49DD3017-3A0B-4254-BB8D-F4453793D17F"
+              "reference": "Location/AA081ED7-78C0-4795-8C0D-46CEC63B5830"
             }
           }
         ]
@@ -212,7 +208,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "participant": [
           {
@@ -254,7 +250,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/49DD3017-3A0B-4254-BB8D-F4453793D17F"
+              "reference": "Location/AA081ED7-78C0-4795-8C0D-46CEC63B5830"
             }
           }
         ]
@@ -300,7 +296,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "participant": [
           {
@@ -342,7 +338,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/41714FBB-B566-4E3F-905D-8D40CD51562F"
+              "reference": "Location/DD03C4A9-8335-4434-B605-3CAB131E119F"
             }
           }
         ]
@@ -388,7 +384,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "participant": [
           {
@@ -430,7 +426,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/41714FBB-B566-4E3F-905D-8D40CD51562F"
+              "reference": "Location/DD03C4A9-8335-4434-B605-3CAB131E119F"
             }
           }
         ]
@@ -476,7 +472,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "participant": [
           {
@@ -518,7 +514,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/41714FBB-B566-4E3F-905D-8D40CD51562F"
+              "reference": "Location/DD03C4A9-8335-4434-B605-3CAB131E119F"
             }
           }
         ]
@@ -568,7 +564,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "participant": [
           {
@@ -610,7 +606,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/49DD3017-3A0B-4254-BB8D-F4453793D17F"
+              "reference": "Location/AA081ED7-78C0-4795-8C0D-46CEC63B5830"
             }
           }
         ]
@@ -656,7 +652,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "participant": [
           {
@@ -698,7 +694,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/41714FBB-B566-4E3F-905D-8D40CD51562F"
+              "reference": "Location/DD03C4A9-8335-4434-B605-3CAB131E119F"
             }
           }
         ]
@@ -744,7 +740,7 @@
           }
         ],
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "participant": [
           {
@@ -786,7 +782,7 @@
         "location": [
           {
             "location": {
-              "reference": "Location/49DD3017-3A0B-4254-BB8D-F4453793D17F"
+              "reference": "Location/AA081ED7-78C0-4795-8C0D-46CEC63B5830"
             }
           }
         ]
@@ -814,7 +810,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/0D68809F-354F-44BF-84AC-F69995369638"
@@ -860,7 +856,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/B6C42958-A107-4188-9A9B-6D58AB25A657"
@@ -906,7 +902,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/E92099A9-F7E9-4684-91EB-D6427F022041"
@@ -952,7 +948,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/58488EEB-78EA-47F4-9A73-8D6836E09AAB"
@@ -998,7 +994,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -1049,7 +1045,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/3995C975-2435-4AEC-AA26-7FF40D751E48"
@@ -1095,7 +1091,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/0D27AD4C-6CC6-4743-965A-B0F2A020C2FD"
@@ -1141,7 +1137,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/20F49BAF-8E7B-49C3-8E64-91AC5810389B"
@@ -1187,7 +1183,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/0D68809F-354F-44BF-84AC-F69995369638"
@@ -1233,7 +1229,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/B6C42958-A107-4188-9A9B-6D58AB25A657"
@@ -1279,7 +1275,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/E92099A9-F7E9-4684-91EB-D6427F022041"
@@ -1330,7 +1326,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/58488EEB-78EA-47F4-9A73-8D6836E09AAB"
@@ -1389,7 +1385,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -1478,7 +1474,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -1544,7 +1540,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/3995C975-2435-4AEC-AA26-7FF40D751E48"
@@ -1590,7 +1586,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/0D27AD4C-6CC6-4743-965A-B0F2A020C2FD"
@@ -1636,7 +1632,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/20F49BAF-8E7B-49C3-8E64-91AC5810389B"
@@ -1682,7 +1678,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/0D68809F-354F-44BF-84AC-F69995369638"
@@ -1728,7 +1724,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/B6C42958-A107-4188-9A9B-6D58AB25A657"
@@ -1774,7 +1770,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/E92099A9-F7E9-4684-91EB-D6427F022041"
@@ -1820,7 +1816,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/E92099A9-F7E9-4684-91EB-D6427F022041"
@@ -1866,7 +1862,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/58488EEB-78EA-47F4-9A73-8D6836E09AAB"
@@ -1912,7 +1908,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -1958,7 +1954,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2029,7 +2025,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2090,7 +2086,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2146,7 +2142,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2202,7 +2198,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2253,7 +2249,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2304,7 +2300,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2350,7 +2346,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2396,7 +2392,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2442,7 +2438,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2488,7 +2484,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2534,7 +2530,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/3995C975-2435-4AEC-AA26-7FF40D751E48"
@@ -2580,7 +2576,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/0D27AD4C-6CC6-4743-965A-B0F2A020C2FD"
@@ -2626,7 +2622,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "encounter": {
           "reference": "Encounter/20F49BAF-8E7B-49C3-8E64-91AC5810389B"
@@ -2653,7 +2649,7 @@
     {
       "resource": {
         "resourceType": "Location",
-        "id": "41714FBB-B566-4E3F-905D-8D40CD51562F",
+        "id": "DD03C4A9-8335-4434-B605-3CAB131E119F",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
@@ -2662,7 +2658,7 @@
         "identifier": [
           {
             "system": "https://PSSAdaptor/B83002",
-            "value": "41714FBB-B566-4E3F-905D-8D40CD51562F"
+            "value": "DD03C4A9-8335-4434-B605-3CAB131E119F"
           }
         ],
         "status": "active",
@@ -2672,7 +2668,7 @@
     {
       "resource": {
         "resourceType": "Location",
-        "id": "49DD3017-3A0B-4254-BB8D-F4453793D17F",
+        "id": "AA081ED7-78C0-4795-8C0D-46CEC63B5830",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1"
@@ -2681,7 +2677,7 @@
         "identifier": [
           {
             "system": "https://PSSAdaptor/B83002",
-            "value": "49DD3017-3A0B-4254-BB8D-F4453793D17F"
+            "value": "AA081ED7-78C0-4795-8C0D-46CEC63B5830"
           }
         ],
         "status": "active",
@@ -2736,7 +2732,7 @@
           "text": "Malignant essential hypertension"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2798,7 +2794,7 @@
           "text": "Hypertensive disease NOS"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -2820,7 +2816,7 @@
     {
       "resource": {
         "resourceType": "Medication",
-        "id": "e4004267-dce0-400d-a089-da12aa989974",
+        "id": "f541b7f1-ffee-4d08-bf33-332b7ae91a6e",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
@@ -2875,12 +2871,12 @@
         "status": "completed",
         "intent": "plan",
         "medicationReference": {
-          "reference": "Medication/e4004267-dce0-400d-a089-da12aa989974"
+          "reference": "Medication/f541b7f1-ffee-4d08-bf33-332b7ae91a6e"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
-        "authoredOn": "2010-02-06T12:41:29+00:00",
+        "authoredOn": "2010-02-06",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -2941,7 +2937,7 @@
         ],
         "status": "completed",
         "medicationReference": {
-          "reference": "Medication/e4004267-dce0-400d-a089-da12aa989974"
+          "reference": "Medication/f541b7f1-ffee-4d08-bf33-332b7ae91a6e"
         },
         "effectivePeriod": {
           "start": "2010-02-06",
@@ -2949,7 +2945,7 @@
         },
         "dateAsserted": "2010-02-06T12:41:29+00:00",
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "taken": "unk",
         "dosage": [
@@ -2962,7 +2958,7 @@
     {
       "resource": {
         "resourceType": "Medication",
-        "id": "95573a49-3f0f-4c1d-b8a0-d5b9e1a15236",
+        "id": "9c090756-c99c-43b7-baec-32b9a0bdc860",
         "meta": {
           "profile": [
             "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1"
@@ -3030,12 +3026,12 @@
         "status": "active",
         "intent": "plan",
         "medicationReference": {
-          "reference": "Medication/95573a49-3f0f-4c1d-b8a0-d5b9e1a15236"
+          "reference": "Medication/9c090756-c99c-43b7-baec-32b9a0bdc860"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
-        "authoredOn": "2010-02-06T12:41:29+00:00",
+        "authoredOn": "2010-02-06",
         "requester": {
           "agent": {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
@@ -3101,14 +3097,14 @@
         ],
         "status": "active",
         "medicationReference": {
-          "reference": "Medication/95573a49-3f0f-4c1d-b8a0-d5b9e1a15236"
+          "reference": "Medication/9c090756-c99c-43b7-baec-32b9a0bdc860"
         },
         "effectivePeriod": {
           "start": "2010-02-06"
         },
         "dateAsserted": "2010-02-06T12:41:29+00:00",
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "taken": "unk",
         "dosage": [
@@ -3165,7 +3161,7 @@
           "text": "Angina pectoris"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/E92099A9-F7E9-4684-91EB-D6427F022041"
@@ -3211,7 +3207,7 @@
           "text": "No FH: Ischaemic heart dis <60"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/E92099A9-F7E9-4684-91EB-D6427F022041"
@@ -3272,7 +3268,7 @@
           "text": "High blood pressure"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3334,7 +3330,7 @@
           "text": "History of foreign travel"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3395,7 +3391,7 @@
           "text": "Poor historian"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3456,7 +3452,7 @@
           "text": "Allergic rhinitis"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3517,7 +3513,7 @@
           "text": "Systolic blood pressure"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3590,7 +3586,7 @@
           "text": "Diastolic blood pressure"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3663,7 +3659,7 @@
           "text": "O/E - height"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3729,7 +3725,7 @@
           "text": "O/E - weight"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3795,7 +3791,7 @@
           "text": "FH: Hypertension"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3857,7 +3853,7 @@
           "text": "FH: Asthma"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3918,7 +3914,7 @@
           "text": "No FH: Glaucoma"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -3975,7 +3971,7 @@
           "text": "Ex-light smoker (1-9/day)"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4036,7 +4032,7 @@
           "text": "Light drinker - 1-2u/day"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4097,7 +4093,7 @@
           "text": "Spirit drinker"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4159,7 +4155,7 @@
           "text": "Wants to lose weight"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4220,7 +4216,7 @@
           "text": "Low back pain"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4282,7 +4278,7 @@
           "text": "C/O - low back pain"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4343,7 +4339,7 @@
           "text": "[D]Lump on back"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4404,7 +4400,7 @@
           "text": "FH: Huntington's chorea"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4489,7 +4485,7 @@
           "text": "High blood pressure"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4576,7 +4572,7 @@
           "text": "Low back pain"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4643,7 +4639,7 @@
           "text": "O/E - blood pressure reading"
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -4730,7 +4726,7 @@
           "text": "Adverse reaction to diazepam"
         },
         "patient": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "onsetDateTime": "2010-02-06T12:41:00+00:00",
         "assertedDate": "2010-02-06T12:41:00+00:00",
@@ -4801,7 +4797,7 @@
           "text": "Latex allergy"
         },
         "patient": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "onsetDateTime": "2010-02-06T12:41:00+00:00",
         "assertedDate": "2010-02-06T12:41:00+00:00",
@@ -4839,7 +4835,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/0D68809F-354F-44BF-84AC-F69995369638"
@@ -4880,7 +4876,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/B6C42958-A107-4188-9A9B-6D58AB25A657"
@@ -4921,7 +4917,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/58488EEB-78EA-47F4-9A73-8D6836E09AAB"
@@ -4962,7 +4958,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -5003,7 +4999,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -5044,7 +5040,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/81A3B881-FE23-4346-A7ED-48ED539E9054"
@@ -5085,7 +5081,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/3995C975-2435-4AEC-AA26-7FF40D751E48"
@@ -5126,7 +5122,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/0D27AD4C-6CC6-4743-965A-B0F2A020C2FD"
@@ -5167,7 +5163,7 @@
           ]
         },
         "subject": {
-          "reference": "Patient/17474b5c-ebaf-4371-ad97-2ba89b653165"
+          "reference": "Patient/40767a25-713d-4f77-b9ee-9019b40ca53c"
         },
         "context": {
           "reference": "Encounter/20F49BAF-8E7B-49C3-8E64-91AC5810389B"
