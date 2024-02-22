@@ -68,7 +68,6 @@ public class SpecimenBatteryMapper {
     public Observation mapBatteryObservation(SpecimenBatteryParameters batteryParameters) {
         final var batteryCompoundStatement = batteryParameters.getBatteryCompoundStatement();
         final var ehrComposition = batteryParameters.getEhrComposition();
-        final var ehrExtract = batteryParameters.getEhrExtract();
 
         final Observation observation = new Observation();
         final String id = batteryParameters.getBatteryCompoundStatement().getId().get(0).getRoot();
