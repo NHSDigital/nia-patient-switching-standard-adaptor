@@ -233,7 +233,8 @@ For more configuration see the [Attachment storage variables](#attachment-storag
 
 ## AWS daisy chaining example
 
-TODO
+The Adaptors team have their own AWS environment they use for deploying both the GP2GP and Patient Swtiching adaptors and MHS adaptor.
+The infrastructure as code can be used as an example and is found inside the [integration-adaptors repository](https://github.com/nhsconnect/integration-adaptors/tree/develop/terraform/aws/components).
 
 ## Environment variables
 
