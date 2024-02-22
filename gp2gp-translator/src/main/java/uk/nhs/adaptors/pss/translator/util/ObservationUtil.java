@@ -20,7 +20,6 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKInterpretationRange;
 import org.hl7.v3.RCMRMT030101UKReferenceRange;
 import org.hl7.v3.TS;

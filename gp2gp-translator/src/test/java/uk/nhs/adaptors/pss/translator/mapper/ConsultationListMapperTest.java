@@ -201,7 +201,7 @@ public class ConsultationListMapperTest {
         assertCoding(consultation.getOrderedBy().getCodingFirstRep(), LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE,
             LIST_ORDERED_BY_DISPLAY);
 
-        if(date == null){
+        if (date == null) {
             assertThat(consultation.getDateElement().getValue()).isNull();
         } else {
             assertThat(consultation.getDateElement().getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType(date).getValueAsString());

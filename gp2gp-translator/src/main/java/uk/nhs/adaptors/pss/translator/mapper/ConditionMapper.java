@@ -5,7 +5,6 @@ import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIV
 
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.getMedicationStatements;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllLinkSets;
-import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildReferenceExtension;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;

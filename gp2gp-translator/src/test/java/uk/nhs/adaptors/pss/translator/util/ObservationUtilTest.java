@@ -139,7 +139,7 @@ public class ObservationUtilTest {
     }
 
     @Test
-    public void mapIssuedUsingEhrExtract_ExpectNull() {
+    public void mapIssuedUsingEhrExtractExpectNull() {
         var ehrExtract = unmarshallEhrExtractElement("issued_using_ehr_extract_observation_example.xml");
         var ehrComposition = getEhrCompositionFromEhrExtract(ehrExtract);
 
