@@ -235,10 +235,10 @@ public class SpecimenBatteryMapper {
 
     private void addEffective(RCMRMT030101UKCompoundStatement compoundStatement, Observation observation) {
         final Object effective = getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime());
-        if (effective instanceof DateTimeType) {
-            observation.setEffective((DateTimeType) effective);
-        } else if (effective instanceof Period) {
-            observation.setEffective((Period) effective);
+        if (effective instanceof DateTimeType dateTimeType) {
+            observation.setEffective(dateTimeType);
+        } else if (effective instanceof Period period) {
+            observation.setEffective(period);
         }
     }
 

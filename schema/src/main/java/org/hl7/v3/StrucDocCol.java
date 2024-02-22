@@ -160,7 +160,7 @@ public class StrucDocCol {
      */
     public List<String> getStyleCode() {
         if (styleCode == null) {
-            styleCode = new ArrayList<String>();
+            styleCode = new  ArrayList<>();
         }
         return this.styleCode;
     }

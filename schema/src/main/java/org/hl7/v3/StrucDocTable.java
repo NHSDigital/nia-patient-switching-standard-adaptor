@@ -169,7 +169,7 @@ public class StrucDocTable {
      */
     public List<StrucDocCol> getCol() {
         if (col == null) {
-            col = new ArrayList<StrucDocCol>();
+            col = new ArrayList<>();
         }
         return this.col;
     }
@@ -198,7 +198,7 @@ public class StrucDocTable {
      */
     public List<StrucDocColgroup> getColgroup() {
         if (colgroup == null) {
-            colgroup = new ArrayList<StrucDocColgroup>();
+            colgroup = new ArrayList<>();
         }
         return this.colgroup;
     }
@@ -275,7 +275,7 @@ public class StrucDocTable {
      */
     public List<StrucDocTbody> getTbody() {
         if (tbody == null) {
-            tbody = new ArrayList<StrucDocTbody>();
+            tbody = new ArrayList<>();
         }
         return this.tbody;
     }
@@ -352,7 +352,7 @@ public class StrucDocTable {
      */
     public List<String> getStyleCode() {
         if (styleCode == null) {
-            styleCode = new ArrayList<String>();
+            styleCode = new  ArrayList<>();
         }
         return this.styleCode;
     }
