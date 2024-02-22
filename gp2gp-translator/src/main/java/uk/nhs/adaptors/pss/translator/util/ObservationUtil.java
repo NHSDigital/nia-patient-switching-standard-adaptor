@@ -42,8 +42,8 @@ public class ObservationUtil {
     public static Quantity getValueQuantity(Object value, CV uncertaintyCode) {
         if (isValidValueQuantity(value)) {
             Quantity valueQuantity;
-            if (value instanceof PQ) {
-                valueQuantity = QUANTITY_MAPPER.mapValueQuantity((PQ) value);
+            if (value instanceof PQ pqValue) {
+                valueQuantity = QUANTITY_MAPPER.mapValueQuantity(pqValue);
             } else {
                 valueQuantity = QUANTITY_MAPPER.mapValueQuantity((IVLPQ) value);
             }

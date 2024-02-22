@@ -246,8 +246,9 @@ public class BundleMapperService {
     }
 
     private RCMRMT030101UKEhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
-        if (xmlMessage instanceof RCMRIN030000UK07Message) {
-            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent()
+        if (xmlMessage instanceof RCMRIN030000UK07Message rcmrin030000uk07message) {
+
+            return rcmrin030000uk07message.getControlActEvent()
                                                          .getSubject()
                                                          .getEhrExtract()
                                                          .getComponent()
@@ -264,8 +265,8 @@ public class BundleMapperService {
     }
 
     private RCMRMT030101UK04EhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
-        if (xmlMessage instanceof RCMRIN030000UK07Message) {
-            return ((RCMRIN030000UK07Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
+        if (xmlMessage instanceof RCMRIN030000UK07Message rcmrin030000uk07message) {
+            return rcmrin030000uk07message.getControlActEvent().getSubject().getEhrExtract();
         } else {
             return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
         }

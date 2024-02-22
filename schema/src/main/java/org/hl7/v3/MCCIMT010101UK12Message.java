@@ -291,7 +291,7 @@ public class MCCIMT010101UK12Message {
      */
     public List<MCCIMT010101UK12CommunicationFunctionRcv> getCommunicationFunctionRcv() {
         if (communicationFunctionRcv == null) {
-            communicationFunctionRcv = new ArrayList<MCCIMT010101UK12CommunicationFunctionRcv>();
+            communicationFunctionRcv = new ArrayList<>();
         }
         return this.communicationFunctionRcv;
     }
@@ -396,7 +396,7 @@ public class MCCIMT010101UK12Message {
      */
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -425,7 +425,7 @@ public class MCCIMT010101UK12Message {
      */
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }

@@ -102,7 +102,7 @@ public class ENXP
      */
     public List<CsEntityNamePartQualifier> getQualifier() {
         if (qualifier == null) {
-            qualifier = new ArrayList<CsEntityNamePartQualifier>();
+            qualifier = new ArrayList<>();
         }
         return this.qualifier;
     }

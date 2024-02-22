@@ -375,7 +375,7 @@ public class RCMRMT030101UK04MedicationStatement implements RCMRMT030101UKMedica
 
     @Override
     public boolean hasPertinentInformation() {
-        return pertinentInformation != null && pertinentInformation.size() > 0;
+        return pertinentInformation != null && !pertinentInformation.isEmpty();
     }
 
     /**

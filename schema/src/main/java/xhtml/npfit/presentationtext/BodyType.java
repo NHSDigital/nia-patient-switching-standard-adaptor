@@ -97,7 +97,7 @@ public class BodyType {
      */
     public List<Object> getH2OrH3OrH4() {
         if (h2OrH3OrH4 == null) {
-            h2OrH3OrH4 = new ArrayList<Object>();
+            h2OrH3OrH4 = new ArrayList<>();
         }
         return this.h2OrH3OrH4;
     }

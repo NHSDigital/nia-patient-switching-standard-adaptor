@@ -114,7 +114,7 @@ public class StrucDocTfoot {
      */
     public List<StrucDocTr> getTr() {
         if (tr == null) {
-            tr = new ArrayList<StrucDocTr>();
+            tr = new ArrayList<>();
         }
         return this.tr;
     }
@@ -191,7 +191,7 @@ public class StrucDocTfoot {
      */
     public List<String> getStyleCode() {
         if (styleCode == null) {
-            styleCode = new ArrayList<String>();
+            styleCode = new  ArrayList<>();
         }
         return this.styleCode;
     }
