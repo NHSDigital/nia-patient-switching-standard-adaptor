@@ -87,7 +87,7 @@ public class PQInc {
      */
     public List<PQR> getTranslation() {
         if (translation == null) {
-            translation = new ArrayList<PQR>();
+            translation = new ArrayList<>();
         }
         return this.translation;
     }
