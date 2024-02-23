@@ -32,6 +32,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * Assigning a role to a practitioner who records vaccinations
 
 ### Fixed
+* `AllergyIntoleranceMapper.assertedDate`  is no longer populated with `EhrExtract / availabilityTime` as a fallback,
+  but does use `EhrComposition / author / time` as a fallback instead now.
 * Fixed an issue where `Observation Test Group` or `Observation Test Results` were incorrectly creating a relationship to `Filing Comments` using the `has-member` relationship
 * `ProcedureRequestMapper.authoredOn` is no longer populated with `EhrExtract / availabilityTime` as a fallback,
   but does use `EhrComposition / author / time` as a fallback instead now.
