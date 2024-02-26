@@ -192,10 +192,10 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
     }
 
     private void addEffective(Observation observation, Object effective) {
-        if (effective instanceof DateTimeType) {
-            observation.setEffective((DateTimeType) effective);
-        } else if (effective instanceof Period) {
-            observation.setEffective((Period) effective);
+        if (effective instanceof DateTimeType dateTimeType) {
+            observation.setEffective(dateTimeType);
+        } else if (effective instanceof Period period) {
+            observation.setEffective(period);
         }
     }
 }

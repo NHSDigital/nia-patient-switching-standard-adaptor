@@ -99,7 +99,7 @@ public class EN {
      */
     public List<CsEntityNameUse> getUse() {
         if (use == null) {
-            use = new ArrayList<CsEntityNameUse>();
+            use = new ArrayList<>();
         }
         return this.use;
     }

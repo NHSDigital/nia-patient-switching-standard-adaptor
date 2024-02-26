@@ -76,7 +76,7 @@ public class TEL
      */
     public List<IVLTS> getUseablePeriod() {
         if (useablePeriod == null) {
-            useablePeriod = new ArrayList<IVLTS>();
+            useablePeriod = new ArrayList<>();
         }
         return this.useablePeriod;
     }
@@ -129,7 +129,7 @@ public class TEL
      */
     public List<CsTelecommunicationAddressUse> getUse() {
         if (use == null) {
-            use = new ArrayList<CsTelecommunicationAddressUse>();
+            use = new ArrayList<>();
         }
         return this.use;
     }

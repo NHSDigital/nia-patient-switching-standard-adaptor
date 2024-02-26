@@ -149,7 +149,7 @@ public class COPCMT000001UK01PertinentInformation {
      */
     public List<String> getNullFlavor() {
         if (nullFlavor == null) {
-            nullFlavor = new ArrayList<String>();
+            nullFlavor = new ArrayList<>();
         }
         return this.nullFlavor;
     }
