@@ -247,7 +247,9 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         } else {
             if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
                 return parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
-            } else if (ehrComposition.getAuthor().getTime() != null && ehrComposition.getAuthor().getTime().hasValue()) {
+            } else if (ehrComposition.getAuthor() != null
+                    && ehrComposition.getAuthor().getTime() != null
+                    && ehrComposition.getAuthor().getTime().hasValue()) {
                 return parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
             }
         }

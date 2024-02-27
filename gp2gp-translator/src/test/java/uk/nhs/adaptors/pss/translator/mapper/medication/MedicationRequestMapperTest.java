@@ -256,7 +256,7 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
-    public void When_MappingMedicationRequestWithAuthoredOnValidDateInExtractAndComposition_Expect_AuthoredOnToUseAvailabilityTimeInStatement() {
+    public void When_MappingMedicationRequestWithAuthoredOnInExtractAndComposition_Expect_AuthoredOnToUseAvailabilityTimeInStatement() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract_hasAuthorTimeInExtract.xml");
         var expectedAuthoredOn = DateFormatUtil.parseToDateTimeType("20100115");
 

@@ -272,6 +272,21 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
+    public void testMapAllergyAssertedDateFallbackData() {
+        when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
+        var ehrExtract = unmarshallEhrExtract("allergy-structure-with-asserted-date-fallback.xml");
+        List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
+                getEncounterList(), PRACTISE_CODE);
+
+        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        var allergyIntolerance = allergyIntolerances.get(0);
+
+        assertFixedValues(allergyIntolerance);
+
+        assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2010-02-09T12:31:51+00:00");
+    }
+
+    @Test
     public void testMapMultipleAllergies() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
         var ehrExtract = unmarshallEhrExtract("allergy-structure-with-multiple-allergy.xml");
