@@ -84,7 +84,6 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                 getComment(observationStatements, getNarrativeStatementsFromCompoundStatement(compoundStatement)))
             .setSubject(new Reference(patient))
             .setIssuedElement(getIssued(
-                ehrExtract,
                 ehrComposition))
             .addPerformer(getParticipantReference(
                 compoundStatement.getParticipant(),

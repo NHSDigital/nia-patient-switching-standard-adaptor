@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+* `AllergyIntoleranceMapper` - Changed `assertedDate` field fallback value from `EhrExtract.AvailiabiltyTime` to `EhrComposition.Author.Time`
+* `BloodPressureMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
+* `ConditionMapper` - Removed `assertedDate` field fallback value of `EhrExtract.AvailiabiltyTime`
+* `ConsultationListMapper` - Removed `date` field fallback value of `EhrExtract.AvailiabiltyTime`
+* `DiagnosticReportMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
+* `MedicationRequestMapper` - Changed `authoredOn` field fallback value from `EhrExtract.AvailiabiltyTime` to `EhrComposition.Author.Time`
+* `ObservationCommentMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
+* `ObservationMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
+* `SpecimenBatteryMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
+* `TemplateMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
+
 ### Fixed
 * Fixed an issue where Plan Statements (Recalls) used a fixed value for Status instead of taking a provided text value into account.
 
