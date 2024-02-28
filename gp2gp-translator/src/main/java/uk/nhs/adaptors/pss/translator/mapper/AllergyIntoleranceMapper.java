@@ -92,7 +92,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
 
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
-            .setAssertedDateElement(getAssertedDateElement(compoundStatement.getAvailabilityTime(), ehrExtract, ehrComposition))
+            .setAssertedDateElement(getAssertedDateElement(compoundStatement.getAvailabilityTime(), ehrComposition))
             .setPatient(new Reference(patient))
             .setClinicalStatus(ACTIVE)
             .setVerificationStatus(UNCONFIRMED)
@@ -239,7 +239,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         }
     }
 
-    private DateTimeType getAssertedDateElement(TS availabilityTime, RCMRMT030101UKEhrExtract ehrExtract,
+    private DateTimeType getAssertedDateElement(TS availabilityTime,
         RCMRMT030101UKEhrComposition ehrComposition) {
 
         if (availabilityTime != null && availabilityTime.hasValue()) {
@@ -247,8 +247,10 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         } else {
             if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
                 return parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
-            } else if (ehrExtract.getAvailabilityTime() != null && ehrExtract.getAvailabilityTime().hasValue()) {
-                return parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
+            } else if (ehrComposition.getAuthor() != null
+                    && ehrComposition.getAuthor().getTime() != null
+                    && ehrComposition.getAuthor().getTime().hasValue()) {
+                return parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
             }
         }
 

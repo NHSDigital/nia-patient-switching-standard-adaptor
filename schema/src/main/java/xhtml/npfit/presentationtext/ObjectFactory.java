@@ -219,7 +219,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "xhtml:NPfIT:PresentationText", name = "br", scope = P.class)
     public JAXBElement<BrType> createPBr(BrType value) {
-        return new JAXBElement<BrType>(_PBr_QNAME, BrType.class, P.class, value);
+        return new JAXBElement<>(_PBr_QNAME, BrType.class, P.class, value);
     }
 
 }

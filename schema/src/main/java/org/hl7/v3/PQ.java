@@ -75,13 +75,13 @@ public class PQ
      */
     public List<PQR> getTranslation() {
         if (translation == null) {
-            translation = new ArrayList<PQR>();
+            translation = new ArrayList<>();
         }
         return this.translation;
     }
 
     public boolean hasTranslation() {
-        return translation != null && translation.size() > 0;
+        return translation != null && !translation.isEmpty();
     }
 
     /**
