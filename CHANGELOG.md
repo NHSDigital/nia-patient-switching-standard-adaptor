@@ -17,8 +17,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * `SpecimenBatteryMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
 * `TemplateMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
 
+## [1.4.4] - 2024-02-28
+
 ### Fixed
-* Fixed an issue where Plan Statements (Recalls) used a fixed value for Status instead of taking a provided text value into account.
+* Plan Statements (Recalls) were previously mapped with a fixed value of `active` for the Status field.
+  The adaptor will now interrogate the text field to see if a status has been provided, otherwise defaulting to `unknown`.
 
 ## [1.4.3] - 2024-02-15
 
