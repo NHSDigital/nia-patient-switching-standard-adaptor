@@ -20,7 +20,6 @@ import org.hl7.v3.IVLTS;
 import org.hl7.v3.PQ;
 import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKInterpretationRange;
 import org.hl7.v3.RCMRMT030101UKReferenceRange;
 import org.hl7.v3.TS;
@@ -110,14 +109,10 @@ public class ObservationUtil {
         return outputReferenceRanges;
     }
 
-    public static InstantType getIssued(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition matchingEhrComposition) {
+    public static InstantType getIssued(RCMRMT030101UKEhrComposition matchingEhrComposition) {
 
         if (authorHasValidTimeValue(matchingEhrComposition.getAuthor())) {
             return DateFormatUtil.parseToInstantType(matchingEhrComposition.getAuthor().getTime().getValue());
-        }
-
-        if (availabilityTimeHasValue(ehrExtract.getAvailabilityTime())) {
-            return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
         }
 
         return null;

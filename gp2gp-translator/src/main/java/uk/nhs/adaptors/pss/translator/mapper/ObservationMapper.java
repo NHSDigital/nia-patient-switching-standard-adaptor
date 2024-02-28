@@ -101,7 +101,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             .setStatus(FINAL)
             .addIdentifier(buildIdentifier(id, practiseCode))
             .setCode(getCode(observationStatement.getCode()))
-            .setIssuedElement(getIssued(ehrExtract, ehrComposition))
+            .setIssuedElement(getIssued(ehrComposition))
             .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
             .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
             .setComment(getComment(
@@ -137,7 +137,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 .setStatus(FINAL)
                 .addIdentifier(buildIdentifier(id, practiseCode))
                 .setCode(getCode(requestStatement.getCode()))
-                .setIssuedElement(getIssued(ehrExtract, ehrComposition))
+                .setIssuedElement(getIssued(ehrComposition))
                 .addPerformer(getParticipantReference(requestStatement.getParticipant(), ehrComposition))
                 .setComment(SELF_REFERRAL)
                 .setSubject(new Reference(patient))
