@@ -101,7 +101,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             .setStatus(FINAL)
             .addIdentifier(buildIdentifier(id, practiseCode))
             .setCode(getCode(observationStatement.getCode()))
-            .setIssuedElement(getIssued(ehrExtract, ehrComposition))
+            .setIssuedElement(getIssued(ehrComposition))
             .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
             .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
             .setComment(getComment(
@@ -137,7 +137,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 .setStatus(FINAL)
                 .addIdentifier(buildIdentifier(id, practiseCode))
                 .setCode(getCode(requestStatement.getCode()))
-                .setIssuedElement(getIssued(ehrExtract, ehrComposition))
+                .setIssuedElement(getIssued(ehrComposition))
                 .addPerformer(getParticipantReference(requestStatement.getParticipant(), ehrComposition))
                 .setComment(SELF_REFERRAL)
                 .setSubject(new Reference(patient))
@@ -172,10 +172,10 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     }
 
     private void addEffective(Observation observation, Object effective) {
-        if (effective instanceof DateTimeType) {
-            observation.setEffective((DateTimeType) effective);
-        } else if (effective instanceof Period) {
-            observation.setEffective((Period) effective);
+        if (effective instanceof DateTimeType dateTimeType) {
+            observation.setEffective(dateTimeType);
+        } else if (effective instanceof Period period) {
+            observation.setEffective(period);
         }
     }
 
@@ -198,8 +198,8 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     }
 
     private String getValueString(Object value) {
-        if (value instanceof String) {
-            return (String) value;
+        if (value instanceof String simpleValue) {
+            return simpleValue;
         } else if (value instanceof CV cvValue) {
             return cvValue.getOriginalText() != null ? cvValue.getOriginalText() : cvValue.getDisplayName();
         }

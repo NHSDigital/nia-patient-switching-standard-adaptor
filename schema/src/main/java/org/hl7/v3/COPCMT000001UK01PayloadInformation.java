@@ -188,7 +188,7 @@ public class COPCMT000001UK01PayloadInformation {
      */
     public List<COPCMT000001UK01PertinentInformation> getPertinentInformation() {
         if (pertinentInformation == null) {
-            pertinentInformation = new ArrayList<COPCMT000001UK01PertinentInformation>();
+            pertinentInformation = new ArrayList<>();
         }
         return this.pertinentInformation;
     }
@@ -273,7 +273,7 @@ public class COPCMT000001UK01PayloadInformation {
      */
     public List<String> getNullFlavor() {
         if (nullFlavor == null) {
-            nullFlavor = new ArrayList<String>();
+            nullFlavor = new ArrayList<>();
         }
         return this.nullFlavor;
     }

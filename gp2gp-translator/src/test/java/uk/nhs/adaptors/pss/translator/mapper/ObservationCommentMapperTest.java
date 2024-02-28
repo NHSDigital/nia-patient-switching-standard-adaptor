@@ -130,7 +130,7 @@ public class ObservationCommentMapperTest {
         List<Observation> observations =
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
-        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2020-01-01T01:01:01.000+00:00");
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isNull();
     }
 
     @Test

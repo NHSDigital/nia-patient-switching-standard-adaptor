@@ -1,7 +1,6 @@
 package org.hl7.v3;
 
 import java.util.List;
-import javax.xml.bind.annotation.XmlSeeAlso;
 
 public interface RCMRMT030101UKPatient {
     II getId();

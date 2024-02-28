@@ -2699,7 +2699,7 @@
             "value": "58EF971E-B8F0-46E5-A403-B3432C17FD70"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
@@ -2761,7 +2761,7 @@
             "value": "B301E01E-61D2-45BB-ACE9-C960C9041E8C"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [

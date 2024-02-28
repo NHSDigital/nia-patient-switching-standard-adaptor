@@ -1,7 +1,5 @@
 package org.hl7.v3;
 
-import java.util.Map;
-
 public interface RCMRIN030000UKMessage {
     II getId();
 

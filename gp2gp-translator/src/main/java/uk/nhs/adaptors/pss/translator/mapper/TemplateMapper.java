@@ -142,7 +142,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
 
         parentObservation
             .setSubject(new Reference(patient))
-            .setIssuedElement(getIssued(ehrComposition, ehrExtract))
+            .setIssuedElement(getIssued(ehrComposition))
             .addPerformer(getParticipantReference(compoundStatement.getParticipant(), ehrComposition))
             .setCode(codeableConcept)
             .setStatus(FINAL)
@@ -158,19 +158,19 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
     }
 
     private void addEffective(Observation observation, Object effective) {
-        if (effective instanceof DateTimeType) {
-            observation.setEffective((DateTimeType) effective);
-        } else if (effective instanceof Period) {
-            observation.setEffective((Period) effective);
+        if (effective instanceof DateTimeType dateTimeType) {
+            observation.setEffective(dateTimeType);
+        } else if (effective instanceof Period period) {
+            observation.setEffective(period);
         }
     }
 
-    private InstantType getIssued(RCMRMT030101UKEhrComposition ehrComposition, RCMRMT030101UKEhrExtract ehrExtract) {
+    private InstantType getIssued(RCMRMT030101UKEhrComposition ehrComposition) {
         if (ehrComposition.getAuthor().getTime().hasValue()) {
 
             return parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
         }
-        return parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
+        return null;
     }
 
     private List<RCMRMT030101UKCompoundStatement> getCompoundStatementsByIds(RCMRMT030101UK04EhrExtract ehrExtract, List<String> ids) {

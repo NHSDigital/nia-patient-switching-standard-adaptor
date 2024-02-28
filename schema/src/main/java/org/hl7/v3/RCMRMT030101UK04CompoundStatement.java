@@ -163,7 +163,7 @@ public class RCMRMT030101UK04CompoundStatement implements RCMRMT030101UKCompound
     @Override
     public List<II> getId() {
         if (id == null) {
-            id = new ArrayList<II>();
+            id = new ArrayList<>();
         }
         return this.id;
     }

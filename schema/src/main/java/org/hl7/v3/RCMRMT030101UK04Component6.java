@@ -147,7 +147,7 @@ public class RCMRMT030101UK04Component6 implements RCMRMT030101UKComponent6 {
     @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
-            typeCode = new ArrayList<String>();
+            typeCode = new ArrayList<>();
         }
         return this.typeCode;
     }
@@ -177,7 +177,7 @@ public class RCMRMT030101UK04Component6 implements RCMRMT030101UKComponent6 {
     @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -207,7 +207,7 @@ public class RCMRMT030101UK04Component6 implements RCMRMT030101UKComponent6 {
     @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }

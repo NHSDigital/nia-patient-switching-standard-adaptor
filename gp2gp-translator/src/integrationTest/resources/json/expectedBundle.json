@@ -2920,7 +2920,7 @@
             "value": "3316531F-5705-424C-9E1A-EE694FB411B4"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
@@ -2977,7 +2977,7 @@
             "value": "procedure-request-id"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
@@ -3034,7 +3034,7 @@
             "value": "7BF97563-C89A-4265-9532-1F2332653497"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
