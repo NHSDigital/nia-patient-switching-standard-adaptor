@@ -258,12 +258,12 @@ communicate.
 #### Logging configuration
 
 **Optional**
-  - `PS_LOGGING_LEVEL`: Spring logging level for facade use `DEBUG` for diagnosing problems in test environments, default = `INFO`
+  - `PS_LOGGING_LEVEL`: Spring logging level. Use `DEBUG` for diagnosing problems in test environments, default = `INFO`
 
 #### DB
 
 **Required**
-  - `PS_DB_URL`: JDBC URL for Translator service, default = `jdbc:postgresql://localhost:5436`
+  - `PS_DB_URL`: JDBC URL for the [PostgreSQL database](OPERATING.md#database-requirements) service, default = `jdbc:postgresql://localhost:5436`
 
 ### Facade
 
