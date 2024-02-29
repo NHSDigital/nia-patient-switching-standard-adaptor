@@ -5,17 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Changed
-* `AllergyIntoleranceMapper` - Changed `assertedDate` field fallback value from `EhrExtract.AvailiabiltyTime` to `EhrComposition.Author.Time`
-* `BloodPressureMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
-* `ConditionMapper` - Removed `assertedDate` field fallback value of `EhrExtract.AvailiabiltyTime`
-* `ConsultationListMapper` - Removed `date` field fallback value of `EhrExtract.AvailiabiltyTime`
-* `DiagnosticReportMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
-* `MedicationRequestMapper` - Changed `authoredOn` field fallback value from `EhrExtract.AvailiabiltyTime` to `EhrComposition.Author.Time`
-* `ObservationCommentMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
-* `ObservationMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
-* `SpecimenBatteryMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
-* `TemplateMapper` - Removed `issued` field fallback value of `EhrExtract.AvailiabiltyTime`
+## [1.4.5] - 2024-03-01
+
+### Fixed
+
+* Removed the `EhrExtract / AvailabilityTime` field as a fallback value from:
+  - `Condition.assertedDate`
+  - `List.date`
+  - `DiagnosticReport.issued`
+  - `Observation.issuedDate`
+
+* Replaced the `EhrExtract / AvailabilityTime` field as a fallback value with `EhrComposition / author / time[@value]` for:
+  - `AllergyIntolerance.assertedDate`
+  - `MedicationRequest.authoredOn`
 
 ## [1.4.4] - 2024-02-28
 
