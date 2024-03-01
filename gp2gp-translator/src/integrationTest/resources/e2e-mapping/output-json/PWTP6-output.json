@@ -2352,7 +2352,7 @@
             "value": "4A0BBD26-0D6C-4DD4-A522-5C4FAE78F97B"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
@@ -2414,7 +2414,7 @@
             "value": "40FD7C16-2D1C-4B09-BE35-C50B56B5FC5A"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [

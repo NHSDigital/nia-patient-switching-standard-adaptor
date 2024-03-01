@@ -149,7 +149,7 @@ public class CD
      */
     public List<CR> getQualifier() {
         if (qualifier == null) {
-            qualifier = new ArrayList<CR>();
+            qualifier = new ArrayList<>();
         }
         return this.qualifier;
     }
@@ -178,7 +178,7 @@ public class CD
      */
     public List<CD.Group> getGroup() {
         if (group == null) {
-            group = new ArrayList<CD.Group>();
+            group = new ArrayList<>();
         }
         return this.group;
     }
@@ -207,7 +207,7 @@ public class CD
      */
     public List<CD> getTranslation() {
         if (translation == null) {
-            translation = new ArrayList<CD>();
+            translation = new ArrayList<>();
         }
         return this.translation;
     }
@@ -397,7 +397,7 @@ public class CD
          */
         public List<CR> getQualifier() {
             if (qualifier == null) {
-                qualifier = new ArrayList<CR>();
+                qualifier = new ArrayList<>();
             }
             return this.qualifier;
         }

@@ -5,7 +5,6 @@ import static org.hl7.fhir.dstu3.model.Condition.ConditionClinicalStatus.INACTIV
 
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.getMedicationStatements;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllLinkSets;
-import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildReferenceExtension;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
@@ -133,9 +132,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         buildOnsetDateTimeType(linkSet).ifPresent(condition::setOnset);
         buildAbatementDateTimeType(linkSet.getEffectiveTime()).ifPresent(condition::setAbatement);
 
-        buildAssertedDateTimeType(composition).ifPresentOrElse(
-            condition::setAssertedDateElement,
-            () -> condition.setAssertedDateElement(parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue())));
+        buildAssertedDateTimeType(composition).ifPresent(condition::setAssertedDateElement);
 
         composition.getParticipant2()
             .stream()

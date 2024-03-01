@@ -50,7 +50,7 @@ public class ConsultationListMapper {
             .setTitle(getConsultationTitle(encounter.getType()))
             .setCode(CodeableConceptUtils.createCodeableConcept(CONSULTATION_CODE_CODE, LIST_CODE_SYSTEM, CONSULTATION_CODE_DISPLAY, null))
             .setSubject(encounter.getSubject())
-            .setDateElement(getConsultationDate(encounter.getPeriod(), ehrExtract))
+            .setDateElement(getConsultationDate(encounter.getPeriod()))
             .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
                 LIST_ORDERED_BY_DISPLAY, null))
             .setEncounter(new Reference(encounter))
@@ -77,12 +77,12 @@ public class ConsultationListMapper {
         return null;
     }
 
-    private DateTimeType getConsultationDate(Period period, RCMRMT030101UK04EhrExtract ehrExtract) {
+    private DateTimeType getConsultationDate(Period period) {
         if (period != null && period.hasStart()) {
             return period.getStartElement();
-        } else {
-            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
         }
+
+        return null;
     }
 
     public ListResource mapToTopic(ListResource consultation, RCMRMT030101UKCompoundStatement compoundStatement) {

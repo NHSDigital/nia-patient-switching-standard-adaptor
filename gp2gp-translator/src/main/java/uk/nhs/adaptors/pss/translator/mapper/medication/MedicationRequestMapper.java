@@ -61,7 +61,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
         var context = encounters.stream()
             .filter(encounter1 -> encounter1.getId().equals(ehrComposition.getId().getRoot())).findFirst();
-        var authoredOn = getAuthoredOn(medicationStatement.getAvailabilityTime(), ehrExtract, ehrComposition);
+        var authoredOn = getAuthoredOn(medicationStatement.getAvailabilityTime(), ehrComposition);
         var dateAsserted = extractDateAsserted(ehrComposition, ehrExtract);
         var requester = extractRequester(ehrComposition, medicationStatement);
         var recorder = extractRecorder(ehrComposition, medicationStatement);
@@ -98,16 +98,17 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         return resource;
     }
 
-    private DateTimeType getAuthoredOn(TS availabilityTime, RCMRMT030101UKEhrExtract ehrExtract,
-                                       RCMRMT030101UKEhrComposition ehrComposition) {
 
+    private DateTimeType getAuthoredOn(TS availabilityTime,
+                                       RCMRMT030101UKEhrComposition ehrComposition) {
         if (availabilityTime != null && availabilityTime.hasValue()) {
             return DateFormatUtil.parseToDateTimeType(availabilityTime.getValue());
         } else {
             if (ehrComposition.getAvailabilityTime() != null && ehrComposition.getAvailabilityTime().hasValue()) {
                 return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
-            } else if (ehrExtract.getAvailabilityTime() != null && ehrExtract.getAvailabilityTime().hasValue()) {
-                return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
+            }
+            if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime() && ehrComposition.getAuthor().getTime().hasValue()) {
+                return DateFormatUtil.parseToDateTimeType(ehrComposition.getAuthor().getTime().getValue());
             }
         }
 

@@ -310,7 +310,7 @@ public class COPCIN000001UK01Message {
      */
     public List<MCCIMT010101UK12CommunicationFunctionRcv> getCommunicationFunctionRcv() {
         if (communicationFunctionRcv == null) {
-            communicationFunctionRcv = new ArrayList<MCCIMT010101UK12CommunicationFunctionRcv>();
+            communicationFunctionRcv = new ArrayList<>();
         }
         return this.communicationFunctionRcv;
     }
@@ -387,7 +387,7 @@ public class COPCIN000001UK01Message {
      */
     public List<String> getNullFlavor() {
         if (nullFlavor == null) {
-            nullFlavor = new ArrayList<String>();
+            nullFlavor = new ArrayList<>();
         }
         return this.nullFlavor;
     }

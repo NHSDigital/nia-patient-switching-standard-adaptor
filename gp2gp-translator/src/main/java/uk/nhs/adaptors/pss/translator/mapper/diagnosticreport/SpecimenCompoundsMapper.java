@@ -140,12 +140,10 @@ public class SpecimenCompoundsMapper {
     }
 
     private void createRelationship(Observation observation, Observation observationComment) {
-        if (observation != null) {
-            if (!containsRelatedComponent(observationComment, observation.getId())) {
-                observationComment.addRelated(new ObservationRelatedComponent(new Reference(observation))
-                    .setType(ObservationRelationshipType.DERIVEDFROM)
-                );
-            }
+        if (observation != null && !containsRelatedComponent(observationComment, observation.getId())) {
+            observationComment.addRelated(
+                new ObservationRelatedComponent(new Reference(observation)).setType(ObservationRelationshipType.DERIVEDFROM)
+            );
         }
     }
 

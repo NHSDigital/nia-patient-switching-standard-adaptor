@@ -70,7 +70,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
                     DiagnosticReport diagnosticReport = createDiagnosticReport(
                         compoundStatement, patient, composition, encounters, practiseCode
                     );
-                    getIssued(ehrExtract, compoundStatement, composition).ifPresent(diagnosticReport::setIssuedElement);
+                    getIssued(compoundStatement, composition).ifPresent(diagnosticReport::setIssuedElement);
                     return diagnosticReport;
                 }
                 )).toList();
@@ -195,8 +195,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             .map(Reference::new);
     }
 
-    private Optional<InstantType> getIssued(RCMRMT030101UKEhrExtract ehrExtract,
-        RCMRMT030101UKCompoundStatement compoundStatement, RCMRMT030101UKEhrComposition ehrComposition) {
+    private Optional<InstantType> getIssued(RCMRMT030101UKCompoundStatement compoundStatement,
+                                            RCMRMT030101UKEhrComposition ehrComposition) {
 
         if (compoundStatementHasValidAvailabilityTime(compoundStatement)) {
             return Optional.of(parseToInstantType(compoundStatement.getAvailabilityTime().getValue()));
@@ -204,10 +204,6 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
 
         if (authorHasValidTimeValue(ehrComposition.getAuthor())) {
             return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
-        }
-
-        if (availabilityTimeHasValue(ehrExtract.getAvailabilityTime())) {
-            return Optional.of(parseToInstantType(ehrExtract.getAvailabilityTime().getValue()));
         }
 
         return Optional.empty();

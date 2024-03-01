@@ -68,7 +68,6 @@ public class SpecimenBatteryMapper {
     public Observation mapBatteryObservation(SpecimenBatteryParameters batteryParameters) {
         final var batteryCompoundStatement = batteryParameters.getBatteryCompoundStatement();
         final var ehrComposition = batteryParameters.getEhrComposition();
-        final var ehrExtract = batteryParameters.getEhrExtract();
 
         final Observation observation = new Observation();
         final String id = batteryParameters.getBatteryCompoundStatement().getId().get(0).getRoot();
@@ -84,7 +83,7 @@ public class SpecimenBatteryMapper {
             batteryParameters.getBatteryCompoundStatement(), batteryParameters.getObservationComments()));
         getContext(batteryParameters.getEncounters(), ehrComposition).ifPresent(observation::setContext);
         addEffective(batteryCompoundStatement, observation);
-        getIssued(ehrExtract, ehrComposition).ifPresent(observation::setIssuedElement);
+        getIssued(ehrComposition).ifPresent(observation::setIssuedElement);
         getPerformer(batteryCompoundStatement, ehrComposition).ifPresent(observation::addPerformer);
         getRelated(batteryCompoundStatement).forEach(observation::addRelated);
         handleDirectChildNarrativeStatementUserComments(batteryCompoundStatement, observation, batteryParameters.getObservationComments());
@@ -210,14 +209,10 @@ public class SpecimenBatteryMapper {
         return new Reference(new IdType(Specimen.name(), specimenCompoundStatement.getId().get(0).getRoot()));
     }
 
-    private Optional<InstantType> getIssued(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition) {
+    private Optional<InstantType> getIssued(RCMRMT030101UKEhrComposition ehrComposition) {
 
         if (hasValidTimeValue(ehrComposition.getAuthor())) {
             return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
-        }
-
-        if (availabilityTimeHasValue(ehrExtract.getAvailabilityTime())) {
-            return Optional.of(parseToInstantType(ehrExtract.getAvailabilityTime().getValue()));
         }
 
         return Optional.empty();
@@ -235,10 +230,10 @@ public class SpecimenBatteryMapper {
 
     private void addEffective(RCMRMT030101UKCompoundStatement compoundStatement, Observation observation) {
         final Object effective = getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime());
-        if (effective instanceof DateTimeType) {
-            observation.setEffective((DateTimeType) effective);
-        } else if (effective instanceof Period) {
-            observation.setEffective((Period) effective);
+        if (effective instanceof DateTimeType dateTimeType) {
+            observation.setEffective(dateTimeType);
+        } else if (effective instanceof Period period) {
+            observation.setEffective(period);
         }
     }
 

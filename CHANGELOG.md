@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.4.5] - 2024-03-01
+
+### Fixed
+
+* Removed the `EhrExtract / AvailabilityTime` field as a fallback value from:
+  - `Condition.assertedDate`
+  - `List.date`
+  - `DiagnosticReport.issued`
+  - `Observation.issuedDate`
+
+* Replaced the `EhrExtract / AvailabilityTime` field as a fallback value with `EhrComposition / author / time[@value]` for:
+  - `AllergyIntolerance.assertedDate`
+  - `MedicationRequest.authoredOn`
+
+## [1.4.4] - 2024-02-28
+
+### Fixed
+* Plan Statements (Recalls) were previously mapped with a fixed value of `active` for the Status field.
+  The adaptor will now interrogate the text field to see if a status has been provided, otherwise defaulting to `unknown`.
+
 ## [1.4.3] - 2024-02-15
 
 ### Added
