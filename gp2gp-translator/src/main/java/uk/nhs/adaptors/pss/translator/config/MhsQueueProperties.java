@@ -10,13 +10,15 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "amqp.mhs")
 @Getter
 @Setter
-public class MhsQueueProperties {
+public class MhsQueueProperties implements QueueProperties {
+
     private String queueName;
     private String broker;
     private String username;
     private String password;
     private int maxRedeliveries;
     private String dlqPrefix;
+    private int closeTimeout;
 
     public String getDLQName() {
         return getDlqPrefix() + getQueueName();

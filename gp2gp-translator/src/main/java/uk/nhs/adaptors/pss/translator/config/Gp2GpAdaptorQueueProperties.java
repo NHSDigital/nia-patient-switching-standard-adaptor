@@ -10,9 +10,10 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "amqp.gp2gp")
 @Getter
 @Setter
-public class Gp2GpAdaptorQueueProperties {
+public class Gp2GpAdaptorQueueProperties implements QueueProperties {
     private String queueName;
     private String broker;
     private String username;
     private String password;
+    private int closeTimeout;
 }

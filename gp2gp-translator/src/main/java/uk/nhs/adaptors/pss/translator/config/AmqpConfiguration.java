@@ -38,45 +38,28 @@ public class AmqpConfiguration {
 
     @Bean("pssQueueConnectionFactory")
     public JmsConnectionFactory jmsConnectionFactoryPssQueue(PssQueueProperties properties) {
-        JmsConnectionFactory factory = new JmsConnectionFactory();
 
-        factory.setRemoteURI(properties.getBroker());
-
-        if (StringUtils.isNotBlank(properties.getUsername())) {
-            factory.setUsername(properties.getUsername());
-        }
-
-        if (StringUtils.isNotBlank(properties.getPassword())) {
-            factory.setPassword(properties.getPassword());
-        }
-
+        JmsConnectionFactory factory = getJmsConnectionFactory(properties);
         configureRedeliveryPolicy(properties, factory);
-
         return factory;
     }
 
     @Bean("mhsQueueConnectionFactory")
     public JmsConnectionFactory jmsConnectionFactoryMhsInboundQueue(MhsQueueProperties properties) {
-        JmsConnectionFactory factory = new JmsConnectionFactory();
 
-        factory.setRemoteURI(properties.getBroker());
-
-        if (StringUtils.isNotBlank(properties.getUsername())) {
-            factory.setUsername(properties.getUsername());
-        }
-
-        if (StringUtils.isNotBlank(properties.getPassword())) {
-            factory.setPassword(properties.getPassword());
-        }
-
+        JmsConnectionFactory factory = getJmsConnectionFactory(properties);
         configureRedeliveryPolicy(properties, factory);
-
         return factory;
     }
 
     @Bean("gp2gpAdaptorQueueConnectionFactory")
     @ConditionalOnProperty(value = "amqp.daisyChaining", havingValue = "true")
     public JmsConnectionFactory jmsConnectionFactoryGp2GpAdaptorInboundQueue(Gp2GpAdaptorQueueProperties properties) {
+        return getJmsConnectionFactory(properties);
+    }
+
+    @NotNull
+    private static JmsConnectionFactory getJmsConnectionFactory(QueueProperties properties) {
         JmsConnectionFactory factory = new JmsConnectionFactory();
 
         factory.setRemoteURI(properties.getBroker());
@@ -88,6 +71,7 @@ public class AmqpConfiguration {
         if (StringUtils.isNotBlank(properties.getPassword())) {
             factory.setPassword(properties.getPassword());
         }
+        factory.setCloseTimeout((long) properties.getCloseTimeout());
 
         return factory;
     }

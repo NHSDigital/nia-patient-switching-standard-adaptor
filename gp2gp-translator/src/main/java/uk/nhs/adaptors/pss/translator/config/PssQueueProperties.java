@@ -10,10 +10,12 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "amqp.pss")
 @Getter
 @Setter
-public class PssQueueProperties {
+public class PssQueueProperties implements QueueProperties {
+
     private String queueName;
     private String broker;
     private String username;
     private String password;
     private int maxRedeliveries;
+    private int closeTimeout;
 }
