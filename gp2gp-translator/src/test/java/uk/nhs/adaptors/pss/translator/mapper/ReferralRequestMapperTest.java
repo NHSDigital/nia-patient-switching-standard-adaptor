@@ -22,7 +22,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -440,7 +440,7 @@ public class ReferralRequestMapperTest {
             .isEqualTo(1);
     }
 
-    private RCMRMT030101UK04RequestStatement getNestedRequestStatement(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private RCMRMT030101UKRequestStatement getNestedRequestStatement(RCMRMT030101UK04EhrComposition ehrComposition) {
         return ehrComposition.getComponent()
             .get(0)
             .getCompoundStatement()
@@ -472,7 +472,7 @@ public class ReferralRequestMapperTest {
     }
 
     private static ReferralRequest mapReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
-        Function<RCMRMT030101UK04EhrComposition, RCMRMT030101UK04RequestStatement> extractRequestStatement) {
+        Function<RCMRMT030101UK04EhrComposition, RCMRMT030101UKRequestStatement> extractRequestStatement) {
 
         var requestStatement = extractRequestStatement.apply(ehrComposition);
 

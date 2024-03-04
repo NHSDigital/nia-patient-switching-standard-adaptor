@@ -2699,7 +2699,7 @@
             "value": "58EF971E-B8F0-46E5-A403-B3432C17FD70"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
@@ -2761,7 +2761,7 @@
             "value": "B301E01E-61D2-45BB-ACE9-C960C9041E8C"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
@@ -3279,7 +3279,8 @@
           {
             "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -4226,7 +4227,8 @@
           {
             "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=255217005, displayName=First}"
       }
     },
     {

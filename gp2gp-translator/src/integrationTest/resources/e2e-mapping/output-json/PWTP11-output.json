@@ -2644,7 +2644,7 @@
             "value": "D9B1F929-832C-4D9F-9AE9-1BFDD68D2467"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
@@ -3185,7 +3185,8 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -3553,7 +3554,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is the first problem note"
+        "comment": "This is the first problem note {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -3744,7 +3745,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is the second problem"
+        "comment": "This is the second problem {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -3863,7 +3864,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is the third problem"
+        "comment": "This is the third problem {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -4115,7 +4116,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is the review"
+        "comment": "This is the review {Episodicity : code=303350001, displayName=Ongoing, originalText=Review}"
       }
     },
     {
@@ -4177,7 +4178,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is the review"
+        "comment": "This is the review {Episodicity : code=303350001, displayName=Ongoing, originalText=Review}"
       }
     },
     {
@@ -4239,7 +4240,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is the second review"
+        "comment": "This is the second review {Episodicity : code=303350001, displayName=Ongoing, originalText=Review}"
       }
     },
     {
@@ -4358,7 +4359,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Things have flared up a bit"
+        "comment": "Things have flared up a bit {Episodicity : code=394846009, displayName=Undefined, originalText=Flare}"
       }
     },
     {
@@ -4482,7 +4483,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is the end"
+        "comment": "This is the end {Episodicity : code=394846009, displayName=Undefined, originalText=End}"
       }
     },
     {
@@ -4540,7 +4541,8 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -4598,7 +4600,8 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -4657,7 +4660,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This was entered on the 10th Feb with a \"date of entry\" in emis web of 18/3/2009"
+        "comment": "This was entered on the 10th Feb with a \"date of entry\" in emis web of 18/3/2009 {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -4715,7 +4718,8 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=394846009, displayName=Undefined, originalText=Flare}"
       }
     },
     {
@@ -4770,7 +4774,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is a strabismus note"
+        "comment": "This is a strabismus note {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -4828,7 +4832,8 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -4887,7 +4892,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "hand entered note: active for 350 days"
+        "comment": "hand entered note: active for 350 days {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -4946,7 +4951,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "(Combined with [D]Difficulty in swallowing)"
+        "comment": "(Combined with [D]Difficulty in swallowing) {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -5000,7 +5005,8 @@
           {
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
-        ]
+        ],
+        "comment": "{Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -5118,7 +5124,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "no more foot pain"
+        "comment": "no more foot pain {Episodicity : code=394846009, displayName=Undefined, originalText=End}"
       }
     },
     {
@@ -5177,7 +5183,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "This is the replacement"
+        "comment": "This is the replacement {Episodicity : code=255217005, displayName=First}"
       }
     },
     {

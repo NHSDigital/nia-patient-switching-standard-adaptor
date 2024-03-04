@@ -209,7 +209,7 @@ public class COPCMT000001UK01PayloadBody {
      */
     public List<String> getNullFlavor() {
         if (nullFlavor == null) {
-            nullFlavor = new ArrayList<String>();
+            nullFlavor = new ArrayList<>();
         }
         return this.nullFlavor;
     }

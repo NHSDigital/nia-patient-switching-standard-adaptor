@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -44,17 +45,20 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Predecessor", propOrder = {
     "priorMedicationRef"
 })
-public class RCMRMT030101UK04Predecessor {
+public class RCMRMT030101UK04Predecessor implements RCMRMT030101UKPredecessor {
 
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04MedicationRef priorMedicationRef;
+    @XmlElement(required = true, type = RCMRMT030101UK04MedicationRef.class)
+    protected RCMRMT030101UKMedicationRef priorMedicationRef;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "typeCode")
     protected List<String> typeCode;
     @XmlAttribute(name = "typeID")
@@ -73,7 +77,8 @@ public class RCMRMT030101UK04Predecessor {
      *     {@link RCMRMT030101UK04MedicationRef }
      *     
      */
-    public RCMRMT030101UK04MedicationRef getPriorMedicationRef() {
+    @Override
+    public RCMRMT030101UKMedicationRef getPriorMedicationRef() {
         return priorMedicationRef;
     }
 
@@ -85,10 +90,12 @@ public class RCMRMT030101UK04Predecessor {
      *     {@link RCMRMT030101UK04MedicationRef }
      *     
      */
-    public void setPriorMedicationRef(RCMRMT030101UK04MedicationRef value) {
+    @Override
+    public void setPriorMedicationRef(RCMRMT030101UKMedicationRef value) {
         this.priorMedicationRef = value;
     }
 
+    @Override
     public boolean hasPriorMedicationRef() {
         return priorMedicationRef != null;
     }
@@ -101,6 +108,7 @@ public class RCMRMT030101UK04Predecessor {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -117,6 +125,7 @@ public class RCMRMT030101UK04Predecessor {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -143,9 +152,10 @@ public class RCMRMT030101UK04Predecessor {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
-            typeCode = new ArrayList<String>();
+            typeCode = new ArrayList<>();
         }
         return this.typeCode;
     }
@@ -172,9 +182,10 @@ public class RCMRMT030101UK04Predecessor {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -201,9 +212,10 @@ public class RCMRMT030101UK04Predecessor {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -216,6 +228,7 @@ public class RCMRMT030101UK04Predecessor {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -228,6 +241,7 @@ public class RCMRMT030101UK04Predecessor {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

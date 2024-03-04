@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -47,13 +48,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.EhrExtractSpecification", propOrder = {
     "id",
     "code",
     "effectiveTime"
 })
-public class RCMRMT030101UK04EhrExtractSpecification {
+public class RCMRMT030101UK04EhrExtractSpecification implements RCMRMT030101UKEhrExtractSpecification {
 
     @XmlElement(required = true)
     protected II id;
@@ -83,6 +85,7 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -95,6 +98,7 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -107,6 +111,7 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      *     {@link CV }
      *     
      */
+    @Override
     public CV getCode() {
         return code;
     }
@@ -119,6 +124,7 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      *     {@link CV }
      *     
      */
+    @Override
     public void setCode(CV value) {
         this.code = value;
     }
@@ -131,6 +137,7 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -143,6 +150,7 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
@@ -155,6 +163,7 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Observation";
@@ -171,6 +180,7 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -197,9 +207,10 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -226,9 +237,10 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -255,9 +267,10 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -284,9 +297,10 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -299,6 +313,7 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -311,6 +326,7 @@ public class RCMRMT030101UK04EhrExtractSpecification {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

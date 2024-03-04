@@ -2352,7 +2352,7 @@
             "value": "4A0BBD26-0D6C-4DD4-A522-5C4FAE78F97B"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
@@ -2414,7 +2414,7 @@
             "value": "40FD7C16-2D1C-4B09-BE35-C50B56B5FC5A"
           }
         ],
-        "status": "active",
+        "status": "unknown",
         "intent": "plan",
         "code": {
           "coding": [
@@ -3603,7 +3603,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163106002",
-              "display": "O/E - R.post.tib.pulse present"
+              "display": "On examination - right posterior tibial pulse present"
             }
           ],
           "text": "O/E - R.post.tib.pulse present"
@@ -3664,7 +3664,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163119003",
-              "display": "O/E - L.post.tib. pulse absent"
+              "display": "On examination - left posterior tibial pulse absent"
             }
           ],
           "text": "O/E - L.post.tib. pulse absent"
@@ -3725,7 +3725,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163108001",
-              "display": "O/E - R.dorsalis pedis present"
+              "display": "On examination - right dorsalis pedis pulse present"
             }
           ],
           "text": "O/E - R.dorsalis pedis present"
@@ -3786,7 +3786,7 @@
               ],
               "system": "http://snomed.info/sct",
               "code": "163121008",
-              "display": "O/E - L.dorsalis pedis absent"
+              "display": "On examination - left dorsalis pedis absent"
             }
           ],
           "text": "O/E - L.dorsalis pedis absent"
@@ -7489,7 +7489,7 @@
                   ],
                   "system": "http://snomed.info/sct",
                   "code": "414259000",
-                  "display": "First diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
+                  "display": "Administration of first dose of diphtheria and Haemophilus influenza type b and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine"
                 }
               ],
               "text": "1st dipht tet acell pertus, haem influ b, inactiv polio vacc"
@@ -7653,7 +7653,7 @@
                   ],
                   "system": "http://snomed.info/sct",
                   "code": "415507003",
-                  "display": "Second diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
+                  "display": "Administration of second dose of diphtheria and Haemophilus influenza type b and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine"
                 }
               ],
               "text": "2nd dipht tet acell pertus, haem influ b, inactiv polio vacc"
@@ -7817,7 +7817,7 @@
                   ],
                   "system": "http://snomed.info/sct",
                   "code": "415712004",
-                  "display": "Third diphtheria tetanus and five component acellular pertussis, haemophilus influenzae type b, inactivated polio vaccination"
+                  "display": "Administration of third dose of diphtheria and Haemophilus influenza type b and five component acellular pertussis and inactivated poliomyelitis and tetanus vaccine"
                 }
               ],
               "text": "3rd dipht tet acell pertus, haem influ b, inactiv polio vacc"
@@ -8069,7 +8069,7 @@
                   ],
                   "system": "http://snomed.info/sct",
                   "code": "428975001",
-                  "display": "Vaccination with Haemophilus influenzae type B and Neisseria meningitidis serotype C combination vaccine"
+                  "display": "Administration of Haemophilus influenzae type b and meningitis C vaccine"
                 }
               ],
               "text": "Haemophilus influenzae type B and meningitis C vaccination"

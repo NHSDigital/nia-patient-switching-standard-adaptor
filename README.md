@@ -46,7 +46,7 @@ The following is required to call this endpoint...
 
 The endpoint also requires a JSON body that includes the needed patient NHS number. The format of the body should look like the following...
 
-   ```
+   ```json
    {
       "resourceType": "Parameters",
       "parameter": [
@@ -70,15 +70,15 @@ The endpoint also requires a JSON body that includes the needed patient NHS numb
    }
    ```
 
-Endpoint calling:
+Responds with one of:
 
 1. Initial request: If you successfully configure the endpoint described above and call it, you should receive a 202-accepted response. This means the adaptor has received the request and is making the relevant requests.
-   2. Polling the request: after receiving a 202 response, we recommend polling the endpoint at regular intervals using an increasing call gap strategy. Each poll can return the following responses:-
-       1. 204 No content: this response indicates that we are still processing the requests / waiting for the EHR message response.
-       2. 200 Success: this response indicates we have successfully received and converted the EHR to JSON; you will also receive the FHIR bundle in the response's body.
-       3. 400,404,500,501: The endpoint can return all these possible error codes. These will all provide a detailed error with an operationOutcome JSON model response in the body. This looks like...
+2. Polling the request: after receiving a 202 response, we recommend polling the endpoint at regular intervals using an increasing call gap strategy. Each poll can return the following responses:-
+    - 204 No content: this response indicates that we are still processing the requests / waiting for the EHR message response.
+    - 200 Success: this response indicates we have successfully received and converted the EHR to JSON; you will also receive the FHIR bundle in the response's body.
+    - 400,404,500,501: The endpoint can return all these possible error codes. These will all provide a detailed error with an operationOutcome JSON model response in the body. This looks like...
 
-      ``` 
+      ```json
       {
          "resourceType": "OperationOutcome",
          "meta": {

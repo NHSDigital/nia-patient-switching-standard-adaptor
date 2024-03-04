@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -45,12 +46,13 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Person", propOrder = {
     "name",
     "deceasedInd"
 })
-public class RCMRMT030101UK04Person {
+public class RCMRMT030101UK04Person implements RCMRMT030101UKPerson {
 
     protected List<PN> name;
     protected BL deceasedInd;
@@ -91,9 +93,10 @@ public class RCMRMT030101UK04Person {
      * 
      * 
      */
+    @Override
     public List<PN> getName() {
         if (name == null) {
-            name = new ArrayList<PN>();
+            name = new ArrayList<>();
         }
         return this.name;
     }
@@ -106,6 +109,7 @@ public class RCMRMT030101UK04Person {
      *     {@link BL }
      *     
      */
+    @Override
     public BL getDeceasedInd() {
         return deceasedInd;
     }
@@ -118,6 +122,7 @@ public class RCMRMT030101UK04Person {
      *     {@link BL }
      *     
      */
+    @Override
     public void setDeceasedInd(BL value) {
         this.deceasedInd = value;
     }
@@ -130,6 +135,7 @@ public class RCMRMT030101UK04Person {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Person";
@@ -146,6 +152,7 @@ public class RCMRMT030101UK04Person {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -172,9 +179,10 @@ public class RCMRMT030101UK04Person {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -201,9 +209,10 @@ public class RCMRMT030101UK04Person {
      * 
      * 
      */
+    @Override
     public List<String> getDeterminerCode() {
         if (determinerCode == null) {
-            determinerCode = new ArrayList<String>();
+            determinerCode = new ArrayList<>();
         }
         return this.determinerCode;
     }
@@ -230,9 +239,10 @@ public class RCMRMT030101UK04Person {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -259,9 +269,10 @@ public class RCMRMT030101UK04Person {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -274,6 +285,7 @@ public class RCMRMT030101UK04Person {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -286,6 +298,7 @@ public class RCMRMT030101UK04Person {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

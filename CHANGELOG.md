@@ -5,20 +5,65 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.4.5] - 2024-03-01
+
+### Fixed
+
+* Removed the `EhrExtract / AvailabilityTime` field as a fallback value from:
+  - `Condition.assertedDate`
+  - `List.date`
+  - `DiagnosticReport.issued`
+  - `Observation.issuedDate`
+
+* Replaced the `EhrExtract / AvailabilityTime` field as a fallback value with `EhrComposition / author / time[@value]` for:
+  - `AllergyIntolerance.assertedDate`
+  - `MedicationRequest.authoredOn`
+
+## [1.4.4] - 2024-02-28
+
+### Fixed
+* Plan Statements (Recalls) were previously mapped with a fixed value of `active` for the Status field.
+  The adaptor will now interrogate the text field to see if a status has been provided, otherwise defaulting to `unknown`.
+
+## [1.4.3] - 2024-02-15
+
+### Added
+* Added Materialised View in the SnomedCT database to be used when querying for preferred terms.
+
+> [!NOTE]
+> **Upgrade information** This release includes an update to the SNOMED database
+> Users will need to perform an [update of their patient switching SNOMED database](OPERATING.md#updating-the-snomed-database).
+> This will need to be performed first, followed by deploying the updated version of the translator image.
+
+## [1.4.2] - 2024-01-31
+
+### Added
+* Added Episodicity information to `comment` property of Observations.
+
+### Fixed
+* Fixed malformed role coding defect introduced in version 1.4.1
+
+## [1.4.1] - 2024-01-17
+
 ### Added
 * Assigning a role to a practitioner who records vaccinations
+
+### Fixed
+* Fixed an issue where `Observation Test Group` or `Observation Test Results` were incorrectly creating a relationship to `Filing Comments` using the `has-member` relationship
+* `ProcedureRequestMapper.authoredOn` is no longer populated with `EhrExtract / availabilityTime` as a fallback,
+  but does use `EhrComposition / author / time` as a fallback instead now.
+
+## [1.4.0] - 2024-01-10
 
 ### Changed
 * REST buffer size has been set to 150Mb
 
 ### Fixed
-* `ProcedureRequestMapper.authoredOn` is no longer populated with `EhrExtract / availabilityTime` as a fallback,
-  but does use `EhrComposition / author / time` as a fallback instead now.
 * Fixed issue where mapping failed due to a Referral Request Priority not being found.
 * Codings are now provided (code, display and system) in `PractionionerRole.code` and `Organization.type` fields,
   where only the `text` attribute was provided previously.
 * Fixed a bug which could lead to medication resource not being mapped if a failure had occurred when processing the previous EhrExtract during the medication mapping stage
-* Fixed an issue where `Observation Test Group` or `Observation Test Results` were incorrectly creating a relationship to `Filing Comments` using the `has-member` relationship
+
 
 ## [1.3.0] - 2023-12-11
 

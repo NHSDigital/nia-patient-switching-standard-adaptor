@@ -77,7 +77,7 @@ public class Tbody {
      */
     public List<Tr> getTr() {
         if (tr == null) {
-            tr = new ArrayList<Tr>();
+            tr = new ArrayList<>();
         }
         return this.tr;
     }

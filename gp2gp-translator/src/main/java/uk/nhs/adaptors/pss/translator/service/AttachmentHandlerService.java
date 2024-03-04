@@ -50,7 +50,7 @@ public class AttachmentHandlerService {
         if (attachments != null) {
             for (InboundMessage.Attachment attachment : attachments) {
                 try {
-                    InlineAttachment inlineAttachment = new InlineAttachment(attachment);
+                    InlineAttachment inlineAttachment = InlineAttachment.fromInboundMessageAttachment(attachment);
 
                     String contentType = inlineAttachment.getContentType();
                     if (!checkIfFileTypeSupported(contentType)) {

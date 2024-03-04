@@ -13,9 +13,9 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -52,12 +52,12 @@ public class ObservationUtilTest {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
     }
 
-    private RCMRMT030101UK04ObservationStatement getObservationStatementFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKObservationStatement getObservationStatementFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition().getComponent().get(0)
             .getObservationStatement();
     }
 
-    private RCMRMT030101UK04EhrComposition getEhrCompositionFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKEhrComposition getEhrCompositionFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
     }
 
@@ -133,19 +133,19 @@ public class ObservationUtilTest {
             "issued_using_ehr_composition_observation_example.xml");
         var ehrComposition = getEhrCompositionFromEhrExtract(ehrExtract);
 
-        InstantType issued = ObservationUtil.getIssued(ehrExtract, ehrComposition);
+        InstantType issued = ObservationUtil.getIssued(ehrComposition);
 
         assertThat(issued.asStringValue()).isEqualTo(ISSUED_EHR_COMPOSITION_EXAMPLE);
     }
 
     @Test
-    public void mapIssuedUsingEhrExtract() {
+    public void mapIssuedUsingEhrExtractExpectNull() {
         var ehrExtract = unmarshallEhrExtractElement("issued_using_ehr_extract_observation_example.xml");
         var ehrComposition = getEhrCompositionFromEhrExtract(ehrExtract);
 
-        InstantType issued = ObservationUtil.getIssued(ehrExtract, ehrComposition);
+        InstantType issued = ObservationUtil.getIssued(ehrComposition);
 
-        assertThat(issued.asStringValue()).isEqualTo(ISSUED_EHR_EXTRACT_EXAMPLE);
+        assertThat(issued).isNull();
     }
 
     @Test

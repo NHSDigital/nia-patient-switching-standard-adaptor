@@ -3716,7 +3716,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Regular Characters: a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0"
+        "comment": "Regular Characters: a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -3771,7 +3771,7 @@
             "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
           }
         ],
-        "comment": "Miscellaneous Characters: \" ( ) [ ] { } ~ : ; , . ? ¿ ! ¡ @ # £ $ ¢ ¤ ° ¯ ¶ © ® ™ ¦ † ‡ & * _ ' \\ « ‹ › » §"
+        "comment": "Miscellaneous Characters: \" ( ) [ ] { } ~ : ; , . ? ¿ ! ¡ @ # £ $ ¢ ¤ ° ¯ ¶ © ® ™ ¦ † ‡ & * _ ' \\ « ‹ › » § {Episodicity : code=255217005, displayName=First}"
       }
     },
     {
@@ -3862,7 +3862,7 @@
                   ],
                   "system": "http://snomed.info/sct",
                   "code": "38598009",
-                  "display": "Measles-mumps-rubella vaccination"
+                  "display": "Administration of measles and mumps and rubella vaccine"
                 }
               ],
               "text": "Measles/mumps/rubella vaccn."

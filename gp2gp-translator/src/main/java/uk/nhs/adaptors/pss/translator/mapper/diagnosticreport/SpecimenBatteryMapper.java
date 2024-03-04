@@ -29,15 +29,15 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04Author;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04Participant;
-import org.hl7.v3.RCMRMT030101UK04Participant2;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKParticipant;
+import org.hl7.v3.RCMRMT030101UKParticipant2;
+import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,7 +68,6 @@ public class SpecimenBatteryMapper {
     public Observation mapBatteryObservation(SpecimenBatteryParameters batteryParameters) {
         final var batteryCompoundStatement = batteryParameters.getBatteryCompoundStatement();
         final var ehrComposition = batteryParameters.getEhrComposition();
-        final var ehrExtract = batteryParameters.getEhrExtract();
 
         final Observation observation = new Observation();
         final String id = batteryParameters.getBatteryCompoundStatement().getId().get(0).getRoot();
@@ -84,7 +83,7 @@ public class SpecimenBatteryMapper {
             batteryParameters.getBatteryCompoundStatement(), batteryParameters.getObservationComments()));
         getContext(batteryParameters.getEncounters(), ehrComposition).ifPresent(observation::setContext);
         addEffective(batteryCompoundStatement, observation);
-        getIssued(ehrExtract, ehrComposition).ifPresent(observation::setIssuedElement);
+        getIssued(ehrComposition).ifPresent(observation::setIssuedElement);
         getPerformer(batteryCompoundStatement, ehrComposition).ifPresent(observation::addPerformer);
         getRelated(batteryCompoundStatement).forEach(observation::addRelated);
         handleDirectChildNarrativeStatementUserComments(batteryCompoundStatement, observation, batteryParameters.getObservationComments());
@@ -94,8 +93,9 @@ public class SpecimenBatteryMapper {
         return observation;
     }
 
-    private void referenceBatteryInChildObservations(RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
-        Observation batteryObservation, List<Observation> observations) {
+    private void referenceBatteryInChildObservations(RCMRMT030101UKCompoundStatement batteryCompoundStatement,
+                                                     Observation batteryObservation, List<Observation> observations) {
+
         batteryCompoundStatement.getComponent()
             .stream()
             .flatMap(CompoundStatementResourceExtractors::extractInnerObservationStatements)
@@ -119,8 +119,9 @@ public class SpecimenBatteryMapper {
         }
     }
 
-    private void handleDirectChildNarrativeStatementUserComments(RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
+    private void handleDirectChildNarrativeStatementUserComments(RCMRMT030101UKCompoundStatement batteryCompoundStatement,
         Observation batteryObservation, List<Observation> observationComments) {
+
         getDirectNarrativeStatements(batteryCompoundStatement)
             .filter(narrativeStatement -> narrativeStatement.getText().contains(USER_COMMENT_HEADER))
             .forEach(narrativeStatement -> getObservationById(observationComments, narrativeStatement.getId().getRoot())
@@ -131,7 +132,7 @@ public class SpecimenBatteryMapper {
                 }));
     }
 
-    private String getDirectChildNarrativeStatementComments(RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
+    private String getDirectChildNarrativeStatementComments(RCMRMT030101UKCompoundStatement batteryCompoundStatement,
         List<Observation> observationComments) {
 
         var narrativeStatements = getDirectNarrativeStatements(batteryCompoundStatement)
@@ -148,21 +149,22 @@ public class SpecimenBatteryMapper {
         observationComments.removeAll(surplusObservationComments);
 
         return narrativeStatements.stream()
-            .map(RCMRMT030101UK04NarrativeStatement::getText)
+            .map(RCMRMT030101UKNarrativeStatement::getText)
             .filter(text -> !text.contains(USER_COMMENT_HEADER))
             .map(TextUtil::extractPmipComment)
             .collect(Collectors.joining(StringUtils.LF));
     }
 
-    private Optional<Reference> getPerformer(RCMRMT030101UK04CompoundStatement batteryCompoundStatement,
-        RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Optional<Reference> getPerformer(RCMRMT030101UKCompoundStatement batteryCompoundStatement,
+        RCMRMT030101UKEhrComposition ehrComposition) {
+
         Optional<Reference> referenceOpt = Optional.empty();
         if (!batteryCompoundStatement.getParticipant().isEmpty()) {
             referenceOpt = batteryCompoundStatement.getParticipant()
                 .stream()
                 .filter(participant -> !participant.hasNullFlavour())
                 .filter(this::hasTypeCode)
-                .map(RCMRMT030101UK04Participant::getAgentRef)
+                .map(RCMRMT030101UKParticipant::getAgentRef)
                 .filter(Objects::nonNull)
                 .findFirst()
                 .map(agentRef -> new Reference(new IdType(ResourceType.Practitioner.name(), agentRef.getId().getRoot())));
@@ -171,7 +173,7 @@ public class SpecimenBatteryMapper {
             referenceOpt = ehrComposition.getParticipant2()
                 .stream()
                 .filter(participant2 -> !participant2.hasNullFlavor())
-                .map(RCMRMT030101UK04Participant2::getAgentRef)
+                .map(RCMRMT030101UKParticipant2::getAgentRef)
                 .filter(Objects::nonNull)
                 .findFirst()
                 .map(agentRef -> new Reference(new IdType(ResourceType.Practitioner.name(), agentRef.getId().getRoot())));
@@ -179,13 +181,13 @@ public class SpecimenBatteryMapper {
         return referenceOpt;
     }
 
-    private boolean hasTypeCode(RCMRMT030101UK04Participant participant) {
+    private boolean hasTypeCode(RCMRMT030101UKParticipant participant) {
         return participant.getTypeCode()
             .stream()
             .anyMatch(typeCode -> TYPECODE_PRF.equals(typeCode) || TYPECODE_PPRF.equals(typeCode));
     }
 
-    private Optional<Reference> getContext(List<Encounter> encounters, RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Optional<Reference> getContext(List<Encounter> encounters, RCMRMT030101UKEhrComposition ehrComposition) {
         return encounters.stream()
             .filter(encounter -> ehrComposition.getId().getRoot().equals(encounter.getId()))
             .findFirst()
@@ -193,7 +195,7 @@ public class SpecimenBatteryMapper {
             .map(Reference::new);
     }
 
-    private CodeableConcept createCode(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private CodeableConcept createCode(RCMRMT030101UKCompoundStatement compoundStatement) {
         var codeableConcept = codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
         DegradedCodeableConcepts.addDegradedEntryIfRequired(codeableConcept, DegradedCodeableConcepts.DEGRADED_OTHER);
         return codeableConcept;
@@ -203,23 +205,20 @@ public class SpecimenBatteryMapper {
         return createCodeableConcept(CODING_CODE, CODING_SYSTEM, CODING_DISPLAY, null);
     }
 
-    private Reference createSpecimenReference(RCMRMT030101UK04CompoundStatement specimenCompoundStatement) {
+    private Reference createSpecimenReference(RCMRMT030101UKCompoundStatement specimenCompoundStatement) {
         return new Reference(new IdType(Specimen.name(), specimenCompoundStatement.getId().get(0).getRoot()));
     }
 
-    private Optional<InstantType> getIssued(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Optional<InstantType> getIssued(RCMRMT030101UKEhrComposition ehrComposition) {
+
         if (hasValidTimeValue(ehrComposition.getAuthor())) {
             return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
-        }
-
-        if (availabilityTimeHasValue(ehrExtract.getAvailabilityTime())) {
-            return Optional.of(parseToInstantType(ehrExtract.getAvailabilityTime().getValue()));
         }
 
         return Optional.empty();
     }
 
-    private boolean hasValidTimeValue(RCMRMT030101UK04Author author) {
+    private boolean hasValidTimeValue(RCMRMT030101UKAuthor author) {
         return author != null && author.hasTime()
             && author.getTime().hasValue()
             && !author.getTime().hasNullFlavor();
@@ -229,16 +228,16 @@ public class SpecimenBatteryMapper {
         return availabilityTime != null && availabilityTime.hasValue() && !availabilityTime.hasNullFlavor();
     }
 
-    private void addEffective(RCMRMT030101UK04CompoundStatement compoundStatement, Observation observation) {
+    private void addEffective(RCMRMT030101UKCompoundStatement compoundStatement, Observation observation) {
         final Object effective = getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime());
-        if (effective instanceof DateTimeType) {
-            observation.setEffective((DateTimeType) effective);
-        } else if (effective instanceof Period) {
-            observation.setEffective((Period) effective);
+        if (effective instanceof DateTimeType dateTimeType) {
+            observation.setEffective(dateTimeType);
+        } else if (effective instanceof Period period) {
+            observation.setEffective(period);
         }
     }
 
-    private List<ObservationRelatedComponent> getRelated(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
+    private List<ObservationRelatedComponent> getRelated(RCMRMT030101UKCompoundStatement batteryCompoundStatement) {
         return Stream.concat(
             getDirectNarrativeStatements(batteryCompoundStatement)
                 .filter(narrativeStatement -> narrativeStatement.getText().contains(USER_COMMENT_HEADER))
@@ -249,17 +248,18 @@ public class SpecimenBatteryMapper {
         ).toList();
     }
 
-    private Stream<RCMRMT030101UK04NarrativeStatement> getDirectNarrativeStatements(
-        RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
+    private Stream<RCMRMT030101UKNarrativeStatement> getDirectNarrativeStatements(
+        RCMRMT030101UKCompoundStatement batteryCompoundStatement) {
+
         return batteryCompoundStatement.getComponent()
             .stream()
-            .filter(RCMRMT030101UK04Component02::hasNarrativeStatement)
-            .map(RCMRMT030101UK04Component02::getNarrativeStatement);
+            .filter(RCMRMT030101UKComponent02::hasNarrativeStatement)
+            .map(RCMRMT030101UKComponent02::getNarrativeStatement);
     }
 
-    private Stream<ObservationRelatedComponent> getObservationReferences(RCMRMT030101UK04CompoundStatement batteryCompoundStatement) {
-        return extractResourcesFromCompound(batteryCompoundStatement, RCMRMT030101UK04Component02::hasObservationStatement,
-            RCMRMT030101UK04Component02::getObservationStatement)
+    private Stream<ObservationRelatedComponent> getObservationReferences(RCMRMT030101UKCompoundStatement batteryCompoundStatement) {
+        return extractResourcesFromCompound(batteryCompoundStatement, RCMRMT030101UKComponent02::hasObservationStatement,
+            RCMRMT030101UKComponent02::getObservationStatement)
             .stream()
             .map(RCMRMT030101UK04ObservationStatement.class::cast)
             .map(observationStatement -> new Reference(new IdType(ResourceType.Observation.name(), observationStatement.getId().getRoot())))
@@ -270,10 +270,10 @@ public class SpecimenBatteryMapper {
     @Getter
     @Builder
     public static class SpecimenBatteryParameters {
-        private RCMRMT030101UK04EhrExtract ehrExtract;
-        private RCMRMT030101UK04CompoundStatement batteryCompoundStatement;
-        private RCMRMT030101UK04CompoundStatement specimenCompoundStatement;
-        private RCMRMT030101UK04EhrComposition ehrComposition;
+        private RCMRMT030101UKEhrExtract ehrExtract;
+        private RCMRMT030101UKCompoundStatement batteryCompoundStatement;
+        private RCMRMT030101UKCompoundStatement specimenCompoundStatement;
+        private RCMRMT030101UKEhrComposition ehrComposition;
         private DiagnosticReport diagnosticReport;
         private Patient patient;
         private List<Encounter> encounters;

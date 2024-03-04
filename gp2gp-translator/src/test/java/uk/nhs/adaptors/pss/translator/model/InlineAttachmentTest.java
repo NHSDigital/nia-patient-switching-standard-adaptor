@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.model;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -7,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.ParseException;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -25,8 +26,8 @@ public class InlineAttachmentTest {
     private static InboundMessage.Attachment mockMissingFilenameAttachment;
     private static InboundMessage.Attachment mockMissingContentTypeAttachment;
 
-    @BeforeAll
-    static void setMockAttachment() {
+    @BeforeEach
+    void setMockAttachment() {
         mockAttachment = InboundMessage.Attachment.builder()
             .contentType("text/plain")
             .isBase64("true")
@@ -35,8 +36,8 @@ public class InlineAttachmentTest {
             .build();
     }
 
-    @BeforeAll
-    static void setMockMissingFilenameAttachment() {
+    @BeforeEach
+    void setMockMissingFilenameAttachment() {
         mockMissingFilenameAttachment = InboundMessage.Attachment.builder()
             .contentType("text/plain")
             .isBase64("true")
@@ -45,8 +46,8 @@ public class InlineAttachmentTest {
             .build();
     }
 
-    @BeforeAll
-    static void setMockMissingContentTypeAttachment() {
+    @BeforeEach
+    void setMockMissingContentTypeAttachment() {
         mockMissingContentTypeAttachment = InboundMessage.Attachment.builder()
             .contentType("text/plain")
             .isBase64("true")
@@ -56,44 +57,63 @@ public class InlineAttachmentTest {
     }
 
     @Test
-    public void When_InlineAttachmentConstructed_WithTextAttachment_Expect_OriginalFileNameIsCorrect() throws ParseException {
-        InlineAttachment inlineAttachment = new InlineAttachment(mockAttachment);
+    public void When_InlineAttachmentFromAttachment_Expect_OriginalFileNameIsCorrect() throws ParseException {
+        InlineAttachment inlineAttachment = InlineAttachment.fromInboundMessageAttachment(mockAttachment);
 
         assertEquals(TEXT_ATTACHMENT_FILENAME, inlineAttachment.getOriginalFilename());
     }
 
     @Test
-    public void When_InlineAttachmentConstructed_WithTextAttachment_Expect_CompressedIsCorrect() throws ParseException {
-        InlineAttachment inlineAttachment = new InlineAttachment(mockAttachment);
+    public void When_InlineAttachmentFromAttachment_Expect_PayloadIsCorrect() throws ParseException {
+        InlineAttachment inlineAttachment = InlineAttachment.fromInboundMessageAttachment(mockAttachment);
+
+        assertEquals("SGVsbG8gV29ybGQh", inlineAttachment.getPayload());
+    }
+
+    @Test
+    public void When_InlineAttachmentFromAttachment_Expect_DescriptionIsCorrect() throws ParseException {
+        InlineAttachment inlineAttachment = InlineAttachment.fromInboundMessageAttachment(mockAttachment);
+
+        assertEquals(TEXT_ATTACHMENT_DESCRIPTION, inlineAttachment.getDescription());
+    }
+
+    @Test
+    public void When_InlineAttachmentFromAttachment_Expect_LengthIsCorrect() throws ParseException {
+        final int MAGIC_NUMBER = 180;
+        mockAttachment.setDescription(TEXT_ATTACHMENT_DESCRIPTION + " Length=" + MAGIC_NUMBER);
+        InlineAttachment inlineAttachment = InlineAttachment.fromInboundMessageAttachment(mockAttachment);
+
+        assertEquals(MAGIC_NUMBER, inlineAttachment.getLength());
+    }
+
+    @Test
+    public void When_InlineAttachmentFromAttachment_Expect_CompressedIsCorrect() throws ParseException {
+        InlineAttachment inlineAttachment = InlineAttachment.fromInboundMessageAttachment(mockAttachment);
 
         assertFalse(inlineAttachment.isCompressed());
     }
 
     @Test
-    public void When_InlineAttachmentConstructed_WithTextAttachment_Expect_Base64IsCorrect() throws ParseException {
-        InlineAttachment inlineAttachment = new InlineAttachment(mockAttachment);
+    public void When_InlineAttachmentFromAttachment_Expect_Base64IsCorrect() throws ParseException {
+        InlineAttachment inlineAttachment = InlineAttachment.fromInboundMessageAttachment(mockAttachment);
 
         assertTrue(inlineAttachment.isBase64());
     }
 
     @Test
-    public void When_InlineAttachmentConstructed_WithMissingFilename_Expect_ParseException() {
-        Exception exception = assertThrows(ParseException.class, () -> new InlineAttachment(mockMissingFilenameAttachment));
+    public void When_InlineAttachmentFromAttachment_WithMissingFilename_Expect_ParseException() {
+        Exception exception = assertThrows(ParseException.class,
+                () -> InlineAttachment.fromInboundMessageAttachment(mockMissingFilenameAttachment));
 
-        String expectedMessage = "Unable to parse originalFilename field in description";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertThat(exception.getMessage()).contains("Unable to parse originalFilename field in description");
     }
 
     @Test
-    public void When_InlineAttachmentConstructed_WithIsCompressedMissing_Expect_ParseException() {
-        Exception exception = assertThrows(ParseException.class, () -> new InlineAttachment(mockMissingContentTypeAttachment));
+    public void When_InlineAttachmentFromAttachment_WithIsCompressedMissing_Expect_ParseException() {
+        Exception exception = assertThrows(ParseException.class,
+                () -> InlineAttachment.fromInboundMessageAttachment(mockMissingContentTypeAttachment));
 
-        String expectedMessage = "Unable to parse isCompressed field in description";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertThat(exception.getMessage()).contains("Unable to parse isCompressed field in description");
     }
 
 

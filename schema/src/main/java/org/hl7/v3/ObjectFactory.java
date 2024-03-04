@@ -24,74 +24,76 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _ControlActEvent_QNAME = new QName("urn:hl7-org:v3", "ControlActEvent");
-    private final static QName _EhrExtract_QNAME = new QName("urn:hl7-org:v3", "EhrExtract");
-    private final static QName _Message_QNAME = new QName("urn:hl7-org:v3", "Message");
-    private final static QName _RCMRIN030000UK06_QNAME = new QName("urn:hl7-org:v3", "RCMR_IN030000UK06");
-    private final static QName _RCMRIN030000UK07_QNAME = new QName("urn:hl7-org:v3", "RCMR_IN030000UK07");
-    private final static QName _COPCIN000001UK01_QNAME = new QName("urn:hl7-org:v3", "COPC_IN000001UK01");
-    private final static QName _IVLINTLow_QNAME = new QName("urn:hl7-org:v3", "low");
-    private final static QName _IVLINTHigh_QNAME = new QName("urn:hl7-org:v3", "high");
-    private final static QName _IVLPQWidth_QNAME = new QName("urn:hl7-org:v3", "width");
-    private final static QName _IVLPQCenter_QNAME = new QName("urn:hl7-org:v3", "center");
-    private final static QName _ENDelimiter_QNAME = new QName("urn:hl7-org:v3", "delimiter");
-    private final static QName _ENFamily_QNAME = new QName("urn:hl7-org:v3", "family");
-    private final static QName _ENGiven_QNAME = new QName("urn:hl7-org:v3", "given");
-    private final static QName _ENPrefix_QNAME = new QName("urn:hl7-org:v3", "prefix");
-    private final static QName _ENSuffix_QNAME = new QName("urn:hl7-org:v3", "suffix");
-    private final static QName _ENValidTime_QNAME = new QName("urn:hl7-org:v3", "validTime");
-    private final static QName _ENId_QNAME = new QName("urn:hl7-org:v3", "id");
-    private final static QName _ADCountry_QNAME = new QName("urn:hl7-org:v3", "country");
-    private final static QName _ADState_QNAME = new QName("urn:hl7-org:v3", "state");
-    private final static QName _ADCounty_QNAME = new QName("urn:hl7-org:v3", "county");
-    private final static QName _ADCity_QNAME = new QName("urn:hl7-org:v3", "city");
-    private final static QName _ADPostalCode_QNAME = new QName("urn:hl7-org:v3", "postalCode");
-    private final static QName _ADStreetAddressLine_QNAME = new QName("urn:hl7-org:v3", "streetAddressLine");
-    private final static QName _ADHouseNumber_QNAME = new QName("urn:hl7-org:v3", "houseNumber");
-    private final static QName _ADHouseNumberNumeric_QNAME = new QName("urn:hl7-org:v3", "houseNumberNumeric");
-    private final static QName _ADDirection_QNAME = new QName("urn:hl7-org:v3", "direction");
-    private final static QName _ADStreetName_QNAME = new QName("urn:hl7-org:v3", "streetName");
-    private final static QName _ADStreetNameBase_QNAME = new QName("urn:hl7-org:v3", "streetNameBase");
-    private final static QName _ADStreetNameType_QNAME = new QName("urn:hl7-org:v3", "streetNameType");
-    private final static QName _ADAdditionalLocator_QNAME = new QName("urn:hl7-org:v3", "additionalLocator");
-    private final static QName _ADUnitID_QNAME = new QName("urn:hl7-org:v3", "unitID");
-    private final static QName _ADUnitType_QNAME = new QName("urn:hl7-org:v3", "unitType");
-    private final static QName _ADCarrier_QNAME = new QName("urn:hl7-org:v3", "carrier");
-    private final static QName _ADCensusTract_QNAME = new QName("urn:hl7-org:v3", "censusTract");
-    private final static QName _ADAddressKey_QNAME = new QName("urn:hl7-org:v3", "addressKey");
-    private final static QName _ADDesc_QNAME = new QName("urn:hl7-org:v3", "desc");
-    private final static QName _ADUseablePeriod_QNAME = new QName("urn:hl7-org:v3", "useablePeriod");
-    private final static QName _StrucDocThContent_QNAME = new QName("urn:hl7-org:v3", "content");
-    private final static QName _StrucDocThLinkHtml_QNAME = new QName("urn:hl7-org:v3", "linkHtml");
-    private final static QName _StrucDocThSub_QNAME = new QName("urn:hl7-org:v3", "sub");
-    private final static QName _StrucDocThSup_QNAME = new QName("urn:hl7-org:v3", "sup");
-    private final static QName _StrucDocThBr_QNAME = new QName("urn:hl7-org:v3", "br");
-    private final static QName _StrucDocThFootnote_QNAME = new QName("urn:hl7-org:v3", "footnote");
-    private final static QName _StrucDocThFootnoteRef_QNAME = new QName("urn:hl7-org:v3", "footnoteRef");
-    private final static QName _StrucDocThRenderMultiMedia_QNAME = new QName("urn:hl7-org:v3", "renderMultiMedia");
-    private final static QName _StrucDocTdParagraph_QNAME = new QName("urn:hl7-org:v3", "paragraph");
-    private final static QName _StrucDocTdList_QNAME = new QName("urn:hl7-org:v3", "list");
-    private final static QName _StrucDocParagraphCaption_QNAME = new QName("urn:hl7-org:v3", "caption");
-    private final static QName _StrucDocItemTable_QNAME = new QName("urn:hl7-org:v3", "table");
+    public static final String NAMESPACEURI = "urn:hl7-org:v3";
+
+    private final static QName _ControlActEvent_QNAME = new QName(NAMESPACEURI, "ControlActEvent");
+    private final static QName _EhrExtract_QNAME = new QName(NAMESPACEURI, "EhrExtract");
+    private final static QName _Message_QNAME = new QName(NAMESPACEURI, "Message");
+    private final static QName _RCMRIN030000UK06_QNAME = new QName(NAMESPACEURI, "RCMR_IN030000UK06");
+    private final static QName _RCMRIN030000UK07_QNAME = new QName(NAMESPACEURI, "RCMR_IN030000UK07");
+    private final static QName _COPCIN000001UK01_QNAME = new QName(NAMESPACEURI, "COPC_IN000001UK01");
+    private final static QName _IVLINTLow_QNAME = new QName(NAMESPACEURI, "low");
+    private final static QName _IVLINTHigh_QNAME = new QName(NAMESPACEURI, "high");
+    private final static QName _IVLPQWidth_QNAME = new QName(NAMESPACEURI, "width");
+    private final static QName _IVLPQCenter_QNAME = new QName(NAMESPACEURI, "center");
+    private final static QName _ENDelimiter_QNAME = new QName(NAMESPACEURI, "delimiter");
+    private final static QName _ENFamily_QNAME = new QName(NAMESPACEURI, "family");
+    private final static QName _ENGiven_QNAME = new QName(NAMESPACEURI, "given");
+    private final static QName _ENPrefix_QNAME = new QName(NAMESPACEURI, "prefix");
+    private final static QName _ENSuffix_QNAME = new QName(NAMESPACEURI, "suffix");
+    private final static QName _ENValidTime_QNAME = new QName(NAMESPACEURI, "validTime");
+    private final static QName _ENId_QNAME = new QName(NAMESPACEURI, "id");
+    private final static QName _ADCountry_QNAME = new QName(NAMESPACEURI, "country");
+    private final static QName _ADState_QNAME = new QName(NAMESPACEURI, "state");
+    private final static QName _ADCounty_QNAME = new QName(NAMESPACEURI, "county");
+    private final static QName _ADCity_QNAME = new QName(NAMESPACEURI, "city");
+    private final static QName _ADPostalCode_QNAME = new QName(NAMESPACEURI, "postalCode");
+    private final static QName _ADStreetAddressLine_QNAME = new QName(NAMESPACEURI, "streetAddressLine");
+    private final static QName _ADHouseNumber_QNAME = new QName(NAMESPACEURI, "houseNumber");
+    private final static QName _ADHouseNumberNumeric_QNAME = new QName(NAMESPACEURI, "houseNumberNumeric");
+    private final static QName _ADDirection_QNAME = new QName(NAMESPACEURI, "direction");
+    private final static QName _ADStreetName_QNAME = new QName(NAMESPACEURI, "streetName");
+    private final static QName _ADStreetNameBase_QNAME = new QName(NAMESPACEURI, "streetNameBase");
+    private final static QName _ADStreetNameType_QNAME = new QName(NAMESPACEURI, "streetNameType");
+    private final static QName _ADAdditionalLocator_QNAME = new QName(NAMESPACEURI, "additionalLocator");
+    private final static QName _ADUnitID_QNAME = new QName(NAMESPACEURI, "unitID");
+    private final static QName _ADUnitType_QNAME = new QName(NAMESPACEURI, "unitType");
+    private final static QName _ADCarrier_QNAME = new QName(NAMESPACEURI, "carrier");
+    private final static QName _ADCensusTract_QNAME = new QName(NAMESPACEURI, "censusTract");
+    private final static QName _ADAddressKey_QNAME = new QName(NAMESPACEURI, "addressKey");
+    private final static QName _ADDesc_QNAME = new QName(NAMESPACEURI, "desc");
+    private final static QName _ADUseablePeriod_QNAME = new QName(NAMESPACEURI, "useablePeriod");
+    private final static QName _StrucDocThContent_QNAME = new QName(NAMESPACEURI, "content");
+    private final static QName _StrucDocThLinkHtml_QNAME = new QName(NAMESPACEURI, "linkHtml");
+    private final static QName _StrucDocThSub_QNAME = new QName(NAMESPACEURI, "sub");
+    private final static QName _StrucDocThSup_QNAME = new QName(NAMESPACEURI, "sup");
+    private final static QName _StrucDocThBr_QNAME = new QName(NAMESPACEURI, "br");
+    private final static QName _StrucDocThFootnote_QNAME = new QName(NAMESPACEURI, "footnote");
+    private final static QName _StrucDocThFootnoteRef_QNAME = new QName(NAMESPACEURI, "footnoteRef");
+    private final static QName _StrucDocThRenderMultiMedia_QNAME = new QName(NAMESPACEURI, "renderMultiMedia");
+    private final static QName _StrucDocTdParagraph_QNAME = new QName(NAMESPACEURI, "paragraph");
+    private final static QName _StrucDocTdList_QNAME = new QName(NAMESPACEURI, "list");
+    private final static QName _StrucDocParagraphCaption_QNAME = new QName(NAMESPACEURI, "caption");
+    private final static QName _StrucDocItemTable_QNAME = new QName(NAMESPACEURI, "table");
 
     /**
      * List of custom-built QName objects that weren't pre-generated. These are being used in unit tests to test specific
      * deeply nested elements.
      *
      */
-    private final static QName _CD_QNAME = new QName("urn:hl7-org:v3", "code");
-    private final static QName _EHR_COMPOSITION_QNAME = new QName("urn:hl7-org:v3", "ehrComposition");
-    private final static QName _LINKSET_QNAME = new QName("urn:hl7-org:v3", "LinkSet");
-    private final static QName _OBSERVATION_STATEMENT_QNAME = new QName("urn:hl7-org:v3", "ObservationStatement");
-    private final static QName _PATIENT_QNAME = new QName("urn:hl7-org:v3", "patient");
-    private final static QName _AGENT_DIRECTORY_QNAME = new QName("urn:hl7-org:v3", "agentDirectory");
-    private final static QName _ADDRESS_QNAME = new QName("urn:hl7-org:v3", "addr");
-    private final static QName _TELECOM_QNAME = new QName("urn:hl7-org:v3", "telecom");
-    private final static QName _EHR_SUPPLY_AUTHORISE = new QName("urn:hl7-org:v3", "ehrSupplyAuthorise");
-    private final static QName _MEDICATION_STATEMENT = new QName("urn:hl7-org:v3", "MedicationStatement");
-    private final static QName _CONSUMABLE = new QName("urn:hl7-org:v3", "Consumable");
-    private final static QName _COMPOUND_STATEMENT = new QName("urn:hl7-org:v3", "CompoundStatement");
-    private final static QName _NARRATIVE_STATEMENT_QNAME = new QName("urn:hl7-org:v3", "NarrativeStatement");
+    private final static QName _CD_QNAME = new QName(NAMESPACEURI, "code");
+    private final static QName _EHR_COMPOSITION_QNAME = new QName(NAMESPACEURI, "ehrComposition");
+    private final static QName _LINKSET_QNAME = new QName(NAMESPACEURI, "LinkSet");
+    private final static QName _OBSERVATION_STATEMENT_QNAME = new QName(NAMESPACEURI, "ObservationStatement");
+    private final static QName _PATIENT_QNAME = new QName(NAMESPACEURI, "patient");
+    private final static QName _AGENT_DIRECTORY_QNAME = new QName(NAMESPACEURI, "agentDirectory");
+    private final static QName _ADDRESS_QNAME = new QName(NAMESPACEURI, "addr");
+    private final static QName _TELECOM_QNAME = new QName(NAMESPACEURI, "telecom");
+    private final static QName _EHR_SUPPLY_AUTHORISE = new QName(NAMESPACEURI, "ehrSupplyAuthorise");
+    private final static QName _MEDICATION_STATEMENT = new QName(NAMESPACEURI, "MedicationStatement");
+    private final static QName _CONSUMABLE = new QName(NAMESPACEURI, "Consumable");
+    private final static QName _COMPOUND_STATEMENT = new QName(NAMESPACEURI, "CompoundStatement");
+    private final static QName _NARRATIVE_STATEMENT_QNAME = new QName(NAMESPACEURI, "NarrativeStatement");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.hl7.v3
@@ -1797,9 +1799,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link MCAIMT040101UK03ControlActEvent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "ControlActEvent")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "ControlActEvent")
     public JAXBElement<MCAIMT040101UK03ControlActEvent> createControlActEvent(MCAIMT040101UK03ControlActEvent value) {
-        return new JAXBElement<MCAIMT040101UK03ControlActEvent>(_ControlActEvent_QNAME, MCAIMT040101UK03ControlActEvent.class, null, value);
+        return new JAXBElement<>(_ControlActEvent_QNAME, MCAIMT040101UK03ControlActEvent.class, null, value);
     }
 
     /**
@@ -1810,9 +1812,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link RCMRMT030101UK04EhrExtract }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "EhrExtract")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "EhrExtract")
     public JAXBElement<RCMRMT030101UK04EhrExtract> createEhrExtract(RCMRMT030101UK04EhrExtract value) {
-        return new JAXBElement<RCMRMT030101UK04EhrExtract>(_EhrExtract_QNAME, RCMRMT030101UK04EhrExtract.class, null, value);
+        return new JAXBElement<>(_EhrExtract_QNAME, RCMRMT030101UK04EhrExtract.class, null, value);
     }
 
     /**
@@ -1823,9 +1825,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link MCCIMT010101UK12Message }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "Message")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "Message")
     public JAXBElement<MCCIMT010101UK12Message> createMessage(MCCIMT010101UK12Message value) {
-        return new JAXBElement<MCCIMT010101UK12Message>(_Message_QNAME, MCCIMT010101UK12Message.class, null, value);
+        return new JAXBElement<>(_Message_QNAME, MCCIMT010101UK12Message.class, null, value);
     }
 
     /**
@@ -1836,14 +1838,14 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link RCMRIN030000UK06Message }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "RCMR_IN030000UK06")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "RCMR_IN030000UK06")
     public JAXBElement<RCMRIN030000UK06Message> createRCMRIN030000UK06(RCMRIN030000UK06Message value) {
-        return new JAXBElement<RCMRIN030000UK06Message>(_RCMRIN030000UK06_QNAME, RCMRIN030000UK06Message.class, null, value);
+        return new JAXBElement<>(_RCMRIN030000UK06_QNAME, RCMRIN030000UK06Message.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "RCMR_IN030000UK07")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "RCMR_IN030000UK07")
     public JAXBElement<RCMRIN030000UK07Message> createRCMRIN030000UK07(RCMRIN030000UK07Message value) {
-        return new JAXBElement<RCMRIN030000UK07Message>(_RCMRIN030000UK07_QNAME, RCMRIN030000UK07Message.class, null, value);
+        return new JAXBElement<>(_RCMRIN030000UK07_QNAME, RCMRIN030000UK07Message.class, null, value);
     }
 
     /**
@@ -1854,9 +1856,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link COPCIN000001UK01Message }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "COPC_IN000001UK01")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "COPC_IN000001UK01")
     public JAXBElement<COPCIN000001UK01Message> createCOPCIN000001UK01(COPCIN000001UK01Message value) {
-        return new JAXBElement<COPCIN000001UK01Message>(_COPCIN000001UK01_QNAME, COPCIN000001UK01Message.class, null, value);
+        return new JAXBElement<>(_COPCIN000001UK01_QNAME, COPCIN000001UK01Message.class, null, value);
     }
 
     /**
@@ -1867,9 +1869,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link IVLINT.Low }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "low", scope = IVLINT.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "low", scope = IVLINT.class)
     public JAXBElement<IVLINT.Low> createIVLINTLow(IVLINT.Low value) {
-        return new JAXBElement<IVLINT.Low>(_IVLINTLow_QNAME, IVLINT.Low.class, IVLINT.class, value);
+        return new JAXBElement<>(_IVLINTLow_QNAME, IVLINT.Low.class, IVLINT.class, value);
     }
 
     /**
@@ -1880,9 +1882,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link IVLINT.High }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "high", scope = IVLINT.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "high", scope = IVLINT.class)
     public JAXBElement<IVLINT.High> createIVLINTHigh(IVLINT.High value) {
-        return new JAXBElement<IVLINT.High>(_IVLINTHigh_QNAME, IVLINT.High.class, IVLINT.class, value);
+        return new JAXBElement<>(_IVLINTHigh_QNAME, IVLINT.High.class, IVLINT.class, value);
     }
 
     /**
@@ -1893,9 +1895,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link PQInc }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "low", scope = IVLPQ.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "low", scope = IVLPQ.class)
     public JAXBElement<PQInc> createIVLPQLow(PQInc value) {
-        return new JAXBElement<PQInc>(_IVLINTLow_QNAME, PQInc.class, IVLPQ.class, value);
+        return new JAXBElement<>(_IVLINTLow_QNAME, PQInc.class, IVLPQ.class, value);
     }
 
     /**
@@ -1906,9 +1908,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link PQ }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "width", scope = IVLPQ.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "width", scope = IVLPQ.class)
     public JAXBElement<PQ> createIVLPQWidth(PQ value) {
-        return new JAXBElement<PQ>(_IVLPQWidth_QNAME, PQ.class, IVLPQ.class, value);
+        return new JAXBElement<>(_IVLPQWidth_QNAME, PQ.class, IVLPQ.class, value);
     }
 
     /**
@@ -1919,9 +1921,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link PQInc }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "high", scope = IVLPQ.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "high", scope = IVLPQ.class)
     public JAXBElement<PQInc> createIVLPQHigh(PQInc value) {
-        return new JAXBElement<PQInc>(_IVLINTHigh_QNAME, PQInc.class, IVLPQ.class, value);
+        return new JAXBElement<>(_IVLINTHigh_QNAME, PQInc.class, IVLPQ.class, value);
     }
 
     /**
@@ -1932,9 +1934,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link PQ }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "center", scope = IVLPQ.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "center", scope = IVLPQ.class)
     public JAXBElement<PQ> createIVLPQCenter(PQ value) {
-        return new JAXBElement<PQ>(_IVLPQCenter_QNAME, PQ.class, IVLPQ.class, value);
+        return new JAXBElement<>(_IVLPQCenter_QNAME, PQ.class, IVLPQ.class, value);
     }
 
     /**
@@ -1945,9 +1947,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link IVXBTS }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "low", scope = IVLTS.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "low", scope = IVLTS.class)
     public JAXBElement<IVXBTS> createIVLTSLow(IVXBTS value) {
-        return new JAXBElement<IVXBTS>(_IVLINTLow_QNAME, IVXBTS.class, IVLTS.class, value);
+        return new JAXBElement<>(_IVLINTLow_QNAME, IVXBTS.class, IVLTS.class, value);
     }
 
     /**
@@ -1958,9 +1960,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link PQ }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "width", scope = IVLTS.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "width", scope = IVLTS.class)
     public JAXBElement<PQ> createIVLTSWidth(PQ value) {
-        return new JAXBElement<PQ>(_IVLPQWidth_QNAME, PQ.class, IVLTS.class, value);
+        return new JAXBElement<>(_IVLPQWidth_QNAME, PQ.class, IVLTS.class, value);
     }
 
     /**
@@ -1971,9 +1973,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link IVXBTS }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "high", scope = IVLTS.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "high", scope = IVLTS.class)
     public JAXBElement<IVXBTS> createIVLTSHigh(IVXBTS value) {
-        return new JAXBElement<IVXBTS>(_IVLINTHigh_QNAME, IVXBTS.class, IVLTS.class, value);
+        return new JAXBElement<>(_IVLINTHigh_QNAME, IVXBTS.class, IVLTS.class, value);
     }
 
     /**
@@ -1984,9 +1986,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link TS }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "center", scope = IVLTS.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "center", scope = IVLTS.class)
     public JAXBElement<TS> createIVLTSCenter(TS value) {
-        return new JAXBElement<TS>(_IVLPQCenter_QNAME, TS.class, IVLTS.class, value);
+        return new JAXBElement<>(_IVLPQCenter_QNAME, TS.class, IVLTS.class, value);
     }
 
     /**
@@ -1997,9 +1999,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link EnDelimiter }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "delimiter", scope = EN.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "delimiter", scope = EN.class)
     public JAXBElement<EnDelimiter> createENDelimiter(EnDelimiter value) {
-        return new JAXBElement<EnDelimiter>(_ENDelimiter_QNAME, EnDelimiter.class, EN.class, value);
+        return new JAXBElement<>(_ENDelimiter_QNAME, EnDelimiter.class, EN.class, value);
     }
 
     /**
@@ -2010,9 +2012,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link EnFamily }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "family", scope = EN.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "family", scope = EN.class)
     public JAXBElement<EnFamily> createENFamily(EnFamily value) {
-        return new JAXBElement<EnFamily>(_ENFamily_QNAME, EnFamily.class, EN.class, value);
+        return new JAXBElement<>(_ENFamily_QNAME, EnFamily.class, EN.class, value);
     }
 
     /**
@@ -2023,9 +2025,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link EnGiven }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "given", scope = EN.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "given", scope = EN.class)
     public JAXBElement<EnGiven> createENGiven(EnGiven value) {
-        return new JAXBElement<EnGiven>(_ENGiven_QNAME, EnGiven.class, EN.class, value);
+        return new JAXBElement<>(_ENGiven_QNAME, EnGiven.class, EN.class, value);
     }
 
     /**
@@ -2036,9 +2038,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link EnPrefix }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "prefix", scope = EN.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "prefix", scope = EN.class)
     public JAXBElement<EnPrefix> createENPrefix(EnPrefix value) {
-        return new JAXBElement<EnPrefix>(_ENPrefix_QNAME, EnPrefix.class, EN.class, value);
+        return new JAXBElement<>(_ENPrefix_QNAME, EnPrefix.class, EN.class, value);
     }
 
     /**
@@ -2049,9 +2051,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link EnSuffix }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "suffix", scope = EN.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "suffix", scope = EN.class)
     public JAXBElement<EnSuffix> createENSuffix(EnSuffix value) {
-        return new JAXBElement<EnSuffix>(_ENSuffix_QNAME, EnSuffix.class, EN.class, value);
+        return new JAXBElement<>(_ENSuffix_QNAME, EnSuffix.class, EN.class, value);
     }
 
     /**
@@ -2062,9 +2064,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link IVLTS }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "validTime", scope = EN.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "validTime", scope = EN.class)
     public JAXBElement<IVLTS> createENValidTime(IVLTS value) {
-        return new JAXBElement<IVLTS>(_ENValidTime_QNAME, IVLTS.class, EN.class, value);
+        return new JAXBElement<>(_ENValidTime_QNAME, IVLTS.class, EN.class, value);
     }
 
     /**
@@ -2075,9 +2077,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link II }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "id", scope = EN.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "id", scope = EN.class)
     public JAXBElement<II> createENId(II value) {
-        return new JAXBElement<II>(_ENId_QNAME, II.class, EN.class, value);
+        return new JAXBElement<>(_ENId_QNAME, II.class, EN.class, value);
     }
 
     /**
@@ -2088,9 +2090,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.Delimiter }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "delimiter", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "delimiter", scope = AD.class)
     public JAXBElement<AD.Delimiter> createADDelimiter(AD.Delimiter value) {
-        return new JAXBElement<AD.Delimiter>(_ENDelimiter_QNAME, AD.Delimiter.class, AD.class, value);
+        return new JAXBElement<>(_ENDelimiter_QNAME, AD.Delimiter.class, AD.class, value);
     }
 
     /**
@@ -2101,9 +2103,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.Country }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "country", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "country", scope = AD.class)
     public JAXBElement<AD.Country> createADCountry(AD.Country value) {
-        return new JAXBElement<AD.Country>(_ADCountry_QNAME, AD.Country.class, AD.class, value);
+        return new JAXBElement<>(_ADCountry_QNAME, AD.Country.class, AD.class, value);
     }
 
     /**
@@ -2114,9 +2116,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.State }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "state", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "state", scope = AD.class)
     public JAXBElement<AD.State> createADState(AD.State value) {
-        return new JAXBElement<AD.State>(_ADState_QNAME, AD.State.class, AD.class, value);
+        return new JAXBElement<>(_ADState_QNAME, AD.State.class, AD.class, value);
     }
 
     /**
@@ -2127,9 +2129,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.County }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "county", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "county", scope = AD.class)
     public JAXBElement<AD.County> createADCounty(AD.County value) {
-        return new JAXBElement<AD.County>(_ADCounty_QNAME, AD.County.class, AD.class, value);
+        return new JAXBElement<>(_ADCounty_QNAME, AD.County.class, AD.class, value);
     }
 
     /**
@@ -2140,9 +2142,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.City }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "city", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "city", scope = AD.class)
     public JAXBElement<AD.City> createADCity(AD.City value) {
-        return new JAXBElement<AD.City>(_ADCity_QNAME, AD.City.class, AD.class, value);
+        return new JAXBElement<>(_ADCity_QNAME, AD.City.class, AD.class, value);
     }
 
     /**
@@ -2153,9 +2155,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.PostalCode }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "postalCode", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "postalCode", scope = AD.class)
     public JAXBElement<AD.PostalCode> createADPostalCode(AD.PostalCode value) {
-        return new JAXBElement<AD.PostalCode>(_ADPostalCode_QNAME, AD.PostalCode.class, AD.class, value);
+        return new JAXBElement<>(_ADPostalCode_QNAME, AD.PostalCode.class, AD.class, value);
     }
 
     /**
@@ -2166,9 +2168,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.StreetAddressLine }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "streetAddressLine", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "streetAddressLine", scope = AD.class)
     public JAXBElement<AD.StreetAddressLine> createADStreetAddressLine(AD.StreetAddressLine value) {
-        return new JAXBElement<AD.StreetAddressLine>(_ADStreetAddressLine_QNAME, AD.StreetAddressLine.class, AD.class, value);
+        return new JAXBElement<>(_ADStreetAddressLine_QNAME, AD.StreetAddressLine.class, AD.class, value);
     }
 
     /**
@@ -2179,9 +2181,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.HouseNumber }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "houseNumber", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "houseNumber", scope = AD.class)
     public JAXBElement<AD.HouseNumber> createADHouseNumber(AD.HouseNumber value) {
-        return new JAXBElement<AD.HouseNumber>(_ADHouseNumber_QNAME, AD.HouseNumber.class, AD.class, value);
+        return new JAXBElement<>(_ADHouseNumber_QNAME, AD.HouseNumber.class, AD.class, value);
     }
 
     /**
@@ -2192,9 +2194,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.HouseNumberNumeric }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "houseNumberNumeric", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "houseNumberNumeric", scope = AD.class)
     public JAXBElement<AD.HouseNumberNumeric> createADHouseNumberNumeric(AD.HouseNumberNumeric value) {
-        return new JAXBElement<AD.HouseNumberNumeric>(_ADHouseNumberNumeric_QNAME, AD.HouseNumberNumeric.class, AD.class, value);
+        return new JAXBElement<>(_ADHouseNumberNumeric_QNAME, AD.HouseNumberNumeric.class, AD.class, value);
     }
 
     /**
@@ -2205,9 +2207,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.Direction }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "direction", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "direction", scope = AD.class)
     public JAXBElement<AD.Direction> createADDirection(AD.Direction value) {
-        return new JAXBElement<AD.Direction>(_ADDirection_QNAME, AD.Direction.class, AD.class, value);
+        return new JAXBElement<>(_ADDirection_QNAME, AD.Direction.class, AD.class, value);
     }
 
     /**
@@ -2218,9 +2220,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.StreetName }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "streetName", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "streetName", scope = AD.class)
     public JAXBElement<AD.StreetName> createADStreetName(AD.StreetName value) {
-        return new JAXBElement<AD.StreetName>(_ADStreetName_QNAME, AD.StreetName.class, AD.class, value);
+        return new JAXBElement<>(_ADStreetName_QNAME, AD.StreetName.class, AD.class, value);
     }
 
     /**
@@ -2231,9 +2233,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.StreetNameBase }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "streetNameBase", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "streetNameBase", scope = AD.class)
     public JAXBElement<AD.StreetNameBase> createADStreetNameBase(AD.StreetNameBase value) {
-        return new JAXBElement<AD.StreetNameBase>(_ADStreetNameBase_QNAME, AD.StreetNameBase.class, AD.class, value);
+        return new JAXBElement<>(_ADStreetNameBase_QNAME, AD.StreetNameBase.class, AD.class, value);
     }
 
     /**
@@ -2244,9 +2246,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.StreetNameType }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "streetNameType", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "streetNameType", scope = AD.class)
     public JAXBElement<AD.StreetNameType> createADStreetNameType(AD.StreetNameType value) {
-        return new JAXBElement<AD.StreetNameType>(_ADStreetNameType_QNAME, AD.StreetNameType.class, AD.class, value);
+        return new JAXBElement<>(_ADStreetNameType_QNAME, AD.StreetNameType.class, AD.class, value);
     }
 
     /**
@@ -2257,9 +2259,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.AdditionalLocator }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "additionalLocator", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "additionalLocator", scope = AD.class)
     public JAXBElement<AD.AdditionalLocator> createADAdditionalLocator(AD.AdditionalLocator value) {
-        return new JAXBElement<AD.AdditionalLocator>(_ADAdditionalLocator_QNAME, AD.AdditionalLocator.class, AD.class, value);
+        return new JAXBElement<>(_ADAdditionalLocator_QNAME, AD.AdditionalLocator.class, AD.class, value);
     }
 
     /**
@@ -2270,9 +2272,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.UnitID }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "unitID", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "unitID", scope = AD.class)
     public JAXBElement<AD.UnitID> createADUnitID(AD.UnitID value) {
-        return new JAXBElement<AD.UnitID>(_ADUnitID_QNAME, AD.UnitID.class, AD.class, value);
+        return new JAXBElement<>(_ADUnitID_QNAME, AD.UnitID.class, AD.class, value);
     }
 
     /**
@@ -2283,9 +2285,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.UnitType }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "unitType", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "unitType", scope = AD.class)
     public JAXBElement<AD.UnitType> createADUnitType(AD.UnitType value) {
-        return new JAXBElement<AD.UnitType>(_ADUnitType_QNAME, AD.UnitType.class, AD.class, value);
+        return new JAXBElement<>(_ADUnitType_QNAME, AD.UnitType.class, AD.class, value);
     }
 
     /**
@@ -2296,9 +2298,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.Carrier }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "carrier", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "carrier", scope = AD.class)
     public JAXBElement<AD.Carrier> createADCarrier(AD.Carrier value) {
-        return new JAXBElement<AD.Carrier>(_ADCarrier_QNAME, AD.Carrier.class, AD.class, value);
+        return new JAXBElement<>(_ADCarrier_QNAME, AD.Carrier.class, AD.class, value);
     }
 
     /**
@@ -2309,9 +2311,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.CensusTract }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "censusTract", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "censusTract", scope = AD.class)
     public JAXBElement<AD.CensusTract> createADCensusTract(AD.CensusTract value) {
-        return new JAXBElement<AD.CensusTract>(_ADCensusTract_QNAME, AD.CensusTract.class, AD.class, value);
+        return new JAXBElement<>(_ADCensusTract_QNAME, AD.CensusTract.class, AD.class, value);
     }
 
     /**
@@ -2322,9 +2324,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.AddressKey }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "addressKey", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "addressKey", scope = AD.class)
     public JAXBElement<AD.AddressKey> createADAddressKey(AD.AddressKey value) {
-        return new JAXBElement<AD.AddressKey>(_ADAddressKey_QNAME, AD.AddressKey.class, AD.class, value);
+        return new JAXBElement<>(_ADAddressKey_QNAME, AD.AddressKey.class, AD.class, value);
     }
 
     /**
@@ -2335,9 +2337,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link AD.Desc }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "desc", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "desc", scope = AD.class)
     public JAXBElement<AD.Desc> createADDesc(AD.Desc value) {
-        return new JAXBElement<AD.Desc>(_ADDesc_QNAME, AD.Desc.class, AD.class, value);
+        return new JAXBElement<>(_ADDesc_QNAME, AD.Desc.class, AD.class, value);
     }
 
     /**
@@ -2348,9 +2350,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link IVLTS }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "useablePeriod", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "useablePeriod", scope = AD.class)
     public JAXBElement<IVLTS> createADUseablePeriod(IVLTS value) {
-        return new JAXBElement<IVLTS>(_ADUseablePeriod_QNAME, IVLTS.class, AD.class, value);
+        return new JAXBElement<>(_ADUseablePeriod_QNAME, IVLTS.class, AD.class, value);
     }
 
     /**
@@ -2361,7 +2363,7 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link II }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "id", scope = AD.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "id", scope = AD.class)
     public JAXBElement<II> createADId(II value) {
         return new JAXBElement<II>(_ENId_QNAME, II.class, AD.class, value);
     }
@@ -2374,9 +2376,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocContent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "content", scope = StrucDocTh.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "content", scope = StrucDocTh.class)
     public JAXBElement<StrucDocContent> createStrucDocThContent(StrucDocContent value) {
-        return new JAXBElement<StrucDocContent>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocTh.class, value);
+        return new JAXBElement<>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocTh.class, value);
     }
 
     /**
@@ -2387,9 +2389,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocLinkHtml }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "linkHtml", scope = StrucDocTh.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "linkHtml", scope = StrucDocTh.class)
     public JAXBElement<StrucDocLinkHtml> createStrucDocThLinkHtml(StrucDocLinkHtml value) {
-        return new JAXBElement<StrucDocLinkHtml>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocTh.class, value);
+        return new JAXBElement<>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocTh.class, value);
     }
 
     /**
@@ -2400,9 +2402,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocTh.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocTh.class)
     public JAXBElement<StrucDocSub> createStrucDocThSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocTh.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocTh.class, value);
     }
 
     /**
@@ -2413,9 +2415,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocTh.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocTh.class)
     public JAXBElement<StrucDocSup> createStrucDocThSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocTh.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocTh.class, value);
     }
 
     /**
@@ -2426,9 +2428,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocBr }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "br", scope = StrucDocTh.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "br", scope = StrucDocTh.class)
     public JAXBElement<StrucDocBr> createStrucDocThBr(StrucDocBr value) {
-        return new JAXBElement<StrucDocBr>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocTh.class, value);
+        return new JAXBElement<>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocTh.class, value);
     }
 
     /**
@@ -2439,9 +2441,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnote }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnote", scope = StrucDocTh.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnote", scope = StrucDocTh.class)
     public JAXBElement<StrucDocFootnote> createStrucDocThFootnote(StrucDocFootnote value) {
-        return new JAXBElement<StrucDocFootnote>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocTh.class, value);
+        return new JAXBElement<>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocTh.class, value);
     }
 
     /**
@@ -2452,9 +2454,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnoteRef }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnoteRef", scope = StrucDocTh.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnoteRef", scope = StrucDocTh.class)
     public JAXBElement<StrucDocFootnoteRef> createStrucDocThFootnoteRef(StrucDocFootnoteRef value) {
-        return new JAXBElement<StrucDocFootnoteRef>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocTh.class, value);
+        return new JAXBElement<>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocTh.class, value);
     }
 
     /**
@@ -2465,9 +2467,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocRenderMultiMedia }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "renderMultiMedia", scope = StrucDocTh.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "renderMultiMedia", scope = StrucDocTh.class)
     public JAXBElement<StrucDocRenderMultiMedia> createStrucDocThRenderMultiMedia(StrucDocRenderMultiMedia value) {
-        return new JAXBElement<StrucDocRenderMultiMedia>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocTh.class, value);
+        return new JAXBElement<>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocTh.class, value);
     }
 
     /**
@@ -2478,9 +2480,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocContent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "content", scope = StrucDocTd.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "content", scope = StrucDocTd.class)
     public JAXBElement<StrucDocContent> createStrucDocTdContent(StrucDocContent value) {
-        return new JAXBElement<StrucDocContent>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocTd.class, value);
+        return new JAXBElement<>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocTd.class, value);
     }
 
     /**
@@ -2491,9 +2493,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocLinkHtml }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "linkHtml", scope = StrucDocTd.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "linkHtml", scope = StrucDocTd.class)
     public JAXBElement<StrucDocLinkHtml> createStrucDocTdLinkHtml(StrucDocLinkHtml value) {
-        return new JAXBElement<StrucDocLinkHtml>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocTd.class, value);
+        return new JAXBElement<>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocTd.class, value);
     }
 
     /**
@@ -2504,9 +2506,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocTd.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocTd.class)
     public JAXBElement<StrucDocSub> createStrucDocTdSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocTd.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocTd.class, value);
     }
 
     /**
@@ -2517,9 +2519,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocTd.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocTd.class)
     public JAXBElement<StrucDocSup> createStrucDocTdSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocTd.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocTd.class, value);
     }
 
     /**
@@ -2530,9 +2532,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocBr }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "br", scope = StrucDocTd.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "br", scope = StrucDocTd.class)
     public JAXBElement<StrucDocBr> createStrucDocTdBr(StrucDocBr value) {
-        return new JAXBElement<StrucDocBr>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocTd.class, value);
+        return new JAXBElement<>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocTd.class, value);
     }
 
     /**
@@ -2543,9 +2545,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnote }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnote", scope = StrucDocTd.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnote", scope = StrucDocTd.class)
     public JAXBElement<StrucDocFootnote> createStrucDocTdFootnote(StrucDocFootnote value) {
-        return new JAXBElement<StrucDocFootnote>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocTd.class, value);
+        return new JAXBElement<>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocTd.class, value);
     }
 
     /**
@@ -2556,9 +2558,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnoteRef }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnoteRef", scope = StrucDocTd.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnoteRef", scope = StrucDocTd.class)
     public JAXBElement<StrucDocFootnoteRef> createStrucDocTdFootnoteRef(StrucDocFootnoteRef value) {
-        return new JAXBElement<StrucDocFootnoteRef>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocTd.class, value);
+        return new JAXBElement<>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocTd.class, value);
     }
 
     /**
@@ -2569,9 +2571,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocRenderMultiMedia }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "renderMultiMedia", scope = StrucDocTd.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "renderMultiMedia", scope = StrucDocTd.class)
     public JAXBElement<StrucDocRenderMultiMedia> createStrucDocTdRenderMultiMedia(StrucDocRenderMultiMedia value) {
-        return new JAXBElement<StrucDocRenderMultiMedia>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocTd.class, value);
+        return new JAXBElement<>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocTd.class, value);
     }
 
     /**
@@ -2582,9 +2584,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocParagraph }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "paragraph", scope = StrucDocTd.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "paragraph", scope = StrucDocTd.class)
     public JAXBElement<StrucDocParagraph> createStrucDocTdParagraph(StrucDocParagraph value) {
-        return new JAXBElement<StrucDocParagraph>(_StrucDocTdParagraph_QNAME, StrucDocParagraph.class, StrucDocTd.class, value);
+        return new JAXBElement<>(_StrucDocTdParagraph_QNAME, StrucDocParagraph.class, StrucDocTd.class, value);
     }
 
     /**
@@ -2595,9 +2597,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocList }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "list", scope = StrucDocTd.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "list", scope = StrucDocTd.class)
     public JAXBElement<StrucDocList> createStrucDocTdList(StrucDocList value) {
-        return new JAXBElement<StrucDocList>(_StrucDocTdList_QNAME, StrucDocList.class, StrucDocTd.class, value);
+        return new JAXBElement<>(_StrucDocTdList_QNAME, StrucDocList.class, StrucDocTd.class, value);
     }
 
     /**
@@ -2608,9 +2610,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocCaption }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "caption", scope = StrucDocParagraph.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "caption", scope = StrucDocParagraph.class)
     public JAXBElement<StrucDocCaption> createStrucDocParagraphCaption(StrucDocCaption value) {
-        return new JAXBElement<StrucDocCaption>(_StrucDocParagraphCaption_QNAME, StrucDocCaption.class, StrucDocParagraph.class, value);
+        return new JAXBElement<>(_StrucDocParagraphCaption_QNAME, StrucDocCaption.class, StrucDocParagraph.class, value);
     }
 
     /**
@@ -2621,9 +2623,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocContent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "content", scope = StrucDocParagraph.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "content", scope = StrucDocParagraph.class)
     public JAXBElement<StrucDocContent> createStrucDocParagraphContent(StrucDocContent value) {
-        return new JAXBElement<StrucDocContent>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocParagraph.class, value);
+        return new JAXBElement<>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocParagraph.class, value);
     }
 
     /**
@@ -2634,9 +2636,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocLinkHtml }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "linkHtml", scope = StrucDocParagraph.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "linkHtml", scope = StrucDocParagraph.class)
     public JAXBElement<StrucDocLinkHtml> createStrucDocParagraphLinkHtml(StrucDocLinkHtml value) {
-        return new JAXBElement<StrucDocLinkHtml>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocParagraph.class, value);
+        return new JAXBElement<>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocParagraph.class, value);
     }
 
     /**
@@ -2647,9 +2649,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocParagraph.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocParagraph.class)
     public JAXBElement<StrucDocSub> createStrucDocParagraphSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocParagraph.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocParagraph.class, value);
     }
 
     /**
@@ -2660,9 +2662,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocParagraph.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocParagraph.class)
     public JAXBElement<StrucDocSup> createStrucDocParagraphSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocParagraph.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocParagraph.class, value);
     }
 
     /**
@@ -2673,9 +2675,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocBr }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "br", scope = StrucDocParagraph.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "br", scope = StrucDocParagraph.class)
     public JAXBElement<StrucDocBr> createStrucDocParagraphBr(StrucDocBr value) {
-        return new JAXBElement<StrucDocBr>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocParagraph.class, value);
+        return new JAXBElement<>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocParagraph.class, value);
     }
 
     /**
@@ -2686,9 +2688,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnote }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnote", scope = StrucDocParagraph.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnote", scope = StrucDocParagraph.class)
     public JAXBElement<StrucDocFootnote> createStrucDocParagraphFootnote(StrucDocFootnote value) {
-        return new JAXBElement<StrucDocFootnote>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocParagraph.class, value);
+        return new JAXBElement<>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocParagraph.class, value);
     }
 
     /**
@@ -2699,9 +2701,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnoteRef }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnoteRef", scope = StrucDocParagraph.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnoteRef", scope = StrucDocParagraph.class)
     public JAXBElement<StrucDocFootnoteRef> createStrucDocParagraphFootnoteRef(StrucDocFootnoteRef value) {
-        return new JAXBElement<StrucDocFootnoteRef>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocParagraph.class, value);
+        return new JAXBElement<>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocParagraph.class, value);
     }
 
     /**
@@ -2712,9 +2714,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocRenderMultiMedia }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "renderMultiMedia", scope = StrucDocParagraph.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "renderMultiMedia", scope = StrucDocParagraph.class)
     public JAXBElement<StrucDocRenderMultiMedia> createStrucDocParagraphRenderMultiMedia(StrucDocRenderMultiMedia value) {
-        return new JAXBElement<StrucDocRenderMultiMedia>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocParagraph.class, value);
+        return new JAXBElement<>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocParagraph.class, value);
     }
 
     /**
@@ -2725,9 +2727,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnote }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnote", scope = StrucDocLinkHtml.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnote", scope = StrucDocLinkHtml.class)
     public JAXBElement<StrucDocFootnote> createStrucDocLinkHtmlFootnote(StrucDocFootnote value) {
-        return new JAXBElement<StrucDocFootnote>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocLinkHtml.class, value);
+        return new JAXBElement<>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocLinkHtml.class, value);
     }
 
     /**
@@ -2738,9 +2740,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnoteRef }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnoteRef", scope = StrucDocLinkHtml.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnoteRef", scope = StrucDocLinkHtml.class)
     public JAXBElement<StrucDocFootnoteRef> createStrucDocLinkHtmlFootnoteRef(StrucDocFootnoteRef value) {
-        return new JAXBElement<StrucDocFootnoteRef>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocLinkHtml.class, value);
+        return new JAXBElement<>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocLinkHtml.class, value);
     }
 
     /**
@@ -2751,9 +2753,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocCaption }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "caption", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "caption", scope = StrucDocItem.class)
     public JAXBElement<StrucDocCaption> createStrucDocItemCaption(StrucDocCaption value) {
-        return new JAXBElement<StrucDocCaption>(_StrucDocParagraphCaption_QNAME, StrucDocCaption.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocParagraphCaption_QNAME, StrucDocCaption.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2764,9 +2766,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocContent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "content", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "content", scope = StrucDocItem.class)
     public JAXBElement<StrucDocContent> createStrucDocItemContent(StrucDocContent value) {
-        return new JAXBElement<StrucDocContent>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2777,9 +2779,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocLinkHtml }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "linkHtml", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "linkHtml", scope = StrucDocItem.class)
     public JAXBElement<StrucDocLinkHtml> createStrucDocItemLinkHtml(StrucDocLinkHtml value) {
-        return new JAXBElement<StrucDocLinkHtml>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2790,9 +2792,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocItem.class)
     public JAXBElement<StrucDocSub> createStrucDocItemSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2803,9 +2805,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocItem.class)
     public JAXBElement<StrucDocSup> createStrucDocItemSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2816,9 +2818,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocBr }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "br", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "br", scope = StrucDocItem.class)
     public JAXBElement<StrucDocBr> createStrucDocItemBr(StrucDocBr value) {
-        return new JAXBElement<StrucDocBr>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2829,9 +2831,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnote }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnote", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnote", scope = StrucDocItem.class)
     public JAXBElement<StrucDocFootnote> createStrucDocItemFootnote(StrucDocFootnote value) {
-        return new JAXBElement<StrucDocFootnote>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2842,9 +2844,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnoteRef }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnoteRef", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnoteRef", scope = StrucDocItem.class)
     public JAXBElement<StrucDocFootnoteRef> createStrucDocItemFootnoteRef(StrucDocFootnoteRef value) {
-        return new JAXBElement<StrucDocFootnoteRef>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2855,9 +2857,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocRenderMultiMedia }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "renderMultiMedia", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "renderMultiMedia", scope = StrucDocItem.class)
     public JAXBElement<StrucDocRenderMultiMedia> createStrucDocItemRenderMultiMedia(StrucDocRenderMultiMedia value) {
-        return new JAXBElement<StrucDocRenderMultiMedia>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2868,9 +2870,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocParagraph }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "paragraph", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "paragraph", scope = StrucDocItem.class)
     public JAXBElement<StrucDocParagraph> createStrucDocItemParagraph(StrucDocParagraph value) {
-        return new JAXBElement<StrucDocParagraph>(_StrucDocTdParagraph_QNAME, StrucDocParagraph.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocTdParagraph_QNAME, StrucDocParagraph.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2881,9 +2883,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocList }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "list", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "list", scope = StrucDocItem.class)
     public JAXBElement<StrucDocList> createStrucDocItemList(StrucDocList value) {
-        return new JAXBElement<StrucDocList>(_StrucDocTdList_QNAME, StrucDocList.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocTdList_QNAME, StrucDocList.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2894,9 +2896,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocTable }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "table", scope = StrucDocItem.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "table", scope = StrucDocItem.class)
     public JAXBElement<StrucDocTable> createStrucDocItemTable(StrucDocTable value) {
-        return new JAXBElement<StrucDocTable>(_StrucDocItemTable_QNAME, StrucDocTable.class, StrucDocItem.class, value);
+        return new JAXBElement<>(_StrucDocItemTable_QNAME, StrucDocTable.class, StrucDocItem.class, value);
     }
 
     /**
@@ -2907,9 +2909,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocTitleContent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "content", scope = StrucDocTitleFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "content", scope = StrucDocTitleFootnote.class)
     public JAXBElement<StrucDocTitleContent> createStrucDocTitleFootnoteContent(StrucDocTitleContent value) {
-        return new JAXBElement<StrucDocTitleContent>(_StrucDocThContent_QNAME, StrucDocTitleContent.class, StrucDocTitleFootnote.class, value);
+        return new JAXBElement<>(_StrucDocThContent_QNAME, StrucDocTitleContent.class, StrucDocTitleFootnote.class, value);
     }
 
     /**
@@ -2920,9 +2922,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocTitleFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocTitleFootnote.class)
     public JAXBElement<StrucDocSub> createStrucDocTitleFootnoteSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocTitleFootnote.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocTitleFootnote.class, value);
     }
 
     /**
@@ -2933,9 +2935,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocTitleFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocTitleFootnote.class)
     public JAXBElement<StrucDocSup> createStrucDocTitleFootnoteSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocTitleFootnote.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocTitleFootnote.class, value);
     }
 
     /**
@@ -2946,9 +2948,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocBr }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "br", scope = StrucDocTitleFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "br", scope = StrucDocTitleFootnote.class)
     public JAXBElement<StrucDocBr> createStrucDocTitleFootnoteBr(StrucDocBr value) {
-        return new JAXBElement<StrucDocBr>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocTitleFootnote.class, value);
+        return new JAXBElement<>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocTitleFootnote.class, value);
     }
 
     /**
@@ -2959,9 +2961,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocContent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "content", scope = StrucDocFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "content", scope = StrucDocFootnote.class)
     public JAXBElement<StrucDocContent> createStrucDocFootnoteContent(StrucDocContent value) {
-        return new JAXBElement<StrucDocContent>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocFootnote.class, value);
+        return new JAXBElement<>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocFootnote.class, value);
     }
 
     /**
@@ -2972,9 +2974,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocLinkHtml }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "linkHtml", scope = StrucDocFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "linkHtml", scope = StrucDocFootnote.class)
     public JAXBElement<StrucDocLinkHtml> createStrucDocFootnoteLinkHtml(StrucDocLinkHtml value) {
-        return new JAXBElement<StrucDocLinkHtml>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocFootnote.class, value);
+        return new JAXBElement<>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocFootnote.class, value);
     }
 
     /**
@@ -2985,9 +2987,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocFootnote.class)
     public JAXBElement<StrucDocSub> createStrucDocFootnoteSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocFootnote.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocFootnote.class, value);
     }
 
     /**
@@ -2998,9 +3000,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocFootnote.class)
     public JAXBElement<StrucDocSup> createStrucDocFootnoteSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocFootnote.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocFootnote.class, value);
     }
 
     /**
@@ -3011,9 +3013,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocBr }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "br", scope = StrucDocFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "br", scope = StrucDocFootnote.class)
     public JAXBElement<StrucDocBr> createStrucDocFootnoteBr(StrucDocBr value) {
-        return new JAXBElement<StrucDocBr>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocFootnote.class, value);
+        return new JAXBElement<>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocFootnote.class, value);
     }
 
     /**
@@ -3024,9 +3026,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocRenderMultiMedia }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "renderMultiMedia", scope = StrucDocFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "renderMultiMedia", scope = StrucDocFootnote.class)
     public JAXBElement<StrucDocRenderMultiMedia> createStrucDocFootnoteRenderMultiMedia(StrucDocRenderMultiMedia value) {
-        return new JAXBElement<StrucDocRenderMultiMedia>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocFootnote.class, value);
+        return new JAXBElement<>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocFootnote.class, value);
     }
 
     /**
@@ -3037,9 +3039,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocParagraph }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "paragraph", scope = StrucDocFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "paragraph", scope = StrucDocFootnote.class)
     public JAXBElement<StrucDocParagraph> createStrucDocFootnoteParagraph(StrucDocParagraph value) {
-        return new JAXBElement<StrucDocParagraph>(_StrucDocTdParagraph_QNAME, StrucDocParagraph.class, StrucDocFootnote.class, value);
+        return new JAXBElement<>(_StrucDocTdParagraph_QNAME, StrucDocParagraph.class, StrucDocFootnote.class, value);
     }
 
     /**
@@ -3050,9 +3052,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocList }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "list", scope = StrucDocFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "list", scope = StrucDocFootnote.class)
     public JAXBElement<StrucDocList> createStrucDocFootnoteList(StrucDocList value) {
-        return new JAXBElement<StrucDocList>(_StrucDocTdList_QNAME, StrucDocList.class, StrucDocFootnote.class, value);
+        return new JAXBElement<>(_StrucDocTdList_QNAME, StrucDocList.class, StrucDocFootnote.class, value);
     }
 
     /**
@@ -3063,9 +3065,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocTable }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "table", scope = StrucDocFootnote.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "table", scope = StrucDocFootnote.class)
     public JAXBElement<StrucDocTable> createStrucDocFootnoteTable(StrucDocTable value) {
-        return new JAXBElement<StrucDocTable>(_StrucDocItemTable_QNAME, StrucDocTable.class, StrucDocFootnote.class, value);
+        return new JAXBElement<>(_StrucDocItemTable_QNAME, StrucDocTable.class, StrucDocFootnote.class, value);
     }
 
     /**
@@ -3076,9 +3078,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocTitleContent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "content", scope = StrucDocTitleContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "content", scope = StrucDocTitleContent.class)
     public JAXBElement<StrucDocTitleContent> createStrucDocTitleContentContent(StrucDocTitleContent value) {
-        return new JAXBElement<StrucDocTitleContent>(_StrucDocThContent_QNAME, StrucDocTitleContent.class, StrucDocTitleContent.class, value);
+        return new JAXBElement<>(_StrucDocThContent_QNAME, StrucDocTitleContent.class, StrucDocTitleContent.class, value);
     }
 
     /**
@@ -3089,9 +3091,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocTitleContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocTitleContent.class)
     public JAXBElement<StrucDocSub> createStrucDocTitleContentSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocTitleContent.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocTitleContent.class, value);
     }
 
     /**
@@ -3102,9 +3104,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocTitleContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocTitleContent.class)
     public JAXBElement<StrucDocSup> createStrucDocTitleContentSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocTitleContent.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocTitleContent.class, value);
     }
 
     /**
@@ -3115,9 +3117,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocBr }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "br", scope = StrucDocTitleContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "br", scope = StrucDocTitleContent.class)
     public JAXBElement<StrucDocBr> createStrucDocTitleContentBr(StrucDocBr value) {
-        return new JAXBElement<StrucDocBr>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocTitleContent.class, value);
+        return new JAXBElement<>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocTitleContent.class, value);
     }
 
     /**
@@ -3128,9 +3130,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocTitleFootnote }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnote", scope = StrucDocTitleContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnote", scope = StrucDocTitleContent.class)
     public JAXBElement<StrucDocTitleFootnote> createStrucDocTitleContentFootnote(StrucDocTitleFootnote value) {
-        return new JAXBElement<StrucDocTitleFootnote>(_StrucDocThFootnote_QNAME, StrucDocTitleFootnote.class, StrucDocTitleContent.class, value);
+        return new JAXBElement<>(_StrucDocThFootnote_QNAME, StrucDocTitleFootnote.class, StrucDocTitleContent.class, value);
     }
 
     /**
@@ -3141,9 +3143,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnoteRef }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnoteRef", scope = StrucDocTitleContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnoteRef", scope = StrucDocTitleContent.class)
     public JAXBElement<StrucDocFootnoteRef> createStrucDocTitleContentFootnoteRef(StrucDocFootnoteRef value) {
-        return new JAXBElement<StrucDocFootnoteRef>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocTitleContent.class, value);
+        return new JAXBElement<>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocTitleContent.class, value);
     }
 
     /**
@@ -3154,9 +3156,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocContent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "content", scope = StrucDocContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "content", scope = StrucDocContent.class)
     public JAXBElement<StrucDocContent> createStrucDocContentContent(StrucDocContent value) {
-        return new JAXBElement<StrucDocContent>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocContent.class, value);
+        return new JAXBElement<>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocContent.class, value);
     }
 
     /**
@@ -3167,9 +3169,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocLinkHtml }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "linkHtml", scope = StrucDocContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "linkHtml", scope = StrucDocContent.class)
     public JAXBElement<StrucDocLinkHtml> createStrucDocContentLinkHtml(StrucDocLinkHtml value) {
-        return new JAXBElement<StrucDocLinkHtml>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocContent.class, value);
+        return new JAXBElement<>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocContent.class, value);
     }
 
     /**
@@ -3180,9 +3182,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocContent.class)
     public JAXBElement<StrucDocSub> createStrucDocContentSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocContent.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocContent.class, value);
     }
 
     /**
@@ -3193,9 +3195,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocContent.class)
     public JAXBElement<StrucDocSup> createStrucDocContentSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocContent.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocContent.class, value);
     }
 
     /**
@@ -3206,9 +3208,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocBr }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "br", scope = StrucDocContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "br", scope = StrucDocContent.class)
     public JAXBElement<StrucDocBr> createStrucDocContentBr(StrucDocBr value) {
-        return new JAXBElement<StrucDocBr>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocContent.class, value);
+        return new JAXBElement<>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocContent.class, value);
     }
 
     /**
@@ -3219,9 +3221,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnote }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnote", scope = StrucDocContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnote", scope = StrucDocContent.class)
     public JAXBElement<StrucDocFootnote> createStrucDocContentFootnote(StrucDocFootnote value) {
-        return new JAXBElement<StrucDocFootnote>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocContent.class, value);
+        return new JAXBElement<>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocContent.class, value);
     }
 
     /**
@@ -3232,9 +3234,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnoteRef }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnoteRef", scope = StrucDocContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnoteRef", scope = StrucDocContent.class)
     public JAXBElement<StrucDocFootnoteRef> createStrucDocContentFootnoteRef(StrucDocFootnoteRef value) {
-        return new JAXBElement<StrucDocFootnoteRef>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocContent.class, value);
+        return new JAXBElement<>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocContent.class, value);
     }
 
     /**
@@ -3245,9 +3247,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocRenderMultiMedia }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "renderMultiMedia", scope = StrucDocContent.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "renderMultiMedia", scope = StrucDocContent.class)
     public JAXBElement<StrucDocRenderMultiMedia> createStrucDocContentRenderMultiMedia(StrucDocRenderMultiMedia value) {
-        return new JAXBElement<StrucDocRenderMultiMedia>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocContent.class, value);
+        return new JAXBElement<>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocContent.class, value);
     }
 
     /**
@@ -3258,9 +3260,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocLinkHtml }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "linkHtml", scope = StrucDocCaption.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "linkHtml", scope = StrucDocCaption.class)
     public JAXBElement<StrucDocLinkHtml> createStrucDocCaptionLinkHtml(StrucDocLinkHtml value) {
-        return new JAXBElement<StrucDocLinkHtml>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocCaption.class, value);
+        return new JAXBElement<>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocCaption.class, value);
     }
 
     /**
@@ -3271,9 +3273,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocCaption.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocCaption.class)
     public JAXBElement<StrucDocSub> createStrucDocCaptionSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocCaption.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocCaption.class, value);
     }
 
     /**
@@ -3284,9 +3286,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocCaption.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocCaption.class)
     public JAXBElement<StrucDocSup> createStrucDocCaptionSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocCaption.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocCaption.class, value);
     }
 
     /**
@@ -3297,9 +3299,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnote }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnote", scope = StrucDocCaption.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnote", scope = StrucDocCaption.class)
     public JAXBElement<StrucDocFootnote> createStrucDocCaptionFootnote(StrucDocFootnote value) {
-        return new JAXBElement<StrucDocFootnote>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocCaption.class, value);
+        return new JAXBElement<>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocCaption.class, value);
     }
 
     /**
@@ -3310,9 +3312,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnoteRef }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnoteRef", scope = StrucDocCaption.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnoteRef", scope = StrucDocCaption.class)
     public JAXBElement<StrucDocFootnoteRef> createStrucDocCaptionFootnoteRef(StrucDocFootnoteRef value) {
-        return new JAXBElement<StrucDocFootnoteRef>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocCaption.class, value);
+        return new JAXBElement<>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocCaption.class, value);
     }
 
     /**
@@ -3323,9 +3325,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocTitleContent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "content", scope = StrucDocTitle.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "content", scope = StrucDocTitle.class)
     public JAXBElement<StrucDocTitleContent> createStrucDocTitleContent(StrucDocTitleContent value) {
-        return new JAXBElement<StrucDocTitleContent>(_StrucDocThContent_QNAME, StrucDocTitleContent.class, StrucDocTitle.class, value);
+        return new JAXBElement<>(_StrucDocThContent_QNAME, StrucDocTitleContent.class, StrucDocTitle.class, value);
     }
 
     /**
@@ -3336,9 +3338,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocTitle.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocTitle.class)
     public JAXBElement<StrucDocSub> createStrucDocTitleSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocTitle.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocTitle.class, value);
     }
 
     /**
@@ -3349,9 +3351,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocTitle.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocTitle.class)
     public JAXBElement<StrucDocSup> createStrucDocTitleSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocTitle.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocTitle.class, value);
     }
 
     /**
@@ -3362,9 +3364,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocBr }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "br", scope = StrucDocTitle.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "br", scope = StrucDocTitle.class)
     public JAXBElement<StrucDocBr> createStrucDocTitleBr(StrucDocBr value) {
-        return new JAXBElement<StrucDocBr>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocTitle.class, value);
+        return new JAXBElement<>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocTitle.class, value);
     }
 
     /**
@@ -3375,9 +3377,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocTitleFootnote }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnote", scope = StrucDocTitle.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnote", scope = StrucDocTitle.class)
     public JAXBElement<StrucDocTitleFootnote> createStrucDocTitleFootnote(StrucDocTitleFootnote value) {
-        return new JAXBElement<StrucDocTitleFootnote>(_StrucDocThFootnote_QNAME, StrucDocTitleFootnote.class, StrucDocTitle.class, value);
+        return new JAXBElement<>(_StrucDocThFootnote_QNAME, StrucDocTitleFootnote.class, StrucDocTitle.class, value);
     }
 
     /**
@@ -3388,9 +3390,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnoteRef }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnoteRef", scope = StrucDocTitle.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnoteRef", scope = StrucDocTitle.class)
     public JAXBElement<StrucDocFootnoteRef> createStrucDocTitleFootnoteRef(StrucDocFootnoteRef value) {
-        return new JAXBElement<StrucDocFootnoteRef>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocTitle.class, value);
+        return new JAXBElement<>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocTitle.class, value);
     }
 
     /**
@@ -3401,9 +3403,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocContent }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "content", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "content", scope = StrucDocText.class)
     public JAXBElement<StrucDocContent> createStrucDocTextContent(StrucDocContent value) {
-        return new JAXBElement<StrucDocContent>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocThContent_QNAME, StrucDocContent.class, StrucDocText.class, value);
     }
 
     /**
@@ -3414,9 +3416,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocLinkHtml }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "linkHtml", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "linkHtml", scope = StrucDocText.class)
     public JAXBElement<StrucDocLinkHtml> createStrucDocTextLinkHtml(StrucDocLinkHtml value) {
-        return new JAXBElement<StrucDocLinkHtml>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocThLinkHtml_QNAME, StrucDocLinkHtml.class, StrucDocText.class, value);
     }
 
     /**
@@ -3427,9 +3429,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSub }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sub", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sub", scope = StrucDocText.class)
     public JAXBElement<StrucDocSub> createStrucDocTextSub(StrucDocSub value) {
-        return new JAXBElement<StrucDocSub>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocThSub_QNAME, StrucDocSub.class, StrucDocText.class, value);
     }
 
     /**
@@ -3440,9 +3442,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocSup }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "sup", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "sup", scope = StrucDocText.class)
     public JAXBElement<StrucDocSup> createStrucDocTextSup(StrucDocSup value) {
-        return new JAXBElement<StrucDocSup>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocThSup_QNAME, StrucDocSup.class, StrucDocText.class, value);
     }
 
     /**
@@ -3453,9 +3455,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocBr }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "br", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "br", scope = StrucDocText.class)
     public JAXBElement<StrucDocBr> createStrucDocTextBr(StrucDocBr value) {
-        return new JAXBElement<StrucDocBr>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocThBr_QNAME, StrucDocBr.class, StrucDocText.class, value);
     }
 
     /**
@@ -3466,9 +3468,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnote }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnote", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnote", scope = StrucDocText.class)
     public JAXBElement<StrucDocFootnote> createStrucDocTextFootnote(StrucDocFootnote value) {
-        return new JAXBElement<StrucDocFootnote>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocThFootnote_QNAME, StrucDocFootnote.class, StrucDocText.class, value);
     }
 
     /**
@@ -3479,9 +3481,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocFootnoteRef }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "footnoteRef", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "footnoteRef", scope = StrucDocText.class)
     public JAXBElement<StrucDocFootnoteRef> createStrucDocTextFootnoteRef(StrucDocFootnoteRef value) {
-        return new JAXBElement<StrucDocFootnoteRef>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocThFootnoteRef_QNAME, StrucDocFootnoteRef.class, StrucDocText.class, value);
     }
 
     /**
@@ -3492,9 +3494,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocRenderMultiMedia }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "renderMultiMedia", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "renderMultiMedia", scope = StrucDocText.class)
     public JAXBElement<StrucDocRenderMultiMedia> createStrucDocTextRenderMultiMedia(StrucDocRenderMultiMedia value) {
-        return new JAXBElement<StrucDocRenderMultiMedia>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocThRenderMultiMedia_QNAME, StrucDocRenderMultiMedia.class, StrucDocText.class, value);
     }
 
     /**
@@ -3505,9 +3507,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocParagraph }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "paragraph", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "paragraph", scope = StrucDocText.class)
     public JAXBElement<StrucDocParagraph> createStrucDocTextParagraph(StrucDocParagraph value) {
-        return new JAXBElement<StrucDocParagraph>(_StrucDocTdParagraph_QNAME, StrucDocParagraph.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocTdParagraph_QNAME, StrucDocParagraph.class, StrucDocText.class, value);
     }
 
     /**
@@ -3518,9 +3520,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocList }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "list", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "list", scope = StrucDocText.class)
     public JAXBElement<StrucDocList> createStrucDocTextList(StrucDocList value) {
-        return new JAXBElement<StrucDocList>(_StrucDocTdList_QNAME, StrucDocList.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocTdList_QNAME, StrucDocList.class, StrucDocText.class, value);
     }
 
     /**
@@ -3531,9 +3533,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link StrucDocTable }{@code >}
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "table", scope = StrucDocText.class)
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "table", scope = StrucDocText.class)
     public JAXBElement<StrucDocTable> createStrucDocTextTable(StrucDocTable value) {
-        return new JAXBElement<StrucDocTable>(_StrucDocItemTable_QNAME, StrucDocTable.class, StrucDocText.class, value);
+        return new JAXBElement<>(_StrucDocItemTable_QNAME, StrucDocTable.class, StrucDocText.class, value);
     }
 
 
@@ -3542,68 +3544,68 @@ public class ObjectFactory {
      * deeply nested elements.
      *
      */
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "code")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "code")
     public JAXBElement<CD> createCode(CD value) {
         return new JAXBElement<CD>(_CD_QNAME, CD.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "ehrComposition")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "ehrComposition")
     public JAXBElement<RCMRMT030101UK04EhrComposition> createEhrComposition(RCMRMT030101UK04EhrComposition value) {
-        return new JAXBElement<RCMRMT030101UK04EhrComposition>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
+        return new JAXBElement<>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "LinkSet")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "LinkSet")
     public JAXBElement<RCMRMT030101UK04LinkSet> createLinkset(RCMRMT030101UK04LinkSet value) {
-        return new JAXBElement<RCMRMT030101UK04LinkSet>(_LINKSET_QNAME, RCMRMT030101UK04LinkSet.class, null, value);
+        return new JAXBElement<>(_LINKSET_QNAME, RCMRMT030101UK04LinkSet.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "ObservationStatement")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "ObservationStatement")
     public JAXBElement<RCMRMT030101UK04ObservationStatement> createObservationStatement(RCMRMT030101UK04ObservationStatement value) {
-        return new JAXBElement<RCMRMT030101UK04ObservationStatement>(_OBSERVATION_STATEMENT_QNAME, RCMRMT030101UK04ObservationStatement.class, null, value);
+        return new JAXBElement<>(_OBSERVATION_STATEMENT_QNAME, RCMRMT030101UK04ObservationStatement.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "agentDirectory")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "agentDirectory")
     public JAXBElement<RCMRMT030101UK04AgentDirectory> createAgentDirectory(RCMRMT030101UK04AgentDirectory value) {
-        return new JAXBElement<RCMRMT030101UK04AgentDirectory>(_AGENT_DIRECTORY_QNAME, RCMRMT030101UK04AgentDirectory.class, null, value);
+        return new JAXBElement<>(_AGENT_DIRECTORY_QNAME, RCMRMT030101UK04AgentDirectory.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "patient")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "patient")
     public JAXBElement<RCMRMT030101UK04Patient> createPatient(RCMRMT030101UK04Patient patient) {
-        return new JAXBElement<RCMRMT030101UK04Patient>(_PATIENT_QNAME, RCMRMT030101UK04Patient.class, null, patient);
+        return new JAXBElement<>(_PATIENT_QNAME, RCMRMT030101UK04Patient.class, null, patient);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "addr")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "addr")
     public JAXBElement<AD> createAddress(AD address) {
         return new JAXBElement<AD>(_ADDRESS_QNAME, AD.class, null, address);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "telecom")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "telecom")
     public JAXBElement<TEL> createTelecom(TEL telecom) {
         return new JAXBElement<TEL>(_TELECOM_QNAME, TEL.class, null, telecom);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "ehrSupplyAuthorise")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "ehrSupplyAuthorise")
     public JAXBElement<RCMRMT030101UK04Authorise> createTelecom(RCMRMT030101UK04Authorise supplyAuthorise) {
-        return new JAXBElement<RCMRMT030101UK04Authorise>(_EHR_SUPPLY_AUTHORISE, RCMRMT030101UK04Authorise.class, null, supplyAuthorise);
+        return new JAXBElement<>(_EHR_SUPPLY_AUTHORISE, RCMRMT030101UK04Authorise.class, null, supplyAuthorise);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "MedicationStatement")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "MedicationStatement")
     public JAXBElement<RCMRMT030101UK04MedicationStatement> createMedicationStatement(RCMRMT030101UK04MedicationStatement medicationStatement) {
-        return new JAXBElement<RCMRMT030101UK04MedicationStatement>(_MEDICATION_STATEMENT, RCMRMT030101UK04MedicationStatement.class, null, medicationStatement);
+        return new JAXBElement<>(_MEDICATION_STATEMENT, RCMRMT030101UK04MedicationStatement.class, null, medicationStatement);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "consumable")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "consumable")
     public JAXBElement<RCMRMT030101UK04Consumable> createConsumable(RCMRMT030101UK04Consumable consumable) {
-        return new JAXBElement<RCMRMT030101UK04Consumable>(_CONSUMABLE, RCMRMT030101UK04Consumable.class, null, consumable);
+        return new JAXBElement<>(_CONSUMABLE, RCMRMT030101UK04Consumable.class, null, consumable);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "CompoundStatement")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "CompoundStatement")
     public JAXBElement<RCMRMT030101UK04CompoundStatement> createCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return new JAXBElement<RCMRMT030101UK04CompoundStatement>(_COMPOUND_STATEMENT, RCMRMT030101UK04CompoundStatement.class, null, compoundStatement);
+        return new JAXBElement<>(_COMPOUND_STATEMENT, RCMRMT030101UK04CompoundStatement.class, null, compoundStatement);
     }
 
-    @XmlElementDecl(namespace = "urn:hl7-org:v3", name = "NarrativeStatement")
+    @XmlElementDecl(namespace = NAMESPACEURI, name = "NarrativeStatement")
     public JAXBElement<RCMRMT030101UK04NarrativeStatement> createNarrativeStatement(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        return new JAXBElement<RCMRMT030101UK04NarrativeStatement>(_NARRATIVE_STATEMENT_QNAME, RCMRMT030101UK04NarrativeStatement.class, null, narrativeStatement);
+        return new JAXBElement<>(_NARRATIVE_STATEMENT_QNAME, RCMRMT030101UK04NarrativeStatement.class, null, narrativeStatement);
     }
 }

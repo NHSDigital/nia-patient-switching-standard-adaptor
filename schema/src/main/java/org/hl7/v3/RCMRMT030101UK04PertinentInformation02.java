@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -45,17 +46,20 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.PertinentInformation02", propOrder = {
     "sequenceNumber",
     "pertinentAnnotation"
 })
-public class RCMRMT030101UK04PertinentInformation02 {
+public class RCMRMT030101UK04PertinentInformation02 implements RCMRMT030101UKPertinentInformation02 {
 
     @XmlElement(required = true)
     protected INT sequenceNumber;
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04Annotation pertinentAnnotation;
+
+    @XmlElement(required = true, type = RCMRMT030101UK04Annotation.class)
+    protected RCMRMT030101UKAnnotation pertinentAnnotation;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -77,6 +81,7 @@ public class RCMRMT030101UK04PertinentInformation02 {
      *     {@link INT }
      *     
      */
+    @Override
     public INT getSequenceNumber() {
         return sequenceNumber;
     }
@@ -89,6 +94,7 @@ public class RCMRMT030101UK04PertinentInformation02 {
      *     {@link INT }
      *     
      */
+    @Override
     public void setSequenceNumber(INT value) {
         this.sequenceNumber = value;
     }
@@ -101,7 +107,8 @@ public class RCMRMT030101UK04PertinentInformation02 {
      *     {@link RCMRMT030101UK04Annotation }
      *     
      */
-    public RCMRMT030101UK04Annotation getPertinentAnnotation() {
+    @Override
+    public RCMRMT030101UKAnnotation getPertinentAnnotation() {
         return pertinentAnnotation;
     }
 
@@ -113,7 +120,8 @@ public class RCMRMT030101UK04PertinentInformation02 {
      *     {@link RCMRMT030101UK04Annotation }
      *     
      */
-    public void setPertinentAnnotation(RCMRMT030101UK04Annotation value) {
+    @Override
+    public void setPertinentAnnotation(RCMRMT030101UKAnnotation value) {
         this.pertinentAnnotation = value;
     }
 
@@ -125,6 +133,7 @@ public class RCMRMT030101UK04PertinentInformation02 {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "ActRelationship";
@@ -141,6 +150,7 @@ public class RCMRMT030101UK04PertinentInformation02 {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -167,9 +177,10 @@ public class RCMRMT030101UK04PertinentInformation02 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
-            typeCode = new ArrayList<String>();
+            typeCode = new ArrayList<>();
         }
         return this.typeCode;
     }
@@ -196,9 +207,10 @@ public class RCMRMT030101UK04PertinentInformation02 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -225,9 +237,10 @@ public class RCMRMT030101UK04PertinentInformation02 {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -240,6 +253,7 @@ public class RCMRMT030101UK04PertinentInformation02 {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -252,6 +266,7 @@ public class RCMRMT030101UK04PertinentInformation02 {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
