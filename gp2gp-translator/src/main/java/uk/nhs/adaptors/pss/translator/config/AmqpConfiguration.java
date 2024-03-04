@@ -71,7 +71,7 @@ public class AmqpConfiguration {
         if (StringUtils.isNotBlank(properties.getPassword())) {
             factory.setPassword(properties.getPassword());
         }
-        factory.setCloseTimeout((long) properties.getCloseTimeout());
+        factory.setCloseTimeout(properties.getCloseTimeout());
 
         return factory;
     }
