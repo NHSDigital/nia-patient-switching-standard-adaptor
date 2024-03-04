@@ -16,4 +16,5 @@ public class Gp2GpAdaptorQueueProperties implements QueueProperties {
     private String username;
     private String password;
     private int closeTimeout;
+    private int sendTimeout;
 }

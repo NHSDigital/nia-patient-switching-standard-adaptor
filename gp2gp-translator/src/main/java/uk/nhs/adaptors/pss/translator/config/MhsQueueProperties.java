@@ -19,6 +19,7 @@ public class MhsQueueProperties implements QueueProperties {
     private int maxRedeliveries;
     private String dlqPrefix;
     private int closeTimeout;
+    private int sendTimeout;
 
     public String getDLQName() {
         return getDlqPrefix() + getQueueName();

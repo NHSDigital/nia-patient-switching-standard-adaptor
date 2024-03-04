@@ -18,4 +18,5 @@ public class PssQueueProperties implements QueueProperties {
     private String password;
     private int maxRedeliveries;
     private int closeTimeout;
+    private int sendTimeout;
 }

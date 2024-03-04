@@ -12,6 +12,8 @@ public interface QueueProperties {
 
     int getCloseTimeout();
 
+    int getSendTimeout();
+
     void setQueueName(String queueName);
 
     void setBroker(String broker);
@@ -20,5 +22,5 @@ public interface QueueProperties {
 
     void setPassword(String password);
 
-    void setCloseTimeout(int closeTimeoutValue);
+    void setSendTimeout(int sendTimeoutValue);
 }
