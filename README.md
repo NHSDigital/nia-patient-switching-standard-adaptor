@@ -137,3 +137,28 @@ In particular this means that this project may not depend on GPL-licensed or AGP
 as these would violate the terms of those libraries' licenses.
 
 The contents of this repository are protected by Crown Copyright (C).
+
+## Performance
+The performance of PS Adaptor was tested with JMeter tool.
+There was a series of tests run with the following setup and parameters:
+- PS Adaptor is run in ECS AWS environment with 4 CPUs and 16 GB memory.
+- For the message queue mq.m5.xlarge host type was used
+- RDS DB host type was set to db.t3.xlarge
+
+The test used 2000 transfers which were split into 5 batches of 400 transfers.
+Pause time between transfers was set to 1 sec and the socket timeout was to 2 minutes.
+
+The test load with 2000 transactions finished successfully in 14 minutes which gives on average 420-435 ms per transfer.
+
+![report1.jpg](test-suite%2Fnon-functional-tests%2Ftest-scenario-6%2Fperf_report%2Freport1.jpg)
+
+Overall performance statistics:
+![report2.png](test-suite%2Fnon-functional-tests%2Ftest-scenario-6%2Fperf_report%2Freport2.png)
+
+Active transfers per one iteration was 400:
+![report4.png](test-suite%2Fnon-functional-tests%2Ftest-scenario-6%2Fperf_report%2Freport4.png)
+
+Response time:
+![report5.png](test-suite%2Fnon-functional-tests%2Ftest-scenario-6%2Fperf_report%2Freport5.png)
+
+Results can be seen in using graphs by importing results8.jtl into Jmeter.
