@@ -25,6 +25,24 @@ To start the tests, run the following:
 ./start-docker.test.sh
 ```
 
+
+### Load Testing
+
+Use this command from a terminal to run load tests:
+jmeter -n -t  ./niad-3029/nia-patient-switching-standard-adaptor/test-suite/non-functional-tests/ \
+test-scenario-6/testplan.jmx -q ./niad-3029/nia-patient-switching-standard-adaptor/ \
+test-suite/non-functional-tests/test-scenario-6/config-template.properties -Lorg.apache.jmeter.JMeter=OFF \
+-l ~/results11.jtl -e -o ./niad-3029/nia-patient-switching-standard-adaptor/test-suite/non-functional-tests/test-scenario-6/jmeter_report
+
+To run for 2000 transfers the properties file is configured to run 400 transfers per loop for 5 loops with a ramp up time of 30 seconds.
+The environment variables need to be populated with the appropriate endpoints e.g. load balancer endpoints as below:
+
+facadePort = 8081
+facadeUrl = nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com
+inboundUrl = nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com
+inboundPort = 443
+protocol = http
+
 ### More Information
 
 Each test in the non-functional tests are pre-configured via properties set within the config-template.properties.
@@ -37,3 +55,4 @@ These properties are detailed below:
 * rampUp: The amount of time between starting threads
 * loopCount: The number of times each thread will run
 * batchCount: The number of times the test will run per loop
+
