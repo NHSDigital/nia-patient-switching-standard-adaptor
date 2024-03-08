@@ -30,16 +30,16 @@ To start the tests, run the following:
 
 Used this command from a terminal to run load tests:
 
-jmeter -n -t  ./niad-3029/nia-patient-switching-standard-adaptor/test-suite/non-functional-tests/ \
-test-scenario-6/testplan.jmx -q ./niad-3029/nia-patient-switching-standard-adaptor/ \
+jmeter -n -t  ../nia-patient-switching-standard-adaptor/test-suite/non-functional-tests/ \
+test-scenario-6/testplan.jmx -q ../nia-patient-switching-standard-adaptor/ \
 test-suite/non-functional-tests/test-scenario-6/config-template.properties -Lorg.apache.jmeter.JMeter=OFF \
--l ~/results11.jtl -e -o ./niad-3029/nia-patient-switching-standard-adaptor/test-suite/non-functional-tests/test-scenario-6/jmeter_report
+-l ~/results.jtl -e -o ../nia-patient-switching-standard-adaptor/test-suite/non-functional-tests/test-scenario-6/jmeter_report
 
 To run for 2000 transfers the properties file is configured to run 400 transfers per loop for 5 loops with a ramp up time of 30 seconds.
 The environment variables need to be populated with the appropriate endpoints e.g. load balancer endpoints as below:
 
 facadePort = 8081
-facadeUrl = nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com
+<facadeUrl = nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com>
 inboundUrl = nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com
 inboundPort = 443
 protocol = http
