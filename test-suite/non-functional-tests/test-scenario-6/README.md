@@ -47,8 +47,8 @@ protocol = http
 By varying the thread count and keeping the ramp up time close to zero the instantaneous load can be varied. It was found that adding 
 2000 threads instantly would not reflect real life conditions as the requests would come from distributed sources not one machine. It was 
 found that by spreading the load over four bursts allowed the test machine to cope with the load more easily. Hence, the threads are split into 
-5 batches of 400 threads each batch. The ramp up time also helped the test machine to cope with load change more easily, it was found that 
-to allow at least 30 seconds for ramp up value for the test to work with the test machine and AWS infrastructure setup.
+5 batches of 400 threads each batch. The ramp up time also helped the test machine to cope with load change more easily, it was found 
+beneficial to set at least 30 seconds to rampUp variable for the test to work with the test machine and AWS infrastructure setup.
 
 threadCount = 400
 
