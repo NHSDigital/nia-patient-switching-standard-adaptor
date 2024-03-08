@@ -39,7 +39,7 @@ To run for 2000 transfers the properties file is configured to run 400 transfers
 The environment variables need to be populated with the appropriate endpoints e.g. load balancer endpoints as below:
 
 facadePort = 8081
-<facadeUrl = <url-of-gp2gp-translator-facade-instance>
+facadeUrl = <url-of-gp2gp-translator-facade-instance>
 inboundUrl = <gp2gp-inbound-instance-url>
 inboundPort = 443
 protocol = http
