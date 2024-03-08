@@ -28,7 +28,8 @@ To start the tests, run the following:
 
 ### Load Testing
 
-Use this command from a terminal to run load tests:
+Used this command from a terminal to run load tests:
+
 jmeter -n -t  ./niad-3029/nia-patient-switching-standard-adaptor/test-suite/non-functional-tests/ \
 test-scenario-6/testplan.jmx -q ./niad-3029/nia-patient-switching-standard-adaptor/ \
 test-suite/non-functional-tests/test-scenario-6/config-template.properties -Lorg.apache.jmeter.JMeter=OFF \
@@ -42,6 +43,23 @@ facadeUrl = nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com
 inboundUrl = nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com
 inboundPort = 443
 protocol = http
+
+By varying the thread count and keeping the ramp up time close to zero the instantaneous load can be varied. It was found that adding 
+2000 threads instantly would not reflect real life conditions as the requests would come from distributed sources not one machine. It was 
+found that by spreading the load over four bursts allowed the test machine to cope with the load more easily. Hence the threads are split into 
+5 batches of 400 threads each batch. The ramp up time also helped the test machine to cope with load change more easily, it was found that 
+to allow at least 30 seconds for the test ramp up for the test to work with the test machine and aws infrastructure setup.
+
+threadCount = 400
+
+# the amount of time between starting threads
+rampUp = 30
+
+# the number of times each thread will run
+loopCount = 5
+
+# the number of times the test will run per loop
+batchCount = 1
 
 ### More Information
 
