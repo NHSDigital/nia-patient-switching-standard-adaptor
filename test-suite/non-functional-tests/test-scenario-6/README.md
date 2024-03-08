@@ -39,8 +39,8 @@ To run for 2000 transfers the properties file is configured to run 400 transfers
 The environment variables need to be populated with the appropriate endpoints e.g. load balancer endpoints as below:
 
 facadePort = 8081
-<facadeUrl = nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com>
-inboundUrl = nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com
+<facadeUrl = <url-of-gp2gp-translator-facade-instance>
+inboundUrl = <gp2gp-inbound-instance-url>
 inboundPort = 443
 protocol = http
 
