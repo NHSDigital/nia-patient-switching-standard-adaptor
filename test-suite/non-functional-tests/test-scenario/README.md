@@ -38,7 +38,7 @@ With this test plan it is possible to run the below scenarios:
 120 Transfers requested - 100 expected to succeed, 20 expected to fail.
 
 
-### Prerequisites If you need SSL
+### Prerequisites
 
 You will need to provide the certificate and key required to connect to the inbound service.
 * Copy the certificate and key files into the /certs folder named 'client.crt' and 'client.key' respectively.
@@ -53,37 +53,6 @@ To start the tests, run the following:
 ```
 ./start-docker.test.sh
 ```
-
-
-
-
-## Test Scenario 6
-
-120 simultaneous transfers
-
-### Test details
-
-120 Transfers requested - 100 expected to succeed, 20 expected to fail, each successful transfer contains:
-* 1 RCMR_IN030000UK06 message
-* 1 COPC_IN000001UK01 index message
-* 2 COPC_IN000001UK01 Fragment messages
-
-### Prerequisites 
-
-You will need to provide the certificate and key required to connect to the inbound service.
-* Copy the certificate and key files into the /certs folder named 'client.crt' and 'client.key' respectively.
-* Ensure that variables in the .env file have been set correctly
-
-### Running Tests
-
-This will build a docker container in the 'nia-ps' network and will execute the tests against the docker test-suite.
-Once completed it will copy the docker logs to /test-scenario-1/docker.logs and remove the test container.
-
-To start the tests, run the following: 
-```
-./start-docker.test.sh
-```
-
 
 ### Load Testing
 
