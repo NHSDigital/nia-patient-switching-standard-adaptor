@@ -139,7 +139,7 @@ as these would violate the terms of those libraries' licenses.
 The contents of this repository are protected by Crown Copyright (C).
 
 ## Performance
-The performance of PS Adaptor was tested with JMeter tool. The use case that was used was the simulation of the patient transfer request
+The performance of PS Adaptor was tested with JMeter tool. The use case tested was the simulation of the patient transfer request
 where we were sending Ehr records data to PS Adaptor which was expected to create a bundle of it. We were looking to observe how PS Adaptor 
 can handle heavy workfload and what were the utilization of CPU and memory during such an activity.
 
