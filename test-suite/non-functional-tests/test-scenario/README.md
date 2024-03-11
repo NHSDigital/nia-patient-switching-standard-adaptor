@@ -1,3 +1,62 @@
+With this test plan it is possible to run the belwo scenarios:
+
+## Each Sucessful transfer contains
+
+* 1 RCMR_IN030000UK06 message
+* 1 COPC_IN000001UK01 index message
+* 2 COPC_IN000001UK01 Fragment messages
+
+## Test Scenario 1
+
+12 patient transfers x 1 thread
+
+12 Transfers requested - 10 expected to succeed, 2 expected to fail. 
+
+## Test Scenario 2
+
+30 batches of 12 patient transfers x 1 thread.
+360 Transfers requested - 300 expected to succeed, 60 expected to fail.
+
+## Test Scenario 3
+
+20 batches of 12 patient transfers x 3 threads.
+720 Transfers requested - 600 expected to succeed, 120 expected to fail.
+
+## Test Scenario 4
+
+12 Simultaneous transfers - 1 patient transfers x 12 threads
+12 Transfers requested - 10 expected to succeed, 2 expected to fail.
+
+## Test Scenario 5
+
+360 transfers in 1.5 hours.
+360 Transfers requested - 300 expected to succeed, 60 expected to fail.
+
+## Test Scenario 6
+
+120 simultaneous transfers.
+120 Transfers requested - 100 expected to succeed, 20 expected to fail.
+
+
+### Prerequisites If you need SSL
+
+You will need to provide the certificate and key required to connect to the inbound service.
+* Copy the certificate and key files into the /certs folder named 'client.crt' and 'client.key' respectively.
+* Ensure that variables in the .env file have been set correctly
+
+### Running Tests in Docker
+
+This will build a docker container in the 'nia-ps' network and will execute the tests against the docker test-suite.
+Once completed it will copy the docker logs to /test-scenario-1/docker.logs and remove the test container.
+
+To start the tests, run the following:
+```
+./start-docker.test.sh
+```
+
+
+
+
 ## Test Scenario 6
 
 120 simultaneous transfers
