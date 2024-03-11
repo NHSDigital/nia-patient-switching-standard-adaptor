@@ -1,4 +1,4 @@
-With this test plan it is possible to run the belwo scenarios:
+With this test plan it is possible to run the below scenarios:
 
 ## Each Sucessful transfer contains
 
