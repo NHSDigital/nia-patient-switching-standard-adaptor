@@ -139,9 +139,11 @@ as these would violate the terms of those libraries' licenses.
 The contents of this repository are protected by Crown Copyright (C).
 
 ## Performance
-The performance of PS Adaptor was tested with JMeter tool. The use case tested was the simulation of the patient transfer request
-where we were sending Ehr records data to PS Adaptor which was expected to create a bundle of it. We were looking to observe how PS Adaptor 
-can handle heavy workfload and what were the utilization of CPU and memory during such an activity.
+The performance of PS Adaptor was tested with JMeter tool. 
+The use case tested was the simulation of the patient transfer request. 
+This was tested by sending EHR record requests to the PS Adaptor and we expected to receive a bundle back. 
+We used these tests to observe how the PS Adaptor handles a heavy workload and to profile the CPU and memory usage 
+during the testing process.
 
 There was a series of tests run with the following setup and parameters:
 - PS Adaptor was run in ECS AWS environment with 4 CPUs and 16 GB memory.
