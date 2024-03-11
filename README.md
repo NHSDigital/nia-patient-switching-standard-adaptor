@@ -139,9 +139,13 @@ as these would violate the terms of those libraries' licenses.
 The contents of this repository are protected by Crown Copyright (C).
 
 ## Performance
-The performance of PS Adaptor was tested with JMeter tool.
+The performance of PS Adaptor was tested with JMeter tool. The use case that was used was the simulation of the patient transfer request
+where we were sending Ehr records data to PS Adaptor which was expected to create a bundle of it. We were looking to observe how PS Adaptor 
+can handle heavy workfload and what were the utilization of CPU and memory during such an activity.
+
 There was a series of tests run with the following setup and parameters:
-- PS Adaptor is run in ECS AWS environment with 4 CPUs and 16 GB memory.
+- PS Adaptor was run in ECS AWS environment with 4 CPUs and 16 GB memory.
+- MHS Adaptor was run in ECS AWS environment with 4 CPUs and 16 GB memory.
 - For the message queue mq.m5.xlarge host type was used
 - RDS DB host type was set to db.t3.xlarge
 
@@ -149,6 +153,7 @@ The test used 2000 transfers which were split into 5 batches of 400 transfers.
 Pause time between transfers was set to 1 sec and the socket timeout was to 2 minutes.
 
 The test load with 2000 transactions finished successfully in 14 minutes which gives on average 420-435 ms per transfer.
+The observed CPU utilization was around 50-60% and memory usage was around 70% which leaves plenty of headroom for additional load.
 
 ![report1.jpg](test-suite%2Fnon-functional-tests%2Ftest-scenario-6%2Fperf_report%2Freport1.jpg)
 
