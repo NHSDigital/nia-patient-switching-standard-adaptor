@@ -142,7 +142,7 @@ The contents of this repository are protected by Crown Copyright (C).
 The performance of PS Adaptor was tested with JMeter tool. 
 The use case tested was the simulation of the patient transfer request. 
 This was tested by sending EHR record requests to the PS Adaptor, and we expected to receive a bundle back. 
-The patient transfer used one attachment, the size of the text attachment was 2.44 MB.
+The patient transfer used two attachments,both of them are text attachments of size 2.44 MB and 0.7 MB.
 We used these tests to observe how the PS Adaptor handles a heavy workload and to profile the CPU and memory usage 
 during the testing process.
 
