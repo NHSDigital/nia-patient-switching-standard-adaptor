@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -101,9 +102,9 @@ public class ConditionMapperTest {
         assertGeneratedComponentsAreCorrect(condition);
         assertThat(condition.getId()).isEqualTo(LINKSET_ID);
 
-        assertThat(condition.getExtensionsByUrl(ACTUAL_PROBLEM_URL).size()).isEqualTo(0);
+        assertThat(condition.getExtensionsByUrl(ACTUAL_PROBLEM_URL).size()).isZero();
         assertThat(condition.getExtensionsByUrl(PROBLEM_SIGNIFICANCE_URL).size()).isEqualTo(1);
-        assertThat(condition.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL).size()).isEqualTo(0);
+        assertThat(condition.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL).size()).isZero();
 
         assertThat(condition.getClinicalStatus().getDisplay()).isEqualTo("Active");
         assertThat(condition.getCode().getCodingFirstRep().hasDisplay()).isFalse();
@@ -116,7 +117,7 @@ public class ConditionMapperTest {
         assertThat(condition.getAbatementDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
         assertThat(condition.getAssertedDateElement().getValue()).isNull();
 
-        assertThat(condition.getNote().size()).isEqualTo(0);
+        assertThat(condition.getNote().size()).isZero();
     }
 
     @Test
@@ -186,6 +187,30 @@ public class ConditionMapperTest {
 
         assertThat(conditions.get(0).getAbatementDateTimeType()).isNull();
         assertThat(conditions.get(0).getAssertedDateElement().getValue()).isNull();
+    }
+
+    @Test
+    public void testLinkSetWithEffectiveTimeLowNullFlavorUnkIsMappedCorrectly() {
+        when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_null_flavor_unk.xml");
+        final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
+
+        assertGeneratedComponentsAreCorrect(conditions.get(0));
+        assertThat(conditions.get(0).getId()).isEqualTo(LINKSET_ID);
+
+        assertNull(conditions.get(0).getOnsetDateTimeType());
+    }
+
+    @Test
+    public void testLinkSetWithEffectiveTimeCenterNullFlavorUnkIsMappedCorrectly() {
+        //when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_center_null_flavor_unk.xml");
+        final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
+
+        assertGeneratedComponentsAreCorrect(conditions.get(0));
+        assertThat(conditions.get(0).getId()).isEqualTo(LINKSET_ID);
+
+        assertNull(conditions.get(0).getOnsetDateTimeType());
     }
 
     @Test
