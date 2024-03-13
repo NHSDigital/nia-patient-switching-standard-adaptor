@@ -176,7 +176,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void testLinkSetWithNoDatesIsMappedCorrectly() {
+    public void testLinkSetWithNoDatesIsMappedWithNullOnsetDateTime() {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_no_dates.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
@@ -190,7 +190,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void testLinkSetWithEffectiveTimeLowNullFlavorUnkIsMappedCorrectly() {
+    public void testLinkSetWithEffectiveTimeLowNullFlavorUnkIsMappedWithNullOnsetDateTime() {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_null_flavor_unk.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
