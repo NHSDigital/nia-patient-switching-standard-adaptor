@@ -1,44 +1,151 @@
 With this test plan it is possible to run the below scenarios:
 
+### Properties used to configure the tests
+
+Each test in the non-functional tests are pre-configured via properties set within the config-template.properties.
+These properties are detailed below:
+* facadePort: Populated when the docker container is built by the values set in .env file
+* facadeUrl: Populated when the docker container is built by the values set in .env file
+* inboundUrl: Populated when the docker container is built by the values set in .env file
+* inboundPort: Populated when the docker container is built by the values set in .env file
+* threadCount: The number of simultaneous threads running the tests
+* rampUp: The amount of time between starting threads
+* loopCount: The number of times each thread will run
+* batchCount: The number of times the test will run per loop
+
 ## Each Sucessful transfer contains
 
 * 1 RCMR_IN030000UK06 message
 * 1 COPC_IN000001UK01 index message
 * 2 COPC_IN000001UK01 Fragment messages
 
+# * Connection Properties *
+facadePort = {{facade-port}}
+facadeUrl = {{facade-url}}
+
+inboundUrl = {{inbound-url}}
+inboundPort = {{inbound-port}}
+
+# EHR Message Header Properties
+toAsid = B943
+fromAsid = A378
+toOds = 2167888433
+fromOds = 2167888439
+winningPartyKey = Y90664-9198273
+losingPartyKey = YGM24-820388
+
+
 ## Test Scenario 1
 
 12 patient transfers x 1 thread
 
 12 Transfers requested - 10 expected to succeed, 2 expected to fail. 
+Property file settings:
+
+# the number of simultaneous threads running the tests
+threadCount = 1
+
+# the amount of time between starting threads
+rampUp = 0
+
+# the number of times each thread will run
+loopCount = 12
+
+# the number of times the test will run per loop
+batchCount = 1
+
 
 ## Test Scenario 2
 
 30 batches of 12 patient transfers x 1 thread.
 360 Transfers requested - 300 expected to succeed, 60 expected to fail.
 
+# the number of simultaneous threads running the tests
+threadCount = 1
+
+# the amount of time between starting threads
+rampUp = 0
+
+# the number of times each thread will run
+loopCount = 12
+
+# the number of times the test will run per loop
+batchCount = 30
+
+
 ## Test Scenario 3
 
 20 batches of 12 patient transfers x 3 threads.
 720 Transfers requested - 600 expected to succeed, 120 expected to fail.
+
+# the number of simultaneous threads running the tests
+threadCount = 3
+
+# the amount of time between starting threads
+rampUp = 0
+
+# the number of times each thread will run
+loopCount = 12
+
+# the number of times the test will run per loop
+batchCount = 20
+
 
 ## Test Scenario 4
 
 12 Simultaneous transfers - 1 patient transfers x 12 threads
 12 Transfers requested - 10 expected to succeed, 2 expected to fail.
 
+# the number of simultaneous threads running the tests
+threadCount = 12
+
+# the amount of time between starting threads
+rampUp = 0
+
+# the number of times each thread will run
+loopCount = 1
+
+# the number of times the test will run per loop
+batchCount = 1
+
+
 ## Test Scenario 5
 
 360 transfers in 1.5 hours.
 360 Transfers requested - 300 expected to succeed, 60 expected to fail.
+
+# the number of simultaneous threads running the tests
+threadCount = 30
+
+# the amount of time between starting threads
+rampUp = 0
+
+# the number of times each thread will run
+loopCount = 12
+
+# the number of times the test will run per loop
+batchCount = 1
+
 
 ## Test Scenario 6
 
 120 simultaneous transfers.
 120 Transfers requested - 100 expected to succeed, 20 expected to fail.
 
+# the number of simultaneous threads running the tests
+threadCount = 120
 
-### Prerequisites
+# the amount of time between starting threads
+rampUp = 0
+
+# the number of times each thread will run
+loopCount = 1
+
+# the number of times the test will run per loop
+batchCount = 1
+
+
+### Prerequisites If you need SSL
 
 You will need to provide the certificate and key required to connect to the inbound service.
 * Copy the certificate and key files into the /certs folder named 'client.crt' and 'client.key' respectively.
@@ -53,6 +160,34 @@ To start the tests, run the following:
 ```
 ./start-docker.test.sh
 ```
+
+## Test Scenario 6
+
+120 simultaneous transfers
+
+### Test details
+
+120 Transfers requested - 100 expected to succeed, 20 expected to fail, each successful transfer contains:
+* 1 RCMR_IN030000UK06 message
+* 1 COPC_IN000001UK01 index message
+* 2 COPC_IN000001UK01 Fragment messages
+
+### Prerequisites 
+
+You will need to provide the certificate and key required to connect to the inbound service.
+* Copy the certificate and key files into the /certs folder named 'client.crt' and 'client.key' respectively.
+* Ensure that variables in the .env file have been set correctly
+
+### Running Tests
+
+This will build a docker container in the 'nia-ps' network and will execute the tests against the docker test-suite.
+Once completed it will copy the docker logs to /test-scenario-1/docker.logs and remove the test container.
+
+To start the tests, run the following: 
+```
+./start-docker.test.sh
+```
+
 
 ### Load Testing
 
@@ -89,16 +224,4 @@ loopCount = 5
 # the number of times the test will run per loop
 batchCount = 1
 
-### More Information
-
-Each test in the non-functional tests are pre-configured via properties set within the config-template.properties.
-These properties are detailed below:
-* facadePort: Populated when the docker container is built by the values set in .env file
-* facadeUrl: Populated when the docker container is built by the values set in .env file
-* inboundUrl: Populated when the docker container is built by the values set in .env file
-* inboundPort: Populated when the docker container is built by the values set in .env file
-* threadCount: The number of simultaneous threads running the tests
-* rampUp: The amount of time between starting threads
-* loopCount: The number of times each thread will run
-* batchCount: The number of times the test will run per loop
 
