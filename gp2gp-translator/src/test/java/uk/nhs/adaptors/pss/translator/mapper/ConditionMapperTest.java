@@ -102,9 +102,9 @@ public class ConditionMapperTest {
         assertGeneratedComponentsAreCorrect(condition);
         assertThat(condition.getId()).isEqualTo(LINKSET_ID);
 
-        assertThat(condition.getExtensionsByUrl(ACTUAL_PROBLEM_URL).size()).isZero();
-        assertThat(condition.getExtensionsByUrl(PROBLEM_SIGNIFICANCE_URL).size()).isEqualTo(1);
-        assertThat(condition.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL).size()).isZero();
+        assertThat(condition.getExtensionsByUrl(ACTUAL_PROBLEM_URL)).isEmpty();
+        assertThat(condition.getExtensionsByUrl(PROBLEM_SIGNIFICANCE_URL)).hasSize(1);
+        assertThat(condition.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL)).isEmpty();
 
         assertThat(condition.getClinicalStatus().getDisplay()).isEqualTo("Active");
         assertThat(condition.getCode().getCodingFirstRep().hasDisplay()).isFalse();
@@ -117,7 +117,7 @@ public class ConditionMapperTest {
         assertThat(condition.getAbatementDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
         assertThat(condition.getAssertedDateElement().getValue()).isNull();
 
-        assertThat(condition.getNote().size()).isZero();
+        assertThat(condition.getNote()).isEmpty();
     }
 
     @Test
@@ -236,12 +236,12 @@ public class ConditionMapperTest {
 
             var extensions = conditions.get(0).getExtension();
 
-            assertThat(extensions.size()).isEqualTo(EXPECTED_NUMBER_OF_EXTENSIONS);
+            assertThat(extensions).hasSize(EXPECTED_NUMBER_OF_EXTENSIONS);
             var relatedClinicalContentExtensions = extensions.stream()
                 .filter(extension -> extension.getUrl().equals(RELATED_CLINICAL_CONTENT_URL))
                 .toList();
 
-            assertThat(relatedClinicalContentExtensions.size()).isEqualTo(2);
+            assertThat(relatedClinicalContentExtensions).hasSize(2);
 
             List<String> clinicalContextReferences = relatedClinicalContentExtensions.stream()
                 .map(Extension::getValue)
@@ -249,8 +249,8 @@ public class ConditionMapperTest {
                 .map(reference -> reference.getReferenceElement().getValue())
                 .toList();
 
-            assertThat(clinicalContextReferences.contains(AUTHORISE_ID)).isTrue();
-            assertThat(clinicalContextReferences.contains(PRESCRIBE_ID)).isTrue();
+            assertThat(clinicalContextReferences).contains(AUTHORISE_ID);
+            assertThat(clinicalContextReferences).contains(PRESCRIBE_ID);
         } finally {
             mockedMedicationMapperUtils.close();
         }
@@ -335,14 +335,14 @@ public class ConditionMapperTest {
 
     private void assertActualProblemExtension(Condition condition) {
         var extension = condition.getExtensionsByUrl(ACTUAL_PROBLEM_URL).get(0);
-        assertThat(extension.getValue() instanceof Reference).isTrue();
-        assertThat(((Reference) extension.getValue()).getResource() instanceof Observation).isTrue();
+        assertThat(extension.getValue()).isInstanceOf(Reference.class);
+        assertThat(((Reference) extension.getValue()).getResource()).isInstanceOf(Observation.class);
         assertThat(((Observation) ((Reference) extension.getValue()).getResource()).getId()).isEqualTo(NAMED_STATEMENT_REF_ID);
     }
 
     private void assertRelatedClinicalContentExtension(Condition condition) {
         var extensions = condition.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL);
-        assertThat(extensions.size()).isEqualTo(2);
+        assertThat(extensions).hasSize(2);
         assertThat(((Reference) extensions.get(0).getValue()).getResource().getIdElement().getValue()).isEqualTo(STATEMENT_REF_ID);
         assertThat(((Reference) extensions.get(1).getValue()).getResource().getIdElement().getValue()).isEqualTo(STATEMENT_REF_ID_1);
     }
