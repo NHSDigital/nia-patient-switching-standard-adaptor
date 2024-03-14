@@ -159,15 +159,15 @@ Pause time between transfers was set to 1 sec and the socket timeout was to 2 mi
 The test load with 2000 transactions finished successfully in 14 minutes which gives on average 420-435 ms per transfer.
 The observed CPU utilization was around 50-60% and memory usage was around 70% which leaves plenty of headroom for additional load.
 
-![report1.jpg](test-suite%2Fnon-functional-tests%2Ftest-scenario-6%2Fperf_report%2Freport1.jpg)
+![report1.jpg](test-suite%2Fnon-functional-tests%2Ftest-scenario%2Fperf_report%2Freport1.jpg)
 
 Overall performance statistics:
-![report2.png](test-suite%2Fnon-functional-tests%2Ftest-scenario-6%2Fperf_report%2Freport2.png)
+![report2.png](test-suite%2Fnon-functional-tests%2Ftest-scenario%2Fperf_report%2Freport2.png)
 
 Active transfers per one iteration was 400:
-![report4.png](test-suite%2Fnon-functional-tests%2Ftest-scenario-6%2Fperf_report%2Freport4.png)
+![report4.png](test-suite%2Fnon-functional-tests%2Ftest-scenario%2Fperf_report%2Freport4.png)
 
 Response time:
-![report5.png](test-suite%2Fnon-functional-tests%2Ftest-scenario-6%2Fperf_report%2Freport5.png)
+![report5.png](test-suite%2Fnon-functional-tests%2Ftest-scenario%2Fperf_report%2Freport5.png)
 
 Results can be seen in using graphs by importing results8.jtl into Jmeter.
