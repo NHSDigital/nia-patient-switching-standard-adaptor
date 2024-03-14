@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
   <hashTree>
-    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="PS Adapator - Non-functional Testing Plan" enabled="true">
-      <stringProp name="TestPlan.comments"></stringProp>
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="PS Adapator - Non-functional Testing Plan">
       <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
-      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Test Scenario 2" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">${__P(loopCount, 12)}</stringProp>
-        </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${__P(threadCount, 1)}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${__P(rampUp, 0)}</stringProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration">60</stringProp>
-        <stringProp name="ThreadGroup.delay">1</stringProp>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Test Scenario 6">
+        <boolProp name="ThreadGroup.delayedStart">true</boolProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(threadCount, 2)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampUp, 2)}</stringProp>
+        <longProp name="ThreadGroup.duration">60</longProp>
+        <longProp name="ThreadGroup.delay">1</longProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">startnextloop</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">${__P(loopCount, 5)}</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
       </ThreadGroup>
       <hashTree>
-        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Batch Loop Controller" enabled="true">
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Batch Loop Controller">
           <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">${__P(batchCount, 30)}</stringProp>
+          <stringProp name="LoopController.loops">${__P(batchCount, 1)}</stringProp>
         </LoopController>
         <hashTree>
-          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Prepare variables" enabled="true">
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Prepare variables">
             <stringProp name="cacheKey">true</stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="parameters"></stringProp>
@@ -93,13 +91,23 @@ SampleResult.setIgnore();</stringProp>
               </elementProp>
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Host</stringProp>
-                <stringProp name="Header.value">localhost:8081</stringProp>
+                <stringProp name="Header.value">nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com:8081</stringProp>
               </elementProp>
             </collectionProp>
             <stringProp name="TestPlan.comments">Setup header values for EHR Requests</stringProp>
           </HeaderManager>
           <hashTree/>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send Initial EHR Request " enabled="true">
+            <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
+            <intProp name="HTTPSampler.connect_timeout">12000</intProp>
+            <intProp name="HTTPSampler.response_timeout">120000</intProp>
+            <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
+            <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${__P(protocol, http)}</stringProp>
+            <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -130,20 +138,6 @@ SampleResult.setIgnore();</stringProp>
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
-            <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
-            <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
-            <stringProp name="HTTPSampler.method">POST</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
-            <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
-            <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
           </HTTPSamplerProxy>
           <hashTree>
             <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
@@ -164,15 +158,15 @@ SampleResult.setIgnore();</stringProp>
           </SwitchController>
           <hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="${threadDetails} 0: Send EHR Extract - Large File Size" enabled="true">
-              <boolProp name="TransactionController.includeTimers">false</boolProp>
-              <boolProp name="TransactionController.parent">true</boolProp>
               <stringProp name="TestPlan.comments">A transaction controller to send a standard RCMR_IN030000UK06 message flow with COPC_IN000001UK01 fragment</stringProp>
+              <boolProp name="TransactionController.parent">true</boolProp>
+              <boolProp name="TransactionController.includeTimers">false</boolProp>
             </TransactionController>
             <hashTree>
               <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="${threadDetails} 0: Send EHR Extract" enabled="true">
-                <boolProp name="TransactionController.includeTimers">false</boolProp>
-                <boolProp name="TransactionController.parent">true</boolProp>
                 <stringProp name="TestPlan.comments">A transaction controller to send a standard RCMR_IN030000UK06 message flow</stringProp>
+                <boolProp name="TransactionController.parent">true</boolProp>
+                <boolProp name="TransactionController.includeTimers">false</boolProp>
               </TransactionController>
               <hashTree>
                 <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="RCMR with COPC message flow" enabled="true"/>
@@ -215,6 +209,16 @@ SampleResult.setIgnore();</stringProp>
                   </HeaderManager>
                   <hashTree/>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send RCMR_IN030000UK06 message" enabled="true">
+                    <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
+                    <boolProp name="HTTPSampler.concurrentDwn">true</boolProp>
+                    <intProp name="HTTPSampler.concurrentPool">100</intProp>
+                    <intProp name="HTTPSampler.connect_timeout">120000</intProp>
+                    <intProp name="HTTPSampler.response_timeout">120000</intProp>
+                    <stringProp name="HTTPSampler.domain">${__P(inboundUrl, localhost)}</stringProp>
+                    <stringProp name="HTTPSampler.port">${__P(inboundPort, 443)}</stringProp>
+                    <stringProp name="HTTPSampler.protocol">${__P(protocol, https)}</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <stringProp name="HTTPSampler.method">POST</stringProp>
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                       <collectionProp name="Arguments.arguments">
@@ -615,20 +619,6 @@ Content-Transfer-Encoding: 8bit&#xd;
                         </elementProp>
                       </collectionProp>
                     </elementProp>
-                    <stringProp name="HTTPSampler.domain">${__P(inboundUrl, localhost)}</stringProp>
-                    <stringProp name="HTTPSampler.port">${__P(inboundPort, 443)}</stringProp>
-                    <stringProp name="HTTPSampler.protocol">https</stringProp>
-                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                    <stringProp name="HTTPSampler.path"></stringProp>
-                    <stringProp name="HTTPSampler.method">POST</stringProp>
-                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                    <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
-                    <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
-                    <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
                     <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
@@ -644,6 +634,17 @@ Content-Transfer-Encoding: 8bit&#xd;
                     <hashTree/>
                   </hashTree>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send COPC_IN000001UK01 index message" enabled="true">
+                    <stringProp name="TestPlan.comments">Send the COPC_IN000001UK01 index message</stringProp>
+                    <boolProp name="HTTPSampler.concurrentDwn">true</boolProp>
+                    <intProp name="HTTPSampler.concurrentPool">100</intProp>
+                    <intProp name="HTTPSampler.connect_timeout">120000</intProp>
+                    <intProp name="HTTPSampler.response_timeout">120000</intProp>
+                    <stringProp name="HTTPSampler.domain">${__P(inboundUrl, localhost)}</stringProp>
+                    <stringProp name="HTTPSampler.port">${__P(inboundPort, 443)}</stringProp>
+                    <stringProp name="HTTPSampler.protocol">${__P(protocol, https)}</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <stringProp name="HTTPSampler.method">POST</stringProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                       <collectionProp name="Arguments.arguments">
@@ -773,20 +774,6 @@ Content-Transfer-Encoding: 8bit&#xd;
                         </elementProp>
                       </collectionProp>
                     </elementProp>
-                    <stringProp name="HTTPSampler.domain">${__P(inboundUrl, localhost)}</stringProp>
-                    <stringProp name="HTTPSampler.port">${__P(inboundPort, 443)}</stringProp>
-                    <stringProp name="HTTPSampler.protocol">https</stringProp>
-                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                    <stringProp name="HTTPSampler.path"></stringProp>
-                    <stringProp name="HTTPSampler.method">POST</stringProp>
-                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                    <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
-                    <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
-                    <stringProp name="TestPlan.comments">Send the COPC_IN000001UK01 index message</stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
                     <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
@@ -800,8 +787,30 @@ Content-Transfer-Encoding: 8bit&#xd;
                       <stringProp name="TestPlan.comments">Assert that the response is the expected 200 (Accepted)</stringProp>
                     </ResponseAssertion>
                     <hashTree/>
+                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
+                      <collectionProp name="Asserion.test_strings">
+                        <stringProp name="49586">200</stringProp>
+                      </collectionProp>
+                      <stringProp name="Assertion.custom_message">&quot;Failed to send initial response, or server did not return 202 (Accepted)&quot;</stringProp>
+                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                      <boolProp name="Assertion.assume_success">false</boolProp>
+                      <intProp name="Assertion.test_type">8</intProp>
+                      <stringProp name="TestPlan.comments">Assert that the response is the expected 200 (Accepted)</stringProp>
+                    </ResponseAssertion>
+                    <hashTree/>
                   </hashTree>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send COPC_IN000001UK01 Fragment message - 0" enabled="true">
+                    <stringProp name="TestPlan.comments">Send the COPC_IN000001UK01 Fragment message - 0</stringProp>
+                    <boolProp name="HTTPSampler.concurrentDwn">true</boolProp>
+                    <intProp name="HTTPSampler.concurrentPool">100</intProp>
+                    <intProp name="HTTPSampler.connect_timeout">240000</intProp>
+                    <intProp name="HTTPSampler.response_timeout">240000</intProp>
+                    <stringProp name="HTTPSampler.domain">${__P(inboundUrl, localhost)}</stringProp>
+                    <stringProp name="HTTPSampler.port">${__P(inboundPort, 443)}</stringProp>
+                    <stringProp name="HTTPSampler.protocol">${__P(protocol, https)}</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <stringProp name="HTTPSampler.method">POST</stringProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                       <collectionProp name="Arguments.arguments">
@@ -14056,35 +14065,20 @@ dGhlIHdhZ29uIHdo&#xd;
                         </elementProp>
                       </collectionProp>
                     </elementProp>
+                  </HTTPSamplerProxy>
+                  <hashTree/>
+                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send COPC_IN000001UK01 Fragment message - 1" enabled="true">
+                    <stringProp name="TestPlan.comments">Send the COPC_IN000001UK01 Fragment Message - 1</stringProp>
+                    <boolProp name="HTTPSampler.concurrentDwn">true</boolProp>
+                    <intProp name="HTTPSampler.concurrentPool">100</intProp>
+                    <intProp name="HTTPSampler.connect_timeout">120000</intProp>
+                    <intProp name="HTTPSampler.response_timeout">120000</intProp>
                     <stringProp name="HTTPSampler.domain">${__P(inboundUrl, localhost)}</stringProp>
                     <stringProp name="HTTPSampler.port">${__P(inboundPort, 443)}</stringProp>
-                    <stringProp name="HTTPSampler.protocol">https</stringProp>
-                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                    <stringProp name="HTTPSampler.path"></stringProp>
-                    <stringProp name="HTTPSampler.method">POST</stringProp>
+                    <stringProp name="HTTPSampler.protocol">${__P(protocol, https)}</stringProp>
                     <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                    <stringProp name="HTTPSampler.method">POST</stringProp>
                     <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                    <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
-                    <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
-                    <stringProp name="TestPlan.comments">Send the COPC_IN000001UK01 Fragment message - 0</stringProp>
-                  </HTTPSamplerProxy>
-                  <hashTree>
-                    <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
-                      <collectionProp name="Asserion.test_strings">
-                        <stringProp name="49586">200</stringProp>
-                      </collectionProp>
-                      <stringProp name="Assertion.custom_message">&quot;Failed to send initial response, or server did not return 202 (Accepted)&quot;</stringProp>
-                      <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-                      <boolProp name="Assertion.assume_success">false</boolProp>
-                      <intProp name="Assertion.test_type">8</intProp>
-                      <stringProp name="TestPlan.comments">Assert that the response is the expected 200 (Accepted)</stringProp>
-                    </ResponseAssertion>
-                    <hashTree/>
-                  </hashTree>
-                  <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send COPC_IN000001UK01 Fragment message - 1" enabled="true">
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                       <collectionProp name="Arguments.arguments">
@@ -23391,20 +23385,6 @@ ZCBoZXIgZmF0aGVyIGFuZCBsaXR0bGUgbmVwaGV3IG1vcmUgdGhhbiBHb2Qu&#xd;
                         </elementProp>
                       </collectionProp>
                     </elementProp>
-                    <stringProp name="HTTPSampler.domain">${__P(inboundUrl, localhost)}</stringProp>
-                    <stringProp name="HTTPSampler.port">${__P(inboundPort, 443)}</stringProp>
-                    <stringProp name="HTTPSampler.protocol">https</stringProp>
-                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                    <stringProp name="HTTPSampler.path"></stringProp>
-                    <stringProp name="HTTPSampler.method">POST</stringProp>
-                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                    <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
-                    <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
-                    <stringProp name="TestPlan.comments">Send the COPC_IN000001UK01 Fragment Message - 1</stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
                     <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
@@ -23431,8 +23411,8 @@ SampleResult.setIgnore();</stringProp>
                 </JSR223Sampler>
                 <hashTree/>
                 <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Wait for Bundle Response" enabled="true">
-                  <boolProp name="TransactionController.includeTimers">false</boolProp>
                   <boolProp name="TransactionController.parent">true</boolProp>
+                  <boolProp name="TransactionController.includeTimers">false</boolProp>
                 </TransactionController>
                 <hashTree>
                   <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="Wait for response - Bundle" enabled="true">
@@ -23455,7 +23435,7 @@ SampleResult.setIgnore();</stringProp>
                           <stringProp name="Header.value">${__P(fromAsid, A378)}</stringProp>
                         </elementProp>
                         <elementProp name="" elementType="Header">
-                          <stringProp name="Header.name">to-ods</stringProp>
+                          <stringProp name="Header.name">to-od</stringProp>
                           <stringProp name="Header.value">${__P(toOds, 2167888433)}</stringProp>
                         </elementProp>
                         <elementProp name="" elementType="Header">
@@ -23468,16 +23448,16 @@ SampleResult.setIgnore();</stringProp>
                         </elementProp>
                         <elementProp name="" elementType="Header">
                           <stringProp name="Header.name">Host</stringProp>
-                          <stringProp name="Header.value">localhost:8081</stringProp>
+                          <stringProp name="Header.value">nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com:8081</stringProp>
                         </elementProp>
                       </collectionProp>
                       <stringProp name="TestPlan.comments">Setup header values for EHR Requests</stringProp>
                     </HeaderManager>
                     <hashTree/>
-                    <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Wait for 0.1 Second" enabled="true">
-                      <intProp name="ActionProcessor.action">1</intProp>
+                    <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Wait for 1  Second" enabled="true">
+                      <intProp name="ActionProcessor.action">5</intProp>
                       <intProp name="ActionProcessor.target">0</intProp>
-                      <stringProp name="ActionProcessor.duration">100</stringProp>
+                      <stringProp name="ActionProcessor.duration">1000</stringProp>
                       <stringProp name="TestPlan.comments">Wait between requests </stringProp>
                     </TestAction>
                     <hashTree>
@@ -23488,6 +23468,16 @@ SampleResult.setIgnore();</stringProp>
                       <hashTree/>
                     </hashTree>
                     <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Get Bundle" enabled="true">
+                      <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
+                      <intProp name="HTTPSampler.connect_timeout">120000</intProp>
+                      <intProp name="HTTPSampler.response_timeout">120000</intProp>
+                      <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
+                      <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
+                      <stringProp name="HTTPSampler.protocol">${__P(protocol, http)}</stringProp>
+                      <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
+                      <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                      <stringProp name="HTTPSampler.method">POST</stringProp>
+                      <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                       <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                       <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                         <collectionProp name="Arguments.arguments">
@@ -23518,20 +23508,6 @@ SampleResult.setIgnore();</stringProp>
                           </elementProp>
                         </collectionProp>
                       </elementProp>
-                      <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
-                      <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
-                      <stringProp name="HTTPSampler.protocol">http</stringProp>
-                      <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                      <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
-                      <stringProp name="HTTPSampler.method">POST</stringProp>
-                      <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                      <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                      <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                      <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                      <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                      <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
-                      <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
-                      <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
                     </HTTPSamplerProxy>
                     <hashTree>
                       <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Response Status Code Extractor" enabled="true">
@@ -23542,6 +23518,7 @@ SampleResult.setIgnore();</stringProp>
                         <stringProp name="RegexExtractor.default">0</stringProp>
                         <stringProp name="RegexExtractor.match_number"></stringProp>
                         <stringProp name="TestPlan.comments">Extract the statusCode from the response to be used in the parent While Controller</stringProp>
+                        <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
                       </RegexExtractor>
                       <hashTree/>
                     </hashTree>
@@ -23550,9 +23527,9 @@ SampleResult.setIgnore();</stringProp>
               </hashTree>
             </hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="${threadDetails} 1: Send EHR Extract (Expected Failure)" enabled="true">
-              <boolProp name="TransactionController.includeTimers">false</boolProp>
-              <boolProp name="TransactionController.parent">true</boolProp>
               <stringProp name="TestPlan.comments">A transaction controller to send a failed RCMR_IN030000UK06 message flow</stringProp>
+              <boolProp name="TransactionController.parent">true</boolProp>
+              <boolProp name="TransactionController.includeTimers">false</boolProp>
             </TransactionController>
             <hashTree>
               <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
@@ -23577,6 +23554,17 @@ SampleResult.setIgnore();</stringProp>
               </HeaderManager>
               <hashTree/>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Send RCMR_IN030000UK06 message" enabled="true">
+                <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
+                <boolProp name="HTTPSampler.concurrentDwn">true</boolProp>
+                <intProp name="HTTPSampler.concurrentPool">100</intProp>
+                <intProp name="HTTPSampler.connect_timeout">120000</intProp>
+                <intProp name="HTTPSampler.response_timeout">120000</intProp>
+                <stringProp name="HTTPSampler.domain">${__P(inboundUrl, localhost)}</stringProp>
+                <stringProp name="HTTPSampler.port">${__P(inboundPort, 443)}</stringProp>
+                <stringProp name="HTTPSampler.protocol">${__P(protocol, https)}</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                 <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                   <collectionProp name="Arguments.arguments">
@@ -43175,20 +43163,6 @@ Content-Transfer-Encoding: 8bit&#xd;
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain">${__P(inboundUrl, localhost)}</stringProp>
-                <stringProp name="HTTPSampler.port">${__P(inboundPort, 443)}</stringProp>
-                <stringProp name="HTTPSampler.protocol">https</stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                <stringProp name="HTTPSampler.path"></stringProp>
-                <stringProp name="HTTPSampler.method">POST</stringProp>
-                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
-                <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
-                <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
               </HTTPSamplerProxy>
               <hashTree>
                 <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="${threadDetails} Response Assertion" enabled="true">
@@ -43214,8 +43188,8 @@ SampleResult.setIgnore();</stringProp>
               </JSR223Sampler>
               <hashTree/>
               <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Wait for Bundle Response" enabled="true">
-                <boolProp name="TransactionController.includeTimers">false</boolProp>
                 <boolProp name="TransactionController.parent">true</boolProp>
+                <boolProp name="TransactionController.includeTimers">false</boolProp>
               </TransactionController>
               <hashTree>
                 <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="Wait for response - Bundle" enabled="true">
@@ -43251,16 +43225,16 @@ SampleResult.setIgnore();</stringProp>
                       </elementProp>
                       <elementProp name="" elementType="Header">
                         <stringProp name="Header.name">Host</stringProp>
-                        <stringProp name="Header.value">localhost:8081</stringProp>
+                        <stringProp name="Header.value">nia-gp2gp-elb-ebd5089784c3d1ec.elb.eu-west-2.amazonaws.com:8081</stringProp>
                       </elementProp>
                     </collectionProp>
                     <stringProp name="TestPlan.comments">Setup header values for EHR Requests</stringProp>
                   </HeaderManager>
                   <hashTree/>
-                  <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Wait for 0.1 Second" enabled="true">
-                    <intProp name="ActionProcessor.action">1</intProp>
+                  <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Wait for 1  Second" enabled="true">
+                    <intProp name="ActionProcessor.action">0</intProp>
                     <intProp name="ActionProcessor.target">0</intProp>
-                    <stringProp name="ActionProcessor.duration">100</stringProp>
+                    <stringProp name="ActionProcessor.duration">1000</stringProp>
                     <stringProp name="TestPlan.comments">Wait between requests </stringProp>
                   </TestAction>
                   <hashTree>
@@ -43271,6 +43245,16 @@ SampleResult.setIgnore();</stringProp>
                     <hashTree/>
                   </hashTree>
                   <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${threadDetails} Get Bundle" enabled="true">
+                    <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
+                    <intProp name="HTTPSampler.connect_timeout">120000</intProp>
+                    <intProp name="HTTPSampler.response_timeout">120000</intProp>
+                    <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
+                    <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
+                    <stringProp name="HTTPSampler.protocol">http</stringProp>
+                    <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
+                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                    <stringProp name="HTTPSampler.method">POST</stringProp>
+                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
                     <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                       <collectionProp name="Arguments.arguments">
@@ -43301,20 +43285,6 @@ SampleResult.setIgnore();</stringProp>
                         </elementProp>
                       </collectionProp>
                     </elementProp>
-                    <stringProp name="HTTPSampler.domain">${__P(facadeUrl, localhost)}</stringProp>
-                    <stringProp name="HTTPSampler.port">${__P(facadePort, 8081)}</stringProp>
-                    <stringProp name="HTTPSampler.protocol">http</stringProp>
-                    <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                    <stringProp name="HTTPSampler.path">/Patient/$gpc.migratestructuredrecord</stringProp>
-                    <stringProp name="HTTPSampler.method">POST</stringProp>
-                    <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                    <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                    <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                    <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                    <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-                    <stringProp name="HTTPSampler.connect_timeout">120000</stringProp>
-                    <stringProp name="HTTPSampler.response_timeout">120000</stringProp>
-                    <stringProp name="TestPlan.comments">Send the initial EHR request with previously created variables and headers</stringProp>
                   </HTTPSamplerProxy>
                   <hashTree>
                     <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Response Status Code Extractor" enabled="true">
@@ -43326,6 +43296,7 @@ SampleResult.setIgnore();</stringProp>
                       <stringProp name="RegexExtractor.match_number"></stringProp>
                       <stringProp name="TestPlan.comments">Extract the statusCode from the response to be used in the parent While Controller</stringProp>
                       <stringProp name="Scope.variable"></stringProp>
+                      <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
                     </RegexExtractor>
                     <hashTree/>
                     <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
@@ -43353,6 +43324,43 @@ SampleResult.setIgnore();</stringProp>
 SampleResult.setIgnore();</stringProp>
           </JSR223Sampler>
           <hashTree/>
+          <ResultCollector guiclass="SimpleDataWriter" testclass="ResultCollector" testname="Simple Data Writer" enabled="false">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename">/Users/mohammedazam/results2.csv</stringProp>
+          </ResultCollector>
+          <hashTree/>
         </hashTree>
         <ResultCollector guiclass="AssertionVisualizer" testclass="ResultCollector" testname="Assertion Results" enabled="false">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
@@ -43361,20 +43369,20 @@ SampleResult.setIgnore();</stringProp>
             <value class="SampleSaveConfiguration">
               <time>false</time>
               <latency>false</latency>
-              <timestamp>false</timestamp>
-              <success>true</success>
+              <timestamp>true</timestamp>
+              <success>false</success>
               <label>true</label>
               <code>true</code>
               <message>false</message>
               <threadName>true</threadName>
               <dataType>false</dataType>
               <encoding>false</encoding>
-              <assertions>true</assertions>
+              <assertions>false</assertions>
               <subresults>true</subresults>
               <responseData>false</responseData>
               <samplerData>false</samplerData>
               <xml>false</xml>
-              <fieldNames>false</fieldNames>
+              <fieldNames>true</fieldNames>
               <responseHeaders>false</responseHeaders>
               <requestHeaders>false</requestHeaders>
               <responseDataOnError>false</responseDataOnError>
@@ -43383,10 +43391,10 @@ SampleResult.setIgnore();</stringProp>
               <url>true</url>
             </value>
           </objProp>
-          <stringProp name="filename">../../Results/PS_NF_REL_1/AssertionResults_${__time(YMDHMS)}.csv</stringProp>
+          <stringProp name="filename">~/results/PS_NF_REL_1/SummaryReport_${__time(YMDHMS)}.csv</stringProp>
         </ResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="false">
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -43421,10 +43429,10 @@ SampleResult.setIgnore();</stringProp>
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename">../../Results/PS_NF_REL_1/SummaryReport_${__time(YMDHMS)}.csv</stringProp>
+          <stringProp name="filename">~/results/PS_NF_REL_1/SummaryReport_${__time(YMDHMS)}.csv</stringProp>
         </ResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -43458,7 +43466,7 @@ SampleResult.setIgnore();</stringProp>
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename"></stringProp>
+          <stringProp name="filename">~/results/PS_NF_REL_1/SummaryReport_${__time(YMDHMS)}.csv</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>
