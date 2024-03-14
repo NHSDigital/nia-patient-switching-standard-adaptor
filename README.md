@@ -153,6 +153,7 @@ There was a series of tests run with the following setup and parameters:
 - RDS DB host type was set to db.t3.xlarge
 
 The test used 2000 transfers which were split into 5 batches of 400 transfers.
+The time for the test was measured from the start of the initial request to the completion of all transfers.
 Pause time between transfers was set to 1 sec and the socket timeout was to 2 minutes.
 
 The test load with 2000 transactions finished successfully in 14 minutes which gives on average 420-435 ms per transfer.
