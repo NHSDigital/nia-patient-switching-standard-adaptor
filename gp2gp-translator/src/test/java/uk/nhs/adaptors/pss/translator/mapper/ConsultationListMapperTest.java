@@ -92,68 +92,73 @@ public class ConsultationListMapperTest {
 
         var consultation = listMapper.mapToConsultation(ehrExtract, encounter);
 
-        assertConsultation(consultation, null, "test-display");
+        assertConsultation(consultation, "20200101010101", "test-display");
     }
 
     @Test
     public void testValidFullDataStructuredTopicList() {
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpCodeableConceptMock("test-display", "test-text");
         setUpEncounter("20100113152000", "20130213152000", "test-display", "test-text");
         var consultation = setUpConsultation();
         var compoundStatement = setUpCompoundStatement("test-text", "test-display",
             "20150213152000", false);
 
-        var topic = listMapper.mapToTopic(consultation, compoundStatement);
+        var topic = listMapper.mapToTopic(consultation, compoundStatement, ehrExtract);
 
         assertTopic(topic, compoundStatement.getId().get(0).getRoot(), "20150213152000", "test-text");
     }
 
     @Test
     public void testValidFallbackDataStructuredTopicList() {
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpCodeableConceptMock("test-display", null);
         setUpEncounter(null, null, "test-display", null);
         var consultation = setUpConsultation();
         var compoundStatement = setUpCompoundStatement(null, "test-display",
             null, true);
 
-        var topic = listMapper.mapToTopic(consultation, compoundStatement);
+        var topic = listMapper.mapToTopic(consultation, compoundStatement, ehrExtract);
 
         assertTopic(topic, compoundStatement.getId().get(0).getRoot(), "20130213152000", null);
     }
 
     @Test
     public void testValidFullDataFlatTopicList() {
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         when(idGenerator.generateUuid()).thenReturn(FLAT_TOPIC_ID);
         setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
         var consultation = setUpConsultation();
 
-        var topic = listMapper.mapToTopic(consultation, null);
+        var topic = listMapper.mapToTopic(consultation, null, ehrExtract);
 
         assertTopic(topic, FLAT_TOPIC_ID, "20130213152000", null);
     }
 
     @Test
     public void testValidFullDataCategoryList() {
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpCodeableConceptMock("test-display", "test-text");
         setUpEncounter("20100113152000", "20130213152000", "test-display", "test-text");
         var topic = setUpTopic();
         var compoundStatement = setUpCompoundStatement("test-text", "test-display",
             "20150213152000", false);
 
-        var category = listMapper.mapToCategory(topic, compoundStatement);
+        var category = listMapper.mapToCategory(topic, compoundStatement, ehrExtract);
 
         assertCategory(category, "20150213152000", "test-text");
     }
 
     @Test
     public void testValidFallbackDataCategoryList() {
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpCodeableConceptMock("test-display", null);
         setUpEncounter("20100113152000", null, "test-display", null);
         var topic = setUpTopic();
         var compoundStatement = setUpCompoundStatement(null, "test-display",
             null, false);
 
-        var category = listMapper.mapToCategory(topic, compoundStatement);
+        var category = listMapper.mapToCategory(topic, compoundStatement, ehrExtract);
 
         assertCategory(category, "20110213152000", "test-display");
     }

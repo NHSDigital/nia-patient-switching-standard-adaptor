@@ -100,9 +100,9 @@ public class EncounterMapper {
 
             var topicCompoundStatementList = getTopicCompoundStatements(ehrComposition);
             if (CollectionUtils.isEmpty(topicCompoundStatementList)) {
-                generateFlatConsultation(consultation, topics, ehrComposition);
+                generateFlatConsultation(consultation, topics, ehrComposition, ehrExtract);
             } else {
-                generateStructuredConsultation(topicCompoundStatementList, ehrComposition, consultation, topics, categories);
+                generateStructuredConsultation(topicCompoundStatementList, ehrComposition, consultation, topics, categories, ehrExtract);
             }
 
             encounters.add(encounter);
@@ -118,9 +118,9 @@ public class EncounterMapper {
     }
 
     private void generateFlatConsultation(ListResource consultation, List<ListResource> topics,
-        RCMRMT030101UKEhrComposition ehrComposition) {
+        RCMRMT030101UKEhrComposition ehrComposition, RCMRMT030101UK04EhrExtract ehrExtract) {
 
-        var topic = consultationListMapper.mapToTopic(consultation, null);
+        var topic = consultationListMapper.mapToTopic(consultation, null, ehrExtract);
 
         List<Reference> entryReferences = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, entryReferences);
@@ -132,13 +132,13 @@ public class EncounterMapper {
 
     private void generateStructuredConsultation(List<RCMRMT030101UKCompoundStatement> topicCompoundStatementList,
         RCMRMT030101UKEhrComposition ehrComposition, ListResource consultation, List<ListResource> topics,
-        List<ListResource> categories) {
+        List<ListResource> categories, RCMRMT030101UK04EhrExtract ehrExtract) {
 
         topicCompoundStatementList.forEach(topicCompoundStatement -> {
-            var topic = consultationListMapper.mapToTopic(consultation, topicCompoundStatement);
+            var topic = consultationListMapper.mapToTopic(consultation, topicCompoundStatement, ehrExtract);
             consultation.addEntry(new ListEntryComponent(new Reference(topic)));
 
-            generateCategoryLists(topicCompoundStatement, topic, categories);
+            generateCategoryLists(topicCompoundStatement, topic, categories, ehrExtract);
 
             List<Extension> relatedProblems = getRelatedProblemsForStructuredConsultation(topicCompoundStatement, ehrComposition);
             relatedProblems.forEach(topic::addExtension);
@@ -215,10 +215,10 @@ public class EncounterMapper {
     }
 
     private void generateCategoryLists(RCMRMT030101UKCompoundStatement topicCompoundStatement, ListResource topic,
-        List<ListResource> categories) {
+        List<ListResource> categories, RCMRMT030101UK04EhrExtract ehrExtract) {
         var categoryCompoundStatements = getCategoryCompoundStatements(topicCompoundStatement);
         categoryCompoundStatements.forEach(categoryCompoundStatement -> {
-            var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
+            var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement, ehrExtract);
 
             List<Reference> entryReferences = new ArrayList<>();
             resourceReferenceUtil.extractChildReferencesFromCompoundStatement(categoryCompoundStatement, entryReferences);

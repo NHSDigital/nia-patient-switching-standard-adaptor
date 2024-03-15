@@ -50,7 +50,7 @@ public class ConsultationListMapper {
             .setTitle(getConsultationTitle(encounter.getType()))
             .setCode(CodeableConceptUtils.createCodeableConcept(CONSULTATION_CODE_CODE, LIST_CODE_SYSTEM, CONSULTATION_CODE_DISPLAY, null))
             .setSubject(encounter.getSubject())
-            .setDateElement(getConsultationDate(encounter.getPeriod()))
+            .setDateElement(getConsultationDate(encounter.getPeriod(), ehrExtract))
             .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
                 LIST_ORDERED_BY_DISPLAY, null))
             .setEncounter(new Reference(encounter))
@@ -77,15 +77,16 @@ public class ConsultationListMapper {
         return null;
     }
 
-    private DateTimeType getConsultationDate(Period period) {
+    private DateTimeType getConsultationDate(Period period, RCMRMT030101UK04EhrExtract ehrExtract) {
         if (period != null && period.hasStart()) {
             return period.getStartElement();
+        } else {
+            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
         }
-
-        return null;
     }
 
-    public ListResource mapToTopic(ListResource consultation, RCMRMT030101UKCompoundStatement compoundStatement) {
+    public ListResource mapToTopic(ListResource consultation, RCMRMT030101UKCompoundStatement compoundStatement,
+                                    RCMRMT030101UK04EhrExtract ehrExtract) {
         ListResource topic = new ListResource();
 
         topic
@@ -95,7 +96,7 @@ public class ConsultationListMapper {
             .setCode(CodeableConceptUtils.createCodeableConcept(TOPIC_CODE_CODE, LIST_CODE_SYSTEM, TOPIC_CODE_DISPLAY, null))
             .setEncounter(consultation.getEncounter())
             .setSubject(consultation.getSubject())
-            .setDateElement(getDate(compoundStatement, consultation))
+            .setDateElement(getDate(compoundStatement, consultation, ehrExtract))
             .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
                 LIST_ORDERED_BY_DISPLAY, null))
             .setMeta(generateMeta(LIST_META_PROFILE))
@@ -108,7 +109,8 @@ public class ConsultationListMapper {
         return compoundStatement != null ? compoundStatement.getId().get(0).getRoot() : idGenerator.generateUuid();
     }
 
-    public ListResource mapToCategory(ListResource topic, RCMRMT030101UKCompoundStatement compoundStatement) {
+    public ListResource mapToCategory(ListResource topic, RCMRMT030101UKCompoundStatement compoundStatement,
+                                      RCMRMT030101UK04EhrExtract ehrExtract) {
         ListResource category = new ListResource();
 
         category
@@ -118,7 +120,7 @@ public class ConsultationListMapper {
             .setCode(CodeableConceptUtils.createCodeableConcept(CATEGORY_CODE_CODE, LIST_CODE_SYSTEM, CATEGORY_CODE_DISPLAY, null))
             .setEncounter(topic.getEncounter())
             .setSubject(topic.getSubject())
-            .setDateElement(getDate(compoundStatement, topic))
+            .setDateElement(getDate(compoundStatement, topic, ehrExtract))
             .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
                 LIST_ORDERED_BY_DISPLAY, null))
             .setMeta(generateMeta(LIST_META_PROFILE))
@@ -127,13 +129,16 @@ public class ConsultationListMapper {
         return category;
     }
 
-    private DateTimeType getDate(RCMRMT030101UKCompoundStatement compoundStatement, ListResource parentList) {
+    private DateTimeType getDate(RCMRMT030101UKCompoundStatement compoundStatement, ListResource parentList,
+                                 RCMRMT030101UK04EhrExtract ehrExtract) {
         if (compoundStatement != null && compoundStatement.getAvailabilityTime() != null
             && compoundStatement.getAvailabilityTime().getValue() != null) {
             return DateFormatUtil.parseToDateTimeType(compoundStatement.getAvailabilityTime().getValue());
+        } else if (parentList.getDateElement() != null) {
+            return parentList.getDateElement();
+        } else {
+            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
         }
-
-        return parentList.getDateElement();
     }
 
     private String getTitle(RCMRMT030101UKCompoundStatement compoundStatement) {
