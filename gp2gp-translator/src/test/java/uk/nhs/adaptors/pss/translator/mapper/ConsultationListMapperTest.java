@@ -92,7 +92,7 @@ public class ConsultationListMapperTest {
 
         var consultation = listMapper.mapToConsultation(ehrExtract, encounter);
 
-        assertConsultation(consultation, "20200101010101", "test-display");
+        assertConsultation(consultation, "20100113151332", "test-display");
     }
 
     @Test

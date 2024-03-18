@@ -14,6 +14,7 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -81,8 +82,14 @@ public class ConsultationListMapper {
         if (period != null && period.hasStart()) {
             return period.getStartElement();
         } else {
-            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
+            if (ehrExtract.getComponent().get(0) != null
+                    && ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0) != null) {
+                RCMRMT030101UKEhrComposition comp = ehrExtract.getComponent().get(0).getEhrFolder().
+                                                     getComponent().get(0).getEhrComposition();
+                return DateFormatUtil.parseToDateTimeType(comp.getAuthor().getTime().getValue());
+            }
         }
+        return null;
     }
 
     public ListResource mapToTopic(ListResource consultation, RCMRMT030101UKCompoundStatement compoundStatement,
@@ -137,8 +144,13 @@ public class ConsultationListMapper {
         } else if (parentList.getDateElement() != null) {
             return parentList.getDateElement();
         } else {
-            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
+            if (ehrExtract.getComponent().get(0) != null && ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0) != null) {
+                RCMRMT030101UKEhrComposition comp = ehrExtract.getComponent().get(0).getEhrFolder().
+                                                     getComponent().get(0).getEhrComposition();
+                return DateFormatUtil.parseToDateTimeType(comp.getAuthor().getTime().getValue());
+            }
         }
+        return null;
     }
 
     private String getTitle(RCMRMT030101UKCompoundStatement compoundStatement) {
