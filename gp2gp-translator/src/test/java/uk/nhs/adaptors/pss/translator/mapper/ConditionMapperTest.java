@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -24,6 +25,7 @@ import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.v3.CD;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component2;
@@ -255,6 +257,70 @@ public class ConditionMapperTest {
             mockedMedicationMapperUtils.close();
         }
 
+    }
+
+    @Test
+    public void testConditionWithPertinentAnnotationTextIsMappedCorrectly() {
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_pertinentInformation.xml");
+
+        when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
+        MockedStatic<MedicationMapperUtils> mockedMedicationMapperUtils = Mockito.mockStatic(MedicationMapperUtils.class);
+
+        // spotbugs doesn't allow try with resources due to de-referenced null check
+        try {
+            mockedMedicationMapperUtils.when(() -> MedicationMapperUtils.getMedicationStatements(ehrExtract))
+                .thenReturn(getMedicationStatements());
+
+            final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
+
+            assertThat(conditions.size()).isOne();
+
+            var bundle = new Bundle();
+            bundle.addEntry(new BundleEntryComponent().setResource(conditions.get(0)));
+            addMedicationRequestsToBundle(bundle);
+
+            conditionMapper.addReferences(bundle, conditions, ehrExtract);
+
+            var noteText = conditions.get(0).getNote().get(1).getText();
+            assertEquals("Problem severity: Minor (New Episode). H/O: injury to little finger left hand poss glass in wound therefore refered to A+E",
+                         noteText);
+
+            var extensions = conditions.get(0).getExtension();
+
+            assertThat(extensions).hasSize(EXPECTED_NUMBER_OF_EXTENSIONS);
+            var relatedClinicalContentExtensions = extensions.stream()
+                .filter(extension -> extension.getUrl().equals(RELATED_CLINICAL_CONTENT_URL))
+                .toList();
+
+            assertThat(relatedClinicalContentExtensions).hasSize(2);
+
+            List<String> clinicalContextReferences = relatedClinicalContentExtensions.stream()
+                .map(Extension::getValue)
+                .map(Reference.class::cast)
+                .map(reference -> reference.getReferenceElement().getValue())
+                .toList();
+
+            assertThat(clinicalContextReferences).contains(AUTHORISE_ID);
+            assertThat(clinicalContextReferences).contains(PRESCRIBE_ID);
+        } finally {
+            mockedMedicationMapperUtils.close();
+        }
+
+    }
+
+    @Test
+    public void compareCodeableConcepts() {
+        CD c1 = new CD();
+        c1.setCode("Code1");
+        c1.setCodeSystem("CodeSystem1");
+        c1.setDisplayName("DisplayName1");
+
+        CD c2 = new CD();
+        c2.setCode("Code1");
+        c2.setCodeSystem("CodeSystem1");
+        c2.setDisplayName("DisplayName1");
+
+        assertTrue(conditionMapper.compareCodeableConcepts(c1, c2));
     }
 
     @Test

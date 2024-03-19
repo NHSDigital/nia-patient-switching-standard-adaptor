@@ -56,6 +56,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
@@ -180,6 +181,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     public void addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
+
         getCompositionsContainingLinkSets(ehrExtract).stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UKComponent4::getLinkSet)
@@ -195,10 +197,16 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                                 namedStatementRef.getId().getRoot()
                         );
 
+                        var referencedObservationStatementList = getObservationStatementByCodeableConceptCode(
+                                                                    ehrExtract,
+                                                                    referencedObservationStatement.get().getCode());
+
+                        checkupIfObservationStatementShouldBeMerged(referencedObservationStatement);
+
                         buildNotes(
-                                referencedObservationStatement,
-                                linkSet
-                        ).forEach(condition::addNote);
+                                    referencedObservationStatement,
+                                    linkSet
+                            ).forEach(condition::addNote);
 
                         referencedObservationStatement.ifPresent(
                                 observationStatement -> {
@@ -215,6 +223,10 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
                         buildRelatedClinicalContent(bundle, statementRefs, ehrExtract).forEach(condition::addExtension);
                     }));
+    }
+
+    private static void checkupIfObservationStatementShouldBeMerged(Optional<RCMRMT030101UKObservationStatement> referencedObservationStatement) {
+        // referencedObservationStatement.get().getPertinentInformation().get(0).getPertinentAnnotation().getText().endsWith("...");
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UKLinkSet linkSet) {
@@ -452,6 +464,30 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 .flatMap(CompoundStatementResourceExtractors::extractAllLinkSets)
                 .anyMatch(Objects::nonNull))
             .toList();
+    }
+
+    protected List<RCMRMT030101UKObservationStatement> getObservationStatementByCodeableConceptCode(RCMRMT030101UK04EhrExtract ehrExtract,
+                                                                                                  CD code) {
+
+        List<RCMRMT030101UKObservationStatement> observationStatements = ehrExtract.getComponent().stream()
+            .map(RCMRMT030101UKComponent::getEhrFolder)
+            .map(RCMRMT030101UKEhrFolder::getComponent)
+            .flatMap(Collection::stream)
+            .map(RCMRMT030101UKComponent3::getEhrComposition)
+            .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
+            .flatMap(CompoundStatementResourceExtractors::extractAllObservationStatements)
+            .toList();
+
+        return observationStatements.stream()
+            .filter(Objects::nonNull)
+            .filter(observationStatement -> compareCodeableConcepts(code, observationStatement.getCode()))
+            .toList();
+    }
+
+    protected static Boolean compareCodeableConcepts(CD c1, CD c2) {
+        return c1.getCode().equals(c2.getCode())
+               && c1.getCodeSystem().equals(c2.getCodeSystem())
+               && c1.getDisplayName().equals(c2.getDisplayName());
     }
 
     private Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
