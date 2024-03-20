@@ -96,13 +96,13 @@ public class EncounterMapper {
 
         ehrCompositionList.forEach(ehrComposition -> {
             var encounter = mapToEncounter(ehrComposition, patient, practiseCode, entryLocations);
-            var consultation = consultationListMapper.mapToConsultation(ehrExtract, encounter);
+            var consultation = consultationListMapper.mapToConsultation(ehrComposition, encounter);
 
             var topicCompoundStatementList = getTopicCompoundStatements(ehrComposition);
             if (CollectionUtils.isEmpty(topicCompoundStatementList)) {
-                generateFlatConsultation(consultation, topics, ehrComposition, ehrExtract);
+                generateFlatConsultation(consultation, topics, ehrComposition);
             } else {
-                generateStructuredConsultation(topicCompoundStatementList, ehrComposition, consultation, topics, categories, ehrExtract);
+                generateStructuredConsultation(topicCompoundStatementList, ehrComposition, consultation, topics, categories);
             }
 
             encounters.add(encounter);
@@ -118,9 +118,9 @@ public class EncounterMapper {
     }
 
     private void generateFlatConsultation(ListResource consultation, List<ListResource> topics,
-        RCMRMT030101UKEhrComposition ehrComposition, RCMRMT030101UK04EhrExtract ehrExtract) {
+        RCMRMT030101UKEhrComposition ehrComposition) {
 
-        var topic = consultationListMapper.mapToTopic(consultation, null, ehrExtract);
+        var topic = consultationListMapper.mapToTopic(consultation, null);
 
         List<Reference> entryReferences = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, entryReferences);
@@ -132,13 +132,13 @@ public class EncounterMapper {
 
     private void generateStructuredConsultation(List<RCMRMT030101UKCompoundStatement> topicCompoundStatementList,
         RCMRMT030101UKEhrComposition ehrComposition, ListResource consultation, List<ListResource> topics,
-        List<ListResource> categories, RCMRMT030101UK04EhrExtract ehrExtract) {
+        List<ListResource> categories) {
 
         topicCompoundStatementList.forEach(topicCompoundStatement -> {
-            var topic = consultationListMapper.mapToTopic(consultation, topicCompoundStatement, ehrExtract);
+            var topic = consultationListMapper.mapToTopic(consultation, topicCompoundStatement);
             consultation.addEntry(new ListEntryComponent(new Reference(topic)));
 
-            generateCategoryLists(topicCompoundStatement, topic, categories, ehrExtract);
+            generateCategoryLists(topicCompoundStatement, topic, categories, ehrComposition);
 
             List<Extension> relatedProblems = getRelatedProblemsForStructuredConsultation(topicCompoundStatement, ehrComposition);
             relatedProblems.forEach(topic::addExtension);
@@ -215,10 +215,10 @@ public class EncounterMapper {
     }
 
     private void generateCategoryLists(RCMRMT030101UKCompoundStatement topicCompoundStatement, ListResource topic,
-        List<ListResource> categories, RCMRMT030101UK04EhrExtract ehrExtract) {
+        List<ListResource> categories, RCMRMT030101UKEhrComposition ehrComposition) {
         var categoryCompoundStatements = getCategoryCompoundStatements(topicCompoundStatement);
         categoryCompoundStatements.forEach(categoryCompoundStatement -> {
-            var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement, ehrExtract);
+            var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
 
             List<Reference> entryReferences = new ArrayList<>();
             resourceReferenceUtil.extractChildReferencesFromCompoundStatement(categoryCompoundStatement, entryReferences);
@@ -242,7 +242,7 @@ public class EncounterMapper {
         return compoundStatement != null && CATEGORY_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
     }
 
-    private List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
+    public List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract
             .getComponent()
             .stream()
@@ -309,7 +309,7 @@ public class EncounterMapper {
         return List.of(codeableConcept);
     }
 
-    private Period getPeriod(RCMRMT030101UKEhrComposition ehrComposition) {
+       private Period getPeriod(RCMRMT030101UKEhrComposition ehrComposition) {
         Period period = new Period();
         var effectiveTime = ehrComposition.getEffectiveTime();
         var availabilityTime = ehrComposition.getAvailabilityTime();

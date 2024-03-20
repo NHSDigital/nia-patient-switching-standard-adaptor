@@ -57,6 +57,8 @@ public class ConsultationListMapperTest {
     private static final String FLAT_TOPIC_ID = "AEE5F640-90A6-11EC-B1E5-0800200C9A66";
     private static final String COMPOUND_STATEMENT_ID = "68E66550-90DB-11EC-B1E5-0800200C9A66";
     private static final String FULL_VALID_CONSULTATION_LIST_XML = "full_valid_consultation_list.xml";
+    private static final String COMPOSITIOLN_LIST_XML = "composition_list.xml";
+
     private static final String NO_OPTIONAL_CONSULTATION_LIST_XML = "no_optional_consultation_list.xml";
 
     @Mock
@@ -80,17 +82,22 @@ public class ConsultationListMapperTest {
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
 
-        var consultation = listMapper.mapToConsultation(ehrExtract, encounter);
+        var comp = ehrExtract.getComponent().get(0).getEhrFolder().
+                getComponent().get(0).getEhrComposition();
+        var consultation = listMapper.mapToConsultation(comp, encounter);
 
-        assertConsultation(consultation, "20100113152000", "test-text");
+        assertConsultation(consultation, "20100113151332", "test-text");
     }
 
     @Test
     public void testValidNoOptionalDataConsultationList() {
-        var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_CONSULTATION_LIST_XML);
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpEncounter(null, null, "test-display", null);
 
-        var consultation = listMapper.mapToConsultation(ehrExtract, encounter);
+        var comp = ehrExtract.getComponent().get(0).getEhrFolder().
+                getComponent().get(0).getEhrComposition();
+
+        var consultation = listMapper.mapToConsultation(comp, encounter);
 
         assertConsultation(consultation, "20100113151332", "test-display");
     }
@@ -104,7 +111,7 @@ public class ConsultationListMapperTest {
         var compoundStatement = setUpCompoundStatement("test-text", "test-display",
             "20150213152000", false);
 
-        var topic = listMapper.mapToTopic(consultation, compoundStatement, ehrExtract);
+        var topic = listMapper.mapToTopic(consultation, compoundStatement);
 
         assertTopic(topic, compoundStatement.getId().get(0).getRoot(), "20150213152000", "test-text");
     }
@@ -118,7 +125,7 @@ public class ConsultationListMapperTest {
         var compoundStatement = setUpCompoundStatement(null, "test-display",
             null, true);
 
-        var topic = listMapper.mapToTopic(consultation, compoundStatement, ehrExtract);
+        var topic = listMapper.mapToTopic(consultation, compoundStatement);
 
         assertTopic(topic, compoundStatement.getId().get(0).getRoot(), "20130213152000", null);
     }
@@ -130,7 +137,7 @@ public class ConsultationListMapperTest {
         setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
         var consultation = setUpConsultation();
 
-        var topic = listMapper.mapToTopic(consultation, null, ehrExtract);
+        var topic = listMapper.mapToTopic(consultation, null);
 
         assertTopic(topic, FLAT_TOPIC_ID, "20130213152000", null);
     }
@@ -144,21 +151,20 @@ public class ConsultationListMapperTest {
         var compoundStatement = setUpCompoundStatement("test-text", "test-display",
             "20150213152000", false);
 
-        var category = listMapper.mapToCategory(topic, compoundStatement, ehrExtract);
+        var category = listMapper.mapToCategory(topic, compoundStatement);
 
         assertCategory(category, "20150213152000", "test-text");
     }
 
     @Test
     public void testValidFallbackDataCategoryList() {
-        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpCodeableConceptMock("test-display", null);
         setUpEncounter("20100113152000", null, "test-display", null);
         var topic = setUpTopic();
         var compoundStatement = setUpCompoundStatement(null, "test-display",
             null, false);
 
-        var category = listMapper.mapToCategory(topic, compoundStatement, ehrExtract);
+        var category = listMapper.mapToCategory(topic, compoundStatement);
 
         assertCategory(category, "20110213152000", "test-display");
     }
@@ -305,4 +311,5 @@ public class ConsultationListMapperTest {
     private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
     }
+
 }

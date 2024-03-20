@@ -25,6 +25,7 @@ import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -131,13 +132,11 @@ public class EncounterMapperTest {
 
     @Test
     public void testEncountersWithMultipleCompoundStatements() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                    any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                    any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML);
 
@@ -155,13 +154,11 @@ public class EncounterMapperTest {
 
     @Test
     public void testMapValidEncounterWithSnomedCode() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                  any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                    any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
@@ -186,13 +183,11 @@ public class EncounterMapperTest {
         var codeableConcept = createCodeableConcept(null, "1.2.3.4.5", CODING_DISPLAY);
 
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                   any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                     any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
@@ -213,13 +208,11 @@ public class EncounterMapperTest {
 
     @Test
     public void testValidEncounterWithFullDataWithStructuredConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                  any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                     any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
@@ -253,14 +246,10 @@ public class EncounterMapperTest {
 
     @Test
     public void testValidEncounterWithLinkSetWithStructuredConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                  any(RCMRMT030101UK04EhrExtract.class)))
-            .thenReturn(getList());
-        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                     any(RCMRMT030101UK04EhrExtract.class)))
-            .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class))).thenReturn(getList());
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class))).thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -307,9 +296,9 @@ public class EncounterMapperTest {
 
     @Test
     public void testValidEncounterWithFlatConsultationWithLinkSet() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull(), any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_LINK_SET_XML);
 
@@ -340,9 +329,9 @@ public class EncounterMapperTest {
 
     @Test
     public void testValidEncounterWithFullDataWithFlatConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull(), any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_XML);
 
@@ -370,9 +359,9 @@ public class EncounterMapperTest {
 
     @Test
     public void testValidEncounterWithNoOptionalDataWithFlatConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull(), any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_FLAT_ENCOUNTER_XML);
 
@@ -399,13 +388,11 @@ public class EncounterMapperTest {
 
     @Test
     public void testEncounterWithMappedResourcesWithStructuredConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                  any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class),
-                                                     any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_RESOURCES_XML);
 
@@ -441,9 +428,9 @@ public class EncounterMapperTest {
 
     @Test
     public void testEncounterWithMappedResourcesWithFlatConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull(), any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_RESOURCES_XML);
 
@@ -474,9 +461,9 @@ public class EncounterMapperTest {
     @ParameterizedTest
     @MethodSource("encounterPeriodTestFiles")
     public void testEncounterPeriod(String inputXML, String startDate, String endDate) {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull(), any(RCMRMT030101UK04EhrExtract.class)))
+        when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
 
