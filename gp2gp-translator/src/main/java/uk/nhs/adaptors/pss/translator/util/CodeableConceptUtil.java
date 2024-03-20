@@ -42,11 +42,9 @@ public final class CodeableConceptUtil {
 
         if (c1 != null && c2 != null && c1.size() == c2.size()) {
 
-            for (CD c2Element : c2) {
-                for (CD c1Element : c1) {
-                    if (c1Element.getCode().equals(c2Element.getCode())
-                        && c1Element.getCodeSystem().equals(c2Element.getCodeSystem())
-                        && c1Element.getDisplayName().equals(c2Element.getDisplayName())) {
+            for (CD c1Element : c1) {
+                for (CD c2Element : c2) {
+                    if (compareCodeableConcepts(c1Element, c2Element)) {
                         itemsMatch = true;
                         break;
                     } else {
