@@ -10,7 +10,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CodeableConceptUtilTest {
 
     @Test
-    public void compareCodeableConceptsWithOnePairOfTransaction() {
+    public void compareCodeableConceptsWithNullParams() {
+        assertTrue(CodeableConceptUtil.compareCodeableConcepts(null, null));
+    }
+
+    @Test
+    public void compareCodeableConceptsWithFirstNullParam() {
+        CD c2 = new CD();
+        assertFalse(CodeableConceptUtil.compareCodeableConcepts(null, c2));
+    }
+
+    @Test
+    public void compareCodeableConceptsWithSecondNullParam() {
+        CD c1 = new CD();
+        assertFalse(CodeableConceptUtil.compareCodeableConcepts(c1, null));
+    }
+
+    @Test
+    public void compareCodeableConceptsWithOneTransaction() {
 
         CD c1 = new CD();
         c1.setCode("Code1");
