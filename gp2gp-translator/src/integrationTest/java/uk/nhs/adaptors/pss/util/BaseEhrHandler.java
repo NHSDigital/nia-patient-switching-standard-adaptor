@@ -37,7 +37,7 @@ import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 
 @Getter
 public abstract class BaseEhrHandler {
-    private static final boolean OVERWRITE_EXPECTED_JSON = false;
+    public static final boolean OVERWRITE_EXPECTED_JSON = false;
 
     private List<String> ignoredJsonPaths;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;

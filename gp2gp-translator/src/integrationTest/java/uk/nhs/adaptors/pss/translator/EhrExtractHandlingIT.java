@@ -7,6 +7,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.pss.util.BaseEhrHandler.OVERWRITE_EXPECTED_JSON;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.io.PrintWriter;
@@ -49,7 +50,6 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @AutoConfigureMockMvc
 public class EhrExtractHandlingIT {
 
-    private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
