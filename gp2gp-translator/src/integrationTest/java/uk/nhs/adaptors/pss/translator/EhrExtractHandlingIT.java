@@ -7,6 +7,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.pss.util.BaseEhrHandler.OVERWRITE_EXPECTED_JSON;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.io.PrintWriter;
@@ -49,7 +50,6 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @AutoConfigureMockMvc
 public class EhrExtractHandlingIT {
 
-    private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
@@ -173,7 +173,7 @@ public class EhrExtractHandlingIT {
         var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
 
         if (OVERWRITE_EXPECTED_JSON) {
-            overwriteExpectJson(patientMigrationRequest.getBundleResource());
+            overwriteExpectJson(path, patientMigrationRequest.getBundleResource());
         }
 
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
@@ -199,8 +199,8 @@ public class EhrExtractHandlingIT {
     }
 
     @SneakyThrows
-    private void overwriteExpectJson(String newExpected) {
-        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/json/expectedBundle.json", StandardCharsets.UTF_8)) {
+    private void overwriteExpectJson(String path, String newExpected) {
+        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/" + path, StandardCharsets.UTF_8)) {
             printWriter.print(newExpected);
         }
         fail("Re-run the tests with OVERWRITE_EXPECTED_JSON=false");
