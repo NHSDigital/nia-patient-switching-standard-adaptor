@@ -309,7 +309,7 @@ public class EncounterMapper {
         return List.of(codeableConcept);
     }
 
-       private Period getPeriod(RCMRMT030101UKEhrComposition ehrComposition) {
+    private Period getPeriod(RCMRMT030101UKEhrComposition ehrComposition) {
         Period period = new Period();
         var effectiveTime = ehrComposition.getEffectiveTime();
         var availabilityTime = ehrComposition.getAvailabilityTime();

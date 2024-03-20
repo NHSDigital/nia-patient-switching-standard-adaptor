@@ -247,9 +247,11 @@ public class EncounterMapperTest {
     @Test
     public void testValidEncounterWithLinkSetWithStructuredConsultation() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
-            .thenReturn(getList());
-        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class))).thenReturn(getList());
-        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class))).thenReturn(getList());
+                                                      .thenReturn(getList());
+        when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+                                                .thenReturn(getList());
+        when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
+                                                   .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
