@@ -106,7 +106,7 @@ public abstract class BaseEhrHandler {
         var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
 
         if (OVERWRITE_EXPECTED_JSON) {
-            overwriteExpectJson(patientMigrationRequest.getBundleResource());
+            overwriteExpectJson(path, patientMigrationRequest.getBundleResource());
         }
 
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
@@ -118,8 +118,8 @@ public abstract class BaseEhrHandler {
     }
 
     @SneakyThrows
-    protected void overwriteExpectJson(String newExpected) {
-        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/json/expectedBundle.json", StandardCharsets.UTF_8)) {
+    protected void overwriteExpectJson(String path, String newExpected) {
+        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/" + path, StandardCharsets.UTF_8)) {
             printWriter.print(newExpected);
         }
         fail("Re-run the tests with OVERWRITE_EXPECTED_JSON=false");

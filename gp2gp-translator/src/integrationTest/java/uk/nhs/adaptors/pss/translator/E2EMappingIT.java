@@ -316,7 +316,7 @@ public class E2EMappingIT extends BaseEhrHandler {
         var odsCodeToBeReplaced = getOdsToBeReplaced(expectedBundle);
 
         if (OVERWRITE_EXPECTED_JSON) {
-            overwriteExpectJson(patientMigrationRequest.getBundleResource());
+            overwriteExpectJson(path, patientMigrationRequest.getBundleResource());
         }
 
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
