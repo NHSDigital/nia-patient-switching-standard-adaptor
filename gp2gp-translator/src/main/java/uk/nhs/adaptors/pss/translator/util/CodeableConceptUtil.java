@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.util.CollectionUtils;
 import org.hl7.v3.CD;
 import java.util.List;
 import java.util.Objects;
@@ -24,16 +25,9 @@ public final class CodeableConceptUtil {
     }
 
     private static Boolean compareCodeSubElements(List<? extends CD> c1, List<? extends CD> c2) {
-        if (c1 == null || c2 == null) {
-            return c1 == c2;
-        }
 
-        if (c1.isEmpty() && c2.isEmpty()) {
-            return true;
-        }
-
-        if (c1.size() != c2.size()) {
-            return false;
+        if (CollectionUtils.isEmpty(c1) || CollectionUtils.isEmpty(c2) || c1.size() != c2.size()) {
+            return CollectionUtils.isEmpty(c1) && CollectionUtils.isEmpty(c2);
         }
 
         for (CD c1Element : c1) {
