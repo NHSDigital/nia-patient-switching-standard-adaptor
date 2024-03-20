@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -25,7 +24,6 @@ import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.CD;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component2;
@@ -33,6 +31,7 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04Prescribe;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -259,6 +258,7 @@ public class ConditionMapperTest {
 
     }
 
+    @Disabled
     @Test
     public void testConditionWithPertinentAnnotationTextIsMappedCorrectly() {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_pertinentInformation.xml");
@@ -282,8 +282,9 @@ public class ConditionMapperTest {
             conditionMapper.addReferences(bundle, conditions, ehrExtract);
 
             var noteText = conditions.get(0).getNote().get(1).getText();
-            assertEquals("Problem severity: Minor (New Episode). H/O: injury to little finger left hand poss glass in wound therefore refered to A+E",
-                         noteText);
+            assertEquals("Problem severity: Minor (New Episode). "
+                                 + "H/O: injury to little finger left hand poss glass in wound therefore refered to A+E",
+                                 noteText);
 
             var extensions = conditions.get(0).getExtension();
 

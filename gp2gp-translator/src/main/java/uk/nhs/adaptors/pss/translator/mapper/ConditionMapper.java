@@ -197,9 +197,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                                 namedStatementRef.getId().getRoot()
                         );
 
-                        var referencedObservationStatementList = getObservationStatementByCodeableConceptCode(
-                                                                    ehrExtract,
-                                                                    referencedObservationStatement.get().getCode());
+                        //var referencedObservationStatementList = getObservationStatementByCodeableConceptCode(
+                        //                                            ehrExtract,
+                        //                                            referencedObservationStatement.get().getCode());
 
                         checkupIfObservationStatementShouldBeMerged(referencedObservationStatement);
 
@@ -225,7 +225,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                     }));
     }
 
-    private static void checkupIfObservationStatementShouldBeMerged(Optional<RCMRMT030101UKObservationStatement> referencedObservationStatement) {
+    private static void checkupIfObservationStatementShouldBeMerged(
+                                                Optional<RCMRMT030101UKObservationStatement> referencedObservationStatement) {
         // referencedObservationStatement.get().getPertinentInformation().get(0).getPertinentAnnotation().getText().endsWith("...");
     }
 
