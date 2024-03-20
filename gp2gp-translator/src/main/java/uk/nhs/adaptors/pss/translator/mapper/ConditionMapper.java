@@ -56,10 +56,10 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
+import uk.nhs.adaptors.pss.translator.util.CodeableConceptUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -480,14 +480,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
         return observationStatements.stream()
             .filter(Objects::nonNull)
-            .filter(observationStatement -> compareCodeableConcepts(code, observationStatement.getCode()))
+            .filter(observationStatement -> CodeableConceptUtil.compareCodeableConcepts(code, observationStatement.getCode()))
             .toList();
-    }
-
-    protected static Boolean compareCodeableConcepts(CD c1, CD c2) {
-        return c1.getCode().equals(c2.getCode())
-               && c1.getCodeSystem().equals(c2.getCodeSystem())
-               && c1.getDisplayName().equals(c2.getDisplayName());
     }
 
     private Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {

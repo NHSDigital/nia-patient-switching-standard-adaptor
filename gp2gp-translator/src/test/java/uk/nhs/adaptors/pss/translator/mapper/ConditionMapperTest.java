@@ -309,21 +309,6 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void compareCodeableConcepts() {
-        CD c1 = new CD();
-        c1.setCode("Code1");
-        c1.setCodeSystem("CodeSystem1");
-        c1.setDisplayName("DisplayName1");
-
-        CD c2 = new CD();
-        c2.setCode("Code1");
-        c2.setCodeSystem("CodeSystem1");
-        c2.setDisplayName("DisplayName1");
-
-        assertTrue(conditionMapper.compareCodeableConcepts(c1, c2));
-    }
-
-    @Test
     public void mapConditionWithoutSnomedCodeInCoding() {
         var codeableConcept = new CodeableConcept().addCoding(new Coding().setDisplay(CODING_DISPLAY));
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
