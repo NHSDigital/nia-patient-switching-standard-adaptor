@@ -63,6 +63,9 @@ public class ConsultationListMapperTest {
                                     "full_valid_consultation_noAuthor_noavailability_effectLow_list.xml";
     private static final String FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_LIST_XML =
                                     "full_valid_consultation_noAuthor_noavailability_list.xml";
+    private static final String FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_EFFECTCENTER_LIST_XML =
+            "full_valid_consultation_noAuthor_noavailability_effectCenter_list.xml";
+
 
     @Mock
     private IdGeneratorService idGenerator;
@@ -90,6 +93,19 @@ public class ConsultationListMapperTest {
         var consultation = listMapper.mapToConsultation(comp, encounter);
 
         assertConsultation(consultation, "20100113151332", "test-text");
+    }
+
+    @Test
+    public void testValidFullDataConsultationNoAuthorNoAvailTimeListEffectCenter() {
+        var ehrExtract = unmarshallEhrExtractElement(
+                FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_EFFECTCENTER_LIST_XML);
+        setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
+
+        var comp = ehrExtract.getComponent().get(0).getEhrFolder().
+                getComponent().get(0).getEhrComposition();
+        var consultation = listMapper.mapToConsultation(comp, encounter);
+
+        assertConsultation(consultation, "20100113155000", "test-text");
     }
 
     @Test
