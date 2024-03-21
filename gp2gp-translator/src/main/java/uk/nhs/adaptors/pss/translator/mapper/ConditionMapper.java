@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.amazonaws.services.s3.model.lifecycle.LifecyclePredicateVisitor;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -187,47 +188,48 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .map(RCMRMT030101UKComponent4::getLinkSet)
             .filter(Objects::nonNull)
             .forEach(linkSet -> conditions.stream()
-                    .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
-                    .findFirst().ifPresent(condition -> {
-                        var namedStatementRef = linkSet.getConditionNamed().getNamedStatementRef();
-                        buildActualProblem(bundle, namedStatementRef).ifPresent(condition::addExtension);
+                .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
+                .findFirst().ifPresent(condition -> {
+                    var namedStatementRef = linkSet.getConditionNamed().getNamedStatementRef();
+                    buildActualProblem(bundle, namedStatementRef).ifPresent(condition::addExtension);
 
-                        var referencedObservationStatement = getObservationStatementById(
+                    var referencedObservationStatement = getObservationStatementById(
+                        ehrExtract,
+                        namedStatementRef.getId().getRoot());
+
+                    if (referencedObservationStatement.isPresent()) {
+                        final List<RCMRMT030101UKObservationStatement> referencedObservationStatementList =
+                            getObservationStatementByCodeableConceptCode(
                                 ehrExtract,
-                                namedStatementRef.getId().getRoot()
-                        );
+                                referencedObservationStatement.get().getCode());
 
-                        //var referencedObservationStatementList = getObservationStatementByCodeableConceptCode(
-                        //                                            ehrExtract,
-                        //                                            referencedObservationStatement.get().getCode());
+                        referencedObservationStatement = mergeObservationStatementsIfRequired(referencedObservationStatementList);
+                    }
 
-                        checkupIfObservationStatementShouldBeMerged(referencedObservationStatement);
+                    buildNotes(referencedObservationStatement, linkSet)
+                        .forEach(condition::addNote);
 
-                        buildNotes(
-                                    referencedObservationStatement,
-                                    linkSet
-                            ).forEach(condition::addNote);
+                    referencedObservationStatement.ifPresent(
+                        observationStatement -> {
+                            condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
+                            DegradedCodeableConcepts.addDegradedEntryIfRequired(
+                                condition.getCode(),
+                                DegradedCodeableConcepts.DEGRADED_OTHER);
+                        });
 
-                        referencedObservationStatement.ifPresent(
-                                observationStatement -> {
-                                    condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
-                                    DegradedCodeableConcepts.addDegradedEntryIfRequired(
-                                        condition.getCode(),
-                                        DegradedCodeableConcepts.DEGRADED_OTHER);
-                                });
+                    var statementRefs = linkSet.getComponent()
+                        .stream()
+                        .map(RCMRMT030101UKComponent6::getStatementRef)
+                        .toList();
 
-                        var statementRefs = linkSet.getComponent()
-                                .stream()
-                                .map(RCMRMT030101UKComponent6::getStatementRef)
-                                .toList();
-
-                        buildRelatedClinicalContent(bundle, statementRefs, ehrExtract).forEach(condition::addExtension);
-                    }));
+                    buildRelatedClinicalContent(bundle, statementRefs, ehrExtract).forEach(condition::addExtension);
+                }));
     }
 
-    private static void checkupIfObservationStatementShouldBeMerged(
-                                                Optional<RCMRMT030101UKObservationStatement> referencedObservationStatement) {
-        // referencedObservationStatement.get().getPertinentInformation().get(0).getPertinentAnnotation().getText().endsWith("...");
+    protected static Optional<RCMRMT030101UKObservationStatement> mergeObservationStatementsIfRequired(
+        List<RCMRMT030101UKObservationStatement> referencedObservationStatement) {
+
+        return Optional.ofNullable(referencedObservationStatement.get(0));
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UKLinkSet linkSet) {
