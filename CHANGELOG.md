@@ -5,8 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-* Condition.onsetDateTime is set to NULL when low or center entries of effectiveTime
-  are `nullFlavor="UNK"`
+## [1.4.6] - 2024-03-21
+
+* `Condition.onsetDateTime` is now set to NULL when low or center entries of effectiveTime are `nullFlavor="UNK"`.
 
 ## [1.4.5] - 2024-03-01
 
