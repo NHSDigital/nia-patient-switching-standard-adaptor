@@ -19,7 +19,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.amazonaws.services.s3.model.lifecycle.LifecyclePredicateVisitor;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -198,12 +197,12 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         namedStatementRef.getId().getRoot());
 
                     if (referencedObservationStatement.isPresent()) {
-                        final List<RCMRMT030101UKObservationStatement> referencedObservationStatementList =
-                            getObservationStatementByCodeableConceptCode(
-                                ehrExtract,
-                                referencedObservationStatement.get().getCode());
+                        final Optional<RCMRMT030101UKObservationStatement> matchedObservationStatement =
+                            getObservationStatementByCodeableConceptCode(ehrExtract, referencedObservationStatement.get());
 
-                        referencedObservationStatement = mergeObservationStatementsIfRequired(referencedObservationStatementList);
+                        var mergedObservationStatement = mergeObservationStatementsIfRequired(referencedObservationStatement.get(),
+                                                                                              matchedObservationStatement);
+                        referencedObservationStatement = Optional.ofNullable(mergedObservationStatement);
                     }
 
                     buildNotes(referencedObservationStatement, linkSet)
@@ -226,10 +225,15 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 }));
     }
 
-    protected static Optional<RCMRMT030101UKObservationStatement> mergeObservationStatementsIfRequired(
-        List<RCMRMT030101UKObservationStatement> referencedObservationStatement) {
+    protected static RCMRMT030101UKObservationStatement mergeObservationStatementsIfRequired(
+        RCMRMT030101UKObservationStatement referencedObservationStatement,
+        Optional<RCMRMT030101UKObservationStatement> matchedObservationStatement) {
 
-        return Optional.ofNullable(referencedObservationStatement.get(0));
+        if (!matchedObservationStatement.isPresent()) {
+            return referencedObservationStatement;
+        }
+
+        return referencedObservationStatement;
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UKLinkSet linkSet) {
@@ -469,8 +473,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .toList();
     }
 
-    protected List<RCMRMT030101UKObservationStatement> getObservationStatementByCodeableConceptCode(RCMRMT030101UK04EhrExtract ehrExtract,
-                                                                                                  CD code) {
+    protected Optional<RCMRMT030101UKObservationStatement> getObservationStatementByCodeableConceptCode(
+        RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UKObservationStatement referencedObservationStatement) {
 
         List<RCMRMT030101UKObservationStatement> observationStatements = ehrExtract.getComponent().stream()
             .map(RCMRMT030101UKComponent::getEhrFolder)
@@ -483,8 +488,10 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
         return observationStatements.stream()
             .filter(Objects::nonNull)
-            .filter(observationStatement -> CodeableConceptUtil.compareCodeableConcepts(code, observationStatement.getCode()))
-            .toList();
+            .filter(observationStatement -> CodeableConceptUtil.compareCodeableConcepts(referencedObservationStatement.getCode(),
+                                                                                        observationStatement.getCode()))
+            .filter(observationStatement -> observationStatement != referencedObservationStatement)
+            .findFirst();
     }
 
     private Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {

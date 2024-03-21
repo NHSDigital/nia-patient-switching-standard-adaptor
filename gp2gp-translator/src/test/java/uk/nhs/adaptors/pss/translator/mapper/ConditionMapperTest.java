@@ -2,8 +2,10 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -30,7 +32,10 @@ import org.hl7.v3.RCMRMT030101UK04Authorise;
 import org.hl7.v3.RCMRMT030101UK04Component2;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04Prescribe;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -87,6 +92,57 @@ public class ConditionMapperTest {
     @BeforeEach
     public void setUp() {
         patient = (Patient) new Patient().setId(PATIENT_ID);
+
+    }
+
+    @Test
+    void testMergeObservationStatementsIfRequiredWhenNoObservationStatementToMergeWith() {
+        var expectedObservationStatement = new RCMRMT030101UK04ObservationStatement();
+
+        var observationStatement = conditionMapper.mergeObservationStatementsIfRequired(expectedObservationStatement, null);
+
+        assertEquals(expectedObservationStatement, observationStatement);
+    }
+
+    @Test
+    void testMergeObservationStatementsIfRequiredWithTwoObservationStatements() {
+
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_pertinentInformation.xml");
+
+        MockedStatic<MedicationMapperUtils> mockedMedicationMapperUtils = Mockito.mockStatic(MedicationMapperUtils.class);
+
+        mockedMedicationMapperUtils.when(() -> MedicationMapperUtils.getMedicationStatements(ehrExtract))
+            .thenReturn(getMedicationStatements());
+
+        RCMRMT030101UKObservationStatement observationStatementWithCode = new RCMRMT030101UK04ObservationStatement();
+
+
+        CD code = new CD();
+        code.setCode("14J..");
+        code.setCodeSystem("2.16.840.1.113883.2.1.3.2.4.14");
+        code.setDisplayName("H/O: injury");
+
+        CD translationCD1 = new CD();
+        translationCD1.setCode("161586000");
+        translationCD1.setCodeSystem("2.16.840.1.113883.2.1.3.2.4.15");
+        translationCD1.setDisplayName("H/O: injury");
+        code.getTranslation().add(translationCD1);
+
+        CD translationCD2 = new CD();
+        translationCD2.setCode("14J..00");
+        translationCD2.setCodeSystem("2.16.840.1.113883.2.1.6.2");
+        translationCD2.setDisplayName("H/O: injury");
+        code.getTranslation().add(translationCD2);
+        observationStatementWithCode.setCode(code);
+
+        final var matchedObservationStatement
+            = conditionMapper.getObservationStatementByCodeableConceptCode(ehrExtract, observationStatementWithCode);
+        var observationStatement = conditionMapper.mergeObservationStatementsIfRequired(observationStatementWithCode,
+                                                                                        matchedObservationStatement);
+
+        assertEquals("Problem severity: Minor (New Episode). "
+                     + "H/O: injury to little finger left hand poss glass in wound therefore refered to A+E",
+                     observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText());
     }
 
     @Test
@@ -264,6 +320,7 @@ public class ConditionMapperTest {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_pertinentInformation.xml");
 
         MockedStatic<MedicationMapperUtils> mockedMedicationMapperUtils = Mockito.mockStatic(MedicationMapperUtils.class);
+        RCMRMT030101UKObservationStatement observationStatementWithCode = new RCMRMT030101UK04ObservationStatement();
 
         CD code = new CD();
         code.setCode("14J..");
@@ -282,22 +339,25 @@ public class ConditionMapperTest {
         translationCD2.setDisplayName("H/O: injury");
         code.getTranslation().add(translationCD2);
 
+        observationStatementWithCode.setCode(code);
+
         try {
             mockedMedicationMapperUtils.when(() -> MedicationMapperUtils.getMedicationStatements(ehrExtract))
                                                                         .thenReturn(getMedicationStatements());
 
-            final var observationStatementList = conditionMapper.getObservationStatementByCodeableConceptCode(ehrExtract, code);
+            final var matchedObservationStatement
+                                = conditionMapper.getObservationStatementByCodeableConceptCode(ehrExtract, observationStatementWithCode);
 
-            assertThat(observationStatementList).hasSize(2);
-            assertEquals(observationStatementList.get(0).getCode().getCodeSystem(),
-                         observationStatementList.get(1).getCode().getCodeSystem());
-            assertEquals(observationStatementList.get(0).getCode().getDisplayName(),
-                         observationStatementList.get(1).getCode().getDisplayName());
 
-            assertEquals(observationStatementList.get(0).getCode().getTranslation().get(0).getCode(),
-                         observationStatementList.get(1).getCode().getTranslation().get(0).getCode());
-            assertEquals(observationStatementList.get(0).getCode().getTranslation().get(0).getDisplayName(),
-                         observationStatementList.get(1).getCode().getTranslation().get(0).getDisplayName());
+            assertEquals(matchedObservationStatement.get().getCode().getCodeSystem(),
+                         matchedObservationStatement.get().getCode().getCodeSystem());
+            assertEquals(matchedObservationStatement.get().getCode().getDisplayName(),
+                         matchedObservationStatement.get().getCode().getDisplayName());
+
+            assertEquals(matchedObservationStatement.get().getCode().getTranslation().get(0).getCode(),
+                         matchedObservationStatement.get().getCode().getTranslation().get(0).getCode());
+            assertEquals(matchedObservationStatement.get().getCode().getTranslation().get(0).getDisplayName(),
+                         matchedObservationStatement.get().getCode().getTranslation().get(0).getDisplayName());
         } finally {
             mockedMedicationMapperUtils.close();
         }
@@ -306,10 +366,15 @@ public class ConditionMapperTest {
 
     @Test
     public void test3ObservationStatementsByCodeableConceptCodeAndCheckThatOnlyTwoIdenticalOnesReturned() {
+
         final RCMRMT030101UK04EhrExtract ehrExtract
                                             = unmarshallEhrExtract("linkset_pertinentInformation_with_3_observationStatements.xml");
-
         MockedStatic<MedicationMapperUtils> mockedMedicationMapperUtils = Mockito.mockStatic(MedicationMapperUtils.class);
+
+        mockedMedicationMapperUtils.when(() -> MedicationMapperUtils.getMedicationStatements(ehrExtract))
+            .thenReturn(getMedicationStatements());
+
+        RCMRMT030101UKObservationStatement observationStatementWithCode = new RCMRMT030101UK04ObservationStatement();
 
         CD code = new CD();
         code.setCode("14J..");
@@ -328,26 +393,21 @@ public class ConditionMapperTest {
         translationCD2.setDisplayName("H/O: injury");
         code.getTranslation().add(translationCD2);
 
-        // spotbugs doesn't allow try with resources due to de-referenced null check
-        try {
-            mockedMedicationMapperUtils.when(() -> MedicationMapperUtils.getMedicationStatements(ehrExtract))
-                .thenReturn(getMedicationStatements());
+        observationStatementWithCode.setCode(code);
 
-            final var observationStatementList = conditionMapper.getObservationStatementByCodeableConceptCode(ehrExtract, code);
 
-            assertThat(observationStatementList).hasSize(2);
-            assertEquals(observationStatementList.get(0).getCode().getCodeSystem(),
-                         observationStatementList.get(1).getCode().getCodeSystem());
-            assertEquals(observationStatementList.get(0).getCode().getDisplayName(),
-                         observationStatementList.get(1).getCode().getDisplayName());
+        final var observationStatementList
+            = conditionMapper.getObservationStatementByCodeableConceptCode(ehrExtract, observationStatementWithCode);
 
-            assertEquals(observationStatementList.get(0).getCode().getTranslation().get(0).getCode(),
-                         observationStatementList.get(1).getCode().getTranslation().get(0).getCode());
-            assertEquals(observationStatementList.get(0).getCode().getTranslation().get(0).getDisplayName(),
-                         observationStatementList.get(1).getCode().getTranslation().get(0).getDisplayName());
-        } finally {
-            mockedMedicationMapperUtils.close();
-        }
+        assertEquals(observationStatementList.get().getCode().getCodeSystem(),
+                     observationStatementList.get().getCode().getCodeSystem());
+        assertEquals(observationStatementList.get().getCode().getDisplayName(),
+                     observationStatementList.get().getCode().getDisplayName());
+
+        assertEquals(observationStatementList.get().getCode().getTranslation().get(0).getCode(),
+                     observationStatementList.get().getCode().getTranslation().get(0).getCode());
+        assertEquals(observationStatementList.get().getCode().getTranslation().get(0).getDisplayName(),
+                     observationStatementList.get().getCode().getTranslation().get(0).getDisplayName());
 
     }
 
@@ -357,6 +417,7 @@ public class ConditionMapperTest {
             = unmarshallEhrExtract("linkset_pertinentInformation_with_different_observation_statements.xml");
 
         MockedStatic<MedicationMapperUtils> mockedMedicationMapperUtils = Mockito.mockStatic(MedicationMapperUtils.class);
+        RCMRMT030101UKObservationStatement observationStatementWithCode = new RCMRMT030101UK04ObservationStatement();
 
         CD code = new CD();
         code.setCode("14J..");
@@ -375,14 +436,16 @@ public class ConditionMapperTest {
         translationCD2.setDisplayName("H/O: injury");
         code.getTranslation().add(translationCD2);
 
+        observationStatementWithCode.setCode(code);
+
         mockedMedicationMapperUtils.when(() -> MedicationMapperUtils.getMedicationStatements(ehrExtract))
             .thenReturn(getMedicationStatements());
 
-        final var observationStatementList = conditionMapper.getObservationStatementByCodeableConceptCode(ehrExtract, code);
+        final var matchedObservationStatement
+                                = conditionMapper.getObservationStatementByCodeableConceptCode(ehrExtract, observationStatementWithCode);
 
-        assertThat(observationStatementList).hasSize(1);
-        assertEquals("2.16.840.1.113883.2.1.3.2.4.14", observationStatementList.get(0).getCode().getCodeSystem());
-        assertEquals("H/O: injury", observationStatementList.get(0).getCode().getDisplayName());
+        assertEquals("2.16.840.1.113883.2.1.3.2.4.14", matchedObservationStatement.get().getCode().getCodeSystem());
+        assertEquals("H/O: injury", matchedObservationStatement.get().getCode().getDisplayName());
 
     }
 
@@ -477,7 +540,7 @@ public class ConditionMapperTest {
         bundle.addEntry(new BundleEntryComponent().setResource(orderMedicationRequest));
     }
 
-    private List<RCMRMT030101UK04MedicationStatement> getMedicationStatements() {
+    private static List<RCMRMT030101UKMedicationStatement> getMedicationStatements() {
 
         var planMedicationStatement = new RCMRMT030101UK04MedicationStatement();
         planMedicationStatement.setId(createIdWithRoot(MEDICATION_STATEMENT_PLAN_ID));
@@ -506,7 +569,7 @@ public class ConditionMapperTest {
         return List.of(planMedicationStatement, orderMedicationStatement);
     }
 
-    private II createIdWithRoot(String rootValue) {
+    private static II createIdWithRoot(String rootValue) {
         var id = new II();
         id.setRoot(rootValue);
 
