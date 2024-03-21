@@ -57,9 +57,10 @@ public class ConsultationListMapperTest {
     private static final String FLAT_TOPIC_ID = "AEE5F640-90A6-11EC-B1E5-0800200C9A66";
     private static final String COMPOUND_STATEMENT_ID = "68E66550-90DB-11EC-B1E5-0800200C9A66";
     private static final String FULL_VALID_CONSULTATION_LIST_XML = "full_valid_consultation_list.xml";
-    private static final String COMPOSITIOLN_LIST_XML = "composition_list.xml";
+    private static final String FULL_VALID_CONSULTATION_NOAUTHOR_LIST_XML = "full_valid_consultation_noAuthor_list.xml";
 
-    private static final String NO_OPTIONAL_CONSULTATION_LIST_XML = "no_optional_consultation_list.xml";
+    private static final String FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_EFFECTLOW_LIST_XML = "full_valid_consultation_noAuthor_noavailability_effectLow_list.xml";
+    private static final String FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_LIST_XML = "full_valid_consultation_noAuthor_noavailability_list.xml";
 
     @Mock
     private IdGeneratorService idGenerator;
@@ -90,6 +91,41 @@ public class ConsultationListMapperTest {
     }
 
     @Test
+    public void testValidFullDataConsultationNoAuthorNoAvailTimeListEffectLow() {
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_EFFECTLOW_LIST_XML);
+        setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
+
+        var comp = ehrExtract.getComponent().get(0).getEhrFolder().
+                getComponent().get(0).getEhrComposition();
+        var consultation = listMapper.mapToConsultation(comp, encounter);
+
+        assertConsultation(consultation, "20100113152000", "test-text");
+    }
+    @Test
+    public void testValidFullDataConsultationNoAuthorNoAvailTimeList() {
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_LIST_XML);
+        setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
+
+        var comp = ehrExtract.getComponent().get(0).getEhrFolder().
+                getComponent().get(0).getEhrComposition();
+        var consultation = listMapper.mapToConsultation(comp, encounter);
+
+        assertConsultation(consultation, "20100113153000", "test-text");
+    }
+
+    @Test
+    public void testValidFullDataConsultationNoAuthorList() {
+        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_NOAUTHOR_LIST_XML);
+        setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
+
+        var comp = ehrExtract.getComponent().get(0).getEhrFolder().
+                getComponent().get(0).getEhrComposition();
+        var consultation = listMapper.mapToConsultation(comp, encounter);
+
+        assertConsultation(consultation, "20100113152000", "test-text");
+    }
+
+    @Test
     public void testValidNoOptionalDataConsultationList() {
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpEncounter(null, null, "test-display", null);
@@ -104,7 +140,6 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFullDataStructuredTopicList() {
-        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpCodeableConceptMock("test-display", "test-text");
         setUpEncounter("20100113152000", "20130213152000", "test-display", "test-text");
         var consultation = setUpConsultation();
@@ -118,7 +153,6 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFallbackDataStructuredTopicList() {
-        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpCodeableConceptMock("test-display", null);
         setUpEncounter(null, null, "test-display", null);
         var consultation = setUpConsultation();
@@ -132,7 +166,6 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFullDataFlatTopicList() {
-        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         when(idGenerator.generateUuid()).thenReturn(FLAT_TOPIC_ID);
         setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
         var consultation = setUpConsultation();
@@ -144,7 +177,6 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFullDataCategoryList() {
-        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_LIST_XML);
         setUpCodeableConceptMock("test-display", "test-text");
         setUpEncounter("20100113152000", "20130213152000", "test-display", "test-text");
         var topic = setUpTopic();

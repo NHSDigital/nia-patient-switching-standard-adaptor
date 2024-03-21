@@ -138,7 +138,7 @@ public class EncounterMapper {
             var topic = consultationListMapper.mapToTopic(consultation, topicCompoundStatement);
             consultation.addEntry(new ListEntryComponent(new Reference(topic)));
 
-            generateCategoryLists(topicCompoundStatement, topic, categories, ehrComposition);
+            generateCategoryLists(topicCompoundStatement, topic, categories);
 
             List<Extension> relatedProblems = getRelatedProblemsForStructuredConsultation(topicCompoundStatement, ehrComposition);
             relatedProblems.forEach(topic::addExtension);
@@ -215,7 +215,7 @@ public class EncounterMapper {
     }
 
     private void generateCategoryLists(RCMRMT030101UKCompoundStatement topicCompoundStatement, ListResource topic,
-        List<ListResource> categories, RCMRMT030101UKEhrComposition ehrComposition) {
+        List<ListResource> categories) {
         var categoryCompoundStatements = getCategoryCompoundStatements(topicCompoundStatement);
         categoryCompoundStatements.forEach(categoryCompoundStatement -> {
             var category = consultationListMapper.mapToCategory(topic, categoryCompoundStatement);
@@ -242,7 +242,7 @@ public class EncounterMapper {
         return compoundStatement != null && CATEGORY_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
     }
 
-    public List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract
             .getComponent()
             .stream()
