@@ -59,8 +59,10 @@ public class ConsultationListMapperTest {
     private static final String FULL_VALID_CONSULTATION_LIST_XML = "full_valid_consultation_list.xml";
     private static final String FULL_VALID_CONSULTATION_NOAUTHOR_LIST_XML = "full_valid_consultation_noAuthor_list.xml";
 
-    private static final String FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_EFFECTLOW_LIST_XML = "full_valid_consultation_noAuthor_noavailability_effectLow_list.xml";
-    private static final String FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_LIST_XML = "full_valid_consultation_noAuthor_noavailability_list.xml";
+    private static final String FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_EFFECTLOW_LIST_XML =
+                                    "full_valid_consultation_noAuthor_noavailability_effectLow_list.xml";
+    private static final String FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_LIST_XML =
+                                    "full_valid_consultation_noAuthor_noavailability_list.xml";
 
     @Mock
     private IdGeneratorService idGenerator;
@@ -92,7 +94,8 @@ public class ConsultationListMapperTest {
 
     @Test
     public void testValidFullDataConsultationNoAuthorNoAvailTimeListEffectLow() {
-        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_EFFECTLOW_LIST_XML);
+        var ehrExtract = unmarshallEhrExtractElement(
+                FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_EFFECTLOW_LIST_XML);
         setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
 
         var comp = ehrExtract.getComponent().get(0).getEhrFolder().
@@ -103,7 +106,8 @@ public class ConsultationListMapperTest {
     }
     @Test
     public void testValidFullDataConsultationNoAuthorNoAvailTimeList() {
-        var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_LIST_XML);
+        var ehrExtract = unmarshallEhrExtractElement(
+                FULL_VALID_CONSULTATION_NOAUTHOR_NOAVAILABILITY_LIST_XML);
         setUpEncounter("20100113152000", "20150213152000", "test-display", "test-text");
 
         var comp = ehrExtract.getComponent().get(0).getEhrFolder().
