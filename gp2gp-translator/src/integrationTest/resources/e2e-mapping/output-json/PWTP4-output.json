@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "4f9ace64-8518-4a42-801e-47656dd1423c",
+  "id": "00000000-0000-0000-0000-000000000000",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,7 +8,7 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "86631a0e-a6d2-40f8-a73f-f230064a0501",
+      "id": "00000000-0000-0000-0000-000000000007",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -122,7 +122,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "participant": [ {
         "type": [ {
@@ -152,7 +152,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/BE49DA2B-1F98-4D3B-B905-F7EB1C8CF8EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000001"
         }
       } ]
     }
@@ -184,7 +184,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "participant": [ {
         "type": [ {
@@ -214,7 +214,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/BE49DA2B-1F98-4D3B-B905-F7EB1C8CF8EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000001"
         }
       } ]
     }
@@ -246,7 +246,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "participant": [ {
         "type": [ {
@@ -276,7 +276,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/BE49DA2B-1F98-4D3B-B905-F7EB1C8CF8EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000001"
         }
       } ]
     }
@@ -308,7 +308,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "participant": [ {
         "type": [ {
@@ -338,7 +338,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/BE49DA2B-1F98-4D3B-B905-F7EB1C8CF8EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000001"
         }
       } ]
     }
@@ -370,7 +370,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "participant": [ {
         "type": [ {
@@ -400,7 +400,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/BE49DA2B-1F98-4D3B-B905-F7EB1C8CF8EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000001"
         }
       } ]
     }
@@ -432,7 +432,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "participant": [ {
         "type": [ {
@@ -462,7 +462,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/BE49DA2B-1F98-4D3B-B905-F7EB1C8CF8EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000001"
         }
       } ]
     }
@@ -494,7 +494,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "participant": [ {
         "type": [ {
@@ -551,7 +551,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "participant": [ {
         "type": [ {
@@ -598,7 +598,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/0CF70E30-DD21-433E-87AE-F32DA5FBE4DA"
@@ -635,7 +635,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/A6CE9003-C784-4E11-A5C1-E406BCF35D55"
@@ -672,7 +672,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A"
@@ -709,7 +709,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/8F1F0FF5-2F2C-482B-BD9A-98101786B46D"
@@ -746,7 +746,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/825B1B60-525E-4D0A-B813-F3AE3E18EB5D"
@@ -783,7 +783,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/18ADB528-260B-41D8-ACA5-77529A4A4F59"
@@ -820,7 +820,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/60C9EFC9-9AF5-4098-89C4-42AEB807223F"
@@ -857,7 +857,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/0B6398B9-E22B-4195-BBBA-301BA6732708"
@@ -894,7 +894,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/0CF70E30-DD21-433E-87AE-F32DA5FBE4DA"
@@ -935,7 +935,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/A6CE9003-C784-4E11-A5C1-E406BCF35D55"
@@ -985,7 +985,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A"
@@ -1026,7 +1026,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/8F1F0FF5-2F2C-482B-BD9A-98101786B46D"
@@ -1067,7 +1067,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/825B1B60-525E-4D0A-B813-F3AE3E18EB5D"
@@ -1108,7 +1108,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/18ADB528-260B-41D8-ACA5-77529A4A4F59"
@@ -1145,7 +1145,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/60C9EFC9-9AF5-4098-89C4-42AEB807223F"
@@ -1182,7 +1182,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/0B6398B9-E22B-4195-BBBA-301BA6732708"
@@ -1223,7 +1223,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/0CF70E30-DD21-433E-87AE-F32DA5FBE4DA"
@@ -1260,7 +1260,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/0CF70E30-DD21-433E-87AE-F32DA5FBE4DA"
@@ -1297,7 +1297,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/A6CE9003-C784-4E11-A5C1-E406BCF35D55"
@@ -1334,7 +1334,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/A6CE9003-C784-4E11-A5C1-E406BCF35D55"
@@ -1371,7 +1371,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A"
@@ -1408,7 +1408,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A"
@@ -1445,7 +1445,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/8F1F0FF5-2F2C-482B-BD9A-98101786B46D"
@@ -1482,7 +1482,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/8F1F0FF5-2F2C-482B-BD9A-98101786B46D"
@@ -1519,7 +1519,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/825B1B60-525E-4D0A-B813-F3AE3E18EB5D"
@@ -1556,7 +1556,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/825B1B60-525E-4D0A-B813-F3AE3E18EB5D"
@@ -1593,7 +1593,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/18ADB528-260B-41D8-ACA5-77529A4A4F59"
@@ -1634,7 +1634,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/60C9EFC9-9AF5-4098-89C4-42AEB807223F"
@@ -1671,7 +1671,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/0B6398B9-E22B-4195-BBBA-301BA6732708"
@@ -1708,7 +1708,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "encounter": {
         "reference": "Encounter/0B6398B9-E22B-4195-BBBA-301BA6732708"
@@ -1730,13 +1730,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "BE49DA2B-1F98-4D3B-B905-F7EB1C8CF8EC",
+      "id": "00000000-0000-0000-0000-000000000001",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "BE49DA2B-1F98-4D3B-B905-F7EB1C8CF8EC"
+        "value": "00000000-0000-0000-0000-000000000001"
       } ],
       "status": "active",
       "name": "EMIS LV Test Practice 1"
@@ -1777,7 +1777,7 @@
         "text": "Medication review"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/0CF70E30-DD21-433E-87AE-F32DA5FBE4DA"
@@ -1826,7 +1826,7 @@
         "text": "Medication review"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/A6CE9003-C784-4E11-A5C1-E406BCF35D55"
@@ -1842,7 +1842,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "ea050afb-95ee-49f6-a6f2-8bbd0795f605",
+      "id": "00000000-0000-0000-0000-000000000009",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -1886,10 +1886,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/ea050afb-95ee-49f6-a6f2-8bbd0795f605"
+        "reference": "Medication/00000000-0000-0000-0000-000000000009"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A"
@@ -1919,7 +1919,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "8f9853a5-2940-43b9-bfef-ce05502a652c",
+      "id": "00000000-0000-0000-0000-000000000010",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -1963,10 +1963,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/8f9853a5-2940-43b9-bfef-ce05502a652c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000010"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/8F1F0FF5-2F2C-482B-BD9A-98101786B46D"
@@ -1996,7 +1996,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "9cdad562-1e2e-4ea1-b2ad-3400560eff29",
+      "id": "00000000-0000-0000-0000-000000000011",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2040,10 +2040,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/9cdad562-1e2e-4ea1-b2ad-3400560eff29"
+        "reference": "Medication/00000000-0000-0000-0000-000000000011"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/825B1B60-525E-4D0A-B813-F3AE3E18EB5D"
@@ -2073,7 +2073,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "34da7a5e-079b-411a-addf-325f609b32fd",
+      "id": "00000000-0000-0000-0000-000000000012",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2117,10 +2117,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/34da7a5e-079b-411a-addf-325f609b32fd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000012"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/18ADB528-260B-41D8-ACA5-77529A4A4F59"
@@ -2150,7 +2150,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "d3bedbe5-354e-4814-b72f-677a4d11a0e3",
+      "id": "00000000-0000-0000-0000-000000000013",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2194,10 +2194,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/d3bedbe5-354e-4814-b72f-677a4d11a0e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000013"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/60C9EFC9-9AF5-4098-89C4-42AEB807223F"
@@ -2230,7 +2230,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "68ff7d84-f0d6-49c0-9d3d-6aa9073576e2",
+      "id": "00000000-0000-0000-0000-000000000014",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2274,10 +2274,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/68ff7d84-f0d6-49c0-9d3d-6aa9073576e2"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/0B6398B9-E22B-4195-BBBA-301BA6732708"
@@ -2310,7 +2310,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "834fffc3-0ae0-4e23-b969-5dca493e28ec",
+      "id": "00000000-0000-0000-0000-000000000015",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2351,10 +2351,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/834fffc3-0ae0-4e23-b969-5dca493e28ec"
+        "reference": "Medication/00000000-0000-0000-0000-000000000015"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -2407,7 +2407,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/834fffc3-0ae0-4e23-b969-5dca493e28ec"
+        "reference": "Medication/00000000-0000-0000-0000-000000000015"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -2415,7 +2415,7 @@
       },
       "dateAsserted": "2010-01-14T10:18:09+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2425,7 +2425,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "5308acab-fdf3-419e-a37b-9e52f8768eb3",
+      "id": "00000000-0000-0000-0000-000000000016",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2466,10 +2466,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/5308acab-fdf3-419e-a37b-9e52f8768eb3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000016"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -2525,7 +2525,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/5308acab-fdf3-419e-a37b-9e52f8768eb3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000016"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -2533,7 +2533,7 @@
       },
       "dateAsserted": "2010-01-14T10:21:56+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2543,7 +2543,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "4f5135f3-b31d-46b0-93ec-80ab6bb82c78",
+      "id": "00000000-0000-0000-0000-000000000017",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2584,10 +2584,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/4f5135f3-b31d-46b0-93ec-80ab6bb82c78"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -2640,7 +2640,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/4f5135f3-b31d-46b0-93ec-80ab6bb82c78"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -2648,7 +2648,7 @@
       },
       "dateAsserted": "2010-01-14T10:22:07+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2658,7 +2658,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "47a61ab0-b3a1-4e7c-b6c6-22205cd9b338",
+      "id": "00000000-0000-0000-0000-000000000018",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2699,10 +2699,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/47a61ab0-b3a1-4e7c-b6c6-22205cd9b338"
+        "reference": "Medication/00000000-0000-0000-0000-000000000018"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -2755,7 +2755,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/47a61ab0-b3a1-4e7c-b6c6-22205cd9b338"
+        "reference": "Medication/00000000-0000-0000-0000-000000000018"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -2763,7 +2763,7 @@
       },
       "dateAsserted": "2010-01-14T10:22:25+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2773,7 +2773,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "730789fa-fb91-40fb-9848-0757cdc450ab",
+      "id": "00000000-0000-0000-0000-000000000019",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2814,10 +2814,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/730789fa-fb91-40fb-9848-0757cdc450ab"
+        "reference": "Medication/00000000-0000-0000-0000-000000000019"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -2873,7 +2873,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/730789fa-fb91-40fb-9848-0757cdc450ab"
+        "reference": "Medication/00000000-0000-0000-0000-000000000019"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -2881,7 +2881,7 @@
       },
       "dateAsserted": "2010-01-14T10:25:50+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2891,7 +2891,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "649d9d28-4abc-41e5-b2ea-78db8575c30e",
+      "id": "00000000-0000-0000-0000-000000000020",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -2932,10 +2932,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/649d9d28-4abc-41e5-b2ea-78db8575c30e"
+        "reference": "Medication/00000000-0000-0000-0000-000000000020"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -2988,7 +2988,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/649d9d28-4abc-41e5-b2ea-78db8575c30e"
+        "reference": "Medication/00000000-0000-0000-0000-000000000020"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -2996,7 +2996,7 @@
       },
       "dateAsserted": "2010-01-14T10:26:05+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -3006,7 +3006,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "b2a55e5f-5720-41c2-97f9-f2c5c8eba058",
+      "id": "00000000-0000-0000-0000-000000000021",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -3047,10 +3047,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/b2a55e5f-5720-41c2-97f9-f2c5c8eba058"
+        "reference": "Medication/00000000-0000-0000-0000-000000000021"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -3103,7 +3103,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/b2a55e5f-5720-41c2-97f9-f2c5c8eba058"
+        "reference": "Medication/00000000-0000-0000-0000-000000000021"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -3111,7 +3111,7 @@
       },
       "dateAsserted": "2010-01-14T10:26:18+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -3121,7 +3121,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "6ed673bc-3d18-48b3-bd55-03a8373add9b",
+      "id": "00000000-0000-0000-0000-000000000022",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -3162,10 +3162,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/6ed673bc-3d18-48b3-bd55-03a8373add9b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000022"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -3215,7 +3215,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/6ed673bc-3d18-48b3-bd55-03a8373add9b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000022"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -3223,7 +3223,7 @@
       },
       "dateAsserted": "2010-01-14T10:26:31+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -3233,7 +3233,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "4f08d693-9695-43c2-8045-663e3eebd86e",
+      "id": "00000000-0000-0000-0000-000000000023",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -3274,10 +3274,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/4f08d693-9695-43c2-8045-663e3eebd86e"
+        "reference": "Medication/00000000-0000-0000-0000-000000000023"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -3330,7 +3330,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/4f08d693-9695-43c2-8045-663e3eebd86e"
+        "reference": "Medication/00000000-0000-0000-0000-000000000023"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -3338,7 +3338,7 @@
       },
       "dateAsserted": "2010-01-14T10:26:40+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -3348,7 +3348,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "3b0658ff-c5b3-4de3-9f08-5b6e2376a1f3",
+      "id": "00000000-0000-0000-0000-000000000024",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -3389,10 +3389,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/3b0658ff-c5b3-4de3-9f08-5b6e2376a1f3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000024"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -3445,7 +3445,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/3b0658ff-c5b3-4de3-9f08-5b6e2376a1f3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000024"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -3453,7 +3453,7 @@
       },
       "dateAsserted": "2010-01-14T10:30:03+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -3463,7 +3463,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "104affff-b52c-4922-be1f-abea2912df63",
+      "id": "00000000-0000-0000-0000-000000000025",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -3524,10 +3524,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/104affff-b52c-4922-be1f-abea2912df63"
+        "reference": "Medication/00000000-0000-0000-0000-000000000025"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -3583,7 +3583,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/104affff-b52c-4922-be1f-abea2912df63"
+        "reference": "Medication/00000000-0000-0000-0000-000000000025"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -3591,7 +3591,7 @@
       },
       "dateAsserted": "2010-01-14T10:34:27+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -3601,7 +3601,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "624b75a8-54fe-43e9-b3a4-a21631255ae0",
+      "id": "00000000-0000-0000-0000-000000000026",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -3651,10 +3651,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -3710,14 +3710,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "effectivePeriod": {
         "start": "2010-01-14"
       },
       "dateAsserted": "2010-01-14T10:34:50+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -3727,7 +3727,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "2333580a-e2ab-4b3f-a05a-10e490d1683a",
+      "id": "00000000-0000-0000-0000-000000000027",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -3777,10 +3777,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/2333580a-e2ab-4b3f-a05a-10e490d1683a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000027"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -3833,14 +3833,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/2333580a-e2ab-4b3f-a05a-10e490d1683a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000027"
       },
       "effectivePeriod": {
         "start": "2010-01-14"
       },
       "dateAsserted": "2010-01-14T10:38:06+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -3850,7 +3850,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "9ab85acf-5f21-42cb-ba19-4387e4af1d59",
+      "id": "00000000-0000-0000-0000-000000000028",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -3891,10 +3891,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/9ab85acf-5f21-42cb-ba19-4387e4af1d59"
+        "reference": "Medication/00000000-0000-0000-0000-000000000028"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -3944,7 +3944,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/9ab85acf-5f21-42cb-ba19-4387e4af1d59"
+        "reference": "Medication/00000000-0000-0000-0000-000000000028"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -3952,7 +3952,7 @@
       },
       "dateAsserted": "2010-01-14T10:38:21+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -3962,7 +3962,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "8702a851-2025-4a6e-9652-5223dd399797",
+      "id": "00000000-0000-0000-0000-000000000029",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -4023,10 +4023,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/8702a851-2025-4a6e-9652-5223dd399797"
+        "reference": "Medication/00000000-0000-0000-0000-000000000029"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -4079,7 +4079,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/8702a851-2025-4a6e-9652-5223dd399797"
+        "reference": "Medication/00000000-0000-0000-0000-000000000029"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -4087,7 +4087,7 @@
       },
       "dateAsserted": "2010-01-14T10:41:49+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -4097,7 +4097,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "0aa0cb28-7cc8-407e-9ec0-6b086892cf6e",
+      "id": "00000000-0000-0000-0000-000000000030",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -4147,10 +4147,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/0aa0cb28-7cc8-407e-9ec0-6b086892cf6e"
+        "reference": "Medication/00000000-0000-0000-0000-000000000030"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -4203,14 +4203,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/0aa0cb28-7cc8-407e-9ec0-6b086892cf6e"
+        "reference": "Medication/00000000-0000-0000-0000-000000000030"
       },
       "effectivePeriod": {
         "start": "2010-01-14"
       },
       "dateAsserted": "2010-01-14T10:42:14+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -4220,7 +4220,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "a5bea7d1-6a03-4e26-a27d-f574b1b16baa",
+      "id": "00000000-0000-0000-0000-000000000031",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -4281,10 +4281,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/a5bea7d1-6a03-4e26-a27d-f574b1b16baa"
+        "reference": "Medication/00000000-0000-0000-0000-000000000031"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -4337,7 +4337,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/a5bea7d1-6a03-4e26-a27d-f574b1b16baa"
+        "reference": "Medication/00000000-0000-0000-0000-000000000031"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -4345,7 +4345,7 @@
       },
       "dateAsserted": "2010-01-14T10:46:01+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -4355,7 +4355,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "5c625fa3-8e26-4022-94f2-537f0fb751f9",
+      "id": "00000000-0000-0000-0000-000000000032",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -4396,10 +4396,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/5c625fa3-8e26-4022-94f2-537f0fb751f9"
+        "reference": "Medication/00000000-0000-0000-0000-000000000032"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -4449,7 +4449,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/5c625fa3-8e26-4022-94f2-537f0fb751f9"
+        "reference": "Medication/00000000-0000-0000-0000-000000000032"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -4457,7 +4457,7 @@
       },
       "dateAsserted": "2010-01-14T10:46:33+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -4467,7 +4467,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "7eee8a6e-afa7-489f-97b6-324ddfeed70b",
+      "id": "00000000-0000-0000-0000-000000000033",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -4517,10 +4517,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/7eee8a6e-afa7-489f-97b6-324ddfeed70b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000033"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -4570,14 +4570,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/7eee8a6e-afa7-489f-97b6-324ddfeed70b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000033"
       },
       "effectivePeriod": {
         "start": "2010-01-14"
       },
       "dateAsserted": "2010-01-14T10:46:54+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -4587,7 +4587,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "21204459-ea02-497e-97db-ee79015e792d",
+      "id": "00000000-0000-0000-0000-000000000034",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -4637,10 +4637,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/21204459-ea02-497e-97db-ee79015e792d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000034"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -4693,14 +4693,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/21204459-ea02-497e-97db-ee79015e792d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000034"
       },
       "effectivePeriod": {
         "start": "2010-01-14"
       },
       "dateAsserted": "2010-01-14T10:58:27+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -4710,7 +4710,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "d8c76136-6e67-4a32-b922-448b8df94d26",
+      "id": "00000000-0000-0000-0000-000000000035",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -4760,10 +4760,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/d8c76136-6e67-4a32-b922-448b8df94d26"
+        "reference": "Medication/00000000-0000-0000-0000-000000000035"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -4816,14 +4816,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/d8c76136-6e67-4a32-b922-448b8df94d26"
+        "reference": "Medication/00000000-0000-0000-0000-000000000035"
       },
       "effectivePeriod": {
         "start": "2010-01-14"
       },
       "dateAsserted": "2010-01-14T11:02:50+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -4833,7 +4833,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "9ac581a3-47a1-4d02-8965-33034c5c93ee",
+      "id": "00000000-0000-0000-0000-000000000036",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -4883,10 +4883,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/9ac581a3-47a1-4d02-8965-33034c5c93ee"
+        "reference": "Medication/00000000-0000-0000-0000-000000000036"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -4936,14 +4936,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/9ac581a3-47a1-4d02-8965-33034c5c93ee"
+        "reference": "Medication/00000000-0000-0000-0000-000000000036"
       },
       "effectivePeriod": {
         "start": "2010-01-14"
       },
       "dateAsserted": "2010-01-14T11:07:01+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -4953,7 +4953,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "9256a663-7e8e-495e-af64-0f5f4786e205",
+      "id": "00000000-0000-0000-0000-000000000037",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -5003,10 +5003,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/9256a663-7e8e-495e-af64-0f5f4786e205"
+        "reference": "Medication/00000000-0000-0000-0000-000000000037"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -5059,14 +5059,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/9256a663-7e8e-495e-af64-0f5f4786e205"
+        "reference": "Medication/00000000-0000-0000-0000-000000000037"
       },
       "effectivePeriod": {
         "start": "2010-01-14"
       },
       "dateAsserted": "2010-01-14T11:10:54+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -5076,7 +5076,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "2c8d7463-911c-4e9d-95a9-c2fe2cf18311",
+      "id": "00000000-0000-0000-0000-000000000038",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -5126,10 +5126,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/2c8d7463-911c-4e9d-95a9-c2fe2cf18311"
+        "reference": "Medication/00000000-0000-0000-0000-000000000038"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -5182,14 +5182,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/2c8d7463-911c-4e9d-95a9-c2fe2cf18311"
+        "reference": "Medication/00000000-0000-0000-0000-000000000038"
       },
       "effectivePeriod": {
         "start": "2010-01-14"
       },
       "dateAsserted": "2010-01-14T11:23:20+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -5199,7 +5199,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "9ab6b029-af92-49c7-9cd1-2ac3071a856c",
+      "id": "00000000-0000-0000-0000-000000000039",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -5249,10 +5249,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/9ab6b029-af92-49c7-9cd1-2ac3071a856c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000039"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -5302,14 +5302,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/9ab6b029-af92-49c7-9cd1-2ac3071a856c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000039"
       },
       "effectivePeriod": {
         "start": "2010-01-14"
       },
       "dateAsserted": "2010-01-14T11:35:13+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -5340,10 +5340,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/34da7a5e-079b-411a-addf-325f609b32fd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000012"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -5393,7 +5393,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/34da7a5e-079b-411a-addf-325f609b32fd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000012"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -5401,7 +5401,7 @@
       },
       "dateAsserted": "2011-06-17T15:34:59+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -5432,10 +5432,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/34da7a5e-079b-411a-addf-325f609b32fd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000012"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -5485,7 +5485,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/34da7a5e-079b-411a-addf-325f609b32fd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000012"
       },
       "effectivePeriod": {
         "start": "2010-01-14",
@@ -5493,7 +5493,7 @@
       },
       "dateAsserted": "2011-06-20T12:36:24+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -5503,7 +5503,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "8e82aa80-ef50-4b56-9274-7553d87b432d",
+      "id": "00000000-0000-0000-0000-000000000040",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -5553,10 +5553,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/8e82aa80-ef50-4b56-9274-7553d87b432d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000040"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-15",
       "requester": {
@@ -5606,14 +5606,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/8e82aa80-ef50-4b56-9274-7553d87b432d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000040"
       },
       "effectivePeriod": {
         "start": "2010-01-15"
       },
       "dateAsserted": "2010-01-15T10:02:11+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -5623,7 +5623,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "cbf4e5ef-496a-49cb-9057-a000555fd32a",
+      "id": "00000000-0000-0000-0000-000000000041",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -5673,10 +5673,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/cbf4e5ef-496a-49cb-9057-a000555fd32a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000041"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-15",
       "requester": {
@@ -5729,14 +5729,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/cbf4e5ef-496a-49cb-9057-a000555fd32a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000041"
       },
       "effectivePeriod": {
         "start": "2010-01-15"
       },
       "dateAsserted": "2010-01-15T10:02:19+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -5746,7 +5746,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "a3eaf010-baa7-45ee-9a98-ea399c3e78f5",
+      "id": "00000000-0000-0000-0000-000000000042",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -5787,10 +5787,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/a3eaf010-baa7-45ee-9a98-ea399c3e78f5"
+        "reference": "Medication/00000000-0000-0000-0000-000000000042"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-15",
       "requester": {
@@ -5846,7 +5846,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/a3eaf010-baa7-45ee-9a98-ea399c3e78f5"
+        "reference": "Medication/00000000-0000-0000-0000-000000000042"
       },
       "effectivePeriod": {
         "start": "2010-01-15",
@@ -5854,7 +5854,7 @@
       },
       "dateAsserted": "2010-01-15T10:06:08+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -5864,7 +5864,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "1f937396-e174-49d1-ba16-a17ea1da3b59",
+      "id": "00000000-0000-0000-0000-000000000043",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -5905,10 +5905,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/1f937396-e174-49d1-ba16-a17ea1da3b59"
+        "reference": "Medication/00000000-0000-0000-0000-000000000043"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-18",
       "requester": {
@@ -5964,7 +5964,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/1f937396-e174-49d1-ba16-a17ea1da3b59"
+        "reference": "Medication/00000000-0000-0000-0000-000000000043"
       },
       "effectivePeriod": {
         "start": "2010-01-18",
@@ -5972,7 +5972,7 @@
       },
       "dateAsserted": "2010-01-18T09:16:52+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -5982,7 +5982,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "8e2c1021-3b37-4757-ba82-58f23908cdde",
+      "id": "00000000-0000-0000-0000-000000000044",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -6043,10 +6043,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/8e2c1021-3b37-4757-ba82-58f23908cdde"
+        "reference": "Medication/00000000-0000-0000-0000-000000000044"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-18",
       "requester": {
@@ -6096,7 +6096,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/8e2c1021-3b37-4757-ba82-58f23908cdde"
+        "reference": "Medication/00000000-0000-0000-0000-000000000044"
       },
       "effectivePeriod": {
         "start": "2010-01-18",
@@ -6104,7 +6104,7 @@
       },
       "dateAsserted": "2010-01-18T09:17:10+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -6114,7 +6114,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "e0ef0163-58db-4890-ba19-3e42cd54bf4b",
+      "id": "00000000-0000-0000-0000-000000000045",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -6164,10 +6164,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/e0ef0163-58db-4890-ba19-3e42cd54bf4b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000045"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-18",
       "requester": {
@@ -6220,14 +6220,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/e0ef0163-58db-4890-ba19-3e42cd54bf4b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000045"
       },
       "effectivePeriod": {
         "start": "2010-01-18"
       },
       "dateAsserted": "2010-01-18T14:49:19+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -6237,7 +6237,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "3a2ea79e-a1f0-4cbd-996f-925f19d14a8f",
+      "id": "00000000-0000-0000-0000-000000000046",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -6298,10 +6298,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/3a2ea79e-a1f0-4cbd-996f-925f19d14a8f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000046"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-02-10",
       "requester": {
@@ -6351,7 +6351,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/3a2ea79e-a1f0-4cbd-996f-925f19d14a8f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000046"
       },
       "effectivePeriod": {
         "start": "2010-02-10",
@@ -6359,7 +6359,7 @@
       },
       "dateAsserted": "2010-02-10T13:35:08+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -6369,7 +6369,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "3b178f4c-3006-4d1c-9bda-80d460c13008",
+      "id": "00000000-0000-0000-0000-000000000047",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -6419,10 +6419,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/3b178f4c-3006-4d1c-9bda-80d460c13008"
+        "reference": "Medication/00000000-0000-0000-0000-000000000047"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-02-10",
       "requester": {
@@ -6472,14 +6472,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/3b178f4c-3006-4d1c-9bda-80d460c13008"
+        "reference": "Medication/00000000-0000-0000-0000-000000000047"
       },
       "effectivePeriod": {
         "start": "2010-02-10"
       },
       "dateAsserted": "2010-02-10T13:39:32+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -6510,10 +6510,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/ea050afb-95ee-49f6-a6f2-8bbd0795f605"
+        "reference": "Medication/00000000-0000-0000-0000-000000000009"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -6566,7 +6566,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/ea050afb-95ee-49f6-a6f2-8bbd0795f605"
+        "reference": "Medication/00000000-0000-0000-0000-000000000009"
       },
       "effectivePeriod": {
         "start": "2010-03-23",
@@ -6574,7 +6574,7 @@
       },
       "dateAsserted": "2010-03-23T15:47:58+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -6616,10 +6616,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/8f9853a5-2940-43b9-bfef-ce05502a652c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000010"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -6672,7 +6672,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/8f9853a5-2940-43b9-bfef-ce05502a652c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000010"
       },
       "effectivePeriod": {
         "start": "2010-03-23",
@@ -6680,7 +6680,7 @@
       },
       "dateAsserted": "2010-03-23T15:59:21+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -6720,10 +6720,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/9cdad562-1e2e-4ea1-b2ad-3400560eff29"
+        "reference": "Medication/00000000-0000-0000-0000-000000000011"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -6776,14 +6776,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/9cdad562-1e2e-4ea1-b2ad-3400560eff29"
+        "reference": "Medication/00000000-0000-0000-0000-000000000011"
       },
       "effectivePeriod": {
         "start": "2010-03-23"
       },
       "dateAsserted": "2010-03-23T15:59:21+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -6793,7 +6793,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "71e4528a-06f9-4952-8046-6a7db4e5e027",
+      "id": "00000000-0000-0000-0000-000000000048",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -6843,10 +6843,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/71e4528a-06f9-4952-8046-6a7db4e5e027"
+        "reference": "Medication/00000000-0000-0000-0000-000000000048"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -6899,14 +6899,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/71e4528a-06f9-4952-8046-6a7db4e5e027"
+        "reference": "Medication/00000000-0000-0000-0000-000000000048"
       },
       "effectivePeriod": {
         "start": "2010-03-23"
       },
       "dateAsserted": "2010-03-23T16:16:08+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -6916,7 +6916,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "80318a0f-3d5f-4c4d-a7b7-cb409f5d4865",
+      "id": "00000000-0000-0000-0000-000000000049",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -6966,10 +6966,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/80318a0f-3d5f-4c4d-a7b7-cb409f5d4865"
+        "reference": "Medication/00000000-0000-0000-0000-000000000049"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -7022,14 +7022,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/80318a0f-3d5f-4c4d-a7b7-cb409f5d4865"
+        "reference": "Medication/00000000-0000-0000-0000-000000000049"
       },
       "effectivePeriod": {
         "start": "2010-03-23"
       },
       "dateAsserted": "2010-03-23T16:24:02+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -7039,7 +7039,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "e4a012be-ba48-4f09-9902-555b121ab872",
+      "id": "00000000-0000-0000-0000-000000000050",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -7089,10 +7089,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/e4a012be-ba48-4f09-9902-555b121ab872"
+        "reference": "Medication/00000000-0000-0000-0000-000000000050"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -7145,14 +7145,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/e4a012be-ba48-4f09-9902-555b121ab872"
+        "reference": "Medication/00000000-0000-0000-0000-000000000050"
       },
       "effectivePeriod": {
         "start": "2010-03-23"
       },
       "dateAsserted": "2010-03-23T16:28:37+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -7162,7 +7162,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "b02951f7-f141-47ad-8307-2eaf6308d56b",
+      "id": "00000000-0000-0000-0000-000000000051",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -7212,10 +7212,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/b02951f7-f141-47ad-8307-2eaf6308d56b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000051"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -7268,14 +7268,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/b02951f7-f141-47ad-8307-2eaf6308d56b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000051"
       },
       "effectivePeriod": {
         "start": "2010-03-23"
       },
       "dateAsserted": "2010-03-23T16:32:36+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -7285,7 +7285,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "8b9b8ee8-dd77-4bd6-b388-20c805c6fda6",
+      "id": "00000000-0000-0000-0000-000000000052",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -7346,10 +7346,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/8b9b8ee8-dd77-4bd6-b388-20c805c6fda6"
+        "reference": "Medication/00000000-0000-0000-0000-000000000052"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -7402,7 +7402,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/8b9b8ee8-dd77-4bd6-b388-20c805c6fda6"
+        "reference": "Medication/00000000-0000-0000-0000-000000000052"
       },
       "effectivePeriod": {
         "start": "2010-03-23",
@@ -7410,7 +7410,7 @@
       },
       "dateAsserted": "2010-03-23T16:40:37+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -7450,10 +7450,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/8b9b8ee8-dd77-4bd6-b388-20c805c6fda6"
+        "reference": "Medication/00000000-0000-0000-0000-000000000052"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -7509,14 +7509,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/8b9b8ee8-dd77-4bd6-b388-20c805c6fda6"
+        "reference": "Medication/00000000-0000-0000-0000-000000000052"
       },
       "effectivePeriod": {
         "start": "2010-03-23"
       },
       "dateAsserted": "2010-03-23T16:44:29+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -7526,7 +7526,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "6ae1baf6-d742-4a01-92e7-d0d39760138d",
+      "id": "00000000-0000-0000-0000-000000000053",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -7587,10 +7587,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/6ae1baf6-d742-4a01-92e7-d0d39760138d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000053"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -7643,7 +7643,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/6ae1baf6-d742-4a01-92e7-d0d39760138d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000053"
       },
       "effectivePeriod": {
         "start": "2010-03-23",
@@ -7651,7 +7651,7 @@
       },
       "dateAsserted": "2010-03-23T16:44:57+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -7661,7 +7661,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "95d33559-cac3-4025-898c-96171a0ce86c",
+      "id": "00000000-0000-0000-0000-000000000054",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -7711,10 +7711,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/95d33559-cac3-4025-898c-96171a0ce86c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000054"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -7764,7 +7764,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/95d33559-cac3-4025-898c-96171a0ce86c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000054"
       },
       "effectivePeriod": {
         "start": "2010-03-23",
@@ -7772,7 +7772,7 @@
       },
       "dateAsserted": "2011-06-17T15:34:59+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -7812,10 +7812,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/95d33559-cac3-4025-898c-96171a0ce86c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000054"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -7865,7 +7865,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/95d33559-cac3-4025-898c-96171a0ce86c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000054"
       },
       "effectivePeriod": {
         "start": "2010-03-23",
@@ -7873,7 +7873,7 @@
       },
       "dateAsserted": "2011-06-20T12:36:25+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -7883,7 +7883,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "188d1f52-c493-494b-9b94-90cc94207f3d",
+      "id": "00000000-0000-0000-0000-000000000055",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -7933,10 +7933,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/188d1f52-c493-494b-9b94-90cc94207f3d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000055"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-26",
       "requester": {
@@ -7989,14 +7989,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/188d1f52-c493-494b-9b94-90cc94207f3d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000055"
       },
       "effectivePeriod": {
         "start": "2010-03-26"
       },
       "dateAsserted": "2010-03-26T12:30:33+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -8006,7 +8006,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "4c0801c5-de7b-4e73-bbae-9faa6e4750d6",
+      "id": "00000000-0000-0000-0000-000000000056",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -8056,10 +8056,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/4c0801c5-de7b-4e73-bbae-9faa6e4750d6"
+        "reference": "Medication/00000000-0000-0000-0000-000000000056"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-05-21",
       "requester": {
@@ -8115,14 +8115,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/4c0801c5-de7b-4e73-bbae-9faa6e4750d6"
+        "reference": "Medication/00000000-0000-0000-0000-000000000056"
       },
       "effectivePeriod": {
         "start": "2010-05-21"
       },
       "dateAsserted": "2010-05-21T12:07:50+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -8132,7 +8132,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "c31d5b4e-ea98-47d3-a79c-3a5f0079f2af",
+      "id": "00000000-0000-0000-0000-000000000057",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -8173,10 +8173,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/c31d5b4e-ea98-47d3-a79c-3a5f0079f2af"
+        "reference": "Medication/00000000-0000-0000-0000-000000000057"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-05-21",
       "requester": {
@@ -8229,7 +8229,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/c31d5b4e-ea98-47d3-a79c-3a5f0079f2af"
+        "reference": "Medication/00000000-0000-0000-0000-000000000057"
       },
       "effectivePeriod": {
         "start": "2010-05-21",
@@ -8237,7 +8237,7 @@
       },
       "dateAsserted": "2010-05-21T14:53:16+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -8247,7 +8247,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "304d90ed-f5ae-4fee-b36b-9b44fc038439",
+      "id": "00000000-0000-0000-0000-000000000058",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -8288,10 +8288,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/304d90ed-f5ae-4fee-b36b-9b44fc038439"
+        "reference": "Medication/00000000-0000-0000-0000-000000000058"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-05-21",
       "requester": {
@@ -8347,7 +8347,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/304d90ed-f5ae-4fee-b36b-9b44fc038439"
+        "reference": "Medication/00000000-0000-0000-0000-000000000058"
       },
       "effectivePeriod": {
         "start": "2010-05-21",
@@ -8355,7 +8355,7 @@
       },
       "dateAsserted": "2010-05-21T14:53:38+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -8365,7 +8365,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "aa3c3812-f28e-4766-9e38-caa4dc3ed1a4",
+      "id": "00000000-0000-0000-0000-000000000059",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -8406,10 +8406,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/aa3c3812-f28e-4766-9e38-caa4dc3ed1a4"
+        "reference": "Medication/00000000-0000-0000-0000-000000000059"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-09",
       "requester": {
@@ -8459,7 +8459,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/aa3c3812-f28e-4766-9e38-caa4dc3ed1a4"
+        "reference": "Medication/00000000-0000-0000-0000-000000000059"
       },
       "effectivePeriod": {
         "start": "2010-08-09",
@@ -8467,7 +8467,7 @@
       },
       "dateAsserted": "2010-08-09T12:35:05+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -8498,10 +8498,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/b2a55e5f-5720-41c2-97f9-f2c5c8eba058"
+        "reference": "Medication/00000000-0000-0000-0000-000000000021"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-09",
       "requester": {
@@ -8554,7 +8554,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/b2a55e5f-5720-41c2-97f9-f2c5c8eba058"
+        "reference": "Medication/00000000-0000-0000-0000-000000000021"
       },
       "effectivePeriod": {
         "start": "2010-08-09",
@@ -8562,7 +8562,7 @@
       },
       "dateAsserted": "2010-08-09T12:42:22+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -8572,7 +8572,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "561ea65f-1342-453c-8864-5aa2b1b85fe3",
+      "id": "00000000-0000-0000-0000-000000000060",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -8622,10 +8622,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/561ea65f-1342-453c-8864-5aa2b1b85fe3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000060"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-09",
       "requester": {
@@ -8678,14 +8678,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/561ea65f-1342-453c-8864-5aa2b1b85fe3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000060"
       },
       "effectivePeriod": {
         "start": "2010-08-09"
       },
       "dateAsserted": "2010-08-09T13:20:24+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -8725,10 +8725,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/34da7a5e-079b-411a-addf-325f609b32fd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000012"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-10",
       "requester": {
@@ -8781,14 +8781,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/34da7a5e-079b-411a-addf-325f609b32fd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000012"
       },
       "effectivePeriod": {
         "start": "2010-08-10"
       },
       "dateAsserted": "2010-08-10T12:22:10+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -8798,7 +8798,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "7673f52a-ff63-4c03-8b08-372182187dca",
+      "id": "00000000-0000-0000-0000-000000000061",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -8848,10 +8848,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/7673f52a-ff63-4c03-8b08-372182187dca"
+        "reference": "Medication/00000000-0000-0000-0000-000000000061"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-10",
       "requester": {
@@ -8901,14 +8901,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/7673f52a-ff63-4c03-8b08-372182187dca"
+        "reference": "Medication/00000000-0000-0000-0000-000000000061"
       },
       "effectivePeriod": {
         "start": "2010-08-10"
       },
       "dateAsserted": "2010-08-10T12:22:30+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -8918,7 +8918,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "3a5a733f-616f-4e56-a8ca-8794de116a9b",
+      "id": "00000000-0000-0000-0000-000000000062",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -8968,10 +8968,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/3a5a733f-616f-4e56-a8ca-8794de116a9b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000062"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -9024,14 +9024,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/3a5a733f-616f-4e56-a8ca-8794de116a9b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000062"
       },
       "effectivePeriod": {
         "start": "2010-08-12"
       },
       "dateAsserted": "2010-08-12T09:23:26+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -9041,7 +9041,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "b149db79-6433-4909-9bff-408bb4c873e3",
+      "id": "00000000-0000-0000-0000-000000000063",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -9091,10 +9091,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -9147,14 +9147,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "effectivePeriod": {
         "start": "2010-08-12"
       },
       "dateAsserted": "2010-08-12T09:40:00+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -9164,7 +9164,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a",
+      "id": "00000000-0000-0000-0000-000000000064",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -9214,10 +9214,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -9270,14 +9270,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "effectivePeriod": {
         "start": "2010-08-12"
       },
       "dateAsserted": "2010-08-12T10:07:30+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -9287,7 +9287,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "7f584ccb-0f84-42df-8f48-2f453fac45bd",
+      "id": "00000000-0000-0000-0000-000000000065",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -9328,10 +9328,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/7f584ccb-0f84-42df-8f48-2f453fac45bd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000065"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -9384,7 +9384,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/7f584ccb-0f84-42df-8f48-2f453fac45bd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000065"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -9392,7 +9392,7 @@
       },
       "dateAsserted": "2010-08-17T15:09:43+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -9402,7 +9402,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "7579ebbf-5b05-4cc8-aa0b-52b90ad024f8",
+      "id": "00000000-0000-0000-0000-000000000066",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -9443,10 +9443,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/7579ebbf-5b05-4cc8-aa0b-52b90ad024f8"
+        "reference": "Medication/00000000-0000-0000-0000-000000000066"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -9499,7 +9499,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/7579ebbf-5b05-4cc8-aa0b-52b90ad024f8"
+        "reference": "Medication/00000000-0000-0000-0000-000000000066"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -9507,7 +9507,7 @@
       },
       "dateAsserted": "2010-08-17T15:10:13+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -9517,7 +9517,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "a3600678-70c2-4cc3-8dbf-986021a1f6c4",
+      "id": "00000000-0000-0000-0000-000000000067",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -9558,10 +9558,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/a3600678-70c2-4cc3-8dbf-986021a1f6c4"
+        "reference": "Medication/00000000-0000-0000-0000-000000000067"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -9614,7 +9614,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/a3600678-70c2-4cc3-8dbf-986021a1f6c4"
+        "reference": "Medication/00000000-0000-0000-0000-000000000067"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -9622,7 +9622,7 @@
       },
       "dateAsserted": "2010-08-17T15:13:55+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -9632,7 +9632,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "609e5e45-20ea-4ccd-b187-21e8a4ada07c",
+      "id": "00000000-0000-0000-0000-000000000068",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -9673,10 +9673,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/609e5e45-20ea-4ccd-b187-21e8a4ada07c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000068"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -9729,7 +9729,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/609e5e45-20ea-4ccd-b187-21e8a4ada07c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000068"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -9737,7 +9737,7 @@
       },
       "dateAsserted": "2010-08-17T15:17:48+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -9747,7 +9747,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "aaac3b46-ec82-4538-961d-f596a6a6a9b0",
+      "id": "00000000-0000-0000-0000-000000000069",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -9788,10 +9788,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/aaac3b46-ec82-4538-961d-f596a6a6a9b0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000069"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -9841,7 +9841,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/aaac3b46-ec82-4538-961d-f596a6a6a9b0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000069"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -9849,7 +9849,7 @@
       },
       "dateAsserted": "2010-08-17T15:18:06+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -9859,7 +9859,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "fef601ff-fc95-48e9-8b56-a9a3a3872c75",
+      "id": "00000000-0000-0000-0000-000000000070",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -9900,10 +9900,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/fef601ff-fc95-48e9-8b56-a9a3a3872c75"
+        "reference": "Medication/00000000-0000-0000-0000-000000000070"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -9956,7 +9956,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/fef601ff-fc95-48e9-8b56-a9a3a3872c75"
+        "reference": "Medication/00000000-0000-0000-0000-000000000070"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -9964,7 +9964,7 @@
       },
       "dateAsserted": "2010-08-17T15:18:20+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -9974,7 +9974,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "4f7f304d-0173-4935-8c51-393386d27a41",
+      "id": "00000000-0000-0000-0000-000000000071",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -10015,10 +10015,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/4f7f304d-0173-4935-8c51-393386d27a41"
+        "reference": "Medication/00000000-0000-0000-0000-000000000071"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -10071,7 +10071,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/4f7f304d-0173-4935-8c51-393386d27a41"
+        "reference": "Medication/00000000-0000-0000-0000-000000000071"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -10079,7 +10079,7 @@
       },
       "dateAsserted": "2010-08-17T15:18:37+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -10089,7 +10089,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "b3cba24c-e036-481a-89b7-fb95781d7ef0",
+      "id": "00000000-0000-0000-0000-000000000072",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -10130,10 +10130,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/b3cba24c-e036-481a-89b7-fb95781d7ef0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000072"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -10186,7 +10186,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/b3cba24c-e036-481a-89b7-fb95781d7ef0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000072"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -10194,7 +10194,7 @@
       },
       "dateAsserted": "2010-08-17T15:21:50+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -10204,7 +10204,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "fcb8d5b2-d465-49c2-b8c1-529eff4c358d",
+      "id": "00000000-0000-0000-0000-000000000073",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -10245,10 +10245,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/fcb8d5b2-d465-49c2-b8c1-529eff4c358d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000073"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -10301,7 +10301,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/fcb8d5b2-d465-49c2-b8c1-529eff4c358d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000073"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -10309,7 +10309,7 @@
       },
       "dateAsserted": "2010-08-17T15:26:03+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -10319,7 +10319,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "54972bc7-e26d-400d-ae72-e820eef40ee4",
+      "id": "00000000-0000-0000-0000-000000000074",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -10360,10 +10360,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/54972bc7-e26d-400d-ae72-e820eef40ee4"
+        "reference": "Medication/00000000-0000-0000-0000-000000000074"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -10416,7 +10416,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/54972bc7-e26d-400d-ae72-e820eef40ee4"
+        "reference": "Medication/00000000-0000-0000-0000-000000000074"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -10424,7 +10424,7 @@
       },
       "dateAsserted": "2010-08-17T15:26:21+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -10434,7 +10434,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "b45a92e2-504e-4b72-aae7-786ce5c61a2c",
+      "id": "00000000-0000-0000-0000-000000000075",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -10475,10 +10475,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/b45a92e2-504e-4b72-aae7-786ce5c61a2c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000075"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -10531,7 +10531,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/b45a92e2-504e-4b72-aae7-786ce5c61a2c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000075"
       },
       "effectivePeriod": {
         "start": "2010-08-17",
@@ -10539,7 +10539,7 @@
       },
       "dateAsserted": "2010-08-17T15:26:37+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -10570,10 +10570,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/7673f52a-ff63-4c03-8b08-372182187dca"
+        "reference": "Medication/00000000-0000-0000-0000-000000000061"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-10-01",
       "requester": {
@@ -10623,7 +10623,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/7673f52a-ff63-4c03-8b08-372182187dca"
+        "reference": "Medication/00000000-0000-0000-0000-000000000061"
       },
       "effectivePeriod": {
         "start": "2010-10-01",
@@ -10631,7 +10631,7 @@
       },
       "dateAsserted": "2010-10-01T10:24:28+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -10641,7 +10641,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "46c13068-0f05-4a49-927c-31400f947366",
+      "id": "00000000-0000-0000-0000-000000000076",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -10691,10 +10691,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/46c13068-0f05-4a49-927c-31400f947366"
+        "reference": "Medication/00000000-0000-0000-0000-000000000076"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-10-01",
       "requester": {
@@ -10744,14 +10744,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/46c13068-0f05-4a49-927c-31400f947366"
+        "reference": "Medication/00000000-0000-0000-0000-000000000076"
       },
       "effectivePeriod": {
         "start": "2010-10-01"
       },
       "dateAsserted": "2010-10-01T10:27:57+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -10802,10 +10802,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/3a2ea79e-a1f0-4cbd-996f-925f19d14a8f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000046"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-01-20",
       "requester": {
@@ -10855,7 +10855,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/3a2ea79e-a1f0-4cbd-996f-925f19d14a8f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000046"
       },
       "effectivePeriod": {
         "start": "2011-01-20",
@@ -10863,7 +10863,7 @@
       },
       "dateAsserted": "2011-01-20T14:38:17+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -10873,7 +10873,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "5ef62b53-cafb-47fa-8a47-e9ea8b987d0f",
+      "id": "00000000-0000-0000-0000-000000000077",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -10923,10 +10923,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/5ef62b53-cafb-47fa-8a47-e9ea8b987d0f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000077"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-09-28",
       "requester": {
@@ -10979,14 +10979,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/5ef62b53-cafb-47fa-8a47-e9ea8b987d0f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000077"
       },
       "effectivePeriod": {
         "start": "2011-09-28"
       },
       "dateAsserted": "2011-09-28T09:10:38+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -10996,7 +10996,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "fe2df5b5-e243-4517-8063-15b017943d5b",
+      "id": "00000000-0000-0000-0000-000000000078",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -11057,10 +11057,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/fe2df5b5-e243-4517-8063-15b017943d5b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000078"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-11-15",
       "requester": {
@@ -11113,7 +11113,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/fe2df5b5-e243-4517-8063-15b017943d5b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000078"
       },
       "effectivePeriod": {
         "start": "2011-11-15",
@@ -11121,7 +11121,7 @@
       },
       "dateAsserted": "2011-11-15T14:44:38+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -11131,7 +11131,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "617ba608-91b9-443c-abdf-74def72ee33d",
+      "id": "00000000-0000-0000-0000-000000000079",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -11183,10 +11183,10 @@
       "status": "stopped",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/617ba608-91b9-443c-abdf-74def72ee33d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000079"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-11-15",
       "requester": {
@@ -11239,7 +11239,7 @@
       } ],
       "status": "stopped",
       "medicationReference": {
-        "reference": "Medication/617ba608-91b9-443c-abdf-74def72ee33d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000079"
       },
       "effectivePeriod": {
         "start": "2011-11-15",
@@ -11247,7 +11247,7 @@
       },
       "dateAsserted": "2011-11-15T14:55:59+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -11257,7 +11257,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "9fc0d033-7c13-468e-ac3c-9017dd1a64a7",
+      "id": "00000000-0000-0000-0000-000000000080",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -11298,10 +11298,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/9fc0d033-7c13-468e-ac3c-9017dd1a64a7"
+        "reference": "Medication/00000000-0000-0000-0000-000000000080"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-12-06",
       "requester": {
@@ -11354,7 +11354,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/9fc0d033-7c13-468e-ac3c-9017dd1a64a7"
+        "reference": "Medication/00000000-0000-0000-0000-000000000080"
       },
       "effectivePeriod": {
         "start": "2011-12-06",
@@ -11362,7 +11362,7 @@
       },
       "dateAsserted": "2011-12-06T14:40:35+00:00",
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "taken": "unk",
       "dosage": [ {
@@ -11396,10 +11396,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -11453,10 +11453,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -11510,10 +11510,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -11567,10 +11567,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -11624,10 +11624,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -11681,10 +11681,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -11738,10 +11738,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -11795,10 +11795,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -11852,10 +11852,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -11909,10 +11909,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -11966,10 +11966,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/34da7a5e-079b-411a-addf-325f609b32fd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000012"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12020,10 +12020,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/5308acab-fdf3-419e-a37b-9e52f8768eb3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000016"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12077,10 +12077,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/730789fa-fb91-40fb-9848-0757cdc450ab"
+        "reference": "Medication/00000000-0000-0000-0000-000000000019"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12134,10 +12134,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/649d9d28-4abc-41e5-b2ea-78db8575c30e"
+        "reference": "Medication/00000000-0000-0000-0000-000000000020"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12188,10 +12188,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b2a55e5f-5720-41c2-97f9-f2c5c8eba058"
+        "reference": "Medication/00000000-0000-0000-0000-000000000021"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12218,7 +12218,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "41d66e53-d951-4d2c-980a-a8587e4fa3d9",
+      "id": "00000000-0000-0000-0000-000000000081",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -12262,10 +12262,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/41d66e53-d951-4d2c-980a-a8587e4fa3d9"
+        "reference": "Medication/00000000-0000-0000-0000-000000000081"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12316,10 +12316,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/104affff-b52c-4922-be1f-abea2912df63"
+        "reference": "Medication/00000000-0000-0000-0000-000000000025"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12373,10 +12373,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12430,10 +12430,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12487,10 +12487,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12544,10 +12544,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12601,10 +12601,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12658,10 +12658,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/624b75a8-54fe-43e9-b3a4-a21631255ae0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000026"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12715,10 +12715,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/2333580a-e2ab-4b3f-a05a-10e490d1683a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000027"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12769,10 +12769,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/8702a851-2025-4a6e-9652-5223dd399797"
+        "reference": "Medication/00000000-0000-0000-0000-000000000029"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12823,10 +12823,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/0aa0cb28-7cc8-407e-9ec0-6b086892cf6e"
+        "reference": "Medication/00000000-0000-0000-0000-000000000030"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12877,10 +12877,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/a5bea7d1-6a03-4e26-a27d-f574b1b16baa"
+        "reference": "Medication/00000000-0000-0000-0000-000000000031"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12931,10 +12931,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/a5bea7d1-6a03-4e26-a27d-f574b1b16baa"
+        "reference": "Medication/00000000-0000-0000-0000-000000000031"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -12985,10 +12985,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/a5bea7d1-6a03-4e26-a27d-f574b1b16baa"
+        "reference": "Medication/00000000-0000-0000-0000-000000000031"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -13039,10 +13039,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/8702a851-2025-4a6e-9652-5223dd399797"
+        "reference": "Medication/00000000-0000-0000-0000-000000000029"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -13093,10 +13093,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/8702a851-2025-4a6e-9652-5223dd399797"
+        "reference": "Medication/00000000-0000-0000-0000-000000000029"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -13147,10 +13147,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/21204459-ea02-497e-97db-ee79015e792d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000034"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -13201,10 +13201,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/d8c76136-6e67-4a32-b922-448b8df94d26"
+        "reference": "Medication/00000000-0000-0000-0000-000000000035"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -13255,10 +13255,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/9256a663-7e8e-495e-af64-0f5f4786e205"
+        "reference": "Medication/00000000-0000-0000-0000-000000000037"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -13309,10 +13309,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/2c8d7463-911c-4e9d-95a9-c2fe2cf18311"
+        "reference": "Medication/00000000-0000-0000-0000-000000000038"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-14",
       "requester": {
@@ -13339,7 +13339,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "c059fb59-7311-4e75-959a-9d939b9c3ef0",
+      "id": "00000000-0000-0000-0000-000000000082",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -13383,10 +13383,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/c059fb59-7311-4e75-959a-9d939b9c3ef0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000082"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-15",
       "requester": {
@@ -13437,10 +13437,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/a3eaf010-baa7-45ee-9a98-ea399c3e78f5"
+        "reference": "Medication/00000000-0000-0000-0000-000000000042"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-15",
       "requester": {
@@ -13494,10 +13494,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/1f937396-e174-49d1-ba16-a17ea1da3b59"
+        "reference": "Medication/00000000-0000-0000-0000-000000000043"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-18",
       "requester": {
@@ -13551,10 +13551,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/2c8d7463-911c-4e9d-95a9-c2fe2cf18311"
+        "reference": "Medication/00000000-0000-0000-0000-000000000038"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-18",
       "requester": {
@@ -13605,10 +13605,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/2333580a-e2ab-4b3f-a05a-10e490d1683a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000027"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-18",
       "requester": {
@@ -13659,10 +13659,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/a5bea7d1-6a03-4e26-a27d-f574b1b16baa"
+        "reference": "Medication/00000000-0000-0000-0000-000000000031"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-18",
       "requester": {
@@ -13713,10 +13713,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/e0ef0163-58db-4890-ba19-3e42cd54bf4b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000045"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-18",
       "requester": {
@@ -13767,10 +13767,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/e0ef0163-58db-4890-ba19-3e42cd54bf4b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000045"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-19",
       "requester": {
@@ -13821,10 +13821,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/e0ef0163-58db-4890-ba19-3e42cd54bf4b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000045"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-20",
       "requester": {
@@ -13875,10 +13875,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/2333580a-e2ab-4b3f-a05a-10e490d1683a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000027"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-01-20",
       "requester": {
@@ -13929,10 +13929,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/a5bea7d1-6a03-4e26-a27d-f574b1b16baa"
+        "reference": "Medication/00000000-0000-0000-0000-000000000031"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-02-26",
       "requester": {
@@ -13983,10 +13983,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/9cdad562-1e2e-4ea1-b2ad-3400560eff29"
+        "reference": "Medication/00000000-0000-0000-0000-000000000011"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14040,10 +14040,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/ea050afb-95ee-49f6-a6f2-8bbd0795f605"
+        "reference": "Medication/00000000-0000-0000-0000-000000000009"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14094,10 +14094,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/95d33559-cac3-4025-898c-96171a0ce86c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000054"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14148,10 +14148,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/71e4528a-06f9-4952-8046-6a7db4e5e027"
+        "reference": "Medication/00000000-0000-0000-0000-000000000048"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14202,10 +14202,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80318a0f-3d5f-4c4d-a7b7-cb409f5d4865"
+        "reference": "Medication/00000000-0000-0000-0000-000000000049"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14256,10 +14256,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80318a0f-3d5f-4c4d-a7b7-cb409f5d4865"
+        "reference": "Medication/00000000-0000-0000-0000-000000000049"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14310,10 +14310,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/e4a012be-ba48-4f09-9902-555b121ab872"
+        "reference": "Medication/00000000-0000-0000-0000-000000000050"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14340,7 +14340,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "5e12c03c-4612-45af-85b5-19077acdaf93",
+      "id": "00000000-0000-0000-0000-000000000083",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -14384,10 +14384,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/5e12c03c-4612-45af-85b5-19077acdaf93"
+        "reference": "Medication/00000000-0000-0000-0000-000000000083"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14438,10 +14438,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/5e12c03c-4612-45af-85b5-19077acdaf93"
+        "reference": "Medication/00000000-0000-0000-0000-000000000083"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14492,10 +14492,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/8b9b8ee8-dd77-4bd6-b388-20c805c6fda6"
+        "reference": "Medication/00000000-0000-0000-0000-000000000052"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14546,10 +14546,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/8b9b8ee8-dd77-4bd6-b388-20c805c6fda6"
+        "reference": "Medication/00000000-0000-0000-0000-000000000052"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14600,10 +14600,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/6ae1baf6-d742-4a01-92e7-d0d39760138d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000053"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-23",
       "requester": {
@@ -14654,10 +14654,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/8b9b8ee8-dd77-4bd6-b388-20c805c6fda6"
+        "reference": "Medication/00000000-0000-0000-0000-000000000052"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-24",
       "requester": {
@@ -14711,10 +14711,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/188d1f52-c493-494b-9b94-90cc94207f3d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000055"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-26",
       "requester": {
@@ -14765,10 +14765,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/4f5135f3-b31d-46b0-93ec-80ab6bb82c78"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-03-31",
       "requester": {
@@ -14819,10 +14819,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/4c0801c5-de7b-4e73-bbae-9faa6e4750d6"
+        "reference": "Medication/00000000-0000-0000-0000-000000000056"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-05-21",
       "requester": {
@@ -14876,10 +14876,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/1f937396-e174-49d1-ba16-a17ea1da3b59"
+        "reference": "Medication/00000000-0000-0000-0000-000000000043"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-05-21",
       "requester": {
@@ -14933,10 +14933,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/c31d5b4e-ea98-47d3-a79c-3a5f0079f2af"
+        "reference": "Medication/00000000-0000-0000-0000-000000000057"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-05-21",
       "requester": {
@@ -14987,10 +14987,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/304d90ed-f5ae-4fee-b36b-9b44fc038439"
+        "reference": "Medication/00000000-0000-0000-0000-000000000058"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-05-21",
       "requester": {
@@ -15044,10 +15044,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/4f08d693-9695-43c2-8045-663e3eebd86e"
+        "reference": "Medication/00000000-0000-0000-0000-000000000023"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-06-30",
       "requester": {
@@ -15098,10 +15098,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/561ea65f-1342-453c-8864-5aa2b1b85fe3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000060"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-09",
       "requester": {
@@ -15152,10 +15152,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/7f584ccb-0f84-42df-8f48-2f453fac45bd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000065"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-10",
       "requester": {
@@ -15209,10 +15209,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15263,10 +15263,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15317,10 +15317,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15371,10 +15371,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15425,10 +15425,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15479,10 +15479,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15533,10 +15533,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15587,10 +15587,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15641,10 +15641,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15695,10 +15695,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15749,10 +15749,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/3a5a733f-616f-4e56-a8ca-8794de116a9b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000062"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15803,10 +15803,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/3a5a733f-616f-4e56-a8ca-8794de116a9b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000062"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15857,10 +15857,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15911,10 +15911,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -15965,10 +15965,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -16019,10 +16019,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -16073,10 +16073,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -16127,10 +16127,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/80d4c5fa-ff5b-42c2-b5b8-06f5e5368a8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000064"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-12",
       "requester": {
@@ -16181,10 +16181,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/7579ebbf-5b05-4cc8-aa0b-52b90ad024f8"
+        "reference": "Medication/00000000-0000-0000-0000-000000000066"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16238,10 +16238,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16292,10 +16292,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16346,10 +16346,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16400,10 +16400,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16454,10 +16454,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16508,10 +16508,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16562,10 +16562,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16616,10 +16616,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16670,10 +16670,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16724,10 +16724,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16778,10 +16778,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16832,10 +16832,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16886,10 +16886,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16940,10 +16940,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -16994,10 +16994,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -17048,10 +17048,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b149db79-6433-4909-9bff-408bb4c873e3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000063"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -17102,10 +17102,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/609e5e45-20ea-4ccd-b187-21e8a4ada07c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000068"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -17159,10 +17159,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/fef601ff-fc95-48e9-8b56-a9a3a3872c75"
+        "reference": "Medication/00000000-0000-0000-0000-000000000070"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -17216,10 +17216,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/4f7f304d-0173-4935-8c51-393386d27a41"
+        "reference": "Medication/00000000-0000-0000-0000-000000000071"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -17273,10 +17273,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b3cba24c-e036-481a-89b7-fb95781d7ef0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000072"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -17330,10 +17330,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/fcb8d5b2-d465-49c2-b8c1-529eff4c358d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000073"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -17389,10 +17389,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/54972bc7-e26d-400d-ae72-e820eef40ee4"
+        "reference": "Medication/00000000-0000-0000-0000-000000000074"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -17446,10 +17446,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b45a92e2-504e-4b72-aae7-786ce5c61a2c"
+        "reference": "Medication/00000000-0000-0000-0000-000000000075"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-17",
       "requester": {
@@ -17503,10 +17503,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/a3600678-70c2-4cc3-8dbf-986021a1f6c4"
+        "reference": "Medication/00000000-0000-0000-0000-000000000067"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-08-18",
       "requester": {
@@ -17562,10 +17562,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/b2a55e5f-5720-41c2-97f9-f2c5c8eba058"
+        "reference": "Medication/00000000-0000-0000-0000-000000000021"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2010-11-09",
       "requester": {
@@ -17616,10 +17616,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/47a61ab0-b3a1-4e7c-b6c6-22205cd9b338"
+        "reference": "Medication/00000000-0000-0000-0000-000000000018"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-01-03",
       "requester": {
@@ -17670,10 +17670,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/5ef62b53-cafb-47fa-8a47-e9ea8b987d0f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000077"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-09-28",
       "requester": {
@@ -17724,10 +17724,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/5ef62b53-cafb-47fa-8a47-e9ea8b987d0f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000077"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-09-28",
       "requester": {
@@ -17778,10 +17778,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/5ef62b53-cafb-47fa-8a47-e9ea8b987d0f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000077"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-09-28",
       "requester": {
@@ -17832,10 +17832,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/5ef62b53-cafb-47fa-8a47-e9ea8b987d0f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000077"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-09-28",
       "requester": {
@@ -17886,10 +17886,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/5ef62b53-cafb-47fa-8a47-e9ea8b987d0f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000077"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-09-28",
       "requester": {
@@ -17940,10 +17940,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/5ef62b53-cafb-47fa-8a47-e9ea8b987d0f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000077"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-09-28",
       "requester": {
@@ -17994,10 +17994,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/5ef62b53-cafb-47fa-8a47-e9ea8b987d0f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000077"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-09-28",
       "requester": {
@@ -18048,10 +18048,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/fe2df5b5-e243-4517-8063-15b017943d5b"
+        "reference": "Medication/00000000-0000-0000-0000-000000000078"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-11-15",
       "requester": {
@@ -18105,10 +18105,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/617ba608-91b9-443c-abdf-74def72ee33d"
+        "reference": "Medication/00000000-0000-0000-0000-000000000079"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-11-15",
       "requester": {
@@ -18162,10 +18162,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/9fc0d033-7c13-468e-ac3c-9017dd1a64a7"
+        "reference": "Medication/00000000-0000-0000-0000-000000000080"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2011-12-09",
       "requester": {
@@ -18216,10 +18216,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/3b0658ff-c5b3-4de3-9f08-5b6e2376a1f3"
+        "reference": "Medication/00000000-0000-0000-0000-000000000024"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "authoredOn": "2013-01-03",
       "requester": {
@@ -18278,7 +18278,7 @@
         "text": "Medication review with patient"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/0CF70E30-DD21-433E-87AE-F32DA5FBE4DA"
@@ -18324,7 +18324,7 @@
         "text": "Medication review"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/A6CE9003-C784-4E11-A5C1-E406BCF35D55"
@@ -18370,7 +18370,7 @@
         "text": "Gout"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A"
@@ -18417,7 +18417,7 @@
         "text": "Gout"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/8F1F0FF5-2F2C-482B-BD9A-98101786B46D"
@@ -18464,7 +18464,7 @@
         "text": "Haemorrhage of parathyroid"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/0B6398B9-E22B-4195-BBBA-301BA6732708"
@@ -18511,7 +18511,7 @@
         "text": "Civil state unknown"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "effectiveDateTime": "2010-01-14T10:10:00+00:00",
       "issued": "2010-01-14T10:10:35.000+00:00",
@@ -18585,7 +18585,7 @@
         "text": "Gout"
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A"
@@ -18628,7 +18628,7 @@
         "text": "Adverse reaction to Cetirizine Hydrochloride"
       },
       "patient": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "onsetDateTime": "2010-01-18",
       "assertedDate": "2010-01-18",
@@ -18666,7 +18666,7 @@
         "text": "Adverse reaction to Lustral"
       },
       "patient": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "onsetDateTime": "2010-03-23",
       "assertedDate": "2010-03-23",
@@ -18704,7 +18704,7 @@
         "text": "Adverse reaction to Mebeverine Hydrochloride"
       },
       "patient": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "onsetDateTime": "2010-03-23",
       "assertedDate": "2010-03-23",
@@ -18742,7 +18742,7 @@
         "text": "Adverse reaction to Prednisolone"
       },
       "patient": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "onsetDateTime": "2010-08-09",
       "assertedDate": "2010-08-09",
@@ -18783,7 +18783,7 @@
         "text": "Adverse reaction to Central Nervous System Drugs"
       },
       "patient": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "onsetDateTime": "2011-09-28",
       "assertedDate": "2011-09-28",
@@ -18814,7 +18814,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/825B1B60-525E-4D0A-B813-F3AE3E18EB5D"
@@ -18846,7 +18846,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/86631a0e-a6d2-40f8-a73f-f230064a0501"
+        "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "context": {
         "reference": "Encounter/18ADB528-260B-41D8-ACA5-77529A4A4F59"
