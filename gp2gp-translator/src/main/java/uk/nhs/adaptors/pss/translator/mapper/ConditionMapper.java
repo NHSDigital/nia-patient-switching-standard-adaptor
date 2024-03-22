@@ -232,9 +232,12 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         RCMRMT030101UKObservationStatement referencedObservationStatement,
         Optional<RCMRMT030101UKObservationStatement> matchedObservationStatement) {
 
-        if (matchedObservationStatement.isEmpty()) {
+        if (matchedObservationStatement.isEmpty()
+                || observationStatementDoesNotContainNarrativeAnnotationText(referencedObservationStatement)
+                || observationStatementDoesNotContainNarrativeAnnotationText(matchedObservationStatement.get())) {
             return referencedObservationStatement;
         }
+
 
         String referencedAnnotationText =
             referencedObservationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
@@ -550,5 +553,13 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 .filter(Objects::nonNull)
                 .filter(observationStatement -> id.equals(observationStatement.getId().getRoot()))
                 .findFirst();
+    }
+
+    public Boolean observationStatementDoesNotContainNarrativeAnnotationText(RCMRMT030101UKObservationStatement observationStatement) {
+        var pertinentInformation = observationStatement.getPertinentInformation();
+
+        return pertinentInformation.isEmpty()
+                || pertinentInformation.get(0).getPertinentAnnotation() == null
+                || StringUtils.isEmpty(pertinentInformation.get(0).getPertinentAnnotation().getText());
     }
 }
