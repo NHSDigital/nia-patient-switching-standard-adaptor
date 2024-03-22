@@ -96,7 +96,7 @@ public class EncounterMapper {
 
         ehrCompositionList.forEach(ehrComposition -> {
             var encounter = mapToEncounter(ehrComposition, patient, practiseCode, entryLocations);
-            var consultation = consultationListMapper.mapToConsultation(ehrExtract, encounter);
+            var consultation = consultationListMapper.mapToConsultation(ehrComposition, encounter);
 
             var topicCompoundStatementList = getTopicCompoundStatements(ehrComposition);
             if (CollectionUtils.isEmpty(topicCompoundStatementList)) {

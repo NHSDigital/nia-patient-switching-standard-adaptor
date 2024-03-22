@@ -3,15 +3,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+
 ## [Unreleased]
 
-* Condition.onsetDateTime is set to NULL when low or center entries of effectiveTime
-  are `nullFlavor="UNK"`
+### Removed
+* The `EhrExtract / AvailabilityTime` field as a fallback value from:
+  - 'ConsultationListMapper.mapToConsultation'
+
+### Added  
+* The primary source of date/time
+  - 'ConsultationListMapper.getConsultationDate'
+    - ehrComposition author time
+    - or else ehrComposition availibiltyTime
+    - or else ehrComposition effectiveTime - center
+    - or else EhrComposition effectiveTime - high
+    - or else EhrComposition effectiveTime - low
+
+## [1.4.6] - 2024-03-21
+
+* `Condition.onsetDateTime` is now set to NULL when low or center entries of effectiveTime are `nullFlavor="UNK"`.
 
 ## [1.4.5] - 2024-03-01
 
 ### Fixed
-
 * Removed the `EhrExtract / AvailabilityTime` field as a fallback value from:
   - `Condition.assertedDate`
   - `List.date`
