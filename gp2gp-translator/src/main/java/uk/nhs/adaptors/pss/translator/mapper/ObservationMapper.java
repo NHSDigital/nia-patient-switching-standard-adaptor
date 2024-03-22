@@ -77,7 +77,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                         .filter(Objects::nonNull)
                         .filter(this::isSelfReferral)
                         .map(observationStatement
-                                -> mapObservationFromRequestStatement(extract, composition, observationStatement,
+                                -> mapObservationFromRequestStatement(composition, observationStatement,
                                 patient, encounters, practiseCode)))
                 .toList();
 
@@ -127,8 +127,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
-    private Observation mapObservationFromRequestStatement(RCMRMT030101UKEhrExtract ehrExtract,
-                                                           RCMRMT030101UKEhrComposition ehrComposition,
+    private Observation mapObservationFromRequestStatement(RCMRMT030101UKEhrComposition ehrComposition,
                                                            RCMRMT030101UKRequestStatement requestStatement, Patient patient,
                                                            List<Encounter> encounters, String practiseCode) {
 
