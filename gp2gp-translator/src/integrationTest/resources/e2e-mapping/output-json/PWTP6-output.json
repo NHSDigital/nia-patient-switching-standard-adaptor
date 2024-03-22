@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "f33d9172-63bf-4760-b9e1-deea3a07ec07",
+  "id": "00000000-0000-0000-0000-000000000000",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,7 +8,7 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "414971dc-ac3a-4349-bacc-b9ff694a50ac",
+      "id": "00000000-0000-0000-0000-000000000008",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -82,7 +82,7 @@
         "text": "Home visit note"
       } ],
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "participant": [ {
         "type": [ {
@@ -112,7 +112,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/B3999C92-10F0-48D2-8127-F4B7AC80AA03"
+          "reference": "Location/00000000-0000-0000-0000-000000000001"
         }
       } ]
     }
@@ -144,7 +144,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "participant": [ {
         "type": [ {
@@ -174,7 +174,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/DCBCD037-7181-47FD-86BF-F27AA2C9F9EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -206,7 +206,7 @@
         "text": "Children's home visit note"
       } ],
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "participant": [ {
         "type": [ {
@@ -236,7 +236,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/DCBCD037-7181-47FD-86BF-F27AA2C9F9EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -268,7 +268,7 @@
         "text": "Residential home visit note"
       } ],
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "participant": [ {
         "type": [ {
@@ -298,7 +298,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/DCBCD037-7181-47FD-86BF-F27AA2C9F9EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -330,7 +330,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "participant": [ {
         "type": [ {
@@ -360,7 +360,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/DCBCD037-7181-47FD-86BF-F27AA2C9F9EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -392,7 +392,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "participant": [ {
         "type": [ {
@@ -422,7 +422,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/DCBCD037-7181-47FD-86BF-F27AA2C9F9EC"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -444,7 +444,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -481,7 +481,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -518,7 +518,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -555,7 +555,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -592,7 +592,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -629,7 +629,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -666,7 +666,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -703,7 +703,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -748,7 +748,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -785,7 +785,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -846,7 +846,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -883,7 +883,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -920,7 +920,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -997,7 +997,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -1050,7 +1050,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -1091,7 +1091,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -1128,7 +1128,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -1225,7 +1225,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -1362,7 +1362,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -1415,7 +1415,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -1472,7 +1472,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -1529,7 +1529,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -1570,7 +1570,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -1607,7 +1607,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -1644,7 +1644,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -1725,7 +1725,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -1787,13 +1787,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "B3999C92-10F0-48D2-8127-F4B7AC80AA03",
+      "id": "00000000-0000-0000-0000-000000000001",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "B3999C92-10F0-48D2-8127-F4B7AC80AA03"
+        "value": "00000000-0000-0000-0000-000000000001"
       } ],
       "status": "active",
       "name": "Branch Surgery Rhing"
@@ -1801,13 +1801,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "DCBCD037-7181-47FD-86BF-F27AA2C9F9EC",
+      "id": "00000000-0000-0000-0000-000000000002",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "DCBCD037-7181-47FD-86BF-F27AA2C9F9EC"
+        "value": "00000000-0000-0000-0000-000000000002"
       } ],
       "status": "active",
       "name": "EMIS LV Test Practice 1"
@@ -1848,7 +1848,7 @@
         "text": "Asthma"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -1897,7 +1897,7 @@
         "text": "In-house podiatry follow-up appointment"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -1948,7 +1948,7 @@
         "text": "Current smoker"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -1994,7 +1994,7 @@
         "text": "Rolls own cigarettes"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -2044,7 +2044,7 @@
         "text": "Smoker"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -2092,7 +2092,7 @@
         "text": "Health ed. - smoking"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -2138,7 +2138,7 @@
         "text": "Trying to give up smoking"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -2184,7 +2184,7 @@
         "text": "Father smokes"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -2230,7 +2230,7 @@
         "text": "Mother smokes"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -2273,7 +2273,7 @@
         "text": "Ex-cigar smoker"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -2323,7 +2323,7 @@
         "text": "Smokes drugs"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -2369,7 +2369,7 @@
         "text": "Smoking cessation programme start date"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -2406,7 +2406,7 @@
         "text": "Smoking cessation counselling by telephone"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/698C8458-569F-4451-863B-DBA96EDA776E"
@@ -2449,7 +2449,7 @@
         "text": "Peak exp. flow rate: PEFR/PFR"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -2500,7 +2500,7 @@
         "text": "Best ever peak flow rate"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -2548,7 +2548,7 @@
         "text": "Predicted peak flow"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -2599,7 +2599,7 @@
         "text": "Peak flow meter at home"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -2645,7 +2645,7 @@
         "text": "Inhaler technique - good"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -2691,7 +2691,7 @@
         "text": "Asthma never disturbs sleep"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -2737,7 +2737,7 @@
         "text": "Asthma never restricts exercise"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7E5AE3B-260D-4BEB-962A-BC489C30041F"
@@ -2783,7 +2783,7 @@
         "text": "O/E - R.post.tib.pulse present"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -2829,7 +2829,7 @@
         "text": "O/E - L.post.tib. pulse absent"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -2875,7 +2875,7 @@
         "text": "O/E - R.dorsalis pedis present"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -2921,7 +2921,7 @@
         "text": "O/E - L.dorsalis pedis absent"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -2967,7 +2967,7 @@
         "text": "O/E - Right foot colour normal"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3014,7 +3014,7 @@
         "text": "O/E - Left foot colour abnormal"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3061,7 +3061,7 @@
         "text": "O/E - skin over lesion hot"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3108,7 +3108,7 @@
         "text": "O/E - skin over lesion cold"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3145,7 +3145,7 @@
         "text": "Doppler of right foot - triphasic"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3181,7 +3181,7 @@
         "text": "Doppler of left foot - biphasic"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3227,7 +3227,7 @@
         "text": "Capillary refill time"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3279,7 +3279,7 @@
         "text": "Capillary refill time"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3330,7 +3330,7 @@
         "text": "Claudication distance"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3382,7 +3382,7 @@
         "text": "Claudication distance"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3434,7 +3434,7 @@
         "text": "Rest pain"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3481,7 +3481,7 @@
         "text": "No pain"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3528,7 +3528,7 @@
         "text": "O/E - oedema of ankles"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3575,7 +3575,7 @@
         "text": "O/E - oedema of legs"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3612,7 +3612,7 @@
         "text": "Right foot monofilament 10g normal"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3649,7 +3649,7 @@
         "text": "Left foot monofilament 10g abnormal"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3696,7 +3696,7 @@
         "text": "O/E - Vibration sense of right foot absent"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3742,7 +3742,7 @@
         "text": "O/E - vibration sense left foot reduced"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3788,7 +3788,7 @@
         "text": "Athlete's foot"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3835,7 +3835,7 @@
         "text": "O/E - gait"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3882,7 +3882,7 @@
         "text": "Intermittent claudication"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3928,7 +3928,7 @@
         "text": "Intermittent claudication"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -3974,7 +3974,7 @@
         "text": "Diabetic neuropathy"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4021,7 +4021,7 @@
         "text": "Onychogryphosis"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4068,7 +4068,7 @@
         "text": "Onychomycosis"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4115,7 +4115,7 @@
         "text": "Ischaemic ulcer diabetic foot"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4162,7 +4162,7 @@
         "text": "Neuropathic diabetic ulcer - foot"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4209,7 +4209,7 @@
         "text": "Mixed diabetic ulcer - foot"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4256,7 +4256,7 @@
         "text": "Arterial leg ulcer"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4303,7 +4303,7 @@
         "text": "Mixed venous and arterial leg ulcer"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4347,7 +4347,7 @@
         "text": "Diabetic Charcot arthropathy"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4394,7 +4394,7 @@
         "text": "O/E - right healed foot ulcer"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4440,7 +4440,7 @@
         "text": "O/E - left healed foot ulcer"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4486,7 +4486,7 @@
         "text": "O/E - Right foot deformity"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4532,7 +4532,7 @@
         "text": "O/E - No left foot deformity"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4578,7 +4578,7 @@
         "text": "O/E - Right diabetic foot at low risk"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4624,7 +4624,7 @@
         "text": "O/E - Left diabetic foot at high risk"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4670,7 +4670,7 @@
         "text": "Amputation through metatarsal bones"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4714,7 +4714,7 @@
         "text": "Amputation below knee"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4761,7 +4761,7 @@
         "text": "Refer for vascular studies"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -4808,7 +4808,7 @@
         "text": "Trivial drinker - <1u/day"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -4855,7 +4855,7 @@
         "text": "Light drinker - 1-2u/day"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -4901,7 +4901,7 @@
         "text": "Moderate drinker - 3-6u/day"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -4947,7 +4947,7 @@
         "text": "Heavy drinker - 7-9u/day"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -4990,7 +4990,7 @@
         "text": "Lifestyle advice regarding alcohol"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -5036,7 +5036,7 @@
         "text": "Spirit drinker"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -5082,7 +5082,7 @@
         "text": "Beer drinker"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -5129,7 +5129,7 @@
         "text": "Drinks beer and spirits"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -5175,7 +5175,7 @@
         "text": "Alcohol intake above recommended sensible limits"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -5221,7 +5221,7 @@
         "text": "Alcohol units consumed on heaviest drinking day"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -5271,7 +5271,7 @@
         "text": "Alcohol units per week"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -5321,7 +5321,7 @@
         "text": "Alcohol intake"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/FE642D6E-A729-47E9-9512-B0DEA7AC36A1"
@@ -5371,7 +5371,7 @@
         "text": "Tired all the time"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -5424,7 +5424,7 @@
         "text": "Total prosthetic replacement of knee joint using cement"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -5477,7 +5477,7 @@
         "text": "Total prosthetic replacement of hip joint using cement"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -5526,7 +5526,7 @@
         "text": "Surgical biopsy (admin) NOS"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -5578,7 +5578,7 @@
         "text": "Very heavy drinker"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -5630,7 +5630,7 @@
         "text": "Systolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -5686,7 +5686,7 @@
         "text": "Diastolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -5752,7 +5752,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -5816,7 +5816,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -5877,7 +5877,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -5941,7 +5941,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6002,7 +6002,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6066,7 +6066,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6130,7 +6130,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6194,7 +6194,7 @@
         } ]
       },
       "patient": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "encounter": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6245,7 +6245,7 @@
         "text": "Happy puppet syndrome"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -6317,7 +6317,7 @@
         "text": "O/E - blood pressure reading"
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -6359,7 +6359,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6391,7 +6391,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6423,7 +6423,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6455,7 +6455,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6487,7 +6487,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6519,7 +6519,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6551,7 +6551,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6583,7 +6583,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/9F891565-9B5E-487F-9155-6131382DBED8"
@@ -6615,7 +6615,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -6647,7 +6647,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/62B17FF3-AC74-4118-A567-B34D09798DCA"
@@ -6679,7 +6679,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -6711,7 +6711,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -6743,7 +6743,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
@@ -6775,7 +6775,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/414971dc-ac3a-4349-bacc-b9ff694a50ac"
+        "reference": "Patient/00000000-0000-0000-0000-000000000008"
       },
       "context": {
         "reference": "Encounter/B7A64FCC-6F01-489E-8A2E-6D5080EFB36C"
