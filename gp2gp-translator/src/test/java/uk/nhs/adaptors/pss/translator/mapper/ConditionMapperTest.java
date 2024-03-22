@@ -61,6 +61,9 @@ public class ConditionMapperTest {
     public static final String STATEMENT_REF_ID = "STATEMENT_REF_ID";
     public static final String STATEMENT_REF_ID_1 = "STATEMENT_REF_ID_1";
     public static final int EXPECTED_NUMBER_OF_EXTENSIONS = 4;
+    public static final String ANNOTATION_TEXT_WITH_ELLIPSIS = "Problem severity: Minor H/O: injury to little finger left hand poss gla...";
+    public static final String ANNOTATION_TEXT_WITHOUT_ELLIPSIS = "Problem severity: Minor H/O: injury to little finger left hand poss gla";
+    public static final String DIFFERENT_ANNOTATION = "Problem severity: Minor H/O: a different injury to a different part of body...";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -92,10 +95,10 @@ public class ConditionMapperTest {
 
     @Test
     public void testMergeObservationStatementsIfRequiredWithTwoObservationStatements() {
-        final var referencedObservationStatement = buildReferencedObservationStatement();
+        final var referencedObservationStatement = buildReferencedObservationStatement(ANNOTATION_TEXT_WITH_ELLIPSIS);
         final var matchedObservationStatement = Optional.of(buildObservationStatementToBeMatched());
         final var expectedText =
-                "Problem severity: Minor (New Episode). H/O: injury to little finger left hand poss glass in wound therefore referred to A+E";
+            "Problem severity: Minor (New Episode). H/O: injury to little finger left hand poss glass in wound therefore referred to A+E";
 
         final var observationStatement = conditionMapper.mergeObservationStatementsIfRequired(
                 referencedObservationStatement,
@@ -103,6 +106,45 @@ public class ConditionMapperTest {
         final var actualText = observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
 
         assertThat(actualText).isEqualTo(expectedText);
+    }
+
+    @Test
+    public void testMergeObservationStatementsIfRequiredWithTwoObservationStatementsAndNoEllipsis() {
+        final var referencedObservationStatement = buildReferencedObservationStatement(ANNOTATION_TEXT_WITHOUT_ELLIPSIS);
+        final var matchedObservationStatement = Optional.of(buildObservationStatementToBeMatched());
+
+        final var observationStatement = conditionMapper.mergeObservationStatementsIfRequired(referencedObservationStatement,
+                                                                                              matchedObservationStatement);
+        final var actualText = observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
+
+        assertThat(actualText).isEqualTo(ANNOTATION_TEXT_WITHOUT_ELLIPSIS);
+    }
+
+    @Test
+    public void testMergeObservationStatementsIfRequiredWithTwoObservationStatementsAndUnmatchedSubstring() {
+
+        final var referencedObservationStatement = buildReferencedObservationStatement(DIFFERENT_ANNOTATION);
+        final var matchedObservationStatement = Optional.of(buildObservationStatementToBeMatched());
+
+        final var observationStatement = conditionMapper.mergeObservationStatementsIfRequired(referencedObservationStatement,
+                                                                                              matchedObservationStatement);
+        final var actualText = observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
+
+        assertThat(actualText).isEqualTo(DIFFERENT_ANNOTATION);
+    }
+
+    @Test
+    public void testObservationStatementNotDuplicatedWhenMerged() {
+        final var codeableConcept = CodeableConceptUtils.createCodeableConcept(null, null, CODING_DISPLAY);
+
+        when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
+
+        final var ehrExtract = unmarshallEhrExtract("linkset_pertinentInformation.xml");
+        final var conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+
+        assertThat(conditions.get(0).getNote()).hasSize(2);
     }
 
     @Test
@@ -281,7 +323,7 @@ public class ConditionMapperTest {
     @Test
     public void testObservationStatementByCodeableConceptCode() {
         final var ehrExtract = unmarshallEhrExtract("linkset_pertinentInformation.xml");
-        final var referencedObservationStatement = buildReferencedObservationStatement();
+        final var referencedObservationStatement = buildReferencedObservationStatement(ANNOTATION_TEXT_WITH_ELLIPSIS);
         final var expectedCode = referencedObservationStatement.getCode();
 
         final var matchedObservationStatement = conditionMapper.getObservationStatementByCodeableConceptCode(
@@ -306,7 +348,7 @@ public class ConditionMapperTest {
     public void test3ObservationStatementsByCodeableConceptCodeAndEnsureCorrectMatchedObservationStatement() {
         final var ehrExtract =
                 unmarshallEhrExtract("linkset_pertinentInformation_with_3_observationStatements.xml");
-        final var referencedObservationStatement = buildReferencedObservationStatement();
+        final var referencedObservationStatement = buildReferencedObservationStatement(ANNOTATION_TEXT_WITH_ELLIPSIS);
         final var expectedCode = referencedObservationStatement.getCode();
 
         var matchedObservationStatement = conditionMapper.getObservationStatementByCodeableConceptCode(
@@ -331,7 +373,7 @@ public class ConditionMapperTest {
         final var ehrExtract =
                 unmarshallEhrExtract("linkset_pertinentInformation_with_different_observation_statements.xml");
 
-        final var referencedObservationStatement = buildReferencedObservationStatement();
+        final var referencedObservationStatement = buildReferencedObservationStatement(ANNOTATION_TEXT_WITH_ELLIPSIS);
 
         final var matchedObservationStatement = conditionMapper.getObservationStatementByCodeableConceptCode(
                 ehrExtract,
@@ -421,11 +463,11 @@ public class ConditionMapperTest {
     }
 
     @NotNull
-    private static RCMRMT030101UKObservationStatement buildReferencedObservationStatement() {
+    private static RCMRMT030101UKObservationStatement buildReferencedObservationStatement(String annotationText) {
+
         RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UK04ObservationStatement();
         observationStatement.setCode(buildMatchableObservationStatementCode());
-        observationStatement.getPertinentInformation().add(buildPertinentInformation(
-                "Problem severity: Minor H/O: injury to little finger left hand poss gla..."));
+        observationStatement.getPertinentInformation().add(buildPertinentInformation(annotationText));
         final var id = new II();
         id.setRoot("DC4A4731-896D-11EE-B3A3-48DF37DF55D0");
         observationStatement.setId(id);

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +52,7 @@ import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.hl7.v3.RCMRMT030101UKStatementRef;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +88,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     public static final String CARE_CONNECT_URL = "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1";
     public static final String PROBLEM_LIST_ITEM_CODE = "problem-list-item";
     public static final String PROBLEM_LIST_ITEM_DISPLAY = "Problem List Item";
+    public static final String ELLIPSIS = "...";
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
@@ -233,7 +236,43 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             return referencedObservationStatement;
         }
 
+        String referencedAnnotationText =
+            referencedObservationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
+        String matchedAnnotationText =
+            matchedObservationStatement.get().getPertinentInformation().get(0).getPertinentAnnotation().getText();
+
+        if (!referencedAnnotationText.endsWith(ELLIPSIS)) {
+            return referencedObservationStatement;
+        }
+
+        var stringToBeReplaced = extractStringToBeReplaced(referencedAnnotationText);
+
+        if (matchedAnnotationText.contains(stringToBeReplaced)) {
+            var mergedAnnotationText = mergeAnnotationText(stringToBeReplaced, referencedAnnotationText, matchedAnnotationText);
+            referencedObservationStatement.getPertinentInformation().get(0).getPertinentAnnotation().setText(mergedAnnotationText);
+        }
+
         return referencedObservationStatement;
+    }
+
+    @Nullable
+    private static String mergeAnnotationText(String stringToBeReplaced, String referencedAnnotationText, String matchedAnnotationText) {
+        var pattern = Pattern.compile(stringToBeReplaced);
+        var matcher = pattern.matcher(referencedAnnotationText);
+        var mergedAnnotationText = matcher.replaceAll(matchedAnnotationText);
+
+        return StringUtils.stripEnd(mergedAnnotationText, ELLIPSIS);
+    }
+
+    private String extractStringToBeReplaced(String stringWithEllipsis) {
+        var pattern = Pattern.compile("Problem severity: \\S+ (.*?)\\.\\.\\.");
+        var matcher = pattern.matcher(stringWithEllipsis);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        return stringWithEllipsis;
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UKLinkSet linkSet) {
