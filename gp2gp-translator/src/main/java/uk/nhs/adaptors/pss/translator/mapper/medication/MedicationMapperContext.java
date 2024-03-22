@@ -2,15 +2,19 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Function;
 
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.v3.CD;
 import org.springframework.stereotype.Component;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @Component
+@AllArgsConstructor
 public class MedicationMapperContext {
+
+    private final IdGeneratorService idGeneratorService;
 
     private final ThreadLocal<Map<String, String>> medicationIds = ThreadLocal.withInitial(HashMap::new);
 
@@ -21,7 +25,7 @@ public class MedicationMapperContext {
         if (StringUtils.isNotBlank(value)) {
             return value;
         } else {
-            var newId = UUID.randomUUID().toString();
+            var newId = idGeneratorService.generateUuid();
             medicationIds.get().put(key, newId);
             return newId;
         }
