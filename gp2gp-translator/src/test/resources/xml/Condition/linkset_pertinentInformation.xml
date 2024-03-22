@@ -68,7 +68,7 @@
 												<pertinentInformation typeCode="PERT">
 													<sequenceNumber value="+1"/>
 													<pertinentAnnotation classCode="OBS" moodCode="EVN">
-														<text>(New Episode). H/O: injury to little finger left hand poss glass in wound therefore refered to A+E</text>
+														<text>(New Episode). H/O: injury to little finger left hand poss glass in wound therefore referred to A+E</text>
 													</pertinentAnnotation>
 												</pertinentInformation>
 											</ObservationStatement>
