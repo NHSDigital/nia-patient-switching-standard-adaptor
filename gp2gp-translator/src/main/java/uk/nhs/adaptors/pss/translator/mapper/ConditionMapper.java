@@ -197,12 +197,12 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         namedStatementRef.getId().getRoot());
 
                     if (referencedObservationStatement.isPresent()) {
-                        final Optional<RCMRMT030101UKObservationStatement> matchedObservationStatement =
+                        final var matchedObservationStatement =
                             getObservationStatementByCodeableConceptCode(ehrExtract, referencedObservationStatement.get());
 
                         var mergedObservationStatement = mergeObservationStatementsIfRequired(referencedObservationStatement.get(),
                                                                                               matchedObservationStatement);
-                        referencedObservationStatement = Optional.ofNullable(mergedObservationStatement);
+                        referencedObservationStatement = Optional.of(mergedObservationStatement);
                     }
 
                     buildNotes(referencedObservationStatement, linkSet)
@@ -225,11 +225,11 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 }));
     }
 
-    protected static RCMRMT030101UKObservationStatement mergeObservationStatementsIfRequired(
+    protected RCMRMT030101UKObservationStatement mergeObservationStatementsIfRequired(
         RCMRMT030101UKObservationStatement referencedObservationStatement,
         Optional<RCMRMT030101UKObservationStatement> matchedObservationStatement) {
 
-        if (!matchedObservationStatement.isPresent()) {
+        if (matchedObservationStatement.isEmpty()) {
             return referencedObservationStatement;
         }
 
@@ -490,7 +490,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .filter(Objects::nonNull)
             .filter(observationStatement -> CodeableConceptUtil.compareCodeableConcepts(referencedObservationStatement.getCode(),
                                                                                         observationStatement.getCode()))
-            .filter(observationStatement -> observationStatement != referencedObservationStatement)
+            .filter(observationStatement -> !Objects.equals(
+                    observationStatement.getId().getRoot(),
+                    referencedObservationStatement.getId().getRoot()))
             .findFirst();
     }
 
