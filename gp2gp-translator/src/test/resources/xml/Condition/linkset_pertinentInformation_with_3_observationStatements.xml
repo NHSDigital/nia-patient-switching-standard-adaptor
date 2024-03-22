@@ -35,6 +35,27 @@
 												</pertinentInformation>
 											</ObservationStatement>
 										</component>
+                  <component typeCode="COMP">
+											<ObservationStatement classCode="OBS" moodCode="EVN">
+												<id root="DC4A4731-896D-11EE-B3A3-48DF37DF55D9"/>
+												<code code="14J.." codeSystem="2.16.840.1.113883.2.1.3.2.4.14" displayName="H/O: injury7">
+													<translation code="161586000" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="H/O: injury7"/>
+													<translation code="14J..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="H/O: injury7"/>
+												</code>
+												<statusCode code="COMPLETE"/>
+												<effectiveTime>
+													<low value="20101209000000"/>
+													<high value="20101209000000"/>
+                        </effectiveTime>
+												<availabilityTime value="20001004"/>
+												<pertinentInformation typeCode="PERT">
+													<sequenceNumber value="+1"/>
+													<pertinentAnnotation classCode="OBS" moodCode="EVN">
+														<text>Problem severity: Minor H/O: injury to little finger left hand poss gla...</text>
+													</pertinentAnnotation>
+												</pertinentInformation>
+											</ObservationStatement>
+										</component>
 										<component typeCode="COMP">
 											<LinkSet classCode="OBS" moodCode="EVN">
 												<id root="DC4A4732-896D-11EE-B3A3-48DF37DF55D0"/>
@@ -68,7 +89,7 @@
 												<pertinentInformation typeCode="PERT">
 													<sequenceNumber value="+1"/>
 													<pertinentAnnotation classCode="OBS" moodCode="EVN">
-														<text>(New Episode). H/O: injury to little finger left hand poss glass in wound therefore referred to A+E</text>
+														<text>(New Episode). H/O: injury to little finger left hand poss glass in wound therefore refered to A+E</text>
 													</pertinentAnnotation>
 												</pertinentInformation>
 											</ObservationStatement>

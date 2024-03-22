@@ -56,10 +56,10 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
+import uk.nhs.adaptors.pss.translator.util.CodeableConceptUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -187,46 +187,53 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .map(RCMRMT030101UKComponent4::getLinkSet)
             .filter(Objects::nonNull)
             .forEach(linkSet -> conditions.stream()
-                    .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
-                    .findFirst().ifPresent(condition -> {
-                        var namedStatementRef = linkSet.getConditionNamed().getNamedStatementRef();
-                        buildActualProblem(bundle, namedStatementRef).ifPresent(condition::addExtension);
+                .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
+                .findFirst().ifPresent(condition -> {
+                    var namedStatementRef = linkSet.getConditionNamed().getNamedStatementRef();
+                    buildActualProblem(bundle, namedStatementRef).ifPresent(condition::addExtension);
 
-                        var referencedObservationStatement = getObservationStatementById(
-                                ehrExtract,
-                                namedStatementRef.getId().getRoot()
-                        );
+                    var referencedObservationStatement = getObservationStatementById(
+                        ehrExtract,
+                        namedStatementRef.getId().getRoot());
 
-                        var referencedObservationStatementList = getObservationStatementByCodeableConceptCode(
-                                                                    ehrExtract,
-                                                                    referencedObservationStatement.get().getCode());
+                    if (referencedObservationStatement.isPresent()) {
+                        final var matchedObservationStatement =
+                            getObservationStatementByCodeableConceptCode(ehrExtract, referencedObservationStatement.get());
 
-                        checkupIfObservationStatementShouldBeMerged(referencedObservationStatement);
+                        var mergedObservationStatement = mergeObservationStatementsIfRequired(referencedObservationStatement.get(),
+                                                                                              matchedObservationStatement);
+                        referencedObservationStatement = Optional.of(mergedObservationStatement);
+                    }
 
-                        buildNotes(
-                                    referencedObservationStatement,
-                                    linkSet
-                            ).forEach(condition::addNote);
+                    buildNotes(referencedObservationStatement, linkSet)
+                        .forEach(condition::addNote);
 
-                        referencedObservationStatement.ifPresent(
-                                observationStatement -> {
-                                    condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
-                                    DegradedCodeableConcepts.addDegradedEntryIfRequired(
-                                        condition.getCode(),
-                                        DegradedCodeableConcepts.DEGRADED_OTHER);
-                                });
+                    referencedObservationStatement.ifPresent(
+                        observationStatement -> {
+                            condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
+                            DegradedCodeableConcepts.addDegradedEntryIfRequired(
+                                condition.getCode(),
+                                DegradedCodeableConcepts.DEGRADED_OTHER);
+                        });
 
-                        var statementRefs = linkSet.getComponent()
-                                .stream()
-                                .map(RCMRMT030101UKComponent6::getStatementRef)
-                                .toList();
+                    var statementRefs = linkSet.getComponent()
+                        .stream()
+                        .map(RCMRMT030101UKComponent6::getStatementRef)
+                        .toList();
 
-                        buildRelatedClinicalContent(bundle, statementRefs, ehrExtract).forEach(condition::addExtension);
-                    }));
+                    buildRelatedClinicalContent(bundle, statementRefs, ehrExtract).forEach(condition::addExtension);
+                }));
     }
 
-    private static void checkupIfObservationStatementShouldBeMerged(Optional<RCMRMT030101UKObservationStatement> referencedObservationStatement) {
-        // referencedObservationStatement.get().getPertinentInformation().get(0).getPertinentAnnotation().getText().endsWith("...");
+    protected RCMRMT030101UKObservationStatement mergeObservationStatementsIfRequired(
+        RCMRMT030101UKObservationStatement referencedObservationStatement,
+        Optional<RCMRMT030101UKObservationStatement> matchedObservationStatement) {
+
+        if (matchedObservationStatement.isEmpty()) {
+            return referencedObservationStatement;
+        }
+
+        return referencedObservationStatement;
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UKLinkSet linkSet) {
@@ -466,8 +473,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .toList();
     }
 
-    protected List<RCMRMT030101UKObservationStatement> getObservationStatementByCodeableConceptCode(RCMRMT030101UK04EhrExtract ehrExtract,
-                                                                                                  CD code) {
+    protected Optional<RCMRMT030101UKObservationStatement> getObservationStatementByCodeableConceptCode(
+        RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UKObservationStatement referencedObservationStatement) {
 
         List<RCMRMT030101UKObservationStatement> observationStatements = ehrExtract.getComponent().stream()
             .map(RCMRMT030101UKComponent::getEhrFolder)
@@ -480,14 +488,12 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
         return observationStatements.stream()
             .filter(Objects::nonNull)
-            .filter(observationStatement -> compareCodeableConcepts(code, observationStatement.getCode()))
-            .toList();
-    }
-
-    protected static Boolean compareCodeableConcepts(CD c1, CD c2) {
-        return c1.getCode().equals(c2.getCode())
-               && c1.getCodeSystem().equals(c2.getCodeSystem())
-               && c1.getDisplayName().equals(c2.getDisplayName());
+            .filter(observationStatement -> CodeableConceptUtil.compareCodeableConcepts(referencedObservationStatement.getCode(),
+                                                                                        observationStatement.getCode()))
+            .filter(observationStatement -> !Objects.equals(
+                    observationStatement.getId().getRoot(),
+                    referencedObservationStatement.getId().getRoot()))
+            .findFirst();
     }
 
     private Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
