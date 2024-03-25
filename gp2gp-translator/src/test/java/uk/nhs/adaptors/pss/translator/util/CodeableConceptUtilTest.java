@@ -27,7 +27,7 @@ public class CodeableConceptUtilTest {
     }
 
     @Test
-    public void compareCodeableConceptsWithOneTransaction() {
+    public void compareCodeableConceptsWithOneTranslation() {
 
         CD c1 = new CD();
         c1.setCode("Code1");
@@ -87,7 +87,7 @@ public class CodeableConceptUtilTest {
     }
 
     @Test
-    public void compareCodeableConceptsWithTwoTransactionsPairsNotIdenticalTranslations() {
+    public void compareCodeableConceptsWithTwoTranslationsPairsNotIdenticalTranslations() {
 
         CD c1 = new CD();
         c1.setCode("Code1");
@@ -130,7 +130,7 @@ public class CodeableConceptUtilTest {
     }
 
     @Test
-    public void compareCodeableConceptsWithUniqualNumberOfTransactionPairs() {
+    public void compareCodeableConceptsWithUnequalNumberOfTranslationPairs() {
 
         CD c1 = new CD();
         c1.setCode("Code1");
