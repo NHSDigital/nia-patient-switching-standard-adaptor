@@ -26,8 +26,8 @@ public final class CodeableConceptUtil {
 
     private static Boolean compareCodeSubElements(List<? extends CD> c1, List<? extends CD> c2) {
 
-        if (CollectionUtils.isEmpty(c1) || CollectionUtils.isEmpty(c2) || c1.size() != c2.size()) {
-            return CollectionUtils.isEmpty(c1) && CollectionUtils.isEmpty(c2);
+        if (c1.size() != c2.size()) {
+            return false;
         }
 
         for (CD c1Element : c1) {

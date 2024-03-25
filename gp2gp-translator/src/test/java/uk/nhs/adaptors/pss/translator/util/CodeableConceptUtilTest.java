@@ -57,6 +57,49 @@ public class CodeableConceptUtilTest {
     }
 
     @Test
+    public void compareCodeableConceptsWithDifferentTranslationOrdering() {
+
+        CD c1 = new CD();
+        c1.setCode("Code1");
+        c1.setCodeSystem("CodeSystem1");
+        c1.setDisplayName("DisplayName1");
+        c1.setOriginalText("OriginalText");
+
+        CD translationCD1 = new CD();
+        translationCD1.setCode("161586000");
+        translationCD1.setCodeSystem("2.16.840.1.113883.2.1.3.2.4.15");
+        translationCD1.setDisplayName("H/O: injury");
+
+        CD translationCD2 = new CD();
+        translationCD2.setCode("161586002");
+        translationCD2.setCodeSystem("2.16.840.1.113883.2.1.3.2.4.17");
+        translationCD2.setDisplayName("H/O: injury2");
+
+        c1.getTranslation().add(translationCD1);
+        c1.getTranslation().add(translationCD2);
+
+        CD c2 = new CD();
+        c2.setCode("Code1");
+        c2.setCodeSystem("CodeSystem1");
+        c2.setDisplayName("DisplayName1");
+        c2.setOriginalText("OriginalText");
+
+        CD translationCD3 = new CD();
+        translationCD3.setCode("161586002");
+        translationCD3.setCodeSystem("2.16.840.1.113883.2.1.3.2.4.17");
+        translationCD3.setDisplayName("H/O: injury2");
+        c2.getTranslation().add(translationCD3);
+
+        CD translationCD4 = new CD();
+        translationCD4.setCode("161586000");
+        translationCD4.setCodeSystem("2.16.840.1.113883.2.1.3.2.4.15");
+        translationCD4.setDisplayName("H/O: injury");
+        c2.getTranslation().add(translationCD4);
+
+        assertTrue(CodeableConceptUtil.compareCodeableConcepts(c1, c2));
+    }
+
+    @Test
     public void compareCodeableConceptsWithOneQualifierPair() {
 
         CD c1 = new CD();
@@ -84,6 +127,36 @@ public class CodeableConceptUtilTest {
         c2.getQualifier().add(cr2);
 
         assertTrue(CodeableConceptUtil.compareCodeableConcepts(c1, c2));
+    }
+
+    @Test
+    public void compareCodeableConceptsWithDifferentQualifiers() {
+
+        CD c1 = new CD();
+        c1.setCode("Code1");
+        c1.setCodeSystem("CodeSystem1");
+        c1.setDisplayName("DisplayName1");
+        c1.setOriginalText("OriginalText");
+
+        CR cr1 = new CR();
+        cr1.setCode("QualifierCode1");
+        cr1.setCodeSystem("QualifierCodeSystemCode");
+        cr1.setDisplayName("QualifierDisplayName");
+        c1.getQualifier().add(cr1);
+
+        CD c2 = new CD();
+        c2.setCode("Code1");
+        c2.setCodeSystem("CodeSystem1");
+        c2.setDisplayName("DisplayName1");
+        c2.setOriginalText("OriginalText");
+
+        CR cr2 = new CR();
+        cr2.setCode("QualifierCode2");
+        cr2.setCodeSystem("QualifierCodeSystemCode");
+        cr2.setDisplayName("QualifierDisplayName");
+        c2.getQualifier().add(cr2);
+
+        assertFalse(CodeableConceptUtil.compareCodeableConcepts(c1, c2));
     }
 
     @Test
