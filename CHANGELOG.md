@@ -16,6 +16,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
     - EhrComposition effectiveTime - high
     - EhrComposition effectiveTime - low
 
+### Fixed
+* DiagnosticReport identifier values are now presented as a URN instead of just the system code 
+when a PMIP system code is provided
+
 ## [1.4.6] - 2024-03-21
 
 * `Condition.onsetDateTime` is now set to NULL when low or center entries of effectiveTime are `nullFlavor="UNK"`.
