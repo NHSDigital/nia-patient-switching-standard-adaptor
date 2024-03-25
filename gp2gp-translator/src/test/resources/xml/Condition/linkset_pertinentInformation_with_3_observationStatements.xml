@@ -145,57 +145,6 @@
                             </pertinentInformation>
                         </MedicationStatement>
                     </component>
-                    <component typeCode="COMP">
-                        <MedicationStatement classCode="SBADM" moodCode="INT">
-                            <id root="PLAN_REF_ID"/>
-                            <statusCode code="COMPLETE"/>
-                            <effectiveTime>
-															<low value="20101209000000"/>
-															<high value="20101209000000"/>
-														</effectiveTime>
-                            <availabilityTime value="20110307"/>
-                            <consumable typeCode="CSM">
-                                <manufacturedProduct classCode="MANU">
-                                    <manufacturedMaterial classCode="MMAT" determinerCode="KIND">
-                                        <code code="03506001" codeSystem="2.16.840.1.113883.2.1.6.4"
-																							displayName="Fluvoxamine 50mg tablets">
-                                            <translation code="321945000" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
-																												 displayName="Fluvoxamine 50mg tablets"/>
-                                        </code>
-                                    </manufacturedMaterial>
-                                </manufacturedProduct>
-                            </consumable>
-                            <component typeCode="COMP">
-                                <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
-                                    <id root="AUTHORISE_ID"/>
-                                    <code code="394823007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15"
-																					displayName="NHS prescription"/>
-                                    <statusCode code="COMPLETE"/>
-                                    <effectiveTime>
-																			<low value="20101209000000"/>
-																			<high value="20101209000000"/>
-																		</effectiveTime>
-                                    <availabilityTime value="20110307"/>
-                                    <repeatNumber value="6"/>
-                                    <quantity value="28" unit="1">
-                                        <translation value="28">
-                                            <originalText>tablets</originalText>
-                                        </translation>
-                                    </quantity>
-                                    <pertinentInformation typeCode="PERT">
-                                        <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                                            <text>This is going to be problem linked</text>
-                                        </pertinentSupplyAnnotation>
-                                    </pertinentInformation>
-                                </ehrSupplyAuthorise>
-                            </component>
-                            <pertinentInformation typeCode="PERT">
-                                <pertinentMedicationDosage classCode="SBADM" moodCode="RMD">
-                                    <text>od</text>
-                                </pertinentMedicationDosage>
-                            </pertinentInformation>
-                        </MedicationStatement>
-                    </component>
                 </ehrComposition>
             </component>
         </ehrFolder>
