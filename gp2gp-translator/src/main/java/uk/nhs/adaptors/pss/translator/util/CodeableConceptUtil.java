@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.util.CollectionUtils;
 import org.hl7.v3.CD;
 import java.util.List;
 import java.util.Objects;
