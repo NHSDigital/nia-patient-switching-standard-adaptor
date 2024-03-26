@@ -61,14 +61,14 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
 
     @Override
     public List<DiagnosticReport> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-                                               String practiseCode) {
+                                               String practiceCode) {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllCompoundStatements(component)
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isDiagnosticReport)
                 .map(compoundStatement -> {
                     DiagnosticReport diagnosticReport = createDiagnosticReport(
-                        compoundStatement, patient, composition, encounters, practiseCode
+                        compoundStatement, patient, composition, encounters, practiceCode
                     );
                     getIssued(compoundStatement, composition).ifPresent(diagnosticReport::setIssuedElement);
                     return diagnosticReport;
