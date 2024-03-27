@@ -127,7 +127,6 @@ public class BundleMapperService {
             addEntries(bundle, bloodPressures);
 
             var observations = observationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
-            addEntries(bundle, observations);
 
             var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
             addEntries(bundle, immunizations);
@@ -148,7 +147,11 @@ public class BundleMapperService {
 
             mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, losingPracticeOdsCode);
 
-            conditionMapper.addReferences(bundle, conditions, ehrExtract);
+            var isAtLeastOneObservationStatementPresent = conditionMapper.addReferences(bundle, conditions, ehrExtract);
+            if (!isAtLeastOneObservationStatementPresent) {
+                addEntries(bundle, observations);
+            }
+
             conditionMapper.addHierarchyReferencesToConditions(conditions, ehrExtract);
             unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
             templateMapper.addReferences(templates, observations, ehrExtract);

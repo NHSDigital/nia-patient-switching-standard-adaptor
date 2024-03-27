@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -183,7 +184,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         });
     }
 
-    public void addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
+    public boolean addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
+
+        AtomicBoolean isAtLeastOneObservationStatementPresent = new AtomicBoolean(false);
 
         getCompositionsContainingLinkSets(ehrExtract).stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
@@ -206,6 +209,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         var mergedObservationStatement = mergeObservationStatementsIfRequired(referencedObservationStatement.get(),
                                                                                               matchedObservationStatement);
                         referencedObservationStatement = Optional.of(mergedObservationStatement);
+                        isAtLeastOneObservationStatementPresent.set(true);
                     }
 
                     buildNotes(referencedObservationStatement, linkSet)
@@ -226,6 +230,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
                     buildRelatedClinicalContent(bundle, statementRefs, ehrExtract).forEach(condition::addExtension);
                 }));
+
+        return isAtLeastOneObservationStatementPresent.get();
     }
 
     protected RCMRMT030101UKObservationStatement mergeObservationStatementsIfRequired(
