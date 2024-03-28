@@ -20,7 +20,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        uses: docker/metadata-action@38b36773831fce8789962056bf155ba063580c34
         with:
           images: |
             nhsdev/${{ matrix.image.dockerhub_name }}
