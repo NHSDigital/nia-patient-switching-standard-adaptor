@@ -66,7 +66,7 @@ public class ConditionMapperIT {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract(filename);
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
-        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, List.of(), ehrExtract);
 
         var code = conditions.get(0).getCode().getCodingFirstRep();
 
@@ -91,7 +91,7 @@ public class ConditionMapperIT {
         final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract(filename);
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
-        conditionMapper.addReferences(buildBundleWithNamedStatementAllergy(), conditions, ehrExtract);
+        conditionMapper.addReferences(buildBundleWithNamedStatementAllergy(), conditions, List.of(), ehrExtract);
 
         var code = conditions.get(0).getCode().getCoding().get(1);
 

@@ -17,9 +17,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
@@ -30,6 +33,7 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -51,6 +55,7 @@ import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.hl7.v3.RCMRMT030101UKStatementRef;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +64,7 @@ import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
+import uk.nhs.adaptors.pss.translator.util.CodeableConceptUtil;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -85,6 +91,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     public static final String CARE_CONNECT_URL = "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1";
     public static final String PROBLEM_LIST_ITEM_CODE = "problem-list-item";
     public static final String PROBLEM_LIST_ITEM_DISPLAY = "Problem List Item";
+    public static final String ELLIPSIS = "...";
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
@@ -179,42 +186,106 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         });
     }
 
-    public void addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
+    public void addReferences(Bundle bundle, List<Condition> conditions, List<Observation> observations,
+                                 RCMRMT030101UK04EhrExtract ehrExtract) {
+
         getCompositionsContainingLinkSets(ehrExtract).stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UKComponent4::getLinkSet)
             .filter(Objects::nonNull)
             .forEach(linkSet -> conditions.stream()
-                    .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
-                    .findFirst().ifPresent(condition -> {
-                        var namedStatementRef = linkSet.getConditionNamed().getNamedStatementRef();
-                        buildActualProblem(bundle, namedStatementRef).ifPresent(condition::addExtension);
+                .filter(condition1 -> linkSet.getId().getRoot().equals(condition1.getId()))
+                .findFirst().ifPresent(condition -> {
+                    var namedStatementRef = linkSet.getConditionNamed().getNamedStatementRef();
+                    buildActualProblem(bundle, namedStatementRef).ifPresent(condition::addExtension);
 
-                        var referencedObservationStatement = getObservationStatementById(
-                                ehrExtract,
-                                namedStatementRef.getId().getRoot()
-                        );
+                    var referencedObservationStatement = getObservationStatementById(
+                        ehrExtract,
+                        namedStatementRef.getId().getRoot());
 
-                        buildNotes(
-                                referencedObservationStatement,
-                                linkSet
-                        ).forEach(condition::addNote);
+                    if (referencedObservationStatement.isPresent()) {
+                        final var matchedObservationStatement =
+                            getObservationStatementByCodeableConceptCode(ehrExtract, referencedObservationStatement.get());
 
-                        referencedObservationStatement.ifPresent(
-                                observationStatement -> {
-                                    condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
-                                    DegradedCodeableConcepts.addDegradedEntryIfRequired(
-                                        condition.getCode(),
-                                        DegradedCodeableConcepts.DEGRADED_OTHER);
-                                });
+                        var mergeResultPair = mergeObservationStatementsIfRequired(referencedObservationStatement.get(),
+                                                                                              matchedObservationStatement);
+                        var observationStatementHasBeenMerged = mergeResultPair.getLeft();
+                        referencedObservationStatement = Optional.of(mergeResultPair.getRight());
 
-                        var statementRefs = linkSet.getComponent()
-                                .stream()
-                                .map(RCMRMT030101UKComponent6::getStatementRef)
-                                .toList();
+                        if (observationStatementHasBeenMerged) {
+                            observations.removeIf(o -> matchedObservationStatement.get().getId().equals(o.getId()));
+                        }
+                    }
 
-                        buildRelatedClinicalContent(bundle, statementRefs, ehrExtract).forEach(condition::addExtension);
-                    }));
+                    buildNotes(referencedObservationStatement, linkSet)
+                        .forEach(condition::addNote);
+
+                    referencedObservationStatement.ifPresent(
+                        observationStatement -> {
+                            condition.setCode(codeableConceptMapper.mapToCodeableConcept(observationStatement.getCode()));
+                            DegradedCodeableConcepts.addDegradedEntryIfRequired(
+                                condition.getCode(),
+                                DegradedCodeableConcepts.DEGRADED_OTHER);
+                        });
+
+                    var statementRefs = linkSet.getComponent()
+                        .stream()
+                        .map(RCMRMT030101UKComponent6::getStatementRef)
+                        .toList();
+
+                    buildRelatedClinicalContent(bundle, statementRefs, ehrExtract).forEach(condition::addExtension);
+                }));
+    }
+
+    protected Pair<Boolean, RCMRMT030101UKObservationStatement> mergeObservationStatementsIfRequired(
+        RCMRMT030101UKObservationStatement referencedObservationStatement,
+        Optional<RCMRMT030101UKObservationStatement> matchedObservationStatement) {
+
+        if (matchedObservationStatement.isEmpty()
+                || observationStatementDoesNotContainNarrativeAnnotationText(referencedObservationStatement)
+                || observationStatementDoesNotContainNarrativeAnnotationText(matchedObservationStatement.get())) {
+            return Pair.of(false, referencedObservationStatement);
+        }
+
+
+        String referencedAnnotationText =
+            referencedObservationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
+        String matchedAnnotationText =
+            matchedObservationStatement.get().getPertinentInformation().get(0).getPertinentAnnotation().getText();
+
+        if (!referencedAnnotationText.endsWith(ELLIPSIS)) {
+            return Pair.of(false, referencedObservationStatement);
+        }
+
+        var stringToBeReplaced = extractStringToBeReplaced(referencedAnnotationText);
+
+        if (matchedAnnotationText.contains(stringToBeReplaced)) {
+            var mergedAnnotationText = mergeAnnotationText(stringToBeReplaced, referencedAnnotationText, matchedAnnotationText);
+            referencedObservationStatement.getPertinentInformation().get(0).getPertinentAnnotation().setText(mergedAnnotationText);
+            return Pair.of(true, referencedObservationStatement);
+        }
+
+        return Pair.of(false, referencedObservationStatement);
+    }
+
+    @Nullable
+    private static String mergeAnnotationText(String stringToBeReplaced, String referencedAnnotationText, String matchedAnnotationText) {
+        var pattern = Pattern.compile(stringToBeReplaced);
+        var matcher = pattern.matcher(referencedAnnotationText);
+        var mergedAnnotationText = matcher.replaceAll(matchedAnnotationText);
+
+        return StringUtils.stripEnd(mergedAnnotationText, ELLIPSIS);
+    }
+
+    private String extractStringToBeReplaced(String stringWithEllipsis) {
+        var pattern = Pattern.compile("Problem severity: \\S+ (.*?)\\.\\.\\.");
+        var matcher = pattern.matcher(stringWithEllipsis);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        return stringWithEllipsis;
     }
 
     private Optional<DateTimeType> buildOnsetDateTimeType(RCMRMT030101UKLinkSet linkSet) {
@@ -454,7 +525,30 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .toList();
     }
 
-    private Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+    protected Optional<RCMRMT030101UKObservationStatement> getObservationStatementByCodeableConceptCode(
+        RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UKObservationStatement referencedObservationStatement) {
+
+        List<RCMRMT030101UKObservationStatement> observationStatements = ehrExtract.getComponent().stream()
+            .map(RCMRMT030101UKComponent::getEhrFolder)
+            .map(RCMRMT030101UKEhrFolder::getComponent)
+            .flatMap(Collection::stream)
+            .map(RCMRMT030101UKComponent3::getEhrComposition)
+            .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
+            .flatMap(CompoundStatementResourceExtractors::extractAllObservationStatements)
+            .toList();
+
+        return observationStatements.stream()
+            .filter(Objects::nonNull)
+            .filter(observationStatement -> CodeableConceptUtil.compareCodeableConcepts(referencedObservationStatement.getCode(),
+                                                                                        observationStatement.getCode()))
+            .filter(observationStatement -> !Objects.equals(
+                    observationStatement.getId().getRoot(),
+                    referencedObservationStatement.getId().getRoot()))
+            .findFirst();
+    }
+
+    protected Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
 
         List<RCMRMT030101UKObservationStatement> observationStatements = ehrExtract.getComponent().stream()
             .map(RCMRMT030101UKComponent::getEhrFolder)
@@ -469,5 +563,13 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 .filter(Objects::nonNull)
                 .filter(observationStatement -> id.equals(observationStatement.getId().getRoot()))
                 .findFirst();
+    }
+
+    public Boolean observationStatementDoesNotContainNarrativeAnnotationText(RCMRMT030101UKObservationStatement observationStatement) {
+        var pertinentInformation = observationStatement.getPertinentInformation();
+
+        return pertinentInformation.isEmpty()
+                || pertinentInformation.get(0).getPertinentAnnotation() == null
+                || StringUtils.isEmpty(pertinentInformation.get(0).getPertinentAnnotation().getText());
     }
 }
