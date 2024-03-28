@@ -76,7 +76,7 @@ public class ConsultationListMapper {
     }
 
     private DateTimeType getConsultationDate(RCMRMT030101UKEhrComposition comp) {
-        if (comp.hasAuthor()) {
+        if (comp.hasAuthor() && comp.getAuthor().getTime() != null) {
             return DateFormatUtil.parseToDateTimeType(comp.getAuthor().getTime().getValue());
         } else if (comp.hasAvailabilityTime()) {
             return DateFormatUtil.parseToDateTimeType(comp.getAvailabilityTime().getValue());
