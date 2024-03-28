@@ -127,6 +127,7 @@ public class BundleMapperService {
             addEntries(bundle, bloodPressures);
 
             var observations = observationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
+            addEntries(bundle, observations);
 
             var immunizations = immunizationMapper.mapResources(ehrExtract, patient, encounters, losingPracticeOdsCode);
             addEntries(bundle, immunizations);
