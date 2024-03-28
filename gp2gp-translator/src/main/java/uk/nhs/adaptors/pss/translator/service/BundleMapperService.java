@@ -147,10 +147,7 @@ public class BundleMapperService {
 
             mapDiagnosticReports(bundle, ehrExtract, patient, encounters, observations, observationComments, losingPracticeOdsCode);
 
-            var isAtLeastOneObservationStatementPresent = conditionMapper.addReferences(bundle, conditions, ehrExtract);
-            if (!isAtLeastOneObservationStatementPresent) {
-                addEntries(bundle, observations);
-            }
+            conditionMapper.addReferences(bundle, conditions, ehrExtract);
 
             conditionMapper.addHierarchyReferencesToConditions(conditions, ehrExtract);
             unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);

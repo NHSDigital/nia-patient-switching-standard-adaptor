@@ -3,9 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -150,11 +148,9 @@ public class ConditionMapperTest {
 
         final var ehrExtract = unmarshallEhrExtract("linkset_pertinentInformation.xml");
         final var conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
-        var isAtLeastOneObservationStatementPresent
-            = conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
         assertThat(conditions.get(0).getNote()).hasSize(2);
-        assertTrue(isAtLeastOneObservationStatementPresent);
     }
 
     @Test
@@ -204,8 +200,7 @@ public class ConditionMapperTest {
 
         final var ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
         final var conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
-        var isAtLeastOneObservationStatementPresent
-            = conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
         final var condition = conditions.get(0);
         final var actualExtension = condition.getExtensionsByUrl(ACTUAL_PROBLEM_URL).get(0);
 
@@ -214,8 +209,7 @@ public class ConditionMapperTest {
                 () -> assertThat(actualExtension.getValue())   .isInstanceOf(Reference.class),
                 () -> assertThat(((Reference) actualExtension.getValue()).getResource()).isInstanceOf(Observation.class),
                 () -> assertThat(((Observation) ((Reference) actualExtension.getValue()).getResource()).getId())
-                        .isEqualTo(NAMED_STATEMENT_REF_ID),
-                () -> assertFalse(isAtLeastOneObservationStatementPresent)
+                        .isEqualTo(NAMED_STATEMENT_REF_ID)
         );
     }
 
