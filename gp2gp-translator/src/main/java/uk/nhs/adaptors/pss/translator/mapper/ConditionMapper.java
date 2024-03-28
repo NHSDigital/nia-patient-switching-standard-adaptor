@@ -213,7 +213,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         referencedObservationStatement = Optional.of(mergeResultPair.getRight());
 
                         if (observationStatementHasBeenMerged) {
-                            observations.remove(matchedObservationStatement);
+                            observations.removeIf(o -> matchedObservationStatement.get().getId().equals(o.getId()));
                         }
                     }
 
@@ -262,7 +262,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         if (matchedAnnotationText.contains(stringToBeReplaced)) {
             var mergedAnnotationText = mergeAnnotationText(stringToBeReplaced, referencedAnnotationText, matchedAnnotationText);
             referencedObservationStatement.getPertinentInformation().get(0).getPertinentAnnotation().setText(mergedAnnotationText);
-            Pair.of(true, referencedObservationStatement);
+            return Pair.of(true, referencedObservationStatement);
         }
 
         return Pair.of(false, referencedObservationStatement);
@@ -548,7 +548,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .findFirst();
     }
 
-    private Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+    protected Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
 
         List<RCMRMT030101UKObservationStatement> observationStatements = ehrExtract.getComponent().stream()
             .map(RCMRMT030101UKComponent::getEhrFolder)

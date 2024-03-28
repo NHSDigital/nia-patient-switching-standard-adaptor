@@ -3,7 +3,9 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -11,6 +13,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,6 +73,8 @@ public class ConditionMapperTest {
     public static final String ANNOTATION_TEXT_WITH_ELLIPSIS = "Problem severity: Minor H/O: injury to little finger left hand poss gla...";
     public static final String ANNOTATION_TEXT_WITHOUT_ELLIPSIS = "Problem severity: Minor H/O: injury to little finger left hand poss gla";
     public static final String DIFFERENT_ANNOTATION = "Problem severity: Minor H/O: a different injury to a different part of body...";
+    public static final String OBSERVATION_STATEMENT_ID_1 = "DC4A4731-896D-11EE-B3A3-48DF37DF55D0";
+    public static final String OBSERVATION_STATEMENT_ID_2 = "DCCFCC65-896D-11EE-B3A3-48DF37DF55D0";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -92,11 +97,12 @@ public class ConditionMapperTest {
     public void testMergeObservationStatementsIfRequiredWhenNoObservationStatementToMergeWith() {
         final var expectedObservationStatement = new RCMRMT030101UK04ObservationStatement();
 
-        final var actualObservationStatement = conditionMapper.mergeObservationStatementsIfRequired(
+        final var observationStatementPair = conditionMapper.mergeObservationStatementsIfRequired(
                 expectedObservationStatement,
                 Optional.empty());
 
-        assertThat(actualObservationStatement.getRight()).isEqualTo(expectedObservationStatement);
+        assertEquals(observationStatementPair.getRight(), expectedObservationStatement);
+        assertFalse(observationStatementPair.getLeft());
     }
 
     @Test
@@ -106,12 +112,13 @@ public class ConditionMapperTest {
         final var expectedText =
             "Problem severity: Minor (New Episode). H/O: injury to little finger left hand poss glass in wound therefore referred to A+E";
 
-        final var observationStatement = conditionMapper.mergeObservationStatementsIfRequired(
+        final var observationStatementPair = conditionMapper.mergeObservationStatementsIfRequired(
                 referencedObservationStatement,
                 matchedObservationStatement);
-        final var actualText = observationStatement.getRight().getPertinentInformation().get(0).getPertinentAnnotation().getText();
+        final var actualText = observationStatementPair.getRight().getPertinentInformation().get(0).getPertinentAnnotation().getText();
 
         assertThat(actualText).isEqualTo(expectedText);
+        assertTrue(observationStatementPair.getLeft());
     }
 
     @Test
@@ -148,7 +155,9 @@ public class ConditionMapperTest {
 
         final var ehrExtract = unmarshallEhrExtract("linkset_pertinentInformation.xml");
         final var conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
-        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, List.of(), ehrExtract);
+        final var observationsList = getObservations();
+
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, observationsList, ehrExtract);
 
         assertThat(conditions.get(0).getNote()).hasSize(2);
     }
@@ -514,5 +523,16 @@ public class ConditionMapperTest {
     @SneakyThrows
     private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String filename) {
         return unmarshallFile(getFile("classpath:" + CONDITION_RESOURCES_BASE + filename), RCMRMT030101UK04EhrExtract.class);
+    }
+
+    private List<Observation> getObservations() {
+        final var observation1 = new Observation().setId(OBSERVATION_STATEMENT_ID_1);
+        final var observation2 = new Observation().setId(OBSERVATION_STATEMENT_ID_2);
+
+        List observations = new ArrayList<>();
+        observations.add(observation1);
+        observations.add(observation2);
+
+        return observations;
     }
 }
