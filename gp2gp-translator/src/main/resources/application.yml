@@ -42,6 +42,7 @@ amqp:
 
 mhs:
   url: ${MHS_BASE_URL:http://localhost:8080}
+  maxRequestSize: ${MAX_REQUEST_SIZE:150000000}
 
 storage:
   type: ${STORAGE_TYPE:LocalMock}

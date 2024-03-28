@@ -73,7 +73,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [1.4.0] - 2024-01-10
 
 ### Changed
-* REST buffer size has been set to 150Mb
+* Maximum request size of the message that can be sent to GP Connect Inbound queue set to 150 Mb
 
 ### Fixed
 * Fixed issue where mapping failed due to a Referral Request Priority not being found.
