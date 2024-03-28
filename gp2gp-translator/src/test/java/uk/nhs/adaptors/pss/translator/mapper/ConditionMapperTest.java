@@ -96,7 +96,7 @@ public class ConditionMapperTest {
                 expectedObservationStatement,
                 Optional.empty());
 
-        assertThat(actualObservationStatement).isEqualTo(expectedObservationStatement);
+        assertThat(actualObservationStatement.getRight()).isEqualTo(expectedObservationStatement);
     }
 
     @Test
@@ -109,7 +109,7 @@ public class ConditionMapperTest {
         final var observationStatement = conditionMapper.mergeObservationStatementsIfRequired(
                 referencedObservationStatement,
                 matchedObservationStatement);
-        final var actualText = observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
+        final var actualText = observationStatement.getRight().getPertinentInformation().get(0).getPertinentAnnotation().getText();
 
         assertThat(actualText).isEqualTo(expectedText);
     }
@@ -121,7 +121,7 @@ public class ConditionMapperTest {
 
         final var observationStatement = conditionMapper.mergeObservationStatementsIfRequired(referencedObservationStatement,
                                                                                               matchedObservationStatement);
-        final var actualText = observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
+        final var actualText = observationStatement.getRight().getPertinentInformation().get(0).getPertinentAnnotation().getText();
 
         assertThat(actualText).isEqualTo(ANNOTATION_TEXT_WITHOUT_ELLIPSIS);
     }
@@ -134,7 +134,7 @@ public class ConditionMapperTest {
 
         final var observationStatement = conditionMapper.mergeObservationStatementsIfRequired(referencedObservationStatement,
                                                                                               matchedObservationStatement);
-        final var actualText = observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
+        final var actualText = observationStatement.getRight().getPertinentInformation().get(0).getPertinentAnnotation().getText();
 
         assertThat(actualText).isEqualTo(DIFFERENT_ANNOTATION);
     }
@@ -148,7 +148,7 @@ public class ConditionMapperTest {
 
         final var ehrExtract = unmarshallEhrExtract("linkset_pertinentInformation.xml");
         final var conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
-        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, List.of(), ehrExtract);
 
         assertThat(conditions.get(0).getNote()).hasSize(2);
     }
@@ -188,7 +188,7 @@ public class ConditionMapperTest {
 
         final var ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
         final var conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
-        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, List.of(), ehrExtract);
         final var actualDisplay = conditions.get(0).getCode().getCoding().get(1).getDisplay();
 
         assertThat(actualDisplay).isEqualTo(CODING_DISPLAY);
@@ -200,7 +200,7 @@ public class ConditionMapperTest {
 
         final var ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
         final var conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
-        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, List.of(), ehrExtract);
         final var condition = conditions.get(0);
         final var actualExtension = condition.getExtensionsByUrl(ACTUAL_PROBLEM_URL).get(0);
 
@@ -221,7 +221,7 @@ public class ConditionMapperTest {
         final var ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
         final var conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
-        conditionMapper.addReferences(buildBundleWithStatementRefObservations(), conditions, ehrExtract);
+        conditionMapper.addReferences(buildBundleWithStatementRefObservations(), conditions, List.of(), ehrExtract);
         final var condition = conditions.get(0);
         final var actualExtensions = condition.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL);
         final var actualFirstExtensionReference = (Reference) actualExtensions.get(0).getValue();
@@ -398,7 +398,7 @@ public class ConditionMapperTest {
         final var ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
         final var conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
         final var condition = conditions.get(0);
-        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, List.of(), ehrExtract);
 
         assertAll(
                 () -> assertThat(condition.getCode().getCoding().get(0))
@@ -421,7 +421,7 @@ public class ConditionMapperTest {
 
         final var ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
         final var conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
-        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, List.of(), ehrExtract);
 
         assertEquals(expectedCodeableConcept, conditions.get(0).getCode());
     }
@@ -508,7 +508,7 @@ public class ConditionMapperTest {
         bundle.addEntry(new BundleEntryComponent().setResource(condition));
         bundle.addEntry(new BundleEntryComponent().setResource(planMedicationRequest));
         bundle.addEntry(new BundleEntryComponent().setResource(orderMedicationRequest));
-        conditionMapper.addReferences(bundle, conditions, ehrExtract);
+        conditionMapper.addReferences(bundle, conditions, List.of(), ehrExtract);
     }
 
     @SneakyThrows

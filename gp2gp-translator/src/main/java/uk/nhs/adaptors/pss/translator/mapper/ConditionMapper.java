@@ -17,10 +17,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
@@ -31,6 +33,7 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
+import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -183,7 +186,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         });
     }
 
-    public void addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
+    public void addReferences(Bundle bundle, List<Condition> conditions, List<Observation> observations,
+                                 RCMRMT030101UK04EhrExtract ehrExtract) {
 
         getCompositionsContainingLinkSets(ehrExtract).stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
@@ -203,9 +207,14 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         final var matchedObservationStatement =
                             getObservationStatementByCodeableConceptCode(ehrExtract, referencedObservationStatement.get());
 
-                        var mergedObservationStatement = mergeObservationStatementsIfRequired(referencedObservationStatement.get(),
+                        var mergeResultPair = mergeObservationStatementsIfRequired(referencedObservationStatement.get(),
                                                                                               matchedObservationStatement);
-                        referencedObservationStatement = Optional.of(mergedObservationStatement);
+                        var observationStatementHasBeenMerged = mergeResultPair.getLeft();
+                        referencedObservationStatement = Optional.of(mergeResultPair.getRight());
+
+                        if (observationStatementHasBeenMerged) {
+                            observations.remove(matchedObservationStatement);
+                        }
                     }
 
                     buildNotes(referencedObservationStatement, linkSet)
@@ -228,14 +237,14 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 }));
     }
 
-    protected RCMRMT030101UKObservationStatement mergeObservationStatementsIfRequired(
+    protected Pair<Boolean, RCMRMT030101UKObservationStatement> mergeObservationStatementsIfRequired(
         RCMRMT030101UKObservationStatement referencedObservationStatement,
         Optional<RCMRMT030101UKObservationStatement> matchedObservationStatement) {
 
         if (matchedObservationStatement.isEmpty()
                 || observationStatementDoesNotContainNarrativeAnnotationText(referencedObservationStatement)
                 || observationStatementDoesNotContainNarrativeAnnotationText(matchedObservationStatement.get())) {
-            return referencedObservationStatement;
+            return Pair.of(false, referencedObservationStatement);
         }
 
 
@@ -245,7 +254,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             matchedObservationStatement.get().getPertinentInformation().get(0).getPertinentAnnotation().getText();
 
         if (!referencedAnnotationText.endsWith(ELLIPSIS)) {
-            return referencedObservationStatement;
+            return Pair.of(false, referencedObservationStatement);
         }
 
         var stringToBeReplaced = extractStringToBeReplaced(referencedAnnotationText);
@@ -253,9 +262,10 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         if (matchedAnnotationText.contains(stringToBeReplaced)) {
             var mergedAnnotationText = mergeAnnotationText(stringToBeReplaced, referencedAnnotationText, matchedAnnotationText);
             referencedObservationStatement.getPertinentInformation().get(0).getPertinentAnnotation().setText(mergedAnnotationText);
+            Pair.of(true, referencedObservationStatement);
         }
 
-        return referencedObservationStatement;
+        return Pair.of(false, referencedObservationStatement);
     }
 
     @Nullable
