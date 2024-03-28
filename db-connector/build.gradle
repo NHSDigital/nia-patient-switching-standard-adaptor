@@ -37,7 +37,7 @@ dependencies {
     liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:3.0.3'
     liquibaseRuntime 'info.picocli:picocli:4.6.1'
     liquibaseRuntime 'org.postgresql:postgresql:42.7.1'
-    liquibaseRuntime 'org.yaml:snakeyaml:1.17'
+    liquibaseRuntime 'org.yaml:snakeyaml:2.2'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
