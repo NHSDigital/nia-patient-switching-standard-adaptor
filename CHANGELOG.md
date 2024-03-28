@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+* added functionality to merge duplicated ObservationStatement entries for the same Observation
+
 ### Removed
 * The `EhrExtract / AvailabilityTime` field as a fallback value from:
   - 'ConsultationListMapper.mapToConsultation'

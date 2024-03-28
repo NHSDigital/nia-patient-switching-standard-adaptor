@@ -56,6 +56,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObser
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ObservationMapper extends AbstractMapper<Observation> {
+
     private static final String META_PROFILE = "Observation-1";
     private static final String SUBJECT_COMMENT = "Subject: %s";
     private static final String SELF_REFERRAL = "SelfReferral";
@@ -76,7 +77,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                         .filter(Objects::nonNull)
                         .filter(this::isSelfReferral)
                         .map(observationStatement
-                                -> mapObservationFromRequestStatement(extract, composition, observationStatement,
+                                -> mapObservationFromRequestStatement(composition, observationStatement,
                                 patient, encounters, practiseCode)))
                 .toList();
 
@@ -86,13 +87,13 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 .filter(Objects::nonNull)
                 .filter(this::isNotImmunization)
                 .map(observationStatement
-                    -> mapObservation(extract, composition, observationStatement, patient, encounters, practiseCode)))
+                    -> mapObservation(composition, observationStatement, patient, encounters, practiseCode)))
             .toList();
 
         return Stream.concat(selfReferralObservations.stream(), observations.stream()).collect(Collectors.toList());
     }
 
-    private Observation mapObservation(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition,
+    private Observation mapObservation(RCMRMT030101UKEhrComposition ehrComposition,
         RCMRMT030101UKObservationStatement observationStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
 
         var id = observationStatement.getId().getRoot();
@@ -126,8 +127,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
-    private Observation mapObservationFromRequestStatement(RCMRMT030101UKEhrExtract ehrExtract,
-                                                           RCMRMT030101UKEhrComposition ehrComposition,
+    private Observation mapObservationFromRequestStatement(RCMRMT030101UKEhrComposition ehrComposition,
                                                            RCMRMT030101UKRequestStatement requestStatement, Patient patient,
                                                            List<Encounter> encounters, String practiseCode) {
 
