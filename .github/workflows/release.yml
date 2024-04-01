@@ -31,7 +31,7 @@ jobs:
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docker/${{ matrix.image.folder }}/Dockerfile
       - name: Log in to the Container registry
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        uses: docker/login-action@5f4866a30a54f16a52d2ecb4a3898e9e424939cf
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
