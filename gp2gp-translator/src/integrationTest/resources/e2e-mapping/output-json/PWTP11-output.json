@@ -2100,7 +2100,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "LAEY3811",
           "display": "Lacri-lube eye ointment (Allergan Ltd)"
         }, {
@@ -2215,7 +2215,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "SACF26553EMIS",
           "display": "Salbutamol 100micrograms/dose inhaler CFC free"
         }, {
@@ -2327,7 +2327,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "IBTA1430",
           "display": "Ibuprofen 400mg tablets"
         }, {
