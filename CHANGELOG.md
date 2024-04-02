@@ -130,6 +130,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
   </details>
 
+* ** Breaking Change **: Observation comments of type `USER COMMENT` and `UNKNOWN TYPE`) located within the `BATTERY`
+  of a `Filed Report` are now additionally referenced in the results of the parent `DiagnosticReport`
+
 ## [2.0.0] - 2024-04-12
 
 ### Fixed
