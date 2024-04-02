@@ -6,18 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Removed
-* The `EhrExtract / AvailabilityTime` field as a fallback value from:
-  - 'ConsultationListMapper.mapToConsultation'
+## [1.4.7] - 2024-04-02
 
-### Added  
-* The primary source of date/time
-  - 'ConsultationListMapper.getConsultationDate'
-    - ehrComposition author time
-    - or else ehrComposition availibiltyTime
-    - or else ehrComposition effectiveTime - center
-    - or else EhrComposition effectiveTime - high
-    - or else EhrComposition effectiveTime - low
+### Changed
+* The source of date for List (Consultation) is now ehrComposition author time otherwise from 
+  the following fields in order of precedence:
+    - ehrComposition availibiltyTime
+    - ehrComposition effectiveTime - center
+    - EhrComposition effectiveTime - high
+    - EhrComposition effectiveTime - low
 
 ## [1.4.6] - 2024-03-21
 
