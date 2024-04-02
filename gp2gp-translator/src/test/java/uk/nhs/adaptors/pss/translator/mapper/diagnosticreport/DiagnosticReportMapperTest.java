@@ -20,11 +20,9 @@ import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 
 @ExtendWith(MockitoExtension.class)
 public class DiagnosticReportMapperTest {
@@ -70,8 +68,8 @@ public class DiagnosticReportMapperTest {
                 </EhrExtract>
                 """;
 
-    @Mock
-    private CodeableConceptMapper codeableConceptMapper;
+//    @Mock
+//    private CodeableConceptMapper codeableConceptMapper;
 
     @InjectMocks
     private DiagnosticReportMapper diagnosticReportMapper;
@@ -371,6 +369,122 @@ TEST COMMENT
                         .isTrue(),
                 () -> assertThat(diagnosticReport.getConclusion())
                         .isEqualTo(CONCLUSION_FIELD_TEXT)
+        );
+    }
+
+    @Test
+    public void When_MappingWithUserCommentInBattery_Expect_DiagnosticReportToReferenceTheUserCommentObservation() {
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
+                """
+                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                    <id root="C515E71B-2473-11EE-808B-AC162D1F16F0"/>
+                    <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                    <component typeCode="COMP" contextConductionInd="true">
+                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                            <id root="C515E71C-2473-11EE-808B-AC162D1F16F0"/>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                    <id root="C515E71D-2473-11EE-808B-AC162D1F16F0"/>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                                            <id root="C515E71F-2473-11EE-808B-AC162D1F16F0"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                                <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                    <id root="C515E720-2473-11EE-808B-AC162D1F16F0"/>
+                                                    <text mediaType="text/x-h7uk-pmip">
+                                                        CommentType:AGGREGATE COMMENT SET
+                                                    </text>
+                                                </NarrativeStatement>
+                                            </component>
+                                        </CompoundStatement>
+                                    </component>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                            <id root="C515E722-2473-11EE-808B-AC162D1F16F0"/>
+                                            <text mediaType="text/x-h7uk-pmip">
+                                                CommentType:USER COMMENT
+                                            </text>
+                                        </NarrativeStatement>
+                                    </component>
+                                </CompoundStatement>
+                            </component>
+                        </CompoundStatement>
+                    </component>
+                </CompoundStatement>
+                """);
+        final var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+        final var expectedReference = "Observation/C515E722-2473-11EE-808B-AC162D1F16F0";
+
+        final var diagnosticReports = diagnosticReportMapper.mapResources(
+                ehrExtract,
+                PATIENT,
+                createEncounterList(),
+                PRACTICE_CODE);
+        final var diagnosticReport = diagnosticReports.get(0);
+
+        assertAll(
+                () -> assertThat(diagnosticReport.getResult())
+                        .hasSize(1),
+                () -> assertThat(diagnosticReport.getResult().get(0).getReference())
+                        .isEqualTo(expectedReference)
+        );
+    }
+
+    @Test
+    public void When_MappingWithUnknownCommentInBattery_Expect_DiagnosticReportToReferenceTheUserCommentObservation() {
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
+                """
+                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                    <id root="C515E71B-2473-11EE-808B-AC162D1F16F0"/>
+                    <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                    <component typeCode="COMP" contextConductionInd="true">
+                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                            <id root="C515E71C-2473-11EE-808B-AC162D1F16F0"/>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                    <id root="C515E71D-2473-11EE-808B-AC162D1F16F0"/>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                                            <id root="C515E71F-2473-11EE-808B-AC162D1F16F0"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                                <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                    <id root="C515E720-2473-11EE-808B-AC162D1F16F0"/>
+                                                    <text mediaType="text/x-h7uk-pmip">
+                                                        CommentType:AGGREGATE COMMENT SET
+                                                    </text>
+                                                </NarrativeStatement>
+                                            </component>
+                                        </CompoundStatement>
+                                    </component>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                            <id root="C515E722-2473-11EE-808B-AC162D1F16F0"/>
+                                            <text mediaType="text/x-h7uk-pmip">
+                                                CommentType:UNKNOWN TYPE
+                                            </text>
+                                        </NarrativeStatement>
+                                    </component>
+                                </CompoundStatement>
+                            </component>
+                        </CompoundStatement>
+                    </component>
+                </CompoundStatement>
+                """);
+        final var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+        final var expectedReference = "Observation/C515E722-2473-11EE-808B-AC162D1F16F0";
+
+        final var diagnosticReports = diagnosticReportMapper.mapResources(
+                ehrExtract,
+                PATIENT,
+                createEncounterList(),
+                PRACTICE_CODE);
+        final var diagnosticReport = diagnosticReports.get(0);
+
+        assertAll(
+                () -> assertThat(diagnosticReport.getResult())
+                        .hasSize(1),
+                () -> assertThat(diagnosticReport.getResult().get(0).getReference())
+                        .isEqualTo(expectedReference)
         );
     }
 

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -34,7 +35,7 @@ import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKAuthor;
-import org.hl7.v3.TS;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
@@ -45,13 +46,16 @@ import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableCon
 
 @Service
 public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
-
     private static final String PMIP_EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
     private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
-    private static final String LAB_REPORT_COMMENT_TYPE = "CommentType:LABORATORY RESULT COMMENT(E141)";
     public static final String CODING_CODE = "721981007";
     public static final String CODING_SYSTEM = "http://snomed.info/sct";
     public static final String CODING_DISPLAY = "Diagnostic studies report";
+    private static final String BATTERY_CLASS_CODE = "BATTERY";
+    private static final String CLUSTER_CLASS_CODE = "CLUSTER";
+    private static final String LAB_REPORT_COMMENT_TYPE = "CommentType:LABORATORY RESULT COMMENT(E141)";
+    public static final String USER_COMMENT_COMMENT_TYPE = "CommentType:USER COMMENT";
+    public static final String UNKNOWN_TYPE_COMMENT_TYPE = "CommentType:UNKNOWN TYPE";
 
     public static void addResultToDiagnosticReport(Observation observation, DiagnosticReport diagnosticReport) {
         if (!containsReference(diagnosticReport.getResult(), observation.getId())) {
@@ -155,18 +159,63 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     private void setResultReferences(RCMRMT030101UKCompoundStatement compoundStatement, DiagnosticReport diagnosticReport) {
+        var resultReferences = getDirectResultReferences(compoundStatement);
 
-        var resultReferences = compoundStatement.getComponent()
-            .stream()
-            .filter(RCMRMT030101UKComponent02::hasNarrativeStatement)
-            .map(RCMRMT030101UKComponent02::getNarrativeStatement)
-            .filter(narrativeStatement -> !narrativeStatement.getText().contains(LAB_REPORT_COMMENT_TYPE))
-            .map(narrativeStatement -> new Reference(new IdType(ResourceType.Observation.name(), narrativeStatement.getId().getRoot())))
-            .collect(toCollection(ArrayList::new));
+        // also include USER COMMENT or UNKNOWN references from nested BATTERY as per NIAD-2666
+        var batteryResultReferences = getNestedBatteryResultReferences(compoundStatement);
+        resultReferences.addAll(batteryResultReferences);
 
         if (!resultReferences.isEmpty()) {
             diagnosticReport.setResult(resultReferences);
         }
+    }
+
+    @NotNull
+    private ArrayList<Reference> getNestedBatteryResultReferences(RCMRMT030101UKCompoundStatement compoundStatement) {
+        return compoundStatement.getComponent()
+                .stream()
+                .flatMap(component -> getComponentStreamByClassCode(component, CLUSTER_CLASS_CODE))
+                .flatMap(component -> getComponentStreamByClassCode(component, BATTERY_CLASS_CODE))
+                .filter(RCMRMT030101UKComponent02::hasNarrativeStatement)
+                .map(RCMRMT030101UKComponent02::getNarrativeStatement)
+                .filter(this::isUnknownOrUserCommentType)
+                .map(this::buildReference)
+                .collect(toCollection(ArrayList::new));
+    }
+
+    @NotNull
+    private ArrayList<Reference> getDirectResultReferences(RCMRMT030101UKCompoundStatement compoundStatement) {
+        return compoundStatement.getComponent()
+                .stream()
+                .filter(RCMRMT030101UKComponent02::hasNarrativeStatement)
+                .map(RCMRMT030101UKComponent02::getNarrativeStatement)
+                .filter(this::isNotLabReportCommentType)
+                .map(this::buildReference)
+                .collect(toCollection(ArrayList::new));
+    }
+
+    private Reference buildReference(RCMRMT030101UKNarrativeStatement narrativeStatement) {
+        return new Reference(new IdType(
+                ResourceType.Observation.name(),
+                narrativeStatement.getId().getRoot()));
+    }
+
+    private Stream<RCMRMT030101UKComponent02> getComponentStreamByClassCode(
+            RCMRMT030101UKComponent02 component,
+            String classCode) {
+        return Optional.ofNullable(component.getCompoundStatement())
+                .filter(compoundStatement -> classCode.equals(compoundStatement.getClassCode().get(0)))
+                .map(compoundStatement -> compoundStatement.getComponent().stream())
+                .orElse(Stream.empty());
+    }
+
+    private boolean isUnknownOrUserCommentType(RCMRMT030101UKNarrativeStatement narrativeStatement) {
+        return narrativeStatement.getText().contains(UNKNOWN_TYPE_COMMENT_TYPE)
+                || narrativeStatement.getText().contains(USER_COMMENT_COMMENT_TYPE);
+    }
+
+    private boolean isNotLabReportCommentType(RCMRMT030101UKNarrativeStatement narrativeStatement) {
+        return !narrativeStatement.getText().contains(LAB_REPORT_COMMENT_TYPE);
     }
 
     private Optional<Observation> getObservationCommentById(List<Observation> observationComments, String id) {
@@ -220,10 +269,6 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         return author != null && author.hasTime()
             && author.getTime().hasValue()
             && !author.getTime().hasNullFlavor();
-    }
-
-    private boolean availabilityTimeHasValue(TS availabilityTime) {
-        return availabilityTime != null && availabilityTime.hasValue() && !availabilityTime.hasNullFlavor();
     }
 
     private CodeableConcept createCode() {
