@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CodeableConceptUtils {
 
-    public static final String EHR_REQUEST_ACK_CODE = "2.16.840.1.113883.2.1.3.2.4.17.101";
+    public static final String EHR_REQUEST_ACK_CODE = "urn:oid:2.16.840.1.113883.2.1.3.2.4.17.101";
 
     /**
      *

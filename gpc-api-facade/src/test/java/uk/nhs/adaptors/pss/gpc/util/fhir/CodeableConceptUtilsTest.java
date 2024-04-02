@@ -16,6 +16,7 @@ public class CodeableConceptUtilsTest {
     private static final String ISSUE_SYSTEM = "Spine-ErrorOrWarningCode-1";
     private static final String DISPLAY = "Resource not found";
     private static final String TEXT = "Resource got lost";
+    private final String EHR_REQUEST_ACK_OID_URN = "urn:oid:2.16.840.1.113883.2.1.3.2.4.17.101";
 
     @Test
     public void testCreateCodeableConcept() {
@@ -43,7 +44,7 @@ public class CodeableConceptUtilsTest {
     }
 
     @Test
-    public void testCreateCodeableConceptWithExtension() throws URISyntaxException {
+    public void testCreateCodeableConceptWithExtension() {
 
         final String EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid";
         final Extension extension = new Extension().setUrl(EXTENSION_URL);
@@ -57,9 +58,7 @@ public class CodeableConceptUtilsTest {
     }
 
     @Test
-    public void testCreateCodeableConceptWithEhrRequestAckOIDCodeSections() throws URISyntaxException {
-        final var EHR_REQUEST_ACK_OID_CODE = "2.16.840.1.113883.2.1.3.2.4.17.101";
-        final String EXTENSION_URL = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid";
+    public void testCreateCodeableConceptWithEhrRequestAckOIDCodeSections() {
         var result = CodeableConceptUtils.createCodeableConceptWithEhrRequestAckOidCode(CODE, ISSUE_SYSTEM, DISPLAY, null, "99");
 
         assertAll(
@@ -68,7 +67,7 @@ public class CodeableConceptUtilsTest {
             () -> assertEquals(DISPLAY, result.getCoding().get(0).getDisplay())
         );
         assertAll(
-            () -> assertEquals(EHR_REQUEST_ACK_OID_CODE, result.getCoding().get(1).getSystem()),
+            () -> assertEquals(EHR_REQUEST_ACK_OID_URN, result.getCoding().get(1).getSystem()),
             () -> assertEquals("99", result.getCoding().get(1).getCode()),
             () -> assertEquals(DISPLAY, result.getCoding().get(1).getDisplay())
         );
