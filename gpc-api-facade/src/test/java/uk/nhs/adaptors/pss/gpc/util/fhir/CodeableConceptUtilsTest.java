@@ -13,8 +13,8 @@ public class CodeableConceptUtilsTest {
     private static final String ISSUE_SYSTEM = "Spine-ErrorOrWarningCode-1";
     private static final String DISPLAY = "Resource not found";
     private static final String TEXT = "Resource got lost";
-    private final String EHR_REQUEST_ACK_OID_URN = "urn:oid:2.16.840.1.113883.2.1.3.2.4.17.101";
-    private final String GP2GP_SPECIFIC_CODE = "99";
+    private static final String EHR_REQUEST_ACK_OID_URN = "urn:oid:2.16.840.1.113883.2.1.3.2.4.17.101";
+    private static final String GP2GP_SPECIFIC_CODE = "99";
 
     @Test
     public void When_CreateCodeableConcept_Expect_CodeableConceptIsCreatedCorrectly() {
