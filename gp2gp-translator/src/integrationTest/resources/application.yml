@@ -9,13 +9,14 @@ spring:
   datasource:
     url: ${PS_DB_URL:jdbc:postgresql://localhost:5436}/patient_switching
     username: gp2gp_user
-    password: ${GP2GP_TRANSLATOR_USER_DB_PASSWORD}
+    password: ${GP2GP_TRANSLATOR_USER_DB_PASSWORD:123456}
 
 management:
   endpoints:
     web:
       base-path: /
-      path-mapping.health: healthcheck
+      path-mapping:
+        "health": healthcheck
       exposure:
         include: info, health, metrics
 
