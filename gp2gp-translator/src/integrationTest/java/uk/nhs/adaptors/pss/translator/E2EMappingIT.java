@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator;
 
 import static org.awaitility.Awaitility.await;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
@@ -9,11 +10,14 @@ import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
 @ExtendWith(SpringExtension.class)
@@ -43,6 +48,22 @@ public class E2EMappingIT extends BaseEhrHandler {
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
+
+    @MockBean
+    private IdGeneratorService idGeneratorService;
+
+    @BeforeEach
+    public void setUpDeterministicRandomIds() {
+        when(idGeneratorService.generateUuid()).thenAnswer(
+                new Answer<String>() {
+                    private int invocationCount = 0;
+                    @Override
+                    public String answer(InvocationOnMock invocation) {
+                        return String.format("00000000-0000-0000-0000-%012d", invocationCount++);
+                    }
+                }
+        );
+    }
 
     @Override
     @BeforeEach
