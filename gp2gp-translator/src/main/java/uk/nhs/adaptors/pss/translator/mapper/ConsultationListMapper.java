@@ -76,9 +76,9 @@ public class ConsultationListMapper {
     }
 
     private DateTimeType getConsultationDate(RCMRMT030101UKEhrComposition comp) {
-        if (comp.hasAuthor() && comp.getAuthor().getTime() != null) {
+        if (comp.hasAuthor() && comp.getAuthor().hasTime() && comp.getAuthor().getTime().getValue() != null) {
             return DateFormatUtil.parseToDateTimeType(comp.getAuthor().getTime().getValue());
-        } else if (comp.hasAvailabilityTime()) {
+        } else if (comp.hasAvailabilityTime() && comp.getAvailabilityTime().hasValue()) {
             return DateFormatUtil.parseToDateTimeType(comp.getAvailabilityTime().getValue());
         } else if (comp.getEffectiveTime().hasCenter()) {
             return DateFormatUtil.parseToDateTimeType(comp.getEffectiveTime().getCenter().getValue());
