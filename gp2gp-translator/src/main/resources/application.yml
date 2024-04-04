@@ -9,7 +9,7 @@ spring:
   datasource:
     url: ${PS_DB_URL:jdbc:postgresql://localhost:5436}/patient_switching
     username: gp2gp_user
-    password: 123456
+    password: ${GP2GP_TRANSLATOR_USER_DB_PASSWORD}
 
 management:
   endpoints:
@@ -41,7 +41,7 @@ amqp:
   daisyChaining: ${PS_DAISY_CHAINING_ACTIVE:false}
 
 mhs:
-  url: ${MHS_BASE_URL:http://localhost:8084}
+  url: ${MHS_BASE_URL:http://localhost:8080}
 
 storage:
   type: ${STORAGE_TYPE:LocalMock}
