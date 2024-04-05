@@ -14,6 +14,7 @@
                     </effectiveTime>
                     <availabilityTime nullFlavor="UNK"/>
                     <author typeCode="AUT" contextControlCode="OP">
+                        <time nullFlavor="UNK"/>
                         <agentRef classCode="AGNT">
                             <id root="2E86E940-9011-11EC-B1E5-0800200C9A66" />
                         </agentRef>
