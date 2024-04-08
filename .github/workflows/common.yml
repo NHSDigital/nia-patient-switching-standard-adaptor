@@ -24,13 +24,13 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: |
-            nhsdev/${{ dockerhub_name }}
+            nhsdev/${{ inputs.dockerhub_name }}
           tags: |
             type=semver,pattern={{version}}
           flavor: |
             latest=false
           labels: |
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docker/${{ folder }}/Dockerfile
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docker/${{ inputs.folder }}/Dockerfile
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
@@ -40,7 +40,7 @@ jobs:
         uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56
         with:
           context: .
-          file: docker/${{ folder }}/Dockerfile
+          file: docker/${{ inputs.folder }}/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
