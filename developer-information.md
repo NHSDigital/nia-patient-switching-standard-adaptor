@@ -110,5 +110,3 @@ To clean all containers run
 ```
 ## Getting started for Windows Users
 A setup guide is provided for Windows users [here](./getting-started-with-windows.md)
-
-Some test tex.
