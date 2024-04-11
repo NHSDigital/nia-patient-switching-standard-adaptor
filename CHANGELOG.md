@@ -130,17 +130,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
   </details>
 
-* ** Breaking Change **: Observation comments of type `USER COMMENT` and `UNKNOWN TYPE`) located within the `BATTERY`
-  of a `Filed Report` are now additionally referenced in the results of the parent `DiagnosticReport`
+* When Filing comment `NarrativeStatements` are located within the `BATTERY` of a `Filed Report` and not located
+  at `DiagnosticReport` level now creates a new filing comment `Observation` and reference this in the results
+  of the parent `DiagnosticReport`.
 
 ## [2.0.0] - 2024-04-12
 
 ### Fixed
+
 * **Breaking Change** Identifier values and code systems where an OID is provided 
-(such as `2.16.840.1.113883.2.1.6.9`) will now be provided as a URN (i.e. `urn:oid:2.16.840.1.113883.2.1.6.9`),
-as per GP Connect specification.
-* DiagnosticReport identifier values are now presented as a URN instead of just the system code
-  when a PMIP system code is provided
+  (such as `2.16.840.1.113883.2.1.6.9`) will now be provided as a URN (i.e. `urn:oid:2.16.840.1.113883.2.1.6.9`),
+  as per GP Connect specification.
 
 ## [1.4.7] - 2024-04-02
 
