@@ -110,7 +110,7 @@ public class COPCIN000001UK01ControlActEvent {
      */
     public List<MCAIMT040101UK03Author2> getAuthor1() {
         if (author1 == null) {
-            author1 = new ArrayList<MCAIMT040101UK03Author2>();
+            author1 = new ArrayList<>();
         }
         return this.author1;
     }
@@ -139,7 +139,7 @@ public class COPCIN000001UK01ControlActEvent {
      */
     public List<MCAIMT040101UK03Reason> getReason() {
         if (reason == null) {
-            reason = new ArrayList<MCAIMT040101UK03Reason>();
+            reason = new ArrayList<>();
         }
         return this.reason;
     }
@@ -240,7 +240,7 @@ public class COPCIN000001UK01ControlActEvent {
      */
     public List<String> getNullFlavor() {
         if (nullFlavor == null) {
-            nullFlavor = new ArrayList<String>();
+            nullFlavor = new ArrayList<>();
         }
         return this.nullFlavor;
     }

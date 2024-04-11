@@ -8,8 +8,6 @@ import java.util.stream.Stream;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04Component4;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
@@ -17,23 +15,33 @@ import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKComponent4;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.RCMRMT030101UKPlanStatement;
+import org.hl7.v3.RCMRMT030101UKRequestStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompoundStatementResourceExtractors {
 
-    public static Stream<RCMRMT030101UK04CompoundStatement> extractAllCompoundStatements(RCMRMT030101UK04Component4 component4) {
+    public static Stream<RCMRMT030101UKCompoundStatement> extractAllCompoundStatements(RCMRMT030101UKComponent4 component4) {
+
         return Stream.concat(
             Stream.of(component4.getCompoundStatement()),
             component4.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasCompoundStatement, RCMRMT030101UK04Component02::getCompoundStatement)
+                    RCMRMT030101UKComponent02::hasCompoundStatement, RCMRMT030101UKComponent02::getCompoundStatement)
                 .stream()
                 .map(RCMRMT030101UK04CompoundStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UK04CompoundStatement> extractAllChildCompoundStatements(RCMRMT030101UK04Component02 component02) {
+    public static Stream<RCMRMT030101UKCompoundStatement> extractAllChildCompoundStatements(RCMRMT030101UKComponent02 component02) {
         return Stream.concat(
             Stream.of(component02.getCompoundStatement()),
             component02.hasCompoundStatement()
@@ -45,50 +53,54 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
-    public static Stream<RCMRMT030101UK04LinkSet> extractAllLinkSets(RCMRMT030101UK04Component4 component4) {
+    public static Stream<RCMRMT030101UKLinkSet> extractAllLinkSets(RCMRMT030101UKComponent4 component4) {
+
         return Stream.concat(
             Stream.of(component4.getLinkSet()),
             component4.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasLinkSet, RCMRMT030101UK04Component02::getLinkSet)
+                    RCMRMT030101UKComponent02::hasLinkSet, RCMRMT030101UKComponent02::getLinkSet)
                 .stream()
                 .map(RCMRMT030101UK04LinkSet.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatements(RCMRMT030101UK04Component4 component4) {
+    public static Stream<RCMRMT030101UKObservationStatement> extractAllObservationStatements(RCMRMT030101UKComponent4 component4) {
+
         return Stream.concat(
             Stream.of(component4.getObservationStatement()),
             component4.hasCompoundStatement() ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
+                    RCMRMT030101UKComponent02::hasObservationStatement, RCMRMT030101UKComponent02::getObservationStatement)
                 .stream()
                 .map(RCMRMT030101UK04ObservationStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UK04ObservationStatement> extractInnerObservationStatements(RCMRMT030101UK04Component02 component02) {
+    public static Stream<RCMRMT030101UKObservationStatement> extractInnerObservationStatements(RCMRMT030101UKComponent02 component02) {
+
         return Stream.concat(
             Stream.of(component02.getObservationStatement()),
             component02.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component02.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasObservationStatement, RCMRMT030101UK04Component02::getObservationStatement)
+                    RCMRMT030101UKComponent02::hasObservationStatement, RCMRMT030101UKComponent02::getObservationStatement)
                     .stream()
-                    .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                    .map(RCMRMT030101UKObservationStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UK04ObservationStatement> extractAllObservationStatementsWithoutAllergiesAndBloodPressures(
-        RCMRMT030101UK04Component4 component4) {
+    public static Stream<RCMRMT030101UKObservationStatement> extractAllObservationStatementsWithoutAllergiesAndBloodPressures(
+                                                                     RCMRMT030101UKComponent4 component4) {
+
         return Stream.concat(
             Stream.of(component4.getObservationStatement()),
             component4.hasCompoundStatement() && !isBloodPressureWithBatteryAndBloodPressureTriple(component4.getCompoundStatement())
                 ? CompoundStatementUtil.extractResourcesFromCompound(
                         component4.getCompoundStatement(),
-                        RCMRMT030101UK04Component02::hasObservationStatement,
-                        RCMRMT030101UK04Component02::getObservationStatement,
+                        RCMRMT030101UKComponent02::hasObservationStatement,
+                        RCMRMT030101UKComponent02::getObservationStatement,
                         CompoundStatementResourceExtractors::isNotAllergy
                     ).stream()
                     .map(RCMRMT030101UK04ObservationStatement.class::cast)
@@ -96,32 +108,34 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
-    public static Stream<RCMRMT030101UK04PlanStatement> extractAllPlanStatements(RCMRMT030101UK04Component4 component4) {
+    public static Stream<RCMRMT030101UKPlanStatement> extractAllPlanStatements(RCMRMT030101UKComponent4 component4) {
+
         return Stream.concat(
             Stream.of(component4.getPlanStatement()),
             component4.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasPlanStatement, RCMRMT030101UK04Component02::getPlanStatement)
+                    RCMRMT030101UKComponent02::hasPlanStatement, RCMRMT030101UKComponent02::getPlanStatement)
                 .stream()
                 .map(RCMRMT030101UK04PlanStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UK04RequestStatement> extractAllRequestStatements(RCMRMT030101UK04Component4 component4) {
+    public static Stream<RCMRMT030101UKRequestStatement> extractAllRequestStatements(RCMRMT030101UKComponent4 component4) {
+
         return Stream.concat(
             Stream.of(component4.getRequestStatement()),
             component4.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasRequestStatement, RCMRMT030101UK04Component02::getRequestStatement)
+                    RCMRMT030101UKComponent02::hasRequestStatement, RCMRMT030101UKComponent02::getRequestStatement)
                 .stream()
                 .map(RCMRMT030101UK04RequestStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UK04NarrativeStatement> extractAllNonBloodPressureNarrativeStatements(
-            RCMRMT030101UK04Component4 component4) {
+    public static Stream<RCMRMT030101UKNarrativeStatement> extractAllNonBloodPressureNarrativeStatements(
+            RCMRMT030101UKComponent4 component4) {
 
         /*
             As blood pressures already map their own NarrativeStatements, we do not want to map these again if the
@@ -132,8 +146,8 @@ public class CompoundStatementResourceExtractors {
                 hasCompoundStatementAndIsNotBloodPressure(component4)
                         ? CompoundStatementUtil.extractResourcesFromCompound(
                                 component4.getCompoundStatement(),
-                                RCMRMT030101UK04Component02::hasNarrativeStatement,
-                                RCMRMT030101UK04Component02::getNarrativeStatement)
+                                RCMRMT030101UKComponent02::hasNarrativeStatement,
+                                RCMRMT030101UKComponent02::getNarrativeStatement)
                             .stream()
                             .map(RCMRMT030101UK04NarrativeStatement.class::cast)
                         : Stream.empty();
@@ -141,26 +155,27 @@ public class CompoundStatementResourceExtractors {
         return Stream.concat(Stream.of(component4.getNarrativeStatement()), childNarrativeStatements);
     }
 
-    public static Stream<RCMRMT030101UK04MedicationStatement> extractAllMedications(RCMRMT030101UK04Component4 component4) {
+    public static Stream<RCMRMT030101UKMedicationStatement> extractAllMedications(RCMRMT030101UKComponent4 component4) {
+
         return Stream.concat(
             Stream.of(component4.getMedicationStatement()),
             component4.hasCompoundStatement()
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
-                    RCMRMT030101UK04Component02::hasMedicationStatement, RCMRMT030101UK04Component02::getMedicationStatement)
+                    RCMRMT030101UKComponent02::hasMedicationStatement, RCMRMT030101UKComponent02::getMedicationStatement)
                 .stream()
                 .map(RCMRMT030101UK04MedicationStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    private static boolean isNotAllergy(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private static boolean isNotAllergy(RCMRMT030101UKCompoundStatement compoundStatement) {
         if (compoundStatement.hasCode() && compoundStatement.getCode().hasCodeSystem()) {
             return !isAllergyIntolerance(compoundStatement);
         }
         return true;
     }
 
-    private static boolean hasCompoundStatementAndIsNotBloodPressure(RCMRMT030101UK04Component4 component4) {
+    private static boolean hasCompoundStatementAndIsNotBloodPressure(RCMRMT030101UKComponent4 component4) {
         return component4.hasCompoundStatement()
                 && !isBloodPressureWithBatteryAndBloodPressureTriple(component4.getCompoundStatement());
     }

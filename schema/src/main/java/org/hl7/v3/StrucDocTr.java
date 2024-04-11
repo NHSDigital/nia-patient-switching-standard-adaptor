@@ -120,7 +120,7 @@ public class StrucDocTr {
      */
     public List<Object> getThOrTd() {
         if (thOrTd == null) {
-            thOrTd = new ArrayList<Object>();
+            thOrTd = new ArrayList<>();
         }
         return this.thOrTd;
     }
@@ -197,7 +197,7 @@ public class StrucDocTr {
      */
     public List<String> getStyleCode() {
         if (styleCode == null) {
-            styleCode = new ArrayList<String>();
+            styleCode = new  ArrayList<>();
         }
         return this.styleCode;
     }

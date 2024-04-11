@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -47,6 +48,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.Author3", propOrder = {
     "time",
@@ -54,14 +56,16 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "signatureText",
     "agentOrgSDS"
 })
-public class RCMRMT030101UK04Author3 {
+public class RCMRMT030101UK04Author3 implements RCMRMT030101UKAuthor3 {
 
     @XmlElement(required = true)
     protected TS time;
     protected CV signatureCode;
     protected ED signatureText;
-    @XmlElement(name = "AgentOrgSDS", required = true)
-    protected UKCTMT120501UK03AgentOrgSDS agentOrgSDS;
+
+    @XmlElement(name = "AgentOrgSDS", type = UKCTMT120501UK03AgentOrgSDS.class, required = true)
+    protected UKCTMT120501UKAgentOrgSDS agentOrgSDS;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -83,10 +87,12 @@ public class RCMRMT030101UK04Author3 {
      *     {@link TS }
      *     
      */
+    @Override
     public TS getTime() {
         return time;
     }
 
+    @Override
     public boolean hasTime() {
         return time != null;
     }
@@ -99,6 +105,7 @@ public class RCMRMT030101UK04Author3 {
      *     {@link TS }
      *     
      */
+    @Override
     public void setTime(TS value) {
         this.time = value;
     }
@@ -111,6 +118,7 @@ public class RCMRMT030101UK04Author3 {
      *     {@link CV }
      *     
      */
+    @Override
     public CV getSignatureCode() {
         return signatureCode;
     }
@@ -123,6 +131,7 @@ public class RCMRMT030101UK04Author3 {
      *     {@link CV }
      *     
      */
+    @Override
     public void setSignatureCode(CV value) {
         this.signatureCode = value;
     }
@@ -135,6 +144,7 @@ public class RCMRMT030101UK04Author3 {
      *     {@link ED }
      *     
      */
+    @Override
     public ED getSignatureText() {
         return signatureText;
     }
@@ -147,6 +157,7 @@ public class RCMRMT030101UK04Author3 {
      *     {@link ED }
      *     
      */
+    @Override
     public void setSignatureText(ED value) {
         this.signatureText = value;
     }
@@ -159,7 +170,8 @@ public class RCMRMT030101UK04Author3 {
      *     {@link UKCTMT120501UK03AgentOrgSDS }
      *     
      */
-    public UKCTMT120501UK03AgentOrgSDS getAgentOrgSDS() {
+    @Override
+    public UKCTMT120501UKAgentOrgSDS getAgentOrgSDS() {
         return agentOrgSDS;
     }
 
@@ -171,7 +183,8 @@ public class RCMRMT030101UK04Author3 {
      *     {@link UKCTMT120501UK03AgentOrgSDS }
      *     
      */
-    public void setAgentOrgSDS(UKCTMT120501UK03AgentOrgSDS value) {
+    @Override
+    public void setAgentOrgSDS(UKCTMT120501UKAgentOrgSDS value) {
         this.agentOrgSDS = value;
     }
 
@@ -183,6 +196,7 @@ public class RCMRMT030101UK04Author3 {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Participation";
@@ -199,6 +213,7 @@ public class RCMRMT030101UK04Author3 {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -225,9 +240,10 @@ public class RCMRMT030101UK04Author3 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
-            typeCode = new ArrayList<String>();
+            typeCode = new ArrayList<>();
         }
         return this.typeCode;
     }
@@ -254,9 +270,10 @@ public class RCMRMT030101UK04Author3 {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -283,9 +300,10 @@ public class RCMRMT030101UK04Author3 {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -298,6 +316,7 @@ public class RCMRMT030101UK04Author3 {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -310,6 +329,7 @@ public class RCMRMT030101UK04Author3 {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

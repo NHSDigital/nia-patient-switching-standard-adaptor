@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -46,19 +47,22 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.SpecimenRole", propOrder = {
     "id",
     "effectiveTime",
     "specimenSpecimenMaterial"
 })
-public class RCMRMT030101UK04SpecimenRole {
+public class RCMRMT030101UK04SpecimenRole implements RCMRMT030101UKSpecimenRole {
 
     @XmlElement(required = true)
     protected List<II> id;
     protected IVLTS effectiveTime;
-    @XmlElement(required = true)
-    protected RCMRMT030101UK04SpecimenMaterial specimenSpecimenMaterial;
+
+    @XmlElement(required = true, type = RCMRMT030101UK04SpecimenMaterial.class)
+    protected RCMRMT030101UKSpecimenMaterial specimenSpecimenMaterial;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -94,6 +98,7 @@ public class RCMRMT030101UK04SpecimenRole {
      * 
      * 
      */
+    @Override
     public List<II> getId() {
         if (id == null) {
             id = new ArrayList<II>();
@@ -109,6 +114,7 @@ public class RCMRMT030101UK04SpecimenRole {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -121,6 +127,7 @@ public class RCMRMT030101UK04SpecimenRole {
      *     {@link IVLTS }
      *     
      */
+    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
@@ -133,7 +140,8 @@ public class RCMRMT030101UK04SpecimenRole {
      *     {@link RCMRMT030101UK04SpecimenMaterial }
      *     
      */
-    public RCMRMT030101UK04SpecimenMaterial getSpecimenSpecimenMaterial() {
+    @Override
+    public RCMRMT030101UKSpecimenMaterial getSpecimenSpecimenMaterial() {
         return specimenSpecimenMaterial;
     }
 
@@ -145,7 +153,8 @@ public class RCMRMT030101UK04SpecimenRole {
      *     {@link RCMRMT030101UK04SpecimenMaterial }
      *     
      */
-    public void setSpecimenSpecimenMaterial(RCMRMT030101UK04SpecimenMaterial value) {
+    @Override
+    public void setSpecimenSpecimenMaterial(RCMRMT030101UKSpecimenMaterial value) {
         this.specimenSpecimenMaterial = value;
     }
 
@@ -157,6 +166,7 @@ public class RCMRMT030101UK04SpecimenRole {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "RoleHeir";
@@ -173,6 +183,7 @@ public class RCMRMT030101UK04SpecimenRole {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -199,9 +210,10 @@ public class RCMRMT030101UK04SpecimenRole {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new  ArrayList<>();
         }
         return this.classCode;
     }
@@ -228,9 +240,10 @@ public class RCMRMT030101UK04SpecimenRole {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new  ArrayList<>();
         }
         return this.typeID;
     }
@@ -257,9 +270,10 @@ public class RCMRMT030101UK04SpecimenRole {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new  ArrayList<>();
         }
         return this.realmCode;
     }
@@ -272,6 +286,7 @@ public class RCMRMT030101UK04SpecimenRole {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -284,6 +299,7 @@ public class RCMRMT030101UK04SpecimenRole {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

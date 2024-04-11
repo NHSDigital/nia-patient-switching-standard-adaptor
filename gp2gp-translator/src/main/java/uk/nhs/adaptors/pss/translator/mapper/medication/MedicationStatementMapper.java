@@ -28,16 +28,16 @@ import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRMT030101UK04Authorise;
-import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component2;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Discontinue;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04Prescribe;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent2;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKAuthorise;
+import org.hl7.v3.RCMRMT030101UKDiscontinue;
+import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
@@ -63,9 +63,12 @@ public class MedicationStatementMapper {
 
     private final MedicationMapper medicationMapper;
 
-    public MedicationStatement mapToMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract,
-        RCMRMT030101UK04MedicationStatement medicationStatement,
-        RCMRMT030101UK04Authorise supplyAuthorise, String practiseCode, DateTimeType authoredOn) {
+    public MedicationStatement mapToMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract,
+                                                        RCMRMT030101UKMedicationStatement medicationStatement,
+                                                        RCMRMT030101UKAuthorise supplyAuthorise,
+                                                        String practiseCode,
+                                                        DateTimeType authoredOn) {
+
         var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);
         if (ehrSupplyAuthoriseIdExtract.isPresent()) {
             var discontinue =
@@ -113,8 +116,8 @@ public class MedicationStatementMapper {
         return null;
     }
 
-    private Period mapEffectiveTime(RCMRMT030101UK04Authorise authorise, RCMRMT030101UK04Discontinue discontinue,
-        RCMRMT030101UK04MedicationStatement medicationStatement, DateTimeType authoredOn) {
+    private Period mapEffectiveTime(RCMRMT030101UKAuthorise authorise, RCMRMT030101UKDiscontinue discontinue,
+        RCMRMT030101UKMedicationStatement medicationStatement, DateTimeType authoredOn) {
         Optional<Period> discontinuePeriod = buildMedicationStatementEffectivePeriodEnd(discontinue);
 
         if (discontinuePeriod.isEmpty()) {
@@ -126,8 +129,8 @@ public class MedicationStatementMapper {
             .orElse(discontinuePeriod.orElseThrow().setStartElement(authoredOn));
     }
 
-    private Period mapEffectiveTime(RCMRMT030101UK04Authorise authorise, RCMRMT030101UK04MedicationStatement medicationStatement,
-        DateTimeType authoredOn) {
+    private Period mapEffectiveTime(RCMRMT030101UKAuthorise authorise, RCMRMT030101UKMedicationStatement medicationStatement,
+                                    DateTimeType authoredOn) {
 
         Period endPeriod = buildDispenseRequestPeriodEnd(authorise, medicationStatement);
 
@@ -136,7 +139,7 @@ public class MedicationStatementMapper {
             .orElse(endPeriod.setStartElement(authoredOn));
     }
 
-    private MedicationStatement.MedicationStatementStatus buildMedicationStatementStatus(RCMRMT030101UK04Authorise supplyAuthorise) {
+    private MedicationStatement.MedicationStatementStatus buildMedicationStatementStatus(RCMRMT030101UKAuthorise supplyAuthorise) {
         if (supplyAuthorise.hasStatusCode() && supplyAuthorise.getStatusCode().hasCode()
             && COMPLETE.equals(supplyAuthorise.getStatusCode().getCode())) {
             return COMPLETED;
@@ -146,7 +149,7 @@ public class MedicationStatementMapper {
 
     }
 
-    private MedicationStatement.MedicationStatementStatus buildMedicationStatementStatus(RCMRMT030101UK04Discontinue supplyDiscontinue) {
+    private MedicationStatement.MedicationStatementStatus buildMedicationStatementStatus(RCMRMT030101UKDiscontinue supplyDiscontinue) {
         if (supplyDiscontinue.hasAvailabilityTime() && supplyDiscontinue.getAvailabilityTime().hasValue()) {
             return STOPPED;
         }
@@ -154,24 +157,25 @@ public class MedicationStatementMapper {
         return COMPLETED;
     }
 
-    private Optional<DateTimeType> extractHighestSupplyPrescribeTime(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+    private Optional<DateTimeType> extractHighestSupplyPrescribeTime(RCMRMT030101UKEhrExtract ehrExtract, String id) {
+
         return ehrExtract.getComponent()
             .stream()
-            .map(RCMRMT030101UK04Component::getEhrFolder)
-            .map(RCMRMT030101UK04EhrFolder::getComponent)
+            .map(RCMRMT030101UKComponent::getEhrFolder)
+            .map(RCMRMT030101UKEhrFolder::getComponent)
             .flatMap(List::stream)
-            .map(RCMRMT030101UK04Component3::getEhrComposition)
-            .map(RCMRMT030101UK04EhrComposition::getComponent)
+            .map(RCMRMT030101UKComponent3::getEhrComposition)
+            .map(RCMRMT030101UKEhrComposition::getComponent)
             .flatMap(List::stream)
             .flatMap(MedicationMapperUtils::extractAllMedications)
             .filter(Objects::nonNull)
-            .map(RCMRMT030101UK04MedicationStatement::getComponent)
+            .map(RCMRMT030101UKMedicationStatement::getComponent)
             .flatMap(List::stream)
-            .filter(RCMRMT030101UK04Component2::hasEhrSupplyPrescribe)
-            .map(RCMRMT030101UK04Component2::getEhrSupplyPrescribe)
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
             .filter(prescribe -> hasLinkedInFulfillment(prescribe, id))
-            .filter(RCMRMT030101UK04Prescribe::hasAvailabilityTime)
-            .map(RCMRMT030101UK04Prescribe::getAvailabilityTime)
+            .filter(RCMRMT030101UKPrescribe::hasAvailabilityTime)
+            .map(RCMRMT030101UKPrescribe::getAvailabilityTime)
             .filter(TS::hasValue)
             .map(TS::getValue)
             .map(DateFormatUtil::parseToDateTimeType)
@@ -184,7 +188,7 @@ public class MedicationStatementMapper {
         ));
     }
 
-    private boolean hasLinkedInFulfillment(RCMRMT030101UK04Prescribe prescribe, String id) {
+    private boolean hasLinkedInFulfillment(RCMRMT030101UKPrescribe prescribe, String id) {
         return prescribe.hasInFulfillmentOf() && prescribe.getInFulfillmentOf().hasPriorMedicationRef()
             && prescribe.getInFulfillmentOf().getPriorMedicationRef().hasId()
             && prescribe.getInFulfillmentOf().getPriorMedicationRef().getId().hasRoot()

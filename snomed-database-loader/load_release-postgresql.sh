@@ -100,6 +100,7 @@ EOF
 
 #refresh materialized view
 psql "${databaseUri}" -c "REFRESH MATERIALIZED VIEW ${snomedCtSchema}.immunization_codes"
+psql "${databaseUri}" -c "REFRESH MATERIALIZED VIEW ${snomedCtSchema}.preferred_terms"
 
 #cleanup
 rm -rf $localExtract

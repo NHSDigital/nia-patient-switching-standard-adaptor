@@ -86,7 +86,7 @@ public class AttachmentReferenceUpdaterService {
 
     private InlineAttachment convertAttachmentToInlineAttachment(InboundMessage.Attachment attachment) {
         try {
-            return new InlineAttachment(attachment);
+            return InlineAttachment.fromInboundMessageAttachment(attachment);
         } catch (ParseException e) {
             throw new InlineAttachmentProcessingException("Unable to parse inline attachment description: " + e.getMessage(), e);
         }

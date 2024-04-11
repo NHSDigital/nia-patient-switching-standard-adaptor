@@ -119,7 +119,7 @@ public class StrucDocList {
      */
     public List<StrucDocItem> getItem() {
         if (item == null) {
-            item = new ArrayList<StrucDocItem>();
+            item = new ArrayList<>();
         }
         return this.item;
     }
@@ -196,7 +196,7 @@ public class StrucDocList {
      */
     public List<String> getStyleCode() {
         if (styleCode == null) {
-            styleCode = new ArrayList<String>();
+            styleCode = new  ArrayList<>();
         }
         return this.styleCode;
     }

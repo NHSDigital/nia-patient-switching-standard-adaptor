@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -46,19 +47,24 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UKCT_MT120501UK03.OrganizationSDS", propOrder = {
     "id",
     "serviceDeliveryLocation"
 })
-public class UKCTMT120501UK03OrganizationSDS {
+public class UKCTMT120501UK03OrganizationSDS implements UKCTMT120501UKOrganizationSDS {
 
     @XmlElement(required = true)
     protected II id;
-    protected List<UKCTMT120501UK03ServiceDeliveryLocation> serviceDeliveryLocation;
+
+    @XmlElement(type = UKCTMT120501UK03ServiceDeliveryLocation.class)
+    protected List<UKCTMT120501UKServiceDeliveryLocation> serviceDeliveryLocation;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
     @XmlAttribute(name = "determinerCode")
@@ -79,6 +85,7 @@ public class UKCTMT120501UK03OrganizationSDS {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -91,6 +98,7 @@ public class UKCTMT120501UK03OrganizationSDS {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -117,9 +125,10 @@ public class UKCTMT120501UK03OrganizationSDS {
      * 
      * 
      */
-    public List<UKCTMT120501UK03ServiceDeliveryLocation> getServiceDeliveryLocation() {
+    @Override
+    public List<UKCTMT120501UKServiceDeliveryLocation> getServiceDeliveryLocation() {
         if (serviceDeliveryLocation == null) {
-            serviceDeliveryLocation = new ArrayList<UKCTMT120501UK03ServiceDeliveryLocation>();
+            serviceDeliveryLocation = new ArrayList<>();
         }
         return this.serviceDeliveryLocation;
     }
@@ -132,6 +141,7 @@ public class UKCTMT120501UK03OrganizationSDS {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Organization";
@@ -148,6 +158,7 @@ public class UKCTMT120501UK03OrganizationSDS {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -174,9 +185,10 @@ public class UKCTMT120501UK03OrganizationSDS {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -203,9 +215,10 @@ public class UKCTMT120501UK03OrganizationSDS {
      * 
      * 
      */
+    @Override
     public List<String> getDeterminerCode() {
         if (determinerCode == null) {
-            determinerCode = new ArrayList<String>();
+            determinerCode = new ArrayList<>();
         }
         return this.determinerCode;
     }
@@ -232,9 +245,10 @@ public class UKCTMT120501UK03OrganizationSDS {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -261,9 +275,10 @@ public class UKCTMT120501UK03OrganizationSDS {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -276,6 +291,7 @@ public class UKCTMT120501UK03OrganizationSDS {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -288,6 +304,7 @@ public class UKCTMT120501UK03OrganizationSDS {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

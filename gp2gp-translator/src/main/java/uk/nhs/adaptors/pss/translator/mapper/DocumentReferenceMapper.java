@@ -21,9 +21,9 @@ import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -47,8 +47,9 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<DocumentReference> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
-        List<Encounter> encounterList, Organization organization, List<PatientAttachmentLog> attachments) {
+    public List<DocumentReference> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient,
+                                                List<Encounter> encounterList, Organization organization,
+                                                List<PatientAttachmentLog> attachments) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllNonBloodPressureNarrativeStatements(component)
@@ -59,7 +60,8 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
             .toList();
     }
 
-    public boolean hasDocumentReferences(RCMRMT030101UK04EhrExtract ehrExtract) {
+    public boolean hasDocumentReferences(RCMRMT030101UKEhrExtract ehrExtract) {
+
         return !mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllNonBloodPressureNarrativeStatements(component)
                .filter(Objects::nonNull)
@@ -68,9 +70,10 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         ).toList().isEmpty();
     }
 
-    private DocumentReference mapDocumentReference(RCMRMT030101UK04NarrativeStatement narrativeStatement,
-        RCMRMT030101UK04EhrComposition ehrComposition, Patient patient, List<Encounter> encounterList,
-        Organization organization, List<PatientAttachmentLog> attachments) {
+    private DocumentReference mapDocumentReference(RCMRMT030101UKNarrativeStatement narrativeStatement,
+                                                   RCMRMT030101UKEhrComposition ehrComposition, Patient patient,
+                                                   List<Encounter> encounterList,
+                                                   Organization organization, List<PatientAttachmentLog> attachments) {
 
         DocumentReference documentReference = new DocumentReference();
 
@@ -108,14 +111,14 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         return documentReference;
     }
 
-    private DateTimeType getCreatedTime(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private DateTimeType getCreatedTime(RCMRMT030101UKEhrComposition ehrComposition) {
         if (ehrComposition.hasAvailabilityTime() && ehrComposition.getAvailabilityTime().hasValue()) {
             return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
         }
         return null;
     }
 
-    private InstantType getIndexed(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private InstantType getIndexed(RCMRMT030101UKEhrComposition ehrComposition) {
         if (ehrComposition.hasAuthor() && ehrComposition.getAuthor().hasTime()
             && ehrComposition.getAuthor().getTime().hasValue()) {
             return DateFormatUtil.parseToInstantType(ehrComposition.getAuthor().getTime().getValue());
@@ -123,7 +126,8 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         return null;
     }
 
-    private CodeableConcept getType(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+    private CodeableConcept getType(RCMRMT030101UKNarrativeStatement narrativeStatement) {
+
         var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
         CodeableConcept codeableConcept = null;
         if (referenceToExternalDocument != null && referenceToExternalDocument.hasCode()) {
@@ -140,8 +144,9 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         return codeableConcept;
     }
 
-    private Optional<Reference> getAuthor(RCMRMT030101UK04NarrativeStatement narrativeStatement,
-        RCMRMT030101UK04EhrComposition ehrComposition) {
+    private Optional<Reference> getAuthor(RCMRMT030101UKNarrativeStatement narrativeStatement,
+                                          RCMRMT030101UKEhrComposition ehrComposition) {
+
         final Reference ref = getParticipantReference(narrativeStatement.getParticipant(), ehrComposition);
         if (ref != null) {
             return Optional.of(ref);
@@ -149,7 +154,8 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         return Optional.empty();
     }
 
-    private String buildDescription(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+    private String buildDescription(RCMRMT030101UKNarrativeStatement narrativeStatement) {
+
         if (narrativeStatement.hasText()) {
             return narrativeStatement.getText();
         }
@@ -162,13 +168,14 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         }
     }
 
-    private boolean isAbsentAttachment(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
+    private boolean isAbsentAttachment(RCMRMT030101UKNarrativeStatement narrativeStatement) {
+
         return narrativeStatement.getReference().get(0)
             .getReferredToExternalDocument().getText().getReference().getValue().contains(ABSENT_ATTACHMENT);
     }
 
-    private void setContentAttachments(DocumentReference documentReference,
-        RCMRMT030101UK04NarrativeStatement narrativeStatement, List<PatientAttachmentLog> patientAttachmentLogs) {
+    private void setContentAttachments(DocumentReference documentReference, RCMRMT030101UKNarrativeStatement narrativeStatement,
+                                       List<PatientAttachmentLog> patientAttachmentLogs) {
 
         var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
         var attachment = new Attachment();
@@ -236,7 +243,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
     }
 
     // stubbed method for abstract class
-    public List<DocumentReference> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient,
+    public List<DocumentReference> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient,
         List<Encounter> encounterList, String practiseCode) {
         return List.of();
     }

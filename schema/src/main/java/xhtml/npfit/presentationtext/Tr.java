@@ -83,7 +83,7 @@ public class Tr {
      */
     public List<Object> getThOrTd() {
         if (thOrTd == null) {
-            thOrTd = new ArrayList<Object>();
+            thOrTd = new ArrayList<>();
         }
         return this.thOrTd;
     }
