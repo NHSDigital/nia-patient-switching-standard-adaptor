@@ -1,11 +1,7 @@
 package uk.nhs.adaptors.pss.translator.storage;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
 
 public class LocalStorageService implements StorageService {
 
@@ -25,12 +21,10 @@ public class LocalStorageService implements StorageService {
     }
 
     public byte[] downloadFile(String filename) throws StorageException {
-        try {
-            InputStream inputStream = downloadFileToStream(filename);
-            return IOUtils.toByteArray(inputStream);
-        } catch (Exception e) {
-            throw new StorageException("Error occurred downloading from Local Storage", e);
+        if (!storage.containsKey(filename)) {
+            throw new StorageException(String.format("Attempting to download file \"%s\" but does not exist.", filename), null);
         }
+        return storage.get(filename);
     }
 
     public void deleteFile(String filename) {
@@ -43,14 +37,5 @@ public class LocalStorageService implements StorageService {
 
     public String getFileLocation(String filename) {
         return filename;
-    }
-
-    private InputStream downloadFileToStream(String filename) throws StorageException {
-        try {
-            byte[] objectBytes = storage.get(filename);
-            return new ByteArrayInputStream(objectBytes);
-        } catch (Exception exception) {
-            throw new StorageException("Error occurred downloading from Local Storage", exception);
-        }
     }
 }
