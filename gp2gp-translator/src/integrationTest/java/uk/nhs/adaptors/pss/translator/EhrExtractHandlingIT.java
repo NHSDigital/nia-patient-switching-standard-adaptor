@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator;
 
 import static org.assertj.core.api.Assertions.fail;
 import static org.awaitility.Awaitility.waitAtMost;
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
@@ -24,6 +25,8 @@ import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -32,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -43,6 +47,7 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
@@ -84,6 +89,9 @@ public class EhrExtractHandlingIT {
         "entry[504].resource.identifier[0].value"
     );
 
+    @MockBean
+    private IdGeneratorService idGeneratorService;
+
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
 
@@ -103,6 +111,19 @@ public class EhrExtractHandlingIT {
     private String patientNhsNumber;
     private String conversationId;
     static final int WAITING_TIME = 10;
+
+    @BeforeEach
+    public void setUpDeterministicRandomIds() {
+        when(idGeneratorService.generateUuid()).thenAnswer(
+                new Answer<String>() {
+                    private int invocationCount = 0;
+                    @Override
+                    public String answer(InvocationOnMock invocation) {
+                        return String.format("00000000-0000-0000-0000-%012d", invocationCount++);
+                    }
+                }
+        );
+    }
 
     @BeforeEach
     public void setUp() {

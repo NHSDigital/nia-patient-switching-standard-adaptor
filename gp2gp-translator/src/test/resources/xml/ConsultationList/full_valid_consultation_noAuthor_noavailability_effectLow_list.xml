@@ -11,7 +11,14 @@
                     <effectiveTime>
                         <low value="20100113152000"/>
                      </effectiveTime>
-                     <location typeCode="LOC">
+                    <availabilityTime nullFlavor="UNK"/>
+                    <author typeCode="AUT" contextControlCode="OP">
+                        <time nullFlavor="UNK"/>
+                        <agentRef classCode="AGNT">
+                            <id root="2E86E940-9011-11EC-B1E5-0800200C9A66" />
+                        </agentRef>
+                    </author>
+                    <location typeCode="LOC">
                         <locatedEntity classCode="LOCE">
                             <code code="394730007" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Healthcare related organisation" />
                             <locatedPlace classCode="PLC" determinerCode="INSTANCE">
