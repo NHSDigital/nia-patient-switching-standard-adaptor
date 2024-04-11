@@ -27,9 +27,6 @@ import lombok.Setter;
 public class MessagePersistDuration {
     @Id
     private int id;
-    private String messageType;
-    private Duration persistDuration;
-    private int callsSinceUpdate;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)

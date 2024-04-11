@@ -10,6 +10,7 @@ import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.nhs.adaptors.common.util.OidUtil;
 import uk.nhs.adaptors.connector.dao.SnomedCTDao;
 import uk.nhs.adaptors.connector.model.SnomedCTDescription;
 import uk.nhs.adaptors.pss.translator.util.CodeSystemsUtil;
@@ -218,9 +219,12 @@ public class CodeableConceptMapper {
 
     private void addNonSnomedCodeIfPresent(CodeableConcept codeableConcept, CD codedData, int index) {
         if (codedData.hasCodeSystem() && !SNOMED_SYSTEM_CODE.equals(codedData.getCodeSystem())) {
+            var system = CodeSystemsUtil.getFhirCodeSystem(codedData.getCodeSystem());
+            system = OidUtil.tryParseToUrn(system).orElse(system);
+
             var coding = new Coding()
                     .setCode(codedData.getCode())
-                    .setSystem(CodeSystemsUtil.getFhirCodeSystem(codedData.getCodeSystem()))
+                    .setSystem(system)
                     .setDisplay(codedData.getDisplayName());
 
             codeableConcept.getCoding().add(index, coding);

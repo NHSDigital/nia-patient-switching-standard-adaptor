@@ -132,7 +132,7 @@ public class RCCTMT120101UK01Agent {
      */
     public List<II> getId() {
         if (id == null) {
-            id = new ArrayList<II>();
+            id = new ArrayList<>();
         }
         return this.id;
     }
@@ -185,7 +185,7 @@ public class RCCTMT120101UK01Agent {
      */
     public List<AD> getAddr() {
         if (addr == null) {
-            addr = new ArrayList<AD>();
+            addr = new ArrayList<>();
         }
         return this.addr;
     }
@@ -214,7 +214,7 @@ public class RCCTMT120101UK01Agent {
      */
     public List<TEL> getTelecom() {
         if (telecom == null) {
-            telecom = new ArrayList<TEL>();
+            telecom = new ArrayList<>();
         }
         return this.telecom;
     }
@@ -511,7 +511,7 @@ public class RCCTMT120101UK01Agent {
      */
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -540,7 +540,7 @@ public class RCCTMT120101UK01Agent {
      */
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -569,7 +569,7 @@ public class RCCTMT120101UK01Agent {
      */
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -43,13 +45,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.AgentDirectory", propOrder = {
     "part"
 })
-public class RCMRMT030101UK04AgentDirectory {
+public class RCMRMT030101UK04AgentDirectory implements RCMRMT030101UKAgentDirectory {
 
-    protected List<RCMRMT030101UK04Part> part;
+    @XmlElement(type = RCMRMT030101UK04Part.class)
+    protected List<RCMRMT030101UKPart> part;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -85,9 +89,10 @@ public class RCMRMT030101UK04AgentDirectory {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Part> getPart() {
+    @Override
+    public List<RCMRMT030101UKPart> getPart() {
         if (part == null) {
-            part = new ArrayList<RCMRMT030101UK04Part>();
+            part = new ArrayList<>();
         }
         return this.part;
     }
@@ -100,6 +105,7 @@ public class RCMRMT030101UK04AgentDirectory {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "RoleHeir";
@@ -116,6 +122,7 @@ public class RCMRMT030101UK04AgentDirectory {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -142,9 +149,10 @@ public class RCMRMT030101UK04AgentDirectory {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -171,9 +179,10 @@ public class RCMRMT030101UK04AgentDirectory {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -200,9 +209,10 @@ public class RCMRMT030101UK04AgentDirectory {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -215,6 +225,7 @@ public class RCMRMT030101UK04AgentDirectory {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -227,6 +238,7 @@ public class RCMRMT030101UK04AgentDirectory {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

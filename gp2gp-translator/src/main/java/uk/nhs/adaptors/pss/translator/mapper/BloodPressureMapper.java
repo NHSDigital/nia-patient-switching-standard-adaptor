@@ -32,14 +32,15 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Component02;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -56,8 +57,8 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
 
     private CodeableConceptMapper codeableConceptMapper;
 
-    public List<Observation> mapResources(RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        String practiseCode) {
+    public List<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+                                          String practiseCode) {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllCompoundStatements(component)
                 .filter(Objects::nonNull)
@@ -68,8 +69,9 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
             .toList();
     }
 
-    private Observation mapObservation(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition ehrComposition,
-        RCMRMT030101UK04CompoundStatement compoundStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+    private Observation mapObservation(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition,
+                                       RCMRMT030101UKCompoundStatement compoundStatement, Patient patient, List<Encounter> encounters,
+                                       String practiseCode) {
         var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
         var id = compoundStatement.getId().get(0);
 
@@ -82,7 +84,6 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                 getComment(observationStatements, getNarrativeStatementsFromCompoundStatement(compoundStatement)))
             .setSubject(new Reference(patient))
             .setIssuedElement(getIssued(
-                ehrExtract,
                 ehrComposition))
             .addPerformer(getParticipantReference(
                 compoundStatement.getParticipant(),
@@ -109,10 +110,10 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         return null;
     }
 
-    private List<ObservationComponentComponent> getComponent(List<RCMRMT030101UK04ObservationStatement> observationStatements) {
+    private List<ObservationComponentComponent> getComponent(List<RCMRMT030101UKObservationStatement> observationStatements) {
         var components = new ArrayList<ObservationComponentComponent>();
 
-        for (RCMRMT030101UK04ObservationStatement observationStatement
+        for (RCMRMT030101UKObservationStatement observationStatement
             : observationStatements) {
             components.add(new ObservationComponentComponent()
                 .setCode(getCode(observationStatement.getCode()))
@@ -125,17 +126,17 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         return components;
     }
 
-    private String getComment(List<RCMRMT030101UK04ObservationStatement> observationStatements,
-        List<RCMRMT030101UK04NarrativeStatement> narrativeStatements) {
+    private String getComment(List<RCMRMT030101UKObservationStatement> observationStatements,
+        List<RCMRMT030101UKNarrativeStatement> narrativeStatements) {
         var stringBuilder = new StringBuilder();
 
-        for (RCMRMT030101UK04ObservationStatement observationStatement
+        for (RCMRMT030101UKObservationStatement observationStatement
             : observationStatements) {
             var bloodPressureText = observationStatement.getPertinentInformation().stream()
                 .filter(this::pertinentInformationHasText)
                 .map(RCMRMT030101UK04PertinentInformation02.class::cast)
                 .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
-                .map(RCMRMT030101UK04Annotation::getText)
+                .map(RCMRMT030101UKAnnotation::getText)
                 .map(text -> {
 
                     var code = extractSnomedCode(observationStatement.getCode());
@@ -159,7 +160,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
 
         if (!narrativeStatements.isEmpty()) {
             stringBuilder.append(BP_NOTE);
-            for (RCMRMT030101UK04NarrativeStatement narrativeStatement
+            for (RCMRMT030101UKNarrativeStatement narrativeStatement
                 : narrativeStatements) {
                 stringBuilder.append(narrativeStatement.getText()).append(StringUtils.SPACE);
             }
@@ -168,32 +169,33 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         return stringBuilder.toString().trim();
     }
 
-    private boolean pertinentInformationHasText(RCMRMT030101UK04PertinentInformation02 pertinentInformation) {
+    private boolean pertinentInformationHasText(RCMRMT030101UKPertinentInformation02 pertinentInformation) {
         return pertinentInformation != null && pertinentInformation.getPertinentAnnotation() != null
             && StringUtils.isNotEmpty(pertinentInformation.getPertinentAnnotation().getText());
     }
 
-    private List<RCMRMT030101UK04ObservationStatement> getObservationStatementsFromCompoundStatement(
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private List<RCMRMT030101UKObservationStatement> getObservationStatementsFromCompoundStatement(
+        RCMRMT030101UKCompoundStatement compoundStatement) {
+
         return compoundStatement.getComponent().stream()
-            .map(RCMRMT030101UK04Component02::getObservationStatement)
+            .map(RCMRMT030101UKComponent02::getObservationStatement)
             .filter(Objects::nonNull)
             .toList();
     }
 
-    private List<RCMRMT030101UK04NarrativeStatement> getNarrativeStatementsFromCompoundStatement(
-        RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private List<RCMRMT030101UKNarrativeStatement> getNarrativeStatementsFromCompoundStatement(
+        RCMRMT030101UKCompoundStatement compoundStatement) {
         return compoundStatement.getComponent().stream()
-            .map(RCMRMT030101UK04Component02::getNarrativeStatement)
+            .map(RCMRMT030101UKComponent02::getNarrativeStatement)
             .filter(Objects::nonNull)
             .toList();
     }
 
     private void addEffective(Observation observation, Object effective) {
-        if (effective instanceof DateTimeType) {
-            observation.setEffective((DateTimeType) effective);
-        } else if (effective instanceof Period) {
-            observation.setEffective((Period) effective);
+        if (effective instanceof DateTimeType dateTimeType) {
+            observation.setEffective(dateTimeType);
+        } else if (effective instanceof Period period) {
+            observation.setEffective(period);
         }
     }
 }

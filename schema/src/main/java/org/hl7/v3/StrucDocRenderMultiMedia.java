@@ -109,7 +109,7 @@ public class StrucDocRenderMultiMedia {
      */
     public List<Object> getReferencedObject() {
         if (referencedObject == null) {
-            referencedObject = new ArrayList<Object>();
+            referencedObject = new ArrayList<>();
         }
         return this.referencedObject;
     }
@@ -186,7 +186,7 @@ public class StrucDocRenderMultiMedia {
      */
     public List<String> getStyleCode() {
         if (styleCode == null) {
-            styleCode = new ArrayList<String>();
+            styleCode = new  ArrayList<>();
         }
         return this.styleCode;
     }

@@ -25,6 +25,7 @@ import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -131,7 +132,7 @@ public class EncounterMapperTest {
 
     @Test
     public void testEncountersWithMultipleCompoundStatements() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
@@ -153,7 +154,7 @@ public class EncounterMapperTest {
 
     @Test
     public void testMapValidEncounterWithSnomedCode() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
@@ -182,7 +183,7 @@ public class EncounterMapperTest {
         var codeableConcept = createCodeableConcept(null, "1.2.3.4.5", CODING_DISPLAY);
 
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
@@ -207,7 +208,7 @@ public class EncounterMapperTest {
 
     @Test
     public void testValidEncounterWithFullDataWithStructuredConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
@@ -245,12 +246,12 @@ public class EncounterMapperTest {
 
     @Test
     public void testValidEncounterWithLinkSetWithStructuredConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
-            .thenReturn(getList());
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
+                                                      .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                                                .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
-            .thenReturn(getList());
+                                                   .thenReturn(getList());
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -297,7 +298,7 @@ public class EncounterMapperTest {
 
     @Test
     public void testValidEncounterWithFlatConsultationWithLinkSet() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
@@ -330,7 +331,7 @@ public class EncounterMapperTest {
 
     @Test
     public void testValidEncounterWithFullDataWithFlatConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
@@ -360,7 +361,7 @@ public class EncounterMapperTest {
 
     @Test
     public void testValidEncounterWithNoOptionalDataWithFlatConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
@@ -389,7 +390,7 @@ public class EncounterMapperTest {
 
     @Test
     public void testEncounterWithMappedResourcesWithStructuredConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UK04CompoundStatement.class)))
             .thenReturn(getList());
@@ -429,7 +430,7 @@ public class EncounterMapperTest {
 
     @Test
     public void testEncounterWithMappedResourcesWithFlatConsultation() {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
@@ -462,7 +463,7 @@ public class EncounterMapperTest {
     @ParameterizedTest
     @MethodSource("encounterPeriodTestFiles")
     public void testEncounterPeriod(String inputXML, String startDate, String endDate) {
-        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UK04EhrExtract.class), any(Encounter.class)))
+        when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());

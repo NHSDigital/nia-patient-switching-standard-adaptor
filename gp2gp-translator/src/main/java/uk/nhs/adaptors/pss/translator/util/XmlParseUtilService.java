@@ -86,8 +86,8 @@ public class XmlParseUtilService {
     }
 
     public static String parseNhsNumber(RCMRIN030000UKMessage payload) {
-        if (payload instanceof RCMRIN030000UK06Message) {
-            return ((RCMRIN030000UK06Message) payload)
+        if (payload instanceof RCMRIN030000UK06Message rcmrin030000uk06message) {
+            return rcmrin030000uk06message
                 .getControlActEvent()
                 .getSubject()
                 .getEhrExtract()
@@ -197,8 +197,8 @@ public class XmlParseUtilService {
     }
 
     public static String parseFromAsid(RCMRIN030000UKMessage payload) {
-        if (payload instanceof RCMRIN030000UK06Message) {
-            return ((RCMRIN030000UK06Message) payload).getCommunicationFunctionRcv()
+        if (payload instanceof RCMRIN030000UK06Message rcmrin030000uk06message) {
+            return rcmrin030000uk06message.getCommunicationFunctionRcv()
                 .get(0)
                 .getDevice()
                 .getId()
@@ -224,8 +224,8 @@ public class XmlParseUtilService {
     }
 
     public static String parseToOdsCode(RCMRIN030000UKMessage payload) {
-        if (payload instanceof RCMRIN030000UK07Message) {
-            return ((RCMRIN030000UK07Message) payload).getControlActEvent()
+        if (payload instanceof RCMRIN030000UK07Message rcmrin030000uk07message) {
+            return rcmrin030000uk07message.getControlActEvent()
                 .getSubject()
                 .getEhrExtract()
                 .getAuthor()

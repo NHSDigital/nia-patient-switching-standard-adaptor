@@ -10,6 +10,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -17,11 +18,14 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKPlanStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -30,6 +34,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @ExtendWith(MockitoExtension.class)
 public class ProcedureRequestMapperTest {
@@ -42,8 +47,22 @@ public class ProcedureRequestMapperTest {
     private static final String CODING_CODE = "2534664018";
     private static final String CODING_SYSTEM = "http://snomed.info/sct";
     private static final String ENCOUNTER_ID = "62A39454-299F-432E-993E-5A6232B4E099";
+    private static final String STATUS_PENDING = "Status: Pending";
+    private static final String STATUS_CLINICIAN_CANCELLED = "Status: Cancelled by clinician";
+    private static final String STATUS_SUPERSEDED = "Status: Superseded";
+    private static final String STATUS_SEEN = "Status: Seen";
     private static final List<Encounter> ENCOUNTERS = getEncounterList();
     private static final Patient SUBJECT = createPatient();
+
+    private static Stream<Arguments> planStatementStatuses() {
+        return Stream.of(
+                Arguments.of("", ProcedureRequestStatus.UNKNOWN),
+                Arguments.of(STATUS_PENDING, ProcedureRequestStatus.ACTIVE),
+                Arguments.of(STATUS_CLINICIAN_CANCELLED, ProcedureRequestStatus.CANCELLED),
+                Arguments.of(STATUS_SUPERSEDED, ProcedureRequestStatus.CANCELLED),
+                Arguments.of(STATUS_SEEN, ProcedureRequestStatus.COMPLETED)
+        );
+    }
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -193,24 +212,100 @@ public class ProcedureRequestMapperTest {
         assertThat(procedureRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
-    private void assertFixedValues(RCMRMT030101UK04PlanStatement planStatement, ProcedureRequest procedureRequest) {
+    @ParameterizedTest
+    @MethodSource("planStatementStatuses")
+    public void When_PlanStatementTextStartsWithStatus_Expect_CorrectStatusIsMapped(
+            String statusIdentifier,
+            ProcedureRequestStatus expectedStatus) {
+        var inputXml = """
+                <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+                    <component typeCode="COMP">
+                        <ehrFolder classCode="FOLDER" moodCode="EVN">
+                            <component typeCode="COMP">
+                                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                    <id root="7DFFAEC4-7527-4D80-A2BD-81BDEBA04400" />
+                                    <component typeCode="COMP" >
+                                        <PlanStatement classCode="OBS" moodCode="INT">
+                                            <id root="6DFFAEC4-7527-4D80-A2BD-81BDEBA04400" />
+                                            <text>{statusIdentifier} this is some text after the status</text>
+                                            <code code="123456" codeSystem="1.2.3.4.5" displayName="12345"></code>
+                                            <statusCode code="COMPLETE" />
+                                        </PlanStatement>
+                                    </component>
+                                </ehrComposition>
+                            </component>
+                        </ehrFolder>
+                    </component>
+                </EhrExtract>
+                """.replace("{statusIdentifier}", statusIdentifier);
+
+        var ehrExtract = unmarshallCodeElementFromString(inputXml);
+        var planStatement = getPlanStatement(ehrExtract);
+
+        when(codeableConceptMapper.mapToCodeableConcept(any()))
+                .thenReturn(new CodeableConcept());
+
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
+                planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
+
+        assertThat(procedureRequest.getStatus()).isEqualTo(expectedStatus);
+    }
+
+    @Test
+    public void When_PlanStatementDoesNotContainText_Expect_StatusIsSetToUnknown() {
+        var inputXml = """
+                <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+                    <component typeCode="COMP">
+                        <ehrFolder classCode="FOLDER" moodCode="EVN">
+                            <component typeCode="COMP">
+                                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                    <id root="7DFFAEC4-7527-4D80-A2BD-81BDEBA04400" />
+                                    <component typeCode="COMP" >
+                                        <PlanStatement classCode="OBS" moodCode="INT">
+                                            <id root="6DFFAEC4-7527-4D80-A2BD-81BDEBA04400" />
+                                            <code code="123456" codeSystem="1.2.3.4.5" displayName="12345"></code>
+                                            <statusCode code="COMPLETE" />
+                                        </PlanStatement>
+                                    </component>
+                                </ehrComposition>
+                            </component>
+                        </ehrFolder>
+                    </component>
+                </EhrExtract>
+                """;
+
+        var ehrExtract = unmarshallCodeElementFromString(inputXml);
+        var planStatement = getPlanStatement(ehrExtract);
+
+        when(codeableConceptMapper.mapToCodeableConcept(any()))
+                .thenReturn(new CodeableConcept());
+
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
+                planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
+
+        assertThat(procedureRequest.getStatus()).isEqualTo(ProcedureRequestStatus.UNKNOWN);
+    }
+
+
+
+    private void assertFixedValues(RCMRMT030101UKPlanStatement planStatement, ProcedureRequest procedureRequest) {
         assertThat(procedureRequest.getId()).isEqualTo(planStatement.getId().getRoot());
         assertThat(procedureRequest.getIntent()).isEqualTo(ProcedureRequestIntent.PLAN);
-        assertThat(procedureRequest.getStatus()).isEqualTo(ProcedureRequestStatus.ACTIVE);
         assertThat(procedureRequest.getIdentifierFirstRep().getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
         assertThat(procedureRequest.getIdentifierFirstRep().getValue()).isEqualTo(planStatement.getId().getRoot());
         assertThat(procedureRequest.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertThat(procedureRequest.getSubject().getResource().getIdElement().getValue()).isEqualTo(SUBJECT.getId());
     }
 
-    private RCMRMT030101UK04PlanStatement getPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKPlanStatement getPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0)
             .getEhrFolder().getComponent().get(0)
             .getEhrComposition().getComponent().get(0)
             .getPlanStatement();
     }
 
-    private RCMRMT030101UK04EhrComposition getEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
+
         return ehrExtract.getComponent().get(0)
             .getEhrFolder().getComponent().get(0)
             .getEhrComposition();
@@ -224,5 +319,10 @@ public class ProcedureRequestMapperTest {
     @SneakyThrows
     private RCMRMT030101UK04EhrExtract unmarshallCodeElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UK04EhrExtract unmarshallCodeElementFromString(String inputXml) {
+        return unmarshallString(inputXml, RCMRMT030101UK04EhrExtract.class);
     }
 }

@@ -102,7 +102,7 @@ public class IVLPQ
      */
     public List<JAXBElement<?>> getRest() {
         if (rest == null) {
-            rest = new ArrayList<JAXBElement<?>>();
+            rest = new ArrayList<>();
         }
         return this.rest;
     }

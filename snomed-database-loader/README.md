@@ -1,7 +1,8 @@
 # SNOMED CT DATABASE
 
 PostgreSQL SQL Scripts to create and populate a PostgreSQL database with a SNOMED CT terminology release, along with
-creating a materialised view of known immunization codes.
+creating a materialised view of known immunization codes, and another containing the preferred terms for efficient 
+lookup.
 
 **NOTE:** This script is based on [IHTSDO/snomed-database-loader](https://github.com/IHTSDO/snomed-database-loader/tree/master/PostgreSQL).
 

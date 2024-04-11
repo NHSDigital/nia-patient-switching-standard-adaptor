@@ -118,7 +118,7 @@ public class StrucDocColgroup {
      */
     public List<StrucDocCol> getCol() {
         if (col == null) {
-            col = new ArrayList<StrucDocCol>();
+            col = new ArrayList<>();
         }
         return this.col;
     }
@@ -195,7 +195,7 @@ public class StrucDocColgroup {
      */
     public List<String> getStyleCode() {
         if (styleCode == null) {
-            styleCode = new ArrayList<String>();
+            styleCode = new  ArrayList<>();
         }
         return this.styleCode;
     }

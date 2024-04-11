@@ -10,10 +10,9 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.ListResource.ListMode;
 import org.hl7.fhir.dstu3.model.ListResource.ListStatus;
-import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -42,7 +41,7 @@ public class ConsultationListMapper {
     private final IdGeneratorService idGenerator;
     private final CodeableConceptMapper codeableConceptMapper;
 
-    public ListResource mapToConsultation(RCMRMT030101UK04EhrExtract ehrExtract, Encounter encounter) {
+    public ListResource mapToConsultation(RCMRMT030101UKEhrComposition comp, Encounter encounter) {
         ListResource consultation = new ListResource();
         consultation
             .setStatus(ListStatus.CURRENT)
@@ -50,7 +49,7 @@ public class ConsultationListMapper {
             .setTitle(getConsultationTitle(encounter.getType()))
             .setCode(CodeableConceptUtils.createCodeableConcept(CONSULTATION_CODE_CODE, LIST_CODE_SYSTEM, CONSULTATION_CODE_DISPLAY, null))
             .setSubject(encounter.getSubject())
-            .setDateElement(getConsultationDate(encounter.getPeriod(), ehrExtract))
+            .setDateElement(getConsultationDate(comp))
             .setOrderedBy(CodeableConceptUtils.createCodeableConcept(LIST_ORDERED_BY_CODE, LIST_ORDERED_BY_SYSTEM,
                 LIST_ORDERED_BY_DISPLAY, null))
             .setEncounter(new Reference(encounter))
@@ -73,19 +72,25 @@ public class ConsultationListMapper {
                 return codeableConcept.getCodingFirstRep().getDisplay();
             }
         }
-
         return null;
     }
 
-    private DateTimeType getConsultationDate(Period period, RCMRMT030101UK04EhrExtract ehrExtract) {
-        if (period != null && period.hasStart()) {
-            return period.getStartElement();
-        } else {
-            return DateFormatUtil.parseToDateTimeType(ehrExtract.getAvailabilityTime().getValue());
+    private DateTimeType getConsultationDate(RCMRMT030101UKEhrComposition comp) {
+        if (comp.hasAuthor() && comp.getAuthor().hasTime() && comp.getAuthor().getTime().getValue() != null) {
+            return DateFormatUtil.parseToDateTimeType(comp.getAuthor().getTime().getValue());
+        } else if (comp.hasAvailabilityTime() && comp.getAvailabilityTime().hasValue() && comp.getAvailabilityTime().getValue() != null) {
+            return DateFormatUtil.parseToDateTimeType(comp.getAvailabilityTime().getValue());
+        } else if (comp.getEffectiveTime().hasCenter() && comp.getEffectiveTime().getCenter().getValue() != null) {
+            return DateFormatUtil.parseToDateTimeType(comp.getEffectiveTime().getCenter().getValue());
+        } else if (comp.getEffectiveTime().hasHigh()) {
+            return DateFormatUtil.parseToDateTimeType(comp.getEffectiveTime().getHigh().getValue());
+        } else if (comp.getEffectiveTime().hasLow()) {
+            return DateFormatUtil.parseToDateTimeType(comp.getEffectiveTime().getLow().getValue());
         }
+        return null;
     }
 
-    public ListResource mapToTopic(ListResource consultation, RCMRMT030101UK04CompoundStatement compoundStatement) {
+    public ListResource mapToTopic(ListResource consultation, RCMRMT030101UKCompoundStatement compoundStatement) {
         ListResource topic = new ListResource();
 
         topic
@@ -104,11 +109,11 @@ public class ConsultationListMapper {
         return topic;
     }
 
-    private String getTopicId(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private String getTopicId(RCMRMT030101UKCompoundStatement compoundStatement) {
         return compoundStatement != null ? compoundStatement.getId().get(0).getRoot() : idGenerator.generateUuid();
     }
 
-    public ListResource mapToCategory(ListResource topic, RCMRMT030101UK04CompoundStatement compoundStatement) {
+    public ListResource mapToCategory(ListResource topic, RCMRMT030101UKCompoundStatement compoundStatement) {
         ListResource category = new ListResource();
 
         category
@@ -127,16 +132,14 @@ public class ConsultationListMapper {
         return category;
     }
 
-    private DateTimeType getDate(RCMRMT030101UK04CompoundStatement compoundStatement, ListResource parentList) {
+    private DateTimeType getDate(RCMRMT030101UKCompoundStatement compoundStatement, ListResource parentList) {
         if (compoundStatement != null && compoundStatement.getAvailabilityTime() != null
-            && compoundStatement.getAvailabilityTime().getValue() != null) {
+                && compoundStatement.getAvailabilityTime().getValue() != null) {
             return DateFormatUtil.parseToDateTimeType(compoundStatement.getAvailabilityTime().getValue());
         }
-
         return parentList.getDateElement();
     }
-
-    private String getTitle(RCMRMT030101UK04CompoundStatement compoundStatement) {
+    private String getTitle(RCMRMT030101UKCompoundStatement compoundStatement) {
         if (compoundStatement != null) {
             var codeableConcept = codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
             if (codeableConcept.hasText()) {
@@ -145,7 +148,6 @@ public class ConsultationListMapper {
                 return codeableConcept.getCodingFirstRep().getDisplay();
             }
         }
-
         return null;
     }
 }
