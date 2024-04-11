@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import org.hl7.v3.CD;
+import org.hl7.v3.CV;
 import org.hl7.v3.II;
 import org.hl7.v3.INT;
 import org.hl7.v3.RCMRMT030101UK04Annotation;
@@ -11,19 +12,34 @@ import org.hl7.v3.RCMRMT030101UK04ConditionNamed;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04EhrFolder;
+import org.hl7.v3.RCMRMT030101UK04Informant;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UK04Participant;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.RCMRMT030101UK04Reason;
+import org.hl7.v3.RCMRMT030101UK04Reference;
+import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
+import org.hl7.v3.RCMRMT030101UK04ReplacementOf;
+import org.hl7.v3.RCMRMT030101UK04SequelTo;
+import org.hl7.v3.RCMRMT030101UK04Specimen;
 import org.hl7.v3.RCMRMT030101UK04StatementRef;
+import org.hl7.v3.RCMRMT030101UK04Subject;
 import org.hl7.v3.RCMRMT030101UKComponent4;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,7 +50,7 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void ignoresLinksetsWithoutAConditionNamedElement() {
         var ehrExtract = createExtract(List.of(
-            generateLinksetComponent()
+                generateLinksetComponent()
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -45,9 +61,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void removesUnreferencedObservationFromEhrExtractWhenSharedDescription() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-2", "101", "This is an observation which ends with ellipses but there is more."),
-            createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses but there is more."),
+                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -59,10 +75,10 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void removesFirstObservationWhenThereAreMultipleWithMatchingDescriptions() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-2", "101", "This is an observation which ends with ellipses but there is more"),
-            createObservation("ID-3", "101", "This is an observation which ends with ellipses but there is MORE"),
-            createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses but there is more"),
+                createObservation("ID-3", "101", "This is an observation which ends with ellipses but there is MORE"),
+                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -74,12 +90,12 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void removesObservationInSecondEhrComposition() {
         var ehrExtract = createExtract(
-            List.of(),
-            List.of(
-                createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
-                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-                generateLinksetComponent("ID-1")
-            )
+                List.of(),
+                List.of(
+                        createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
+                        createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                        generateLinksetComponent("ID-1")
+                )
         );
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -90,12 +106,12 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void removesObservationInSecondEhrFolder() {
         var ehrExtract = createExtract(
-            createEhrFolder(List.of()),
-            createEhrFolder(List.of(
-                createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
-                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-                generateLinksetComponent("ID-1")
-            ))
+                createEhrFolder(List.of()),
+                createEhrFolder(List.of(
+                        createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
+                        createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                        generateLinksetComponent("ID-1")
+                ))
         );
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -106,9 +122,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void doesntMergeObservationsWhichAreNotReferencedByALinkset() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-            createObservation("ID-2", "101", "This is an observation which ends with ellipses..."),
-            createObservation("ID-1", "101", "This is an observation which ends with ellipses...")
+                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses..."),
+                createObservation("ID-1", "101", "This is an observation which ends with ellipses...")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -119,9 +135,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void doesntMergeObservationWhichIsntReferencedByDifferentLinkset() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-            createObservation("ID-2", "101", "This is an observation which ends with ellipses..."),
-            generateLinksetComponent("ID-3")
+                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses..."),
+                generateLinksetComponent("ID-3")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -132,9 +148,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void doesntMergeObservationWhereTheDescriptionDoesntSubStringOfAnother() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-            createObservation("ID-2", "101", "ThIS iS An oBSerVATion whIch EnDs wItH eLliPseS bUt there is more."),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                createObservation("ID-2", "101", "ThIS iS An oBSerVATion whIch EnDs wItH eLliPseS bUt there is more."),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -146,9 +162,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void doesntMergeObservationWhereTheCodesArentTheSame() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-            createObservation("ID-2", "102", "This is an observation which ends with ellipses but there is more."),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                createObservation("ID-2", "102", "This is an observation which ends with ellipses but there is more."),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -160,9 +176,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void mergesWhenTextIsPrefixedWithTextObservationWhereTheCodesArentTheSame() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", "101", "PREFIXED STUFF This is an observation which ends with ellipses..."),
-            createObservation("ID-2", "101", "This is an observation which ends with ellipses but there is more"),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-1", "101", "PREFIXED STUFF This is an observation which ends with ellipses..."),
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses but there is more"),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -173,9 +189,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void doesntMergeObservationWhereTheLinkedObservationSequenceNumberIsNot1() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", generateCodeableConcept("101"), "This is an observation which ends with ellipses...", 0),
-            createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-1", generateCodeableConcept("101"), "This is an observation which ends with ellipses...", 0),
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -186,9 +202,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void doesntMergeObservationWhereTheMatchingObservationSequenceNumberIsNot1() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-            createObservation("ID-2", generateCodeableConcept("101"), "This is an observation which ends with ellipses removed.", 0),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                createObservation("ID-2", generateCodeableConcept("101"), "This is an observation which ends with ellipses removed.", 0),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -199,9 +215,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void doesntMergeObservationWhereTheLinkedObservationHasMultiplePertinentInformation() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
-            createObservationWithMultiplePertinentInformation("ID-1", "101", "This is an observation which ends with ellipses..."),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
+                createObservationWithMultiplePertinentInformation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -225,9 +241,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void doesntMergeObservationWhereTheObservationDoesNotEndInEllipses() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", "101", "This is an observation doesnt end with ellipses:::"),
-            createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-1", "101", "This is an observation doesnt end with ellipses:::"),
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -238,9 +254,9 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void doesntMergeObservationWhereTheObservationIsLessThan47Chars() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", "101", "This text is too short..."),
-            createObservation("ID-2", "101", "This text is too short to be replaced."),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-1", "101", "This text is too short..."),
+                createObservation("ID-2", "101", "This text is too short to be replaced."),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
@@ -251,32 +267,49 @@ class DuplicateObservationStatementMapperTest {
     @Test
     public void replacesTextWithinTruncatedObservationWithFullObservation() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", "101", "FIRST PREFIX This is an observation which ends with ellipses..."),
-            createObservation("ID-2", "101", "SECOND PREFIX This is an observation which ends with ellipses removed."),
-            generateLinksetComponent("ID-1")
+                createObservation("ID-1", "101", "FIRST PREFIX This is an observation which ends with ellipses..."),
+                createObservation("ID-2", "101", "SECOND PREFIX This is an observation which ends with ellipses removed."),
+                generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstPertinentInformationText(firstEhrComposition(ehrExtract).get(0).getObservationStatement())).isEqualTo(
-            "FIRST PREFIX SECOND PREFIX This is an observation which ends with ellipses removed."
+                "FIRST PREFIX SECOND PREFIX This is an observation which ends with ellipses removed."
         );
     }
 
     @Test
     public void mergesMultipleTruncatedLinksets() {
         var ehrExtract = createExtract(List.of(
-            createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
-            createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-            generateLinksetComponent("ID-1"),
-            createObservation("ID-4", "102", "THIS IS AN OBSERVATION which ends with ellipses removed."),
-            createObservation("ID-3", "102", "THIS IS AN OBSERVATION which ends with ellipses..."),
-            generateLinksetComponent("ID-3")
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
+                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                generateLinksetComponent("ID-1"),
+                createObservation("ID-4", "102", "THIS IS AN OBSERVATION which ends with ellipses removed."),
+                createObservation("ID-3", "102", "THIS IS AN OBSERVATION which ends with ellipses..."),
+                generateLinksetComponent("ID-3")
         ));
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(4);
+    }
+
+    @ParameterizedTest
+    @MethodSource("generator")
+    public void doesntMergeObservationWhereTheLinkedObservationFieldIsPopulated(
+            Consumer<RCMRMT030101UK04ObservationStatement> observation) {
+
+        var ehrExtract = createExtract(List.of(
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses but there is more."),
+                createObservationWithFollowingFieldIsPopulated("ID-1", "101", "This is an observation which ends with ellipses...",
+                        1, observation),
+                generateLinksetComponent("ID-1")
+        ));
+
+        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
+
     }
 
     private static String firstPertinentInformationText(RCMRMT030101UKObservationStatement observationStatement) {
@@ -339,11 +372,25 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @NotNull
+    private static RCMRMT030101UK04Component4 createObservationWithFollowingFieldIsPopulated(
+            String id, String code, String pertinentAnnotation, int annotationSequenceNumber,
+            Consumer<RCMRMT030101UK04ObservationStatement> observationLambda) {
+        RCMRMT030101UK04Component4 rcmrmt030101UK04Component4 = new RCMRMT030101UK04Component4();
+        RCMRMT030101UK04ObservationStatement observationStatement = new RCMRMT030101UK04ObservationStatement();
+        observationStatement.setCode(generateCodeableConcept(code));
+        observationStatement.setId(generateId(id));
+        observationStatement.getPertinentInformation().add(getPertinentInformation(pertinentAnnotation, annotationSequenceNumber));
+        observationLambda.accept(observationStatement);
+        rcmrmt030101UK04Component4.setObservationStatement(observationStatement);
+        return rcmrmt030101UK04Component4;
+    }
+
+    @NotNull
     private static RCMRMT030101UK04Component4 createObservationWithMultiplePertinentInformation(
             String id, String code, String pertinentAnnotation) {
         var observation = createObservation(id, code, pertinentAnnotation);
         observation.getObservationStatement().getPertinentInformation().add(
-            getPertinentInformation(pertinentAnnotation, -1)
+                getPertinentInformation(pertinentAnnotation, -1)
         );
         return observation;
     }
@@ -386,7 +433,7 @@ class DuplicateObservationStatementMapperTest {
 
     private static RCMRMT030101UK04EhrExtract createExtract(RCMRMT030101UK04Component... folders) {
         RCMRMT030101UK04EhrExtract rcmrmt030101UK04EhrExtract = new RCMRMT030101UK04EhrExtract();
-        for (var folder: folders) {
+        for (var folder : folders) {
             rcmrmt030101UK04EhrExtract.getComponent().add(folder);
         }
         return rcmrmt030101UK04EhrExtract;
@@ -416,6 +463,47 @@ class DuplicateObservationStatementMapperTest {
         rcmrmt030101UK04EhrComposition.getComponent().addAll(components);
         rcmrmt030101UK04Component3.setEhrComposition(rcmrmt030101UK04EhrComposition);
         return rcmrmt030101UK04Component3;
+    }
+
+    // and then somewhere in this test class
+    private static Stream<Arguments> generator() {
+
+        return Stream.of(
+                Arguments.of(Named.of("Priority Code", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.setPriorityCode(new CV()))),
+                Arguments.of(Named.of("Uncertainity Code", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.setUncertaintyCode(new CV()))),
+                Arguments.of(Named.of("Value Code", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.setValue(new CV()))),
+                Arguments.of(Named.of("Interpretation Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.setValue(new CV()))),
+                Arguments.of(Named.of("Subject Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.setSubject(new RCMRMT030101UK04Subject()))),
+                Arguments.of(Named.of("Specimen Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getSpecimen()
+                                .add(new RCMRMT030101UK04Specimen()))),
+                Arguments.of(Named.of("Reference Range Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getReferenceRange()
+                                .add(new RCMRMT030101UK04ReferenceRange()))),
+                Arguments.of(Named.of("Informant Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getInformant()
+                                .add(new RCMRMT030101UK04Informant()))),
+                Arguments.of(Named.of("Participant Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getParticipant()
+                                .add(new RCMRMT030101UK04Participant()))),
+                Arguments.of(Named.of("ReplacementOf Value ", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getReplacementOf()
+                                .add(new RCMRMT030101UK04ReplacementOf()))),
+                Arguments.of(Named.of("Reason Value ", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getReason()
+                                .add(new RCMRMT030101UK04Reason()))),
+                Arguments.of(Named.of("Reference Value ", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getReference()
+                                .add(new RCMRMT030101UK04Reference()))),
+                Arguments.of(Named.of("SequelTo Value ", (Consumer<RCMRMT030101UK04ObservationStatement>)
+                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getSequelTo()
+                                .add(new RCMRMT030101UK04SequelTo())))
+        );
     }
 
 }

@@ -45,7 +45,20 @@ public class DuplicateObservationStatementMapper {
             .map(Optional::get)
             .filter(DuplicateObservationStatementMapper::hasSinglePertinentInformation)
             .filter(DuplicateObservationStatementMapper::isAnnotationTruncated)
-            .forEach(truncatedObservationStatement ->
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getPriorityCode() == null)
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getUncertaintyCode() == null)
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getValue() == null)
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getInterpretationCode() == null)
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getSubject() == null)
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getSpecimen() == null || obs.getSpecimen().isEmpty())
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getReferenceRange() == null || obs.getReferenceRange().isEmpty())
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getInformant() == null || obs.getInformant().isEmpty())
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getParticipant() == null || obs.getParticipant().isEmpty())
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getReplacementOf() == null || obs.getReplacementOf().isEmpty())
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getReason() == null || obs.getReason().isEmpty())
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getReference() == null || obs.getReference().isEmpty())
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getSequelTo() == null || obs.getSequelTo().isEmpty())
+                .forEach(truncatedObservationStatement ->
                 findAndMergeUntruncatedObservationStatementIntoTruncatedObservationStatement(
                     truncatedObservationStatement,
                     ehrComposition.getComponent()
