@@ -2,14 +2,12 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.ResourceUtils.getFile;
-
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.List;
-
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04Participant;
+import org.hl7.v3.RCMRMT030101UKParticipant;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;
@@ -22,7 +20,7 @@ public class ParticipantReferenceUtilTest {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrComposition.class);
     }
 
-    private List<RCMRMT030101UK04Participant> getParticipants(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private List<RCMRMT030101UKParticipant> getParticipants(RCMRMT030101UK04EhrComposition ehrComposition) {
         return ehrComposition.getComponent().get(0).getPlanStatement().getParticipant();
     }
 

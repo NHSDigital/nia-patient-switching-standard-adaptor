@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -51,6 +52,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RCMR_MT030101UK04.EhrEmpty", propOrder = {
     "id",
@@ -61,22 +63,36 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "reference",
     "sequelTo"
 })
-public class RCMRMT030101UK04EhrEmpty {
+public class RCMRMT030101UK04EhrEmpty implements RCMRMT030101UKEhrEmpty {
 
     @XmlElement(required = true)
     protected II id;
-    protected List<RCMRMT030101UK04Informant> informant;
-    @XmlElement(name = "Participant")
-    protected List<RCMRMT030101UK04Participant> participant;
-    protected List<RCMRMT030101UK04ReplacementOf> replacementOf;
-    protected List<RCMRMT030101UK04Reason> reason;
-    protected List<RCMRMT030101UK04Reference> reference;
-    protected List<RCMRMT030101UK04SequelTo> sequelTo;
+
+    @XmlElement(type = RCMRMT030101UK04Informant.class)
+    protected List<RCMRMT030101UKInformant> informant;
+
+    @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
+    protected List<RCMRMT030101UKParticipant> participant;
+
+    @XmlElement(type = RCMRMT030101UK04ReplacementOf.class)
+    protected List<RCMRMT030101UKReplacementOf> replacementOf;
+
+    @XmlElement(type = RCMRMT030101UK04Reason.class)
+    protected List<RCMRMT030101UKReason> reason;
+
+    @XmlElement(type = RCMRMT030101UK04Reference.class)
+    protected List<RCMRMT030101UKReference> reference;
+
+    @XmlElement(type = RCMRMT030101UK04SequelTo.class)
+    protected List<RCMRMT030101UKSequelTo> sequelTo;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
+
     @XmlAttribute(name = "moodCode", required = true)
     protected List<String> moodCode;
     @XmlAttribute(name = "typeID")
@@ -95,6 +111,7 @@ public class RCMRMT030101UK04EhrEmpty {
      *     {@link II }
      *     
      */
+    @Override
     public II getId() {
         return id;
     }
@@ -107,6 +124,7 @@ public class RCMRMT030101UK04EhrEmpty {
      *     {@link II }
      *     
      */
+    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -133,9 +151,10 @@ public class RCMRMT030101UK04EhrEmpty {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Informant> getInformant() {
+    @Override
+    public List<RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
-            informant = new ArrayList<RCMRMT030101UK04Informant>();
+            informant = new ArrayList<>();
         }
         return this.informant;
     }
@@ -162,9 +181,10 @@ public class RCMRMT030101UK04EhrEmpty {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Participant> getParticipant() {
+    @Override
+    public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
-            participant = new ArrayList<RCMRMT030101UK04Participant>();
+            participant = new ArrayList<>();
         }
         return this.participant;
     }
@@ -191,9 +211,10 @@ public class RCMRMT030101UK04EhrEmpty {
      * 
      * 
      */
-    public List<RCMRMT030101UK04ReplacementOf> getReplacementOf() {
+    @Override
+    public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
-            replacementOf = new ArrayList<RCMRMT030101UK04ReplacementOf>();
+            replacementOf = new ArrayList<>();
         }
         return this.replacementOf;
     }
@@ -220,9 +241,10 @@ public class RCMRMT030101UK04EhrEmpty {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Reason> getReason() {
+    @Override
+    public List<RCMRMT030101UKReason> getReason() {
         if (reason == null) {
-            reason = new ArrayList<RCMRMT030101UK04Reason>();
+            reason = new ArrayList<>();
         }
         return this.reason;
     }
@@ -249,9 +271,10 @@ public class RCMRMT030101UK04EhrEmpty {
      * 
      * 
      */
-    public List<RCMRMT030101UK04Reference> getReference() {
+    @Override
+    public List<RCMRMT030101UKReference> getReference() {
         if (reference == null) {
-            reference = new ArrayList<RCMRMT030101UK04Reference>();
+            reference = new ArrayList<>();
         }
         return this.reference;
     }
@@ -278,9 +301,10 @@ public class RCMRMT030101UK04EhrEmpty {
      * 
      * 
      */
-    public List<RCMRMT030101UK04SequelTo> getSequelTo() {
+    @Override
+    public List<RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
-            sequelTo = new ArrayList<RCMRMT030101UK04SequelTo>();
+            sequelTo = new ArrayList<>();
         }
         return this.sequelTo;
     }
@@ -293,6 +317,7 @@ public class RCMRMT030101UK04EhrEmpty {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Observation";
@@ -309,6 +334,7 @@ public class RCMRMT030101UK04EhrEmpty {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -335,9 +361,10 @@ public class RCMRMT030101UK04EhrEmpty {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -364,9 +391,10 @@ public class RCMRMT030101UK04EhrEmpty {
      * 
      * 
      */
+    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -393,9 +421,10 @@ public class RCMRMT030101UK04EhrEmpty {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -422,9 +451,10 @@ public class RCMRMT030101UK04EhrEmpty {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
@@ -437,6 +467,7 @@ public class RCMRMT030101UK04EhrEmpty {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -449,6 +480,7 @@ public class RCMRMT030101UK04EhrEmpty {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

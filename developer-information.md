@@ -87,19 +87,11 @@ Make a note of the most recent Release within GitHub, and identify what the next
 
 Create a new release within GitHub, specifying the tag as the version to use (e.g. 1.2.7), and the target being the commit you identified.
 Click on the "Generate release notes" button and this will list all the current changes from the recent commit.
+Click "Publish Release" which will trigger a GitHub Actions job called "Push Docker Image", which will build and
+push images to DockerHub.
 
-From the root of this repository, update the `/release-scripts/release.sh`, changing the `BUILD_TAG` value to match the release created above.
 Update the `CHANGELOG.md` file, moving the UNRELEASED entries into a line for the new release.
 Raise a PR for your changes.
-
-Once your changes have been merged, log into DockerHub using the credentials stored within our AWS accounts Secrets Manager, secret name `nhsdev-dockerhub-credentials` in London region.
-Go to AWS Management Console > Secrets Manager then find the option 'retrieve keys'.
-
-If you have not created a release before then you will first need to create a new docker builder instance using `docker buildx create --use`.
-
-Execute `./release.sh`.
-
-Log out of DockerHub.
 
 ## Rebuilding services
 To rebuild the GPC Api Facade run

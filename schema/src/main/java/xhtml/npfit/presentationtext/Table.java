@@ -164,7 +164,7 @@ public class Table {
      */
     public List<Tbody> getTbody() {
         if (tbody == null) {
-            tbody = new ArrayList<Tbody>();
+            tbody = new ArrayList<>();
         }
         return this.tbody;
     }
@@ -193,7 +193,7 @@ public class Table {
      */
     public List<Tr> getTr() {
         if (tr == null) {
-            tr = new ArrayList<Tr>();
+            tr = new ArrayList<>();
         }
         return this.tr;
     }

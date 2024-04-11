@@ -2,11 +2,13 @@ package uk.nhs.adaptors.pss.translator.model;
 
 import java.text.ParseException;
 
+import lombok.Builder;
 import lombok.Getter;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
 @Getter
+@Builder
 public class InlineAttachment {
     private final String originalFilename;
     private final String contentType;
@@ -16,21 +18,23 @@ public class InlineAttachment {
     private final String payload;
     private final Integer length;
 
-    public InlineAttachment(InboundMessage.Attachment attachment) throws ParseException {
+    public static InlineAttachment fromInboundMessageAttachment(InboundMessage.Attachment attachment) throws ParseException {
         if (attachment.getDescription() == null) {
             throw new ParseException("Unable to parse NULL description", 0);
         }
 
-        this.originalFilename = parseFilename(attachment.getDescription());
-        this.contentType = attachment.getContentType();
-        this.isCompressed = parseCompressed(attachment.getDescription());
-        this.isBase64 = Boolean.parseBoolean(attachment.getIsBase64());
-        this.description = attachment.getDescription();
-        this.payload = attachment.getPayload();
-        this.length = XmlParseUtilService.parseFileLength(attachment.getDescription());
+        return InlineAttachment.builder()
+                .originalFilename(parseFilename(attachment.getDescription()))
+                .contentType(attachment.getContentType())
+                .isCompressed(parseCompressed(attachment.getDescription()))
+                .isBase64(Boolean.parseBoolean(attachment.getIsBase64()))
+                .description(attachment.getDescription())
+                .payload(attachment.getPayload())
+                .length(XmlParseUtilService.parseFileLength(attachment.getDescription()))
+                .build();
     }
 
-    private String parseFilename(String description) throws ParseException {
+    private static String parseFilename(String description) throws ParseException {
         if (XmlParseUtilService.isDescriptionEmisStyle(description)) {
             return description;
         }
@@ -38,7 +42,7 @@ public class InlineAttachment {
         return XmlParseUtilService.parseFilename(description);
     }
 
-    private boolean parseCompressed(String description) throws ParseException {
+    private static boolean parseCompressed(String description) throws ParseException {
         if (XmlParseUtilService.isDescriptionEmisStyle(description)) {
             return false;
         }

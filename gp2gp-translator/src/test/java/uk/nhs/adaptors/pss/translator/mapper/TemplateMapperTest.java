@@ -94,7 +94,7 @@ public class TemplateMapperTest {
         var parentObservation = (Observation) mappedResources.get(0);
 
 //      assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
-        assertParentObservation(parentObservation, null, "20200101010101", "9007E1F0-9011-11EC-B1E5-0800200C9A66");
+        assertParentObservation(parentObservation, null, null, "9007E1F0-9011-11EC-B1E5-0800200C9A66");
 
         // The assertion below is poor as we manually select 1 item above / removed
 //      assertThat(questionnaireResponse.getItem().size()).isOne();
@@ -114,7 +114,7 @@ public class TemplateMapperTest {
         var parentObservation = (Observation) mappedResources.get(0);
 
         //assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
-        assertParentObservation(parentObservation, null, "20200101010101", "9007E1F0-9011-11EC-B1E5-0800200C9A66");
+        assertParentObservation(parentObservation, null, null, "9007E1F0-9011-11EC-B1E5-0800200C9A66");
 
         // verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromTemplate(any(), anyList());
     }
@@ -212,14 +212,19 @@ public class TemplateMapperTest {
         assertThat(parentObservation.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(parentObservation.getStatus()).isEqualTo(Observation.ObservationStatus.FINAL);
         assertThat(parentObservation.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_MOCK);
-        assertThat(parentObservation.getIssuedElement().asStringValue()).isEqualTo(
-            DateFormatUtil.parseToInstantType(issued).asStringValue());
         assertThat(parentObservation.getPerformerFirstRep().getReference()).contains(performer);
 
         if (encounter == null) {
             assertThat(parentObservation.getContext().getResource()).isNull();
         } else {
             assertThat(parentObservation.getContext().getResource().getIdElement().getValue()).isEqualTo(encounter);
+        }
+
+        if (issued == null) {
+            assertThat(parentObservation.getIssuedElement().asStringValue()).isNull();
+        } else {
+            assertThat(parentObservation.getIssuedElement().asStringValue()).isEqualTo(
+                    DateFormatUtil.parseToInstantType(issued).asStringValue());
         }
     }
 

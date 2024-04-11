@@ -169,7 +169,7 @@ public class UKCTMT120901UK01Part {
      */
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new  ArrayList<>();
         }
         return this.typeID;
     }
@@ -198,7 +198,7 @@ public class UKCTMT120901UK01Part {
      */
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new  ArrayList<>();
         }
         return this.realmCode;
     }

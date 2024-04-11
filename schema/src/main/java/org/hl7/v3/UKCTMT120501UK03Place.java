@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -46,20 +47,23 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  * 
  */
+@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UKCT_MT120501UK03.Place", propOrder = {
     "name",
     "telecom",
     "addr"
 })
-public class UKCTMT120501UK03Place {
+public class UKCTMT120501UK03Place implements UKCTMT120501UKPlace {
 
     protected PN name;
     protected TEL telecom;
     protected AD addr;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
+
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
     @XmlAttribute(name = "determinerCode")
@@ -80,6 +84,7 @@ public class UKCTMT120501UK03Place {
      *     {@link PN }
      *     
      */
+    @Override
     public PN getName() {
         return name;
     }
@@ -92,6 +97,7 @@ public class UKCTMT120501UK03Place {
      *     {@link PN }
      *     
      */
+    @Override
     public void setName(PN value) {
         this.name = value;
     }
@@ -104,6 +110,7 @@ public class UKCTMT120501UK03Place {
      *     {@link TEL }
      *     
      */
+    @Override
     public TEL getTelecom() {
         return telecom;
     }
@@ -116,6 +123,7 @@ public class UKCTMT120501UK03Place {
      *     {@link TEL }
      *     
      */
+    @Override
     public void setTelecom(TEL value) {
         this.telecom = value;
     }
@@ -128,6 +136,7 @@ public class UKCTMT120501UK03Place {
      *     {@link AD }
      *     
      */
+    @Override
     public AD getAddr() {
         return addr;
     }
@@ -140,6 +149,7 @@ public class UKCTMT120501UK03Place {
      *     {@link AD }
      *     
      */
+    @Override
     public void setAddr(AD value) {
         this.addr = value;
     }
@@ -152,6 +162,7 @@ public class UKCTMT120501UK03Place {
      *     {@link String }
      *     
      */
+    @Override
     public String getType() {
         if (type == null) {
             return "Place";
@@ -168,6 +179,7 @@ public class UKCTMT120501UK03Place {
      *     {@link String }
      *     
      */
+    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -194,9 +206,10 @@ public class UKCTMT120501UK03Place {
      * 
      * 
      */
+    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new  ArrayList<>();
         }
         return this.classCode;
     }
@@ -223,9 +236,10 @@ public class UKCTMT120501UK03Place {
      * 
      * 
      */
+    @Override
     public List<String> getDeterminerCode() {
         if (determinerCode == null) {
-            determinerCode = new ArrayList<String>();
+            determinerCode = new  ArrayList<>();
         }
         return this.determinerCode;
     }
@@ -252,9 +266,10 @@ public class UKCTMT120501UK03Place {
      * 
      * 
      */
+    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new  ArrayList<>();
         }
         return this.typeID;
     }
@@ -281,9 +296,10 @@ public class UKCTMT120501UK03Place {
      * 
      * 
      */
+    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new  ArrayList<>();
         }
         return this.realmCode;
     }
@@ -296,6 +312,7 @@ public class UKCTMT120501UK03Place {
      *     {@link String }
      *     
      */
+    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -308,6 +325,7 @@ public class UKCTMT120501UK03Place {
      *     {@link String }
      *     
      */
+    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

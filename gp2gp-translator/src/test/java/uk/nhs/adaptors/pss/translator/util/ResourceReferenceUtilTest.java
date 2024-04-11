@@ -15,6 +15,7 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrComposition;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -98,7 +99,7 @@ public class ResourceReferenceUtilTest {
 
     @Test
     public void testTemplateChildResourcesReferencedAsQuestionnaireAnswers() {
-        final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_template.xml");
+        final RCMRMT030101UKEhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_template.xml");
 
         List<Reference> references = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromTemplate(

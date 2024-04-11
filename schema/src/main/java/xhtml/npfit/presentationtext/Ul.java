@@ -77,7 +77,7 @@ public class Ul {
      */
     public List<Li> getLi() {
         if (li == null) {
-            li = new ArrayList<Li>();
+            li = new ArrayList<>();
         }
         return this.li;
     }

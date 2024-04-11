@@ -5,6 +5,68 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+* ** Breaking Change ** Identifier values and code systems where an OID is provided 
+(such as `2.16.840.1.113883.2.1.6.9`) will now be provided as a URN (i.e. `urn:oid:2.16.840.1.113883.2.1.6.9`),
+as per GP Connect specification.
+
+* ### Fixed
+* DiagnosticReport identifier values are now presented as a URN instead of just the system code
+  when a PMIP system code is provided
+
+## [1.4.7] - 2024-04-02
+
+### Changed
+* The source of date for List (Consultation) is now ehrComposition author time otherwise from 
+  the following fields in order of precedence:
+    - ehrComposition availibiltyTime
+    - ehrComposition effectiveTime - center
+    - EhrComposition effectiveTime - high
+    - EhrComposition effectiveTime - low
+
+## [1.4.6] - 2024-03-21
+
+* `Condition.onsetDateTime` is now set to NULL when low or center entries of effectiveTime are `nullFlavor="UNK"`.
+
+## [1.4.5] - 2024-03-01
+
+### Fixed
+* Removed the `EhrExtract / AvailabilityTime` field as a fallback value from:
+  - `Condition.assertedDate`
+  - `List.date`
+  - `DiagnosticReport.issued`
+  - `Observation.issuedDate`
+
+* Replaced the `EhrExtract / AvailabilityTime` field as a fallback value with `EhrComposition / author / time[@value]` for:
+  - `AllergyIntolerance.assertedDate`
+  - `MedicationRequest.authoredOn`
+
+## [1.4.4] - 2024-02-28
+
+### Fixed
+* Plan Statements (Recalls) were previously mapped with a fixed value of `active` for the Status field.
+  The adaptor will now interrogate the text field to see if a status has been provided, otherwise defaulting to `unknown`.
+
+## [1.4.3] - 2024-02-15
+
+### Added
+* Added Materialised View in the SnomedCT database to be used when querying for preferred terms.
+
+> [!NOTE]
+> **Upgrade information** This release includes an update to the SNOMED database
+> Users will need to perform an [update of their patient switching SNOMED database](OPERATING.md#updating-the-snomed-database).
+> This will need to be performed first, followed by deploying the updated version of the translator image.
+
+## [1.4.2] - 2024-01-31
+
+### Added
+* Added Episodicity information to `comment` property of Observations.
+
+### Fixed
+* Fixed malformed role coding defect introduced in version 1.4.1
+
+## [1.4.1] - 2024-01-17
+
 ### Added
 * Assigning a role to a practitioner who records vaccinations
 

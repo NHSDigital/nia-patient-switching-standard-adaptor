@@ -18,11 +18,10 @@ import org.hl7.v3.CV;
 import org.hl7.v3.IVLPQ;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.PQ;
-import org.hl7.v3.RCMRMT030101UK04Author;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04InterpretationRange;
-import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
+import org.hl7.v3.RCMRMT030101UKAuthor;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKInterpretationRange;
+import org.hl7.v3.RCMRMT030101UKReferenceRange;
 import org.hl7.v3.TS;
 
 import org.springframework.stereotype.Component;
@@ -42,8 +41,8 @@ public class ObservationUtil {
     public static Quantity getValueQuantity(Object value, CV uncertaintyCode) {
         if (isValidValueQuantity(value)) {
             Quantity valueQuantity;
-            if (value instanceof PQ) {
-                valueQuantity = QUANTITY_MAPPER.mapValueQuantity((PQ) value);
+            if (value instanceof PQ pqValue) {
+                valueQuantity = QUANTITY_MAPPER.mapValueQuantity(pqValue);
             } else {
                 valueQuantity = QUANTITY_MAPPER.mapValueQuantity((IVLPQ) value);
             }
@@ -80,11 +79,11 @@ public class ObservationUtil {
     }
 
     public static List<Observation.ObservationReferenceRangeComponent> getReferenceRange(
-        List<RCMRMT030101UK04ReferenceRange> referenceRangeList) {
+        List<RCMRMT030101UKReferenceRange> referenceRangeList) {
 
         var outputReferenceRanges = new ArrayList<Observation.ObservationReferenceRangeComponent>();
 
-        for (RCMRMT030101UK04ReferenceRange referenceRange : referenceRangeList) {
+        for (RCMRMT030101UKReferenceRange referenceRange : referenceRangeList) {
             var referenceRangeComponent = new Observation.ObservationReferenceRangeComponent();
             referenceRangeComponent.setText(referenceRange.getReferenceInterpretationRange().getText());
 
@@ -110,13 +109,10 @@ public class ObservationUtil {
         return outputReferenceRanges;
     }
 
-    public static InstantType getIssued(RCMRMT030101UK04EhrExtract ehrExtract, RCMRMT030101UK04EhrComposition matchingEhrComposition) {
+    public static InstantType getIssued(RCMRMT030101UKEhrComposition matchingEhrComposition) {
+
         if (authorHasValidTimeValue(matchingEhrComposition.getAuthor())) {
             return DateFormatUtil.parseToInstantType(matchingEhrComposition.getAuthor().getTime().getValue());
-        }
-
-        if (availabilityTimeHasValue(ehrExtract.getAvailabilityTime())) {
-            return DateFormatUtil.parseToInstantType(ehrExtract.getAvailabilityTime().getValue());
         }
 
         return null;
@@ -175,7 +171,7 @@ public class ObservationUtil {
         };
     }
 
-    private static boolean referenceInterpretationRangeHasValue(RCMRMT030101UK04InterpretationRange referenceInterpretationRange) {
+    private static boolean referenceInterpretationRangeHasValue(RCMRMT030101UKInterpretationRange referenceInterpretationRange) {
         return referenceInterpretationRange != null && referenceInterpretationRange.getValue() != null;
     }
 
@@ -197,7 +193,7 @@ public class ObservationUtil {
         }
     }
 
-    private static boolean authorHasValidTimeValue(RCMRMT030101UK04Author author) {
+    private static boolean authorHasValidTimeValue(RCMRMT030101UKAuthor author) {
         return author != null && author.getTime() != null
             && author.getTime().getValue() != null
             && author.getTime().getNullFlavor() == null;

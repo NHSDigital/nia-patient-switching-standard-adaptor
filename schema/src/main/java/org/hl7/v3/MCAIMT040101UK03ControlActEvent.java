@@ -125,7 +125,7 @@ public class MCAIMT040101UK03ControlActEvent {
      */
     public List<MCAIMT040101UK03Author2> getAuthor1() {
         if (author1 == null) {
-            author1 = new ArrayList<MCAIMT040101UK03Author2>();
+            author1 = new ArrayList<>();
         }
         return this.author1;
     }
@@ -154,7 +154,7 @@ public class MCAIMT040101UK03ControlActEvent {
      */
     public List<MCAIMT040101UK03Reason> getReason() {
         if (reason == null) {
-            reason = new ArrayList<MCAIMT040101UK03Reason>();
+            reason = new ArrayList<>();
         }
         return this.reason;
     }
@@ -235,7 +235,7 @@ public class MCAIMT040101UK03ControlActEvent {
      */
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<String>();
+            classCode = new ArrayList<>();
         }
         return this.classCode;
     }
@@ -264,7 +264,7 @@ public class MCAIMT040101UK03ControlActEvent {
      */
     public List<String> getMoodCode() {
         if (moodCode == null) {
-            moodCode = new ArrayList<String>();
+            moodCode = new ArrayList<>();
         }
         return this.moodCode;
     }
@@ -293,7 +293,7 @@ public class MCAIMT040101UK03ControlActEvent {
      */
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<String>();
+            typeID = new ArrayList<>();
         }
         return this.typeID;
     }
@@ -322,7 +322,7 @@ public class MCAIMT040101UK03ControlActEvent {
      */
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<String>();
+            realmCode = new ArrayList<>();
         }
         return this.realmCode;
     }
