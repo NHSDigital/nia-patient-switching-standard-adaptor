@@ -6,4 +6,4 @@ COPY --chown=gradle:gradle ./config /home/gradle/service/config
 COPY --chown=gradle:gradle ./db-connector /home/gradle/service/db-connector
 WORKDIR /home/gradle/service/db-connector
 
-ENTRYPOINT ["./gradlew", "update"]
+ENTRYPOINT ["gradle", "update"]
