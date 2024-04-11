@@ -19,15 +19,22 @@ communication with the incumbent system via MHS Adaptor and data cleanup.
 ```
 
 ### How to run integration tests:
-*Integration tests require running database and queue. Make sure GP2GP Translator application is off,
-because if it's not, it will steal the message from the MHS Queue before the application started by tests have a chance to grab it.*
+
+Integration tests require running database and queue.
+Make sure GP2GP Translator application is off, because if it's not, it will steal the message from the `inbound` queue
+before the application started by tests have a chance to grab it.
 
 Running tests form the terminal:
 ```shell script
 ./gradlew integrationTest
 ```
+
 You can also run tests from IntelliJ, just remember to set the database password
 inside the `gp2gp-translator/src/integrationTest/resources/application.yml` file (or set GP2GP_TRANSLATOR_USER_DB_PASSWORD variable).
+
+If your get lots of integration tests failures within the fixtures you can set the `BaseEhrHandler.OVERWRITE_EXPECTED_JSON`
+to `true` to regenerate them.
+Once regenerated, review the changes made using `git diff` or similar.
 
 ## Troubleshooting
 

@@ -42,7 +42,6 @@ import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableCon
 
 @Service
 public class AgentDirectoryMapper {
-
     private static final String PRACTITIONER_META_PROFILE = "Practitioner-1";
     private static final String ORG_META_PROFILE = "Organization-1";
     private static final String PRACTITIONER_ROLE_META_PROFILE = "PractitionerRole-1";
@@ -54,7 +53,6 @@ public class AgentDirectoryMapper {
     private static final String ORG_ROOT = "2.16.840.1.113883.2.1.4.3";
     private static final String UNKNOWN = "Unknown";
     private static final String GMP_NUMBER_SYSTEM_CODE = "https://fhir.hl7.org.uk/Id/gmp-number";
-
     public List<? extends DomainResource> mapAgentDirectory(RCMRMT030101UKAgentDirectory agentDirectory) {
         var partList = agentDirectory.getPart();
         if (!CollectionUtils.isEmpty(partList)) {
