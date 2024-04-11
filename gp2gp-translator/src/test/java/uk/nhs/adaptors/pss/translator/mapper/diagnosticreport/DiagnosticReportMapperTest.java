@@ -74,10 +74,6 @@ public class DiagnosticReportMapperTest {
                     </component>
                 </EhrExtract>
                 """;
-
-//    @Mock
-//    private CodeableConceptMapper codeableConceptMapper;
-
     @Mock
     private IdGeneratorService idGeneratorService;
 
@@ -509,7 +505,8 @@ TEST COMMENT
                 () -> assertThat(observationComments.get(1).getIdentifierFirstRep().getValue())
                         .isEqualTo(NEW_OBSERVATION_ID),
                 () -> assertThat(observationComments.get(1).getEffectiveDateTimeType().getValueAsString())
-                        .isEqualTo("2024-01-01")
+                        .isEqualTo("2024-01-01"),
+                () -> assertThat(observationComments.get(1).getComment()).isNull()
         );
     }
 
