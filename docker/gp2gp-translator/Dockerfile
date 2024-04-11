@@ -7,7 +7,7 @@ COPY --chown=gradle:gradle ./schema /home/gradle/service/schema
 COPY --chown=gradle:gradle ./config /home/gradle/service/config
 
 WORKDIR /home/gradle/service/gp2gp-translator
-RUN ./gradlew --build-cache bootJar
+RUN gradle --build-cache bootJar
 
 FROM eclipse-temurin:17-jre-jammy
 

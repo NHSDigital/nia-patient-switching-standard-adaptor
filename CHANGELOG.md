@@ -3,21 +3,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
-
 ## [Unreleased]
 
-### Removed
-* The `EhrExtract / AvailabilityTime` field as a fallback value from:
-  - 'ConsultationListMapper.mapToConsultation'
+### Fixed
+* ** Breaking Change ** Identifier values and code systems where an OID is provided 
+(such as `2.16.840.1.113883.2.1.6.9`) will now be provided as a URN (i.e. `urn:oid:2.16.840.1.113883.2.1.6.9`),
+as per GP Connect specification.
 
-### Added  
-* The primary source of date/time
-  - 'ConsultationListMapper.getConsultationDate'
-    - ehrComposition author time
-    - or else ehrComposition availibiltyTime
-    - or else ehrComposition effectiveTime - center
-    - or else EhrComposition effectiveTime - high
-    - or else EhrComposition effectiveTime - low
+* ### Fixed
+* DiagnosticReport identifier values are now presented as a URN instead of just the system code
+  when a PMIP system code is provided
+
+## [1.4.7] - 2024-04-02
+
+### Changed
+* The source of date for List (Consultation) is now ehrComposition author time otherwise from 
+  the following fields in order of precedence:
+    - ehrComposition availibiltyTime
+    - ehrComposition effectiveTime - center
+    - EhrComposition effectiveTime - high
+    - EhrComposition effectiveTime - low
 
 ## [1.4.6] - 2024-03-21
 

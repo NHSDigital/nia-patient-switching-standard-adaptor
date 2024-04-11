@@ -114,6 +114,30 @@ public class DiagnosticReportMapperTest {
     }
 
     @Test
+    public void When_DiagnosticReportContainsIdExtensionWithPMIPOid_Expect_MappedExtensionsShouldContainPMIPOidAsUrn() {
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
+                """
+                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                    <id root="DIAGNOSTIC_REPORT_ID"/>
+                    <id extension="TEST_PMIP_EXTENSION_VALUE" root="2.16.840.1.113883.2.1.4.5.5" />
+                    <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                    <availabilityTime value="20100225154100"/>
+                </CompoundStatement>
+                """);
+        var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+
+        var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
+        var actualPMIPExtension = diagnosticReports.get(0).getIdentifier().get(1);
+
+        assertAll(
+                () -> assertThat(actualPMIPExtension.getSystem())
+                        .isEqualTo("urn:oid:2.16.840.1.113883.2.1.4.5.5"),
+                () -> assertThat(actualPMIPExtension.getValue())
+                        .isEqualTo("TEST_PMIP_EXTENSION_VALUE")
+        );
+    }
+
+    @Test
     public void When_DiagnosticReportWithSpecimenIsMapped_Expect_DiagnosticReportContainsMappedSpecimen() {
         var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
                 """
