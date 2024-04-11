@@ -98,8 +98,8 @@ Responds with one of:
                         "display": "GP2GP - Patient is not registered at the practice"
                      },
                      {
-                       "system": "2.16.840.1.113883.2.1.3.2.4.17.101"
-                       "code": "06"
+                       "system": "urn:oid:2.16.840.1.113883.2.1.3.2.4.17.101",
+                       "code": "06",
                        "display": "Patient not at surgery"
                      }
                   ]

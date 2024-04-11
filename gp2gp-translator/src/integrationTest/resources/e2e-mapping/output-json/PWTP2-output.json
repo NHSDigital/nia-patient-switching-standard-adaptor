@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "89facfc1-19a3-4061-8cde-8e07bc25b17d",
+  "id": "00000000-0000-0000-0000-000000000000",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,7 +8,7 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "61b3f949-ba8b-478b-802d-d42a49653ffc",
+      "id": "00000000-0000-0000-0000-000000000010",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -96,7 +96,7 @@
         "text": "Residential home visit note"
       } ],
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "participant": [ {
         "type": [ {
@@ -126,7 +126,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/1AEFDC2C-1AB7-4516-8D0A-FC66BEE44460"
+          "reference": "Location/00000000-0000-0000-0000-000000000001"
         }
       } ]
     }
@@ -158,7 +158,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "participant": [ {
         "type": [ {
@@ -188,7 +188,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/99807F31-38FB-469B-B8DA-20F34D293D02"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -220,7 +220,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "participant": [ {
         "type": [ {
@@ -250,7 +250,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/99807F31-38FB-469B-B8DA-20F34D293D02"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -282,7 +282,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "participant": [ {
         "type": [ {
@@ -312,7 +312,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/99807F31-38FB-469B-B8DA-20F34D293D02"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -344,7 +344,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "participant": [ {
         "type": [ {
@@ -374,7 +374,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/99807F31-38FB-469B-B8DA-20F34D293D02"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -406,7 +406,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "participant": [ {
         "type": [ {
@@ -436,7 +436,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/99807F31-38FB-469B-B8DA-20F34D293D02"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -468,7 +468,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "participant": [ {
         "type": [ {
@@ -498,7 +498,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/99807F31-38FB-469B-B8DA-20F34D293D02"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -530,7 +530,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "participant": [ {
         "type": [ {
@@ -560,7 +560,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/99807F31-38FB-469B-B8DA-20F34D293D02"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -592,7 +592,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "participant": [ {
         "type": [ {
@@ -622,7 +622,7 @@
       },
       "location": [ {
         "location": {
-          "reference": "Location/99807F31-38FB-469B-B8DA-20F34D293D02"
+          "reference": "Location/00000000-0000-0000-0000-000000000002"
         }
       } ]
     }
@@ -644,12 +644,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
       },
-      "date": "2009-11-02",
+      "date": "2010-01-13T15:13:32+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -681,12 +681,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
       },
-      "date": "2010-01-13T11:44:00+00:00",
+      "date": "2010-01-13T11:37:33+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -718,12 +718,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
       },
-      "date": "2010-01-13T11:48:00+00:00",
+      "date": "2010-01-13T11:42:01+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -755,12 +755,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
       },
-      "date": "2010-01-13T15:20:00+00:00",
+      "date": "2010-01-13T15:29:50+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -792,12 +792,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
       },
-      "date": "2010-01-23T13:48:00+00:00",
+      "date": "2010-01-23T14:03:54+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -829,12 +829,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
       },
-      "date": "2010-06-09",
+      "date": "2010-06-09T16:51:21+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -866,12 +866,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
       },
-      "date": "2010-06-10T07:22:00+00:00",
+      "date": "2010-06-10T07:19:25+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -903,12 +903,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
       },
-      "date": "2010-07-14T16:55:00+00:00",
+      "date": "2010-07-14T15:28:13+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -940,12 +940,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/DBF5776F-8A86-477C-AB98-57182A9B40FD"
       },
-      "date": "2010-07-14T17:07:00+00:00",
+      "date": "2010-07-14T15:32:32+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -986,7 +986,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -1031,7 +1031,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -1076,7 +1076,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -1125,7 +1125,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
@@ -1171,7 +1171,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -1216,7 +1216,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
@@ -1253,7 +1253,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
@@ -1290,7 +1290,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -1327,7 +1327,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/DBF5776F-8A86-477C-AB98-57182A9B40FD"
@@ -1364,7 +1364,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -1401,7 +1401,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -1458,7 +1458,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -1495,7 +1495,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -1532,7 +1532,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -1569,7 +1569,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -1606,7 +1606,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -1659,7 +1659,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -1700,7 +1700,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -1737,7 +1737,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -1774,7 +1774,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
@@ -1811,7 +1811,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -1848,7 +1848,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -1897,7 +1897,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -1938,7 +1938,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
@@ -1975,7 +1975,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
@@ -2012,7 +2012,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -2057,7 +2057,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "encounter": {
         "reference": "Encounter/DBF5776F-8A86-477C-AB98-57182A9B40FD"
@@ -2079,13 +2079,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "1AEFDC2C-1AB7-4516-8D0A-FC66BEE44460",
+      "id": "00000000-0000-0000-0000-000000000001",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "1AEFDC2C-1AB7-4516-8D0A-FC66BEE44460"
+        "value": "00000000-0000-0000-0000-000000000001"
       } ],
       "status": "active",
       "name": "Branch Surgery Rhing"
@@ -2093,13 +2093,13 @@
   }, {
     "resource": {
       "resourceType": "Location",
-      "id": "99807F31-38FB-469B-B8DA-20F34D293D02",
+      "id": "00000000-0000-0000-0000-000000000002",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1" ]
       },
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
-        "value": "99807F31-38FB-469B-B8DA-20F34D293D02"
+        "value": "00000000-0000-0000-0000-000000000002"
       } ],
       "status": "active",
       "name": "EMIS LV Test Practice 1"
@@ -2140,7 +2140,7 @@
         "text": "Medication review"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -2189,7 +2189,7 @@
         "text": "Asthma"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -2205,13 +2205,13 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "2906a6cf-5350-49cb-9dff-24c96d600ab0",
+      "id": "00000000-0000-0000-0000-000000000012",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "MATA1723",
           "display": "Marvelon tablets (Merck Sharp & Dohme Ltd)"
         }, {
@@ -2255,10 +2255,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/2906a6cf-5350-49cb-9dff-24c96d600ab0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000012"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -2311,14 +2311,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/2906a6cf-5350-49cb-9dff-24c96d600ab0"
+        "reference": "Medication/00000000-0000-0000-0000-000000000012"
       },
       "effectivePeriod": {
         "start": "2010-01-13"
       },
       "dateAsserted": "2010-01-13T11:37:31+00:00",
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2328,13 +2328,13 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "c8025d0e-f843-49c8-bf5f-587e5a7c99e2",
+      "id": "00000000-0000-0000-0000-000000000013",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "MIIN26764EMIS",
           "display": "Mirena 20micrograms/24hours intrauterine device (Bayer Plc)"
         }, {
@@ -2369,10 +2369,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/c8025d0e-f843-49c8-bf5f-587e5a7c99e2"
+        "reference": "Medication/00000000-0000-0000-0000-000000000013"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -2425,7 +2425,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/c8025d0e-f843-49c8-bf5f-587e5a7c99e2"
+        "reference": "Medication/00000000-0000-0000-0000-000000000013"
       },
       "effectivePeriod": {
         "start": "2010-01-13",
@@ -2433,7 +2433,7 @@
       },
       "dateAsserted": "2010-01-13T11:37:31+00:00",
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2443,13 +2443,13 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "887ad3e3-b950-4c16-bde5-77ddec09da1a",
+      "id": "00000000-0000-0000-0000-000000000014",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "GYGE29052NEMIS",
           "display": "Gygel 2% contraceptive jelly (Marlborough Pharmaceuticals Ltd)"
         }, {
@@ -2493,10 +2493,10 @@
       "status": "active",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -2549,14 +2549,14 @@
       } ],
       "status": "active",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "effectivePeriod": {
         "start": "2010-01-13"
       },
       "dateAsserted": "2010-01-13T11:37:31+00:00",
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2566,13 +2566,13 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "9a34c54b-9d81-4976-8534-634ad349e35f",
+      "id": "00000000-0000-0000-0000-000000000015",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "FLIN3846NEMIS",
           "display": "Flexi-T 300 intrauterine contraceptive device (IPC Pharma Ltd)"
         }, {
@@ -2607,10 +2607,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/9a34c54b-9d81-4976-8534-634ad349e35f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000015"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -2663,7 +2663,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/9a34c54b-9d81-4976-8534-634ad349e35f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000015"
       },
       "effectivePeriod": {
         "start": "2010-01-13",
@@ -2671,7 +2671,7 @@
       },
       "dateAsserted": "2010-01-13T11:37:31+00:00",
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2681,13 +2681,13 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "64a1d93a-95bb-493b-b79b-ad55bccf8203",
+      "id": "00000000-0000-0000-0000-000000000016",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "ETTA18971NEMIS",
           "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
         }, {
@@ -2722,10 +2722,10 @@
       "status": "completed",
       "intent": "plan",
       "medicationReference": {
-        "reference": "Medication/64a1d93a-95bb-493b-b79b-ad55bccf8203"
+        "reference": "Medication/00000000-0000-0000-0000-000000000016"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -2778,7 +2778,7 @@
       } ],
       "status": "completed",
       "medicationReference": {
-        "reference": "Medication/64a1d93a-95bb-493b-b79b-ad55bccf8203"
+        "reference": "Medication/00000000-0000-0000-0000-000000000016"
       },
       "effectivePeriod": {
         "start": "2010-01-13",
@@ -2786,7 +2786,7 @@
       },
       "dateAsserted": "2010-01-13T11:37:31+00:00",
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "taken": "unk",
       "dosage": [ {
@@ -2820,10 +2820,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -2874,10 +2874,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -2904,13 +2904,13 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "df8c3a26-474a-45e6-b1a7-4cee66ff56ff",
+      "id": "00000000-0000-0000-0000-000000000017",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "MATA1723",
           "display": "Marvelon tablets (Merck Sharp & Dohme Ltd)"
         }, {
@@ -2948,10 +2948,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3002,10 +3002,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3056,10 +3056,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3110,10 +3110,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3164,10 +3164,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3218,10 +3218,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3272,10 +3272,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3326,10 +3326,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3380,10 +3380,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3434,10 +3434,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3488,10 +3488,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3542,10 +3542,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3596,10 +3596,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3650,10 +3650,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3704,10 +3704,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3758,10 +3758,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3812,10 +3812,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3866,10 +3866,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3920,10 +3920,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -3974,10 +3974,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4028,10 +4028,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4082,10 +4082,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4136,10 +4136,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4190,10 +4190,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4244,10 +4244,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4298,10 +4298,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4352,10 +4352,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4406,10 +4406,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4460,10 +4460,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4514,10 +4514,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4568,10 +4568,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4622,10 +4622,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4676,10 +4676,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4730,10 +4730,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4784,10 +4784,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4838,10 +4838,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4892,10 +4892,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -4946,10 +4946,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5000,10 +5000,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5054,10 +5054,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5108,10 +5108,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5162,10 +5162,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5216,10 +5216,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5270,10 +5270,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5324,10 +5324,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5378,10 +5378,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5432,10 +5432,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5486,10 +5486,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5540,10 +5540,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5594,10 +5594,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5648,10 +5648,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5702,10 +5702,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5756,10 +5756,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5810,10 +5810,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5864,10 +5864,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5918,10 +5918,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -5972,10 +5972,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6026,10 +6026,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/df8c3a26-474a-45e6-b1a7-4cee66ff56ff"
+        "reference": "Medication/00000000-0000-0000-0000-000000000017"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6080,10 +6080,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/c8025d0e-f843-49c8-bf5f-587e5a7c99e2"
+        "reference": "Medication/00000000-0000-0000-0000-000000000013"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6134,10 +6134,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/9a34c54b-9d81-4976-8534-634ad349e35f"
+        "reference": "Medication/00000000-0000-0000-0000-000000000015"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6164,13 +6164,13 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "07faf7c0-0a00-42d4-95b1-dc8480bd18dd",
+      "id": "00000000-0000-0000-0000-000000000018",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "ETTA18971NEMIS",
           "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
         }, {
@@ -6208,10 +6208,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/07faf7c0-0a00-42d4-95b1-dc8480bd18dd"
+        "reference": "Medication/00000000-0000-0000-0000-000000000018"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6262,10 +6262,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6316,10 +6316,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6370,10 +6370,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6424,10 +6424,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6478,10 +6478,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6532,10 +6532,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/887ad3e3-b950-4c16-bde5-77ddec09da1a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000014"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-01-13",
       "requester": {
@@ -6586,10 +6586,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/c8025d0e-f843-49c8-bf5f-587e5a7c99e2"
+        "reference": "Medication/00000000-0000-0000-0000-000000000013"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "authoredOn": "2010-02-26",
       "requester": {
@@ -6648,7 +6648,7 @@
         "text": "Heart attack"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6695,7 +6695,7 @@
         "text": "Systolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6751,7 +6751,7 @@
         "text": "Diastolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6807,7 +6807,7 @@
         "text": "O/E - weight"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6858,7 +6858,7 @@
         "text": "O/E - height"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6909,7 +6909,7 @@
         "text": "Body mass index"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -6961,7 +6961,7 @@
         "text": "FH: Cardiovascular disease"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -7008,7 +7008,7 @@
         "text": "Medication review with patient"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -7051,7 +7051,7 @@
         "text": "Peak exp. flow rate: PEFR/PFR"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7102,7 +7102,7 @@
         "text": "Best ever peak flow rate"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7150,7 +7150,7 @@
         "text": "Predicted peak flow"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7201,7 +7201,7 @@
         "text": "Peak flow meter at home"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7247,7 +7247,7 @@
         "text": "Inhaler technique - good"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7293,7 +7293,7 @@
         "text": "Asthma never disturbs sleep"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7339,7 +7339,7 @@
         "text": "Asthma sometimes restricts exercise"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -7385,7 +7385,7 @@
         "text": "Endometriosis of uterus"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7432,7 +7432,7 @@
         "text": "Abdominal pain"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7478,7 +7478,7 @@
         "text": "Irregular menstrual cycle"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7525,7 +7525,7 @@
         "text": "H/O: menstrual disorder"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7571,7 +7571,7 @@
         "text": "FH: Menstrual disorder"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7618,7 +7618,7 @@
         "text": "FH: Menstrual disorder"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -7665,7 +7665,7 @@
         "text": "Systolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -7721,7 +7721,7 @@
         "text": "Diastolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -7774,7 +7774,7 @@
         "text": "Anxiety states"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/DBF5776F-8A86-477C-AB98-57182A9B40FD"
@@ -7821,7 +7821,7 @@
         "text": "Etcher/engraver"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "1988-01-01",
       "issued": "2010-01-13T15:41:41.000+00:00",
@@ -7865,7 +7865,7 @@
         "text": "Allergic rhinitis due to pollens"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-01-13",
       "issued": "2010-01-13T11:41:11.000+00:00",
@@ -7909,7 +7909,7 @@
         "text": "Happy puppet syndrome"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-01-13",
       "issued": "2010-01-13T14:57:25.000+00:00",
@@ -7953,7 +7953,7 @@
         "text": "Heart attack"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-01-13",
       "issued": "2010-01-13T14:57:39.000+00:00",
@@ -7997,7 +7997,7 @@
         "text": "Consent given for upload to local shared electronic record"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-06-09T15:08:00+00:00",
       "issued": "2010-06-09T15:04:09.000+00:00",
@@ -8040,7 +8040,7 @@
         "text": "Systolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:27:49.000+00:00",
@@ -8093,7 +8093,7 @@
         "text": "Diastolic blood pressure"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:27:49.000+00:00",
@@ -8146,7 +8146,7 @@
         "text": "Tired all the time"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:31:24.000+00:00",
@@ -8190,7 +8190,7 @@
         "text": "Monkeypox"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:32:51.000+00:00",
@@ -8250,7 +8250,7 @@
         "text": "Heart attack"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -8315,7 +8315,7 @@
         "text": "Endometriosis of uterus"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -8380,7 +8380,7 @@
         "text": "Allergic rhinitis due to pollens"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T11:41:11+00:00",
@@ -8458,7 +8458,7 @@
         "text": "H/O: aspirin allergy"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T11:41:26+00:00",
@@ -8532,7 +8532,7 @@
         "text": "Peanut allergy"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-01-13",
       "abatementDateTime": "2010-03-23",
@@ -8597,7 +8597,7 @@
         "text": "H/O: warfarin allergy"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T14:57:10+00:00",
@@ -8661,7 +8661,7 @@
         "text": "Happy puppet syndrome"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T14:57:25+00:00",
@@ -8725,7 +8725,7 @@
         "text": "Heart attack"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13T14:57:39+00:00",
@@ -8789,7 +8789,7 @@
         "text": "Monkeypox"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-07-14",
       "assertedDate": "2010-07-14T15:32:51+00:00",
@@ -8837,7 +8837,7 @@
         "text": "O/E - blood pressure reading"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -8894,7 +8894,7 @@
         "text": "O/E - blood pressure reading"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -8951,7 +8951,7 @@
         "text": "O/E - blood pressure reading"
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:27:49.000+00:00",
@@ -9004,7 +9004,7 @@
         "text": "Peanut allergy"
       },
       "patient": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13",
@@ -9055,7 +9055,7 @@
         "text": "H/O: aspirin allergy"
       },
       "patient": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13",
@@ -9105,7 +9105,7 @@
         "text": "Peanut allergy"
       },
       "patient": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13",
@@ -9158,7 +9158,7 @@
         "text": "H/O: warfarin allergy"
       },
       "patient": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "onsetDateTime": "2010-01-13",
       "assertedDate": "2010-01-13",
@@ -9194,7 +9194,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
@@ -9226,7 +9226,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
@@ -9258,7 +9258,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
@@ -9290,7 +9290,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
@@ -9322,7 +9322,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
@@ -9354,7 +9354,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
@@ -9386,7 +9386,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
@@ -9418,7 +9418,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "context": {
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
@@ -9450,7 +9450,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/61b3f949-ba8b-478b-802d-d42a49653ffc"
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
       "issued": "2010-07-14T15:27:49.000+00:00",

@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "61e1d313-602f-41ed-98b9-8de280d17f5e",
+  "id": "00000000-0000-0000-0000-000000000000",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,7 +8,7 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "13aaeccf-0d26-498b-849e-ef780adc6285",
+      "id": "00000000-0000-0000-0000-000000000001",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -106,7 +106,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "participant": [ {
         "type": [ {
@@ -163,7 +163,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "participant": [ {
         "type": [ {
@@ -210,12 +210,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "encounter": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
-      "date": "2000-03-31",
+      "date": "2017-05-18T08:12:07+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -247,12 +247,12 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "encounter": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
-      "date": "2000-03-31",
+      "date": "2017-05-18T08:12:07+00:00",
       "orderedBy": {
         "coding": [ {
           "system": "http://hl7.org/fhir/list-order",
@@ -284,7 +284,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "encounter": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -321,7 +321,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "encounter": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -358,7 +358,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "encounter": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -791,7 +791,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "encounter": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -1209,13 +1209,13 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "f0abe892-ea74-444f-82f8-b6df445d6e8a",
+      "id": "00000000-0000-0000-0000-000000000003",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "LOCA1691",
           "display": "Loperamide 2mg capsules"
         }, {
@@ -1253,10 +1253,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/f0abe892-ea74-444f-82f8-b6df445d6e8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000003"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "authoredOn": "2016-09-01",
       "requester": {
@@ -1307,10 +1307,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/f0abe892-ea74-444f-82f8-b6df445d6e8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000003"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "authoredOn": "2016-09-01",
       "requester": {
@@ -1361,10 +1361,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/f0abe892-ea74-444f-82f8-b6df445d6e8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000003"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "authoredOn": "2016-09-01",
       "requester": {
@@ -1415,10 +1415,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/f0abe892-ea74-444f-82f8-b6df445d6e8a"
+        "reference": "Medication/00000000-0000-0000-0000-000000000003"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "authoredOn": "2016-09-01",
       "requester": {
@@ -1445,13 +1445,13 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "bd3ed755-8ef9-4d7c-927d-ed9de2076340",
+      "id": "00000000-0000-0000-0000-000000000004",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "ASDI223",
           "display": "Aspirin 300mg dispersible tablets"
         }, {
@@ -1489,10 +1489,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/bd3ed755-8ef9-4d7c-927d-ed9de2076340"
+        "reference": "Medication/00000000-0000-0000-0000-000000000004"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "authoredOn": "2016-09-01",
       "requester": {
@@ -1548,7 +1548,7 @@
         "text": "Fibreoptic endoscopic sclerotherapy to lesion upper GI tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1592,7 +1592,7 @@
         "text": "Fibreoptic endoscopic destruction lesion upper GI tract NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1639,7 +1639,7 @@
         "text": "Endoscopic injection haemostasis of duodenal ulcer"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1686,7 +1686,7 @@
         "text": "Endoscopic injection haemostasis of gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1730,7 +1730,7 @@
         "text": "Fibre endosc injec therapy les upper gastrointest tract NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1774,7 +1774,7 @@
         "text": "Fibreopt endoscop rubber band ligation of upper GIT varices"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1818,7 +1818,7 @@
         "text": "Fibreoptic endoscopic extirpation lesion upper GI tract OS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1862,7 +1862,7 @@
         "text": "Fibreoptic endoscopic extirpation lesion upper GI tract NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1906,7 +1906,7 @@
         "text": "Other therapeutic fibreoptic endoscopy on upper GI tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1950,7 +1950,7 @@
         "text": "Other therapeutic gastroscopy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -1994,7 +1994,7 @@
         "text": "Fibreoptic endoscopic insertion prosthesis in upper GI tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2038,7 +2038,7 @@
         "text": "Fibreoptic endoscopic removal of FB from upper GI tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2082,7 +2082,7 @@
         "text": "Fibreoptic endoscopic dilation of upper GI tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2126,7 +2126,7 @@
         "text": "Fibreoptic dilation of oesophagus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2173,7 +2173,7 @@
         "text": "Temporary percutaneous endoscopic gastrostomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2220,7 +2220,7 @@
         "text": "Permanent percutaneous endoscopic gastrostomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2264,7 +2264,7 @@
         "text": "Fibreop endoscop reduction intussusception gastroenterostomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2308,7 +2308,7 @@
         "text": "Fibreoptic endoscopic percutaneous insert gastrostomy (PEG)"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2352,7 +2352,7 @@
         "text": "Fib end pressure-controlled balloon dilat low oesoph sphinc"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2396,7 +2396,7 @@
         "text": "Fibreoptic endoscopic dilation of upper GI tract NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2443,7 +2443,7 @@
         "text": "Fibreoptic endoscopic removal of gastrostomy tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2490,7 +2490,7 @@
         "text": "Fibreoptic endoscopic percutaneous insertion of gastrostomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2534,7 +2534,7 @@
         "text": "Other fibreoptic therapeutic endoscopy on upper GI tract OS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2578,7 +2578,7 @@
         "text": "Other fibreoptic therapeutic endoscopy on upper GI tract NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2622,7 +2622,7 @@
         "text": "Diagnostic fibreoptic endoscopic exam of upper GI tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2666,7 +2666,7 @@
         "text": "Diagnostic fibreoptic gastroscopy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2710,7 +2710,7 @@
         "text": "Diagnostic fibreoptic endoscopy & biopsy of upper GI tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2754,7 +2754,7 @@
         "text": "Diagnostic gastroscopy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2801,7 +2801,7 @@
         "text": "Diagnostic gastroscopy via stoma"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2848,7 +2848,7 @@
         "text": "Gastroesophagoscopy via gastrotomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2892,7 +2892,7 @@
         "text": "Endoscopic upper gastrointestinal ultrasound"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2936,7 +2936,7 @@
         "text": "Fibreoptic endoscopic ultrasound examination of upper GIT"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -2980,7 +2980,7 @@
         "text": "Diag fibre endos insert Bravo pH caps upper gastroint tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3024,7 +3024,7 @@
         "text": "Fibr endos exam upp gastrointest tract stain gastric mucosa"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3068,7 +3068,7 @@
         "text": "Diagnostic fibreoptic endoscopic exam upper GI tract OS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3112,7 +3112,7 @@
         "text": "Diagnostic fibreoptic endoscopic exam upper GI tract NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3156,7 +3156,7 @@
         "text": "Gastroscopy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3203,7 +3203,7 @@
         "text": "Upper Gastrointestinal endoscopy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3250,7 +3250,7 @@
         "text": "Intubation of stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3297,7 +3297,7 @@
         "text": "Intubation of stomach for ph manometry"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3344,7 +3344,7 @@
         "text": "Intubation of stomach for pressure manometry"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3391,7 +3391,7 @@
         "text": "Irrigation of stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3435,7 +3435,7 @@
         "text": "Lavage of stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3479,7 +3479,7 @@
         "text": "Washout of stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3526,7 +3526,7 @@
         "text": "Intubation of stomach for study of gastric secretion"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3570,7 +3570,7 @@
         "text": "Intubation of stomach NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3614,7 +3614,7 @@
         "text": "Other specified intubation of stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3658,7 +3658,7 @@
         "text": "Intubation of stomach NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3702,7 +3702,7 @@
         "text": "Other operations on stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3749,7 +3749,7 @@
         "text": "Insertion of gastric bubble"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3796,7 +3796,7 @@
         "text": "Insertion of gastric balloon"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3843,7 +3843,7 @@
         "text": "Attention to gastric bubble"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3890,7 +3890,7 @@
         "text": "Induction of emesis"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3937,7 +3937,7 @@
         "text": "Administration of activated charcoal"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -3981,7 +3981,7 @@
         "text": "Removal of gastric bubble"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4028,7 +4028,7 @@
         "text": "Removal of gastric balloon"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4075,7 +4075,7 @@
         "text": "Insertion of gastric balloon"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4122,7 +4122,7 @@
         "text": "Attention to gastric balloon"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4166,7 +4166,7 @@
         "text": "Other specified other operation on stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4210,7 +4210,7 @@
         "text": "Other operation on stomach NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4257,7 +4257,7 @@
         "text": "Operations on gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4304,7 +4304,7 @@
         "text": "Stomach ulcer operations"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4351,7 +4351,7 @@
         "text": "Closure of perforated gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4395,7 +4395,7 @@
         "text": "Closure of gastric ulcer NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4439,7 +4439,7 @@
         "text": "Suture of ulcer of stomach NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4483,7 +4483,7 @@
         "text": "Other specified operation on gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4527,7 +4527,7 @@
         "text": "Operation on gastric ulcer NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4574,7 +4574,7 @@
         "text": "Fibreoptic endoscopic extirpation of lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4618,7 +4618,7 @@
         "text": "Fibreoptic endoscopic submucosal resection lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4662,7 +4662,7 @@
         "text": "Fibreoptic endoscopic photodynamic therapy lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4706,7 +4706,7 @@
         "text": "OS fibreoptic endoscopic extirpation of lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4750,7 +4750,7 @@
         "text": "Fibreoptic endoscopic extirpation of lesion of stomach NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4794,7 +4794,7 @@
         "text": "Therap fibr endos operations on upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4838,7 +4838,7 @@
         "text": "Fibr endos endoluminal plication gastro-oesophageal junction"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4882,7 +4882,7 @@
         "text": "OS ther fibr endoscopic ops on upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4926,7 +4926,7 @@
         "text": "Ther fibr endoscopic ops on upper gastrointestinal tract NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -4970,7 +4970,7 @@
         "text": "Other fibre endos extirp lesion upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5014,7 +5014,7 @@
         "text": "Fibr end submucosal resect les upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5058,7 +5058,7 @@
         "text": "Fibr end photodynamic thera les upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5102,7 +5102,7 @@
         "text": "OS other fibre endos extirp les upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5146,7 +5146,7 @@
         "text": "Oth fib endos extirp lesion upper gastrointestinal tract NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5190,7 +5190,7 @@
         "text": "Other specified operations on stomach or pylorus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5234,7 +5234,7 @@
         "text": "Stomach and pylorus operations NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5278,7 +5278,7 @@
         "text": "Duodenum operations"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5325,7 +5325,7 @@
         "text": "Duodenectomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5369,7 +5369,7 @@
         "text": "Excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5416,7 +5416,7 @@
         "text": "Gastroduodenectomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5463,7 +5463,7 @@
         "text": "Total excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5510,7 +5510,7 @@
         "text": "Partial excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5554,7 +5554,7 @@
         "text": "Other specified excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5598,7 +5598,7 @@
         "text": "Duodenectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5642,7 +5642,7 @@
         "text": "Excision of duodenum NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5689,7 +5689,7 @@
         "text": "Open extirpation of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5736,7 +5736,7 @@
         "text": "Excision of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5783,7 +5783,7 @@
         "text": "Open destruction of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5827,7 +5827,7 @@
         "text": "Other specified open extirpation of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5871,7 +5871,7 @@
         "text": "Open extirpation of lesion of duodenum NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5918,7 +5918,7 @@
         "text": "Bypass of duodenum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -5965,7 +5965,7 @@
         "text": "Bypass of duodenum by anastomosis of stomach to jejunum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -6012,7 +6012,7 @@
         "text": "Bypass of duodenum by anastomosis of duodenum to duodenum"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -6056,7 +6056,7 @@
         "text": "Focused ultrasound to lesion of uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6100,7 +6100,7 @@
         "text": "Other specified operation on uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6144,7 +6144,7 @@
         "text": "Operation on uterus NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6188,7 +6188,7 @@
         "text": "Other vaginal operations on uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6235,7 +6235,7 @@
         "text": "Vaginal excision of lesion of uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6282,7 +6282,7 @@
         "text": "Endometrial balloon ablation"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6326,7 +6326,7 @@
         "text": "Microwave ablation of endometrium NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6373,7 +6373,7 @@
         "text": "Free circulating saline ablation of endometrium"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6420,7 +6420,7 @@
         "text": "Radiofrequency endometrial ablation"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6467,7 +6467,7 @@
         "text": "Photodynamic ablation of endometrium"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6511,7 +6511,7 @@
         "text": "Other specified other vaginal operation on uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6555,7 +6555,7 @@
         "text": "Other vaginal operation on uterus NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6599,7 +6599,7 @@
         "text": "Plastic operations on uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6646,7 +6646,7 @@
         "text": "Connection of uterus to vagina"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6690,7 +6690,7 @@
         "text": "Other specified plastic operations on uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6734,7 +6734,7 @@
         "text": "Plastic operations on uterus NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6778,7 +6778,7 @@
         "text": "Other introduction of gamete into uterine cavity"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6825,7 +6825,7 @@
         "text": "Transmyometrial transfer of embryo to uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6869,7 +6869,7 @@
         "text": "Other specified operations on uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6913,7 +6913,7 @@
         "text": "Uterus operations NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -6960,7 +6960,7 @@
         "text": "Fallopian tube operations"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7007,7 +7007,7 @@
         "text": "Tubal operations - fallopian"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7054,7 +7054,7 @@
         "text": "Bilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7098,7 +7098,7 @@
         "text": "Bilateral salpingoophorectomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7142,7 +7142,7 @@
         "text": "Bilateral salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7186,7 +7186,7 @@
         "text": "Bilateral oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7230,7 +7230,7 @@
         "text": "Other specified bilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7274,7 +7274,7 @@
         "text": "Bilateral excision of adnexa of uterus NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7321,7 +7321,7 @@
         "text": "Unilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7365,7 +7365,7 @@
         "text": "Unilateral salpingoophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7409,7 +7409,7 @@
         "text": "Salpingoophorectomy remaining solitary fallop tube and ovary"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7453,7 +7453,7 @@
         "text": "Unilateral salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7497,7 +7497,7 @@
         "text": "Salpingectomy of remaining solitary fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7541,7 +7541,7 @@
         "text": "Unilateral oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7585,7 +7585,7 @@
         "text": "Oophorectomy of remaining solitary ovary NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7629,7 +7629,7 @@
         "text": "Right salpingoophorectomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7673,7 +7673,7 @@
         "text": "Left salpingoophorectomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7720,7 +7720,7 @@
         "text": "Right salpingectomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7767,7 +7767,7 @@
         "text": "Left salpingectomy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7811,7 +7811,7 @@
         "text": "Other specified unilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7855,7 +7855,7 @@
         "text": "Unilateral excision of adnexa of uterus NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7899,7 +7899,7 @@
         "text": "Other excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7943,7 +7943,7 @@
         "text": "Salpingoophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -7987,7 +7987,7 @@
         "text": "Salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8031,7 +8031,7 @@
         "text": "Oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8075,7 +8075,7 @@
         "text": "Right oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8119,7 +8119,7 @@
         "text": "Left oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8163,7 +8163,7 @@
         "text": "Other specified other excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8207,7 +8207,7 @@
         "text": "Other excision of adnexa of uterus NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8254,7 +8254,7 @@
         "text": "Partial excision of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8301,7 +8301,7 @@
         "text": "Excision of lesion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8348,7 +8348,7 @@
         "text": "Excision of ectopic ovarian pregnancy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8395,7 +8395,7 @@
         "text": "Excision of ruptured ectopic tubal pregnancy"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8439,7 +8439,7 @@
         "text": "Other specified partial excision of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8483,7 +8483,7 @@
         "text": "Partial salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8527,7 +8527,7 @@
         "text": "Partial excision of fallopian tube NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8571,7 +8571,7 @@
         "text": "Placement of prosthesis in fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8615,7 +8615,7 @@
         "text": "Insertion of tubal prosthesis into fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8659,7 +8659,7 @@
         "text": "Revision of tubal prosthesis in fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8703,7 +8703,7 @@
         "text": "Removal of tubal prosthesis from fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8747,7 +8747,7 @@
         "text": "Other specified placement of prosthesis in fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8791,7 +8791,7 @@
         "text": "Placement of prosthesis in fallopian tube NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8838,7 +8838,7 @@
         "text": "Open bilateral occlusion of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8885,7 +8885,7 @@
         "text": "Open bilateral female sterilisation"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8932,7 +8932,7 @@
         "text": "Open bilateral ligation of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -8979,7 +8979,7 @@
         "text": "Pomeroy open bilateral ligation of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9026,7 +9026,7 @@
         "text": "Open bilateral clipping of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9073,7 +9073,7 @@
         "text": "Open bilateral ringing of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9117,7 +9117,7 @@
         "text": "Other specified open bilateral occlusion of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9161,7 +9161,7 @@
         "text": "Open bilateral occlusion of fallopian tubes NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9205,7 +9205,7 @@
         "text": "Other open occlusion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9249,7 +9249,7 @@
         "text": "Other open female sterilisation"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9296,7 +9296,7 @@
         "text": "Unilateral occlusion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9343,7 +9343,7 @@
         "text": "Open ligation of remaining solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9387,7 +9387,7 @@
         "text": "Open ligation of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9434,7 +9434,7 @@
         "text": "Open clipping of remaining solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9481,7 +9481,7 @@
         "text": "Open clipping of residual solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9528,7 +9528,7 @@
         "text": "Open ringing of remaining solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9572,7 +9572,7 @@
         "text": "Open clipping of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9616,7 +9616,7 @@
         "text": "Open ringing of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9663,7 +9663,7 @@
         "text": "Open clipping of right fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9710,7 +9710,7 @@
         "text": "Open ringing of right fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9757,7 +9757,7 @@
         "text": "Open clipping of left fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9804,7 +9804,7 @@
         "text": "Open ringing of left fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9851,7 +9851,7 @@
         "text": "Open ligation of right fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9898,7 +9898,7 @@
         "text": "Open ligation of left fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9942,7 +9942,7 @@
         "text": "Other specified other open occlusion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -9986,7 +9986,7 @@
         "text": "Other open occlusion of fallopian tube NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10033,7 +10033,7 @@
         "text": "Open reversal of female sterilisation"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10080,7 +10080,7 @@
         "text": "Open reversal of female sterilisation"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10127,7 +10127,7 @@
         "text": "Open reversal of tubal ligation"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10171,7 +10171,7 @@
         "text": "Reanastomosis of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10215,7 +10215,7 @@
         "text": "Open removal of clip from fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10259,7 +10259,7 @@
         "text": "Open removal of ring from fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10303,7 +10303,7 @@
         "text": "Other specified open reversal of female sterilisation"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10347,7 +10347,7 @@
         "text": "Open reversal of female sterilisation NOS"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10391,7 +10391,7 @@
         "text": "Other repair of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10438,7 +10438,7 @@
         "text": "Reconstruction of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10482,7 +10482,7 @@
         "text": "Replantation of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -10526,7 +10526,7 @@
         "text": "Anastomosis of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/13aaeccf-0d26-498b-849e-ef780adc6285"
+        "reference": "Patient/00000000-0000-0000-0000-000000000001"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
