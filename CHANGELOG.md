@@ -5,12 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.0.0] - 2024-04-12
+
 ### Fixed
-* ** Breaking Change ** Identifier values and code systems where an OID is provided 
+* **Breaking Change** Identifier values and code systems where an OID is provided 
 (such as `2.16.840.1.113883.2.1.6.9`) will now be provided as a URN (i.e. `urn:oid:2.16.840.1.113883.2.1.6.9`),
 as per GP Connect specification.
-
-* ### Fixed
 * DiagnosticReport identifier values are now presented as a URN instead of just the system code
   when a PMIP system code is provided
 
