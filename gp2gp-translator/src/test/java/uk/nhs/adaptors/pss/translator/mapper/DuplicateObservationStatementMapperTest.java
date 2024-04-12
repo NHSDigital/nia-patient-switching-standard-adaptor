@@ -465,7 +465,6 @@ class DuplicateObservationStatementMapperTest {
         return rcmrmt030101UK04Component3;
     }
 
-    // and then somewhere in this test class
     private static Stream<Arguments> generator() {
 
         return Stream.of(
