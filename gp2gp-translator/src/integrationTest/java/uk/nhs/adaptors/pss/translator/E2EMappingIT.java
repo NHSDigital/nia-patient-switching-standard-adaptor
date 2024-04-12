@@ -39,7 +39,6 @@ import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 @AutoConfigureMockMvc
 public class E2EMappingIT extends BaseEhrHandler {
 
-    private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final String PSS_ADAPTOR_URL = "https://PSSAdaptor/";
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     //these are programming language special characters, not to be confused with line endings
@@ -316,7 +315,7 @@ public class E2EMappingIT extends BaseEhrHandler {
         var odsCodeToBeReplaced = getOdsToBeReplaced(expectedBundle);
 
         if (OVERWRITE_EXPECTED_JSON) {
-            overwriteExpectJson(patientMigrationRequest.getBundleResource());
+            overwriteExpectJson(path, patientMigrationRequest.getBundleResource());
         }
 
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
