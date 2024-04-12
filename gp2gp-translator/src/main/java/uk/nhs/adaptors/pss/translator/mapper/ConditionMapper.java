@@ -95,7 +95,6 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 extractAllLinkSets(component)
                     .filter(Objects::nonNull)
                     .map(linkSet -> getCondition(
-                        ehrExtract,
                         patient,
                         encounters,
                         composition,
@@ -105,8 +104,8 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .toList();
     }
 
-    private Condition getCondition(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-                                   RCMRMT030101UKEhrComposition composition, RCMRMT030101UKLinkSet linkSet, String practiseCode) {
+    private Condition getCondition(Patient patient, List<Encounter> encounters, RCMRMT030101UKEhrComposition composition,
+                                   RCMRMT030101UKLinkSet linkSet, String practiseCode) {
 
         String id = linkSet.getId().getRoot();
         Condition condition = (Condition) new Condition()
@@ -222,12 +221,18 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
         if (linkSet.getEffectiveTime() != null) {
             IVLTS effectiveTime = linkSet.getEffectiveTime();
+
             if (effectiveTime.hasLow()) {
                 return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getLow().getValue()));
+            } else if (effectiveTime.getLow() != null && effectiveTime.getLow().hasNullFlavor()) {
+                return Optional.empty();
             } else if (effectiveTime.hasCenter()) {
                 return Optional.of(dateTimeMapper.mapDateTime(effectiveTime.getCenter().getValue()));
+            } else if (effectiveTime.getCenter() != null && effectiveTime.getCenter().hasNullFlavor()) {
+                return Optional.empty();
             }
         }
+
         if (linkSet.getAvailabilityTime() != null && linkSet.getAvailabilityTime().hasValue()) {
             return Optional.of(dateTimeMapper.mapDateTime(linkSet.getAvailabilityTime().getValue()));
         }

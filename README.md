@@ -98,8 +98,8 @@ Responds with one of:
                         "display": "GP2GP - Patient is not registered at the practice"
                      },
                      {
-                       "system": "2.16.840.1.113883.2.1.3.2.4.17.101"
-                       "code": "06"
+                       "system": "urn:oid:2.16.840.1.113883.2.1.3.2.4.17.101",
+                       "code": "06",
                        "display": "Patient not at surgery"
                      }
                   ]
@@ -137,3 +137,37 @@ In particular this means that this project may not depend on GPL-licensed or AGP
 as these would violate the terms of those libraries' licenses.
 
 The contents of this repository are protected by Crown Copyright (C).
+
+## Performance
+The performance of PS Adaptor was tested with JMeter tool. 
+The use case tested was the simulation of the patient transfer request. 
+This was tested by sending EHR record requests to the PS Adaptor, and we expected to receive a bundle back. 
+The patient transfer used two attachments,both of them are text attachments of size 2.44 MB and 0.7 MB.
+We used these tests to observe how the PS Adaptor handles a heavy workload and to profile the CPU and memory usage 
+during the testing process.
+
+There was a series of tests run with the following setup and parameters:
+- PS Adaptor was run in ECS AWS environment with 4 CPUs and 16 GB memory.
+- MHS Adaptor was run in ECS AWS environment with 4 CPUs and 16 GB memory.
+- For the message queue mq.m5.xlarge host type was used
+- RDS DB host type was set to db.t3.xlarge
+
+The test used 2000 transfers which were split into 5 batches of 400 transfers.
+The time for the test was measured from the start of the initial request to the completion of all transfers.
+Pause time between transfers was set to 1 sec and the socket timeout was to 2 minutes.
+
+The test load with 2000 transactions finished successfully in 14 minutes which gives on average 420-435 ms per transfer.
+The observed CPU utilization was around 50-60% and memory usage was around 70% which leaves plenty of headroom for additional load.
+
+![report1.jpg](test-suite%2Fnon-functional-tests%2Ftest-scenario%2Fperf_report%2Freport1.jpg)
+
+Overall performance statistics:
+![report2.png](test-suite%2Fnon-functional-tests%2Ftest-scenario%2Fperf_report%2Freport2.png)
+
+Active transfers per one iteration was 400:
+![report4.png](test-suite%2Fnon-functional-tests%2Ftest-scenario%2Fperf_report%2Freport4.png)
+
+Response time:
+![report5.png](test-suite%2Fnon-functional-tests%2Ftest-scenario%2Fperf_report%2Freport5.png)
+
+Results can be seen in using graphs by importing results8.jtl into Jmeter.

@@ -2,11 +2,13 @@ package uk.nhs.adaptors.pss.translator;
 
 import static org.assertj.core.api.Assertions.fail;
 import static org.awaitility.Awaitility.waitAtMost;
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
+import static uk.nhs.adaptors.pss.util.BaseEhrHandler.OVERWRITE_EXPECTED_JSON;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
 import java.io.PrintWriter;
@@ -23,6 +25,8 @@ import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -31,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -42,6 +47,7 @@ import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class})
@@ -49,7 +55,6 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @AutoConfigureMockMvc
 public class EhrExtractHandlingIT {
 
-    private static final boolean OVERWRITE_EXPECTED_JSON = false;
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     private static final String NHS_NUMBER_PLACEHOLDER = "{{nhsNumber}}";
@@ -84,6 +89,9 @@ public class EhrExtractHandlingIT {
         "entry[504].resource.identifier[0].value"
     );
 
+    @MockBean
+    private IdGeneratorService idGeneratorService;
+
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
 
@@ -103,6 +111,19 @@ public class EhrExtractHandlingIT {
     private String patientNhsNumber;
     private String conversationId;
     static final int WAITING_TIME = 10;
+
+    @BeforeEach
+    public void setUpDeterministicRandomIds() {
+        when(idGeneratorService.generateUuid()).thenAnswer(
+                new Answer<String>() {
+                    private int invocationCount = 0;
+                    @Override
+                    public String answer(InvocationOnMock invocation) {
+                        return String.format("00000000-0000-0000-0000-%012d", invocationCount++);
+                    }
+                }
+        );
+    }
 
     @BeforeEach
     public void setUp() {
@@ -173,7 +194,7 @@ public class EhrExtractHandlingIT {
         var expectedBundle = readResourceAsString(path).replace(NHS_NUMBER_PLACEHOLDER, patientNhsNumber);
 
         if (OVERWRITE_EXPECTED_JSON) {
-            overwriteExpectJson(patientMigrationRequest.getBundleResource());
+            overwriteExpectJson(path, patientMigrationRequest.getBundleResource());
         }
 
         var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
@@ -199,8 +220,8 @@ public class EhrExtractHandlingIT {
     }
 
     @SneakyThrows
-    private void overwriteExpectJson(String newExpected) {
-        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/json/expectedBundle.json", StandardCharsets.UTF_8)) {
+    private void overwriteExpectJson(String path, String newExpected) {
+        try (PrintWriter printWriter = new PrintWriter("src/integrationTest/resources/" + path, StandardCharsets.UTF_8)) {
             printWriter.print(newExpected);
         }
         fail("Re-run the tests with OVERWRITE_EXPECTED_JSON=false");
