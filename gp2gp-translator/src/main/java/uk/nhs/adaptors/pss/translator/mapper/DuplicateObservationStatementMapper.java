@@ -59,7 +59,7 @@ public class DuplicateObservationStatementMapper {
             .filter((RCMRMT030101UKObservationStatement obs) -> obs.getReference() == null || obs.getReference().isEmpty())
             .filter((RCMRMT030101UKObservationStatement obs) -> obs.getSequelTo() == null || obs.getSequelTo().isEmpty())
                 .forEach(truncatedObservationStatement ->
-                findAndMergeUntruncatedObservationStatementIntoTruncatedObservationStatement(
+                findAndMergeNontruncatedObservationStatementIntoTruncatedObservationStatement(
                     truncatedObservationStatement,
                     ehrComposition.getComponent()
                 ));
@@ -78,7 +78,7 @@ public class DuplicateObservationStatementMapper {
             .toList();
     }
 
-    private static void findAndMergeUntruncatedObservationStatementIntoTruncatedObservationStatement(
+    private static void findAndMergeNontruncatedObservationStatementIntoTruncatedObservationStatement(
             RCMRMT030101UKObservationStatement truncatedObservationStatement, List<RCMRMT030101UKComponent4> components) {
 
 
@@ -92,7 +92,20 @@ public class DuplicateObservationStatementMapper {
                 && !areSameObservationStatements(truncatedObservationStatement, observationStatement)
                 && hasSinglePertinentInformation(observationStatement)
                 && doesTruncatedAnnotationMatchOtherAnnotation(truncatedPertinentAnnotation, getPertinentAnnotation(observationStatement))
-                && observationsAreCodedTheSame(truncatedObservationStatement, observationStatement)) {
+                && observationsAreCodedTheSame(truncatedObservationStatement, observationStatement)
+                && observationStatement.getPriorityCode() == null
+                && observationStatement.getUncertaintyCode() == null
+                && observationStatement.getValue() == null
+                && observationStatement.getInterpretationCode() == null
+                && observationStatement.getSubject() == null
+                && (observationStatement.getSpecimen() == null || observationStatement.getSpecimen().isEmpty())
+                && (observationStatement.getReferenceRange() == null || observationStatement.getReferenceRange().isEmpty())
+                && (observationStatement.getInformant() == null || observationStatement.getInformant().isEmpty())
+                && (observationStatement.getParticipant() == null || observationStatement.getParticipant().isEmpty())
+                && (observationStatement.getReplacementOf() == null || observationStatement.getReplacementOf().isEmpty())
+                && (observationStatement.getReason() == null || observationStatement.getReason().isEmpty())
+                && (observationStatement.getReference() == null || observationStatement.getReference().isEmpty())
+                && (observationStatement.getSequelTo() == null || observationStatement.getSequelTo().isEmpty())) {
 
                 observationIterator.remove();
                 truncatedPertinentAnnotation.setText(annotationPrefix + getPertinentAnnotation(observationStatement).getText());

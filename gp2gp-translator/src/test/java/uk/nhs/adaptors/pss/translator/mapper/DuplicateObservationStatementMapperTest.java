@@ -312,6 +312,25 @@ class DuplicateObservationStatementMapperTest {
 
     }
 
+    @ParameterizedTest
+    @MethodSource("generator")
+    public void doesntMergeObservationWhereTheObservationFieldIsPopulated(
+            Consumer<RCMRMT030101UK04ObservationStatement> observation) {
+
+        var ehrExtract = createExtract(List.of(
+                createObservationWithFollowingFieldIsPopulated("ID-2", "101",
+                        "This is an observation which ends with ellipses but there is more.",
+                        1, observation),
+                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+                generateLinksetComponent("ID-1")
+        ));
+
+        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
+
+    }
+
+
     private static String firstPertinentInformationText(RCMRMT030101UKObservationStatement observationStatement) {
         return observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
     }
