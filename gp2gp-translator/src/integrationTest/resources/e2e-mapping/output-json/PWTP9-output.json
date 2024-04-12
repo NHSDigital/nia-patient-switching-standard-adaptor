@@ -3830,7 +3830,7 @@
         "system": "http://unitsofmeasure.org",
         "code": "1"
       },
-      "comment": "                                                                                    DVT Prophylaxis - INR 2.0-2.5                                                                                    Treatment of DVT,PE,AF,TIA - INR 2.0-3.0                                                                                    Recurrent DVT or PE                )                                                                                    Arterial Disease                   )INR 3.0-4.5                                                                                    Mechanical Prosthetic Heart Valves )",
+      "comment": "                                                                                    DVT Prophylaxis - INR 2.0-2.5\n                                                                                    Treatment of DVT,PE,AF,TIA - INR 2.0-3.0\n                                                                                    Recurrent DVT or PE                )\n                                                                                    Arterial Disease                   )INR 3.0-4.5\n                                                                                    Mechanical Prosthetic Heart Valves )",
       "specimen": {
         "reference": "Specimen/971752A8-2F1C-478B-94D6-E6B535F534AC"
       }
@@ -4161,7 +4161,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            Oral dose: 75g anhydrous glucose given as                                                                                            113ml Polycal liquid                                                                                            Plasma Glucose           Urine Results                                                                                            Time        (mmol/l)         Ketones         Glucose",
+      "comment": "                                                                                            Oral dose: 75g anhydrous glucose given as\n                                                                                            113ml Polycal liquid\n                                                                                            Plasma Glucose           Urine Results\n                                                                                            Time        (mmol/l)         Ketones         Glucose",
       "specimen": {
         "reference": "Specimen/A8A66BB2-3392-4A7C-BA19-6DD9D61A0C22"
       },
@@ -4222,7 +4222,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            Fasting       4.3            negative        negative                                                                                            2 hours       7.6            negative        negative                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7",
+      "comment": "                                                                                            Fasting       4.3            negative        negative\n                                                                                            2 hours       7.6            negative        negative\n                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7\n                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7",
       "specimen": {
         "reference": "Specimen/A8A66BB2-3392-4A7C-BA19-6DD9D61A0C22"
       },
@@ -4283,7 +4283,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            GLYCAEMIA                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0                                                                                            TOLERANCE                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or",
+      "comment": "                                                                                            GLYCAEMIA\n                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0\n                                                                                            TOLERANCE\n                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or",
       "specimen": {
         "reference": "Specimen/A8A66BB2-3392-4A7C-BA19-6DD9D61A0C22"
       },
@@ -4344,7 +4344,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            2 hr 11.1 or above                                                                                            *(must also have symptoms - polyuria, polydipsia,                                                                                            unexplained weight loss)",
+      "comment": "                                                                                            2 hr 11.1 or above\n                                                                                            *(must also have symptoms - polyuria, polydipsia,\n                                                                                            unexplained weight loss)",
       "specimen": {
         "reference": "Specimen/A8A66BB2-3392-4A7C-BA19-6DD9D61A0C22"
       },
@@ -4405,7 +4405,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            Oral dose: 75g anhydrous glucose given as                                                                                            113ml Polycal liquid                                                                                            Plasma Glucose           Urine Results                                                                                            Time        (mmol/l)         Ketones         Glucose",
+      "comment": "                                                                                            Oral dose: 75g anhydrous glucose given as\n                                                                                            113ml Polycal liquid\n                                                                                            Plasma Glucose           Urine Results\n                                                                                            Time        (mmol/l)         Ketones         Glucose",
       "specimen": {
         "reference": "Specimen/89E2E801-4D16-4023-8EBA-BE076D479B67"
       },
@@ -4466,7 +4466,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            Fasting       4.3            negative        negative                                                                                            2 hours       7.6            negative        negative                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7",
+      "comment": "                                                                                            Fasting       4.3            negative        negative\n                                                                                            2 hours       7.6            negative        negative\n                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7\n                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7",
       "specimen": {
         "reference": "Specimen/89E2E801-4D16-4023-8EBA-BE076D479B67"
       },
@@ -4527,7 +4527,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            GLYCAEMIA                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0                                                                                            TOLERANCE                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or",
+      "comment": "                                                                                            GLYCAEMIA\n                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0\n                                                                                            TOLERANCE\n                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or",
       "specimen": {
         "reference": "Specimen/89E2E801-4D16-4023-8EBA-BE076D479B67"
       },
@@ -4588,7 +4588,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            2 hr 11.1 or above                                                                                            *(must also have symptoms - polyuria, polydipsia,                                                                                            unexplained weight loss)",
+      "comment": "                                                                                            2 hr 11.1 or above\n                                                                                            *(must also have symptoms - polyuria, polydipsia,\n                                                                                            unexplained weight loss)",
       "specimen": {
         "reference": "Specimen/89E2E801-4D16-4023-8EBA-BE076D479B67"
       },
@@ -4649,7 +4649,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            Oral dose: 75g anhydrous glucose given as                                                                                            113ml Polycal liquid                                                                                            Plasma Glucose           Urine Results                                                                                            Time        (mmol/l)         Ketones         Glucose",
+      "comment": "                                                                                            Oral dose: 75g anhydrous glucose given as\n                                                                                            113ml Polycal liquid\n                                                                                            Plasma Glucose           Urine Results\n                                                                                            Time        (mmol/l)         Ketones         Glucose",
       "specimen": {
         "reference": "Specimen/E5CE0B1B-E29B-4823-B29D-2B75B0DC0356"
       },
@@ -4710,7 +4710,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            Fasting       4.3            negative        negative                                                                                            2 hours       7.6            negative        negative                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7",
+      "comment": "                                                                                            Fasting       4.3            negative        negative\n                                                                                            2 hours       7.6            negative        negative\n                                                                                            NORMAL              : Fasting up to 6.0 & 2 hr up to 7.7\n                                                                                            IMPAIRED FASTING    : Fasting 6.1-6.9 & 2 hr up to 7.7",
       "specimen": {
         "reference": "Specimen/E5CE0B1B-E29B-4823-B29D-2B75B0DC0356"
       },
@@ -4771,7 +4771,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            GLYCAEMIA                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0                                                                                            TOLERANCE                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or",
+      "comment": "                                                                                            GLYCAEMIA\n                                                                                            IMPAIRED GLUCOSE    : Fasting up to 6.9 & 2 hr 7.8-11.0\n                                                                                            TOLERANCE\n                                                                                            *DIABETES MELLITUS  : Fasting 7.0 or above &/or",
       "specimen": {
         "reference": "Specimen/E5CE0B1B-E29B-4823-B29D-2B75B0DC0356"
       },
@@ -4832,7 +4832,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                            2 hr 11.1 or above                                                                                            *(must also have symptoms - polyuria, polydipsia,                                                                                            unexplained weight loss)",
+      "comment": "                                                                                            2 hr 11.1 or above\n                                                                                            *(must also have symptoms - polyuria, polydipsia,\n                                                                                            unexplained weight loss)",
       "specimen": {
         "reference": "Specimen/E5CE0B1B-E29B-4823-B29D-2B75B0DC0356"
       },
@@ -5341,7 +5341,7 @@
         } ],
         "text": "Above high reference limit"
       },
-      "comment": "                                                                                            Cholesterol 6.5 - 7.8 Moderate Risk of CHD                                                                                            Cholesterol     > 7.8 Marked Risk of CHD",
+      "comment": "                                                                                            Cholesterol 6.5 - 7.8 Moderate Risk of CHD\n                                                                                            Cholesterol     > 7.8 Marked Risk of CHD",
       "specimen": {
         "reference": "Specimen/DBF83E10-237E-427C-A0B0-F43957A1276F"
       },
@@ -6938,7 +6938,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "                                                                                            U=Unsuitable for analysis                                                                                            U=Unsuitable,due to delay in delivery.",
+      "comment": "                                                                                            U=Unsuitable for analysis\n                                                                                            U=Unsuitable,due to delay in delivery.",
       "specimen": {
         "reference": "Specimen/0DB91FFF-DC9C-4246-A8D0-A3D340A2D822"
       },
@@ -9070,7 +9070,7 @@
         } ],
         "text": "Potentially abnormal"
       },
-      "comment": "                                                                                    Negative                                                                                    I.M.Screen",
+      "comment": "                                                                                    Negative\n                                                                                    I.M.Screen",
       "specimen": {
         "reference": "Specimen/7D57ADE4-B274-44FE-91A2-7E794CB5DA42"
       }
@@ -9124,7 +9124,7 @@
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
-      "comment": "                                                                                    WBC MORPHOLOGY NORMAL                                                                                    RBC MORPHOLOGY NORMAL",
+      "comment": "                                                                                    WBC MORPHOLOGY NORMAL\n                                                                                    RBC MORPHOLOGY NORMAL",
       "specimen": {
         "reference": "Specimen/7D57ADE4-B274-44FE-91A2-7E794CB5DA42"
       }
@@ -13744,7 +13744,7 @@
       }, {
         "reference": "Observation/CDC2077F-F701-47F9-AFF9-87E8C07E8C69"
       } ],
-      "conclusion": "                                                                    Clinical Details:                                                                    NOTE:Specimen date"
+      "conclusion": "                                                                    Clinical Details:\n                                                                    NOTE:Specimen date"
     }
   }, {
     "resource": {
@@ -14338,7 +14338,7 @@
         "collectedDateTime": "2003-06-02"
       },
       "note": [ {
-        "text": "                                                                            Another                                                                            Specimen                                                                            Comment"
+        "text": "                                                                            Another\n                                                                            Specimen\n                                                                            Comment"
       } ]
     }
   }, {
@@ -15343,7 +15343,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00                                                                                    Dr. N.O'Connell",
+      "comment": "                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00\n                                                                                    Dr. N.O'Connell",
       "specimen": {
         "reference": "Specimen/A8A66BB2-3392-4A7C-BA19-6DD9D61A0C22"
       },
@@ -15421,7 +15421,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00                                                                                    Dr. N.O'Connell",
+      "comment": "                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00\n                                                                                    Dr. N.O'Connell",
       "specimen": {
         "reference": "Specimen/89E2E801-4D16-4023-8EBA-BE076D479B67"
       },
@@ -15499,7 +15499,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00                                                                                    Dr. N.O'Connell",
+      "comment": "                                                                                    NB NEW WHO/DIABETES UK CLASSIFICATION CRITERIA FROM 01.06.00\n                                                                                    Dr. N.O'Connell",
       "specimen": {
         "reference": "Specimen/E5CE0B1B-E29B-4823-B29D-2B75B0DC0356"
       },
@@ -16226,7 +16226,7 @@
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
-      "comment": "                                                                                    These LTG comments only apply to the Anti-nuclear factor and the                                                                                    rheumatoid factor tests.",
+      "comment": "                                                                                    These LTG comments only apply to the Anti-nuclear factor and the\n                                                                                    rheumatoid factor tests.",
       "specimen": {
         "reference": "Specimen/EC494B1A-FFEF-41E2-94AB-B287AE516361"
       },
