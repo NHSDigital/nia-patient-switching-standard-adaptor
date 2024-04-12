@@ -45,19 +45,20 @@ public class DuplicateObservationStatementMapper {
             .map(Optional::get)
             .filter(DuplicateObservationStatementMapper::hasSinglePertinentInformation)
             .filter(DuplicateObservationStatementMapper::isAnnotationTruncated)
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getPriorityCode() == null)
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getUncertaintyCode() == null)
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getValue() == null)
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getInterpretationCode() == null)
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getSubject() == null)
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getSpecimen() == null || obs.getSpecimen().isEmpty())
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getReferenceRange() == null || obs.getReferenceRange().isEmpty())
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getInformant() == null || obs.getInformant().isEmpty())
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getParticipant() == null || obs.getParticipant().isEmpty())
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getReplacementOf() == null || obs.getReplacementOf().isEmpty())
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getReason() == null || obs.getReason().isEmpty())
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getReference() == null || obs.getReference().isEmpty())
-            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getSequelTo() == null || obs.getSequelTo().isEmpty())
+            .filter((RCMRMT030101UKObservationStatement obs) -> obs.getPriorityCode() == null
+                    && obs.getUncertaintyCode() == null
+                    && obs.getUncertaintyCode() == null
+                    && obs.getValue() == null
+                    && obs.getInterpretationCode() == null
+                    && obs.getSubject() == null
+                    && (obs.getSpecimen() == null || obs.getSpecimen().isEmpty())
+                    && (obs.getReferenceRange() == null || obs.getReferenceRange().isEmpty())
+                    && (obs.getInformant() == null || obs.getInformant().isEmpty())
+                    && (obs.getParticipant() == null || obs.getParticipant().isEmpty())
+                    && (obs.getReplacementOf() == null || obs.getReplacementOf().isEmpty())
+                    && (obs.getReason() == null || obs.getReason().isEmpty())
+                    && (obs.getReference() == null || obs.getReference().isEmpty())
+                    && (obs.getSequelTo() == null || obs.getSequelTo().isEmpty()))
                 .forEach(truncatedObservationStatement ->
                 findAndMergeNontruncatedObservationStatementIntoTruncatedObservationStatement(
                     truncatedObservationStatement,
