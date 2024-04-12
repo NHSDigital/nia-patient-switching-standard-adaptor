@@ -423,7 +423,7 @@ public class AgentDirectoryMapperTest {
 
         assertAll(
                 () -> assertEquals("1234", coding.getCode()),
-                () -> assertEquals("1.2.3.4.5.6", coding.getSystem()),
+                () -> assertEquals("urn:oid:1.2.3.4.5.6", coding.getSystem()),
                 () -> assertEquals("Other person", coding.getDisplay())
         );
     }

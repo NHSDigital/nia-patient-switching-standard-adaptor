@@ -46,7 +46,7 @@ import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableCon
 @Service
 public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
 
-    private static final String EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
+    private static final String PMIP_EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
     private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
     private static final String LAB_REPORT_COMMENT_TYPE = "CommentType:LABORATORY RESULT COMMENT(E141)";
     public static final String CODING_CODE = "721981007";
@@ -178,9 +178,9 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private Optional<Identifier> createIdentifierExtension(List<II> id) {
         if (id.size() > 1) {
             final II idExtension = id.get(1);
-            if (idExtension != null && EXTENSION_IDENTIFIER_ROOT.equals(idExtension.getRoot())) {
+            if (idExtension != null && PMIP_EXTENSION_IDENTIFIER_ROOT.equals(idExtension.getRoot())) {
                 return Optional.of(new Identifier()
-                    .setSystem(EXTENSION_IDENTIFIER_ROOT)
+                    .setSystem("urn:oid:" + PMIP_EXTENSION_IDENTIFIER_ROOT)
                     .setValue(idExtension.getExtension()));
             }
         }

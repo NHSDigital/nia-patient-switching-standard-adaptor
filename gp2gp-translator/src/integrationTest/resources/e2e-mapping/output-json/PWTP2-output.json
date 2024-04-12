@@ -2211,7 +2211,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "MATA1723",
           "display": "Marvelon tablets (Merck Sharp & Dohme Ltd)"
         }, {
@@ -2334,7 +2334,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "MIIN26764EMIS",
           "display": "Mirena 20micrograms/24hours intrauterine device (Bayer Plc)"
         }, {
@@ -2449,7 +2449,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "GYGE29052NEMIS",
           "display": "Gygel 2% contraceptive jelly (Marlborough Pharmaceuticals Ltd)"
         }, {
@@ -2572,7 +2572,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "FLIN3846NEMIS",
           "display": "Flexi-T 300 intrauterine contraceptive device (IPC Pharma Ltd)"
         }, {
@@ -2687,7 +2687,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "ETTA18971NEMIS",
           "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
         }, {
@@ -2910,7 +2910,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "MATA1723",
           "display": "Marvelon tablets (Merck Sharp & Dohme Ltd)"
         }, {
@@ -6170,7 +6170,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "ETTA18971NEMIS",
           "display": "Ethinylestradiol 30microgram / Levonorgestrel 150microgram tablets"
         }, {
