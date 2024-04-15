@@ -26,7 +26,7 @@ import java.util.Optional;
 @Slf4j
 public class DuplicateObservationStatementMapper {
     public static final int CHAR_LIMIT_FOR_TRUNCATION = 50;
-    public static final String ELLIPSES = "...";
+    public static final String ELLIPSIS = "...";
 
     public void mergeDuplicateObservationStatements(RCMRMT030101UK04EhrExtract ehrExtract) {
         ehrExtract.getComponent()
@@ -120,16 +120,16 @@ public class DuplicateObservationStatementMapper {
     private static boolean doesTruncatedAnnotationMatchOtherAnnotation(
             RCMRMT030101UKAnnotation truncatedPertinentAnnotation, RCMRMT030101UKAnnotation candidateMatchingPertinentAnnotation) {
         String truncatedObservationText = truncatedPertinentAnnotation.getText();
-        String truncatedObservationTextWithoutEllipses = truncatedObservationText.substring(
+        String truncatedObservationTextWithoutEllipsis = truncatedObservationText.substring(
                 truncatedObservationText.length() - CHAR_LIMIT_FOR_TRUNCATION,
-                truncatedObservationText.length() - ELLIPSES.length()
+                truncatedObservationText.length() - ELLIPSIS.length()
         );
-        return candidateMatchingPertinentAnnotation.getText().contains(truncatedObservationTextWithoutEllipses);
+        return candidateMatchingPertinentAnnotation.getText().contains(truncatedObservationTextWithoutEllipsis);
     }
 
     private static boolean isAnnotationTruncated(RCMRMT030101UKObservationStatement observationStatement) {
         String annotationText = getPertinentAnnotation(observationStatement).getText();
-        return annotationText.endsWith(ELLIPSES) && annotationText.length() >= CHAR_LIMIT_FOR_TRUNCATION;
+        return annotationText.endsWith(ELLIPSIS) && annotationText.length() >= CHAR_LIMIT_FOR_TRUNCATION;
     }
 
 
