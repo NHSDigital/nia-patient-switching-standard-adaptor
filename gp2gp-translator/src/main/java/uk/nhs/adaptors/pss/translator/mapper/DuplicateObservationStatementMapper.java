@@ -132,21 +132,6 @@ public class DuplicateObservationStatementMapper {
         return annotationText.endsWith(ELLIPSES) && annotationText.length() >= CHAR_LIMIT_FOR_TRUNCATION;
     }
 
-    private static boolean isMergeAllowedLinkedStatement(RCMRMT030101UKObservationStatement obs) {
-        return (obs.getPriorityCode() == null
-                && obs.getUncertaintyCode() == null
-                && obs.getValue() == null
-                && obs.getInterpretationCode() == null
-                && obs.getSubject() == null
-                && (obs.getSpecimen() == null || obs.getSpecimen().isEmpty())
-                && (obs.getReferenceRange() == null || obs.getReferenceRange().isEmpty())
-                && (obs.getInformant() == null || obs.getInformant().isEmpty())
-                && (obs.getParticipant() == null || obs.getParticipant().isEmpty())
-                && (obs.getReplacementOf() == null || obs.getReplacementOf().isEmpty())
-                && (obs.getReason() == null || obs.getReason().isEmpty())
-                && (obs.getReference() == null || obs.getReference().isEmpty())
-                && (obs.getSequelTo() == null || obs.getSequelTo().isEmpty()));
-    }
 
     private static boolean isMergeAllowedtatement(RCMRMT030101UKObservationStatement observationStatement) {
         return  observationStatement.getPriorityCode() == null
