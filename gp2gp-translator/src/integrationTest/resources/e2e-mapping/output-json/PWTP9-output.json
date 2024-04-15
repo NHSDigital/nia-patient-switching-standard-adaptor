@@ -4129,12 +4129,6 @@
           "code": "laboratory",
           "display": "Laboratory"
         } ]
-      }, {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
       } ],
       "code": {
         "coding": [ {
@@ -4185,12 +4179,6 @@
       } ],
       "status": "final",
       "category": [ {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
-      }, {
         "coding": [ {
           "system": "http://hl7.org/fhir/observation-category",
           "code": "laboratory",
@@ -4251,12 +4239,6 @@
           "code": "laboratory",
           "display": "Laboratory"
         } ]
-      }, {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
       } ],
       "code": {
         "coding": [ {
@@ -4307,12 +4289,6 @@
       } ],
       "status": "final",
       "category": [ {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
-      }, {
         "coding": [ {
           "system": "http://hl7.org/fhir/observation-category",
           "code": "laboratory",
@@ -4373,12 +4349,6 @@
           "code": "laboratory",
           "display": "Laboratory"
         } ]
-      }, {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
       } ],
       "code": {
         "coding": [ {
@@ -4429,12 +4399,6 @@
       } ],
       "status": "final",
       "category": [ {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
-      }, {
         "coding": [ {
           "system": "http://hl7.org/fhir/observation-category",
           "code": "laboratory",
@@ -4495,12 +4459,6 @@
           "code": "laboratory",
           "display": "Laboratory"
         } ]
-      }, {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
       } ],
       "code": {
         "coding": [ {
@@ -4551,12 +4509,6 @@
       } ],
       "status": "final",
       "category": [ {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
-      }, {
         "coding": [ {
           "system": "http://hl7.org/fhir/observation-category",
           "code": "laboratory",
@@ -4617,12 +4569,6 @@
           "code": "laboratory",
           "display": "Laboratory"
         } ]
-      }, {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
       } ],
       "code": {
         "coding": [ {
@@ -4673,12 +4619,6 @@
       } ],
       "status": "final",
       "category": [ {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
-      }, {
         "coding": [ {
           "system": "http://hl7.org/fhir/observation-category",
           "code": "laboratory",
@@ -4739,12 +4679,6 @@
           "code": "laboratory",
           "display": "Laboratory"
         } ]
-      }, {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
       } ],
       "code": {
         "coding": [ {
@@ -4795,12 +4729,6 @@
       } ],
       "status": "final",
       "category": [ {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
-      }, {
         "coding": [ {
           "system": "http://hl7.org/fhir/observation-category",
           "code": "laboratory",
@@ -5283,12 +5211,6 @@
       } ],
       "status": "final",
       "category": [ {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
-      }, {
         "coding": [ {
           "system": "http://hl7.org/fhir/observation-category",
           "code": "laboratory",
@@ -6606,12 +6528,6 @@
           "code": "laboratory",
           "display": "Laboratory"
         } ]
-      }, {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
       } ],
       "code": {
         "coding": [ {
@@ -6896,12 +6812,6 @@
       } ],
       "status": "final",
       "category": [ {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
-      }, {
         "coding": [ {
           "system": "http://hl7.org/fhir/observation-category",
           "code": "laboratory",
@@ -9147,12 +9057,6 @@
           "code": "laboratory",
           "display": "Laboratory"
         } ]
-      }, {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
       } ],
       "code": {
         "coding": [ {
@@ -9208,12 +9112,6 @@
       } ],
       "status": "final",
       "category": [ {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
-      }, {
         "coding": [ {
           "system": "http://hl7.org/fhir/observation-category",
           "code": "laboratory",
