@@ -42,6 +42,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DuplicateObservationStatementMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
@@ -112,6 +113,9 @@ public class BundleMapperServiceTest {
     @Mock
     private SpecimenCompoundsMapper specimenCompoundsMapper;
 
+    @Mock
+    private DuplicateObservationStatementMapper duplicateObservationStatementMapper;
+
     @InjectMocks
     private BundleMapperService bundleMapperService;
 
@@ -150,6 +154,7 @@ public class BundleMapperServiceTest {
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(organizationMapper).mapAuthorOrganization(anyString(), anyList());
+        verify(duplicateObservationStatementMapper).mergeDuplicateObservationStatements(any(RCMRMT030101UK04EhrExtract.class));
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
         verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), anyString());
         verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyString(), anyList());
