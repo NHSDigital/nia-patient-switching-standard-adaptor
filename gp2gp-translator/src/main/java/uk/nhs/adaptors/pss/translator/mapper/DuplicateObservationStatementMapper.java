@@ -45,7 +45,7 @@ public class DuplicateObservationStatementMapper {
                 .map(Optional::get)
                 .filter(DuplicateObservationStatementMapper::hasSinglePertinentInformation)
                 .filter(DuplicateObservationStatementMapper::isAnnotationTruncated)
-                .filter(DuplicateObservationStatementMapper::isMergeAllowedLinkedStatement)
+                .filter(DuplicateObservationStatementMapper::areAdditionalFieldsEmpty)
                 .forEach(truncatedObservationStatement ->
                         findAndMergeNonTruncatedObservationStatementIntoTruncatedObservationStatement(
                                 truncatedObservationStatement,
@@ -82,7 +82,7 @@ public class DuplicateObservationStatementMapper {
                     && doesTruncatedAnnotationMatchOtherAnnotation(truncatedPertinentAnnotation,
                           getPertinentAnnotation(observationStatement))
                     && observationsAreCodedTheSame(truncatedObservationStatement, observationStatement)
-                    && isMergeAllowedtatement(observationStatement)) {
+                    && areAdditionalFieldsEmpty(observationStatement)) {
                 observationIterator.remove();
                 truncatedPertinentAnnotation.setText(annotationPrefix + getPertinentAnnotation(observationStatement).getText());
                 LOGGER.info(
@@ -133,7 +133,7 @@ public class DuplicateObservationStatementMapper {
     }
 
 
-    private static boolean isMergeAllowedtatement(RCMRMT030101UKObservationStatement observationStatement) {
+    private static boolean areAdditionalFieldsEmpty(RCMRMT030101UKObservationStatement observationStatement) {
         return  observationStatement.getPriorityCode() == null
                 && observationStatement.getUncertaintyCode() == null
                 && observationStatement.getValue() == null
