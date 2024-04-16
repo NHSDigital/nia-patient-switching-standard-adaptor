@@ -5,14 +5,142 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+* SystmOne send a problem over GP2GP as two `ObservationStatement`s, where one is truncated and one isn't.
+  This truncation can be identified where an `ObservationStatement` is part of a problem, and the note ends in '...'.
+  The adaptor will now identify this duplication, and merge the two into one `ObservationStatement`.
+
+  <details>
+    <summary>Example</summary>
+    Original XML:
+    <pre>
+  &lt;ehrComposition xmlns=&quot;urn:hl7-org:v3&quot; classCode=&quot;COMPOSITION&quot; moodCode=&quot;EVN&quot;&gt;
+    &lt;id root=&quot;e9105749-5aef-400d-8ad4-649ff03ac879&quot;/&gt;
+    &lt;code code=&quot;25671000000102&quot; codeSystem=&quot;2.16.840.1.113883.2.1.3.2.4.15&quot; displayName=&quot;Surgery Consultation Note&quot;/&gt;
+    &lt;statusCode code=&quot;COMPLETE&quot;/&gt;
+    ...
+    &lt;component typeCode=&quot;COMP&quot;&gt;
+        &lt;ObservationStatement classCode=&quot;OBS&quot; moodCode=&quot;EVN&quot;&gt;
+            &lt;id root=&quot;ba4edfcd-142e-4090-8a81-9ca2790849a8&quot;/&gt;
+            &lt;code code=&quot;14J..&quot; codeSystem=&quot;2.16.840.1.113883.2.1.3.2.4.14&quot; displayName=&quot;H/O: injury&quot;&gt;
+                &lt;translation code=&quot;161586000&quot; codeSystem=&quot;2.16.840.1.113883.2.1.3.2.4.15&quot; displayName=&quot;H/O: injury&quot;/&gt;
+                &lt;translation code=&quot;14J..00&quot; codeSystem=&quot;2.16.840.1.113883.2.1.6.2&quot; displayName=&quot;H/O: injury&quot;/&gt;
+            &lt;/code&gt;
+            &lt;statusCode code=&quot;COMPLETE&quot;/&gt;
+            &lt;effectiveTime&gt;
+                &lt;low value=&quot;20001004&quot;/&gt;
+                &lt;high value=&quot;19000101000000&quot;/&gt;
+            &lt;/effectiveTime&gt;
+            &lt;availabilityTime value=&quot;20001004&quot;/&gt;
+            &lt;pertinentInformation typeCode=&quot;PERT&quot;&gt;
+                &lt;sequenceNumber value=&quot;+1&quot;/&gt;
+                &lt;pertinentAnnotation classCode=&quot;OBS&quot; moodCode=&quot;EVN&quot;&gt;
+                    &lt;text&gt;Problem severity: Minor H/O: injury to little finger left hand poss gla...&lt;/text&gt;
+                &lt;/pertinentAnnotation&gt;
+            &lt;/pertinentInformation&gt;
+        &lt;/ObservationStatement&gt;
+    &lt;/component&gt;
+    &lt;component typeCode=&quot;COMP&quot;&gt;
+        &lt;LinkSet classCode=&quot;OBS&quot; moodCode=&quot;EVN&quot;&gt;
+            &lt;id root=&quot;7f384915-a2f9-44df-b407-e9c339707297&quot;/&gt;
+            &lt;code code=&quot;394775005&quot; codeSystem=&quot;2.16.840.1.113883.2.1.3.2.4.15&quot; displayName=&quot;Inactive Problem&quot;/&gt;
+            &lt;statusCode code=&quot;COMPLETE&quot;/&gt;
+            &lt;effectiveTime&gt;
+                &lt;low value=&quot;20001004&quot;/&gt;
+                &lt;high value=&quot;19000101000000&quot;/&gt;
+            &lt;/effectiveTime&gt;
+            &lt;availabilityTime value=&quot;20001004&quot;/&gt;
+            &lt;conditionNamed inversionInd=&quot;true&quot; typeCode=&quot;NAME&quot;&gt;
+                &lt;namedStatementRef classCode=&quot;OBS&quot; moodCode=&quot;EVN&quot;&gt;
+                    &lt;id root=&quot;ba4edfcd-142e-4090-8a81-9ca2790849a8&quot;/&gt;
+                &lt;/namedStatementRef&gt;
+            &lt;/conditionNamed&gt;
+        &lt;/LinkSet&gt;
+    &lt;/component&gt;
+    &lt;component typeCode=&quot;COMP&quot;&gt;
+        &lt;ObservationStatement classCode=&quot;OBS&quot; moodCode=&quot;EVN&quot;&gt;
+            &lt;id root=&quot;f04d2995-c6f8-4cf0-8e07-5362a950e2a5&quot;/&gt;
+            &lt;code code=&quot;14J..&quot; codeSystem=&quot;2.16.840.1.113883.2.1.3.2.4.14&quot; displayName=&quot;H/O: injury&quot;&gt;
+                &lt;translation code=&quot;161586000&quot; codeSystem=&quot;2.16.840.1.113883.2.1.3.2.4.15&quot; displayName=&quot;H/O: injury&quot;/&gt;
+                &lt;translation code=&quot;14J..00&quot; codeSystem=&quot;2.16.840.1.113883.2.1.6.2&quot; displayName=&quot;H/O: injury&quot;/&gt;
+            &lt;/code&gt;
+            &lt;statusCode code=&quot;COMPLETE&quot;/&gt;
+            &lt;effectiveTime&gt;
+                &lt;center nullFlavor=&quot;NI&quot;/&gt;
+            &lt;/effectiveTime&gt;
+            &lt;availabilityTime value=&quot;20001004&quot;/&gt;
+            &lt;pertinentInformation typeCode=&quot;PERT&quot;&gt;
+                &lt;sequenceNumber value=&quot;+1&quot;/&gt;
+                &lt;pertinentAnnotation classCode=&quot;OBS&quot; moodCode=&quot;EVN&quot;&gt;
+                    &lt;text&gt;(New Episode). H/O: injury to little finger left hand poss glass in wound therefore refered to A+E&lt;/text&gt;
+                &lt;/pertinentAnnotation&gt;
+            &lt;/pertinentInformation&gt;
+        &lt;/ObservationStatement&gt;
+    &lt;/component&gt;
+  &lt;/ehrComposition&gt;
+    </pre>
+    Gets merged into:
+    <pre>
+  &lt;ehrComposition xmlns=&quot;urn:hl7-org:v3&quot; classCode=&quot;COMPOSITION&quot; moodCode=&quot;EVN&quot;&gt;
+    &lt;id root=&quot;e9105749-5aef-400d-8ad4-649ff03ac879&quot;/&gt;
+    &lt;code code=&quot;25671000000102&quot; codeSystem=&quot;2.16.840.1.113883.2.1.3.2.4.15&quot; displayName=&quot;Surgery Consultation Note&quot;/&gt;
+    &lt;statusCode code=&quot;COMPLETE&quot;/&gt;
+    ...
+    &lt;component typeCode=&quot;COMP&quot;&gt;
+        &lt;ObservationStatement classCode=&quot;OBS&quot; moodCode=&quot;EVN&quot;&gt;
+            &lt;id root=&quot;ba4edfcd-142e-4090-8a81-9ca2790849a8&quot;/&gt;
+            &lt;code code=&quot;14J..&quot; codeSystem=&quot;2.16.840.1.113883.2.1.3.2.4.14&quot; displayName=&quot;H/O: injury&quot;&gt;
+                &lt;translation code=&quot;161586000&quot; codeSystem=&quot;2.16.840.1.113883.2.1.3.2.4.15&quot; displayName=&quot;H/O: injury&quot;/&gt;
+                &lt;translation code=&quot;14J..00&quot; codeSystem=&quot;2.16.840.1.113883.2.1.6.2&quot; displayName=&quot;H/O: injury&quot;/&gt;
+            &lt;/code&gt;
+            &lt;statusCode code=&quot;COMPLETE&quot;/&gt;
+            &lt;effectiveTime&gt;
+                &lt;low value=&quot;20001004&quot;/&gt;
+                &lt;high value=&quot;19000101000000&quot;/&gt;
+            &lt;/effectiveTime&gt;
+            &lt;availabilityTime value=&quot;20001004&quot;/&gt;
+            &lt;pertinentInformation typeCode=&quot;PERT&quot;&gt;
+                &lt;sequenceNumber value=&quot;+1&quot;/&gt;
+                &lt;pertinentAnnotation classCode=&quot;OBS&quot; moodCode=&quot;EVN&quot;&gt;
+                    &lt;text&gt;Problem severity: Minor (New Episode). H/O: injury to little finger left hand poss glass in wound therefore refered to A+E&lt;/text&gt;
+                &lt;/pertinentAnnotation&gt;
+            &lt;/pertinentInformation&gt;
+        &lt;/ObservationStatement&gt;
+    &lt;/component&gt;
+    &lt;component typeCode=&quot;COMP&quot;&gt;
+        &lt;LinkSet classCode=&quot;OBS&quot; moodCode=&quot;EVN&quot;&gt;
+            &lt;id root=&quot;7f384915-a2f9-44df-b407-e9c339707297&quot;/&gt;
+            &lt;code code=&quot;394775005&quot; codeSystem=&quot;2.16.840.1.113883.2.1.3.2.4.15&quot; displayName=&quot;Inactive Problem&quot;/&gt;
+            &lt;statusCode code=&quot;COMPLETE&quot;/&gt;
+            &lt;effectiveTime&gt;
+                &lt;low value=&quot;20001004&quot;/&gt;
+                &lt;high value=&quot;19000101000000&quot;/&gt;
+            &lt;/effectiveTime&gt;
+            &lt;availabilityTime value=&quot;20001004&quot;/&gt;
+            &lt;conditionNamed inversionInd=&quot;true&quot; typeCode=&quot;NAME&quot;&gt;
+                &lt;namedStatementRef classCode=&quot;OBS&quot; moodCode=&quot;EVN&quot;&gt;
+                    &lt;id root=&quot;ba4edfcd-142e-4090-8a81-9ca2790849a8&quot;/&gt;
+                &lt;/namedStatementRef&gt;
+            &lt;/conditionNamed&gt;
+        &lt;/LinkSet&gt;
+    &lt;/component&gt;
+  &lt;/ehrComposition&gt;
+    </pre>
+
+  </details>
+
+* When Filing comment `NarrativeStatements` are located within the `BATTERY` of a `Filed Report` and not located
+  at `DiagnosticReport` level now creates a new filing comment `Observation` and reference this in the results
+  of the parent `DiagnosticReport`.
+
 ## [2.0.0] - 2024-04-12
 
 ### Fixed
+
 * **Breaking Change** Identifier values and code systems where an OID is provided 
-(such as `2.16.840.1.113883.2.1.6.9`) will now be provided as a URN (i.e. `urn:oid:2.16.840.1.113883.2.1.6.9`),
-as per GP Connect specification.
-* DiagnosticReport identifier values are now presented as a URN instead of just the system code
-  when a PMIP system code is provided
+  (such as `2.16.840.1.113883.2.1.6.9`) will now be provided as a URN (i.e. `urn:oid:2.16.840.1.113883.2.1.6.9`),
+  as per GP Connect specification.
 
 ## [1.4.7] - 2024-04-02
 
