@@ -18,9 +18,9 @@ import java.util.Map;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.DomainResource;
+import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
@@ -42,6 +42,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DuplicateObservationStatementMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
 import uk.nhs.adaptors.pss.translator.mapper.LocationMapper;
@@ -112,6 +113,9 @@ public class BundleMapperServiceTest {
     @Mock
     private SpecimenCompoundsMapper specimenCompoundsMapper;
 
+    @Mock
+    private DuplicateObservationStatementMapper duplicateObservationStatementMapper;
+
     @InjectMocks
     private BundleMapperService bundleMapperService;
 
@@ -144,12 +148,14 @@ public class BundleMapperServiceTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testAllMappersHaveBeenUsed() throws BundleMappingException {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
         Bundle bundle = bundleMapperService.mapToBundle(xml, LOSING_ODS_CODE, new ArrayList<>());
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
         verify(organizationMapper).mapAuthorOrganization(anyString(), anyList());
+        verify(duplicateObservationStatementMapper).mergeDuplicateObservationStatements(any(RCMRMT030101UK04EhrExtract.class));
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
         verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), anyString());
         verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyString(), anyList());
@@ -182,8 +188,7 @@ public class BundleMapperServiceTest {
             anyString());
         verify(allergyIntoleranceMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
         verify(diagnosticReportMapper).mapResources(
-            any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class)
-        );
+            any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class), any(ArrayList.class));
         verify(specimenMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), anyString());
         verify(diagnosticReportMapper).handleChildObservationComments(any(RCMRMT030101UK04EhrExtract.class), anyList());
         verify(specimenCompoundsMapper).handleSpecimenChildComponents(
