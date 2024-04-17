@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static java.util.stream.Collectors.toCollection;
 
+import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.UNKNOWN;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -199,6 +200,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         filingCommentObservation.setId(filingCommentObservationId);
         filingCommentObservation.getIdentifierFirstRep().setValue(filingCommentObservationId);
         filingCommentObservation.setComment(null);
+        filingCommentObservation.setStatus(UNKNOWN);
 
         return filingCommentObservation;
     }
