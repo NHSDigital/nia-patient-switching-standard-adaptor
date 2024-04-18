@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.0] - 2024-04-17
 ### Added
 
 * SystmOne send a problem over GP2GP as two `ObservationStatement`s, where one is truncated and one isn't.
