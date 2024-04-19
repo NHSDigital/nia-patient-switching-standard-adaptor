@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.0] - 2024-04-17
 ### Added
 
 * SystmOne send a problem over GP2GP as two `ObservationStatement`s, where one is truncated and one isn't.
@@ -130,9 +131,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
   </details>
 
-* When Filing comment `NarrativeStatements` are located within the `BATTERY` of a `Filed Report` and not located
-  at `DiagnosticReport` level now creates a new filing comment `Observation` and reference this in the results
-  of the parent `DiagnosticReport`.
+* When a `CommentType: USER COMMENT` `NarrativeStatement` is located within the `BATTERY` of a `Filed Report`,
+  the adaptor now generates a new [filing comment][filing-comment] `Observation` and [references this][diagnostic-report-result]
+  in the result property of the parent `DiagnosticReport`.
+  This change makes the adaptor more closely resemble the GP Connect specification for DiagnosticReport and filing
+  comments.
+  The generated `Observation` filing comment will have the `status` of `unknown`.
+
+[filing-comment]: https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_observation_filingComments.html
+[diagnostic-report-result]: https://developer.nhs.uk/apis/gpconnect-1-6-0/accessrecord_structured_development_DiagnosticReport.html#result
 
 ## [2.0.0] - 2024-04-12
 
