@@ -15076,7 +15076,7 @@
         "system": "https://PSSAdaptor/B83002",
         "value": "00000000-0000-0000-0000-000000000005"
       } ],
-      "status": "final",
+      "status": "unknown",
       "code": {
         "coding": [ {
           "system": "http://snomed.info/sct",
@@ -15107,7 +15107,7 @@
         "system": "https://PSSAdaptor/B83002",
         "value": "00000000-0000-0000-0000-000000000006"
       } ],
-      "status": "final",
+      "status": "unknown",
       "code": {
         "coding": [ {
           "system": "http://snomed.info/sct",
@@ -15138,7 +15138,7 @@
         "system": "https://PSSAdaptor/B83002",
         "value": "00000000-0000-0000-0000-000000000007"
       } ],
-      "status": "final",
+      "status": "unknown",
       "code": {
         "coding": [ {
           "system": "http://snomed.info/sct",
@@ -15169,7 +15169,7 @@
         "system": "https://PSSAdaptor/B83002",
         "value": "00000000-0000-0000-0000-000000000008"
       } ],
-      "status": "final",
+      "status": "unknown",
       "code": {
         "coding": [ {
           "system": "http://snomed.info/sct",

@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.UNKNOWN;
 
 @ExtendWith(MockitoExtension.class)
 public class DiagnosticReportMapperTest {
@@ -506,7 +507,8 @@ TEST COMMENT
                         .isEqualTo(NEW_OBSERVATION_ID),
                 () -> assertThat(observationComments.get(1).getEffectiveDateTimeType().getValueAsString())
                         .isEqualTo("2024-01-01"),
-                () -> assertThat(observationComments.get(1).getComment()).isNull()
+                () -> assertThat(observationComments.get(1).getComment()).isNull(),
+                () -> assertThat(observationComments.get(1).getStatus()).isEqualTo(UNKNOWN)
         );
     }
 
