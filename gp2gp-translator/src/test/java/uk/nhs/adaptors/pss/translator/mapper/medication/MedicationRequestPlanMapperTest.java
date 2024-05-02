@@ -93,15 +93,15 @@ public class MedicationRequestPlanMapperTest {
                 PRACTISE_CODE);
 
         var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
-        assertThat(repeatInformation.size()).isEqualTo(ONE);
+        assertThat(repeatInformation).hasSize(ONE);
         assertRepeatInformation(repeatInformation.get(0));
 
         var statusReason = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        assertThat(statusReason.size()).isEqualTo(ONE);
+        assertThat(statusReason).hasSize(ONE);
         assertStatusReasonInformation(statusReason.get(0));
 
         var prescriptionType = medicationRequest.getExtensionsByUrl(PRESCRIPTION_TYPE_URL);
-        assertThat(prescriptionType.size()).isEqualTo(ONE);
+        assertThat(prescriptionType).hasSize(ONE);
 
         var codeableConcept = (CodeableConcept) prescriptionType.get(0).getValue();
         assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Repeat");
@@ -109,7 +109,7 @@ public class MedicationRequestPlanMapperTest {
         assertThat(medicationRequest.getStatus()).isEqualTo(STOPPED);
         assertThat(medicationRequest.getIntent()).isEqualTo(PLAN);
         assertThat(medicationRequest.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
-        assertThat(medicationRequest.getNote().size()).isEqualTo(TWO);
+        assertThat(medicationRequest.getNote()).hasSize(TWO);
 
         assertThat(medicationRequest.getDosageInstructionFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
         assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue().intValue()).isEqualTo(TWENTY_EIGHT);
@@ -132,10 +132,10 @@ public class MedicationRequestPlanMapperTest {
             PRACTISE_CODE);
 
         var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
-        assertThat(repeatInformation.size()).isEqualTo(ONE);
+        assertThat(repeatInformation).hasSize(ONE);
 
         var expiryDate = repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
-        assertThat(expiryDate.size()).isEqualTo(0);
+        assertThat(expiryDate.size()).isZero();
     }
 
     @Test
@@ -152,10 +152,10 @@ public class MedicationRequestPlanMapperTest {
                 PRACTISE_CODE);
 
         var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
-        assertThat(repeatInformation.size()).isEqualTo(ONE);
+        assertThat(repeatInformation).hasSize(ONE);
 
         var expiryDate = repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
-        assertThat(expiryDate.size()).isEqualTo(0);
+        assertThat(expiryDate.size()).isZero();
     }
 
     @Test
@@ -169,10 +169,10 @@ public class MedicationRequestPlanMapperTest {
                 PRACTISE_CODE);
 
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        assertThat(statusExt.size()).isEqualTo(1);
+        assertThat(statusExt).hasSize(1);
 
         var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
-        assertThat(statusReasonExt.size()).isEqualTo(1);
+        assertThat(statusReasonExt).hasSize(1);
 
         var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
 
@@ -190,10 +190,10 @@ public class MedicationRequestPlanMapperTest {
                 PRACTISE_CODE);
 
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        assertThat(statusExt.size()).isEqualTo(1);
+        assertThat(statusExt).hasSize(1);
 
         var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
-        assertThat(statusReasonExt.size()).isEqualTo(1);
+        assertThat(statusReasonExt).hasSize(1);
 
         var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
         assertThat(statusReason.getText()).isEqualTo(DEFAULT_STATUS_REASON);
@@ -210,10 +210,10 @@ public class MedicationRequestPlanMapperTest {
                 PRACTISE_CODE);
 
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        assertThat(statusExt.size()).isEqualTo(1);
+        assertThat(statusExt).hasSize(1);
 
         var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
-        assertThat(statusReasonExt.size()).isEqualTo(1);
+        assertThat(statusReasonExt).hasSize(1);
 
         var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
         assertThat(statusReason.getText()).isEqualTo("(Ended) " + DEFAULT_STATUS_REASON);
@@ -230,10 +230,10 @@ public class MedicationRequestPlanMapperTest {
                 PRACTISE_CODE);
 
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        assertThat(statusExt.size()).isEqualTo(1);
+        assertThat(statusExt).hasSize(1);
 
         var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
-        assertThat(statusReasonExt.size()).isEqualTo(1);
+        assertThat(statusReasonExt).hasSize(1);
 
         var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
         assertThat(statusReason.getText()).isEqualTo(DEFAULT_STATUS_REASON);
@@ -276,7 +276,7 @@ public class MedicationRequestPlanMapperTest {
                 PRACTISE_CODE);
 
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        assertThat(statusExt.isEmpty()).isTrue();
+        assertThat(statusExt).isEmpty();
     }
 
     @Test
@@ -291,7 +291,7 @@ public class MedicationRequestPlanMapperTest {
 
         assertThat(medicationRequest.getStatus()).isEqualTo(COMPLETED);
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        assertThat(statusExt.isEmpty()).isTrue();
+        assertThat(statusExt).isEmpty();
     }
 
     @Test void When_MappingDiscontinue_With_CodingOriginalTextAndPertinentInformation_Expect_CorrectText() {
@@ -303,10 +303,10 @@ public class MedicationRequestPlanMapperTest {
                 ehrExtract, medicationStatement.get(), supplyAuthorise.orElseThrow(), PRACTISE_CODE);
 
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        assertThat(statusExt.size()).isEqualTo(1);
+        assertThat(statusExt).hasSize(1);
 
         var statusReasonExt = statusExt.get(0).getExtensionsByUrl("statusReason");
-        assertThat(statusReasonExt.size()).isEqualTo(1);
+        assertThat(statusReasonExt).hasSize(1);
 
         var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
         assertThat(statusReason.getText()).isEqualTo("(Ended) Patient no longer requires these");
@@ -331,15 +331,15 @@ public class MedicationRequestPlanMapperTest {
 
     private void assertRepeatInformation(Extension extension) {
         var repeatsAllowed = extension.getExtensionsByUrl(REPEATS_ALLOWED_URL);
-        assertThat(repeatsAllowed.size()).isEqualTo(ONE);
+        assertThat(repeatsAllowed).hasSize(ONE);
         assertThat(((UnsignedIntType) repeatsAllowed.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(SIX).getValue());
 
         var repeatsIssued = extension.getExtensionsByUrl(REPEATS_ISSUED_URL);
-        assertThat(repeatsIssued.size()).isEqualTo(ONE);
+        assertThat(repeatsIssued).hasSize(ONE);
         assertThat(((UnsignedIntType) repeatsIssued.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(ONE).getValue());
 
         var expiryDate = extension.getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
-        assertThat(expiryDate.size()).isEqualTo(ONE);
+        assertThat(expiryDate).hasSize(ONE);
         var date = expiryDate.get(0).getValue().toString();
         assertThat(date).isEqualTo(DateFormatUtil.parseToDateTimeType("20060427").toString());
     }

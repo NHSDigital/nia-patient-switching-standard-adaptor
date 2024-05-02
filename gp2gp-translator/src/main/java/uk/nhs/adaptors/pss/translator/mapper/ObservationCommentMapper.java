@@ -46,11 +46,11 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
             extractAllNonBloodPressureNarrativeStatements(component)
                 .filter(Objects::nonNull)
                 .filter(narrativeStatement -> !isDocumentReference(narrativeStatement))
-                .map(narrativeStatement -> mapObservation(ehrExtract, composition, narrativeStatement, patient, encounters, practiseCode)))
+                .map(narrativeStatement -> mapObservation(composition, narrativeStatement, patient, encounters, practiseCode)))
             .collect((Collectors.toCollection(ArrayList::new)));
     }
 
-    private Observation mapObservation(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition,
+    private Observation mapObservation(RCMRMT030101UKEhrComposition ehrComposition,
                                        RCMRMT030101UKNarrativeStatement narrativeStatement, Patient patient, List<Encounter> encounters,
                                        String practiseCode) {
 
