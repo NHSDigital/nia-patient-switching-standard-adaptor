@@ -93,7 +93,8 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     }
 
     private Observation mapObservation(RCMRMT030101UKEhrComposition ehrComposition,
-                                       RCMRMT030101UKObservationStatement observationStatement, Patient patient, List<Encounter> encounters, String practiseCode) {
+                                       RCMRMT030101UKObservationStatement observationStatement, Patient patient, List<Encounter> encounters,
+                                       String practiseCode) {
 
         var id = observationStatement.getId().getRoot();
 
