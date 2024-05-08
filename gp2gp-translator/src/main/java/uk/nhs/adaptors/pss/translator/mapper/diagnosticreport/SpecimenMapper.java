@@ -5,7 +5,6 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -59,8 +58,8 @@ public class SpecimenMapper {
             .toList();
     }
 
-    public ArrayList<Observation> removeSurplusObservationComments(RCMRMT030101UK04EhrExtract ehrExtract,
-        ArrayList<Observation> observationComments) {
+    public List<Observation> removeSurplusObservationComments(RCMRMT030101UK04EhrExtract ehrExtract,
+                                                              List<Observation> observationComments) {
 
         var specimenCompoundStatements = findAllSpecimenCompoundStatements(ehrExtract);
 

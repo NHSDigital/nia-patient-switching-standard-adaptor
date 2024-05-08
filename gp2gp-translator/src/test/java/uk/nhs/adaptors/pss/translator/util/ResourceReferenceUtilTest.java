@@ -50,7 +50,7 @@ public class ResourceReferenceUtilTest {
         List<Reference> references = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
 
-        assertThat(references.size()).isEqualTo(TWO);
+        assertThat(references).hasSize(TWO);
         assertThat(references.get(0).getReference()).isEqualTo("MedicationRequest/A0A70B62-2649-4C8F-B3AB-618B8257C942");
         assertThat(references.get(1).getReference()).isEqualTo("MedicationRequest/9B4B797A-D674-4362-B666-2ADC8551EEDA");
     }
@@ -62,7 +62,7 @@ public class ResourceReferenceUtilTest {
         List<Reference> references = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
 
-        assertThat(references.size()).isEqualTo(TWO);
+        assertThat(references).hasSize(TWO);
         assertThat(references.get(0).getReference()).isEqualTo("MedicationRequest/A0A70B62-2649-4C8F-B3AB-618B8257C942");
         assertThat(references.get(1).getReference()).isEqualTo("MedicationRequest/9B4B797A-D674-4362-B666-2ADC8551EEDA");
     }
@@ -105,7 +105,7 @@ public class ResourceReferenceUtilTest {
         resourceReferenceUtil.extractChildReferencesFromTemplate(
             ehrComposition.getComponent().get(0).getCompoundStatement(), references);
 
-        assertThat(references.size()).isEqualTo(2);
+        assertThat(references).hasSize(2);
         assertThat(references.get(0).getReference()).isEqualTo("Observation/3DCC9FC9-1873-4004-9789-C4E5C52B02B9");
         assertThat(references.get(1).getReference()).isEqualTo("Observation/278ADD5F-2AC7-48DC-966A-0BA7C029C793");
     }

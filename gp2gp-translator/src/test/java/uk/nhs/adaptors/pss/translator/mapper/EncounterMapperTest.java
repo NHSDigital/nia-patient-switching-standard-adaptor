@@ -147,9 +147,9 @@ public class EncounterMapperTest {
         var encounterList = mappedResources.get(ENCOUNTER_KEY);
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
-        assertThat(mappedResources.get(TOPIC_KEY).size()).isEqualTo(TWO_MAPPED_RESOURCES);
-        assertThat(mappedResources.get(CATEGORY_KEY).size()).isEqualTo(ONE_MAPPED_RESOURCE);
-        assertThat(encounterList.size()).isEqualTo(1);
+        assertThat(mappedResources.get(TOPIC_KEY)).hasSize(TWO_MAPPED_RESOURCES);
+        assertThat(mappedResources.get(CATEGORY_KEY)).hasSize(ONE_MAPPED_RESOURCE);
+        assertThat(encounterList).hasSize(1);
     }
 
     @Test
@@ -311,7 +311,7 @@ public class EncounterMapperTest {
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
         assertThat(mappedResources.get(TOPIC_KEY).size()).isOne();
-        assertThat(mappedResources.get(CATEGORY_KEY).size()).isZero();
+        assertThat(mappedResources.get(CATEGORY_KEY)).isEmpty();
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
@@ -326,7 +326,7 @@ public class EncounterMapperTest {
         assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
 
         var relatedProblemExt = topic.getExtensionsByUrl(RELATED_PROBLEM_EXT_URL);
-        assertThat(relatedProblemExt.isEmpty()).isTrue();
+        assertThat(relatedProblemExt).isEmpty();
     }
 
     @Test
@@ -344,7 +344,7 @@ public class EncounterMapperTest {
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
         assertThat(mappedResources.get(TOPIC_KEY).size()).isOne();
-        assertThat(mappedResources.get(CATEGORY_KEY).size()).isZero();
+        assertThat(mappedResources.get(CATEGORY_KEY)).isEmpty();
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
@@ -374,7 +374,7 @@ public class EncounterMapperTest {
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
         assertThat(mappedResources.get(TOPIC_KEY).size()).isOne();
-        assertThat(mappedResources.get(CATEGORY_KEY).size()).isZero();
+        assertThat(mappedResources.get(CATEGORY_KEY)).isEmpty();
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
@@ -443,7 +443,7 @@ public class EncounterMapperTest {
         assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isOne();
         assertThat(mappedResources.get(CONSULTATION_KEY).size()).isOne();
         assertThat(mappedResources.get(TOPIC_KEY).size()).isOne();
-        assertThat(mappedResources.get(CATEGORY_KEY).size()).isZero();
+        assertThat(mappedResources.get(CATEGORY_KEY)).isEmpty();
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
@@ -502,10 +502,10 @@ public class EncounterMapperTest {
                 ehrExtract, patient, PRACTISE_CODE, entryLocations
         );
 
-        assertThat(mappedResources.get(ENCOUNTER_KEY).size()).isZero();
-        assertThat(mappedResources.get(CONSULTATION_KEY).size()).isZero();
-        assertThat(mappedResources.get(TOPIC_KEY).size()).isZero();
-        assertThat(mappedResources.get(CATEGORY_KEY).size()).isZero();
+        assertThat(mappedResources.get(ENCOUNTER_KEY)).isEmpty();
+        assertThat(mappedResources.get(CONSULTATION_KEY)).isEmpty();
+        assertThat(mappedResources.get(TOPIC_KEY)).isEmpty();
+        assertThat(mappedResources.get(CATEGORY_KEY)).isEmpty();
     }
 
     private static Stream<Arguments> invalidEhrCompositionTestFiles() {
@@ -540,7 +540,7 @@ public class EncounterMapperTest {
             assertThat(encounter.getLocationFirstRep().getLocation().getReference())
                 .isEqualTo(LOCATION_PREFIX + id);
         } else {
-            assertThat(encounter.getLocation().size()).isZero();
+            assertThat(encounter.getLocation()).isEmpty();
         }
     }
 

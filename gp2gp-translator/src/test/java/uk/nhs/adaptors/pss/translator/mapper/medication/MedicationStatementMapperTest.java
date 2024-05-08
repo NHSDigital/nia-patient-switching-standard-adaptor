@@ -71,13 +71,13 @@ public class MedicationStatementMapperTest {
 
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
-        assertThat(lastIssuedDate.size()).isEqualTo(1);
+        assertThat(lastIssuedDate).hasSize(1);
         var dateTime = (DateTimeType) lastIssuedDate.get(0).getValue();
         assertThat(dateTime.getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("20060428").getValue());
 
         var prescribingAgency = medicationStatement1
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
-        assertThat(prescribingAgency.size()).isEqualTo(1);
+        assertThat(prescribingAgency).hasSize(1);
         assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
         assertThat(medicationStatement1.getStatus()).isEqualTo(ACTIVE);
         assertThat(medicationStatement1.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
@@ -103,11 +103,11 @@ public class MedicationStatementMapperTest {
 
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
-        assertThat(lastIssuedDate.size()).isEqualTo(0);
+        assertThat(lastIssuedDate.size()).isZero();
 
         var prescribingAgency = medicationStatement1
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
-        assertThat(prescribingAgency.size()).isEqualTo(1);
+        assertThat(prescribingAgency).hasSize(1);
         assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
         assertThat(medicationStatement1.getStatus()).isEqualTo(ACTIVE);
         assertThat(medicationStatement1.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
