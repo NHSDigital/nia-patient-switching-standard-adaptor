@@ -48,7 +48,7 @@ public class UnknownPractitionerHandlerTest {
 
         unknownPractitionerHandler.updateUnknownPractitionersRefs(bundle);
 
-        assertThat(bundle.getEntry().size()).isEqualTo(2);
+        assertThat(bundle.getEntry()).hasSize(2);
     }
 
     @Test

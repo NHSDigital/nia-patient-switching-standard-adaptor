@@ -89,8 +89,7 @@ public class ObservationCommentMapperTest {
                 Collections.singletonList(encounter),
                 PRACTISE_CODE);
 
-        assertThat(observations)
-                .hasSize(0);
+        assertThat(observations).isEmpty();
     }
 
     @Test
@@ -100,7 +99,7 @@ public class ObservationCommentMapperTest {
         List<Observation> observations =
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
-        assertThat(observations.size()).isEqualTo(EXPECTED_OBSERVATION_COUNT);
+        assertThat(observations).hasSize(EXPECTED_OBSERVATION_COUNT);
     }
 
     @Test
@@ -141,7 +140,7 @@ public class ObservationCommentMapperTest {
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
         // Calling `getContext` auto creates a Reference object so asserting the reference is null
-        assertThat(observations.get(0).getContext().getReference()).isEqualTo(null);
+        assertThat(observations.get(0).getContext().getReference()).isNull();
     }
 
     @Test
@@ -151,7 +150,7 @@ public class ObservationCommentMapperTest {
         List<Observation> observations =
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
-        assertThat(observations.get(0).getComment()).isEqualTo(null);
+        assertThat(observations.get(0).getComment()).isNull();
     }
 
     private RCMRMT030101UKNarrativeStatement getNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract) {

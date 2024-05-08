@@ -110,13 +110,13 @@ public class SpecimenBatteryMapperTest {
         assertSubject(observation);
         assertRelated(observation);
 
-        assertThat(observationComments.size()).isEqualTo(2);
+        assertThat(observationComments).hasSize(2);
 
         var observationCommentIds = observationComments.stream()
             .map(Observation::getId)
             .toList();
 
-        assertThat(observationCommentIds.contains("BATTERY_DIRECT_CHILD_NARRATIVE_STATEMENT_ID")).isFalse();
+        assertThat(observationCommentIds).doesNotContain("BATTERY_DIRECT_CHILD_NARRATIVE_STATEMENT_ID");
     }
 
     @Test
