@@ -111,13 +111,13 @@ public class SpecimenMapperTest {
         var outputList = specimenMapper
             .removeSurplusObservationComments(ehrExtract, getObservationComments());
 
-        assertThat(outputList.size()).isEqualTo(2);
+        assertThat(outputList).hasSize(2);
 
         List<String> ids = outputList.stream()
             .map(Observation::getId)
             .toList();
 
-        assertThat(ids.contains(NARRATIVE_STATEMENT_ID)).isFalse();
+        assertThat(ids).doesNotContain(NARRATIVE_STATEMENT_ID);
     }
 
     @Test

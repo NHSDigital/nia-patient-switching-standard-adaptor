@@ -101,7 +101,7 @@ public class RCMRMT030101UK04SpecimenRole implements RCMRMT030101UKSpecimenRole 
     @Override
     public List<II> getId() {
         if (id == null) {
-            id = new ArrayList<II>();
+            id = new ArrayList<>();
         }
         return this.id;
     }
