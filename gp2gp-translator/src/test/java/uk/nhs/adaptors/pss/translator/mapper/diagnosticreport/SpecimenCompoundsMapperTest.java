@@ -87,7 +87,7 @@ public class SpecimenCompoundsMapperTest {
         assertParentSpecimenIsReferenced(observation);
 
         assertThat(observation.getRelated()).isEmpty();
-        assertThat(observationComments.size()).isEqualTo(2);
+        assertThat(observationComments).hasSize(2);
         assertThat(observationComment.getComment()).isEqualTo(TEST_COMMENT_LINE_1);
         assertThat(observationComment.getRelated()).isNotEmpty();
         assertThat(observationComment.getRelated().get(0).getTarget().getResource()).isNotNull();
@@ -105,10 +105,10 @@ public class SpecimenCompoundsMapperTest {
 
         assertParentSpecimenIsReferenced(observations.get(0));
         assertParentSpecimenIsReferenced(observations.get(1));
-        assertThat(observationComments.size()).isEqualTo(2);
+        assertThat(observationComments).hasSize(2);
         assertThat(observationComments.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE_1);
 
-        assertThat(diagnosticReports.get(0).getResult().isEmpty()).isTrue();
+        assertThat(diagnosticReports.get(0).getResult()).isEmpty();
         verify(specimenBatteryMapper, times(1)).mapBatteryObservation(any());
     }
 
@@ -120,7 +120,7 @@ public class SpecimenCompoundsMapperTest {
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
-        assertThat(observationComments.size()).isEqualTo(2);
+        assertThat(observationComments).hasSize(2);
         assertThat(observationComments.get(0).getRelated()).isNotEmpty();
         assertThat(observationComments.get(0).getRelated()).isNotEmpty();
         assertThat(observationComments.get(0).getRelated().get(0).getTarget().getResource()).isNotNull();

@@ -65,11 +65,11 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                 .filter(BloodPressureValidatorUtil::isBloodPressureWithBatteryAndBloodPressureTriple)
                 .filter(compoundStatement -> !isDiagnosticReport(compoundStatement)
                     && !hasDiagnosticReportParent(ehrExtract, compoundStatement))
-                .map(compoundStatement -> mapObservation(extract, composition, compoundStatement, patient, encounters, practiseCode)))
+                .map(compoundStatement -> mapObservation(composition, compoundStatement, patient, encounters, practiseCode)))
             .toList();
     }
 
-    private Observation mapObservation(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition,
+    private Observation mapObservation(RCMRMT030101UKEhrComposition ehrComposition,
                                        RCMRMT030101UKCompoundStatement compoundStatement, Patient patient, List<Encounter> encounters,
                                        String practiseCode) {
         var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);

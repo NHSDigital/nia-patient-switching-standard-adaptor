@@ -163,16 +163,16 @@ public class BloodPressureMapperTest {
         assertThat(bloodPressure.getComponent().get(0).getCode().getCoding().get(1).getDisplay())
             .isEqualTo(CODING_DISPLAY_MOCK);
         assertThat(bloodPressure.getComponent().get(0).getValueQuantity()).isNull();
-        assertThat(bloodPressure.getComponent().get(0).getInterpretation().getCoding().isEmpty()).isTrue();
-        assertThat(bloodPressure.getComponent().get(0).getReferenceRange().isEmpty()).isTrue();
+        assertThat(bloodPressure.getComponent().get(0).getInterpretation().getCoding()).isEmpty();
+        assertThat(bloodPressure.getComponent().get(0).getReferenceRange()).isEmpty();
 
         assertThat(bloodPressure.getComponent().get(1).getCode().getCodingFirstRep())
             .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
         assertThat(bloodPressure.getComponent().get(1).getCode().getCoding().get(1).getDisplay())
             .isEqualTo(CODING_DISPLAY_MOCK);
         assertThat(bloodPressure.getComponent().get(1).getValueQuantity()).isNull();
-        assertThat(bloodPressure.getComponent().get(1).getInterpretation().getCoding().isEmpty()).isTrue();
-        assertThat(bloodPressure.getComponent().get(1).getReferenceRange().isEmpty()).isTrue();
+        assertThat(bloodPressure.getComponent().get(1).getInterpretation().getCoding()).isEmpty();
+        assertThat(bloodPressure.getComponent().get(1).getReferenceRange()).isEmpty();
     }
 
     @Test
@@ -240,7 +240,7 @@ public class BloodPressureMapperTest {
 
         var bloodPressures = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
 
-        assertThat(bloodPressures.isEmpty()).isTrue();
+        assertThat(bloodPressures).isEmpty();
     }
 
     @Test
