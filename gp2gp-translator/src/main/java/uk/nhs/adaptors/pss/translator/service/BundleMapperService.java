@@ -167,7 +167,7 @@ public class BundleMapperService {
     }
 
     private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        List<Observation> observations, ArrayList<Observation> observationComments, String practiceCode) {
+                                      List<Observation> observations, List<Observation> observationComments, String practiceCode) {
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode, observationComments);
 
         diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);

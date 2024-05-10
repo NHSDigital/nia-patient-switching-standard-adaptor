@@ -76,7 +76,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     public List<DiagnosticReport> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-                                               String practiceCode, ArrayList<Observation> observationComments) {
+                                               String practiceCode, List<Observation> observationComments) {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
                 extractAllCompoundStatements(component)
                         .filter(Objects::nonNull)
@@ -121,7 +121,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
 
     private DiagnosticReport createDiagnosticReport(RCMRMT030101UKCompoundStatement compoundStatement, Patient patient,
                                                     RCMRMT030101UKEhrComposition composition, List<Encounter> encounters,
-                                                    ArrayList<Observation> observationComments,
+                                                    List<Observation> observationComments,
                                                     String practiceCode) {
 
         final DiagnosticReport diagnosticReport = new DiagnosticReport();
@@ -173,7 +173,8 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
 
     private void setResultReferences(RCMRMT030101UKCompoundStatement compoundStatement,
                                      DiagnosticReport diagnosticReport,
-                                     ArrayList<Observation> observationComments) {
+                                     List<Observation> observationComments) {
+
         var resultReferences = getDirectResultReferences(compoundStatement);
         diagnosticReport.setResult(resultReferences);
 

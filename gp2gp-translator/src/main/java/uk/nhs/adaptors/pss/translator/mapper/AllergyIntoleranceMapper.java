@@ -67,8 +67,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                         .filter(Objects::nonNull)
                         .filter(ResourceFilterUtil::isAllergyIntolerance)
                         .map(compoundStatement -> mapAllergyIntolerance(
-                                ehrExtract,
-                                composition,
+                            composition,
                                 compoundStatement,
                                 practiseCode,
                                 encounters,
@@ -76,8 +75,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         ).toList();
     }
 
-    private AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UKEhrExtract ehrExtract,
-                                                     RCMRMT030101UKEhrComposition ehrComposition,
+    private AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UKEhrComposition ehrComposition,
                                                      RCMRMT030101UKCompoundStatement compoundStatement,
                                                      String practiseCode,
                                                      List<Encounter> encounters,

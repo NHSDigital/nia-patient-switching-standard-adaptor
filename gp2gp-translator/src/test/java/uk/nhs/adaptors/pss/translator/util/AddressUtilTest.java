@@ -50,7 +50,7 @@ public class AddressUtilTest {
 
         assertThat(address.getUse()).isEqualTo(Address.AddressUse.WORK);
         assertThat(address.getType()).isEqualTo(Address.AddressType.PHYSICAL);
-        assertThat(address.getLine().size()).isEqualTo(0);
+        assertThat(address.getLine().size()).isZero();
         assertThat(address.getPostalCode()).isNull();
     }
 
