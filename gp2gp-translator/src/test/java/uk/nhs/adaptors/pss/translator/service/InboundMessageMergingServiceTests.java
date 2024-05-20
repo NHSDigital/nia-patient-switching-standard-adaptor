@@ -85,7 +85,7 @@ public class InboundMessageMergingServiceTests {
     @Mock
     private Document document;
     @Mock
-    private NackAckPreparationService nackAckPreparationService;
+    private NackAckPrepInterface nackAckPreparationService;
     @Mock
     private AttachmentHandlerService attachmentHandlerService;
     @Mock

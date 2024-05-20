@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,14 +35,25 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
+import uk.nhs.adaptors.pss.translator.exception.ConversationIdNotFoundException;
+import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
+import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
+import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
+import uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 @ExtendWith(MockitoExtension.class)
 class NackAckPreparationServiceTest {
@@ -59,6 +72,15 @@ class NackAckPreparationServiceTest {
     @Mock
     private SendNACKMessageHandler sendNACKMessageHandler;
 
+    @Mock
+    private COPCIN000001UK01Message mockCOPCMessage;
+
+    @Mock
+    IdGeneratorService idGeneratorService;
+
+    @Mock
+    SendACKMessageHandler sendACKMessageHandler;
+
     @InjectMocks
     private NackAckPreparationService nackAckPreparationService;
 
@@ -67,6 +89,19 @@ class NackAckPreparationServiceTest {
 
     @Captor
     private ArgumentCaptor<MigrationStatus> migrationStatusCaptor;
+
+    @Test
+    public void When_SendNackMessageRCMR_WithErrors_Expect_MultipleRetries() throws JAXBException {
+        COPCIN000001UK01Message payload = unmarshallString(
+            readSubsequentInboundMessagePayloadFromFile(), COPCIN000001UK01Message.class);
+
+        when(sendACKMessageHandler.prepareAndSendMessage(any(ACKMessageData.class))).thenReturn(true);
+
+        assertTrue(nackAckPreparationService.sendAckMessage(payload, CONVERSATION_ID, "ODS"));
+
+        verify(sendACKMessageHandler, times(3))
+            .prepareAndSendMessage(any(ACKMessageData.class));
+    }
 
     @Test
     public void When_SendNackMessageRCMR_WithNoErrors_Expect_ShouldUpdateLog() throws JAXBException {

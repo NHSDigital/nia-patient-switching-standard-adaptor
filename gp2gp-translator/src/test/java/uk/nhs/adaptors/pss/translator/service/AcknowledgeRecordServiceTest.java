@@ -53,7 +53,7 @@ public class AcknowledgeRecordServiceTest {
     );
 
     @Mock
-    private NackAckPreparationService preparationService;
+    private NackAckPrepInterface preparationService;
 
     @Mock
     private ObjectMapper objectMapper;

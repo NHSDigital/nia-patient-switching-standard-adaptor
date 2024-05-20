@@ -33,7 +33,7 @@ import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
-import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPrepInterface;
 import uk.nhs.adaptors.pss.translator.service.SkeletonProcessingService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
@@ -70,7 +70,7 @@ public class EhrExtractMessageHandler {
     private final AttachmentReferenceUpdaterService attachmentReferenceUpdaterService;
     private final PatientAttachmentLogService patientAttachmentLogService;
     private final XPathService xPathService;
-    private final NackAckPreparationService nackAckPreparationService;
+    private final NackAckPrepInterface nackAckPreparationService;
     private final SkeletonProcessingService skeletonProcessingService;
     private final FailedProcessHandlingService failedProcessHandlingService;
 

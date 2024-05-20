@@ -69,7 +69,7 @@ import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
-import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPrepInterface;
 import uk.nhs.adaptors.pss.translator.service.SkeletonProcessingService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
@@ -124,7 +124,7 @@ public class EhrExtractMessageHandlerTest {
     private EhrExtractMessageHandler ehrExtractMessageHandler;
 
     @Mock
-    private NackAckPreparationService nackAckPreparationServiceMock;
+    private NackAckPrepInterface nackAckPreparationServiceMock;
 
     @Mock
     private SkeletonProcessingService skeletonProcessingService;

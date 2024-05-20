@@ -49,7 +49,7 @@ public class InboundMessageMergingService {
     private final FhirParser fhirParser;
     private final BundleMapperService bundleMapperService;
     private final PatientMigrationRequestDao migrationRequestDao;
-    private final NackAckPreparationService nackAckPreparationService;
+    private final NackAckPrepInterface nackAckPreparationService;
     private final SkeletonProcessingService skeletonProcessingService;
 
     private static final String CONVERSATION_ID_HAS_NOT_BEEN_GIVEN = "Conversation Id has not been given";
