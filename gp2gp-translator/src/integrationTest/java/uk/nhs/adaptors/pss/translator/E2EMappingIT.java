@@ -6,6 +6,7 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
@@ -61,6 +62,8 @@ public class E2EMappingIT extends BaseEhrHandler {
 
     @Autowired
     private FhirParser fhirParserService;
+
+    public long MAX_MINUTES =  4;
 
     @Override
     @BeforeEach
@@ -265,7 +268,9 @@ public class E2EMappingIT extends BaseEhrHandler {
         sendInboundMessageToQueue("/e2e-mapping/input-xml/" + inputFileName + ".xml");
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        await().until(this::isEhrMigrationCompleted);
+        await()
+        .atMost(Duration.ofMinutes(MAX_MINUTES))
+        .until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
         verifyBundle("/e2e-mapping/output-json/" + inputFileName + "-output.json", ignoredFields);

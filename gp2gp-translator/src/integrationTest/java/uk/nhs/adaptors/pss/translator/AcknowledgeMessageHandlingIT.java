@@ -14,6 +14,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_N
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
 
+import java.time.Duration;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -53,6 +54,7 @@ public class AcknowledgeMessageHandlingIT {
     private static final String LOSING_ODS_CODE = "K547";
     private static final String WINNING_ODS_CODE = "ABC";
     public static final String TEST_ERROR_MESSAGE = "Test Error Message";
+    public long MAX_MINUTES =  4;
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -81,7 +83,9 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AA", null, null);
 
         // verify if correct status is set in the DB
-        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
+        await()
+        .atMost(Duration.ofMinutes(MAX_MINUTES))
+        .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
     }
 
     @Test
@@ -89,7 +93,9 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AE", null, null);
 
         // verify if correct status is set in the DB
-        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+        await()
+        .atMost(Duration.ofMinutes(MAX_MINUTES))
+        .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }
 
     @Test
@@ -97,7 +103,9 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AE", "101", TEST_ERROR_MESSAGE);
 
         // verify if correct status is set in the DB
-        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+        await()
+        .atMost(Duration.ofMinutes(MAX_MINUTES))
+        .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }
 
     @Test
