@@ -54,7 +54,7 @@ public class AcknowledgeMessageHandlingIT {
     private static final String LOSING_ODS_CODE = "K547";
     private static final String WINNING_ODS_CODE = "ABC";
     public static final String TEST_ERROR_MESSAGE = "Test Error Message";
-    public long MAX_MINUTES =  4;
+    private static final long MAX_MINUTES =  4;
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
