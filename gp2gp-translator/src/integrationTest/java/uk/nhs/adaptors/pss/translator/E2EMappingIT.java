@@ -46,6 +46,8 @@ public class E2EMappingIT extends BaseEhrHandler {
     private static final String SPECIAL_CHARS = "\\\\n|\\\\t|\\\\b|\\\\r";
 
     private String nhsNumberToBeReplaced;
+    private static final long FOUR_MINUTES_LONG = 4L;
+
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -62,8 +64,6 @@ public class E2EMappingIT extends BaseEhrHandler {
 
     @Autowired
     private FhirParser fhirParserService;
-
-    public long MAX_MINUTES =  4;
 
     @Override
     @BeforeEach
@@ -269,8 +269,8 @@ public class E2EMappingIT extends BaseEhrHandler {
 
         // wait until EHR extract is translated to bundle resource and saved to the DB
         await()
-        .atMost(Duration.ofMinutes(MAX_MINUTES))
-        .until(this::isEhrMigrationCompleted);
+        .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
+            .until(this::isEhrMigrationCompleted);
 
         // verify generated bundle resource
         verifyBundle("/e2e-mapping/output-json/" + inputFileName + "-output.json", ignoredFields);

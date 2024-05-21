@@ -53,8 +53,9 @@ public class AcknowledgeMessageHandlingIT {
     private static final String ERROR_REASON_MESSAGE_PLACEHOLDER = "{{reasonMessage}}";
     private static final String LOSING_ODS_CODE = "K547";
     private static final String WINNING_ODS_CODE = "ABC";
+    private static final long FOUR_MINUTES_LONG = 4L;
+
     public static final String TEST_ERROR_MESSAGE = "Test Error Message";
-    private static final long MAX_MINUTES =  4;
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -84,8 +85,8 @@ public class AcknowledgeMessageHandlingIT {
 
         // verify if correct status is set in the DB
         await()
-        .atMost(Duration.ofMinutes(MAX_MINUTES))
-        .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
+        .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
+            .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
     }
 
     @Test
@@ -94,8 +95,8 @@ public class AcknowledgeMessageHandlingIT {
 
         // verify if correct status is set in the DB
         await()
-        .atMost(Duration.ofMinutes(MAX_MINUTES))
-        .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+        .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
+            .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }
 
     @Test
@@ -104,8 +105,8 @@ public class AcknowledgeMessageHandlingIT {
 
         // verify if correct status is set in the DB
         await()
-        .atMost(Duration.ofMinutes(MAX_MINUTES))
-        .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+        .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
+            .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }
 
     @Test
