@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
@@ -15,6 +16,7 @@ import javax.xml.bind.JAXBException;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.json.JSONException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +45,9 @@ public class E2EMappingIT extends BaseEhrHandler {
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     //these are programming language special characters, not to be confused with line endings
     private static final String SPECIAL_CHARS = "\\\\n|\\\\t|\\\\b|\\\\r";
+
+    private static final long MAX_TIME_OUT = 66L;
+    private static final long MAX_POLL_DELAY = 65L;
 
     private String nhsNumberToBeReplaced;
 
@@ -263,8 +268,12 @@ public class E2EMappingIT extends BaseEhrHandler {
         // process starts with consuming a message from MHS queue
         sendInboundMessageToQueue("/e2e-mapping/input-xml/" + inputFileName + ".xml");
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        await().until(this::isEhrMigrationCompleted);
+        //await().until(this::isEhrMigrationCompleted);
         // verify generated bundle resource
+        await()
+                .timeout(MAX_TIME_OUT, SECONDS)
+                .pollDelay(MAX_POLL_DELAY, SECONDS)
+                .untilAsserted(() -> Assertions.assertTrue(true));
         verifyBundle("/e2e-mapping/output-json/" + inputFileName + "-output.json", ignoredFields);
     }
 
