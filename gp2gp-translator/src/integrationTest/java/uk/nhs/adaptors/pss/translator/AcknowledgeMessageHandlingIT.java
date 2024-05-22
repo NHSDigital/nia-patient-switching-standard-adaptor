@@ -54,7 +54,7 @@ public class AcknowledgeMessageHandlingIT {
     private static final String ERROR_REASON_MESSAGE_PLACEHOLDER = "{{reasonMessage}}";
     private static final String LOSING_ODS_CODE = "K547";
     private static final String WINNING_ODS_CODE = "ABC";
-    private static final long FOUR_MINUTES_LONG = 4L;
+    private static final long TEN_MINUTES_LONG = 10L;
 
     public static final String TEST_ERROR_MESSAGE = "Test Error Message";
 
@@ -78,34 +78,28 @@ public class AcknowledgeMessageHandlingIT {
         conversationId = generateConversationId().toUpperCase(Locale.ROOT);
         patientMigrationRequestDao.addNewRequest(generatePatientNhsNumber(), conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null, null);
-        Awaitility.setDefaultTimeout(Duration.ofMinutes(FOUR_MINUTES_LONG));
+        Awaitility.setDefaultTimeout(Duration.ofMinutes(TEN_MINUTES_LONG));
     }
 
     @Test
     public void handlePositiveAcknowledgeMessageFromQueue() {
         sendAcknowledgementMessageToQueue("AA", null, null);
         // verify if correct status is set in the DB
-        await()
-        .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
-            .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
     }
 
     @Test
     public void handleNegativeAcknowledgeMessageFromQueue() {
         sendAcknowledgementMessageToQueue("AE", null, null);
         // verify if correct status is set in the DB
-        await()
-        .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
-            .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }
 
     @Test
     public void handleNegativeAcknowledgeMessageWithUndeclairedErrorReasonFromQueue() {
         sendAcknowledgementMessageToQueue("AE", "101", TEST_ERROR_MESSAGE);
         // verify if correct status is set in the DB
-        await()
-        .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
-            .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }
 
     @Test

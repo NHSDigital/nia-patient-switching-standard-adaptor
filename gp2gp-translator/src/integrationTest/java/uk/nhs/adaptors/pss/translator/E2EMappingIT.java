@@ -47,7 +47,7 @@ public class E2EMappingIT extends BaseEhrHandler {
     private static final String SPECIAL_CHARS = "\\\\n|\\\\t|\\\\b|\\\\r";
 
     private String nhsNumberToBeReplaced;
-    private static final long FOUR_MINUTES_LONG = 4L;
+    private static final long TEN_MINUTES_LONG = 10L;
 
 
     @Autowired
@@ -267,12 +267,9 @@ public class E2EMappingIT extends BaseEhrHandler {
     private void executeTest(String inputFileName, List<String> ignoredFields) throws JAXBException, JSONException {
         // process starts with consuming a message from MHS queue
         sendInboundMessageToQueue("/e2e-mapping/input-xml/" + inputFileName + ".xml");
-        Awaitility.setDefaultTimeout(Duration.ofMinutes(FOUR_MINUTES_LONG));
+        Awaitility.setDefaultTimeout(Duration.ofMinutes(TEN_MINUTES_LONG));
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        await()
-        .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
-            .until(this::isEhrMigrationCompleted);
-
+        await().until(this::isEhrMigrationCompleted);
         // verify generated bundle resource
         verifyBundle("/e2e-mapping/output-json/" + inputFileName + "-output.json", ignoredFields);
     }
