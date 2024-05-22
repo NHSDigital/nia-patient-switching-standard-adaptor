@@ -6,14 +6,12 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBException;
 
-import org.awaitility.Awaitility;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.json.JSONException;
@@ -47,8 +45,6 @@ public class E2EMappingIT extends BaseEhrHandler {
     private static final String SPECIAL_CHARS = "\\\\n|\\\\t|\\\\b|\\\\r";
 
     private String nhsNumberToBeReplaced;
-    private static final long TEN_MINUTES_LONG = 10L;
-
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -106,7 +102,6 @@ public class E2EMappingIT extends BaseEhrHandler {
                 "entry[50].resource.identifier[0].value"
 
         );
-
 
         executeTest(inputFileName, ignoredFields);
     }
@@ -267,7 +262,6 @@ public class E2EMappingIT extends BaseEhrHandler {
     private void executeTest(String inputFileName, List<String> ignoredFields) throws JAXBException, JSONException {
         // process starts with consuming a message from MHS queue
         sendInboundMessageToQueue("/e2e-mapping/input-xml/" + inputFileName + ".xml");
-        Awaitility.setDefaultTimeout(Duration.ofMinutes(TEN_MINUTES_LONG));
         // wait until EHR extract is translated to bundle resource and saved to the DB
         await().until(this::isEhrMigrationCompleted);
         // verify generated bundle resource

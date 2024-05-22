@@ -14,12 +14,10 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_N
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN;
 
-import java.time.Duration;
 import java.util.Locale;
 import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,6 +42,7 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @DirtiesContext
 @AutoConfigureMockMvc
 public class AcknowledgeMessageHandlingIT {
+
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/MCCI_IN010000UK13/ebxml_part.xml";
     private static final String PAYLOAD_PART_PATH = "/xml/MCCI_IN010000UK13/payload_part.xml";
@@ -54,7 +53,6 @@ public class AcknowledgeMessageHandlingIT {
     private static final String ERROR_REASON_MESSAGE_PLACEHOLDER = "{{reasonMessage}}";
     private static final String LOSING_ODS_CODE = "K547";
     private static final String WINNING_ODS_CODE = "ABC";
-    private static final long TEN_MINUTES_LONG = 10L;
 
     public static final String TEST_ERROR_MESSAGE = "Test Error Message";
 
@@ -78,7 +76,6 @@ public class AcknowledgeMessageHandlingIT {
         conversationId = generateConversationId().toUpperCase(Locale.ROOT);
         patientMigrationRequestDao.addNewRequest(generatePatientNhsNumber(), conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null, null);
-        Awaitility.setDefaultTimeout(Duration.ofMinutes(TEN_MINUTES_LONG));
     }
 
     @Test
