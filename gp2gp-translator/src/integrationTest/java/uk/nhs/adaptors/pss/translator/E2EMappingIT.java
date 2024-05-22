@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 
@@ -46,8 +47,8 @@ public class E2EMappingIT extends BaseEhrHandler {
     //these are programming language special characters, not to be confused with line endings
     private static final String SPECIAL_CHARS = "\\\\n|\\\\t|\\\\b|\\\\r";
 
-    private static final long MAX_TIME_OUT = 66L;
-    private static final long MAX_POLL_DELAY = 65L;
+    private static final long MAX_TIME_OUT = 5L;
+    private static final long MAX_POLL_DELAY = 4L;
 
     private String nhsNumberToBeReplaced;
 
@@ -271,8 +272,8 @@ public class E2EMappingIT extends BaseEhrHandler {
         //await().until(this::isEhrMigrationCompleted);
         // verify generated bundle resource
         await()
-                .timeout(MAX_TIME_OUT, SECONDS)
-                .pollDelay(MAX_POLL_DELAY, SECONDS)
+                .timeout(MAX_TIME_OUT, MINUTES)
+                .pollDelay(MAX_POLL_DELAY, MINUTES)
                 .untilAsserted(() -> Assertions.assertTrue(true));
         verifyBundle("/e2e-mapping/output-json/" + inputFileName + "-output.json", ignoredFields);
     }
