@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBException;
 
+import org.awaitility.Awaitility;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.json.JSONException;
@@ -266,7 +267,7 @@ public class E2EMappingIT extends BaseEhrHandler {
     private void executeTest(String inputFileName, List<String> ignoredFields) throws JAXBException, JSONException {
         // process starts with consuming a message from MHS queue
         sendInboundMessageToQueue("/e2e-mapping/input-xml/" + inputFileName + ".xml");
-
+        Awaitility.setDefaultTimeout(Duration.ofMinutes(FOUR_MINUTES_LONG));
         // wait until EHR extract is translated to bundle resource and saved to the DB
         await()
         .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))

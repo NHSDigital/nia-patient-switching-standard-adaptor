@@ -19,6 +19,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -77,12 +78,12 @@ public class AcknowledgeMessageHandlingIT {
         conversationId = generateConversationId().toUpperCase(Locale.ROOT);
         patientMigrationRequestDao.addNewRequest(generatePatientNhsNumber(), conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null, null);
+        Awaitility.setDefaultTimeout(Duration.ofMinutes(FOUR_MINUTES_LONG));
     }
 
     @Test
     public void handlePositiveAcknowledgeMessageFromQueue() {
         sendAcknowledgementMessageToQueue("AA", null, null);
-
         // verify if correct status is set in the DB
         await()
         .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
@@ -92,7 +93,6 @@ public class AcknowledgeMessageHandlingIT {
     @Test
     public void handleNegativeAcknowledgeMessageFromQueue() {
         sendAcknowledgementMessageToQueue("AE", null, null);
-
         // verify if correct status is set in the DB
         await()
         .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
@@ -102,7 +102,6 @@ public class AcknowledgeMessageHandlingIT {
     @Test
     public void handleNegativeAcknowledgeMessageWithUndeclairedErrorReasonFromQueue() {
         sendAcknowledgementMessageToQueue("AE", "101", TEST_ERROR_MESSAGE);
-
         // verify if correct status is set in the DB
         await()
         .atMost(Duration.ofMinutes(FOUR_MINUTES_LONG))
