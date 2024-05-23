@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.awaitility.Awaitility.await;
 
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
