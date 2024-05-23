@@ -49,7 +49,7 @@ import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
-import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPrepInterface;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.util.InboundMessageUtil;
@@ -65,7 +65,7 @@ public class COPCMessageHandler {
 
     private final MigrationStatusLogService migrationStatusLogService;
     private final PatientMigrationRequestDao migrationRequestDao;
-    private final NackAckPreparationService nackAckPreparationService;
+    private final NackAckPrepInterface nackAckPreparationService;
     private final PatientAttachmentLogService patientAttachmentLogService;
     private final AttachmentHandlerService attachmentHandlerService;
     private final InboundMessageMergingService inboundMessageMergingService;
