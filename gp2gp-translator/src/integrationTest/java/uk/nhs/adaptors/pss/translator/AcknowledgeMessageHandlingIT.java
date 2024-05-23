@@ -122,7 +122,8 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AE", "07", TEST_ERROR_MESSAGE);
 
         // verify if correct status is set in the DB
-        await().atLeast(TIMEOUT, TimeUnit.SECONDS).until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED));
+        await().atLeast(TIMEOUT, TimeUnit.SECONDS)
+            .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED));
     }
 
     @Test
@@ -138,7 +139,8 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AE", "18", TEST_ERROR_MESSAGE);
 
         // verify if correct status is set in the DB
-        await().atLeast(TIMEOUT, TimeUnit.SECONDS).until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST));
+        await().atLeast(TIMEOUT, TimeUnit.SECONDS)
+            .until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST));
     }
 
     @Test

@@ -260,7 +260,6 @@ public class E2EMappingIT extends BaseEhrHandler {
         executeTest(inputFileName, ignoredFields);
     }
 
-
     private void executeTest(String inputFileName, List<String> ignoredFields) throws JAXBException, JSONException {
         // process starts with consuming a message from MHS queue
         sendInboundMessageToQueue("/e2e-mapping/input-xml/" + inputFileName + ".xml");
