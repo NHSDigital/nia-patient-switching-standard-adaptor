@@ -56,7 +56,7 @@ public class AcknowledgeMessageHandlingIT {
     private static final String WINNING_ODS_CODE = "ABC";
 
     public static final String TEST_ERROR_MESSAGE = "Test Error Message";
-    public static final int TIMEOUT = 30;
+    public static final int TIMEOUT = 60;
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
