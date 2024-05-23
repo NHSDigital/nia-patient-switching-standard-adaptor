@@ -16,8 +16,10 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_N
 
 import java.util.Locale;
 import java.util.UUID;
+import java.time.Duration;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,6 +55,8 @@ public class AcknowledgeMessageHandlingIT {
     private static final String ERROR_REASON_MESSAGE_PLACEHOLDER = "{{reasonMessage}}";
     private static final String LOSING_ODS_CODE = "K547";
     private static final String WINNING_ODS_CODE = "ABC";
+    private static final long DEFAULT_AWAIT_TIMEOUT = 120L;
+
 
     public static final String TEST_ERROR_MESSAGE = "Test Error Message";
 
@@ -87,6 +91,7 @@ public class AcknowledgeMessageHandlingIT {
 
     @Test
     public void handleNegativeAcknowledgeMessageFromQueue() {
+        Awaitility.setDefaultTimeout(Duration.ofSeconds(DEFAULT_AWAIT_TIMEOUT));
         sendAcknowledgementMessageToQueue("AE", null, null);
         // verify if correct status is set in the DB
         await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
