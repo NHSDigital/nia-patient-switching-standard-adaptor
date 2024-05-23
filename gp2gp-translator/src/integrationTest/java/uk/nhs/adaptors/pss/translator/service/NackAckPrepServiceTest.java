@@ -75,10 +75,9 @@ public class NackAckPrepServiceTest {
 
         doThrow(new RuntimeException("")).when(sendACKMessageHandler).prepareAndSendMessage(any());
 
-        Exception exception = assertThrows(Exception.class, () -> {
+        assertThrows(Exception.class, () -> {
             nackAckPreparationService.sendAckMessage(mockCOPCMessage, CONVERSATION_ID, "ColoColoPractice");
         });
-
         verify(sendACKMessageHandler, times(NUMBER_OF_RETRIES))
                 .prepareAndSendMessage(any(ACKMessageData.class));
     }
