@@ -16,6 +16,7 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_N
 
 import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,6 +56,7 @@ public class AcknowledgeMessageHandlingIT {
     private static final String WINNING_ODS_CODE = "ABC";
 
     public static final String TEST_ERROR_MESSAGE = "Test Error Message";
+    public static final int TIMEOUT = 20;
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -89,14 +91,14 @@ public class AcknowledgeMessageHandlingIT {
     public void handleNegativeAcknowledgeMessageFromQueue() {
         sendAcknowledgementMessageToQueue("AE", null, null);
         // verify if correct status is set in the DB
-        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+        await().atLeast(TIMEOUT, TimeUnit.SECONDS).until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }
 
     @Test
     public void handleNegativeAcknowledgeMessageWithUndeclairedErrorReasonFromQueue() {
         sendAcknowledgementMessageToQueue("AE", "101", TEST_ERROR_MESSAGE);
         // verify if correct status is set in the DB
-        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+        await().atLeast(TIMEOUT, TimeUnit.SECONDS).until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }
 
     @Test
@@ -104,7 +106,7 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AE", "99", TEST_ERROR_MESSAGE);
 
         // verify if correct status is set in the DB
-        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
+        await().atLeast(TIMEOUT, TimeUnit.SECONDS).until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }
 
     @Test
