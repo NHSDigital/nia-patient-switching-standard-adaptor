@@ -16,7 +16,6 @@ import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_N
 
 import java.util.Locale;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;

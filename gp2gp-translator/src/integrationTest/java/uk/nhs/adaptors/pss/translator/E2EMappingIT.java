@@ -8,7 +8,6 @@ import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonP
 
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBException;
