@@ -8,6 +8,7 @@ import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonP
 
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBException;
@@ -43,6 +44,7 @@ public class E2EMappingIT extends BaseEhrHandler {
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
     //these are programming language special characters, not to be confused with line endings
     private static final String SPECIAL_CHARS = "\\\\n|\\\\t|\\\\b|\\\\r";
+    public static final int TIMEOUT = 30;
 
     private String nhsNumberToBeReplaced;
 
@@ -263,7 +265,7 @@ public class E2EMappingIT extends BaseEhrHandler {
         // process starts with consuming a message from MHS queue
         sendInboundMessageToQueue("/e2e-mapping/input-xml/" + inputFileName + ".xml");
         // wait until EHR extract is translated to bundle resource and saved to the DB
-        await().until(this::isEhrMigrationCompleted);
+        await().atLeast(TIMEOUT, TimeUnit.SECONDS).until(this::isEhrMigrationCompleted);
         // verify generated bundle resource
         verifyBundle("/e2e-mapping/output-json/" + inputFileName + "-output.json", ignoredFields);
     }

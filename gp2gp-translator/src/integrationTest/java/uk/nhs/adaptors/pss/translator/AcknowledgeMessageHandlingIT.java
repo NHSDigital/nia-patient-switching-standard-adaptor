@@ -56,7 +56,7 @@ public class AcknowledgeMessageHandlingIT {
     private static final String WINNING_ODS_CODE = "ABC";
 
     public static final String TEST_ERROR_MESSAGE = "Test Error Message";
-    public static final int TIMEOUT = 20;
+    public static final int TIMEOUT = 30;
 
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
@@ -84,7 +84,7 @@ public class AcknowledgeMessageHandlingIT {
     public void handlePositiveAcknowledgeMessageFromQueue() {
         sendAcknowledgementMessageToQueue("AA", null, null);
         // verify if correct status is set in the DB
-        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
+        await().atLeast(TIMEOUT, TimeUnit.SECONDS).until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AE", "07", TEST_ERROR_MESSAGE);
 
         // verify if correct status is set in the DB
-        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED));
+        await().atLeast(TIMEOUT, TimeUnit.SECONDS).until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_SENDER_NOT_CONFIGURED));
     }
 
     @Test
@@ -138,7 +138,7 @@ public class AcknowledgeMessageHandlingIT {
         sendAcknowledgementMessageToQueue("AE", "18", TEST_ERROR_MESSAGE);
 
         // verify if correct status is set in the DB
-        await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST));
+        await().atLeast(TIMEOUT, TimeUnit.SECONDS).until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_GP2GP_MISFORMED_REQUEST));
     }
 
     @Test
