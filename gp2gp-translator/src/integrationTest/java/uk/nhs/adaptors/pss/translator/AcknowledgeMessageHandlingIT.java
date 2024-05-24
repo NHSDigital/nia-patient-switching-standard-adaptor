@@ -42,6 +42,7 @@ import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 @DirtiesContext
 @AutoConfigureMockMvc
 public class AcknowledgeMessageHandlingIT {
+
     private static final int NHS_NUMBER_MIN_MAX_LENGTH = 10;
     private static final String EBXML_PART_PATH = "/xml/MCCI_IN010000UK13/ebxml_part.xml";
     private static final String PAYLOAD_PART_PATH = "/xml/MCCI_IN010000UK13/payload_part.xml";
@@ -79,7 +80,6 @@ public class AcknowledgeMessageHandlingIT {
     @Test
     public void handlePositiveAcknowledgeMessageFromQueue() {
         sendAcknowledgementMessageToQueue("AA", null, null);
-
         // verify if correct status is set in the DB
         await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_ACKNOWLEDGED));
     }
@@ -87,7 +87,6 @@ public class AcknowledgeMessageHandlingIT {
     @Test
     public void handleNegativeAcknowledgeMessageFromQueue() {
         sendAcknowledgementMessageToQueue("AE", null, null);
-
         // verify if correct status is set in the DB
         await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }
@@ -95,7 +94,6 @@ public class AcknowledgeMessageHandlingIT {
     @Test
     public void handleNegativeAcknowledgeMessageWithUndeclairedErrorReasonFromQueue() {
         sendAcknowledgementMessageToQueue("AE", "101", TEST_ERROR_MESSAGE);
-
         // verify if correct status is set in the DB
         await().until(() -> isCorrectStatusSet(EHR_EXTRACT_REQUEST_NEGATIVE_ACK_UNKNOWN));
     }

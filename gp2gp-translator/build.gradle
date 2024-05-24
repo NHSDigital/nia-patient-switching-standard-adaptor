@@ -45,6 +45,8 @@ dependencies {
 
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
     implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'org.springframework.retry:spring-retry:2.0.5'
+    implementation 'org.springframework:spring-aspects:6.1.7'
 }
 
 test {
