@@ -353,7 +353,7 @@ The following variables are used determine if a [migration has timed out](#timeo
 **Optional**
   - `SDS_BASE_URL`: The URL of the SDS FHIR API, default = `https://api.service.nhs.uk/spine-directory/FHIR/R4`
   - `TIMEOUT_CRON_TIME`: The frequency of the timeout check specified as a [Cron expression][spring-cron-expression].
-     Format = `<second> <minute> <hour> <day of month> <month> <day of week>`, default = `0 0 */1 * * *` (AKA every 2 hours)
+     Format = `<second> <minute> <hour> <day of month> <month> <day of week>`, default = `0 0 */2 * * *` (AKA every 2 hours)
   - `TIMEOUT_SDS_POLL_FREQUENCY`: The frequency at which SDS is polled for updated message persist durations, 
     defined in terms of the number of times a migration has been identified by the timeout cron, default = `3`
   - `TIMEOUT_EHR_EXTRACT_WEIGHTING`: The weighting factor A, to account transmission delays and volume throughput times of the RCMR_IN030000UK06 message, default = `1`
