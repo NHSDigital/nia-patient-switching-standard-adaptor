@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.util.ResourceUtils.getFile;
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.ArrayList;
@@ -40,6 +41,9 @@ public class SpecimenCompoundsMapperTest {
     private static final String TEST_COMMENT_LINE_1 = "Test Comment";
 
     private static final Patient PATIENT = (Patient) new Patient().setId("TEST_PATIENT_ID");
+    public static final String LABORATORY_CODE = "laboratory";
+    public static final String OBSERVATION_SYSTEM = "http://hl7.org/fhir/observation-category";
+    public static final String LABORATORY_DISPLAY = "Laboratory";
 
     private List<Observation> observations;
     private List<Observation> observationComments;
@@ -71,6 +75,22 @@ public class SpecimenCompoundsMapperTest {
         final Reference result = diagnosticReports.get(0).getResult().get(0);
         assertThat(result.getResource()).isNotNull();
         assertThat(result.getResource().getIdElement().getValue()).isEqualTo(OBSERVATION_STATEMENT_ID);
+    }
+
+    @Test
+    public void testHandlingFirstLevelObservationStatementWhenCategoryAlreadyExistsInObservation() {
+        final var ehrExtract = unmarshallEhrExtract("specimen_observation_statement.xml");
+        final var existingCategory = createCodeableConcept(
+                LABORATORY_CODE,
+                OBSERVATION_SYSTEM,
+                LABORATORY_DISPLAY,
+                null);
+        observations.get(0).addCategory(existingCategory);
+        specimenCompoundsMapper.handleSpecimenChildComponents(
+                ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
+        );
+
+        assertThat(observations.get(0).getCategory()).hasSize(1);
     }
 
     @Test
