@@ -35,7 +35,7 @@ import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 public class FailedProcessHandlingServiceTest {
 
     @Mock
-    private NackAckPreparationService nackAckPreparationService;
+    private NackAckPrepInterface nackAckPreparationService;
 
     @Mock
     private MigrationStatusLogService migrationStatusLogService;

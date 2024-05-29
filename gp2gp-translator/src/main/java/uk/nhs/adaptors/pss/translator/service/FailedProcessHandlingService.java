@@ -42,7 +42,7 @@ import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 public class FailedProcessHandlingService {
 
     private final MigrationStatusLogService migrationStatusLogService;
-    private final NackAckPreparationService nackAckPreparationService;
+    private final NackAckPrepInterface nackAckPreparationService;
 
     private final SendNACKMessageHandler sendNACKMessageHandler;
 
