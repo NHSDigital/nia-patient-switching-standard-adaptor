@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator;
 
 import static org.awaitility.Awaitility.await;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 import static uk.nhs.adaptors.pss.util.JsonPathIgnoreGeneratorUtil.generateJsonPathIgnores;
@@ -200,6 +201,25 @@ public class E2EMappingIT extends BaseEhrHandler {
         );
 
         executeTest(inputFileName, ignoredFields);
+    }
+
+    @SneakyThrows
+    @Test
+    public void deleteMeTest() {
+        String inputFileName = "test";
+
+        sendInboundMessageToQueue("/e2e-mapping/input-xml/" + inputFileName + ".xml");
+        // wait until EHR extract is translated to bundle resource and saved to the DB
+        await().until(this::isEhrMigrationCompleted);
+
+        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(getConversationId());
+
+
+        var bundle = fhirParserService.parseResource(patientMigrationRequest.getBundleResource(), Bundle.class);
+        var actualBundle = patientMigrationRequest.getBundleResource().replaceAll(SPECIAL_CHARS, "");
+
+
+        assertTrue(true);
     }
 
     @Test

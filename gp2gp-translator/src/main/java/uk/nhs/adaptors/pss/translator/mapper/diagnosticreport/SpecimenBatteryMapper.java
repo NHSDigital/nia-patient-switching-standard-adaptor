@@ -83,7 +83,7 @@ public class SpecimenBatteryMapper {
             batteryParameters.getBatteryCompoundStatement(), batteryParameters.getObservationComments()));
         getContext(batteryParameters.getEncounters(), ehrComposition).ifPresent(observation::setContext);
         addEffective(batteryCompoundStatement, observation);
-        getIssued(ehrComposition).ifPresent(observation::setIssuedElement);
+        getIssued(batteryCompoundStatement, ehrComposition).ifPresent(observation::setIssuedElement);
         getPerformer(batteryCompoundStatement, ehrComposition).ifPresent(observation::addPerformer);
         getRelated(batteryCompoundStatement).forEach(observation::addRelated);
         handleDirectChildNarrativeStatementUserComments(batteryCompoundStatement, observation, batteryParameters.getObservationComments());
@@ -216,6 +216,33 @@ public class SpecimenBatteryMapper {
         }
 
         return Optional.empty();
+    }
+
+    private Optional<InstantType> getIssued(RCMRMT030101UKCompoundStatement compoundStatement,
+                                            RCMRMT030101UKEhrComposition ehrComposition) {
+
+        if (compoundStatementHasValidAvailabilityTime(compoundStatement)) {
+            return Optional.of(parseToInstantType(compoundStatement.getAvailabilityTime().getValue()));
+        }
+
+        if (authorHasValidTimeValue(ehrComposition.getAuthor())) {
+            return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
+        }
+
+        return Optional.empty();
+    }
+
+    private boolean compoundStatementHasValidAvailabilityTime(RCMRMT030101UKCompoundStatement compoundStatement) {
+
+        return compoundStatement != null && compoundStatement.getAvailabilityTime() != null
+            && compoundStatement.getAvailabilityTime().hasValue()
+            && !compoundStatement.getAvailabilityTime().hasNullFlavor();
+    }
+
+    private boolean authorHasValidTimeValue(RCMRMT030101UKAuthor author) {
+        return author != null && author.hasTime()
+            && author.getTime().hasValue()
+            && !author.getTime().hasNullFlavor();
     }
 
     private boolean hasValidTimeValue(RCMRMT030101UKAuthor author) {
