@@ -22,7 +22,7 @@ import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class NackAckPreparationService {
+public class NackAckPreparationService implements NackAckPrepInterface {
 
     private final SendNACKMessageHandler sendNACKMessageHandler;
     private final SendACKMessageHandler sendACKMessageHandler;

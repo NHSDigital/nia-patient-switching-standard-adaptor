@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
@@ -8,20 +7,17 @@ import org.hl7.v3.IVLPQ;
 import org.hl7.v3.PQ;
 import org.hl7.v3.PQInc;
 import org.hl7.v3.PQR;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class QuantityMapper {
     private static final String UNIT_SYSTEM = "http://unitsofmeasure.org";
 
-    public Quantity mapValueQuantity(IVLPQ value) {
+    public static Quantity mapValueQuantity(IVLPQ value) {
         Quantity quantity = new Quantity();
 
         if (value.getHigh() != null) {
@@ -33,7 +29,7 @@ public class QuantityMapper {
         return quantity;
     }
 
-    public Quantity mapValueQuantity(PQ value) {
+    public static Quantity mapValueQuantity(PQ value) {
         Quantity quantity = new Quantity();
 
         setQuantityValueAndUnit(quantity, value.getValue(), value.getUnit(), value.getTranslation());
@@ -41,7 +37,7 @@ public class QuantityMapper {
         return quantity;
     }
 
-    public Quantity mapReferenceRangeQuantity(IVLPQ value) {
+    public static Quantity mapReferenceRangeQuantity(IVLPQ value) {
         Quantity quantity = new Quantity();
 
         if (value.getHigh() != null) {
@@ -55,7 +51,7 @@ public class QuantityMapper {
         return quantity;
     }
 
-    private void setUnit(Quantity quantity, String unit, List<PQR> translation) {
+    private static void setUnit(Quantity quantity, String unit, List<PQR> translation) {
         if (StringUtils.isNotBlank(unit)) {
             if (translation != null && !translation.isEmpty()) {
                 //If the translation is found in the MeasurementUnitsMap then add unit using this.
@@ -77,11 +73,11 @@ public class QuantityMapper {
         }
     }
 
-    private boolean foundMeasurementMatch(String unit) {
+    private static boolean foundMeasurementMatch(String unit) {
         return MeasurementUnitsUtil.getMeasurementUnitsMap().containsKey(unit);
     }
 
-    private void setQuantityWithHighComparator(Quantity quantity, PQInc high) {
+    private static void setQuantityWithHighComparator(Quantity quantity, PQInc high) {
         if (high.isInclusive()) {
             quantity.setComparator(QuantityComparator.LESS_OR_EQUAL);
         } else {
@@ -91,7 +87,7 @@ public class QuantityMapper {
         setQuantityValueAndUnit(quantity, high.getValue(), high.getUnit(), high.getTranslation());
     }
 
-    private void setQuantityWithLowComparator(Quantity quantity, PQInc low) {
+    private static void setQuantityWithLowComparator(Quantity quantity, PQInc low) {
         if (low.isInclusive()) {
             quantity.setComparator(QuantityComparator.GREATER_OR_EQUAL);
         } else {
@@ -101,7 +97,7 @@ public class QuantityMapper {
         setQuantityValueAndUnit(quantity, low.getValue(), low.getUnit(), low.getTranslation());
     }
 
-    private void setQuantityValueAndUnit(Quantity quantity, String value, String unit, List<PQR> translation) {
+    private static void setQuantityValueAndUnit(Quantity quantity, String value, String unit, List<PQR> translation) {
         setUnit(quantity, unit, translation);
         var decimalPlaceIndex = value.indexOf(".");
         var decimalPlaceCount = 0;
