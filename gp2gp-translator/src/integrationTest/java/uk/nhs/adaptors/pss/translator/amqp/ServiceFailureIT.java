@@ -5,6 +5,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
@@ -23,6 +24,7 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.jdbi.v3.core.ConnectionException;
 import org.json.JSONException;
@@ -34,10 +36,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -49,10 +53,16 @@ import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.pss.translator.config.PssQueueProperties;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
+import uk.nhs.adaptors.pss.translator.task.QueueMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendContinueRequestHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
@@ -73,6 +83,14 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
     @Mock
     private HttpHeaders httpHeaders;
+    @MockBean
+    Session session;
+    @MockBean
+    private QueueMessageHandler queueMessageHandler;
+    @Mock
+    private TextMessage message;
+    @SpyBean
+    private PssQueueConsumer pssQueueConsumer;
     @SpyBean
     private MhsClientService mhsClientService;
     @SpyBean
@@ -192,8 +210,6 @@ public class ServiceFailureIT extends BaseEhrHandler {
         doThrow(WebClientRequestException.class)
             .doThrow(WebClientRequestException.class)
             .doThrow(WebClientRequestException.class)
-            .doThrow(WebClientRequestException.class)
-            .doThrow(WebClientRequestException.class)
             .doCallRealMethod()
             .when(mhsClientService).send(any());
 
@@ -214,15 +230,33 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
 
-        await().until(this::hasContinueMessageBeenReceived);
+        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG)).until(this::hasContinueMessageBeenReceived);
 
         doThrow(WebClientRequestException.class)
-            .doThrow(WebClientRequestException.class)
-            .doThrow(WebClientRequestException.class)
-            .doThrow(WebClientRequestException.class)
-            .doThrow(WebClientRequestException.class)
-            .doCallRealMethod()
-            .when(mhsClientService).send(any());
+        .doThrow(WebClientRequestException.class)
+        .doThrow(WebClientRequestException.class)
+        .doThrow(WebClientRequestException.class)
+        .doThrow(WebClientRequestException.class)
+        .doCallRealMethod()
+        .when(mhsClientService).send(any());
+
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+
+        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
+            .until(this::isEhrMigrationCompleted);
+
+        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+    }
+
+    @Test
+    public void When_ReceivingCopc_WithMhsInternalErrorException_Expect_MigrationNotCompletes() throws JSONException {
+
+        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+
+        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG)).until(this::hasContinueMessageBeenReceived);
+
+        doThrow(getInternalServerErrorException())
+        .when(mhsClientService).send(any());
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
