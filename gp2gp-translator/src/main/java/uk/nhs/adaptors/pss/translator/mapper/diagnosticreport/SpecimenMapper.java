@@ -59,7 +59,7 @@ public class SpecimenMapper {
     }
 
     public List<Observation> removeSurplusObservationComments(RCMRMT030101UK04EhrExtract ehrExtract,
-        List<Observation> observationComments) {
+                                                              List<Observation> observationComments) {
 
         var specimenCompoundStatements = findAllSpecimenCompoundStatements(ehrExtract);
 

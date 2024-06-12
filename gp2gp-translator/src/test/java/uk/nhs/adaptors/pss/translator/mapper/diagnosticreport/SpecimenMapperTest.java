@@ -111,20 +111,20 @@ public class SpecimenMapperTest {
         var outputList = specimenMapper
             .removeSurplusObservationComments(ehrExtract, getObservationComments());
 
-        assertThat(outputList.size()).isEqualTo(2);
+        assertThat(outputList).hasSize(2);
 
         List<String> ids = outputList.stream()
             .map(Observation::getId)
             .toList();
 
-        assertThat(ids.contains(NARRATIVE_STATEMENT_ID)).isFalse();
+        assertThat(ids).doesNotContain(NARRATIVE_STATEMENT_ID);
     }
 
     @Test
     public void When_RemoveSurplusObservationComments_Without_NoChildNarrativeStatements_Expect_CommentsUnchanged() {
         RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid_without_comment.xml");
 
-        List<Observation> observationComments = getObservationComments();
+        var observationComments = getObservationComments();
 
         var outputList = specimenMapper
             .removeSurplusObservationComments(ehrExtract, observationComments);
@@ -132,8 +132,8 @@ public class SpecimenMapperTest {
         assertThat(outputList).isEqualTo(observationComments);
     }
 
-    private List<Observation> getObservationComments() {
-        List<Observation> observationComments = new ArrayList<>();
+    private ArrayList<Observation> getObservationComments() {
+        var observationComments = new ArrayList<Observation>();
 
         var comment = new Observation();
         comment.setId(NARRATIVE_STATEMENT_ID);

@@ -2182,7 +2182,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "ASTA4609",
           "display": "Aspirin 75mg tablets"
         }, {
@@ -2294,7 +2294,7 @@
       },
       "code": {
         "coding": [ {
-          "system": "2.16.840.1.113883.2.1.6.9",
+          "system": "urn:oid:2.16.840.1.113883.2.1.6.9",
           "code": "DOTA9440HILLI",
           "display": "Doxazosin 4mg tablets"
         }, {

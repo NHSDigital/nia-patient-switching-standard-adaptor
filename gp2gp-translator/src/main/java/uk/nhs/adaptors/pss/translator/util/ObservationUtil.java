@@ -32,19 +32,17 @@ import uk.nhs.adaptors.pss.translator.mapper.QuantityMapper;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ObservationUtil {
 
-    private static final String VALUE_QUANTITY_EXTENSION = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
-        + "-ValueApproximation-1";
+    private static final String VALUE_QUANTITY_EXTENSION =
+        "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ValueApproximation-1";
     private static final String CODING_SYSTEM = "http://hl7.org/fhir/v2/0078";
-
-    private static final QuantityMapper QUANTITY_MAPPER = new QuantityMapper();
 
     public static Quantity getValueQuantity(Object value, CV uncertaintyCode) {
         if (isValidValueQuantity(value)) {
             Quantity valueQuantity;
             if (value instanceof PQ pqValue) {
-                valueQuantity = QUANTITY_MAPPER.mapValueQuantity(pqValue);
+                valueQuantity = QuantityMapper.mapValueQuantity(pqValue);
             } else {
-                valueQuantity = QUANTITY_MAPPER.mapValueQuantity((IVLPQ) value);
+                valueQuantity = QuantityMapper.mapValueQuantity((IVLPQ) value);
             }
 
             if (uncertaintyCode != null) {
@@ -87,8 +85,9 @@ public class ObservationUtil {
             var referenceRangeComponent = new Observation.ObservationReferenceRangeComponent();
             referenceRangeComponent.setText(referenceRange.getReferenceInterpretationRange().getText());
 
-            var quantity = QUANTITY_MAPPER.mapReferenceRangeQuantity(
-                                                    referenceRange.getReferenceInterpretationRange().getValue());
+            var quantity = QuantityMapper.mapReferenceRangeQuantity(
+                referenceRange.getReferenceInterpretationRange().getValue()
+            );
 
             var referenceInterpretationRange = referenceRange.getReferenceInterpretationRange();
             if (referenceInterpretationRangeHasValue(referenceInterpretationRange) && referenceInterpretationRange.getValue() != null) {

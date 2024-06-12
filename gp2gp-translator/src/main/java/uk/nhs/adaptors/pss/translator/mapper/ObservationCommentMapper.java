@@ -8,6 +8,7 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObser
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -38,18 +39,18 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
     private static final String CODING_CODE = "37331000000100";
     private static final String CODING_DISPLAY = "Comment note";
 
-    public List<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-                                          String practiseCode) {
+    public ArrayList<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+                                               String practiseCode) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllNonBloodPressureNarrativeStatements(component)
                 .filter(Objects::nonNull)
                 .filter(narrativeStatement -> !isDocumentReference(narrativeStatement))
-                .map(narrativeStatement -> mapObservation(ehrExtract, composition, narrativeStatement, patient, encounters, practiseCode)))
-            .collect(Collectors.toList());
+                .map(narrativeStatement -> mapObservation(composition, narrativeStatement, patient, encounters, practiseCode)))
+            .collect((Collectors.toCollection(ArrayList::new)));
     }
 
-    private Observation mapObservation(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition,
+    private Observation mapObservation(RCMRMT030101UKEhrComposition ehrComposition,
                                        RCMRMT030101UKNarrativeStatement narrativeStatement, Patient patient, List<Encounter> encounters,
                                        String practiseCode) {
 

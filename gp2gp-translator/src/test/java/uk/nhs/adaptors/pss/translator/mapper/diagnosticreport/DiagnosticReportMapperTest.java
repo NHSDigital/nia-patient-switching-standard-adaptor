@@ -4,15 +4,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -22,9 +25,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import static org.mockito.Mockito.when;
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.UNKNOWN;
 
 @ExtendWith(MockitoExtension.class)
 public class DiagnosticReportMapperTest {
@@ -37,6 +42,7 @@ public class DiagnosticReportMapperTest {
     private static final String NARRATIVE_STATEMENT_2_TEXT = "TEST COMMENT";
     private static final String COMPOUND_STATEMENT_CHILD_ID = "COMPOUND_STATEMENT_CHILD_ID";
     private static final String ENCOUNTER_ID = "EHR_COMPOSITION_ID_1";
+    private static final String NEW_OBSERVATION_ID = "NEW_OBSERVATION_ID";
     private static final InstantType ISSUED_ELEMENT = parseToInstantType("20100225154100");
     private static final Patient PATIENT = (Patient) new Patient().setId("PATIENT_TEST_ID");
     private static final String CONCLUSION_FIELD_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_1\n"
@@ -69,12 +75,12 @@ public class DiagnosticReportMapperTest {
                     </component>
                 </EhrExtract>
                 """;
-
     @Mock
-    private CodeableConceptMapper codeableConceptMapper;
+    private IdGeneratorService idGeneratorService;
 
     @InjectMocks
     private DiagnosticReportMapper diagnosticReportMapper;
+
 
     @Test
     public void When_DiagnosticReportWithNoReferenceIsMapped_Expect_DiagnosticReportIsCorrectlyMapped() {
@@ -86,6 +92,7 @@ public class DiagnosticReportMapperTest {
                     <availabilityTime value="20100225154100"/>
                 </CompoundStatement>
                 """);
+
         var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
@@ -110,6 +117,30 @@ public class DiagnosticReportMapperTest {
                         .isEmpty(),
                 () -> assertThat(diagnosticReport.getResult())
                         .isEmpty()
+        );
+    }
+
+    @Test
+    public void When_DiagnosticReportContainsIdExtensionWithPMIPOid_Expect_MappedExtensionsShouldContainPMIPOidAsUrn() {
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
+                """
+                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                    <id root="DIAGNOSTIC_REPORT_ID"/>
+                    <id extension="TEST_PMIP_EXTENSION_VALUE" root="2.16.840.1.113883.2.1.4.5.5" />
+                    <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                    <availabilityTime value="20100225154100"/>
+                </CompoundStatement>
+                """);
+        var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+
+        var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
+        var actualPMIPExtension = diagnosticReports.get(0).getIdentifier().get(1);
+
+        assertAll(
+                () -> assertThat(actualPMIPExtension.getSystem())
+                        .isEqualTo("urn:oid:2.16.840.1.113883.2.1.4.5.5"),
+                () -> assertThat(actualPMIPExtension.getValue())
+                        .isEqualTo("TEST_PMIP_EXTENSION_VALUE")
         );
     }
 
@@ -350,6 +381,137 @@ TEST COMMENT
         );
     }
 
+    @Test
+    public void When_MappingWithUserCommentInBattery_Expect_DiagnosticReportToReferenceFilingComment() {
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
+                """
+                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                    <id root="C515E71B-2473-11EE-808B-AC162D1F16F0"/>
+                    <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                    <component typeCode="COMP" contextConductionInd="true">
+                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                            <id root="C515E71C-2473-11EE-808B-AC162D1F16F0"/>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                    <id root="C515E71D-2473-11EE-808B-AC162D1F16F0"/>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                                            <id root="C515E71F-2473-11EE-808B-AC162D1F16F0"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                                <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                    <id root="C515E720-2473-11EE-808B-AC162D1F16F0"/>
+                                                    <text mediaType="text/x-h7uk-pmip">
+                                                        CommentType:AGGREGATE COMMENT SET
+                                                    </text>
+                                                </NarrativeStatement>
+                                            </component>
+                                        </CompoundStatement>
+                                    </component>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                            <id root="C515E722-2473-11EE-808B-AC162D1F16F0"/>
+                                            <effectiveTime value="01012024"/>
+                                            <text mediaType="text/x-h7uk-pmip">
+                                                CommentType:USER COMMENT
+                                            </text>
+                                        </NarrativeStatement>
+                                    </component>
+                                </CompoundStatement>
+                            </component>
+                        </CompoundStatement>
+                    </component>
+                </CompoundStatement>
+                """);
+        final var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+        final var batteryLevelFilingComment = createBatteryLevelFilingComment();
+        final var expectedReference = "Observation/" + NEW_OBSERVATION_ID;
+
+        when(idGeneratorService.generateUuid()).thenReturn(NEW_OBSERVATION_ID);
+
+        final var diagnosticReports = diagnosticReportMapper.mapResources(
+                ehrExtract,
+                PATIENT,
+                createEncounterList(),
+                PRACTICE_CODE,
+                new ArrayList<>(Collections.singleton(batteryLevelFilingComment)));
+
+        final var diagnosticReport = diagnosticReports.get(0);
+
+        assertAll(
+                () -> assertThat(diagnosticReport.getResult())
+                        .hasSize(1),
+                () -> assertThat(diagnosticReport.getResult().get(0).getReference())
+                        .isEqualTo(expectedReference)
+        );
+    }
+
+    @Test
+    public void When_MappingWithUserCommentInBattery_Expect_NewFilingCommentObservationCreatedWithCommentField() {
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
+                """
+                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                    <id root="C515E71B-2473-11EE-808B-AC162D1F16F0"/>
+                    <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                    <component typeCode="COMP" contextConductionInd="true">
+                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                            <id root="C515E71C-2473-11EE-808B-AC162D1F16F0"/>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                    <id root="C515E71D-2473-11EE-808B-AC162D1F16F0"/>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                                            <id root="C515E71F-2473-11EE-808B-AC162D1F16F0"/>
+                                            <component typeCode="COMP" contextConductionInd="true">
+                                                <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                    <id root="C515E720-2473-11EE-808B-AC162D1F16F0"/>
+                                                    <text mediaType="text/x-h7uk-pmip">
+                                                        CommentType:AGGREGATE COMMENT SET
+                                                    </text>
+                                                </NarrativeStatement>
+                                            </component>
+                                        </CompoundStatement>
+                                    </component>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                            <id root="C515E722-2473-11EE-808B-AC162D1F16F0"/>
+                                            <effectiveTime value="01012024"/>
+                                            <text mediaType="text/x-h7uk-pmip">
+                                                CommentType:USER COMMENT
+                                            </text>
+                                        </NarrativeStatement>
+                                    </component>
+                                </CompoundStatement>
+                            </component>
+                        </CompoundStatement>
+                    </component>
+                </CompoundStatement>
+                """);
+        final var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+        final var batteryLevelFilingComment = createBatteryLevelFilingComment();
+        var observationComments = new ArrayList<>(Collections.singleton(batteryLevelFilingComment));
+
+        when(idGeneratorService.generateUuid()).thenReturn(NEW_OBSERVATION_ID);
+
+        diagnosticReportMapper.mapResources(ehrExtract,
+                PATIENT,
+                createEncounterList(),
+                PRACTICE_CODE,
+                observationComments);
+
+        assertAll(
+                () -> assertThat(observationComments)
+                        .hasSize(2),
+                () -> assertThat(observationComments.get(1).getId())
+                        .isEqualTo(NEW_OBSERVATION_ID),
+                () -> assertThat(observationComments.get(1).getIdentifierFirstRep().getValue())
+                        .isEqualTo(NEW_OBSERVATION_ID),
+                () -> assertThat(observationComments.get(1).getEffectiveDateTimeType().getValueAsString())
+                        .isEqualTo("2024-01-01"),
+                () -> assertThat(observationComments.get(1).getComment()).isNull(),
+                () -> assertThat(observationComments.get(1).getStatus()).isEqualTo(UNKNOWN)
+        );
+    }
+
     private List<Observation> createObservationCommentList() {
         return new ArrayList<>(Arrays.asList(
                 (Observation) new Observation()
@@ -361,6 +523,17 @@ TEST COMMENT
                         .setComment(NARRATIVE_STATEMENT_COMMENT_BLOCK_2)
                         .setId(NARRATIVE_STATEMENT_ID_2)
         ));
+    }
+
+    private Observation createBatteryLevelFilingComment() {
+        var identifier = new Identifier();
+        identifier.setSystem("https://PSSAdaptor/" + PRACTICE_CODE);
+        identifier.setValue("C515E722-2473-11EE-808B-AC162D1F16F0");
+        return (Observation) new Observation()
+                        .setEffective(new DateTimeType())
+                        .setComment("This is a comment from the doctor")
+                        .setEffective(DateFormatUtil.parseToDateTimeType("20240101"))
+                        .setId("C515E722-2473-11EE-808B-AC162D1F16F0");
     }
 
     private List<Encounter> createEncounterList() {

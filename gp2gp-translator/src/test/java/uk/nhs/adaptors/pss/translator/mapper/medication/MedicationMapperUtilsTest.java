@@ -65,7 +65,7 @@ public class MedicationMapperUtilsTest {
         var supplyAuth = unmarshallSupplyAuthorise("buildNotesForAuthMultiple.xml");
         var notes = MedicationMapperUtils.buildNotes(supplyAuth.getPertinentInformation());
 
-        assertThat(notes.size()).isEqualTo(EXPECTED_SIZE_NOTES);
+        assertThat(notes).hasSize(EXPECTED_SIZE_NOTES);
     }
 
     @Test
