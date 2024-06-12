@@ -2344,7 +2344,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "265157000",
-          "display": "Total prosthetic replacement of hip joint using cement"
+          "display": "Cemented prosthetic total arthroplasty of hip joint"
         } ],
         "text": "Total prosthetic replacement of hip joint using cement OS"
       },
@@ -2397,7 +2397,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "265157000",
-          "display": "Total prosthetic replacement of hip joint using cement"
+          "display": "Cemented prosthetic total arthroplasty of hip joint"
         } ],
         "text": "Total prosthetic replacement of hip joint using cement"
       },
@@ -2450,7 +2450,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "265170009",
-          "display": "Total prosthetic replacement of knee joint using cement"
+          "display": "Cemented prosthetic total arthroplasty of knee joint"
         } ],
         "text": "Total prosthetic replacement of knee joint using cement"
       },

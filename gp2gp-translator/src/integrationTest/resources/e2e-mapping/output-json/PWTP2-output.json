@@ -7860,7 +7860,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "21719001",
-          "display": "Allergic rhinitis due to pollen"
+          "display": "Allergic rhinitis caused by pollen"
         } ],
         "text": "Allergic rhinitis due to pollens"
       },
@@ -8375,7 +8375,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "21719001",
-          "display": "Allergic rhinitis due to pollen"
+          "display": "Allergic rhinitis caused by pollen"
         } ],
         "text": "Allergic rhinitis due to pollens"
       },
