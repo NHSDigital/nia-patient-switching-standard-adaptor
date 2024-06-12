@@ -58,7 +58,7 @@ public class SpecimenBatteryMapperTest {
     @InjectMocks
     private SpecimenBatteryMapper specimenBatteryMapper;
 
-    @Test void When_MappingObservationWithEffectiveTimeInBatteryCompoundStatement_Expect_IssuedUsesThisValue() {
+    @Test void When_MappingObservationWithAvailabilityTimeInBatteryCompoundStatement_Expect_IssuedUsesThisValue() {
         final var ehrCompositionXml = """
             <ehrComposition>
                 <id root="ENCOUNTER_ID"/>
@@ -96,7 +96,7 @@ public class SpecimenBatteryMapperTest {
             .isEqualTo(parseToInstantType("20100225154300").asStringValue());
     }
 
-    @Test void When_MappingObservationWithEffectiveTimeInDiagnosticReport_Expect_IssuedUsesThisValue() {
+    @Test void When_MappingObservationWithAvailabilityTimeInDiagnosticReport_Expect_IssuedUsesThisValue() {
         final var ehrCompositionXml = """
             <ehrComposition>
                 <id root="ENCOUNTER_ID"/>
@@ -178,7 +178,7 @@ public class SpecimenBatteryMapperTest {
     }
 
     @Test
-    public void When_MappingObservation_Expect_ObservationCorrectlyMapped() {
+    public void When_MappingObservation_Expect_ObservationFieldsAreCorrectlyMapped() {
         final var ehrCompositionXml =
             """
             <ehrComposition classCode="COMPOSITION" moodCode="EVN">
