@@ -9,10 +9,10 @@ import uk.nhs.adaptors.pss.translator.model.NACKReason;
 
 public interface NackAckPrepInterface {
 
-    @Retryable
+    //@Retryable
     boolean sendAckMessage(RCMRIN030000UK06Message payload, String conversationId);
 
-    @Retryable
+    //@Retryable
     boolean sendAckMessage(COPCIN000001UK01Message payload, String conversationId, String losingPracticeOdsCode);
 
     NACKMessageData prepareNackMessageData(NACKReason reason, RCMRIN030000UKMessage payload,

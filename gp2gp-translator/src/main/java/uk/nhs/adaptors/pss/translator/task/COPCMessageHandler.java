@@ -163,8 +163,9 @@ public class COPCMessageHandler {
 
         } catch (Exception e) {
             LOGGER.error("Unexpected exception processing COPC_IN000001UK01 message", e);
-            nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
-            failMigration(conversationId, UNEXPECTED_CONDITION);
+            //nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
+            //failMigration(conversationId, UNEXPECTED_CONDITION);
+            throw e;
         }
     }
 

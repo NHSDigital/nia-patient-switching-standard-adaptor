@@ -5,6 +5,7 @@ import static org.springframework.jms.listener.DefaultMessageListenerContainer.C
 import org.apache.qpid.jms.JmsConnectionFactory;
 import org.apache.qpid.jms.JmsDestination;
 import org.apache.qpid.jms.message.JmsMessageSupport;
+import org.apache.qpid.jms.policy.JmsDefaultRedeliveryPolicy;
 import org.apache.qpid.jms.policy.JmsRedeliveryPolicy;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,7 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 
 import io.micrometer.core.instrument.util.StringUtils;
+import org.springframework.util.backoff.FixedBackOff;
 import uk.nhs.adaptors.pss.translator.amqp.JmsListenerErrorHandler;
 
 @Configuration
@@ -109,6 +111,7 @@ public class AmqpConfiguration {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setSessionTransacted(true);
         factory.setCacheLevel(CACHE_CONSUMER);
+        //factory.setBackOff(new FixedBackOff(1000L, 2));
         factory.setConnectionFactory(connectionFactory);
         factory.setErrorHandler(listenerErrorHandler);
         factory.setRecoveryInterval(TEN_SECONDS);

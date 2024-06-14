@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.common.exception.FhirValidationException;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.pss.translator.model.ACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;

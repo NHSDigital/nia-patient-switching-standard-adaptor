@@ -249,14 +249,20 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_ReceivingCopc_WithMhsInternalErrorException_Expect_MigrationNotCompletes() throws JSONException {
+    public void When_ReceivingCopc_WithMhsWebClientRequestException_Expect_MigrationTryingToRecover() throws JSONException {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG)).until(this::hasContinueMessageBeenReceived);
 
-        doThrow(getInternalServerErrorException())
-        .when(mhsClientService).send(any());
+        /*doThrow(MhsServerErrorException.class)
+        .doThrow(MhsServerErrorException.class)
+        .doThrow(MhsServerErrorException.class)
+        .doThrow(MhsServerErrorException.class)
+        .doThrow(MhsServerErrorException.class)
+        .doCallRealMethod()
+        .when(mhsClientService).send(any());*/
+        doThrow(getInternalServerErrorException()).when(mhsClientService).send(any());
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
