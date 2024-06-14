@@ -9,8 +9,6 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -22,7 +20,6 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +30,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
+
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -76,19 +73,6 @@ public class BloodPressureMapperTest {
 
     @InjectMocks
     private BloodPressureMapper bloodPressureMapper;
-
-    private static final MeasurementUnitsUtil MEASUREMENT_UNITS_UTIL = new MeasurementUnitsUtil();
-
-    private Method getCreateMeasurementUnitsMethod() throws NoSuchMethodException {
-        Method method = MeasurementUnitsUtil.class.getDeclaredMethod("createMeasurementUnits");
-        method.setAccessible(true);
-        return method;
-    }
-
-    @BeforeAll
-    public void createMeasurementUnits() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        getCreateMeasurementUnitsMethod().invoke(MEASUREMENT_UNITS_UTIL);
-    }
 
     @SneakyThrows
     private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {

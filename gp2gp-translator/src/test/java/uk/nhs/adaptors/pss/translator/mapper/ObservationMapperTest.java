@@ -8,8 +8,6 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -25,7 +23,6 @@ import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,7 +32,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import uk.nhs.adaptors.pss.translator.util.MeasurementUnitsUtil;
+
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
@@ -82,21 +79,6 @@ public class ObservationMapperTest {
 
     @InjectMocks
     private ObservationMapper observationMapper;
-
-    private static final MeasurementUnitsUtil MEASUREMENT_UNITS_UTIL = new MeasurementUnitsUtil();
-
-    private Method getCreateMeasurementUnitsMethod() throws NoSuchMethodException {
-        Method method = MeasurementUnitsUtil.class.getDeclaredMethod("createMeasurementUnits");
-        method.setAccessible(true);
-        return method;
-    }
-
-    @BeforeEach
-    public void createMeasurementUnits() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        getCreateMeasurementUnitsMethod().invoke(MEASUREMENT_UNITS_UTIL);
-    }
-
-
 
     @Test
     public void mapObservationWithValidData() {
