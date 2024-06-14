@@ -5,7 +5,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
@@ -24,7 +23,6 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.jdbi.v3.core.ConnectionException;
 import org.json.JSONException;
@@ -41,7 +39,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -58,10 +55,6 @@ import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendContinueRequestHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
 import javax.jms.TextMessage;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -83,8 +76,8 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
     @Mock
     private HttpHeaders httpHeaders;
-    @MockBean
-    Session session;
+    //@MockBean
+    //Session session;
     @MockBean
     private QueueMessageHandler queueMessageHandler;
     @Mock
@@ -249,20 +242,19 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_ReceivingCopc_WithMhsWebClientRequestException_Expect_MigrationTryingToRecover() throws JSONException {
+    public void When_ReceivingCopc_WithMhsWebClientResponseException_Expect_MigrationCompletesWhenMhsRecovers() throws JSONException {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG)).until(this::hasContinueMessageBeenReceived);
 
-        /*doThrow(MhsServerErrorException.class)
-        .doThrow(MhsServerErrorException.class)
-        .doThrow(MhsServerErrorException.class)
-        .doThrow(MhsServerErrorException.class)
-        .doThrow(MhsServerErrorException.class)
+        var webClientResponseException = getInternalServerErrorException();
+
+        doThrow(webClientResponseException)
+            .doThrow(webClientResponseException)
+            .doThrow(webClientResponseException)
         .doCallRealMethod()
-        .when(mhsClientService).send(any());*/
-        doThrow(getInternalServerErrorException()).when(mhsClientService).send(any());
+        .when(mhsClientService).send(any());
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 

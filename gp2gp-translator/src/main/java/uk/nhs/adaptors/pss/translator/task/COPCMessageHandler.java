@@ -40,6 +40,7 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ExternalAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
@@ -133,9 +134,8 @@ public class COPCMessageHandler {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
             }
 
-        } catch (WebClientRequestException | ConnectionException e) {
+        } catch (WebClientRequestException | ConnectionException | MhsServerErrorException e) {
             throw e;
-
         } catch (ParseException | ValidationException | SAXException e) {
             LOGGER.error("COPC_IN000001UK01 validation / parsing  error", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
@@ -163,9 +163,8 @@ public class COPCMessageHandler {
 
         } catch (Exception e) {
             LOGGER.error("Unexpected exception processing COPC_IN000001UK01 message", e);
-            //nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
-            //failMigration(conversationId, UNEXPECTED_CONDITION);
-            throw e;
+            nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
+            failMigration(conversationId, UNEXPECTED_CONDITION);
         }
     }
 

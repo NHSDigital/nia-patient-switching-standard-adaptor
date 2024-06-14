@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.service;
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRIN030000UKMessage;
-import org.springframework.retry.annotation.Retryable;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 

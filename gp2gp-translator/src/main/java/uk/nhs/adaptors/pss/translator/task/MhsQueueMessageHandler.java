@@ -125,7 +125,6 @@ public class MhsQueueMessageHandler {
         } catch (MhsServerErrorException e) {
             LOGGER.error("Unable to sent message to MHS due to MHS Outbound server error");
             throw e;
-            //return false;
         }
     }
 
