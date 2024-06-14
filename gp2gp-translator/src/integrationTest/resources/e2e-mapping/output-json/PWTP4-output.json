@@ -18284,7 +18284,7 @@
         "reference": "Encounter/0CF70E30-DD21-433E-87AE-F32DA5FBE4DA"
       },
       "effectiveDateTime": "2010-01-14",
-      "issued": "2010-01-14T10:34:30.000+00:00",
+      "issued": "2010-01-14T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -18330,7 +18330,7 @@
         "reference": "Encounter/A6CE9003-C784-4E11-A5C1-E406BCF35D55"
       },
       "effectiveDateTime": "2010-01-15",
-      "issued": "2010-01-15T10:06:46.000+00:00",
+      "issued": "2010-01-15T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -18376,7 +18376,7 @@
         "reference": "Encounter/07FFDE3B-B0BC-4B02-BA20-624FE2E8AB8A"
       },
       "effectiveDateTime": "2010-03-23T15:36:00+00:00",
-      "issued": "2010-03-23T15:51:27.000+00:00",
+      "issued": "2010-03-23T15:36:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -18423,7 +18423,7 @@
         "reference": "Encounter/8F1F0FF5-2F2C-482B-BD9A-98101786B46D"
       },
       "effectiveDateTime": "2010-03-23T15:39:00+00:00",
-      "issued": "2010-03-23T15:59:35.000+00:00",
+      "issued": "2010-03-23T15:39:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -18470,7 +18470,7 @@
         "reference": "Encounter/0B6398B9-E22B-4195-BBBA-301BA6732708"
       },
       "effectiveDateTime": "2011-11-15T14:54:00+00:00",
-      "issued": "2011-11-15T14:59:10.000+00:00",
+      "issued": "2011-11-15T14:54:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/44B5F72D-0848-76A1-4554-F980EB27FB7B"
       } ],
@@ -18514,7 +18514,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000007"
       },
       "effectiveDateTime": "2010-01-14T10:10:00+00:00",
-      "issued": "2010-01-14T10:10:35.000+00:00",
+      "issued": "2010-01-14T10:10:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
