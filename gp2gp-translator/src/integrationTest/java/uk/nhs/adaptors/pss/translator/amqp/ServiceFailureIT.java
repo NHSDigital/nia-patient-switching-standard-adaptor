@@ -158,7 +158,8 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG)).until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
+        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
+            .until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
 
         verify(mhsDlqPublisher, timeout(THIRTY_SECONDS).times(1)).sendToMhsDlq(any());
 
