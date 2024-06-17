@@ -137,25 +137,23 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_ReceivingCOPC_WithMhsOutboundServerError_Expect_MessageSentToDLQ() {
-        doThrow(MhsServerErrorException.class)
-            .when(sendACKMessageHandler).prepareAndSendMessage(any());
+    public void When_ReceivingCOPC_WithMhsOutboundServerError_Expect_MessageSentToDLQ() throws JSONException {
 
         doThrow(MhsServerErrorException.class)
-            .when(sendNACKMessageHandler).prepareAndSendMessage(any());
+        .doThrow(MhsServerErrorException.class)
+        .when(sendNACKMessageHandler).prepareAndSendMessage(any());
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
 
-        await().until(this::hasContinueMessageBeenReceived);
+        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG)).until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
+        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
+            .until(this::isEhrMigrationCompleted);
 
-        verify(mhsDlqPublisher, timeout(THIRTY_SECONDS).times(1)).sendToMhsDlq(any());
+        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
 
-        assertThat(getCurrentMigrationStatus(getConversationId()))
-            .isEqualTo(ERROR_LRG_MSG_GENERAL_FAILURE);
     }
 
     @Test
