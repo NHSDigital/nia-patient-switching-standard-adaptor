@@ -13,6 +13,8 @@ and use author time if these values are not available.
 * Mapping of `issued` for uncategorized `ObservationStatements` and `RequestStatements` has been updated to use 
 availability timestamps as per [GP Connect Documentation](https://developer.nhs.uk/apis/gpconnect-1-5-0/accessrecord_structured_development_observation_uncategorisedData.html#issued)
 and use author time if these values are not available.
+* When mapping a `MedicationRequest (PLAN)`, if the text in the original text is duplicated by a pertinent information
+text, then the original text is disregarded.
 
 ## [2.1.0] - 2024-04-17
 ### Added
