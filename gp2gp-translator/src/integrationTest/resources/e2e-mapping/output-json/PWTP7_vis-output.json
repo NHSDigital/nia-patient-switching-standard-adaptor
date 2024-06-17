@@ -2391,7 +2391,7 @@
         "reference": "Encounter/B88EECC1-8DA9-48F9-981F-8D31C517A693"
       },
       "effectiveDateTime": "2010-01-19",
-      "issued": "2010-01-19T11:39:57.000+00:00",
+      "issued": "2010-01-19T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
@@ -2435,7 +2435,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "21719001",
-          "display": "Allergic rhinitis due to pollen"
+          "display": "Allergic rhinitis caused by pollen"
         } ],
         "text": "Hay fever - pollens"
       },
@@ -2443,7 +2443,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000012"
       },
       "effectiveDateTime": "2010-01-19",
-      "issued": "2010-01-19T11:31:52.000+00:00",
+      "issued": "2010-01-19T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -2487,7 +2487,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000012"
       },
       "effectiveDateTime": "2010-01-19",
-      "issued": "2010-01-19T11:32:01.000+00:00",
+      "issued": "2010-01-19T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -2531,7 +2531,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000012"
       },
       "effectiveDateTime": "2010-01-19",
-      "issued": "2010-01-19T11:36:16.000+00:00",
+      "issued": "2010-01-19T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -2574,7 +2574,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000012"
       },
       "effectiveDateTime": "2010-01-19",
-      "issued": "2010-01-19T11:36:21.000+00:00",
+      "issued": "2010-01-19T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -2617,7 +2617,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000012"
       },
       "effectiveDateTime": "2010-01-19",
-      "issued": "2010-01-19T11:36:34.000+00:00",
+      "issued": "2010-01-19T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -2726,7 +2726,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "21719001",
-          "display": "Allergic rhinitis due to pollen"
+          "display": "Allergic rhinitis caused by pollen"
         } ],
         "text": "Hay fever - pollens"
       },

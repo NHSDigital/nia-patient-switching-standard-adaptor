@@ -6654,7 +6654,7 @@
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
       },
       "effectiveDateTime": "2009-11-02",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2009-11-02T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
@@ -6701,7 +6701,7 @@
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
       },
       "effectiveDateTime": "2009-11-02",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2009-11-02T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
@@ -6757,7 +6757,7 @@
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
       },
       "effectiveDateTime": "2009-11-02",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2009-11-02T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
@@ -6813,7 +6813,7 @@
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
       },
       "effectiveDateTime": "2009-11-02",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2009-11-02T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
@@ -6864,7 +6864,7 @@
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
       },
       "effectiveDateTime": "2009-11-02",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2009-11-02T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
@@ -6915,7 +6915,7 @@
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
       },
       "effectiveDateTime": "2009-11-02",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2009-11-02T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
@@ -6967,7 +6967,7 @@
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
       },
       "effectiveDateTime": "2009-11-02",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2009-11-02T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
@@ -7014,7 +7014,7 @@
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
       },
       "effectiveDateTime": "2010-01-13",
-      "issued": "2010-01-13T11:37:33.000+00:00",
+      "issued": "2010-01-13T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -7057,7 +7057,7 @@
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
       },
       "effectiveDateTime": "2010-01-13T11:48:00+00:00",
-      "issued": "2010-01-13T11:42:01.000+00:00",
+      "issued": "2010-01-13T11:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7108,7 +7108,7 @@
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
       },
       "effectiveDateTime": "2010-01-13T11:48:00+00:00",
-      "issued": "2010-01-13T11:42:01.000+00:00",
+      "issued": "2010-01-13T11:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7156,7 +7156,7 @@
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
       },
       "effectiveDateTime": "2010-01-13T11:48:00+00:00",
-      "issued": "2010-01-13T11:42:01.000+00:00",
+      "issued": "2010-01-13T11:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7207,7 +7207,7 @@
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
       },
       "effectiveDateTime": "2010-01-13T11:48:00+00:00",
-      "issued": "2010-01-13T11:42:01.000+00:00",
+      "issued": "2010-01-13T11:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -7253,7 +7253,7 @@
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
       },
       "effectiveDateTime": "2010-01-13T11:48:00+00:00",
-      "issued": "2010-01-13T11:42:01.000+00:00",
+      "issued": "2010-01-13T11:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -7299,7 +7299,7 @@
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
       },
       "effectiveDateTime": "2010-01-13T11:48:00+00:00",
-      "issued": "2010-01-13T11:42:01.000+00:00",
+      "issued": "2010-01-13T11:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -7345,7 +7345,7 @@
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
       },
       "effectiveDateTime": "2010-01-13T11:48:00+00:00",
-      "issued": "2010-01-13T11:42:01.000+00:00",
+      "issued": "2010-01-13T11:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -7391,7 +7391,7 @@
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
       },
       "effectiveDateTime": "2010-01-23T13:48:00+00:00",
-      "issued": "2010-01-23T14:03:54.000+00:00",
+      "issued": "2010-01-23T13:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7438,7 +7438,7 @@
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
       },
       "effectiveDateTime": "2010-01-23T13:48:00+00:00",
-      "issued": "2010-01-23T14:03:54.000+00:00",
+      "issued": "2010-01-23T13:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -7484,7 +7484,7 @@
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
       },
       "effectiveDateTime": "2010-01-23T13:48:00+00:00",
-      "issued": "2010-01-23T14:03:54.000+00:00",
+      "issued": "2010-01-23T13:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7531,7 +7531,7 @@
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
       },
       "effectiveDateTime": "2010-01-23T13:48:00+00:00",
-      "issued": "2010-01-23T14:03:54.000+00:00",
+      "issued": "2010-01-23T13:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ]
@@ -7577,7 +7577,7 @@
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
       },
       "effectiveDateTime": "2010-01-23T13:48:00+00:00",
-      "issued": "2010-01-23T14:03:54.000+00:00",
+      "issued": "2010-01-23T13:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7624,7 +7624,7 @@
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
       },
       "effectiveDateTime": "2010-01-23T13:48:00+00:00",
-      "issued": "2010-01-23T14:03:54.000+00:00",
+      "issued": "2010-01-23T13:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7671,7 +7671,7 @@
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
       },
       "effectiveDateTime": "2010-07-14T16:55:00+00:00",
-      "issued": "2010-07-14T15:28:13.000+00:00",
+      "issued": "2010-07-14T16:55:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7727,7 +7727,7 @@
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
       },
       "effectiveDateTime": "2010-07-14T16:55:00+00:00",
-      "issued": "2010-07-14T15:28:13.000+00:00",
+      "issued": "2010-07-14T16:55:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7780,7 +7780,7 @@
         "reference": "Encounter/DBF5776F-8A86-477C-AB98-57182A9B40FD"
       },
       "effectiveDateTime": "2010-07-14T17:07:00+00:00",
-      "issued": "2010-07-14T15:32:32.000+00:00",
+      "issued": "2010-07-14T17:07:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7824,7 +7824,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "1988-01-01",
-      "issued": "2010-01-13T15:41:41.000+00:00",
+      "issued": "1988-01-01T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7860,7 +7860,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "21719001",
-          "display": "Allergic rhinitis due to pollen"
+          "display": "Allergic rhinitis caused by pollen"
         } ],
         "text": "Allergic rhinitis due to pollens"
       },
@@ -7868,7 +7868,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-01-13",
-      "issued": "2010-01-13T11:41:11.000+00:00",
+      "issued": "2010-01-13T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7912,7 +7912,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-01-13",
-      "issued": "2010-01-13T14:57:25.000+00:00",
+      "issued": "2010-01-13T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -7956,7 +7956,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-01-13",
-      "issued": "2010-01-13T14:57:39.000+00:00",
+      "issued": "2010-01-13T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -8000,7 +8000,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-06-09T15:08:00+00:00",
-      "issued": "2010-06-09T15:04:09.000+00:00",
+      "issued": "2010-06-09T15:08:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ]
@@ -8043,7 +8043,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
-      "issued": "2010-07-14T15:27:49.000+00:00",
+      "issued": "2010-07-14T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -8096,7 +8096,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
-      "issued": "2010-07-14T15:27:49.000+00:00",
+      "issued": "2010-07-14T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -8149,7 +8149,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
-      "issued": "2010-07-14T15:31:24.000+00:00",
+      "issued": "2010-07-14T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -8193,7 +8193,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
-      "issued": "2010-07-14T15:32:51.000+00:00",
+      "issued": "2010-07-14T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -8375,7 +8375,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "21719001",
-          "display": "Allergic rhinitis due to pollen"
+          "display": "Allergic rhinitis caused by pollen"
         } ],
         "text": "Allergic rhinitis due to pollens"
       },
