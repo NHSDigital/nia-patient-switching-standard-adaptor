@@ -76,8 +76,6 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
     @Mock
     private HttpHeaders httpHeaders;
-    //@MockBean
-    //Session session;
     @MockBean
     private QueueMessageHandler queueMessageHandler;
     @Mock
@@ -201,6 +199,8 @@ public class ServiceFailureIT extends BaseEhrHandler {
     @Test
     public void When_ReceivingEhrExtract_WithMhsWebClientRequestException_Expect_MigrationCompletesWhenMhsRecovers() throws JSONException {
         doThrow(WebClientRequestException.class)
+            .doThrow(WebClientRequestException.class)
+            .doThrow(WebClientRequestException.class)
             .doThrow(WebClientRequestException.class)
             .doThrow(WebClientRequestException.class)
             .doCallRealMethod()
