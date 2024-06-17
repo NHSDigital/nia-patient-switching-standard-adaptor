@@ -76,12 +76,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
     @Mock
     private HttpHeaders httpHeaders;
-    @MockBean
-    private QueueMessageHandler queueMessageHandler;
-    @Mock
-    private TextMessage message;
-    @SpyBean
-    private PssQueueConsumer pssQueueConsumer;
+
     @SpyBean
     private MhsClientService mhsClientService;
     @SpyBean
@@ -158,8 +153,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
-            .until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
+        await().until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
 
         verify(mhsDlqPublisher, timeout(THIRTY_SECONDS).times(1)).sendToMhsDlq(any());
 
