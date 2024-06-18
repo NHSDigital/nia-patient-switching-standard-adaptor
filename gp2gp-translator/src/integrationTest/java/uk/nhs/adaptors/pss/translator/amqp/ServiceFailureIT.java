@@ -24,6 +24,7 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import java.time.Duration;
 import java.util.List;
 
+import ca.uhn.fhir.parser.DataFormatException;
 import org.jdbi.v3.core.ConnectionException;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,6 +50,7 @@ import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.pss.translator.config.PssQueueProperties;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
+import uk.nhs.adaptors.pss.translator.task.COPCMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendContinueRequestHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
@@ -78,6 +80,8 @@ public class ServiceFailureIT extends BaseEhrHandler {
     private MhsClientService mhsClientService;
     @SpyBean
     private SendContinueRequestHandler sendContinueRequestHandler;
+    @SpyBean
+    private COPCMessageHandler copcMessageHandler;
     @SpyBean
     private SendACKMessageHandler sendACKMessageHandler;
     @SpyBean
@@ -137,23 +141,25 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_ReceivingCOPC_WithMhsOutboundServerError_Expect_MessageSentToDLQ() throws JSONException {
+    public void When_ReceivingCOPC_WithMhsOutboundServerError_Expect_MessageSentToDLQ() {
+        doThrow(DataFormatException.class)
+            .when(sendACKMessageHandler).prepareAndSendMessage(any());
 
-        doThrow(MhsServerErrorException.class)
-        .doThrow(MhsServerErrorException.class)
-        .when(sendNACKMessageHandler).prepareAndSendMessage(any());
+        doThrow(DataFormatException.class)
+            .when(sendNACKMessageHandler).prepareAndSendMessage(any());
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
 
-        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG)).until(this::hasContinueMessageBeenReceived);
+        await().until(this::hasContinueMessageBeenReceived);
 
         sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
 
-        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
-            .until(this::isEhrMigrationCompleted);
+        await().until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verify(mhsDlqPublisher, timeout(THIRTY_SECONDS).times(1)).sendToMhsDlq(any());
 
+        assertThat(getCurrentMigrationStatus(getConversationId()))
+            .isEqualTo(ERROR_LRG_MSG_GENERAL_FAILURE);
     }
 
     @Test
