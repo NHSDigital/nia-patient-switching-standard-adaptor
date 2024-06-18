@@ -141,7 +141,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_ReceivingCOPC_WithMhsOutboundServerError_Expect_MessageSentToDLQ() {
+    public void When_ReceivingCOPC_WithDataFormatExceptionError_Expect_MessageSentToDLQ() {
         doThrow(DataFormatException.class)
             .when(sendACKMessageHandler).prepareAndSendMessage(any());
 

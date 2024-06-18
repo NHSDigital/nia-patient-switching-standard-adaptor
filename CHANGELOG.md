@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+* Retry mechanism has been added for MHS Runtime exceptions 
+
 ### Changed
 * Cron time schedule has been changed from 6h to 2h so that the timeouts can be identified earlier
 * Mapping of `issued` for `Test Group Headers` has been updated to use correct timestamps as per [GP Connect 
