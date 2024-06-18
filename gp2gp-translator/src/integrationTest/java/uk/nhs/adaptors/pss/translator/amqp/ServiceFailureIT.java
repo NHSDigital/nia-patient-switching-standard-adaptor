@@ -67,6 +67,9 @@ public class ServiceFailureIT extends BaseEhrHandler {
     private static final String STUB_BODY = "test Body";
     private static final int THIRTY_SECONDS = 30000;
     private static final long TWO_MINUTES_LONG = 2L;
+    public static final String JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON = "/json/LargeMessage/Scenario_3/uk06.json";
+    public static final String JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON = "/json/LargeMessage/Scenario_3/copc.json";
+    public static final String JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON = "/json/LargeMessage/expectedBundleScenario3.json";
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -129,7 +132,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
         doThrow(MhsServerErrorException.class)
             .when(sendContinueRequestHandler).prepareAndSendRequest(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(() -> hasMigrationStatus(EHR_GENERAL_PROCESSING_ERROR, getConversationId()));
 
@@ -148,11 +151,11 @@ public class ServiceFailureIT extends BaseEhrHandler {
         doThrow(DataFormatException.class)
             .when(sendNACKMessageHandler).prepareAndSendMessage(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
 
@@ -181,15 +184,15 @@ public class ServiceFailureIT extends BaseEhrHandler {
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(() -> hasMigrationStatus(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId));
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
@@ -202,22 +205,22 @@ public class ServiceFailureIT extends BaseEhrHandler {
             .doCallRealMethod()
             .when(mhsClientService).send(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
     public void When_ReceivingCopc_WithMhsWebClientRequestException_Expect_MigrationCompletesWhenMhsRecovers() throws JSONException {
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG)).until(this::hasContinueMessageBeenReceived);
 
@@ -229,18 +232,18 @@ public class ServiceFailureIT extends BaseEhrHandler {
         .doCallRealMethod()
         .when(mhsClientService).send(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
     public void When_ReceivingCopc_WithMhsWebClientResponseException_Expect_MigrationCompletesWhenMhsRecovers() throws JSONException {
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG)).until(this::hasContinueMessageBeenReceived);
 
@@ -252,12 +255,12 @@ public class ServiceFailureIT extends BaseEhrHandler {
         .doCallRealMethod()
         .when(mhsClientService).send(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
@@ -278,15 +281,15 @@ public class ServiceFailureIT extends BaseEhrHandler {
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(() -> hasMigrationStatus(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId));
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
@@ -299,22 +302,22 @@ public class ServiceFailureIT extends BaseEhrHandler {
             .doCallRealMethod()
             .when(mhsClientService).send(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
     public void When_ReceivingCopc_WithDbConnectionException_Expect_MigrationCompletesWhenMhsRecovers() throws JSONException {
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(this::hasContinueMessageBeenReceived);
 
@@ -326,12 +329,12 @@ public class ServiceFailureIT extends BaseEhrHandler {
             .doCallRealMethod()
             .when(mhsClientService).send(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     private boolean hasMigrationStatus(MigrationStatus migrationStatus, String conversationId) {
