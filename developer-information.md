@@ -23,12 +23,9 @@
 ### How to start local environment
 1. Go to `docker` directory
 2. Create a copy of `example.vars.sh`, name it `vars.sh`
-3. Fill in the passwords inside `vars.sh` file:
-    - `SNOMED_CT_TERMINOLOGY_FILE`: Path to where your SNOMED ZIP file is downloaded to.
-
-    For the description and purpose of other environment variables, refer to the [end user OPERATING guidance](OPERATING.md#environment-variables).
-
-
+3. Fill in the `SNOMED_CT_TERMINOLOGY_FILE` variable inside `vars.sh` file with the path to where your SNOMED ZIP file
+   is downloaded to. For the description and purpose of other environment variables, refer to the
+   [end user OPERATING guidance](OPERATING.md#environment-variables).
 3. Run `start-local-environment.sh` script:
    ```shell script
     ./start-local-environment.sh
