@@ -58,7 +58,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
                 .filter(Objects::nonNull)
                 .filter(ResourceFilterUtil::isTemplate)
                 .filter(compoundStatement -> !hasDiagnosticReportParent(ehrExtract, compoundStatement))
-                .map(compoundStatement -> mapTemplate(extract, composition, compoundStatement, patient, encounters, practiseCode))
+                .map(compoundStatement -> mapTemplate(composition, compoundStatement, patient, encounters, practiseCode))
                 .flatMap(List::stream)
         ).toList();
 
@@ -112,15 +112,16 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
 
     }
 
-    private List<DomainResource> mapTemplate(RCMRMT030101UKEhrExtract ehrExtract, RCMRMT030101UKEhrComposition ehrComposition,
-                                             RCMRMT030101UKCompoundStatement compoundStatement, Patient patient, List<Encounter> encounters,
+    private List<DomainResource> mapTemplate(RCMRMT030101UKEhrComposition ehrComposition,
+                                             RCMRMT030101UKCompoundStatement compoundStatement,
+                                             Patient patient,
+                                             List<Encounter> encounters,
                                              String practiseCode) {
         var encounter = getEncounter(encounters, ehrComposition);
 
-        var parentObservation = createParentObservation(compoundStatement, practiseCode, patient, encounter,
-            ehrComposition, ehrExtract);
-
-        return List.of(parentObservation);
+        return List.of(
+            createParentObservation(compoundStatement, practiseCode, patient, encounter, ehrComposition)
+        );
     }
 
     private Optional<Reference> getEncounter(List<Encounter> encounters, RCMRMT030101UKEhrComposition ehrComposition) {
@@ -132,7 +133,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
     }
 
     private Observation createParentObservation(RCMRMT030101UKCompoundStatement compoundStatement, String practiseCode, Patient patient,
-        Optional<Reference> encounter, RCMRMT030101UKEhrComposition ehrComposition, RCMRMT030101UKEhrExtract ehrExtract) {
+        Optional<Reference> encounter, RCMRMT030101UKEhrComposition ehrComposition) {
 
         var parentObservation = new Observation();
         var id = compoundStatement.getId().get(0).getRoot();
@@ -185,12 +186,12 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
     }
 
     private boolean isObservationStatementTemplateParent(RCMRMT030101UKCompoundStatement compoundStatement) {
-        var hasObservationStatement = compoundStatement.getComponent().stream()
+        var hasChildObservationStatement = compoundStatement.getComponent().stream()
             .anyMatch(RCMRMT030101UKComponent02::hasObservationStatement);
 
-        var onlyHasObservationOrNarrative = compoundStatement.getComponent().stream()
+        var allChildrenAreEitherAnObservationStatementOrNarrativeStatment = compoundStatement.getComponent().stream()
             .allMatch(component -> component.hasObservationStatement() || component.hasNarrativeStatement());
 
-        return hasObservationStatement && onlyHasObservationOrNarrative;
+        return hasChildObservationStatement && allChildrenAreEitherAnObservationStatementOrNarrativeStatment;
     }
 }
