@@ -44,4 +44,4 @@ export SUPPORTED_FILE_TYPES="application/msword,application/vnd.openxmlformats-o
 
 export SKIP_DECODE="false"
 #change path for snomedFile fath
-#export SNOMED_CT_TERMINOLOGY_FILE="/mnt/c/Users/yourUserName/yourPath/uk_sct2cl_32.10.0_20220216000001Z.zip";
+#export SNOMED_CT_TERMINOLOGY_FILE="/mnt/c/Users/yourUserName/yourPath/uk_sct2mo_38.2.0_20240605000001Z.zip";

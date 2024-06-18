@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "00000000-0000-0000-0000-000000000001",
+  "id": "00000000-0000-0000-0000-000000000002",
   "meta": {
     "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-StructuredRecord-Bundle-1" ]
   },
@@ -8,7 +8,7 @@
   "entry": [ {
     "resource": {
       "resourceType": "Patient",
-      "id": "00000000-0000-0000-0000-000000000002",
+      "id": "00000000-0000-0000-0000-000000000003",
       "meta": {
         "versionId": "1521806400000",
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Patient-1" ]
@@ -106,7 +106,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "participant": [ {
         "type": [ {
@@ -163,7 +163,7 @@
         "text": "GP Surgery"
       } ],
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "participant": [ {
         "type": [ {
@@ -210,7 +210,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "encounter": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -247,7 +247,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "encounter": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -284,7 +284,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "encounter": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -321,7 +321,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "encounter": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -358,7 +358,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "encounter": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
@@ -791,7 +791,7 @@
         } ]
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "encounter": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
@@ -1209,7 +1209,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "00000000-0000-0000-0000-000000000004",
+      "id": "00000000-0000-0000-0000-000000000005",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -1221,7 +1221,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "317378005",
-          "display": "Loperamide 2mg capsules"
+          "display": "Loperamide hydrochloride 2 mg oral capsule"
         } ],
         "text": "Loperamide 2mg capsules"
       }
@@ -1253,10 +1253,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/00000000-0000-0000-0000-000000000004"
+        "reference": "Medication/00000000-0000-0000-0000-000000000005"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "authoredOn": "2016-09-01",
       "requester": {
@@ -1307,10 +1307,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/00000000-0000-0000-0000-000000000004"
+        "reference": "Medication/00000000-0000-0000-0000-000000000005"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "authoredOn": "2016-09-01",
       "requester": {
@@ -1361,10 +1361,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/00000000-0000-0000-0000-000000000004"
+        "reference": "Medication/00000000-0000-0000-0000-000000000005"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "authoredOn": "2016-09-01",
       "requester": {
@@ -1415,10 +1415,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/00000000-0000-0000-0000-000000000004"
+        "reference": "Medication/00000000-0000-0000-0000-000000000005"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "authoredOn": "2016-09-01",
       "requester": {
@@ -1445,7 +1445,7 @@
   }, {
     "resource": {
       "resourceType": "Medication",
-      "id": "00000000-0000-0000-0000-000000000005",
+      "id": "00000000-0000-0000-0000-000000000006",
       "meta": {
         "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Medication-1" ]
       },
@@ -1489,10 +1489,10 @@
       "status": "completed",
       "intent": "order",
       "medicationReference": {
-        "reference": "Medication/00000000-0000-0000-0000-000000000005"
+        "reference": "Medication/00000000-0000-0000-0000-000000000006"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "authoredOn": "2016-09-01",
       "requester": {
@@ -1548,13 +1548,13 @@
         "text": "Fibreoptic endoscopic sclerotherapy to lesion upper GI tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -1592,13 +1592,13 @@
         "text": "Fibreoptic endoscopic destruction lesion upper GI tract NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -1639,13 +1639,13 @@
         "text": "Endoscopic injection haemostasis of duodenal ulcer"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -1686,13 +1686,13 @@
         "text": "Endoscopic injection haemostasis of gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -1730,13 +1730,13 @@
         "text": "Fibre endosc injec therapy les upper gastrointest tract NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -1774,13 +1774,13 @@
         "text": "Fibreopt endoscop rubber band ligation of upper GIT varices"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -1818,13 +1818,13 @@
         "text": "Fibreoptic endoscopic extirpation lesion upper GI tract OS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -1862,13 +1862,13 @@
         "text": "Fibreoptic endoscopic extirpation lesion upper GI tract NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -1906,13 +1906,13 @@
         "text": "Other therapeutic fibreoptic endoscopy on upper GI tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -1950,13 +1950,13 @@
         "text": "Other therapeutic gastroscopy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -1994,13 +1994,13 @@
         "text": "Fibreoptic endoscopic insertion prosthesis in upper GI tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2038,13 +2038,13 @@
         "text": "Fibreoptic endoscopic removal of FB from upper GI tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2082,13 +2082,13 @@
         "text": "Fibreoptic endoscopic dilation of upper GI tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2121,18 +2121,18 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "235197007",
-          "display": "Dilatation of oesophageal stricture"
+          "display": "Dilation of oesophageal stricture"
         } ],
         "text": "Fibreoptic dilation of oesophagus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2173,13 +2173,13 @@
         "text": "Temporary percutaneous endoscopic gastrostomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2220,13 +2220,13 @@
         "text": "Permanent percutaneous endoscopic gastrostomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2264,13 +2264,13 @@
         "text": "Fibreop endoscop reduction intussusception gastroenterostomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2308,13 +2308,13 @@
         "text": "Fibreoptic endoscopic percutaneous insert gastrostomy (PEG)"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2347,18 +2347,18 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "426431003",
-          "display": "Fibreoptic endoscopic pressure-controlled balloon dilatation of lower oesophageal sphincter"
+          "display": "Fibreoptic endoscopic pressure-controlled balloon dilation of lower oesophageal sphincter"
         } ],
         "text": "Fib end pressure-controlled balloon dilat low oesoph sphinc"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2396,13 +2396,13 @@
         "text": "Fibreoptic endoscopic dilation of upper GI tract NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2443,13 +2443,13 @@
         "text": "Fibreoptic endoscopic removal of gastrostomy tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2490,13 +2490,13 @@
         "text": "Fibreoptic endoscopic percutaneous insertion of gastrostomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2534,13 +2534,13 @@
         "text": "Other fibreoptic therapeutic endoscopy on upper GI tract OS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2578,13 +2578,13 @@
         "text": "Other fibreoptic therapeutic endoscopy on upper GI tract NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2622,13 +2622,13 @@
         "text": "Diagnostic fibreoptic endoscopic exam of upper GI tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2666,13 +2666,13 @@
         "text": "Diagnostic fibreoptic gastroscopy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2710,13 +2710,13 @@
         "text": "Diagnostic fibreoptic endoscopy & biopsy of upper GI tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2754,13 +2754,13 @@
         "text": "Diagnostic gastroscopy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2801,13 +2801,13 @@
         "text": "Diagnostic gastroscopy via stoma"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2848,13 +2848,13 @@
         "text": "Gastroesophagoscopy via gastrotomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2892,13 +2892,13 @@
         "text": "Endoscopic upper gastrointestinal ultrasound"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2936,13 +2936,13 @@
         "text": "Fibreoptic endoscopic ultrasound examination of upper GIT"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -2980,13 +2980,13 @@
         "text": "Diag fibre endos insert Bravo pH caps upper gastroint tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3024,13 +3024,13 @@
         "text": "Fibr endos exam upp gastrointest tract stain gastric mucosa"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3068,13 +3068,13 @@
         "text": "Diagnostic fibreoptic endoscopic exam upper GI tract OS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3112,13 +3112,13 @@
         "text": "Diagnostic fibreoptic endoscopic exam upper GI tract NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3156,13 +3156,13 @@
         "text": "Gastroscopy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3203,13 +3203,13 @@
         "text": "Upper Gastrointestinal endoscopy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3250,13 +3250,13 @@
         "text": "Intubation of stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3292,18 +3292,18 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "173828000",
-          "display": "Intubation of stomach for ph manometry"
+          "display": "Intubation of stomach for pH manometry"
         } ],
         "text": "Intubation of stomach for ph manometry"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3344,13 +3344,13 @@
         "text": "Intubation of stomach for pressure manometry"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3391,13 +3391,13 @@
         "text": "Irrigation of stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3435,13 +3435,13 @@
         "text": "Lavage of stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3479,13 +3479,13 @@
         "text": "Washout of stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3526,13 +3526,13 @@
         "text": "Intubation of stomach for study of gastric secretion"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3570,13 +3570,13 @@
         "text": "Intubation of stomach NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3614,13 +3614,13 @@
         "text": "Other specified intubation of stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3658,13 +3658,13 @@
         "text": "Intubation of stomach NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3702,13 +3702,13 @@
         "text": "Other operations on stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3749,13 +3749,13 @@
         "text": "Insertion of gastric bubble"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3796,13 +3796,13 @@
         "text": "Insertion of gastric balloon"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3843,13 +3843,13 @@
         "text": "Attention to gastric bubble"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3890,13 +3890,13 @@
         "text": "Induction of emesis"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3937,13 +3937,13 @@
         "text": "Administration of activated charcoal"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -3970,6 +3970,9 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
+              "url": "descriptionId",
+              "valueId": "5287072016"
+            }, {
               "url": "descriptionDisplay",
               "valueString": "Removal of gastric bubble"
             } ]
@@ -3981,13 +3984,13 @@
         "text": "Removal of gastric bubble"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4028,13 +4031,13 @@
         "text": "Removal of gastric balloon"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4075,13 +4078,13 @@
         "text": "Insertion of gastric balloon"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4122,13 +4125,13 @@
         "text": "Attention to gastric balloon"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4166,13 +4169,13 @@
         "text": "Other specified other operation on stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4210,13 +4213,13 @@
         "text": "Other operation on stomach NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4257,13 +4260,13 @@
         "text": "Operations on gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4304,13 +4307,13 @@
         "text": "Stomach ulcer operations"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4351,13 +4354,13 @@
         "text": "Closure of perforated gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4395,13 +4398,13 @@
         "text": "Closure of gastric ulcer NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4439,13 +4442,13 @@
         "text": "Suture of ulcer of stomach NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4483,13 +4486,13 @@
         "text": "Other specified operation on gastric ulcer"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4527,13 +4530,13 @@
         "text": "Operation on gastric ulcer NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4574,13 +4577,13 @@
         "text": "Fibreoptic endoscopic extirpation of lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4618,13 +4621,13 @@
         "text": "Fibreoptic endoscopic submucosal resection lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4662,13 +4665,13 @@
         "text": "Fibreoptic endoscopic photodynamic therapy lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4706,13 +4709,13 @@
         "text": "OS fibreoptic endoscopic extirpation of lesion of stomach"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4750,13 +4753,13 @@
         "text": "Fibreoptic endoscopic extirpation of lesion of stomach NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4794,13 +4797,13 @@
         "text": "Therap fibr endos operations on upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4838,13 +4841,13 @@
         "text": "Fibr endos endoluminal plication gastro-oesophageal junction"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4882,13 +4885,13 @@
         "text": "OS ther fibr endoscopic ops on upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4926,13 +4929,13 @@
         "text": "Ther fibr endoscopic ops on upper gastrointestinal tract NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -4970,13 +4973,13 @@
         "text": "Other fibre endos extirp lesion upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5014,13 +5017,13 @@
         "text": "Fibr end submucosal resect les upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5058,13 +5061,13 @@
         "text": "Fibr end photodynamic thera les upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5102,13 +5105,13 @@
         "text": "OS other fibre endos extirp les upper gastrointestinal tract"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5146,13 +5149,13 @@
         "text": "Oth fib endos extirp lesion upper gastrointestinal tract NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5190,13 +5193,13 @@
         "text": "Other specified operations on stomach or pylorus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5234,13 +5237,13 @@
         "text": "Stomach and pylorus operations NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5278,13 +5281,13 @@
         "text": "Duodenum operations"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5325,13 +5328,13 @@
         "text": "Duodenectomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5369,13 +5372,13 @@
         "text": "Excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5416,13 +5419,13 @@
         "text": "Gastroduodenectomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5463,13 +5466,13 @@
         "text": "Total excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5510,13 +5513,13 @@
         "text": "Partial excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5554,13 +5557,13 @@
         "text": "Other specified excision of duodenum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5598,13 +5601,13 @@
         "text": "Duodenectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5642,13 +5645,13 @@
         "text": "Excision of duodenum NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5689,13 +5692,13 @@
         "text": "Open extirpation of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5736,13 +5739,13 @@
         "text": "Excision of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5783,13 +5786,13 @@
         "text": "Open destruction of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5827,13 +5830,13 @@
         "text": "Other specified open extirpation of lesion of duodenum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5871,13 +5874,13 @@
         "text": "Open extirpation of lesion of duodenum NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5918,13 +5921,13 @@
         "text": "Bypass of duodenum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -5965,13 +5968,13 @@
         "text": "Bypass of duodenum by anastomosis of stomach to jejunum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6012,13 +6015,13 @@
         "text": "Bypass of duodenum by anastomosis of duodenum to duodenum"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C07745C6-ADAC-11E2-883C-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6056,13 +6059,13 @@
         "text": "Focused ultrasound to lesion of uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6100,13 +6103,13 @@
         "text": "Other specified operation on uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6144,13 +6147,13 @@
         "text": "Operation on uterus NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6188,13 +6191,13 @@
         "text": "Other vaginal operations on uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6235,13 +6238,13 @@
         "text": "Vaginal excision of lesion of uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6282,13 +6285,13 @@
         "text": "Endometrial balloon ablation"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6326,13 +6329,13 @@
         "text": "Microwave ablation of endometrium NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6373,13 +6376,13 @@
         "text": "Free circulating saline ablation of endometrium"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6420,13 +6423,13 @@
         "text": "Radiofrequency endometrial ablation"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6467,13 +6470,13 @@
         "text": "Photodynamic ablation of endometrium"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6511,13 +6514,13 @@
         "text": "Other specified other vaginal operation on uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6555,13 +6558,13 @@
         "text": "Other vaginal operation on uterus NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6599,13 +6602,13 @@
         "text": "Plastic operations on uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6646,13 +6649,13 @@
         "text": "Connection of uterus to vagina"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6690,13 +6693,13 @@
         "text": "Other specified plastic operations on uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6734,13 +6737,13 @@
         "text": "Plastic operations on uterus NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6778,13 +6781,13 @@
         "text": "Other introduction of gamete into uterine cavity"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6825,13 +6828,13 @@
         "text": "Transmyometrial transfer of embryo to uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6869,13 +6872,13 @@
         "text": "Other specified operations on uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6913,13 +6916,13 @@
         "text": "Uterus operations NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -6960,13 +6963,13 @@
         "text": "Fallopian tube operations"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7007,13 +7010,13 @@
         "text": "Tubal operations - fallopian"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7054,13 +7057,13 @@
         "text": "Bilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7098,13 +7101,13 @@
         "text": "Bilateral salpingoophorectomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7142,13 +7145,13 @@
         "text": "Bilateral salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7186,13 +7189,13 @@
         "text": "Bilateral oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7230,13 +7233,13 @@
         "text": "Other specified bilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7274,13 +7277,13 @@
         "text": "Bilateral excision of adnexa of uterus NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7321,13 +7324,13 @@
         "text": "Unilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7365,13 +7368,13 @@
         "text": "Unilateral salpingoophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7409,13 +7412,13 @@
         "text": "Salpingoophorectomy remaining solitary fallop tube and ovary"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7453,13 +7456,13 @@
         "text": "Unilateral salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7497,13 +7500,13 @@
         "text": "Salpingectomy of remaining solitary fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7541,13 +7544,13 @@
         "text": "Unilateral oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7585,13 +7588,13 @@
         "text": "Oophorectomy of remaining solitary ovary NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7629,13 +7632,13 @@
         "text": "Right salpingoophorectomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7673,13 +7676,13 @@
         "text": "Left salpingoophorectomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7720,13 +7723,13 @@
         "text": "Right salpingectomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7767,13 +7770,13 @@
         "text": "Left salpingectomy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7811,13 +7814,13 @@
         "text": "Other specified unilateral excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7855,13 +7858,13 @@
         "text": "Unilateral excision of adnexa of uterus NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7899,13 +7902,13 @@
         "text": "Other excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7943,13 +7946,13 @@
         "text": "Salpingoophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -7987,13 +7990,13 @@
         "text": "Salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8031,13 +8034,13 @@
         "text": "Oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8075,13 +8078,13 @@
         "text": "Right oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8119,13 +8122,13 @@
         "text": "Left oophorectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8163,13 +8166,13 @@
         "text": "Other specified other excision of adnexa of uterus"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8207,13 +8210,13 @@
         "text": "Other excision of adnexa of uterus NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8254,13 +8257,13 @@
         "text": "Partial excision of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8301,13 +8304,13 @@
         "text": "Excision of lesion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8348,13 +8351,13 @@
         "text": "Excision of ectopic ovarian pregnancy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8395,13 +8398,13 @@
         "text": "Excision of ruptured ectopic tubal pregnancy"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8439,13 +8442,13 @@
         "text": "Other specified partial excision of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8483,13 +8486,13 @@
         "text": "Partial salpingectomy NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8527,13 +8530,13 @@
         "text": "Partial excision of fallopian tube NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8571,13 +8574,13 @@
         "text": "Placement of prosthesis in fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8615,13 +8618,13 @@
         "text": "Insertion of tubal prosthesis into fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8659,13 +8662,13 @@
         "text": "Revision of tubal prosthesis in fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8703,13 +8706,13 @@
         "text": "Removal of tubal prosthesis from fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8747,13 +8750,13 @@
         "text": "Other specified placement of prosthesis in fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8791,13 +8794,13 @@
         "text": "Placement of prosthesis in fallopian tube NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8838,13 +8841,13 @@
         "text": "Open bilateral occlusion of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8885,13 +8888,13 @@
         "text": "Open bilateral female sterilisation"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8932,13 +8935,13 @@
         "text": "Open bilateral ligation of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -8979,13 +8982,13 @@
         "text": "Pomeroy open bilateral ligation of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9026,13 +9029,13 @@
         "text": "Open bilateral clipping of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9073,13 +9076,13 @@
         "text": "Open bilateral ringing of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9117,13 +9120,13 @@
         "text": "Other specified open bilateral occlusion of fallopian tubes"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9161,13 +9164,13 @@
         "text": "Open bilateral occlusion of fallopian tubes NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9205,13 +9208,13 @@
         "text": "Other open occlusion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9249,13 +9252,13 @@
         "text": "Other open female sterilisation"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9296,13 +9299,13 @@
         "text": "Unilateral occlusion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9343,13 +9346,13 @@
         "text": "Open ligation of remaining solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9387,13 +9390,13 @@
         "text": "Open ligation of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9434,13 +9437,13 @@
         "text": "Open clipping of remaining solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9481,13 +9484,13 @@
         "text": "Open clipping of residual solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9528,13 +9531,13 @@
         "text": "Open ringing of remaining solitary fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9572,13 +9575,13 @@
         "text": "Open clipping of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9616,13 +9619,13 @@
         "text": "Open ringing of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9663,13 +9666,13 @@
         "text": "Open clipping of right fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9710,13 +9713,13 @@
         "text": "Open ringing of right fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9757,13 +9760,13 @@
         "text": "Open clipping of left fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9804,13 +9807,13 @@
         "text": "Open ringing of left fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9851,13 +9854,13 @@
         "text": "Open ligation of right fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9898,13 +9901,13 @@
         "text": "Open ligation of left fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9942,13 +9945,13 @@
         "text": "Other specified other open occlusion of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -9986,13 +9989,13 @@
         "text": "Other open occlusion of fallopian tube NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10033,13 +10036,13 @@
         "text": "Open reversal of female sterilisation"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10080,13 +10083,13 @@
         "text": "Open reversal of female sterilisation"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10127,13 +10130,13 @@
         "text": "Open reversal of tubal ligation"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10171,13 +10174,13 @@
         "text": "Reanastomosis of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10215,13 +10218,13 @@
         "text": "Open removal of clip from fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10259,13 +10262,13 @@
         "text": "Open removal of ring from fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10303,13 +10306,13 @@
         "text": "Other specified open reversal of female sterilisation"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10347,13 +10350,13 @@
         "text": "Open reversal of female sterilisation NOS"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10391,13 +10394,13 @@
         "text": "Other repair of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10438,13 +10441,13 @@
         "text": "Reconstruction of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10482,13 +10485,13 @@
         "text": "Replantation of fallopian tube"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
@@ -10526,13 +10529,13 @@
         "text": "Anastomosis of fallopian tube NEC"
       },
       "subject": {
-        "reference": "Patient/00000000-0000-0000-0000-000000000002"
+        "reference": "Patient/00000000-0000-0000-0000-000000000003"
       },
       "context": {
         "reference": "Encounter/C11B5062-ADAC-11E2-9964-B639E5B05B1F"
       },
       "effectiveDateTime": "2000-03-31",
-      "issued": "2017-05-18T08:12:07.000+00:00",
+      "issued": "2000-03-31T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/298F8D0B-C3B9-0598-4D0E-3ADB6F7B1DEF"
       } ],
