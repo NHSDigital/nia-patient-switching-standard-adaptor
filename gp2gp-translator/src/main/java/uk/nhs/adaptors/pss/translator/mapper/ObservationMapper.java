@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
@@ -25,12 +24,10 @@ import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.hl7.v3.RCMRMT030101UKSubject;
-import org.hl7.v3.TS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
-import uk.nhs.adaptors.pss.translator.util.ObservationUtil;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -46,9 +43,9 @@ import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergiesAndBloodPressures;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
-import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getInterpretation;
+import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getIssued;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRange;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
@@ -105,7 +102,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             .setStatus(FINAL)
             .addIdentifier(buildIdentifier(id, practiseCode))
             .setCode(getCode(observationStatement.getCode()))
-            .setIssuedElement(getIssued(observationStatement, ehrComposition))
+            .setIssuedElement(getIssued(ehrComposition))
             .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
             .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
             .setComment(getComment(
@@ -130,35 +127,6 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
-    private static InstantType getIssued(
-        RCMRMT030101UKObservationStatement observationStatement,
-        RCMRMT030101UKEhrComposition matchingEhrComposition) {
-
-        if (observationStatement.hasAvailabilityTime()
-            && availabilityTimeHasValue(observationStatement.getAvailabilityTime())
-        ) {
-            return parseToInstantType(observationStatement.getAvailabilityTime().getValue());
-        }
-
-        return ObservationUtil.getIssued(matchingEhrComposition);
-    }
-
-    private static InstantType getIssued(
-        RCMRMT030101UKRequestStatement requestStatement,
-        RCMRMT030101UKEhrComposition matchingEhrComposition) {
-        if (requestStatement != null
-            && availabilityTimeHasValue(requestStatement.getAvailabilityTime())
-        ) {
-            return parseToInstantType(requestStatement.getAvailabilityTime().getValue());
-        }
-
-        return ObservationUtil.getIssued(matchingEhrComposition);
-    }
-
-    private static boolean availabilityTimeHasValue(TS availabilityTime) {
-        return availabilityTime != null && availabilityTime.hasValue() && !availabilityTime.hasNullFlavor();
-    }
-
     private Observation mapObservationFromRequestStatement(RCMRMT030101UKEhrComposition ehrComposition,
                                                            RCMRMT030101UKRequestStatement requestStatement, Patient patient,
                                                            List<Encounter> encounters, String practiseCode) {
@@ -169,7 +137,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 .setStatus(FINAL)
                 .addIdentifier(buildIdentifier(id, practiseCode))
                 .setCode(getCode(requestStatement.getCode()))
-                .setIssuedElement(getIssued(requestStatement, ehrComposition))
+                .setIssuedElement(getIssued(ehrComposition))
                 .addPerformer(getParticipantReference(requestStatement.getParticipant(), ehrComposition))
                 .setComment(SELF_REFERRAL)
                 .setSubject(new Reference(patient))

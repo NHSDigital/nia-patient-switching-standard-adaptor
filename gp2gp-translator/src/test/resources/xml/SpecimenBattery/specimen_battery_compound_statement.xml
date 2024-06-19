@@ -5,7 +5,7 @@
                 <ehrComposition classCode="COMPOSITION" moodCode="EVN">
                     <id root="ENCOUNTER_ID"/>
                     <author typeCode="AUT" contextControlCode="OP">
-                        <time value="20220302105070"/>
+                        <time value="202203021160700"/>
                         <agentRef classCode="AGNT">
                             <id root="749107A2-4975-441F-8EDF-ADFF451FD12D"/>
                         </agentRef>
@@ -41,7 +41,7 @@
                                     <effectiveTime>
                                         <center nullFlavor="NI"/>
                                     </effectiveTime>
-                                    <availabilityTime value="20100225154200"/>
+                                    <availabilityTime value="20100225154100"/>
                                     <specimen typeCode="SPC">
                                         <specimenRole classCode="SPEC">
                                             <id root="37252CF4-D7F6-4CBA-89B2-63477F0C8374"/>
@@ -67,7 +67,7 @@
                                             <effectiveTime>
                                                 <center value="20100223000000"/>
                                             </effectiveTime>
-                                            <availabilityTime value="20100225154300"/>
+                                            <availabilityTime value="20100225154100"/>
                                             <component typeCode="COMP" contextConductionInd="true">
                                                 <ObservationStatement classCode="OBS" moodCode="EVN">
                                                     <id root="BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT"/>
@@ -81,7 +81,7 @@
                                                     <effectiveTime>
                                                         <center value="20100223000000"/>
                                                     </effectiveTime>
-                                                    <availabilityTime value="20100225154400"/>
+                                                    <availabilityTime value="20100225154100"/>
                                                 </ObservationStatement>
                                             </component>
                                             <component typeCode="COMP" contextConductionInd="true">
@@ -109,7 +109,7 @@ Looks like Covid
                                                     <effectiveTime>
                                                         <center value="20100223000000"/>
                                                     </effectiveTime>
-                                                    <availabilityTime value="20100225154600"/>
+                                                    <availabilityTime value="20100225154100"/>
                                                     <component typeCode="COMP" contextConductionInd="true">
                                                         <ObservationStatement classCode="OBS" moodCode="EVN">
                                                             <id root="OBSERVATION_STATEMENT_ID"/>
@@ -123,7 +123,7 @@ Looks like Covid
                                                             <effectiveTime>
                                                                 <center value="20100223000000"/>
                                                             </effectiveTime>
-                                                            <availabilityTime value="20100225154700"/>
+                                                            <availabilityTime value="20100225154100"/>
                                                         </ObservationStatement>
                                                     </component>
                                                     <component typeCode="COMP" contextConductionInd="true">
