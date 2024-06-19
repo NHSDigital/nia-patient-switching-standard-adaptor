@@ -551,6 +551,160 @@ public class MedicationRequestPlanMapperTest {
         );
     }
 
+    @Test void When_MappingDiscontinue_With_CodingOriginalTextIsDuplicatedAsPrefixInPertinentInformation_Expect_DisplayedOnce() {
+        var medicationStatementXml = """
+            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
+                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <component typeCode="COMP">
+                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+                        <id root="TEST_ID"/>
+                    </ehrSupplyAuthorise>
+                </component>
+                <component typeCode="COMP">
+                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
+                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
+                        <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
+                            <originalText>Prescribing error</originalText>
+                        </code>
+                        <availabilityTime value="20060426"/>
+                        <reversalOf typeCode="REV">
+                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
+                                <id root="TEST_ID"/>
+                            </priorMedicationRef>
+                        </reversalOf>
+                        <pertinentInformation typeCode="PERT">
+                            <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
+                                <text>Prescribing error, incorrect dosage</text>
+                            </pertinentSupplyAnnotation>
+                        </pertinentInformation>
+                    </ehrSupplyDiscontinue>
+                </component>
+            </MedicationStatement>
+            """;
+        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
+        var medicationStatement = extractMedicationStatement(ehrExtract);
+        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+
+        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                medicationStatement,
+                supplyAuthorise,
+                PRACTISE_CODE
+        );
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
+        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
+
+        assertAll(
+            () -> assertThat(statusExt).hasSize(1),
+            () -> assertThat(statusReasonExt).hasSize(1),
+            () -> assertThat(statusReason.getText()).isEqualTo("Prescribing error, incorrect dosage")
+        );
+    }
+
+    @Test void When_MappingDiscontinue_With_CodingOriginalTextIsDuplicatedAsUpperCasePrefixInPertinentInformation_Expect_DisplayedTwice() {
+        var medicationStatementXml = """
+            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
+                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <component typeCode="COMP">
+                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+                        <id root="TEST_ID"/>
+                    </ehrSupplyAuthorise>
+                </component>
+                <component typeCode="COMP">
+                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
+                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
+                        <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
+                            <originalText>Prescribing error</originalText>
+                        </code>
+                        <availabilityTime value="20060426"/>
+                        <reversalOf typeCode="REV">
+                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
+                                <id root="TEST_ID"/>
+                            </priorMedicationRef>
+                        </reversalOf>
+                        <pertinentInformation typeCode="PERT">
+                            <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
+                                <text>PRESCRIBING ERROR, incorrect dosage</text>
+                            </pertinentSupplyAnnotation>
+                        </pertinentInformation>
+                    </ehrSupplyDiscontinue>
+                </component>
+            </MedicationStatement>
+            """;
+        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
+        var medicationStatement = extractMedicationStatement(ehrExtract);
+        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+
+        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                medicationStatement,
+                supplyAuthorise,
+                PRACTISE_CODE
+        );
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
+        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
+
+        assertAll(
+                () -> assertThat(statusExt).hasSize(1),
+                () -> assertThat(statusReasonExt).hasSize(1),
+                () -> assertThat(statusReason.getText()).isEqualTo("(Prescribing error) PRESCRIBING ERROR, incorrect dosage")
+        );
+    }
+
+    @Test
+    void When_MappingDiscontinue_With_CodingOriginalTextIsDuplicatedWithSurroundingTextInPertinentInformation_Expect_DisplayedTwice() {
+        var medicationStatementXml = """
+            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
+                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <component typeCode="COMP">
+                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+                        <id root="TEST_ID"/>
+                    </ehrSupplyAuthorise>
+                </component>
+                <component typeCode="COMP">
+                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
+                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
+                        <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
+                            <originalText>Prescribing error</originalText>
+                        </code>
+                        <availabilityTime value="20060426"/>
+                        <reversalOf typeCode="REV">
+                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
+                                <id root="TEST_ID"/>
+                            </priorMedicationRef>
+                        </reversalOf>
+                        <pertinentInformation typeCode="PERT">
+                            <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
+                                <text>Something, Prescribing error, something else</text>
+                            </pertinentSupplyAnnotation>
+                        </pertinentInformation>
+                    </ehrSupplyDiscontinue>
+                </component>
+            </MedicationStatement>
+            """;
+        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
+        var medicationStatement = extractMedicationStatement(ehrExtract);
+        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+
+        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                medicationStatement,
+                supplyAuthorise,
+                PRACTISE_CODE
+        );
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
+        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
+
+        assertAll(
+            () -> assertThat(statusExt).hasSize(1),
+            () -> assertThat(statusReasonExt).hasSize(1),
+            () -> assertThat(statusReason.getText()).isEqualTo("(Prescribing error) Something, Prescribing error, something else")
+        );
+    }
+
     @Test
     public void When_MappingAuthoriseResource_WithActiveStatusAndNoDiscontinue_Expect_ActiveStatus() {
         var medicationStatementXml = """
