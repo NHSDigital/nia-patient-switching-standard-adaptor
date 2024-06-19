@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator;
 
 import static org.awaitility.Awaitility.await;
-import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
@@ -15,21 +14,16 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.json.JSONException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -51,22 +45,6 @@ public final class LargeMessagingIT extends BaseEhrHandler {
             "entry[*].resource.content[0].attachment.url",
             "entry[*].resource.description"
         ));
-    }
-
-    @MockBean
-    private IdGeneratorService idGeneratorService;
-
-    @BeforeEach
-    public void setUpDeterministicRandomIds() {
-        when(idGeneratorService.generateUuid()).thenAnswer(
-            new Answer<String>() {
-                private int invocationCount = 0;
-                @Override
-                public String answer(InvocationOnMock invocation) {
-                    return String.format("00000000-0000-0000-0000-%012d", invocationCount++);
-                }
-            }
-        );
     }
 
     @Test
