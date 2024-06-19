@@ -15,7 +15,7 @@
       },
       "identifier": [ {
         "system": "https://fhir.nhs.uk/Id/nhs-number",
-        "value": "9194544435"
+        "value": "{{nhsNumber}}"
       } ],
       "managingOrganization": {
         "reference": "Organization/94F00D99-0601-4A8E-AD1D-1B564307B0A6-ORG"
@@ -2726,7 +2726,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "319773006",
-          "display": "Aspirin 75mg dispersible tablets"
+          "display": "Aspirin 75 mg orodispersible tablet"
         } ],
         "text": "Aspirin 75mg dispersible tablets"
       }
@@ -2878,7 +2878,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "322225002",
-          "display": "Aspirin 300mg gastro-resistant tablets"
+          "display": "Aspirin 300 mg gastro-resistant oral tablet"
         } ],
         "text": "Aspirin 300mg gastro-resistant tablets"
       }
@@ -4288,7 +4288,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "545211000001106",
-          "display": "E45 cream (Karo Pharma UK Ltd)"
+          "display": "E45 cream (Karo Healthcare UK Ltd)"
         } ],
         "text": "E45 cream (Forum Health Products Ltd)"
       }
@@ -4398,7 +4398,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "327550006",
-          "display": "Folic acid 5mg tablets"
+          "display": "Folic acid 5 mg oral tablet"
         } ],
         "text": "Folic acid 5mg tablets"
       }
@@ -5681,7 +5681,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "318421004",
-          "display": "Atenolol 100mg tablets"
+          "display": "Atenolol 100 mg oral tablet"
         } ],
         "text": "Atenolol 100mg tablets"
       }
@@ -5988,7 +5988,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "317971007",
-          "display": "Furosemide 20mg tablets"
+          "display": "Furosemide 20 mg oral tablet"
         } ],
         "text": "Furosemide 20mg tablets"
       }
@@ -6166,7 +6166,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "321745007",
-          "display": "Amitriptyline 10mg tablets"
+          "display": "Amitriptyline hydrochloride 10 mg oral tablet"
         } ],
         "text": "Amitriptyline 10mg tablets"
       }
@@ -6878,7 +6878,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "321989000",
-          "display": "Citalopram 10mg tablets"
+          "display": "Citalopram (as citalopram hydrobromide) 10 mg oral tablet"
         } ],
         "text": "Citalopram 10mg tablets"
       }
@@ -7176,7 +7176,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "318906001",
-          "display": "Ramipril 10mg capsules"
+          "display": "Ramipril 10 mg oral capsule"
         } ],
         "text": "Ramipril 10mg capsules"
       }
@@ -10531,7 +10531,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "317161009",
-          "display": "Mebeverine 135mg tablets"
+          "display": "Mebeverine hydrochloride 135 mg oral tablet"
         } ],
         "text": "Mebeverine 135mg tablets"
       }
@@ -13549,7 +13549,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "374667004",
-          "display": "Perindopril erbumine 8mg tablets"
+          "display": "Perindopril erbumine 8 mg oral tablet"
         } ],
         "text": "Perindopril erbumine 8mg tablets"
       }
@@ -14504,7 +14504,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "321949006",
-          "display": "Fluoxetine 20mg capsules"
+          "display": "Fluoxetine (as fluoxetine hydrochloride) 20 mg oral capsule"
         } ],
         "text": "Fluoxetine 20mg capsules"
       }
@@ -16423,7 +16423,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "318136009",
-          "display": "Co-amilofruse 5mg/40mg tablets"
+          "display": "Amiloride hydrochloride 5 mg and furosemide 40 mg oral tablet"
         } ],
         "text": "Co-amilofruse 5mg/40mg tablets"
       }
@@ -16601,7 +16601,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "318859000",
-          "display": "Lisinopril 10mg tablets"
+          "display": "Lisinopril 10 mg oral tablet"
         } ],
         "text": "Lisinopril 10mg tablets"
       }
@@ -17762,7 +17762,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "317249006",
-          "display": "Ranitidine 150mg tablets"
+          "display": "Ranitidine (as ranitidine hydrochloride) 150 mg oral tablet"
         } ],
         "text": "Ranitidine 150mg tablets"
       }
@@ -17940,7 +17940,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "317291008",
-          "display": "Omeprazole 20mg gastro-resistant capsules"
+          "display": "Omeprazole 20 mg oral capsule"
         } ],
         "text": "Omeprazole 20mg gastro-resistant capsules"
       }
@@ -19429,7 +19429,7 @@
         "coding": [ {
           "system": "http://snomed.info/sct",
           "code": "320006003",
-          "display": "Simvastatin 80mg tablets"
+          "display": "Simvastatin 80 mg oral tablet"
         } ],
         "text": "Simvastatin 80mg tablets"
       }
@@ -22071,7 +22071,7 @@
         "reference": "Encounter/CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF"
       },
       "effectiveDateTime": "2010-01-14",
-      "issued": "2010-01-14T10:34:30.000+00:00",
+      "issued": "2010-01-14T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ]
@@ -22113,7 +22113,7 @@
         "reference": "Encounter/3BFD78DE-03BF-44FD-96BC-CDF3DB2CC039"
       },
       "effectiveDateTime": "2010-01-15",
-      "issued": "2010-01-15T10:06:46.000+00:00",
+      "issued": "2010-01-15T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ]
@@ -22151,7 +22151,7 @@
         "reference": "Encounter/8F2D066F-E3DB-4D1A-A39F-E19F55A5D6D3"
       },
       "effectiveDateTime": "2010-03-23T15:36:00+00:00",
-      "issued": "2010-03-23T15:51:27.000+00:00",
+      "issued": "2010-03-23T15:36:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -22190,7 +22190,7 @@
         "reference": "Encounter/9326C01E-488B-4EDF-B9C9-529E69EE0361"
       },
       "effectiveDateTime": "2010-03-23T15:39:00+00:00",
-      "issued": "2010-03-23T15:59:35.000+00:00",
+      "issued": "2010-03-23T15:39:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -22229,7 +22229,7 @@
         "reference": "Encounter/797F53B7-4D96-4BBE-84CC-3110DB040D90"
       },
       "effectiveDateTime": "2011-11-15T14:54:00+00:00",
-      "issued": "2011-11-15T14:59:10.000+00:00",
+      "issued": "2011-11-15T14:54:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/884E7627-796C-4C70-870A-D61B88AD2E57"
       } ],
@@ -22272,7 +22272,7 @@
         "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
       },
       "effectiveDateTime": "2006-04-25T15:30:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2006-04-25T15:30:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
       } ],
@@ -22343,7 +22343,7 @@
         "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
       },
       "effectiveDateTime": "2006-04-25T15:30:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2006-04-25T15:30:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
       } ],
@@ -22411,7 +22411,7 @@
         "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
       },
       "effectiveDateTime": "2019-07-08T13:35:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2019-07-08T13:35:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1230F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -22522,7 +22522,7 @@
         "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
       },
       "effectiveDateTime": "2011-01-11T15:33:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2011-01-11T15:33:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
       } ],
@@ -22647,7 +22647,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000009"
       },
       "effectiveDateTime": "2010-02-23T00:00:00+00:00",
-      "issued": "2020-01-01T01:01:01.000+00:00",
+      "issued": "2010-02-25T15:41:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -22701,7 +22701,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000009"
       },
       "effectiveDateTime": "2010-02-23T00:00:00+00:00",
-      "issued": "2020-01-01T01:01:01.000+00:00",
+      "issued": "2010-02-25T15:41:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -22762,7 +22762,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000009"
       },
       "effectiveDateTime": "2010-02-23T00:00:00+00:00",
-      "issued": "2020-01-01T01:01:01.000+00:00",
+      "issued": "2010-02-25T15:41:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -22802,7 +22802,7 @@
         "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
       },
       "effectiveDateTime": "2019-07-08T13:35:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2019-07-08T13:35:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1230F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -22926,7 +22926,7 @@
         "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
       },
       "effectiveDateTime": "2010-02-23T00:00:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2010-02-25T15:41:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
       } ],
@@ -22994,7 +22994,7 @@
         "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
       },
       "effectiveDateTime": "2010-02-23T00:00:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2010-02-25T15:41:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
       } ],
@@ -23050,7 +23050,7 @@
         "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
       },
       "effectiveDateTime": "2011-01-11T15:33:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2011-01-11T15:33:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
       } ],

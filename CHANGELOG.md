@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 * Mapping of `issued` for `Test Group Headers` has been updated to use correct timestamps as per [GP Connect 
 Documentation](https://developer.nhs.uk/apis/gpconnect-1-5-1/accessrecord_structured_development_observation_testGroup.html#issued)
 and use author time if these values are not available.
+* Mapping of `issued` for uncategorized `ObservationStatements` and `RequestStatements` has been updated to use 
+availability timestamps as per [GP Connect Documentation](https://developer.nhs.uk/apis/gpconnect-1-5-0/accessrecord_structured_development_observation_uncategorisedData.html#issued)
+and use author time if these values are not available.
 
 ## [2.1.0] - 2024-04-17
 ### Added
