@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.1] - 2024-06-19
 ### Changed
 * Cron time schedule has been changed from 6h to 2h so that the timeouts can be identified earlier
 
