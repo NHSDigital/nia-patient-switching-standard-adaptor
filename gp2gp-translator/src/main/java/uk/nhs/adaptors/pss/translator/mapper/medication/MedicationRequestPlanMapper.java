@@ -172,12 +172,6 @@ public class MedicationRequestPlanMapper {
     }
 
     private String extractTermText(RCMRMT030101UKDiscontinue discontinue) {
-        String originalText = "";
-        if (discontinue.hasCode() && discontinue.getCode().hasOriginalText()) {
-            originalText = discontinue.getCode().getOriginalText();
-        }
-
-
         var pertinentInfo = discontinue.getPertinentInformation()
                 .stream()
                 .map(RCMRMT030101UKPertinentInformation2::getPertinentSupplyAnnotation)
@@ -187,11 +181,15 @@ public class MedicationRequestPlanMapper {
 
         var stringBuilder = new StringBuilder();
 
-        if (StringUtils.isNotEmpty(originalText) && !pertinentInfo.contains(originalText)) {
-            stringBuilder
-                .append('(')
-                .append(originalText)
-                .append(") ");
+        if (discontinue.hasCode() && discontinue.getCode().hasOriginalText()) {
+            final var originalText = discontinue.getCode().getOriginalText();
+
+            final boolean hasIncumbentSystemDuplicatedOriginalTextWithinPertinentInfo = pertinentInfo.stream().anyMatch(
+                annotation -> annotation.regionMatches(0, originalText, 0, originalText.length())
+            );
+            if (!hasIncumbentSystemDuplicatedOriginalTextWithinPertinentInfo) {
+                stringBuilder.append('(').append(originalText).append(") ");
+            }
         }
 
         stringBuilder.append(
