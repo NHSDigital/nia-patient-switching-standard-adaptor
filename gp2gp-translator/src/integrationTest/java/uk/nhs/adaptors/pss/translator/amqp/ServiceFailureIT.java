@@ -50,7 +50,6 @@ import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.pss.translator.config.PssQueueProperties;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.service.MhsClientService;
-import uk.nhs.adaptors.pss.translator.task.COPCMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendContinueRequestHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
@@ -83,8 +82,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
     private MhsClientService mhsClientService;
     @SpyBean
     private SendContinueRequestHandler sendContinueRequestHandler;
-    @SpyBean
-    private COPCMessageHandler copcMessageHandler;
+
     @SpyBean
     private SendACKMessageHandler sendACKMessageHandler;
     @SpyBean

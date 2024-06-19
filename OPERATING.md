@@ -171,11 +171,10 @@ In the diagram above there is a single broker for all queues, but the adaptor su
 An example daisy chaining environment is provided in [/test-suite/daisy-chaining/](/test-suite/daisy-chaining),
 and each environment variable described within [Inbound message queue variables](#inbound-message-queue-variables).
 
-### Retrying and DLQ
-When a message is received the adaptor will try to send an ACK. In case if it is not possible due to a runtime exception, 
-the adaptor will keep retrying as per the threshold setup in the config file. 
-When the number of retries is exhausted then the message will be sent to a dead letter queue. 
-
+### Retrying and dead-letter queue
+The adaptor will put messages it doesn't recognise into dead letter queue. Messages that can't be delievered due to different
+exceptions and which exceeded the threshold of retries will also be sent to the dead letter queue.
+The number of retries is configured in application.yml file. If the value of retries is not specified then, by default, it will be set to 3.
 
 [GP2GP Adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp
 
