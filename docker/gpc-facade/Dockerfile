@@ -1,4 +1,4 @@
-FROM gradle:7.2.0-jdk17 AS build
+FROM gradle:7.6-jdk17 AS build
 COPY --chown=gradle:gradle settings.gradle /home/gradle/service/
 COPY --chown=gradle:gradle ./gpc-api-facade /home/gradle/service/gpc-api-facade
 COPY --chown=gradle:gradle ./common /home/gradle/service/common
