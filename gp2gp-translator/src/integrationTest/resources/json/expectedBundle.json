@@ -24880,7 +24880,7 @@
         "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
       },
       "effectiveDateTime": "2010-02-23T00:00:00+00:00",
-      "issued": "2010-02-25T15:41:00.000+00:00",
+      "issued": "2010-01-13T15:13:32.000+00:00",
       "performer": [ {
         "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
       } ],
