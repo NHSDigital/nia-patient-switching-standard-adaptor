@@ -10,7 +10,7 @@
                             <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="PQ" value="100.000"
                                    unit="1">
                                 <translation value="100">
-                                    <originalText>ml</originalText>
+                                    <originalText>mL</originalText>
                                 </translation>
                             </value>
                         </ObservationStatement>

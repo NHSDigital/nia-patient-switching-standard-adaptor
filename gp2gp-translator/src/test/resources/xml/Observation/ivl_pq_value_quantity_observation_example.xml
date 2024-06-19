@@ -10,7 +10,7 @@
                             <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="IVL_PQ">
                                 <high value="200" unit="1" inclusive="false">
                                     <translation value="200">
-                                        <originalText>ml</originalText>
+                                        <originalText>mL</originalText>
                                     </translation>
                                 </high>
                             </value>
