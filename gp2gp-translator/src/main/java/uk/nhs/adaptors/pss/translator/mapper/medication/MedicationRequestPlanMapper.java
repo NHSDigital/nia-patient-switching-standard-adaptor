@@ -30,7 +30,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
@@ -173,26 +172,33 @@ public class MedicationRequestPlanMapper {
     }
 
     private String extractTermText(RCMRMT030101UKDiscontinue discontinue) {
-
-        var stringBuilder = new StringBuilder();
+        String originalText = "";
         if (discontinue.hasCode() && discontinue.getCode().hasOriginalText()) {
-            var originalText = discontinue.getCode().getOriginalText();
-            if (StringUtils.isNotEmpty(originalText)) {
-                stringBuilder
-                        .append('(')
-                        .append(originalText)
-                        .append(") ");
-            }
+            originalText = discontinue.getCode().getOriginalText();
         }
+
 
         var pertinentInfo = discontinue.getPertinentInformation()
                 .stream()
                 .map(RCMRMT030101UKPertinentInformation2::getPertinentSupplyAnnotation)
                 .map(RCMRMT030101UKSupplyAnnotation::getText)
                 .filter(StringUtils::isNotBlank)
-                .collect(Collectors.joining(", "));
+                .toList();
 
-        stringBuilder.append(pertinentInfo.isEmpty() ? MISSING_REASON_STRING : pertinentInfo);
+        var stringBuilder = new StringBuilder();
+
+        if (StringUtils.isNotEmpty(originalText) && !pertinentInfo.contains(originalText)) {
+            stringBuilder
+                .append('(')
+                .append(originalText)
+                .append(") ");
+        }
+
+        stringBuilder.append(
+            pertinentInfo.isEmpty()
+                ? MISSING_REASON_STRING
+                : String.join(",", pertinentInfo)
+        );
 
         return stringBuilder.toString();
     }
