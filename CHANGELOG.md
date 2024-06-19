@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 * Cron time schedule has been changed from 6h to 2h so that the timeouts can be identified earlier
 
+### Fixed
+* When mapping a `MedicationRequest (PLAN)`, if the text in the original text is duplicated by a pertinent information
+  text, then the original text is disregarded to avoid the unnecessary duplication.
+
 ## [2.1.0] - 2024-04-17
 ### Added
 
