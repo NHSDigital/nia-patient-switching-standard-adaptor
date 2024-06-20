@@ -171,6 +171,11 @@ In the diagram above there is a single broker for all queues, but the adaptor su
 An example daisy chaining environment is provided in [/test-suite/daisy-chaining/](/test-suite/daisy-chaining),
 and each environment variable described within [Inbound message queue variables](#inbound-message-queue-variables).
 
+### Retrying and dead-letter queue
+The adaptor will put messages it doesn't recognise into the dead letter queue.
+Additionally, any messages which is recognised but can't be processed due to an error are sent to the dead letter queue once the number of attempted redeliveries exceeds the threshold.
+The number of redeliveries is configurable with the [`MHS_AMQP_MAX_REDELIVERIES` environment variable](#ps-queue-variables).
+
 [GP2GP Adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp
 
 ### Broker Requirements

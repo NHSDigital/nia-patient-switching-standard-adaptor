@@ -82,7 +82,6 @@ public class E2EMappingIT extends BaseEhrHandler {
         final var actualBundle = sendInboundMessageAndWaitForBundle(INPUT_RESOURCE_PATH + "PWTP2.xml");
 
         JSONAssert.assertEquals(expectedBundle, actualBundle, true);
-
     }
 
     @Test
@@ -156,7 +155,6 @@ public class E2EMappingIT extends BaseEhrHandler {
 
         JSONAssert.assertEquals(expectedBundle, actualBundle, true);
     }
-
 
     private String sendInboundMessageAndWaitForBundle(String inputFilePath) {
         final var inboundMessage = parseMessageToString(createInboundMessage(inputFilePath));
