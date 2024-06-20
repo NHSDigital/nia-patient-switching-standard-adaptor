@@ -172,9 +172,9 @@ An example daisy chaining environment is provided in [/test-suite/daisy-chaining
 and each environment variable described within [Inbound message queue variables](#inbound-message-queue-variables).
 
 ### Retrying and dead-letter queue
-The adaptor will put messages it doesn't recognise into dead letter queue. Messages that can't be delievered due to different
-exceptions and which exceeded the threshold of retries will also be sent to the dead letter queue.
-The number of retries is configured in a configuration file. If the value of retries is not specified then, by default, it will be set to 3.
+The adaptor will put messages it doesn't recognise into the dead letter queue.
+Additionally, any messages which is recognised but can't be processed due to an error are sent to the dead letter queue once the number of attempted redeliveries exceeds the threshold.
+The number of redeliveries is configurable with the [`MHS_AMQP_MAX_REDELIVERIES` environment variable](#ps-queue-variables).
 
 [GP2GP Adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp
 
