@@ -12,6 +12,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallSt
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -33,8 +34,12 @@ import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -312,37 +317,29 @@ public class MedicationRequestPlanMapperTest {
         assertStatusReasonIsEqualTo(medicationRequest, DEFAULT_STATUS_REASON);
     }
 
-    @Test void When_MappingDiscontinue_With_CodingOriginalTextAndDifferentPertinentInformation_Expect_BothDisplayed() {
-        var ehrSupplyDiscontinue = """
-            <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                    <originalText>Ended</originalText>
-                </code>
-                <availabilityTime value="20060426"/>
-                <reversalOf typeCode="REV">
-                    <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                        <id root="TEST_ID"/>
-                    </priorMedicationRef>
-                </reversalOf>
-                <pertinentInformation typeCode="PERT">
-                    <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                        <text>Patient no longer requires these</text>
-                    </pertinentSupplyAnnotation>
-                </pertinentInformation>
-            </ehrSupplyDiscontinue>
-            """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
-
-        assertStatusReasonIsEqualTo(medicationRequest, "(Ended) Patient no longer requires these");
+    private static Stream<Arguments> When_MappingDiscontinue_WithPertinentInformationAndOriginalText_Expect_StatusReasonIs() {
+        return Stream.of(
+            Arguments.of(Named.of("Different pertinent information and original text",
+                "Patient no longer requires these"), "Ended", "(Ended) Patient no longer requires these"),
+            Arguments.of(Named.of("Same pertinent information and original text doesn't duplicate",
+                "Ended"), "Ended", "Ended"),
+            Arguments.of(Named.of("Original text is a prefix of pertinent information doesn't duplicate",
+                "Prescribing error, incorrect dosage"), "Prescribing error", "Prescribing error, incorrect dosage"),
+            Arguments.of(Named.of("Different cases for pertinent information and original text",
+                "PRESCRIBING ERROR, incorrect dosage"), "Prescribing error", "(Prescribing error) PRESCRIBING ERROR, incorrect dosage"),
+            Arguments.of(Named.of("Original text is in middle of pertinent information",
+                "A, Prescribing error, B"), "Prescribing error", "(Prescribing error) A, Prescribing error, B")
+        );
     }
 
-    @Test void When_MappingDiscontinue_With_CodingOriginalTextAndSameTextPertinentInformation_Expect_DisplayedOnce() {
+    @ParameterizedTest @MethodSource void When_MappingDiscontinue_WithPertinentInformationAndOriginalText_Expect_StatusReasonIs(
+        String pertinentInformationText, String originalText, String expectedReason
+    ) {
         var ehrSupplyDiscontinue = """
             <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
                 <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
                 <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                    <originalText>Ended</originalText>
+                    <originalText>""" + originalText + "</originalText>" + """
                 </code>
                 <availabilityTime value="20060426"/>
                 <reversalOf typeCode="REV">
@@ -352,90 +349,14 @@ public class MedicationRequestPlanMapperTest {
                 </reversalOf>
                 <pertinentInformation typeCode="PERT">
                     <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                        <text>Ended</text>
+                        <text>""" + pertinentInformationText + "</text>" + """
                     </pertinentSupplyAnnotation>
                 </pertinentInformation>
             </ehrSupplyDiscontinue>
             """;
         var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
 
-        assertStatusReasonIsEqualTo(medicationRequest, "Ended");
-    }
-
-    @Test void When_MappingDiscontinue_With_CodingOriginalTextIsDuplicatedAsPrefixInPertinentInformation_Expect_DisplayedOnce() {
-        var ehrSupplyDiscontinue = """
-            <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                    <originalText>Prescribing error</originalText>
-                </code>
-                <availabilityTime value="20060426"/>
-                <reversalOf typeCode="REV">
-                    <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                        <id root="TEST_ID"/>
-                    </priorMedicationRef>
-                </reversalOf>
-                <pertinentInformation typeCode="PERT">
-                    <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                        <text>Prescribing error, incorrect dosage</text>
-                    </pertinentSupplyAnnotation>
-                </pertinentInformation>
-            </ehrSupplyDiscontinue>
-            """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
-
-        assertStatusReasonIsEqualTo(medicationRequest, "Prescribing error, incorrect dosage");
-    }
-
-    @Test void When_MappingDiscontinue_With_CodingOriginalTextIsDuplicatedAsUpperCasePrefixInPertinentInformation_Expect_DisplayedTwice() {
-        var ehrSupplyDiscontinue = """
-            <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                    <originalText>Prescribing error</originalText>
-                </code>
-                <availabilityTime value="20060426"/>
-                <reversalOf typeCode="REV">
-                    <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                        <id root="TEST_ID"/>
-                    </priorMedicationRef>
-                </reversalOf>
-                <pertinentInformation typeCode="PERT">
-                    <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                        <text>PRESCRIBING ERROR, incorrect dosage</text>
-                    </pertinentSupplyAnnotation>
-                </pertinentInformation>
-            </ehrSupplyDiscontinue>
-            """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
-
-        assertStatusReasonIsEqualTo(medicationRequest, "(Prescribing error) PRESCRIBING ERROR, incorrect dosage");
-    }
-
-    @Test
-    void When_MappingDiscontinue_With_CodingOriginalTextIsDuplicatedWithSurroundingTextInPertinentInformation_Expect_DisplayedTwice() {
-        var ehrSupplyDiscontinue = """
-            <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                    <originalText>Prescribing error</originalText>
-                </code>
-                <availabilityTime value="20060426"/>
-                <reversalOf typeCode="REV">
-                    <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                        <id root="TEST_ID"/>
-                    </priorMedicationRef>
-                </reversalOf>
-                <pertinentInformation typeCode="PERT">
-                    <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                        <text>Something, Prescribing error, something else</text>
-                    </pertinentSupplyAnnotation>
-                </pertinentInformation>
-            </ehrSupplyDiscontinue>
-            """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
-
-        assertStatusReasonIsEqualTo(medicationRequest, "(Prescribing error) Something, Prescribing error, something else");
+        assertStatusReasonIsEqualTo(medicationRequest, expectedReason);
     }
 
     @Test
