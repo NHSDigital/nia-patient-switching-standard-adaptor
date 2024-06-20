@@ -5003,7 +5003,7 @@
         "reference": "Encounter/76102D2A-8898-4EE3-B0C5-72FC95F93BB0"
       },
       "effectiveDateTime": "2010-03-23T07:59:00+00:00",
-      "issued": "2010-03-24T09:00:00.000+00:00",
+      "issued": "2010-03-23T07:59:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -5035,7 +5035,7 @@
         "reference": "Encounter/22A00924-FCA4-4B32-9588-5BBC1145AAB0"
       },
       "effectiveDateTime": "2010-03-23T13:46:00+00:00",
-      "issued": "2010-03-23T15:02:28.000+00:00",
+      "issued": "2010-03-23T13:46:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -5067,7 +5067,7 @@
         "reference": "Encounter/6B023A7D-ABD9-494B-A133-D77E6A4B0D2C"
       },
       "effectiveDateTime": "2010-03-24",
-      "issued": "2010-03-24T09:04:07.000+00:00",
+      "issued": "2010-03-24T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],

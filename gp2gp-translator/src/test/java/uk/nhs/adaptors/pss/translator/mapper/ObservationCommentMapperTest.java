@@ -65,7 +65,7 @@ public class ObservationCommentMapperTest {
         assertThat(observation.getEffective().toString()).isEqualTo(
             DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()).toString());
 
-        assertThat(observation.getIssuedElement().asStringValue()).isEqualTo("2010-01-14T00:00:00.000+00:00");
+        assertThat(observation.getIssuedElement().asStringValue()).isEqualTo("2020-10-12T13:33:44.000+00:00");
 
         var identifier = observation.getIdentifier().get(0);
         assertThat(identifier.getValue()).isEqualTo(narrativeStatementId);
@@ -123,8 +123,8 @@ public class ObservationCommentMapperTest {
     }
 
     @Test
-    public void mapObservationsCompositionHasNoAuthorTime() {
-        var ehrExtract = unmarshallEhrExtract("nullflavour_composition_author_time.xml");
+    public void mapObservationsCompositionHasNoAvailabilityTime() {
+        var ehrExtract = unmarshallEhrExtract("nullflavour_availability_time.xml");
 
         List<Observation> observations =
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);

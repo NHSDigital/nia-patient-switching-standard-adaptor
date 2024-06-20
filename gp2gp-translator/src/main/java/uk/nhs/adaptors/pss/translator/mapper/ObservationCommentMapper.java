@@ -47,7 +47,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
                 .filter(Objects::nonNull)
                 .filter(narrativeStatement -> !isDocumentReference(narrativeStatement))
                 .map(narrativeStatement -> mapObservation(composition, narrativeStatement, patient, encounters, practiseCode)))
-            .collect((Collectors.toCollection(ArrayList::new)));
+                .collect((Collectors.toCollection(ArrayList::new)));
     }
 
     private Observation mapObservation(RCMRMT030101UKEhrComposition ehrComposition,
@@ -60,7 +60,7 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
         observation.setMeta(generateMeta(META_URL));
         observation.setStatus(FINAL);
         observation.setSubject(new Reference(patient));
-        observation.setIssuedElement(createIssued(ehrComposition));
+        observation.setIssuedElement(createIssued(narrativeStatement));
         observation.setCode(createCodeableConcept());
         observation.addPerformer(createPerformer(ehrComposition, narrativeStatement));
         observation.addIdentifier(buildIdentifier(narrativeStatementId.getRoot(), practiseCode));
@@ -84,12 +84,12 @@ public class ObservationCommentMapper extends AbstractMapper<Observation> {
         }
     }
 
-    private InstantType createIssued(RCMRMT030101UKEhrComposition composition) {
-
-        if (!composition.getAuthor().getTime().hasNullFlavor()) {
-            return DateFormatUtil.parseToInstantType(composition.getAuthor().getTime().getValue());
+    private InstantType createIssued(RCMRMT030101UKNarrativeStatement narrativeStatement) {
+        if (narrativeStatement.hasAvailabilityTime() && narrativeStatement.getAvailabilityTime().hasValue()) {
+            return DateFormatUtil.parseToInstantType(
+                narrativeStatement.getAvailabilityTime().getValue()
+            );
         }
-
         return null;
     }
 

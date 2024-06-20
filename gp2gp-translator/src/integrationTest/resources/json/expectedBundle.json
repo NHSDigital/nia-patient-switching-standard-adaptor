@@ -24347,7 +24347,7 @@
         "reference": "Encounter/CDFC5DF7-2D1B-4EBB-BE5C-6BD2E19405FF"
       },
       "effectiveDateTime": "2011-01-14",
-      "issued": "2010-01-14T10:34:30.000+00:00",
+      "issued": "2011-01-14T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -24379,7 +24379,7 @@
         "reference": "Encounter/4E95E2AF-BF10-45BB-AAA5-2547BD42C806"
       },
       "effectiveDateTime": "2010-03-23T15:42:00+00:00",
-      "issued": "2010-03-23T16:07:49.000+00:00",
+      "issued": "2010-03-23T15:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -24411,7 +24411,7 @@
         "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
       },
       "effectiveDateTime": "2006-04-25T15:30:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2006-04-25T15:30:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
       } ],
@@ -24443,7 +24443,7 @@
         "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
       },
       "effectiveDateTime": "2020-10-12T13:33:44+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2020-10-12T13:33:44.000+00:00",
       "performer": [ {
         "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
       } ],
@@ -24474,7 +24474,7 @@
       "context": {
         "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
       },
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2010-01-13T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
       } ],
@@ -24511,7 +24511,7 @@
       "context": {
         "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
       },
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2010-01-13T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
       } ],
@@ -24549,7 +24549,7 @@
         "reference": "Encounter/2485BC20-90B4-11EC-B1E5-0800200C9A66"
       },
       "effectiveDateTime": "2011-01-11T15:33:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2011-01-11T15:33:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/3707E1F0-9011-11EC-B1E5-0800200C9A66"
       } ],
@@ -24577,7 +24577,7 @@
       "subject": {
         "reference": "Patient/00000000-0000-0000-0000-000000000009"
       },
-      "issued": "2020-01-01T01:01:01.000+00:00",
+      "issued": "2020-12-15T15:17:04.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -24611,7 +24611,7 @@
       "subject": {
         "reference": "Patient/00000000-0000-0000-0000-000000000009"
       },
-      "issued": "2020-01-01T01:01:01.000+00:00",
+      "issued": "2020-12-15T15:17:13.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -24645,7 +24645,7 @@
       "subject": {
         "reference": "Patient/00000000-0000-0000-0000-000000000009"
       },
-      "issued": "2020-01-01T01:01:01.000+00:00",
+      "issued": "2022-03-24T12:42:13.000+00:00",
       "performer": [ {
         "reference": "Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D"
       } ],
@@ -24683,7 +24683,7 @@
         "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
       },
       "effectiveDateTime": "2020-10-12T13:33:44+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2020-10-12T13:33:44.000+00:00",
       "performer": [ {
         "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
       } ],
@@ -24714,7 +24714,7 @@
       "context": {
         "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
       },
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2010-01-13T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
       } ],
@@ -24751,7 +24751,7 @@
       "context": {
         "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
       },
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2010-01-13T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
       } ],
@@ -24788,7 +24788,7 @@
       "context": {
         "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
       },
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2010-02-23T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
       } ],
@@ -24826,7 +24826,7 @@
         "reference": "Encounter/9FB8560B-A7FF-4F04-9E0B-CFBB4D0AF4E9"
       },
       "effectiveDateTime": "2011-01-11T15:33:00+00:00",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2011-01-11T15:33:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/70555A33-0550-405D-BB67-E9805440B38C"
       } ],
