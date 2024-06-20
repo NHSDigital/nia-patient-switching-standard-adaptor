@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.translator.amqp;
 
-import javax.jms.Message;
+import jakarta.jms.Message;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
