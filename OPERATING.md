@@ -174,7 +174,7 @@ and each environment variable described within [Inbound message queue variables]
 ### Retrying and dead-letter queue
 The adaptor will put messages it doesn't recognise into dead letter queue. Messages that can't be delievered due to different
 exceptions and which exceeded the threshold of retries will also be sent to the dead letter queue.
-The number of retries is configured in application.yml file. If the value of retries is not specified then, by default, it will be set to 3.
+The number of retries is configured in a configuration file. If the value of retries is not specified then, by default, it will be set to 3.
 
 [GP2GP Adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp
 
