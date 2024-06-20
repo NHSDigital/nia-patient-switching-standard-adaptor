@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.UUID;
 
-import javax.jms.Session;
+import jakarta.jms.Session;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

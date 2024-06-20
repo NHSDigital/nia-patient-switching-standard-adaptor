@@ -12,8 +12,8 @@ import uk.nhs.adaptors.common.model.TransferRequestMessage;
 import uk.nhs.adaptors.common.service.MDCService;
 import uk.nhs.adaptors.pss.translator.service.AcknowledgeRecordService;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
