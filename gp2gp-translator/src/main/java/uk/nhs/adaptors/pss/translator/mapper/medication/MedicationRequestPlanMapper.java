@@ -179,7 +179,7 @@ public class MedicationRequestPlanMapper {
                 .filter(StringUtils::isNotBlank)
                 .toList();
 
-        var stringBuilder = new StringBuilder();
+        var termText = new StringBuilder();
 
         if (discontinue.hasCode() && discontinue.getCode().hasOriginalText()) {
             final var originalText = discontinue.getCode().getOriginalText();
@@ -188,17 +188,17 @@ public class MedicationRequestPlanMapper {
                 annotation -> annotation.regionMatches(0, originalText, 0, originalText.length())
             );
             if (!hasIncumbentSystemDuplicatedOriginalTextWithinPertinentInfo) {
-                stringBuilder.append('(').append(originalText).append(") ");
+                termText.append('(').append(originalText).append(") ");
             }
         }
 
-        stringBuilder.append(
+        termText.append(
             pertinentInfo.isEmpty()
                 ? MISSING_REASON_STRING
                 : String.join(",", pertinentInfo)
         );
 
-        return stringBuilder.toString();
+        return termText.toString();
     }
 
     private Optional<Reference> extractPriorPrescription(RCMRMT030101UKAuthorise supplyAuthorise) {

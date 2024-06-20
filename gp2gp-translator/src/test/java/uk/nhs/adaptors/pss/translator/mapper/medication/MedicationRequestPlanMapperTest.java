@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.COMPLETED;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.STOPPED;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,11 +12,13 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallSt
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
+import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
@@ -31,9 +32,14 @@ import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -76,7 +82,6 @@ public class MedicationRequestPlanMapperTest {
         "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1";
     private static final String DEFAULT_STATUS_REASON = "No information available";
 
-    private static final int ONE = 1;
     private static final int TWO = 2;
     private static final int SIX = 6;
     private static final int TWENTY_EIGHT = 28;
@@ -159,27 +164,18 @@ public class MedicationRequestPlanMapperTest {
                 </pertinentInformation>
             </MedicationStatement>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-                ehrExtract,
-                medicationStatement,
-                supplyAuthorise,
-                PRACTISE_CODE
-        );
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
 
         var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
-        assertThat(repeatInformation).hasSize(ONE);
+        assertThat(repeatInformation).hasSize(1);
         assertRepeatInformation(repeatInformation.get(0));
 
         var statusReason = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        assertThat(statusReason).hasSize(ONE);
+        assertThat(statusReason).hasSize(1);
         assertStatusReasonInformation(statusReason.get(0));
 
         var prescriptionType = medicationRequest.getExtensionsByUrl(PRESCRIPTION_TYPE_URL);
-        assertThat(prescriptionType).hasSize(ONE);
+        assertThat(prescriptionType).hasSize(1);
 
         var codeableConcept = (CodeableConcept) prescriptionType.get(0).getValue();
         assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Repeat");
@@ -208,23 +204,11 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
         var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
-        var expiryDate = repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
+        assertThat(repeatInformation).hasSize(1);
 
-        assertAll(
-            () -> assertThat(repeatInformation).hasSize(ONE),
-            () -> assertThat(expiryDate.size()).isZero()
-        );
+        assertThat(repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL)).isEmpty();
     }
 
     @Test
@@ -242,467 +226,137 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
+        final var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
+        assertThat(repeatInformation).hasSize(1);
 
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
-        var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
-        var expiryDate = repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
-
-        assertAll(
-            () -> assertThat(repeatInformation).hasSize(ONE),
-            () -> assertThat(expiryDate.size()).isZero()
-        );
+        assertThat(repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL)).hasSize(0);
     }
 
     @Test
     public void When_MappingDiscontinueWithPertinentInformation_Expect_StatusReasonAdded() {
-        var medicationStatementXml = """
-            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
-                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
-                <component typeCode="COMP">
-                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+        var ehrSupplyDiscontinue = """
+            <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
+                <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
+                <availabilityTime value="20060426"/>
+                <reversalOf typeCode="REV">
+                    <priorMedicationRef classCode="SBADM" moodCode="ORD">
                         <id root="TEST_ID"/>
-                    </ehrSupplyAuthorise>
-                </component>
-                <component typeCode="COMP">
-                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                        <availabilityTime value="20060426"/>
-                        <reversalOf typeCode="REV">
-                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                                <id root="TEST_ID"/>
-                            </priorMedicationRef>
-                        </reversalOf>
-                        <pertinentInformation typeCode="PERT">
-                            <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                                <text>Patient no longer requires these</text>
-                            </pertinentSupplyAnnotation>
-                        </pertinentInformation>
-                    </ehrSupplyDiscontinue>
-                </component>
-            </MedicationStatement>
+                    </priorMedicationRef>
+                </reversalOf>
+                <pertinentInformation typeCode="PERT">
+                    <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
+                        <text>Patient no longer requires these</text>
+                    </pertinentSupplyAnnotation>
+                </pertinentInformation>
+            </ehrSupplyDiscontinue>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
 
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
-        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
-        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-
-        assertAll(
-            () -> assertThat(statusExt).hasSize(1),
-            () -> assertThat(statusReasonExt).hasSize(1),
-            () -> assertThat(statusReason.getText()).isEqualTo("Patient no longer requires these")
-        );
+        assertStatusReasonIsEqualTo(medicationRequest, "Patient no longer requires these");
     }
 
     @Test
     public void When_MappingDiscontinueWithCodeDisplayAndMissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
-        var medicationStatementXml = """
-            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
-                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
-                <component typeCode="COMP">
-                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+        var ehrSupplyDiscontinue = """
+            <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
+                <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
+                <code code="EMISDRUG_DISCONTINUATION"
+                      codeSystem="2.16.840.1.113883.2.1.6.3"
+                      displayName="Medication Course Ended"
+                />
+                <availabilityTime value="20060426"/>
+                <reversalOf typeCode="REV">
+                    <priorMedicationRef classCode="SBADM" moodCode="ORD">
                         <id root="TEST_ID"/>
-                    </ehrSupplyAuthorise>
-                </component>
-                <component typeCode="COMP">
-                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                        <code code="EMISDRUG_DISCONTINUATION"
-                              codeSystem="2.16.840.1.113883.2.1.6.3"
-                              displayName="Medication Course Ended"
-                        />
-                        <availabilityTime value="20060426"/>
-                        <reversalOf typeCode="REV">
-                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                                <id root="TEST_ID"/>
-                            </priorMedicationRef>
-                        </reversalOf>
-                    </ehrSupplyDiscontinue>
-                </component>
-            </MedicationStatement>
+                    </priorMedicationRef>
+                </reversalOf>
+            </ehrSupplyDiscontinue>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
 
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
-        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
-        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-
-        assertAll(
-            () -> assertThat(statusExt).hasSize(1),
-            () -> assertThat(statusReasonExt).hasSize(1),
-            () -> assertThat(statusReason.getText()).isEqualTo(DEFAULT_STATUS_REASON)
-        );
+        assertStatusReasonIsEqualTo(medicationRequest, DEFAULT_STATUS_REASON);
     }
 
     @Test
     public void When_MappingDiscontinue_With_NoPertinentInformationAndHasCodeOriginalText_Expect_OriginalTextAndDefaultText() {
-        var medicationStatementXml = """
-            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
-                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
-                <component typeCode="COMP">
-                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+        var ehrSupplyDiscontinue = """
+            <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
+                <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
+                <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
+                    <originalText>Ended</originalText>
+                </code>
+                <availabilityTime value="20060426"/>
+                <reversalOf typeCode="REV">
+                    <priorMedicationRef classCode="SBADM" moodCode="ORD">
                         <id root="TEST_ID"/>
-                    </ehrSupplyAuthorise>
-                </component>
-                <component typeCode="COMP">
-                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                        <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                            <originalText>Ended</originalText>
-                        </code>
-                        <availabilityTime value="20060426"/>
-                        <reversalOf typeCode="REV">
-                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                                <id root="TEST_ID"/>
-                            </priorMedicationRef>
-                        </reversalOf>
-                    </ehrSupplyDiscontinue>
-                </component>
-            </MedicationStatement>
+                    </priorMedicationRef>
+                </reversalOf>
+            </ehrSupplyDiscontinue>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
 
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
-        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
-        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-
-        assertAll(
-            () -> assertThat(statusExt).hasSize(1),
-            () -> assertThat(statusReasonExt).hasSize(1),
-            () -> assertThat(statusReason.getText()).isEqualTo("(Ended) " + DEFAULT_STATUS_REASON)
-        );
+        assertStatusReasonIsEqualTo(medicationRequest, "(Ended) " + DEFAULT_STATUS_REASON);
     }
 
     @Test
     public void When_MappingDiscontinue_With_MissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
-        var medicationStatementXml = """
-            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
-                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
-                <component typeCode="COMP">
-                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+        var ehrSupplyDiscontinue = """
+            <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
+                <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
+                <availabilityTime value="20060426"/>
+                <reversalOf typeCode="REV">
+                    <priorMedicationRef classCode="SBADM" moodCode="ORD">
                         <id root="TEST_ID"/>
-                    </ehrSupplyAuthorise>
-                </component>
-                <component typeCode="COMP">
-                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                        <availabilityTime value="20060426"/>
-                        <reversalOf typeCode="REV">
-                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                                <id root="TEST_ID"/>
-                            </priorMedicationRef>
-                        </reversalOf>
-                    </ehrSupplyDiscontinue>
-                </component>
-            </MedicationStatement>
+                    </priorMedicationRef>
+                </reversalOf>
+            </ehrSupplyDiscontinue>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
 
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
-        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
-        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
+        assertStatusReasonIsEqualTo(medicationRequest, DEFAULT_STATUS_REASON);
+    }
 
-        assertAll(
-            () -> assertThat(statusExt).hasSize(1),
-            () -> assertThat(statusReasonExt).hasSize(1),
-            () -> assertThat(statusReason.getText()).isEqualTo(DEFAULT_STATUS_REASON)
+    private static Stream<Arguments> When_MappingDiscontinue_WithPertinentInformationAndOriginalText_Expect_StatusReasonIs() {
+        return Stream.of(
+            Arguments.of(Named.of("Different pertinent information and original text",
+                "Patient no longer requires these"), "Ended", "(Ended) Patient no longer requires these"),
+            Arguments.of(Named.of("Same pertinent information and original text doesn't duplicate",
+                "Ended"), "Ended", "Ended"),
+            Arguments.of(Named.of("Original text is a prefix of pertinent information doesn't duplicate",
+                "Prescribing error, incorrect dosage"), "Prescribing error", "Prescribing error, incorrect dosage"),
+            Arguments.of(Named.of("Different cases for pertinent information and original text",
+                "PRESCRIBING ERROR, incorrect dosage"), "Prescribing error", "(Prescribing error) PRESCRIBING ERROR, incorrect dosage"),
+            Arguments.of(Named.of("Original text is in middle of pertinent information",
+                "A, Prescribing error, B"), "Prescribing error", "(Prescribing error) A, Prescribing error, B")
         );
     }
 
-    @Test void When_MappingDiscontinue_With_CodingOriginalTextAndDifferentPertinentInformation_Expect_BothDisplayed() {
-        var medicationStatementXml = """
-            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
-                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
-                <component typeCode="COMP">
-                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+    @ParameterizedTest @MethodSource void When_MappingDiscontinue_WithPertinentInformationAndOriginalText_Expect_StatusReasonIs(
+        String pertinentInformationText, String originalText, String expectedReason
+    ) {
+        var ehrSupplyDiscontinue = """
+            <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
+                <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
+                <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
+                    <originalText>""" + originalText + "</originalText>" + """
+                </code>
+                <availabilityTime value="20060426"/>
+                <reversalOf typeCode="REV">
+                    <priorMedicationRef classCode="SBADM" moodCode="ORD">
                         <id root="TEST_ID"/>
-                    </ehrSupplyAuthorise>
-                </component>
-                <component typeCode="COMP">
-                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                        <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                            <originalText>Ended</originalText>
-                        </code>
-                        <availabilityTime value="20060426"/>
-                        <reversalOf typeCode="REV">
-                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                                <id root="TEST_ID"/>
-                            </priorMedicationRef>
-                        </reversalOf>
-                        <pertinentInformation typeCode="PERT">
-                            <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                                <text>Patient no longer requires these</text>
-                            </pertinentSupplyAnnotation>
-                        </pertinentInformation>
-                    </ehrSupplyDiscontinue>
-                </component>
-            </MedicationStatement>
+                    </priorMedicationRef>
+                </reversalOf>
+                <pertinentInformation typeCode="PERT">
+                    <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
+                        <text>""" + pertinentInformationText + "</text>" + """
+                    </pertinentSupplyAnnotation>
+                </pertinentInformation>
+            </ehrSupplyDiscontinue>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
 
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
-        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
-        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-
-        assertAll(
-            () -> assertThat(statusExt).hasSize(1),
-            () -> assertThat(statusReasonExt).hasSize(1),
-            () -> assertThat(statusReason.getText()).isEqualTo("(Ended) Patient no longer requires these")
-        );
-    }
-
-    @Test void When_MappingDiscontinue_With_CodingOriginalTextAndSameTextPertinentInformation_Expect_DisplayedOnce() {
-        var medicationStatementXml = """
-            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
-                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
-                <component typeCode="COMP">
-                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
-                        <id root="TEST_ID"/>
-                    </ehrSupplyAuthorise>
-                </component>
-                <component typeCode="COMP">
-                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                        <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                            <originalText>Ended</originalText>
-                        </code>
-                        <availabilityTime value="20060426"/>
-                        <reversalOf typeCode="REV">
-                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                                <id root="TEST_ID"/>
-                            </priorMedicationRef>
-                        </reversalOf>
-                        <pertinentInformation typeCode="PERT">
-                            <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                                <text>Ended</text>
-                            </pertinentSupplyAnnotation>
-                        </pertinentInformation>
-                    </ehrSupplyDiscontinue>
-                </component>
-            </MedicationStatement>
-            """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
-        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
-        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-
-        assertAll(
-            () -> assertThat(statusExt).hasSize(1),
-            () -> assertThat(statusReasonExt).hasSize(1),
-            () -> assertThat(statusReason.getText()).isEqualTo("Ended")
-        );
-    }
-
-    @Test void When_MappingDiscontinue_With_CodingOriginalTextIsDuplicatedAsPrefixInPertinentInformation_Expect_DisplayedOnce() {
-        var medicationStatementXml = """
-            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
-                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
-                <component typeCode="COMP">
-                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
-                        <id root="TEST_ID"/>
-                    </ehrSupplyAuthorise>
-                </component>
-                <component typeCode="COMP">
-                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                        <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                            <originalText>Prescribing error</originalText>
-                        </code>
-                        <availabilityTime value="20060426"/>
-                        <reversalOf typeCode="REV">
-                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                                <id root="TEST_ID"/>
-                            </priorMedicationRef>
-                        </reversalOf>
-                        <pertinentInformation typeCode="PERT">
-                            <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                                <text>Prescribing error, incorrect dosage</text>
-                            </pertinentSupplyAnnotation>
-                        </pertinentInformation>
-                    </ehrSupplyDiscontinue>
-                </component>
-            </MedicationStatement>
-            """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-                ehrExtract,
-                medicationStatement,
-                supplyAuthorise,
-                PRACTISE_CODE
-        );
-        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
-        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-
-        assertAll(
-            () -> assertThat(statusExt).hasSize(1),
-            () -> assertThat(statusReasonExt).hasSize(1),
-            () -> assertThat(statusReason.getText()).isEqualTo("Prescribing error, incorrect dosage")
-        );
-    }
-
-    @Test void When_MappingDiscontinue_With_CodingOriginalTextIsDuplicatedAsUpperCasePrefixInPertinentInformation_Expect_DisplayedTwice() {
-        var medicationStatementXml = """
-            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
-                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
-                <component typeCode="COMP">
-                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
-                        <id root="TEST_ID"/>
-                    </ehrSupplyAuthorise>
-                </component>
-                <component typeCode="COMP">
-                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                        <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                            <originalText>Prescribing error</originalText>
-                        </code>
-                        <availabilityTime value="20060426"/>
-                        <reversalOf typeCode="REV">
-                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                                <id root="TEST_ID"/>
-                            </priorMedicationRef>
-                        </reversalOf>
-                        <pertinentInformation typeCode="PERT">
-                            <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                                <text>PRESCRIBING ERROR, incorrect dosage</text>
-                            </pertinentSupplyAnnotation>
-                        </pertinentInformation>
-                    </ehrSupplyDiscontinue>
-                </component>
-            </MedicationStatement>
-            """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-                ehrExtract,
-                medicationStatement,
-                supplyAuthorise,
-                PRACTISE_CODE
-        );
-        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
-        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-
-        assertAll(
-                () -> assertThat(statusExt).hasSize(1),
-                () -> assertThat(statusReasonExt).hasSize(1),
-                () -> assertThat(statusReason.getText()).isEqualTo("(Prescribing error) PRESCRIBING ERROR, incorrect dosage")
-        );
-    }
-
-    @Test
-    void When_MappingDiscontinue_With_CodingOriginalTextIsDuplicatedWithSurroundingTextInPertinentInformation_Expect_DisplayedTwice() {
-        var medicationStatementXml = """
-            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
-                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
-                <component typeCode="COMP">
-                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
-                        <id root="TEST_ID"/>
-                    </ehrSupplyAuthorise>
-                </component>
-                <component typeCode="COMP">
-                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
-                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
-                        <code code="EMISDRUG_DISCONTINUATION" codeSystem="2.16.840.1.113883.2.1.6.3">
-                            <originalText>Prescribing error</originalText>
-                        </code>
-                        <availabilityTime value="20060426"/>
-                        <reversalOf typeCode="REV">
-                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
-                                <id root="TEST_ID"/>
-                            </priorMedicationRef>
-                        </reversalOf>
-                        <pertinentInformation typeCode="PERT">
-                            <pertinentSupplyAnnotation classCode="OBS" moodCode="EVN">
-                                <text>Something, Prescribing error, something else</text>
-                            </pertinentSupplyAnnotation>
-                        </pertinentInformation>
-                    </ehrSupplyDiscontinue>
-                </component>
-            </MedicationStatement>
-            """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-                ehrExtract,
-                medicationStatement,
-                supplyAuthorise,
-                PRACTISE_CODE
-        );
-        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-        var statusReasonExt = statusExt.get(0).getExtensionsByUrl(STATUS_REASON);
-        var statusReason = (CodeableConcept) statusReasonExt.get(0).getValue();
-
-        assertAll(
-            () -> assertThat(statusExt).hasSize(1),
-            () -> assertThat(statusReasonExt).hasSize(1),
-            () -> assertThat(statusReason.getText()).isEqualTo("(Prescribing error) Something, Prescribing error, something else")
-        );
+        assertStatusReasonIsEqualTo(medicationRequest, expectedReason);
     }
 
     @Test
@@ -718,16 +372,7 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
 
         assertThat(medicationRequest.getStatus()).isEqualTo(ACTIVE);
     }
@@ -745,16 +390,7 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
 
         assertThat(medicationRequest.getStatus()).isEqualTo(COMPLETED);
     }
@@ -772,16 +408,7 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
-            ehrExtract,
-            medicationStatement,
-            supplyAuthorise,
-            PRACTISE_CODE
-        );
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
 
         assertThat(statusExt).isEmpty();
@@ -811,20 +438,24 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+
+        assertThat(medicationRequest.getStatus()).isEqualTo(COMPLETED);
+        assertThat(statusExt).isEmpty();
+    }
+
+    private MedicationRequest mapPlanMedicationRequest(String medicationStatementXml) {
         var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
         var medicationStatement = extractMedicationStatement(ehrExtract);
         var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
 
-        var medicationRequest = medicationRequestPlanMapper.mapToPlanMedicationRequest(
+        return medicationRequestPlanMapper.mapToPlanMedicationRequest(
             ehrExtract,
             medicationStatement,
             supplyAuthorise,
             PRACTISE_CODE
         );
-        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
-
-        assertThat(medicationRequest.getStatus()).isEqualTo(COMPLETED);
-        assertThat(statusExt).isEmpty();
     }
 
     private RCMRMT030101UKAuthorise extractSupplyAuthorise(RCMRMT030101UKMedicationStatement medicationStatement) {
@@ -846,17 +477,26 @@ public class MedicationRequestPlanMapperTest {
 
     private void assertRepeatInformation(Extension extension) {
         var repeatsAllowed = extension.getExtensionsByUrl(REPEATS_ALLOWED_URL);
-        assertThat(repeatsAllowed).hasSize(ONE);
+        assertThat(repeatsAllowed).hasSize(1);
         assertThat(((UnsignedIntType) repeatsAllowed.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(SIX).getValue());
 
         var repeatsIssued = extension.getExtensionsByUrl(REPEATS_ISSUED_URL);
-        assertThat(repeatsIssued).hasSize(ONE);
-        assertThat(((UnsignedIntType) repeatsIssued.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(ONE).getValue());
+        assertThat(repeatsIssued).hasSize(1);
+        assertThat(((UnsignedIntType) repeatsIssued.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(1).getValue());
 
         var expiryDate = extension.getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
-        assertThat(expiryDate).hasSize(ONE);
+        assertThat(expiryDate).hasSize(1);
         var date = expiryDate.get(0).getValue().toString();
         assertThat(date).isEqualTo(DateFormatUtil.parseToDateTimeType("20060427").toString());
+    }
+
+    private static void assertStatusReasonIsEqualTo(MedicationRequest medicationRequest, String expectedReason) {
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+        assertThat(statusExt).hasSize(1);
+
+        assertThat(statusExt.get(0).getExtensionsByUrl(STATUS_REASON)).usingRecursiveComparison().isEqualTo(List.of(
+                new Extension(STATUS_REASON, new CodeableConcept().setText(expectedReason))
+        ));
     }
 
     private RCMRMT030101UKMedicationStatement extractMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract) {
@@ -878,5 +518,20 @@ public class MedicationRequestPlanMapperTest {
     private RCMRMT030101UKEhrExtract unmarshallEhrExtractFromMedicationRequestXml(String medicationRequestXml) {
         var ehrExtractXml = EHR_EXTRACT_WRAPPER.replace("{{MedicationStatement}}", medicationRequestXml);
         return unmarshallString(ehrExtractXml, RCMRMT030101UK04EhrExtract.class);
+    }
+
+    private static @NotNull String medicationStatementFromEhrSupplyDiscontinue(String ehrSupplyDiscontinue) {
+        return """
+            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
+                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <component typeCode="COMP">
+                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+                        <id root="TEST_ID"/>
+                    </ehrSupplyAuthorise>
+                </component>
+                <component typeCode="COMP">""" + ehrSupplyDiscontinue + """
+                </component>
+            </MedicationStatement>
+            """;
     }
 }
