@@ -18,7 +18,6 @@ import org.springframework.util.StringUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import software.amazon.ion.NullValueException;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.config.SupportedFileTypes;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
@@ -125,14 +124,14 @@ public class AttachmentHandlerService {
 
     public byte[] getAttachment(String filename, String conversationId) {
         if (!StringUtils.hasText(filename)) {
-            throw new NullValueException();
+            throw new IllegalArgumentException("filename must not be empty");
         }
         return storageManagerService.downloadFile(filename, conversationId);
     }
 
     public void removeAttachment(String filename, String conversationId) {
         if (!StringUtils.hasText(filename)) {
-            throw new NullValueException();
+            throw new IllegalArgumentException("filename must not be empty");
         }
         storageManagerService.deleteFile(filename, conversationId);
     }
