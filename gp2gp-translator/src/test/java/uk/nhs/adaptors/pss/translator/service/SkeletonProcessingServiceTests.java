@@ -13,6 +13,7 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
@@ -31,7 +32,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.SneakyThrows;
-import software.amazon.ion.NullValueException;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
@@ -115,7 +115,7 @@ public class SkeletonProcessingServiceTests {
     }
 
     @Test
-    public void When_UpdateInboundMessageAttachmentHandlerServiceThrowsNullException_Expect_ThrowsNullValueException()
+    public void When_UpdateInboundMessageAttachmentHandlerServiceThrowsIllegalArgumentException_Expect_ThrowsException()
         throws JAXBException, JsonProcessingException, TransformerException, SAXException {
 
         var inboundMessage = new InboundMessage();
@@ -124,9 +124,9 @@ public class SkeletonProcessingServiceTests {
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
         inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
-        doThrow(NullValueException.class).when(attachmentHandlerService).getAttachment(any(), any());
+        doThrow(IllegalArgumentException.class).when(attachmentHandlerService).getAttachment(any(), any());
 
-        assertThrows(NullValueException.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
             skeletonProcessingService.updateInboundMessageWithSkeleton(attachmentLog,
                 inboundMessage, migrationRequest.getConversationId()));
     }
@@ -190,8 +190,8 @@ public class SkeletonProcessingServiceTests {
     }
 
     @Test
-    public void When_SkeletonAsSectionMessageAndEBXMLSkeletonReferenceIsEmpty_Expect_NullValueException()
-        throws JAXBException, JsonProcessingException, TransformerException, SAXException {
+    public void When_SkeletonAsSectionMessageAndEBXMLSkeletonReferenceIsEmpty_Expect_IllegalArgumentException()
+        throws SAXException {
         var inboundMessage = new InboundMessage();
         var attachmentLog = createSkeletonPatientAttachmentLog();
 
@@ -199,7 +199,7 @@ public class SkeletonProcessingServiceTests {
         inboundMessage.setEbXML(readInboundMessageEbXmlFromFile());
 
         var reference = new EbxmlReference("First instance is always a payload", "mid:1", "docId");
-        var ebXmlAttachments = Arrays.asList(reference);
+        var ebXmlAttachments = List.of(reference);
         var fileAsBytes = readInboundMessageSkeletonPayloadFromFile().getBytes(StandardCharsets.UTF_8);
         when(attachmentHandlerService.getAttachment(any(), any())).thenReturn(fileAsBytes);
         when(xmlParseUtilService.getEbxmlAttachmentsData(any())).thenReturn(ebXmlAttachments);
@@ -210,7 +210,7 @@ public class SkeletonProcessingServiceTests {
             emptyAttachmentsData
         );
 
-        assertThrows(NullValueException.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
             skeletonProcessingService.updateInboundMessageWithSkeleton(attachmentLog,
                 inboundMessage, migrationRequest.getConversationId()));
     }

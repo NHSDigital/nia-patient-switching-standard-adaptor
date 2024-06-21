@@ -11,7 +11,6 @@ import org.xml.sax.SAXException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import software.amazon.ion.NullValueException;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
@@ -73,7 +72,7 @@ public class SkeletonProcessingService {
             .findFirst();
 
         if (ebxmlSkeletonReference.isEmpty()) {
-            throw new NullValueException();
+            throw new IllegalArgumentException("inboundMessage does not contain a skeleton attachment reference");
         }
 
         var skeletonDocumentId = ebxmlSkeletonReference.get().getDocumentId();
