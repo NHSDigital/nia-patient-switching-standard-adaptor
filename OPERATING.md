@@ -104,8 +104,8 @@ can be executed against the database using the required environment variables li
 Example usage:
 ```sh
 $ docker run --rm -e PS_DB_OWNER_NAME=postgres -e POSTGRES_PASSWORD=super5ecret -e PS_DB_HOST=postgres -e PS_DB_PORT=5432 \
-    -v /path/to/uk_sct2mo_36.3.0_20230705000001Z.zip:/snomed/uk_sct2mo_36.3.0_20230705000001Z.zip \
-    nhsdev/nia-ps-snomed-schema /snomed/uk_sct2mo_36.3.0_20230705000001Z.zip
+    -v /path/to/uk_sct2mo_38.2.0_20240605000001Z.zip:/snomed/uk_sct2mo_38.2.0_20240605000001Z.zip \
+    nhsdev/nia-ps-snomed-schema /snomed/uk_sct2mo_38.2.0_20240605000001Z.zip
 ```
 
 #### First installation
@@ -170,6 +170,11 @@ In the diagram above there is a single broker for all queues, but the adaptor su
 
 An example daisy chaining environment is provided in [/test-suite/daisy-chaining/](/test-suite/daisy-chaining),
 and each environment variable described within [Inbound message queue variables](#inbound-message-queue-variables).
+
+### Retrying and dead-letter queue
+The adaptor will put messages it doesn't recognise into the dead letter queue.
+Additionally, any messages which is recognised but can't be processed due to an error are sent to the dead letter queue once the number of attempted redeliveries exceeds the threshold.
+The number of redeliveries is configurable with the [`MHS_AMQP_MAX_REDELIVERIES` environment variable](#ps-queue-variables).
 
 [GP2GP Adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp
 
@@ -353,7 +358,7 @@ The following variables are used determine if a [migration has timed out](#timeo
 **Optional**
   - `SDS_BASE_URL`: The URL of the SDS FHIR API, default = `https://api.service.nhs.uk/spine-directory/FHIR/R4`
   - `TIMEOUT_CRON_TIME`: The frequency of the timeout check specified as a [Cron expression][spring-cron-expression].
-     Format = `<second> <minute> <hour> <day of month> <month> <day of week>`, default = `0 0 */6 * * *` (AKA every 6 hours)
+     Format = `<second> <minute> <hour> <day of month> <month> <day of week>`, default = `0 0 */2 * * *` (AKA every 2 hours)
   - `TIMEOUT_SDS_POLL_FREQUENCY`: The frequency at which SDS is polled for updated message persist durations, 
     defined in terms of the number of times a migration has been identified by the timeout cron, default = `3`
   - `TIMEOUT_EHR_EXTRACT_WEIGHTING`: The weighting factor A, to account transmission delays and volume throughput times of the RCMR_IN030000UK06 message, default = `1`

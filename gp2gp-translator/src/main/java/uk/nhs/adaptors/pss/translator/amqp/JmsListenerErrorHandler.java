@@ -6,7 +6,6 @@ import org.jdbi.v3.core.ConnectionException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ErrorHandler;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Component

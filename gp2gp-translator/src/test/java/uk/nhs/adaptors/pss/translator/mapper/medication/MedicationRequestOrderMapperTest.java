@@ -69,7 +69,7 @@ public class MedicationRequestOrderMapperTest {
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1")
             .forEach(extension -> assertPrescriptionType(extension, "Repeat"));
         assertThat(medicationRequest.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
-        assertThat(medicationRequest.getNote().size()).isEqualTo(THREE);
+        assertThat(medicationRequest.getNote()).hasSize(THREE);
         assertThat(medicationRequest.getDosageInstructionFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
         assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue().intValue()).isEqualTo(SEVEN);
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().getStartElement().getValue())
@@ -97,7 +97,7 @@ public class MedicationRequestOrderMapperTest {
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1")
             .forEach(extension -> assertPrescriptionType(extension, "Repeat"));
         assertThat(medicationRequest.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
-        assertThat(medicationRequest.getNote().size()).isEqualTo(1);
+        assertThat(medicationRequest.getNote()).hasSize(1);
         assertThat(medicationRequest.getDosageInstructionFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
         assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue()).isNull();
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().getStartElement().getValue())
@@ -105,7 +105,7 @@ public class MedicationRequestOrderMapperTest {
     }
 
     public void assertCommonValues(MedicationRequest medicationRequest) {
-        assertThat(medicationRequest.getIdentifier().size()).isEqualTo(1);
+        assertThat(medicationRequest.getIdentifier()).hasSize(1);
         assertThat(medicationRequest.getIntent()).isEqualTo(ORDER);
         assertThat(medicationRequest.getStatus()).isEqualTo(COMPLETED);
         assertThat(medicationRequest.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);

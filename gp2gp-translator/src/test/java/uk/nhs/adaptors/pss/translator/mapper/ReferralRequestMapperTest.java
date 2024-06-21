@@ -116,16 +116,13 @@ public class ReferralRequestMapperTest {
         assertAll(
                 () -> assertThat(referralRequest.getId())
                         .isEqualTo(EXAMPLE_ID),
-                () -> assertThat(referralRequest.getNote().size())
-                        .isZero(),
+                () -> assertThat(referralRequest.getNote()).isEmpty(),
                 () -> assertThat(referralRequest.getAuthoredOn()).
                         isNull(),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isNull(),
-                () -> assertThat(referralRequest.getRecipient().size())
-                        .isZero(),
-                () -> assertThat(referralRequest.getReasonCode().size())
-                        .isZero()
+                () -> assertThat(referralRequest.getRecipient()).isEmpty(),
+                () -> assertThat(referralRequest.getReasonCode()).isEmpty()
         );
     }
 
@@ -184,16 +181,13 @@ public class ReferralRequestMapperTest {
         assertAll(
                 () -> assertThat(referralRequest.getId())
                         .isEqualTo(EXAMPLE_ID),
-                () -> assertThat(referralRequest.getNote().size())
-                        .isZero(),
+                () -> assertThat(referralRequest.getNote()).isEmpty(),
                 () -> assertThat(referralRequest.getAuthoredOn())
                         .isNull(),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isEqualTo(PRACTITIONER_ID),
-                () -> assertThat(referralRequest.getRecipient().size())
-                        .isZero(),
-                () -> assertThat(referralRequest.getReasonCode().size())
-                        .isZero()
+                () -> assertThat(referralRequest.getRecipient()).isEmpty(),
+                () -> assertThat(referralRequest.getReasonCode()).isEmpty()
         );
     }
 
@@ -229,16 +223,13 @@ public class ReferralRequestMapperTest {
         assertAll(
                 () -> assertThat(referralRequest.getId())
                         .isEqualTo(EXAMPLE_ID),
-                () -> assertThat(referralRequest.getNote().size())
-                        .isZero(),
+                () -> assertThat(referralRequest.getNote()).isEmpty(),
                 () -> assertThat(referralRequest.getAuthoredOn())
                         .isNull(),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isEqualTo(EHR_COMPOSITION_PRACTITIONER2_ID),
-                () -> assertThat(referralRequest.getRecipient().size())
-                        .isZero(),
-                () -> assertThat(referralRequest.getReasonCode().size())
-                        .isZero()
+                () -> assertThat(referralRequest.getRecipient()).isEmpty(),
+                () -> assertThat(referralRequest.getReasonCode()).isEmpty()
         );
     }
 
@@ -269,16 +260,13 @@ public class ReferralRequestMapperTest {
         assertAll(
                 () -> assertThat(referralRequest.getId())
                         .isEqualTo(EXAMPLE_ID),
-                () -> assertThat(referralRequest.getNote().size())
-                        .isZero(),
+                () -> assertThat(referralRequest.getNote()).isEmpty(),
                 () -> assertThat(referralRequest.getAuthoredOn())
                         .isNull(),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isNull(),
-                () -> assertThat(referralRequest.getRecipient().size())
-                        .isZero(),
-                () -> assertThat(referralRequest.getReasonCode().size())
-                        .isZero()
+                () -> assertThat(referralRequest.getRecipient()).isEmpty(),
+                () -> assertThat(referralRequest.getReasonCode()).isEmpty()
         );
     }
 
@@ -313,10 +301,8 @@ public class ReferralRequestMapperTest {
                         .isNull(),
                 () -> assertThat(referralRequest.getRequester().getAgent().getReference())
                         .isNull(),
-                () -> assertThat(referralRequest.getRecipient().size())
-                        .isZero(),
-                () -> assertThat(referralRequest.getReasonCode().size())
-                        .isZero()
+                () -> assertThat(referralRequest.getRecipient()).isEmpty(),
+                () -> assertThat(referralRequest.getReasonCode()).isEmpty()
         );
     }
 

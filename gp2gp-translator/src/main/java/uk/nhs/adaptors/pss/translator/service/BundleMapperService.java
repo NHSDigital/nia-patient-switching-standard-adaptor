@@ -41,6 +41,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AllergyIntoleranceMapper;
 import uk.nhs.adaptors.pss.translator.mapper.BloodPressureMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ConditionMapper;
 import uk.nhs.adaptors.pss.translator.mapper.DocumentReferenceMapper;
+import uk.nhs.adaptors.pss.translator.mapper.DuplicateObservationStatementMapper;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.DiagnosticReportMapper;
 import uk.nhs.adaptors.pss.translator.mapper.EncounterMapper;
 import uk.nhs.adaptors.pss.translator.mapper.ImmunizationMapper;
@@ -88,6 +89,7 @@ public class BundleMapperService {
     private final DiagnosticReportMapper diagnosticReportMapper;
     private final SpecimenMapper specimenMapper;
     private final SpecimenCompoundsMapper specimenCompoundsMapper;
+    private final DuplicateObservationStatementMapper duplicateObservationStatementMapper;
 
     public Bundle mapToBundle(RCMRIN030000UKMessage xmlMessage, String losingPracticeOdsCode,
                               List<PatientAttachmentLog> attachments) throws BundleMappingException {
@@ -95,6 +97,7 @@ public class BundleMapperService {
 
             Bundle bundle = generator.generateBundle();
             final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
+            duplicateObservationStatementMapper.mergeDuplicateObservationStatements(ehrExtract);
             final RCMRMT030101UKEhrFolder ehrFolder = getEhrFolder(xmlMessage);
 
             var locations = mapLocations(ehrFolder, losingPracticeOdsCode);
@@ -164,8 +167,8 @@ public class BundleMapperService {
     }
 
     private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-        List<Observation> observations, List<Observation> observationComments, String practiceCode) {
-        var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode);
+                                      List<Observation> observations, List<Observation> observationComments, String practiceCode) {
+        var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode, observationComments);
 
         diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);
 

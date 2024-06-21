@@ -4,7 +4,7 @@ plugins {
     id 'java'
     id 'checkstyle'
     id 'com.github.spotbugs' version '6.0.7'
-    id 'io.freefair.lombok' version '6.2.0'
+    id 'io.freefair.lombok' version '8.6'
 }
 
 apply plugin: 'java'
@@ -27,21 +27,21 @@ dependencies {
     implementation project(':common')
     implementation project(':db-connector')
     implementation project(':schema')
-    implementation 'com.github.spullara.mustache.java:compiler:0.9.10'
-    implementation 'org.jdbi:jdbi3-core:3.45.0'
+    implementation 'com.github.spullara.mustache.java:compiler:0.9.13'
+    implementation 'org.jdbi:jdbi3-core:3.45.1'
     implementation 'org.jetbrains:annotations:24.1.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
-    testImplementation 'org.assertj:assertj-core:3.25.1'
+    testImplementation 'org.assertj:assertj-core:3.25.3'
     testImplementation 'org.mockito:mockito-inline:5.2.0'
     testImplementation 'org.projectlombok:lombok'
     testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
     testImplementation 'org.skyscreamer:jsonassert:1.5.1'
-    testImplementation 'org.awaitility:awaitility:4.2.0'
+    testImplementation 'org.awaitility:awaitility:4.2.1'
 
-    implementation 'com.azure:azure-storage-blob:12.25.1'
+    implementation 'com.azure:azure-storage-blob:12.26.1'
 
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.1000')
     implementation 'com.amazonaws:aws-java-sdk-s3'

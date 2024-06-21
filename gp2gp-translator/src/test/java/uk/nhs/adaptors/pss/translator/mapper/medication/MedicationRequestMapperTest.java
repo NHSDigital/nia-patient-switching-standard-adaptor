@@ -80,7 +80,7 @@ public class MedicationRequestMapperTest {
         verify(medicationMapper, times(SINGLE_INVOCATION))
                 .createMedication(any());
 
-        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+        assertThat(resources).hasSize(EXPECTED_RESOURCES_MAPPED);
         resources
             .stream()
             .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
@@ -117,7 +117,7 @@ public class MedicationRequestMapperTest {
         var resources = medicationRequestMapper
                 .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
 
-        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+        assertThat(resources).hasSize(EXPECTED_RESOURCES_MAPPED);
 
         var medicationRequest = resources
                 .stream()
@@ -142,7 +142,7 @@ public class MedicationRequestMapperTest {
         var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
                 PRACTISE_CODE);
 
-        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+        assertThat(resources).hasSize(EXPECTED_RESOURCES_MAPPED);
 
         var medicationRequest = resources
                 .stream()
@@ -169,7 +169,7 @@ public class MedicationRequestMapperTest {
         var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
                 PRACTISE_CODE);
 
-        assertThat(resources.size()).isEqualTo(expectedResourcesMapped);
+        assertThat(resources).hasSize(expectedResourcesMapped);
 
         resources
                 .stream()
@@ -195,7 +195,7 @@ public class MedicationRequestMapperTest {
         var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
                 PRACTISE_CODE);
 
-        assertThat(resources.size()).isEqualTo(expectedResourcesMapped);
+        assertThat(resources).hasSize(expectedResourcesMapped);
 
         resources
                 .stream()
@@ -218,7 +218,7 @@ public class MedicationRequestMapperTest {
         var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
                 PRACTISE_CODE);
 
-        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+        assertThat(resources).hasSize(EXPECTED_RESOURCES_MAPPED);
 
         var medicationRequest = resources
                 .stream()
@@ -243,7 +243,7 @@ public class MedicationRequestMapperTest {
         var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
                 PRACTISE_CODE);
 
-        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+        assertThat(resources).hasSize(EXPECTED_RESOURCES_MAPPED);
 
         var medicationRequest = resources
                 .stream()
@@ -268,7 +268,7 @@ public class MedicationRequestMapperTest {
         var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
                 PRACTISE_CODE);
 
-        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+        assertThat(resources).hasSize(EXPECTED_RESOURCES_MAPPED);
 
         var medicationRequest = resources
                 .stream()
@@ -293,7 +293,7 @@ public class MedicationRequestMapperTest {
         var resources = medicationRequestMapper.mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(),
                 PRACTISE_CODE);
 
-        assertThat(resources.size()).isEqualTo(EXPECTED_RESOURCES_MAPPED);
+        assertThat(resources).hasSize(EXPECTED_RESOURCES_MAPPED);
 
         var medicationRequest = resources
                 .stream()
