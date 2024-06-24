@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+* The `/$gpc.ack` endpoint is now case insensitive and supports uppercase and lowercase values for the `conversationId` header values.
+
 ### Added
 * Retry mechanism has been added for MHS Runtime exceptions 
 
