@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -127,6 +128,25 @@ public class AcknowledgeRecordControllerIT {
     }
 
     @Test
+    public void Given_LowercaseAndUppercaseConversationId_WhenSendAcknowledgeRequest_Expect_ResponseStatusCode200() throws Exception {
+        // given
+        final String[] ids = {
+            UUID.randomUUID().toString(),
+            UUID.randomUUID().toString().toUpperCase()
+        };
+
+        // when
+        for (String id : ids) {
+            addMigrationRequestAndLogWithStatus(id.toLowerCase(), MIGRATION_COMPLETED);
+            mockMvc.perform(post(ACKNOWLEDGE_RECORD_ENDPOINT)
+                    .header(CONVERSATION_ID_HEADER, id)
+                    .header(CONFIRMATION_RESPONSE_HEADER, ConfirmationResponse.ACCEPTED))
+                // then
+                .andExpect(status().isOk());
+        }
+    }
+
+    @Test
     public void sendAcknowledgeRequestWithMissingConfirmationResponseHeader() throws Exception {
         var conversationId = UUID.randomUUID().toString();
         var expectedResponseBody = readResourceAsString("/responses/acknowledge-record/badRequestResponseBody.json")
@@ -138,9 +158,10 @@ public class AcknowledgeRecordControllerIT {
                 .andExpect(content().json(expectedResponseBody));
     }
 
+    // Helper Methods
     private void addMigrationRequestAndLogWithStatus(String conversationId, MigrationStatus status) {
-        patientMigrationRequestDao.addNewRequest(PATIENT_NUMBER, conversationId, LOSING_PRACTICE_ODS, WINNING_PRACTICE_ODS);
-        patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId, BUNDLE_VALUE, INBOUND_MESSAGE_VALUE);
-        migrationStatusLogService.addMigrationStatusLog(status, conversationId, null, null);
+        patientMigrationRequestDao.addNewRequest(PATIENT_NUMBER, conversationId.toLowerCase(), LOSING_PRACTICE_ODS, WINNING_PRACTICE_ODS);
+        patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId.toLowerCase(), BUNDLE_VALUE, INBOUND_MESSAGE_VALUE);
+        migrationStatusLogService.addMigrationStatusLog(status, conversationId.toLowerCase(), null, null);
     }
 }
