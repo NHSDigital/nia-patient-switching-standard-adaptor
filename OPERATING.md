@@ -1,5 +1,18 @@
 # Operating The Patient Switching Adaptor
 
+## Dependencies
+
+To run the adaptor you will need:
+
+- Both the [nia-ps-adaptor (aka translator)][nia-ps-adaptor] and [nia-ps-facade] containers running
+- A populated PostgreSQL DB, for more details see [Database Requirements](#database-requirements)
+- A [message broker](#message-broker)
+- An instance of the [MHS Adaptor] running
+
+[nia-ps-facade]: https://hub.docker.com/r/nhsdev/nia-ps-facade
+[nia-ps-adaptor]: https://hub.docker.com/r/nhsdev/nia-ps-adaptor
+[MHS Adaptor]: https://github.com/NHSDigital/integration-adaptor-mhs/
+
 ## Logging and tracing
 
 The Patient Switching Adaptors services emit logs which are captured by the docker containers they are hosted within. Whichever Docker container orchestration technology is used, the log streams can be captured and forwarded to an appropriate log indexing service for consumption, storage and subsequent queries. 
@@ -176,7 +189,7 @@ The adaptor will put messages it doesn't recognise into the dead letter queue.
 Additionally, any messages which is recognised but can't be processed due to an error are sent to the dead letter queue once the number of attempted redeliveries exceeds the threshold.
 The number of redeliveries is configurable with the [`MHS_AMQP_MAX_REDELIVERIES` environment variable](#ps-queue-variables).
 
-[GP2GP Adaptor]: https://github.com/nhsconnect/integration-adaptor-gp2gp
+[GP2GP Adaptor]: https://github.com/NHSDigital/integration-adaptor-gp2gp
 
 ### Broker Requirements
 
