@@ -3,7 +3,9 @@ package uk.nhs.adaptors.pss.gpc.controller;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,7 @@ import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -124,29 +127,13 @@ public class AcknowledgeRecordControllerIT {
                 .andExpect(content().json(expectedResponseBody));
     }
 
-    @Test
-    public void Given_LowercaseConversationId_When_SendAcknowledgeRequest_Expect_ResponseStatusCode200() throws Exception {
-        // given
-        final String lowercaseConversationId = UUID.randomUUID().toString();
-
+    @ParameterizedTest
+    @MethodSource("getMixedCaseIds")
+    void Given_LowerAndUppercaseConversationId_When_SendAcknowledgeRequest_Expect_ResponseStatusCode200(String conversationId) throws Exception {
         // when
-        addMigrationRequestAndLogWithStatus(lowercaseConversationId, MIGRATION_COMPLETED);
+        addMigrationRequestAndLogWithStatus(conversationId, MIGRATION_COMPLETED);
         mockMvc.perform(post(ACKNOWLEDGE_RECORD_ENDPOINT)
-                .header(CONVERSATION_ID_HEADER, lowercaseConversationId)
-                .header(CONFIRMATION_RESPONSE_HEADER, ConfirmationResponse.ACCEPTED))
-            // then
-            .andExpect(status().isOk());
-    }
-
-    @Test
-    public void Given_UppercaseConversationId_When_SendAcknowledgeRequest_Expect_ResponseStatusCode200() throws Exception {
-        // given
-        final String uppercaseConversationId = UUID.randomUUID().toString().toUpperCase();
-
-        // when
-        addMigrationRequestAndLogWithStatus(uppercaseConversationId, MIGRATION_COMPLETED);
-        mockMvc.perform(post(ACKNOWLEDGE_RECORD_ENDPOINT)
-                .header(CONVERSATION_ID_HEADER, uppercaseConversationId)
+                .header(CONVERSATION_ID_HEADER, conversationId)
                 .header(CONFIRMATION_RESPONSE_HEADER, ConfirmationResponse.ACCEPTED))
             // then
             .andExpect(status().isOk());
@@ -172,5 +159,12 @@ public class AcknowledgeRecordControllerIT {
         patientMigrationRequestDao.addNewRequest(PATIENT_NUMBER, conversationId, LOSING_PRACTICE_ODS, WINNING_PRACTICE_ODS);
         patientMigrationRequestDao.saveBundleAndInboundMessageData(conversationId, BUNDLE_VALUE, INBOUND_MESSAGE_VALUE);
         migrationStatusLogService.addMigrationStatusLog(status, conversationId, null, null);
+    }
+
+    private static Stream<Arguments> getMixedCaseIds() {
+        return Stream.of(
+            Arguments.of(UUID.randomUUID().toString()),
+            Arguments.of(UUID.randomUUID().toString().toUpperCase())
+        );
     }
 }
