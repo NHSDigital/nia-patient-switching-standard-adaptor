@@ -2,8 +2,11 @@ package uk.nhs.adaptors.pss.translator.amqp;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.timeout;
@@ -25,7 +28,9 @@ import java.time.Duration;
 import java.util.List;
 
 import ca.uhn.fhir.parser.DataFormatException;
+import org.apache.qpid.jms.JmsConnectionFactory;
 import org.jdbi.v3.core.ConnectionException;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,7 +62,10 @@ import uk.nhs.adaptors.pss.translator.task.SendContinueRequestHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
 
+import javax.jms.Connection;
+import javax.jms.JMSException;
 import javax.jms.Message;
+import javax.jms.Session;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
@@ -172,7 +180,10 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_ReceivingCOPC_WithMhsServerErrorException_Expect_MessageSentToDLQ() {
+    public void When_ReceivingCOPC_WithMhsServerErrorException_Expect_MessageSentToDLQ() throws JMSException {
+        var messageInJsonFormat = fetchMessageInJsonFormat(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
+        var messageSentToInbound = getMhsJmsTemplate().sendAndReceive(session -> session.createTextMessage(messageInJsonFormat));
+
         sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(this::hasContinueMessageBeenReceived);
@@ -180,12 +191,36 @@ public class ServiceFailureIT extends BaseEhrHandler {
         doThrow(MhsServerErrorException.class)
                 .when(mhsClientService).send(any());
 
+        /*var messageInJsonFormat = fetchMessageInJsonFormat(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
+        var connection = setupConnection();
+        var session = connection.createSession();
+        var messageSentToInbound = session.createTextMessage(messageInJsonFormat);*/
+
         sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
-        Message message = dlqJmsTemplate.receive();
+        dlqJmsTemplate.setReceiveTimeout(30000);
+        Message messageSentToDlq = dlqJmsTemplate.receive();
         // TODO: This assertion needs to be better. Probably checking that the message sent to the queue on Line 183 above, is the same as the value on the DLQ.
-        // TODO: Why does this message seemingly appear before any redeliveries have happened?
-        assertThat(message).isNotNull();
+        assertThat(messageSentToDlq).isNotNull();
+        assertTrue(compareMessages(messageSentToInbound, messageSentToDlq));
+
+
+        // 1 time for the initial MHS Continue Request
+        // 1 time for the failed MHS COPC Acknowledgement
+        // 3 times for the retries of the COPC Acknowledgement (Configured via the application.yml amqp.mhs.maxRedeliveries
+        verify(mhsClientService, times(5)).send(any());
+    }
+
+    private boolean compareMessages(Message message1, Message message2) throws JMSException {
+        return message1.getJMSMessageID().equals(message2.getJMSMessageID())
+            && message1.getJMSCorrelationID().equals(message2.getJMSCorrelationID());
+    }
+
+    private Connection setupConnection() throws JMSException {
+        JmsConnectionFactory connectionFactory = new JmsConnectionFactory();
+
+        Connection connection = connectionFactory.createConnection();
+        return connection;
     }
 
     @Test
@@ -399,11 +434,18 @@ public class ServiceFailureIT extends BaseEhrHandler {
             INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR.getReasonPhrase(), httpHeaders, STUB_BODY.getBytes(UTF_8), UTF_8);
     }
 
+
+
     private void sendInboundMessageToQueue(String json) {
+        var jsonMessage = fetchMessageInJsonFormat(json);
+        getMhsJmsTemplate().send(session -> session.createTextMessage(jsonMessage));
+    }
+
+    private @NotNull String fetchMessageInJsonFormat(String json) {
         var jsonMessage = readResourceAsString(json)
             .replace(NHS_NUMBER_PLACEHOLDER, getPatientNhsNumber())
             .replace(CONVERSATION_ID_PLACEHOLDER, getConversationId());
-        getMhsJmsTemplate().send(session -> session.createTextMessage(jsonMessage));
+        return jsonMessage;
     }
 
     private boolean hasContinueMessageBeenReceived() {
