@@ -33,10 +33,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpHeaders;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
@@ -54,6 +56,8 @@ import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendContinueRequestHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
+
+import javax.jms.Message;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
@@ -74,6 +78,10 @@ public class ServiceFailureIT extends BaseEhrHandler {
     private ObjectMapper objectMapper;
     @Autowired
     private PssQueueProperties pssQueueProperties;
+
+    @Autowired
+    @Qualifier("jmsTemplateMhsDLQ")
+    private JmsTemplate dlqJmsTemplate;
 
     @Mock
     private HttpHeaders httpHeaders;
@@ -161,6 +169,23 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         assertThat(getCurrentMigrationStatus(getConversationId()))
             .isEqualTo(ERROR_LRG_MSG_GENERAL_FAILURE);
+    }
+
+    @Test
+    public void When_ReceivingCOPC_WithMhsServerErrorException_Expect_MessageSentToDLQ() {
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
+
+        await().until(this::hasContinueMessageBeenReceived);
+
+        doThrow(MhsServerErrorException.class)
+                .when(mhsClientService).send(any());
+
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
+
+        Message message = dlqJmsTemplate.receive();
+        // TODO: This assertion needs to be better. Probably checking that the message sent to the queue on Line 183 above, is the same as the value on the DLQ.
+        // TODO: Why does this message seemingly appear before any redeliveries have happened?
+        assertThat(message).isNotNull();
     }
 
     @Test
