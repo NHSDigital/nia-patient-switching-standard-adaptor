@@ -18820,7 +18820,7 @@
         "reference": "Encounter/825B1B60-525E-4D0A-B813-F3AE3E18EB5D"
       },
       "effectiveDateTime": "2010-03-23T15:42:00+00:00",
-      "issued": "2010-03-23T16:07:49.000+00:00",
+      "issued": "2010-03-23T15:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -18852,7 +18852,7 @@
         "reference": "Encounter/18ADB528-260B-41D8-ACA5-77529A4A4F59"
       },
       "effectiveDateTime": "2010-08-10T12:17:00+00:00",
-      "issued": "2010-08-10T12:22:33.000+00:00",
+      "issued": "2010-08-10T12:17:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],

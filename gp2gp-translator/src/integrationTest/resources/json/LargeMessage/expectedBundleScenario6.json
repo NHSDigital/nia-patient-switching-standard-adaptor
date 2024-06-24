@@ -956,7 +956,7 @@
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
       },
       "effectiveDateTime": "2018-06-12",
-      "issued": "2018-06-12T08:24:07.000+00:00",
+      "issued": "2018-06-12T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
       } ],
@@ -988,7 +988,7 @@
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
       },
       "effectiveDateTime": "2018-06-12",
-      "issued": "2018-06-12T08:24:07.000+00:00",
+      "issued": "2018-06-12T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
       } ],
@@ -1020,7 +1020,7 @@
         "reference": "Encounter/3B96CB3A-14C2-4FB3-823E-04A7D86BC123"
       },
       "effectiveDateTime": "2018-06-12",
-      "issued": "2018-06-12T08:24:07.000+00:00",
+      "issued": "2018-06-12T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/FC4889C6-50CD-4DC1-9FE2-961BAA81DBBC"
       } ],

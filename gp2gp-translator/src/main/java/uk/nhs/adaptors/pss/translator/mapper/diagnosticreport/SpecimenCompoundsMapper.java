@@ -32,6 +32,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper.SpecimenBatteryParameters;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
+import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
+
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
@@ -64,7 +66,7 @@ public class SpecimenCompoundsMapper {
                     for (var specimenObservationStatement : getObservationStatementsInCompound(specimenCompoundStatement)) {
                         getObservationById(observations, specimenObservationStatement.getId().getRoot())
                             .ifPresent(observation -> {
-                                handleObservationStatement(specimenCompoundStatement, observation);
+                                handleObservationStatement(specimenCompoundStatement, specimenObservationStatement, observation);
                                 DiagnosticReportMapper.addResultToDiagnosticReport(observation, diagnosticReport);
                             });
                     }
@@ -106,11 +108,18 @@ public class SpecimenCompoundsMapper {
     }
 
     private void handleObservationStatement(RCMRMT030101UKCompoundStatement specimenCompoundStatement,
-        Observation observation) {
+        RCMRMT030101UKObservationStatement observationStatement, Observation observation) {
         final Reference specimenReference = new Reference(new IdType(
             Specimen.name(),
             specimenCompoundStatement.getId().get(0).getRoot()
         ));
+        if (observationStatement.getAvailabilityTime().hasValue()) {
+            observation.setIssuedElement(
+                DateFormatUtil.parseToInstantType(
+                    observationStatement.getAvailabilityTime().getValue()
+                )
+            );
+        }
         observation.setSpecimen(specimenReference);
         observation.addCategory(createCategory());
     }
@@ -163,7 +172,7 @@ public class SpecimenCompoundsMapper {
                 if (!isNestedCluster) {
                     DiagnosticReportMapper.addResultToDiagnosticReport(observation, diagnosticReport);
                 }
-                handleObservationStatement(specimenCompoundStatement, observation);
+                handleObservationStatement(specimenCompoundStatement, observationStatement, observation);
             });
 
             handleNarrativeStatements(clusterCompoundStatement, observationComments, observationOpt.orElse(null));
@@ -194,8 +203,10 @@ public class SpecimenCompoundsMapper {
                 .filter(RCMRMT030101UKComponent02::hasObservationStatement)
                 .map(RCMRMT030101UKComponent02::getObservationStatement)
                 .findFirst()
-                .flatMap(observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()))
-                .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation)
+                .ifPresent(
+                    observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()).ifPresent(
+                        observation -> handleObservationStatement(specimenCompoundStatement, observationStatement, observation)
+                    )
                 ));
 
         var observationStatements = batteryCompoundStatement.getComponent().stream()
@@ -203,8 +214,11 @@ public class SpecimenCompoundsMapper {
             .map(RCMRMT030101UKComponent02::getObservationStatement)
             .toList();
 
-        observationStatements.forEach(observationStatement -> getObservationById(observations, observationStatement.getId().getRoot())
-            .ifPresent(observation -> handleObservationStatement(specimenCompoundStatement, observation)));
+        observationStatements.forEach(
+            observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()).ifPresent(
+                observation -> handleObservationStatement(specimenCompoundStatement, observationStatement, observation)
+            )
+        );
     }
 
     private Optional<RCMRMT030101UKCompoundStatement> getCompoundStatementByDRId(RCMRMT030101UKEhrExtract ehrExtract, String id) {
