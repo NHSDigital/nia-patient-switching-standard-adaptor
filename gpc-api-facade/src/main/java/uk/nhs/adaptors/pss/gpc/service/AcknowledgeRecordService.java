@@ -26,7 +26,7 @@ public class AcknowledgeRecordService {
     public Boolean handleAcknowledgeRecord(
             @NotNull @NotEmpty String conversationId,
             @NotNull @NotEmpty String confirmationResponseString) {
-        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
+        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId.toLowerCase());
         if (patientMigrationRequest == null) {
             return false;
         }
