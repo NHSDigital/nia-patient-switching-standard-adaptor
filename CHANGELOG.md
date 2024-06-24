@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 * Retry mechanism has been added for MHS Runtime exceptions 
 
+### Fixed
+* Mapping of `issued` for Test Group Headers, Test Results, Filing Comment and has been updated to use time value from
+  the GP2GP `ObservationStatement / availabilityTime` field and use `EhrComposition / author / time` if not available.
+
 ## [2.1.1] - 2024-06-19
 
 ### Changed
