@@ -3,6 +3,7 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -96,6 +97,7 @@ public class RCMRMT030101UK04CompoundStatement implements RCMRMT030101UKCompound
     @XmlElement(required = true)
     protected TS availabilityTime;
     protected CV priorityCode;
+    protected CV confidentialityCode;
     protected CV uncertaintyCode;
 
     @XmlElement(type = RCMRMT030101UK04Specimen03.class)
@@ -750,4 +752,11 @@ public class RCMRMT030101UK04CompoundStatement implements RCMRMT030101UKCompound
         this.nullFlavor = value;
     }
 
+    public Optional<CV> getConfidentialityCode() {
+        return Optional.of(confidentialityCode);
+    }
+
+    public void setConfidentialityCode(CV confidentialityCode) {
+        this.confidentialityCode = confidentialityCode;
+    }
 }
