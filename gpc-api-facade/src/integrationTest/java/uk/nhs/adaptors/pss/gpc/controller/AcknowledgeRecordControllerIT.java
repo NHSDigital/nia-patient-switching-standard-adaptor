@@ -129,7 +129,8 @@ public class AcknowledgeRecordControllerIT {
 
     @ParameterizedTest
     @MethodSource("getMixedCaseIds")
-    void Given_LowerAndUppercaseConversationId_When_SendAcknowledgeRequest_Expect_ResponseStatusCode200(String conversationId) throws Exception {
+    void When_SendAcknowledgeRequestWithLowerAndUppercaseConversationIdHeader_Expect_ResponseStatusCode200(String conversationId)
+        throws Exception {
         // when
         addMigrationRequestAndLogWithStatus(conversationId, MIGRATION_COMPLETED);
         mockMvc.perform(post(ACKNOWLEDGE_RECORD_ENDPOINT)
