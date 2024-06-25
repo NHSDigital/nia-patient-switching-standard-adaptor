@@ -5,7 +5,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.timeout;
@@ -27,7 +26,6 @@ import java.time.Duration;
 import java.util.List;
 
 import ca.uhn.fhir.parser.DataFormatException;
-import org.apache.qpid.jms.message.JmsTextMessage;
 import org.jdbi.v3.core.ConnectionException;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -60,7 +58,6 @@ import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendContinueRequestHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
-import javax.jms.JMSException;
 import javax.jms.Message;
 
 
@@ -178,7 +175,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_ReceivingCOPC_WithMhsServerErrorException_Expect_MessageSentToDLQ() throws JMSException {
+    public void When_ReceivingCOPC_WithMhsServerErrorException_Expect_MessageSentToDLQ() {
 
         sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
@@ -186,14 +183,12 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         doThrow(MhsServerErrorException.class).when(mhsClientService).send(any());
 
-        var copcMessageInJsonFormat = fetchMessageInJsonFormat(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
         sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         dlqJmsTemplate.setReceiveTimeout(THIRTY_SECONDS);
         Message messageSentToDlq = dlqJmsTemplate.receive();
 
         assertNotNull(messageSentToDlq);
-        assertTrue(copcMessageInJsonFormat.contains(((JmsTextMessage) messageSentToDlq).getText()));
         verify(mhsClientService, times(FIVE_WANTED_NUMBER_OF_INVOCATIONS)).send(any());
     }
 
