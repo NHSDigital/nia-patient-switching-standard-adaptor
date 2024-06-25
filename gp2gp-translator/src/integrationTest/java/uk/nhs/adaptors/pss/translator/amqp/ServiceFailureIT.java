@@ -374,8 +374,9 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
     private void dlqCleanUp() {
         dlqJmsTemplate.setReceiveTimeout(RECEIVE_TIMEOUT_LIMIT);
+        long timeToLive;
         while (dlqJmsTemplate.receive() != null) {
-            dlqJmsTemplate.getTimeToLive();
+            timeToLive = dlqJmsTemplate.getTimeToLive();
         }
     }
 
