@@ -19,7 +19,7 @@ import java.util.Locale;
 
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
 import org.hl7.v3.RCMRIN030000UK06Message;

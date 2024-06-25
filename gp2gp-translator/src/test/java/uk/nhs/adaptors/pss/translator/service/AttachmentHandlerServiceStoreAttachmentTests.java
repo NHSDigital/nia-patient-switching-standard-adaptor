@@ -20,7 +20,7 @@ import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.ValidationException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
