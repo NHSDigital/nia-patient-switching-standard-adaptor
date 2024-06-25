@@ -82,7 +82,6 @@ public class RCMRMT030101UK04EhrComposition implements RCMRMT030101UKEhrComposit
     protected IVLTS effectiveTime;
     @XmlElement(required = true)
     protected TS availabilityTime;
-    @XmlElement
     protected CV confidentialityCode;
 
     @XmlElement(required = true, type = RCMRMT030101UK04Author.class)
