@@ -642,10 +642,12 @@ public class RCMRMT030101UK04RegistrationStatement implements RCMRMT030101UKRegi
         this.nullFlavor = value;
     }
 
+    @Override
     public Optional<CV> getConfidentialityCode() {
         return Optional.of(confidentialityCode);
     }
 
+    @Override
     public void setConfidentialityCode(CV confidentialityCode) {
         this.confidentialityCode = confidentialityCode;
     }

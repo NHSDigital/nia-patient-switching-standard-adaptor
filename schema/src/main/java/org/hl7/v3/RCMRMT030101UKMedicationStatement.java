@@ -1,6 +1,7 @@
 package org.hl7.v3;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RCMRMT030101UKMedicationStatement {
 
@@ -67,4 +68,8 @@ public interface RCMRMT030101UKMedicationStatement {
     String getNullFlavor();
 
     void setNullFlavor(String value);
+
+    Optional<CV> getConfidentialityCode();
+
+    void setConfidentialityCode(CV confidentialityCode);
 }

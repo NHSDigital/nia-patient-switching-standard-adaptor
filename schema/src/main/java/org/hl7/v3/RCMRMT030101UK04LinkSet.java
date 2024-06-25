@@ -677,10 +677,12 @@ public class RCMRMT030101UK04LinkSet implements RCMRMT030101UKLinkSet {
         this.nullFlavor = value;
     }
 
+    @Override
     public Optional<CV> getConfidentialityCode() {
         return Optional.of(confidentialityCode);
     }
 
+    @Override
     public void setConfidentialityCode(CV confidentialityCode) {
         this.confidentialityCode = confidentialityCode;
     }

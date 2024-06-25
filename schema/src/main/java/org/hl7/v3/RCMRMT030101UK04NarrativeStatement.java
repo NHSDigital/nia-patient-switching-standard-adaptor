@@ -591,10 +591,12 @@ public class RCMRMT030101UK04NarrativeStatement implements RCMRMT030101UKNarrati
         this.nullFlavor = value;
     }
 
+    @Override
     public Optional<CV> getConfidentialityCode() {
         return Optional.of(confidentialityCode);
     }
 
+    @Override
     public void setConfidentialityCode(CV confidentialityCode) {
         this.confidentialityCode = confidentialityCode;
     }

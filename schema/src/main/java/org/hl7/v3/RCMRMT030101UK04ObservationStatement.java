@@ -869,10 +869,12 @@ public class RCMRMT030101UK04ObservationStatement implements RCMRMT030101UKObser
         return value != null;
     }
 
+    @Override
     public Optional<CV> getConfidentialityCode() {
         return Optional.of(confidentialityCode);
     }
 
+    @Override
     public void setConfidentialityCode(CV confidentialityCode) {
         this.confidentialityCode = confidentialityCode;
     }

@@ -1,6 +1,7 @@
 package org.hl7.v3;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RCMRMT030101UKObservationStatement {
 
@@ -87,4 +88,8 @@ public interface RCMRMT030101UKObservationStatement {
     void setValue(Object value);
 
     boolean hasValue();
+
+    Optional<CV> getConfidentialityCode();
+
+    void setConfidentialityCode(CV confidentialityCode);
 }

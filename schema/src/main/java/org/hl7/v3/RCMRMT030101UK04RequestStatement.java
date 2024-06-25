@@ -698,10 +698,12 @@ public class RCMRMT030101UK04RequestStatement implements RCMRMT030101UKRequestSt
         this.nullFlavor = value;
     }
 
+    @Override
     public Optional<CV> getConfidentialityCode() {
         return Optional.of(confidentialityCode);
     }
 
+    @Override
     public void setConfidentialityCode(CV confidentialityCode) {
         this.confidentialityCode = confidentialityCode;
     }
