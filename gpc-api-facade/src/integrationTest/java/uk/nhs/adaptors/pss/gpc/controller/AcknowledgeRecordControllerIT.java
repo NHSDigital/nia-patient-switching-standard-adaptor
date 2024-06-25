@@ -152,7 +152,6 @@ public class AcknowledgeRecordControllerIT {
                 .andExpect(content().json(expectedResponseBody));
     }
 
-    // Helper Methods
     private void addMigrationRequestAndLogWithStatus(String conversationId, MigrationStatus status) {
         // Currently, when requests are created - they are uppercase.
         conversationId = conversationId.toUpperCase();
