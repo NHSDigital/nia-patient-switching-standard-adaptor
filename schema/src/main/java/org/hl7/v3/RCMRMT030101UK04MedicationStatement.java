@@ -68,6 +68,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "effectiveTime",
     "availabilityTime",
     "priorityCode",
+    "confidentialityCode",
     "consumable",
     "component",
     "pertinentInformation",

@@ -75,6 +75,7 @@ import org.hl7.v3.RCMRMT030101UK04Specimen;
     "effectiveTime",
     "availabilityTime",
     "priorityCode",
+    "confidentialityCode",
     "uncertaintyCode",
     "value",
     "interpretationCode",

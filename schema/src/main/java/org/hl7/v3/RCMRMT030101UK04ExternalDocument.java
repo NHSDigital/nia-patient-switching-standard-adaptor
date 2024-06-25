@@ -60,6 +60,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "code",
     "text",
     "effectiveTime",
+    "confidentialityCode",
     "setId",
     "versionNumber",
     "author"

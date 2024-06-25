@@ -67,6 +67,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "statusCode",
     "effectiveTime",
     "availabilityTime",
+    "confidentialityCode",
     "component",
     "conditionNamed",
     "informant",
