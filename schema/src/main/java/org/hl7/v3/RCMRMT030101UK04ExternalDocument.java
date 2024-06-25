@@ -3,6 +3,7 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -72,6 +73,7 @@ public class RCMRMT030101UK04ExternalDocument implements RCMRMT030101UKExternalD
     @XmlElement(required = true)
     protected ED text;
     protected IVLTS effectiveTime;
+    protected CV confidentialityCode;
     protected II setId;
     protected INT versionNumber;
     @XmlElement(type = RCMRMT030101UK04Author4.class)
@@ -463,4 +465,11 @@ public class RCMRMT030101UK04ExternalDocument implements RCMRMT030101UKExternalD
         this.nullFlavor = value;
     }
 
+    public Optional<CV> getConfidentialityCode() {
+        return Optional.of(confidentialityCode);
+    }
+
+    public void setConfidentialityCode(CV confidentialityCode) {
+        this.confidentialityCode = confidentialityCode;
+    }
 }
