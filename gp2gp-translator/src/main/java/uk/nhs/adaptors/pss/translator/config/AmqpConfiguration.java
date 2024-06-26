@@ -135,7 +135,7 @@ public class AmqpConfiguration {
     }
 
     @Bean("jmsTemplatePssQueue")
-    public JmsTemplate jmsTemplateMhsQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory,
+    public JmsTemplate jmsTemplatePssQueue(@Qualifier("pssQueueConnectionFactory") JmsConnectionFactory connectionFactory,
         PssQueueProperties properties) {
         JmsTemplate jmsTemplate = new JmsTemplate();
         jmsTemplate.setConnectionFactory(connectionFactory);

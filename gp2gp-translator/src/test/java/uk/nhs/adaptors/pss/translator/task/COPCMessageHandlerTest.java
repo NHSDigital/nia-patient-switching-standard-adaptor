@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.ValidationException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.v3.COPCIN000001UK01Message;
@@ -1053,8 +1053,9 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_HandleMessage_WithMhsServerErrorException_Expect_NackIsAttempted() throws SAXException, AttachmentNotFoundException,
-        JAXBException, BundleMappingException, JsonProcessingException, InlineAttachmentProcessingException, AttachmentLogException {
+    public void When_HandleMessage_WithMhsServerErrorException_Expect_ExceptionIsBubbledUpSoMessageIsRetriedByJMS()
+        throws SAXException, AttachmentNotFoundException, JAXBException, BundleMappingException, JsonProcessingException,
+               InlineAttachmentProcessingException, AttachmentLogException {
 
         MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
 
@@ -1071,18 +1072,12 @@ class COPCMessageHandlerTest {
                 .thenReturn(null)
                 .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
 
-            prepareFailProcessMocks(mockedXmlUnmarshall);
-
             doThrow(MhsServerErrorException.class)
                 .when(nackAckPreparationServiceMock).sendAckMessage(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID), anyString());
 
-            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
-
-            verify(nackAckPreparationServiceMock, times(1))
-                .sendNackMessage(eq(LARGE_MESSAGE_GENERAL_FAILURE), any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
-
-            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
-            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(UNEXPECTED_CONDITION.getCode());
+            assertThrows(
+                MhsServerErrorException.class,
+                () -> copcMessageHandler.handleMessage(message, CONVERSATION_ID));
 
         } finally {
             mockedXmlUnmarshall.close();

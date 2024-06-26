@@ -23,7 +23,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.springframework.beans.factory.annotation.Autowired;

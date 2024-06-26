@@ -504,7 +504,7 @@
         "reference": "Encounter/26EE99BB-00FF-4596-9D8B-1D349C1D70A1"
       },
       "effectiveDateTime": "2018-06-12",
-      "issued": "2013-10-25T15:53:28.000+00:00",
+      "issued": "2018-06-12T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/00000000-0000-0000-0000-000000000009"
       } ],

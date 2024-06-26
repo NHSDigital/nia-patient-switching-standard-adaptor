@@ -22,15 +22,15 @@ import static uk.nhs.adaptors.pss.gpc.util.fhir.OperationOutcomeUtils.createOper
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.OperationOutcome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
@@ -64,7 +64,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(
-        NoHandlerFoundException ex, HttpHeaders requestHeaders, HttpStatus status, WebRequest request) {
+        NoHandlerFoundException ex, HttpHeaders requestHeaders, HttpStatusCode status, WebRequest request) {
         HttpServletRequest servletReq = ((ServletWebRequest) request).getRequest();
         String errorMessage = servletReq.getRequestURI() + " not found";
         CodeableConcept details = CodeableConceptUtils.createCodeableConcept("RESOURCE_NOT_FOUND", ISSUE_SYSTEM, "Resource not found",
@@ -75,7 +75,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
 
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
-        HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         headers.put(ALLOW, List.of(getAllowedMethods(request)));
         CodeableConcept details = CodeableConceptUtils.createCodeableConcept("METHOD_NOT_SUPPORTED", ISSUE_SYSTEM, "Method not supported",
             null);
@@ -85,7 +85,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
 
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
-        HttpMediaTypeNotSupportedException ex, HttpHeaders requestHeaders, HttpStatus status, WebRequest request) {
+        HttpMediaTypeNotSupportedException ex, HttpHeaders requestHeaders, HttpStatusCode status, WebRequest request) {
         CodeableConcept details = CodeableConceptUtils.createCodeableConcept("UNSUPPORTED_MEDIA_TYPE", ISSUE_SYSTEM, "Unsupported media "
             + "type", null);
         OperationOutcome operationOutcome = createOperationOutcome(NOTSUPPORTED, ERROR, details, ex.getMessage());
@@ -94,13 +94,13 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
-        Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return handleAllExceptions(ex);
     }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
-        HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return unprocessableEntityResponse(ex);
     }
 
@@ -142,7 +142,8 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         return errorResponse(new HttpHeaders(), UNPROCESSABLE_ENTITY, operationOutcome);
     }
 
-    private ResponseEntity<Object> errorResponse(HttpHeaders headers, HttpStatus status, OperationOutcome operationOutcome) {
+    private ResponseEntity<Object> errorResponse(HttpHeaders headers, HttpStatusCode status, OperationOutcome operationOutcome) {
+        headers = HttpHeaders.writableHttpHeaders(headers);
         headers.put(CONTENT_TYPE, singletonList(APPLICATION_FHIR_JSON_VALUE));
         String content = fhirParser.encodeToJson(operationOutcome);
         return new ResponseEntity<>(content, headers, status);
@@ -153,7 +154,7 @@ public class OperationOutcomeExceptionHandler extends ResponseEntityExceptionHan
         String requestURI = servletReq.getRequestURI();
         return ALLOWED_METHODS.get(requestURI)
             .stream()
-            .map(Enum::name)
+            .map(HttpMethod::name)
             .collect(joining(","));
     }
 }

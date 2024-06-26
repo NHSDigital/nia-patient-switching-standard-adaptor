@@ -24,7 +24,6 @@ public class LocationMapper {
     private static final String UNKNOWN_NAME = "Unknown";
     private static final String META_PROFILE = "Location-1";
 
-    @Autowired
     private final IdGeneratorService idGeneratorService;
 
     public Location mapToLocation(RCMRMT030101UKLocation location, String practiseCode) {

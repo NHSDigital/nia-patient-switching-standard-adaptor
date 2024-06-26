@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Changed
+* The `/$gpc.ack` endpoint is now case insensitive and supports uppercase and lowercase values for the `conversationId` header values.
+
+### Added
+* Retry mechanism has been added for MHS Runtime exceptions 
+
+### Fixed
+* Mapping of `issued` for Test Group Headers, Test Results, Filing Comment and has been updated to use time value from
+  the GP2GP `ObservationStatement / availabilityTime` field and use `EhrComposition / author / time` if not available.
+
+## [2.1.1] - 2024-06-19
+
+### Changed
+* Cron time schedule has been changed from 6h to 2h so that the timeouts can be identified earlier
+
+### Fixed
+* When mapping a `MedicationRequest (PLAN)`, if the text in the original text is duplicated by a pertinent information
+  text, then the original text is disregarded to avoid the unnecessary duplication.
+
 ## [2.1.0] - 2024-04-17
 ### Added
 

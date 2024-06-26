@@ -27,7 +27,7 @@ import static uk.nhs.adaptors.common.enums.QueueMessageType.ACKNOWLEDGE_RECORD;
 
 @ExtendWith(MockitoExtension.class)
 public class AcknowledgeRecordServiceTest {
-    private static final String CONVERSATION_ID_VALUE = UUID.randomUUID().toString();
+    private static final String CONVERSATION_ID_VALUE = UUID.randomUUID().toString().toUpperCase();
     private static final String INVALID_CONFIRMATION_RESPONSE_VALUE = "NotAValidResponse";
     private static final Integer PATIENT_MIGRATION_REQUEST_ID = 1;
 

@@ -7,11 +7,11 @@ export HOSTNAME='localhost';
 export PS_DB_URL="jdbc:postgresql://$HOSTNAME:$DB_PORT";
 export PS_DB_OWNER_NAME="postgres";
 export PS_FROM_ODS_CODE="PSS_001";
-export PS_DB_OWNER_PASSWORD=;
+export PS_DB_OWNER_PASSWORD="123456";
 export PS_DB_HOST="$HOSTNAME";
-export POSTGRES_PASSWORD=;
-export GPC_FACADE_USER_DB_PASSWORD=;
-export GP2GP_TRANSLATOR_USER_DB_PASSWORD=;
+export POSTGRES_PASSWORD="123456";
+export GPC_FACADE_USER_DB_PASSWORD="123456";
+export GP2GP_TRANSLATOR_USER_DB_PASSWORD="123456";
 export GP2GP_TRANSLATOR_SERVER_PORT="8085";
 export GPC_FACADE_SERVER_PORT="8081";
 export PS_QUEUE_NAME="pssQueue";
@@ -44,4 +44,4 @@ export SUPPORTED_FILE_TYPES="application/msword,application/vnd.openxmlformats-o
 
 export SKIP_DECODE="false"
 #change path for snomedFile fath
-#export SNOMED_CT_TERMINOLOGY_FILE="/mnt/c/Users/yourUserName/yourPath/uk_sct2cl_32.10.0_20220216000001Z.zip";
+#export SNOMED_CT_TERMINOLOGY_FILE="/mnt/c/Users/yourUserName/yourPath/uk_sct2mo_38.2.0_20240605000001Z.zip";

@@ -14,8 +14,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.ValidationException;
 
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
@@ -40,6 +40,7 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ExternalAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
@@ -133,9 +134,8 @@ public class COPCMessageHandler {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
             }
 
-        } catch (WebClientRequestException | ConnectionException e) {
+        } catch (WebClientRequestException | ConnectionException | MhsServerErrorException e) {
             throw e;
-
         } catch (ParseException | ValidationException | SAXException e) {
             LOGGER.error("COPC_IN000001UK01 validation / parsing  error", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);

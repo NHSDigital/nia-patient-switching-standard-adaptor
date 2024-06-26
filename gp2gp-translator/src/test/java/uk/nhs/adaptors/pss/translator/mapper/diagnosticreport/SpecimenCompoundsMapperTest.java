@@ -66,6 +66,7 @@ public class SpecimenCompoundsMapperTest {
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2010-02-25T15:41:00.000+00:00");
         assertThat(diagnosticReports.get(0).getResult()).isNotEmpty();
 
         final Reference result = diagnosticReports.get(0).getResult().get(0);
@@ -85,6 +86,7 @@ public class SpecimenCompoundsMapperTest {
         final Observation observationComment = observationComments.get(0);
 
         assertParentSpecimenIsReferenced(observation);
+        assertThat(observation.getIssuedElement().asStringValue()).isEqualTo("2010-02-25T15:41:00.000+00:00");
 
         assertThat(observation.getRelated()).isEmpty();
         assertThat(observationComments).hasSize(2);
@@ -104,7 +106,9 @@ public class SpecimenCompoundsMapperTest {
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2010-02-25T15:41:00.000+00:00");
         assertParentSpecimenIsReferenced(observations.get(1));
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2010-02-25T15:41:00.000+00:00");
         assertThat(observationComments).hasSize(2);
         assertThat(observationComments.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE_1);
 
@@ -120,6 +124,7 @@ public class SpecimenCompoundsMapperTest {
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2022-03-14T18:24:45.000+00:00");
         assertThat(observationComments).hasSize(2);
         assertThat(observationComments.get(0).getRelated()).isNotEmpty();
         assertThat(observationComments.get(0).getRelated()).isNotEmpty();
@@ -137,8 +142,21 @@ public class SpecimenCompoundsMapperTest {
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2022-03-14T18:24:45.000+00:00");
         assertThat(observationComments.size()).isOne();
         assertThat(observations.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE + "\n" + TEST_COMMENT_LINE_1);
+    }
+
+    @Test public void testHandlingObservationStatementWithUnkAvailabilityTime() {
+        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_cluster_compound_statement_availability_time_unk.xml");
+
+        specimenCompoundsMapper.handleSpecimenChildComponents(
+            ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
+        );
+
+        final Observation observation = observations.get(0);
+
+        assertThat(observation.getIssuedElement().asStringValue()).isNull();
     }
 
     private void assertParentSpecimenIsReferenced(Observation observation) {

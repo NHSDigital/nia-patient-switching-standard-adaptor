@@ -17,9 +17,9 @@ import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITI
 import java.text.ParseException;
 import java.util.Locale;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.xml.bind.JAXBException;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
 import org.hl7.v3.RCMRIN030000UK06Message;

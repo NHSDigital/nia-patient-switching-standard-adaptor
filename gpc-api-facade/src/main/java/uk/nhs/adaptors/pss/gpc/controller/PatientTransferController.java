@@ -25,7 +25,7 @@ import static uk.nhs.adaptors.pss.gpc.util.fhir.OperationOutcomeUtils.createOper
 
 import java.util.Map;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.OperationOutcome;

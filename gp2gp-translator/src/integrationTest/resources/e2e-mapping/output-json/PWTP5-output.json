@@ -2344,7 +2344,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "265157000",
-          "display": "Total prosthetic replacement of hip joint using cement"
+          "display": "Cemented prosthetic total arthroplasty of hip joint"
         } ],
         "text": "Total prosthetic replacement of hip joint using cement OS"
       },
@@ -2397,7 +2397,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "265157000",
-          "display": "Total prosthetic replacement of hip joint using cement"
+          "display": "Cemented prosthetic total arthroplasty of hip joint"
         } ],
         "text": "Total prosthetic replacement of hip joint using cement"
       },
@@ -2450,7 +2450,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "265170009",
-          "display": "Total prosthetic replacement of knee joint using cement"
+          "display": "Cemented prosthetic total arthroplasty of knee joint"
         } ],
         "text": "Total prosthetic replacement of knee joint using cement"
       },
@@ -3470,7 +3470,7 @@
         "reference": "Encounter/4C04E966-8CDD-4BED-92CE-220ED82F9ABE"
       },
       "effectiveDateTime": "2010-01-18T09:39:00+00:00",
-      "issued": "2010-01-18T09:33:31.000+00:00",
+      "issued": "2010-01-18T09:39:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3502,7 +3502,7 @@
         "reference": "Encounter/B60F6338-CC2A-4DF6-870D-AB2A51DA4AA4"
       },
       "effectiveDateTime": "2010-01-18T09:41:00+00:00",
-      "issued": "2010-01-18T09:36:54.000+00:00",
+      "issued": "2010-01-18T09:41:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3534,7 +3534,7 @@
         "reference": "Encounter/F55AB99F-E327-420E-8D0B-4348C61778FF"
       },
       "effectiveDateTime": "2010-01-18T09:42:00+00:00",
-      "issued": "2010-01-18T09:45:24.000+00:00",
+      "issued": "2010-01-18T09:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3566,7 +3566,7 @@
         "reference": "Encounter/A1C8AD7F-99E6-4EED-B102-362D3961D2AF"
       },
       "effectiveDateTime": "2010-01-18T09:42:00+00:00",
-      "issued": "2010-01-18T11:02:28.000+00:00",
+      "issued": "2010-01-18T09:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3598,7 +3598,7 @@
         "reference": "Encounter/389A5279-93AD-4AAA-9FE7-95883FCE91B6"
       },
       "effectiveDateTime": "2010-01-18T09:42:00+00:00",
-      "issued": "2010-01-18T11:06:58.000+00:00",
+      "issued": "2010-01-18T09:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3630,7 +3630,7 @@
         "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
       },
       "effectiveDateTime": "2010-01-18T09:42:00+00:00",
-      "issued": "2010-01-18T11:27:20.000+00:00",
+      "issued": "2010-01-18T09:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3662,7 +3662,7 @@
         "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
       },
       "effectiveDateTime": "2010-01-18T09:42:00+00:00",
-      "issued": "2010-01-18T11:27:20.000+00:00",
+      "issued": "2010-01-18T09:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3694,7 +3694,7 @@
         "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
       },
       "effectiveDateTime": "2010-01-18T09:42:00+00:00",
-      "issued": "2010-01-18T11:27:20.000+00:00",
+      "issued": "2010-01-18T09:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3726,7 +3726,7 @@
         "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
       },
       "effectiveDateTime": "2010-01-18T09:42:00+00:00",
-      "issued": "2010-01-18T11:27:20.000+00:00",
+      "issued": "2010-01-18T09:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3758,7 +3758,7 @@
         "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
       },
       "effectiveDateTime": "2010-01-18T09:42:00+00:00",
-      "issued": "2010-01-18T11:27:20.000+00:00",
+      "issued": "2010-01-18T09:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3790,7 +3790,7 @@
         "reference": "Encounter/D09EBBDF-1FD3-4546-986C-6203A09D3C6D"
       },
       "effectiveDateTime": "2010-01-18T09:42:00+00:00",
-      "issued": "2010-01-18T11:27:20.000+00:00",
+      "issued": "2010-01-18T09:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3822,7 +3822,7 @@
         "reference": "Encounter/6CE8318F-2230-47CE-86CC-5210130A00F5"
       },
       "effectiveDateTime": "2010-06-30T04:59:00+00:00",
-      "issued": "2010-06-30T04:48:04.000+00:00",
+      "issued": "2010-06-30T04:59:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3854,7 +3854,7 @@
         "reference": "Encounter/CF355E94-C4BB-44A8-A346-785A993F37F0"
       },
       "effectiveDateTime": "2011-02-11T13:46:00+00:00",
-      "issued": "2011-02-11T13:51:36.000+00:00",
+      "issued": "2011-02-11T13:46:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3886,7 +3886,7 @@
         "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
       },
       "effectiveDateTime": "2011-02-11T13:53:00+00:00",
-      "issued": "2011-02-11T14:02:43.000+00:00",
+      "issued": "2011-02-11T13:53:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3918,7 +3918,7 @@
         "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
       },
       "effectiveDateTime": "2010-12-04",
-      "issued": "2011-02-11T14:02:43.000+00:00",
+      "issued": "2010-12-04T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -3950,7 +3950,7 @@
         "reference": "Encounter/55315F2E-55D0-4737-B2BC-4E816F04770E"
       },
       "effectiveDateTime": "2011-02-11T13:53:00+00:00",
-      "issued": "2011-02-11T14:02:43.000+00:00",
+      "issued": "2011-02-11T13:53:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],

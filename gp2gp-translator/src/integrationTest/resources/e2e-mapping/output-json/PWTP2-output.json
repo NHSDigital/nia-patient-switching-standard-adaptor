@@ -7860,7 +7860,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "21719001",
-          "display": "Allergic rhinitis due to pollen"
+          "display": "Allergic rhinitis caused by pollen"
         } ],
         "text": "Allergic rhinitis due to pollens"
       },
@@ -8375,7 +8375,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "21719001",
-          "display": "Allergic rhinitis due to pollen"
+          "display": "Allergic rhinitis caused by pollen"
         } ],
         "text": "Allergic rhinitis due to pollens"
       },
@@ -9200,7 +9200,7 @@
         "reference": "Encounter/9B69EBA5-F541-4119-9142-0AA0F87E3758"
       },
       "effectiveDateTime": "2009-11-02",
-      "issued": "2010-01-13T15:13:32.000+00:00",
+      "issued": "2009-11-02T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],
@@ -9232,7 +9232,7 @@
         "reference": "Encounter/B618332C-F6FC-4A79-B193-580FD098B95C"
       },
       "effectiveDateTime": "2010-01-13T11:44:00+00:00",
-      "issued": "2010-01-13T11:37:33.000+00:00",
+      "issued": "2010-01-13T11:44:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -9264,7 +9264,7 @@
         "reference": "Encounter/F9ADFA5F-A4D0-469D-B22F-2F1787DD7F05"
       },
       "effectiveDateTime": "2010-01-13T11:48:00+00:00",
-      "issued": "2010-01-13T11:42:01.000+00:00",
+      "issued": "2010-01-13T11:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -9296,7 +9296,7 @@
         "reference": "Encounter/F550CC56-EF65-4934-A7B1-3DC2E02243C3"
       },
       "effectiveDateTime": "2010-01-13T15:20:00+00:00",
-      "issued": "2010-01-13T15:29:50.000+00:00",
+      "issued": "2010-01-13T15:20:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -9328,7 +9328,7 @@
         "reference": "Encounter/9B69F6AE-F991-49EE-9FFD-028E39B38BFE"
       },
       "effectiveDateTime": "2010-01-23T13:48:00+00:00",
-      "issued": "2010-01-23T14:03:54.000+00:00",
+      "issued": "2010-01-23T13:48:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -9360,7 +9360,7 @@
         "reference": "Encounter/D81C5E8F-CB3A-4A78-92EA-51EC3665648E"
       },
       "effectiveDateTime": "2010-06-09",
-      "issued": "2010-06-09T16:51:21.000+00:00",
+      "issued": "2010-06-09T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -9392,7 +9392,7 @@
         "reference": "Encounter/8FEB11AA-5785-43D3-99A9-E9D49EAF2161"
       },
       "effectiveDateTime": "2010-06-10T07:22:00+00:00",
-      "issued": "2010-06-10T07:19:25.000+00:00",
+      "issued": "2010-06-10T07:22:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -9424,7 +9424,7 @@
         "reference": "Encounter/4088F3A1-CE58-4374-AABA-763C31738281"
       },
       "effectiveDateTime": "2010-07-14T16:55:00+00:00",
-      "issued": "2010-07-14T15:28:13.000+00:00",
+      "issued": "2010-07-14T16:55:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -9453,7 +9453,7 @@
         "reference": "Patient/00000000-0000-0000-0000-000000000010"
       },
       "effectiveDateTime": "2010-07-14",
-      "issued": "2010-07-14T15:27:49.000+00:00",
+      "issued": "2010-07-14T00:00:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
