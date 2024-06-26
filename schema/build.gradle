@@ -8,8 +8,8 @@ repositories {
 }
 
 dependencies {
-    api 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
-    api 'com.sun.xml.bind:jaxb-impl:2.4.0-b180830.0438'
+    api 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
+    api 'com.sun.xml.bind:jaxb-impl:4.0.0'
     api 'com.sun.istack:istack-commons-runtime:4.1.0-M1'
 
     implementation 'org.apache.commons:commons-lang3:3.12.0'

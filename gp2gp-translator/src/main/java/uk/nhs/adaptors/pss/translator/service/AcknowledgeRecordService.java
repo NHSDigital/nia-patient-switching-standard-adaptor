@@ -14,7 +14,7 @@ import uk.nhs.adaptors.common.model.AcknowledgeRecordMessage;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import java.util.Map;
 
 import static uk.nhs.adaptors.common.enums.ConfirmationResponse.ABA_INCORRECT_PATIENT;

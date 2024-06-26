@@ -28,8 +28,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.ValidationException;
 import javax.xml.transform.TransformerException;
 
 import org.hl7.fhir.dstu3.model.Bundle;

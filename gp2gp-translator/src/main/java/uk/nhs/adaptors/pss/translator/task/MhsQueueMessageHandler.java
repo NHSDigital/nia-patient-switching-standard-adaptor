@@ -2,9 +2,9 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.xml.bind.JAXBException;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
 import org.hl7.v3.RCMRIN030000UK06Message;

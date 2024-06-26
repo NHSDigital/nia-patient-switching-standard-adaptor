@@ -18,7 +18,7 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import java.io.StringReader;
 import java.util.List;
 
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.ValidationException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 

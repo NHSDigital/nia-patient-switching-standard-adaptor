@@ -21,8 +21,8 @@ import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTA
 
 import java.util.ArrayList;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.ValidationException;
 import javax.xml.transform.TransformerException;
 
 import org.hl7.v3.RCMRIN030000UK06Message;
