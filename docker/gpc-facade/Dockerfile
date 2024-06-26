@@ -16,4 +16,4 @@ RUN mkdir /app
 
 COPY --from=build /home/gradle/service/gpc-api-facade/build/libs/gpc-api-facade.jar /app/gpc-api-facade.jar
 
-ENTRYPOINT ["java", "-cp", "/app/gpc-api-facade.jar", "-Dloader.main=uk.nhs.adaptors.pss.gpc.GpcFacadeApplication", "org.springframework.boot.loader.PropertiesLauncher"]
+ENTRYPOINT ["java", "-cp", "/app/gpc-api-facade.jar", "-Dloader.main=uk.nhs.adaptors.pss.gpc.GpcFacadeApplication", "org.springframework.boot.loader.launch.PropertiesLauncher"]
