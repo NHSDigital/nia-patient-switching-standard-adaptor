@@ -21,6 +21,10 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "gradle"
+    directory: "/schema"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
     directory: "/smoke-tests"
     schedule:
       interval: "weekly"
