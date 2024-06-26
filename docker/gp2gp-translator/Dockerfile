@@ -17,4 +17,4 @@ RUN mkdir /app
 
 COPY --from=build /home/gradle/service/gp2gp-translator/build/libs/gp2gp-translator.jar /app/gp2gp-translator.jar
 
-ENTRYPOINT ["java", "-cp", "/app/gp2gp-translator.jar", "-Dloader.main=uk.nhs.adaptors.pss.translator.Gp2gpTranslatorApplication", "org.springframework.boot.loader.PropertiesLauncher"]
+ENTRYPOINT ["java", "-cp", "/app/gp2gp-translator.jar", "-Dloader.main=uk.nhs.adaptors.pss.translator.Gp2gpTranslatorApplication", "org.springframework.boot.loader.launch.PropertiesLauncher"]
