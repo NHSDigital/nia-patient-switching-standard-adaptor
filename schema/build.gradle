@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     api 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
-    api 'com.sun.xml.bind:jaxb-impl:4.0.0'
+    api 'com.sun.xml.bind:jaxb-impl:4.0.5'
     api 'com.sun.istack:istack-commons-runtime:4.1.0-M1'
 
     implementation 'org.apache.commons:commons-lang3:3.12.0'
