@@ -94,7 +94,7 @@ public class InboundMessageMergingService {
                     Arrays.asList(bypassPayloadLoadingArray),
                     conversationId
             );
-            var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
+            var newPayloadStr = attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
                     messageAttachments,
                     conversationId,
                     inboundMessage.getPayload()
