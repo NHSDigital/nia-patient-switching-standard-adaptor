@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,12 +16,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.MedicationStatement complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.MedicationStatement complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.MedicationStatement"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.MedicationStatement"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -28,15 +30,15 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &amp;lt;element name="effectiveTime" type="{urn:hl7-org:v3}IVL_TS" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="availabilityTime" type="{urn:hl7-org:v3}TS"/&amp;gt;
  *         &amp;lt;element name="priorityCode" type="{urn:hl7-org:v3}CV" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="consumable" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Consumable" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="component" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Component2" maxOccurs="3" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="pertinentInformation" type="{urn:hl7-org:v3}RCMR_MT030101UK04.PertinentInformation" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="informant" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Informant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="Participant" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Participant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="replacementOf" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ReplacementOf" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="reason" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Reason" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="reference" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Reference" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="sequelTo" type="{urn:hl7-org:v3}RCMR_MT030101UK04.SequelTo" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="consumable" type="{urn:hl7-org:v3}RCMR_MT030101UK.Consumable" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="component" type="{urn:hl7-org:v3}RCMR_MT030101UK.Component2" maxOccurs="3" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="pertinentInformation" type="{urn:hl7-org:v3}RCMR_MT030101UK.PertinentInformation" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="informant" type="{urn:hl7-org:v3}RCMR_MT030101UK.Informant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="Participant" type="{urn:hl7-org:v3}RCMR_MT030101UK.Participant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="replacementOf" type="{urn:hl7-org:v3}RCMR_MT030101UK.ReplacementOf" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="reason" type="{urn:hl7-org:v3}RCMR_MT030101UK.Reason" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="reference" type="{urn:hl7-org:v3}RCMR_MT030101UK.Reference" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="sequelTo" type="{urn:hl7-org:v3}RCMR_MT030101UK.SequelTo" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="SubstanceAdministration" /&amp;gt;
  *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="SBADM" /&amp;gt;
@@ -61,7 +63,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.MedicationStatement", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.MedicationStatement", propOrder = {
     "id",
     "statusCode",
     "effectiveTime",
@@ -77,7 +79,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "reference",
     "sequelTo"
 })
-public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement {
+public class RCMRMT030101UKMedicationStatement {
 
     @XmlElement(required = true)
     protected II id;
@@ -92,31 +94,31 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
     protected CV priorityCode;
 
     @XmlElement(type = RCMRMT030101UKConsumable.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKConsumable> consumable;
+    protected List<RCMRMT030101UKConsumable> consumable;
 
     @XmlElement(type = RCMRMT030101UKComponent2.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKComponent2> component;
+    protected List<RCMRMT030101UKComponent2> component;
 
     @XmlElement(type = RCMRMT030101UKPertinentInformation.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation> pertinentInformation;
+    protected List<RCMRMT030101UKPertinentInformation> pertinentInformation;
 
     @XmlElement(type = RCMRMT030101UKInformant.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> informant;
+    protected List<RCMRMT030101UKInformant> informant;
 
     @XmlElement(name = "Participant", type = RCMRMT030101UKParticipant.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> participant;
+    protected List<RCMRMT030101UKParticipant> participant;
 
     @XmlElement(type = RCMRMT030101UKReplacementOf.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> replacementOf;
+    protected List<RCMRMT030101UKReplacementOf> replacementOf;
 
     @XmlElement(type = RCMRMT030101UKReason.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReason> reason;
+    protected List<RCMRMT030101UKReason> reason;
 
     @XmlElement(type = RCMRMT030101UKReference.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReference> reference;
+    protected List<RCMRMT030101UKReference> reference;
 
     @XmlElement(type = RCMRMT030101UKSequelTo.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> sequelTo;
+    protected List<RCMRMT030101UKSequelTo> sequelTo;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -146,7 +148,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link II }
      *     
      */
-    @Override
     public II getId() {
         return id;
     }
@@ -159,7 +160,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link II }
      *     
      */
-    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -172,7 +172,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link CS }
      *     
      */
-    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -185,7 +184,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link CS }
      *     
      */
-    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -198,7 +196,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link IVLTS }
      *     
      */
-    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -211,12 +208,10 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link IVLTS }
      *     
      */
-    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
 
-    @Override
     public boolean hasEffectiveTime() {
         return effectiveTime != null;
     }
@@ -229,7 +224,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link TS }
      *     
      */
-    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -242,7 +236,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link TS }
      *     
      */
-    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
@@ -255,7 +248,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link CV }
      *     
      */
-    @Override
     public CV getPriorityCode() {
         return priorityCode;
     }
@@ -268,7 +260,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link CV }
      *     
      */
-    @Override
     public void setPriorityCode(CV value) {
         this.priorityCode = value;
     }
@@ -295,15 +286,13 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKConsumable> getConsumable() {
+    public List<RCMRMT030101UKConsumable> getConsumable() {
         if (consumable == null) {
             consumable = new ArrayList<>();
         }
         return this.consumable;
     }
 
-    @Override
     public boolean hasConsumable() {
         return consumable != null && !consumable.isEmpty();
     }
@@ -330,15 +319,13 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKComponent2> getComponent() {
+    public List<RCMRMT030101UKComponent2> getComponent() {
         if (component == null) {
             component = new ArrayList<>();
         }
         return this.component;
     }
 
-    @Override
     public boolean hasComponent() {
         return component != null;
     }
@@ -365,15 +352,13 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation> getPertinentInformation() {
+    public List<RCMRMT030101UKPertinentInformation> getPertinentInformation() {
         if (pertinentInformation == null) {
             pertinentInformation = new ArrayList<>();
         }
         return this.pertinentInformation;
     }
 
-    @Override
     public boolean hasPertinentInformation() {
         return pertinentInformation != null && !pertinentInformation.isEmpty();
     }
@@ -400,8 +385,7 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> getInformant() {
+    public List<RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
             informant = new ArrayList<>();
         }
@@ -430,15 +414,13 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> getParticipant() {
+    public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
             participant = new ArrayList<>();
         }
         return this.participant;
     }
 
-    @Override
     public boolean hasParticipant() {
         return participant != null && !participant.isEmpty();
     }
@@ -465,8 +447,7 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> getReplacementOf() {
+    public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
             replacementOf = new ArrayList<>();
         }
@@ -495,8 +476,7 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKReason> getReason() {
+    public List<RCMRMT030101UKReason> getReason() {
         if (reason == null) {
             reason = new ArrayList<>();
         }
@@ -525,8 +505,7 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKReference> getReference() {
+    public List<RCMRMT030101UKReference> getReference() {
         if (reference == null) {
             reference = new ArrayList<>();
         }
@@ -555,8 +534,7 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> getSequelTo() {
+    public List<RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
             sequelTo = new ArrayList<>();
         }
@@ -571,13 +549,8 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "SubstanceAdministration";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "SubstanceAdministration");
     }
 
     /**
@@ -588,7 +561,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -615,7 +587,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -645,7 +616,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
             moodCode = new ArrayList<>();
@@ -675,7 +645,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -705,7 +674,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -721,7 +689,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -734,7 +701,6 @@ public class RCMRMT030101UKMedicationStatement implements org.hl7.v3.deprecated.
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

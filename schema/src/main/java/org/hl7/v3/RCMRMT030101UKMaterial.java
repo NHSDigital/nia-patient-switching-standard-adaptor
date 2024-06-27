@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,12 +16,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Material complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.Material complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Material"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.Material"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -50,12 +52,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Material", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.Material", propOrder = {
     "code",
     "quantity",
     "expirationTime"
 })
-public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT030101UKMaterial {
+public class RCMRMT030101UKMaterial {
 
     @XmlElement(required = true)
     protected CE code;
@@ -90,7 +92,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link CE }
      *     
      */
-    @Override
     public CE getCode() {
         return code;
     }
@@ -103,12 +104,10 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link CE }
      *     
      */
-    @Override
     public void setCode(CE value) {
         this.code = value;
     }
 
-    @Override
     public boolean hasCode() {
         return code != null;
     }
@@ -121,7 +120,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link PQ }
      *     
      */
-    @Override
     public PQ getQuantity() {
         return quantity;
     }
@@ -134,7 +132,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link PQ }
      *     
      */
-    @Override
     public void setQuantity(PQ value) {
         this.quantity = value;
     }
@@ -147,7 +144,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link TS }
      *     
      */
-    @Override
     public TS getExpirationTime() {
         return expirationTime;
     }
@@ -160,7 +156,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link TS }
      *     
      */
-    @Override
     public void setExpirationTime(TS value) {
         this.expirationTime = value;
     }
@@ -173,13 +168,8 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "ManufacturedMaterial";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "ManufacturedMaterial");
     }
 
     /**
@@ -190,7 +180,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -217,7 +206,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -247,7 +235,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * 
      */
-    @Override
     public List<String> getDeterminerCode() {
         if (determinerCode == null) {
             determinerCode = new ArrayList<>();
@@ -277,7 +264,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -307,7 +293,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -323,7 +308,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -336,7 +320,6 @@ public class RCMRMT030101UKMaterial implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

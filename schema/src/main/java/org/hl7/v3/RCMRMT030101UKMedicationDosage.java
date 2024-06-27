@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -107,11 +109,7 @@ public class RCMRMT030101UKMedicationDosage {
      *     
      */
     public String getType() {
-        if (type == null) {
-            return "SubstanceAdministration";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "SubstanceAdministration");
     }
 
     /**

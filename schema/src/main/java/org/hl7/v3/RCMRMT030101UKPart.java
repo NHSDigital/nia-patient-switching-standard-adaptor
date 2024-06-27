@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,12 +16,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Part complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101.Part complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Part"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101.Part"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -47,11 +49,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Part", propOrder = {
+@XmlType(name = "RCMR_MT030101.Part", propOrder = {
     "agent",
     "agentSDS"
 })
-public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKPart {
+public class RCMRMT030101UKPart {
 
     @XmlElement(name = "Agent")
     protected RCCTMT120101UK01Agent agent;
@@ -78,7 +80,6 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      *     {@link RCCTMT120101UK01Agent }
      *     
      */
-    @Override
     public RCCTMT120101UK01Agent getAgent() {
         return agent;
     }
@@ -91,7 +92,6 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      *     {@link RCCTMT120101UK01Agent }
      *     
      */
-    @Override
     public void setAgent(RCCTMT120101UK01Agent value) {
         this.agent = value;
     }
@@ -104,7 +104,6 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      *     {@link RCCTMT120101UK01AgentSDS }
      *     
      */
-    @Override
     public RCCTMT120101UK01AgentSDS getAgentSDS() {
         return agentSDS;
     }
@@ -117,7 +116,6 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      *     {@link RCCTMT120101UK01AgentSDS }
      *     
      */
-    @Override
     public void setAgentSDS(RCCTMT120101UK01AgentSDS value) {
         this.agentSDS = value;
     }
@@ -130,13 +128,8 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "RoleLink";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "RoleLink");
     }
 
     /**
@@ -147,7 +140,6 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -160,13 +152,8 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      *     {@link String }
      *     
      */
-    @Override
     public String getTypeCode() {
-        if (typeCode == null) {
-            return "PART";
-        } else {
-            return typeCode;
-        }
+        return Objects.requireNonNullElse(typeCode, "PART");
     }
 
     /**
@@ -177,7 +164,6 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      *     {@link String }
      *     
      */
-    @Override
     public void setTypeCode(String value) {
         this.typeCode = value;
     }
@@ -204,7 +190,6 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -234,7 +219,6 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -250,7 +234,6 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -263,7 +246,6 @@ public class RCMRMT030101UKPart implements org.hl7.v3.deprecated.RCMRMT030101UKP
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

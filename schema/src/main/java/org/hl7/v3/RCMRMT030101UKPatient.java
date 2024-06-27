@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,12 +16,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Patient complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101.Patient complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Patient"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101.Patient"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -47,10 +49,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Patient", propOrder = {
+@XmlType(name = "RCMR_MT030101.Patient", propOrder = {
     "id"
 })
-public class RCMRMT030101UKPatient implements org.hl7.v3.deprecated.RCMRMT030101UKPatient {
+public class RCMRMT030101UKPatient {
 
     @XmlElement(required = true)
     protected II id;
@@ -75,7 +77,6 @@ public class RCMRMT030101UKPatient implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link II }
      *     
      */
-    @Override
     public II getId() {
         return id;
     }
@@ -88,7 +89,6 @@ public class RCMRMT030101UKPatient implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link II }
      *     
      */
-    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -101,13 +101,8 @@ public class RCMRMT030101UKPatient implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Patient";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Patient");
     }
 
     /**
@@ -118,7 +113,6 @@ public class RCMRMT030101UKPatient implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -145,7 +139,6 @@ public class RCMRMT030101UKPatient implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -175,7 +168,6 @@ public class RCMRMT030101UKPatient implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -205,7 +197,6 @@ public class RCMRMT030101UKPatient implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -221,7 +212,6 @@ public class RCMRMT030101UKPatient implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -234,7 +224,6 @@ public class RCMRMT030101UKPatient implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

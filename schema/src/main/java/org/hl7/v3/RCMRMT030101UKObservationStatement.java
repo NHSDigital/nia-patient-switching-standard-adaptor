@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,12 +16,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.ObservationStatement complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.ObservationStatement complex type.
  *
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  *
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.ObservationStatement"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.ObservationStatement"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -32,16 +34,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &amp;lt;element name="uncertaintyCode" type="{urn:hl7-org:v3}CV" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="value" type="{urn:hl7-org:v3}ANY" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="interpretationCode" type="{urn:hl7-org:v3}CV" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="subject" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Subject" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="specimen" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Specimen" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="pertinentInformation" type="{urn:hl7-org:v3}RCMR_MT030101UK04.PertinentInformation02" maxOccurs="3" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="referenceRange" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ReferenceRange" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="informant" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Informant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="Participant" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Participant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="replacementOf" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ReplacementOf" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="reason" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Reason" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="reference" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Reference" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="sequelTo" type="{urn:hl7-org:v3}RCMR_MT030101UK04.SequelTo" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="subject" type="{urn:hl7-org:v3}RCMR_MT030101UK.Subject" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="specimen" type="{urn:hl7-org:v3}RCMR_MT030101UK.Specimen" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="pertinentInformation" type="{urn:hl7-org:v3}RCMR_MT030101UK.PertinentInformation02" maxOccurs="3" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="referenceRange" type="{urn:hl7-org:v3}RCMR_MT030101UK.ReferenceRange" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="informant" type="{urn:hl7-org:v3}RCMR_MT030101UK.Informant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="Participant" type="{urn:hl7-org:v3}RCMR_MT030101UK.Participant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="replacementOf" type="{urn:hl7-org:v3}RCMR_MT030101UK.ReplacementOf" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="reason" type="{urn:hl7-org:v3}RCMR_MT030101UK.Reason" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="reference" type="{urn:hl7-org:v3}RCMR_MT030101UK.Reference" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="sequelTo" type="{urn:hl7-org:v3}RCMR_MT030101UK.SequelTo" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Observation" /&amp;gt;
  *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="OBS" /&amp;gt;
@@ -66,7 +68,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.ObservationStatement", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.ObservationStatement", propOrder = {
     "id",
     "code",
     "statusCode",
@@ -87,7 +89,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "reference",
     "sequelTo"
 })
-public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement {
+public class RCMRMT030101UKObservationStatement {
 
     @XmlElement(required = true)
     protected II id;
@@ -107,34 +109,34 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
     protected CV interpretationCode;
 
     @XmlElement(type = RCMRMT030101UKSubject.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKSubject subject;
+    protected RCMRMT030101UKSubject subject;
 
     @XmlElement(type = RCMRMT030101UKSpecimen.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKSpecimen> specimen;
+    protected List<RCMRMT030101UKSpecimen> specimen;
 
     @XmlElement(type = RCMRMT030101UKPertinentInformation02.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation02> pertinentInformation;
+    protected List<RCMRMT030101UKPertinentInformation02> pertinentInformation;
 
     @XmlElement(type = RCMRMT030101UKReferenceRange.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReferenceRange> referenceRange;
+    protected List<RCMRMT030101UKReferenceRange> referenceRange;
 
     @XmlElement(type = RCMRMT030101UKInformant.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> informant;
+    protected List<RCMRMT030101UKInformant> informant;
 
     @XmlElement(name = "Participant", type = RCMRMT030101UKParticipant.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> participant;
+    protected List<RCMRMT030101UKParticipant> participant;
 
     @XmlElement(type = RCMRMT030101UKReplacementOf.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> replacementOf;
+    protected List<RCMRMT030101UKReplacementOf> replacementOf;
 
     @XmlElement(type = RCMRMT030101UKReason.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReason> reason;
+    protected List<RCMRMT030101UKReason> reason;
 
     @XmlElement(type = RCMRMT030101UKReference.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReference> reference;
+    protected List<RCMRMT030101UKReference> reference;
 
     @XmlElement(type = RCMRMT030101UKSequelTo.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> sequelTo;
+    protected List<RCMRMT030101UKSequelTo> sequelTo;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -159,7 +161,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link II }
      *
      */
-    @Override
     public II getId() {
         return id;
     }
@@ -172,7 +173,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link II }
      *
      */
-    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -185,7 +185,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link CD }
      *
      */
-    @Override
     public CD getCode() {
         return code;
     }
@@ -198,12 +197,10 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link CD }
      *
      */
-    @Override
     public void setCode(CD value) {
         this.code = value;
     }
 
-    @Override
     public boolean hasCode() {
         return code != null;
     }
@@ -216,7 +213,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link CS }
      *
      */
-    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -229,7 +225,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link CS }
      *
      */
-    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -242,7 +237,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link IVLTS }
      *
      */
-    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -255,12 +249,10 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link IVLTS }
      *
      */
-    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
 
-    @Override
     public boolean hasEffectiveTime() {
         return effectiveTime != null;
     }
@@ -273,7 +265,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link TS }
      *
      */
-    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -286,12 +277,10 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link TS }
      *
      */
-    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
 
-    @Override
     public boolean hasAvailabilityTime() {
         return availabilityTime != null;
     }
@@ -304,7 +293,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link CV }
      *
      */
-    @Override
     public CV getPriorityCode() {
         return priorityCode;
     }
@@ -317,7 +305,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link CV }
      *
      */
-    @Override
     public void setPriorityCode(CV value) {
         this.priorityCode = value;
     }
@@ -330,7 +317,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link CV }
      *
      */
-    @Override
     public CV getUncertaintyCode() {
         return uncertaintyCode;
     }
@@ -343,15 +329,14 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link CV }
      *
      */
-    @Override
     public void setUncertaintyCode(CV value) {
         this.uncertaintyCode = value;
     }
 
-    @Override
     public boolean hasUncertaintyCode() {
         return uncertaintyCode != null;
     }
+
     /**
      * Gets the value of the interpretationCode property.
      *
@@ -360,7 +345,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link CV }
      *
      */
-    @Override
     public CV getInterpretationCode() {
         return interpretationCode;
     }
@@ -373,7 +357,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link CV }
      *
      */
-    @Override
     public void setInterpretationCode(CV value) {
         this.interpretationCode = value;
     }
@@ -386,8 +369,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link RCMRMT030101UKSubject }
      *
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKSubject getSubject() {
+    public RCMRMT030101UKSubject getSubject() {
         return subject;
     }
 
@@ -399,8 +381,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link RCMRMT030101UKSubject }
      *
      */
-    @Override
-    public void setSubject(org.hl7.v3.deprecated.RCMRMT030101UKSubject value) {
+    public void setSubject(RCMRMT030101UKSubject value) {
         this.subject = value;
     }
 
@@ -426,8 +407,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKSpecimen> getSpecimen() {
+    public List<RCMRMT030101UKSpecimen> getSpecimen() {
         if (specimen == null) {
             specimen = new ArrayList<>();
         }
@@ -456,8 +436,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation02> getPertinentInformation() {
+    public List<RCMRMT030101UKPertinentInformation02> getPertinentInformation() {
         if (pertinentInformation == null) {
             pertinentInformation = new ArrayList<>();
         }
@@ -486,8 +465,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKReferenceRange> getReferenceRange() {
+    public List<RCMRMT030101UKReferenceRange> getReferenceRange() {
         if (referenceRange == null) {
             referenceRange = new ArrayList<>();
         }
@@ -516,8 +494,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> getInformant() {
+    public List<RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
             informant = new ArrayList<>();
         }
@@ -546,8 +523,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> getParticipant() {
+    public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
             participant = new ArrayList<>();
         }
@@ -576,8 +552,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> getReplacementOf() {
+    public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
             replacementOf = new ArrayList<>();
         }
@@ -606,8 +581,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKReason> getReason() {
+    public List<RCMRMT030101UKReason> getReason() {
         if (reason == null) {
             reason = new ArrayList<>();
         }
@@ -636,8 +610,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKReference> getReference() {
+    public List<RCMRMT030101UKReference> getReference() {
         if (reference == null) {
             reference = new ArrayList<>();
         }
@@ -666,8 +639,7 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> getSequelTo() {
+    public List<RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
             sequelTo = new ArrayList<>();
         }
@@ -682,13 +654,8 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link String }
      *
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Observation";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Observation");
     }
 
     /**
@@ -699,7 +666,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link String }
      *
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -726,7 +692,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -756,7 +721,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
             moodCode = new ArrayList<>();
@@ -786,7 +750,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -816,7 +779,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      *
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -832,7 +794,6 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link String }
      *
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -845,22 +806,18 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *     {@link String }
      *
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
 
-    @Override
     public Object getValue() {
         return value;
     }
-
-    @Override
+    
     public void setValue(Object value) {
         this.value = value;
     }
 
-    @Override
     public boolean hasValue() {
         return value != null;
     }

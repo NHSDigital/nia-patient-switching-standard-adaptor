@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,17 +16,17 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Participant complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101.Participant complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Participant"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101.Participant"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
  *         &amp;lt;element name="time" type="{urn:hl7-org:v3}IVL_TS" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="agentRef" type="{urn:hl7-org:v3}RCMR_MT030101UK04.AgentRef"/&amp;gt;
+ *         &amp;lt;element name="agentRef" type="{urn:hl7-org:v3}RCMR_MT030101.AgentRef"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Participation" /&amp;gt;
  *       &amp;lt;attribute name="typeCode" use="required" type="{urn:hl7-org:v3}ParticipationType" /&amp;gt;
@@ -49,16 +51,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Participant", propOrder = {
+@XmlType(name = "RCMR_MT030101.Participant", propOrder = {
     "time",
     "agentRef"
 })
-public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT030101UKParticipant {
+public class RCMRMT030101UKParticipant {
 
     protected IVLTS time;
 
     @XmlElement(required = true, type = RCMRMT030101UKAgentRef.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKAgentRef agentRef;
+    protected RCMRMT030101UKAgentRef agentRef;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -84,7 +86,6 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link IVLTS }
      *     
      */
-    @Override
     public IVLTS getTime() {
         return time;
     }
@@ -97,7 +98,6 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link IVLTS }
      *     
      */
-    @Override
     public void setTime(IVLTS value) {
         this.time = value;
     }
@@ -110,8 +110,7 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKAgentRef }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKAgentRef getAgentRef() {
+    public RCMRMT030101UKAgentRef getAgentRef() {
         return agentRef;
     }
 
@@ -123,8 +122,7 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKAgentRef }
      *     
      */
-    @Override
-    public void setAgentRef(org.hl7.v3.deprecated.RCMRMT030101UKAgentRef value) {
+    public void setAgentRef(RCMRMT030101UKAgentRef value) {
         this.agentRef = value;
     }
 
@@ -136,13 +134,8 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Participation";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Participation");
     }
 
     /**
@@ -153,7 +146,6 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -180,7 +172,6 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -210,7 +201,6 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * 
      */
-    @Override
     public List<String> getContextControlCode() {
         if (contextControlCode == null) {
             contextControlCode = new ArrayList<>();
@@ -240,7 +230,6 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -270,7 +259,6 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -286,7 +274,6 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -299,12 +286,10 @@ public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
 
-    @Override
     public boolean hasNullFlavour() {
         return nullFlavor != null && !nullFlavor.equals("");
     }
