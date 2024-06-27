@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,17 +16,17 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.InformantRole complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.InformantRole complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.InformantRole"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.InformantRole"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
  *         &amp;lt;element name="code" type="{urn:hl7-org:v3}CE" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="playingPerson" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Person" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="playingPerson" type="{urn:hl7-org:v3}RCMR_MT030101UK.Person" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="RoleHeir" /&amp;gt;
  *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}RoleClass" default="ROL" /&amp;gt;
@@ -48,15 +50,15 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.InformantRole", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.InformantRole", propOrder = {
     "code",
     "playingPerson"
 })
-public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT030101UKInformantRole {
+public class RCMRMT030101UKInformantRole {
 
     protected CE code;
     @XmlElement(type = RCMRMT030101UKPerson.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKPerson playingPerson;
+    protected RCMRMT030101UKPerson playingPerson;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -78,7 +80,6 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      *     {@link CE }
      *     
      */
-    @Override
     public CE getCode() {
         return code;
     }
@@ -91,7 +92,6 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      *     {@link CE }
      *     
      */
-    @Override
     public void setCode(CE value) {
         this.code = value;
     }
@@ -104,8 +104,7 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      *     {@link RCMRMT030101UKPerson }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKPerson getPlayingPerson() {
+    public RCMRMT030101UKPerson getPlayingPerson() {
         return playingPerson;
     }
 
@@ -117,8 +116,7 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      *     {@link RCMRMT030101UKPerson }
      *     
      */
-    @Override
-    public void setPlayingPerson(org.hl7.v3.deprecated.RCMRMT030101UKPerson value) {
+    public void setPlayingPerson(RCMRMT030101UKPerson value) {
         this.playingPerson = value;
     }
 
@@ -130,13 +128,8 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "RoleHeir";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "RoleHeir");
     }
 
     /**
@@ -147,7 +140,6 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -174,7 +166,6 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -204,7 +195,6 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -234,7 +224,6 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -250,7 +239,6 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -263,7 +251,6 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

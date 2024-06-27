@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,12 +16,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.ExternalDocument complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.ExternalDocument complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.ExternalDocument"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.ExternalDocument"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -29,7 +31,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &amp;lt;element name="effectiveTime" type="{urn:hl7-org:v3}IVL_TS" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="setId" type="{urn:hl7-org:v3}II" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="versionNumber" type="{urn:hl7-org:v3}INT" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="author" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Author4" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="author" type="{urn:hl7-org:v3}RCMR_MT030101UK.Author4" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Document" /&amp;gt;
  *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="DOC" /&amp;gt;
@@ -54,7 +56,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.ExternalDocument", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.ExternalDocument", propOrder = {
     "id",
     "code",
     "text",
@@ -63,7 +65,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "versionNumber",
     "author"
 })
-public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCMRMT030101UKExternalDocument {
+public class RCMRMT030101UKExternalDocument {
 
     @XmlElement(required = true)
     protected II id;
@@ -75,7 +77,7 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
     protected II setId;
     protected INT versionNumber;
     @XmlElement(type = RCMRMT030101UKAuthor4.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKAuthor4> author;
+    protected List<RCMRMT030101UKAuthor4> author;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -99,7 +101,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link II }
      *     
      */
-    @Override
     public II getId() {
         return id;
     }
@@ -112,7 +113,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link II }
      *     
      */
-    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -125,12 +125,10 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link CD }
      *     
      */
-    @Override
     public CD getCode() {
         return code;
     }
 
-    @Override
     public boolean hasCode() {
         return code != null;
     }
@@ -143,7 +141,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link CD }
      *     
      */
-    @Override
     public void setCode(CD value) {
         this.code = value;
     }
@@ -156,12 +153,10 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link ED }
      *     
      */
-    @Override
     public ED getText() {
         return text;
     }
 
-    @Override
     public boolean hasText() {
         return text != null;
     }
@@ -174,7 +169,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link ED }
      *     
      */
-    @Override
     public void setText(ED value) {
         this.text = value;
     }
@@ -187,7 +181,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link IVLTS }
      *     
      */
-    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -200,7 +193,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link IVLTS }
      *     
      */
-    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
@@ -213,7 +205,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link II }
      *     
      */
-    @Override
     public II getSetId() {
         return setId;
     }
@@ -226,7 +217,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link II }
      *     
      */
-    @Override
     public void setSetId(II value) {
         this.setId = value;
     }
@@ -239,7 +229,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link INT }
      *     
      */
-    @Override
     public INT getVersionNumber() {
         return versionNumber;
     }
@@ -252,7 +241,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link INT }
      *     
      */
-    @Override
     public void setVersionNumber(INT value) {
         this.versionNumber = value;
     }
@@ -279,8 +267,7 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKAuthor4> getAuthor() {
+    public List<RCMRMT030101UKAuthor4> getAuthor() {
         if (author == null) {
             author = new ArrayList<>();
         }
@@ -295,13 +282,8 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Document";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Document");
     }
 
     /**
@@ -312,7 +294,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -339,7 +320,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -369,7 +349,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      * 
      * 
      */
-    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
             moodCode = new ArrayList<>();
@@ -399,7 +378,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -429,7 +407,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -445,7 +422,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -458,7 +434,6 @@ public class RCMRMT030101UKExternalDocument implements org.hl7.v3.deprecated.RCM
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
