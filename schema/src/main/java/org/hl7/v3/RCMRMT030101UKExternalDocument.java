@@ -4,6 +4,7 @@ package org.hl7.v3;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -61,6 +62,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "code",
     "text",
     "effectiveTime",
+    "confidentialityCode",
     "setId",
     "versionNumber",
     "author"
@@ -74,6 +76,7 @@ public class RCMRMT030101UKExternalDocument {
     @XmlElement(required = true)
     protected ED text;
     protected IVLTS effectiveTime;
+    protected CV confidentialityCode;
     protected II setId;
     protected INT versionNumber;
     @XmlElement(type = RCMRMT030101UKAuthor4.class)
@@ -436,6 +439,14 @@ public class RCMRMT030101UKExternalDocument {
      */
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
+    }
+
+    public Optional<CV> getConfidentialityCode() {
+        return Optional.of(confidentialityCode);
+    }
+
+    public void setConfidentialityCode(CV confidentialityCode) {
+        this.confidentialityCode = confidentialityCode;
     }
 
 }

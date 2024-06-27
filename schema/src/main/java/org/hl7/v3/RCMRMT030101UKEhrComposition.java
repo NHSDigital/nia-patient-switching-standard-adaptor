@@ -4,6 +4,7 @@ package org.hl7.v3;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -65,6 +66,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "statusCode",
     "effectiveTime",
     "availabilityTime",
+    "confidentialityCode",
     "author",
     "location",
     "participant2",
@@ -83,6 +85,7 @@ public class RCMRMT030101UKEhrComposition {
     protected IVLTS effectiveTime;
     @XmlElement(required = true)
     protected TS availabilityTime;
+    protected CV confidentialityCode;
 
     @XmlElement(required = true, type = RCMRMT030101UKAuthor.class)
     protected RCMRMT030101UKAuthor author;
@@ -549,6 +552,14 @@ public class RCMRMT030101UKEhrComposition {
      */
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
+    }
+
+    public Optional<CV> getConfidentialityCode() {
+        return Optional.of(confidentialityCode);
+    }
+
+    public void setConfidentialityCode(CV confidentialityCode) {
+        this.confidentialityCode = confidentialityCode;
     }
 
 }

@@ -4,6 +4,7 @@ package org.hl7.v3;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -75,6 +76,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "effectiveTime",
     "availabilityTime",
     "priorityCode",
+    "confidentialityCode",
     "uncertaintyCode",
     "value",
     "interpretationCode",
@@ -102,6 +104,7 @@ public class RCMRMT030101UKObservationStatement {
     @XmlElement(required = true)
     protected TS availabilityTime;
     protected CV priorityCode;
+    protected CV confidentialityCode;
     protected CV uncertaintyCode;
 
     @XmlJavaTypeAdapter(ValueAdapter.class)
@@ -821,4 +824,13 @@ public class RCMRMT030101UKObservationStatement {
     public boolean hasValue() {
         return value != null;
     }
+
+    public Optional<CV> getConfidentialityCode() {
+        return Optional.of(confidentialityCode);
+    }
+
+    public void setConfidentialityCode(CV confidentialityCode) {
+        this.confidentialityCode = confidentialityCode;
+    }
+
 }
