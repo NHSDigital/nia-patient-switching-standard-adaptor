@@ -2,6 +2,7 @@ package org.hl7.v3;
 
 import java.util.List;
 
+@Deprecated
 public interface RCMRMT030101UKPart {
 
     RCCTMT120101UK01Agent getAgent();
