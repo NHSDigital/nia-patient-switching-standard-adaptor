@@ -21,8 +21,8 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
 import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.TS;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -364,9 +364,9 @@ public class ConsultationListMapperTest {
         return consultation;
     }
 
-    private RCMRMT030101UK04CompoundStatement setUpCompoundStatement(String originalText, String display,
-        String availabilityTime, boolean nullFlavorCode) {
-        RCMRMT030101UK04CompoundStatement compoundStatement = new RCMRMT030101UK04CompoundStatement();
+    private RCMRMT030101UKCompoundStatement setUpCompoundStatement(String originalText, String display,
+                                                                   String availabilityTime, boolean nullFlavorCode) {
+        RCMRMT030101UKCompoundStatement compoundStatement = new RCMRMT030101UKCompoundStatement();
         II id = new II();
         id.setRoot(COMPOUND_STATEMENT_ID);
 
@@ -401,8 +401,8 @@ public class ConsultationListMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
 }

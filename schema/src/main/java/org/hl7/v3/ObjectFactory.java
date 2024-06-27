@@ -143,11 +143,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04EhrExtract }
+     * Create an instance of {@link RCMRMT030101UKEhrExtract }
      * 
      */
-    public RCMRMT030101UK04EhrExtract createRCMRMT030101UK04EhrExtract() {
-        return new RCMRMT030101UK04EhrExtract();
+    public RCMRMT030101UKEhrExtract createRCMRMT030101UK04EhrExtract() {
+        return new RCMRMT030101UKEhrExtract();
     }
 
     /**
@@ -895,43 +895,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Author3 }
+     * Create an instance of {@link RCMRMT030101UKAuthor3 }
      * 
      */
-    public RCMRMT030101UK04Author3 createRCMRMT030101UK04Author3() {
-        return new RCMRMT030101UK04Author3();
+    public RCMRMT030101UKAuthor3 createRCMRMT030101UK04Author3() {
+        return new RCMRMT030101UKAuthor3();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Destination }
+     * Create an instance of {@link RCMRMT030101UKDestination }
      * 
      */
-    public RCMRMT030101UK04Destination createRCMRMT030101UK04Destination() {
-        return new RCMRMT030101UK04Destination();
+    public RCMRMT030101UKDestination createRCMRMT030101UK04Destination() {
+        return new RCMRMT030101UKDestination();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Component }
+     * Create an instance of {@link RCMRMT030101UKComponent }
      * 
      */
-    public RCMRMT030101UK04Component createRCMRMT030101UK04Component() {
-        return new RCMRMT030101UK04Component();
+    public RCMRMT030101UKComponent createRCMRMT030101UK04Component() {
+        return new RCMRMT030101UKComponent();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04EhrFolder }
+     * Create an instance of {@link RCMRMT030101UKEhrFolder }
      * 
      */
-    public RCMRMT030101UK04EhrFolder createRCMRMT030101UK04EhrFolder() {
-        return new RCMRMT030101UK04EhrFolder();
+    public RCMRMT030101UKEhrFolder createRCMRMT030101UK04EhrFolder() {
+        return new RCMRMT030101UKEhrFolder();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Author2 }
+     * Create an instance of {@link RCMRMT030101UKAuthor2 }
      * 
      */
-    public RCMRMT030101UK04Author2 createRCMRMT030101UK04Author2() {
-        return new RCMRMT030101UK04Author2();
+    public RCMRMT030101UKAuthor2 createRCMRMT030101UK04Author2() {
+        return new RCMRMT030101UKAuthor2();
     }
 
     /**
@@ -943,67 +943,67 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04AgentDirectory }
+     * Create an instance of {@link RCMRMT030101UKAgentDirectory }
      * 
      */
-    public RCMRMT030101UK04AgentDirectory createRCMRMT030101UK04AgentDirectory() {
-        return new RCMRMT030101UK04AgentDirectory();
+    public RCMRMT030101UKAgentDirectory createRCMRMT030101UK04AgentDirectory() {
+        return new RCMRMT030101UKAgentDirectory();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Part }
+     * Create an instance of {@link RCMRMT030101UKPart }
      * 
      */
-    public RCMRMT030101UK04Part createRCMRMT030101UK04Part() {
-        return new RCMRMT030101UK04Part();
+    public RCMRMT030101UKPart createRCMRMT030101UK04Part() {
+        return new RCMRMT030101UKPart();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Component3 }
+     * Create an instance of {@link RCMRMT030101UKComponent3 }
      * 
      */
-    public RCMRMT030101UK04Component3 createRCMRMT030101UK04Component3() {
-        return new RCMRMT030101UK04Component3();
+    public RCMRMT030101UKComponent3 createRCMRMT030101UK04Component3() {
+        return new RCMRMT030101UKComponent3();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04EhrComposition }
+     * Create an instance of {@link RCMRMT030101UKEhrComposition }
      * 
      */
-    public RCMRMT030101UK04EhrComposition createRCMRMT030101UK04EhrComposition() {
-        return new RCMRMT030101UK04EhrComposition();
+    public RCMRMT030101UKEhrComposition createRCMRMT030101UK04EhrComposition() {
+        return new RCMRMT030101UKEhrComposition();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Author }
+     * Create an instance of {@link RCMRMT030101UKAuthor }
      * 
      */
-    public RCMRMT030101UK04Author createRCMRMT030101UK04Author() {
-        return new RCMRMT030101UK04Author();
+    public RCMRMT030101UKAuthor createRCMRMT030101UK04Author() {
+        return new RCMRMT030101UKAuthor();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04AgentRef }
+     * Create an instance of {@link RCMRMT030101UKAgentRef }
      * 
      */
-    public RCMRMT030101UK04AgentRef createRCMRMT030101UK04AgentRef() {
-        return new RCMRMT030101UK04AgentRef();
+    public RCMRMT030101UKAgentRef createRCMRMT030101UK04AgentRef() {
+        return new RCMRMT030101UKAgentRef();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Location }
+     * Create an instance of {@link RCMRMT030101UKLocation }
      * 
      */
-    public RCMRMT030101UK04Location createRCMRMT030101UK04Location() {
-        return new RCMRMT030101UK04Location();
+    public RCMRMT030101UKLocation createRCMRMT030101UK04Location() {
+        return new RCMRMT030101UKLocation();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04LocatedEntity }
+     * Create an instance of {@link RCMRMT030101UKLocatedEntity }
      * 
      */
-    public RCMRMT030101UK04LocatedEntity createRCMRMT030101UK04LocatedEntity() {
-        return new RCMRMT030101UK04LocatedEntity();
+    public RCMRMT030101UKLocatedEntity createRCMRMT030101UK04LocatedEntity() {
+        return new RCMRMT030101UKLocatedEntity();
     }
 
     /**
@@ -1023,27 +1023,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Component4 }
+     * Create an instance of {@link RCMRMT030101UKComponent4 }
      * 
      */
-    public RCMRMT030101UK04Component4 createRCMRMT030101UK04Component4() {
-        return new RCMRMT030101UK04Component4();
+    public RCMRMT030101UKComponent4 createRCMRMT030101UK04Component4() {
+        return new RCMRMT030101UKComponent4();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Informant }
+     * Create an instance of {@link RCMRMT030101UKInformant }
      * 
      */
-    public RCMRMT030101UK04Informant createRCMRMT030101UK04Informant() {
-        return new RCMRMT030101UK04Informant();
+    public RCMRMT030101UKInformant createRCMRMT030101UK04Informant() {
+        return new RCMRMT030101UKInformant();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04InformantRole }
+     * Create an instance of {@link RCMRMT030101UKInformantRole }
      * 
      */
-    public RCMRMT030101UK04InformantRole createRCMRMT030101UK04InformantRole() {
-        return new RCMRMT030101UK04InformantRole();
+    public RCMRMT030101UKInformantRole createRCMRMT030101UK04InformantRole() {
+        return new RCMRMT030101UKInformantRole();
     }
 
     /**
@@ -1095,19 +1095,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04ExternalDocument }
+     * Create an instance of {@link RCMRMT030101UKExternalDocument }
      * 
      */
-    public RCMRMT030101UK04ExternalDocument createRCMRMT030101UK04ExternalDocument() {
-        return new RCMRMT030101UK04ExternalDocument();
+    public RCMRMT030101UKExternalDocument createRCMRMT030101UK04ExternalDocument() {
+        return new RCMRMT030101UKExternalDocument();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Author4 }
+     * Create an instance of {@link RCMRMT030101UKAuthor4 }
      * 
      */
-    public RCMRMT030101UK04Author4 createRCMRMT030101UK04Author4() {
-        return new RCMRMT030101UK04Author4();
+    public RCMRMT030101UKAuthor4 createRCMRMT030101UK04Author4() {
+        return new RCMRMT030101UKAuthor4();
     }
 
     /**
@@ -1119,11 +1119,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04CompoundStatement }
+     * Create an instance of {@link RCMRMT030101UKCompoundStatement }
      * 
      */
-    public RCMRMT030101UK04CompoundStatement createRCMRMT030101UK04CompoundStatement() {
-        return new RCMRMT030101UK04CompoundStatement();
+    public RCMRMT030101UKCompoundStatement createRCMRMT030101UK04CompoundStatement() {
+        return new RCMRMT030101UKCompoundStatement();
     }
 
     /**
@@ -1151,83 +1151,83 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Component02 }
+     * Create an instance of {@link RCMRMT030101UKComponent02 }
      * 
      */
-    public RCMRMT030101UK04Component02 createRCMRMT030101UK04Component02() {
-        return new RCMRMT030101UK04Component02();
+    public RCMRMT030101UKComponent02 createRCMRMT030101UK04Component02() {
+        return new RCMRMT030101UKComponent02();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04EhrEmpty }
+     * Create an instance of {@link RCMRMT030101UKEhrEmpty }
      * 
      */
-    public RCMRMT030101UK04EhrEmpty createRCMRMT030101UK04EhrEmpty() {
-        return new RCMRMT030101UK04EhrEmpty();
+    public RCMRMT030101UKEhrEmpty createRCMRMT030101UK04EhrEmpty() {
+        return new RCMRMT030101UKEhrEmpty();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04LinkSet }
+     * Create an instance of {@link RCMRMT030101UKLinkSet }
      * 
      */
-    public RCMRMT030101UK04LinkSet createRCMRMT030101UK04LinkSet() {
-        return new RCMRMT030101UK04LinkSet();
+    public RCMRMT030101UKLinkSet createRCMRMT030101UK04LinkSet() {
+        return new RCMRMT030101UKLinkSet();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Component6 }
+     * Create an instance of {@link RCMRMT030101UKComponent6 }
      * 
      */
-    public RCMRMT030101UK04Component6 createRCMRMT030101UK04Component6() {
-        return new RCMRMT030101UK04Component6();
+    public RCMRMT030101UKComponent6 createRCMRMT030101UK04Component6() {
+        return new RCMRMT030101UKComponent6();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04ConditionNamed }
+     * Create an instance of {@link RCMRMT030101UKConditionNamed }
      * 
      */
-    public RCMRMT030101UK04ConditionNamed createRCMRMT030101UK04ConditionNamed() {
-        return new RCMRMT030101UK04ConditionNamed();
+    public RCMRMT030101UKConditionNamed createRCMRMT030101UK04ConditionNamed() {
+        return new RCMRMT030101UKConditionNamed();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04MedicationStatement }
+     * Create an instance of {@link RCMRMT030101UKMedicationStatement }
      * 
      */
-    public RCMRMT030101UK04MedicationStatement createRCMRMT030101UK04MedicationStatement() {
-        return new RCMRMT030101UK04MedicationStatement();
+    public RCMRMT030101UKMedicationStatement createRCMRMT030101UK04MedicationStatement() {
+        return new RCMRMT030101UKMedicationStatement();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Consumable }
+     * Create an instance of {@link RCMRMT030101UKConsumable }
      * 
      */
-    public RCMRMT030101UK04Consumable createRCMRMT030101UK04Consumable() {
-        return new RCMRMT030101UK04Consumable();
+    public RCMRMT030101UKConsumable createRCMRMT030101UK04Consumable() {
+        return new RCMRMT030101UKConsumable();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04ManufacturedProduct }
+     * Create an instance of {@link RCMRMT030101UKManufacturedProduct }
      * 
      */
-    public RCMRMT030101UK04ManufacturedProduct createRCMRMT030101UK04ManufacturedProduct() {
-        return new RCMRMT030101UK04ManufacturedProduct();
+    public RCMRMT030101UKManufacturedProduct createRCMRMT030101UK04ManufacturedProduct() {
+        return new RCMRMT030101UKManufacturedProduct();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Material }
+     * Create an instance of {@link RCMRMT030101UKMaterial }
      * 
      */
-    public RCMRMT030101UK04Material createRCMRMT030101UK04Material() {
-        return new RCMRMT030101UK04Material();
+    public RCMRMT030101UKMaterial createRCMRMT030101UK04Material() {
+        return new RCMRMT030101UKMaterial();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Component2 }
+     * Create an instance of {@link RCMRMT030101UKComponent2 }
      * 
      */
-    public RCMRMT030101UK04Component2 createRCMRMT030101UK04Component2() {
-        return new RCMRMT030101UK04Component2();
+    public RCMRMT030101UKComponent2 createRCMRMT030101UK04Component2() {
+        return new RCMRMT030101UKComponent2();
     }
 
     /**
@@ -1263,11 +1263,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Authorise }
+     * Create an instance of {@link RCMRMT030101UKAuthorise }
      * 
      */
-    public RCMRMT030101UK04Authorise createRCMRMT030101UK04Authorise() {
-        return new RCMRMT030101UK04Authorise();
+    public RCMRMT030101UKAuthorise createRCMRMT030101UK04Authorise() {
+        return new RCMRMT030101UKAuthorise();
     }
 
     /**
@@ -1279,19 +1279,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04MedicationRef }
+     * Create an instance of {@link RCMRMT030101UKMedicationRef }
      * 
      */
-    public RCMRMT030101UK04MedicationRef createRCMRMT030101UK04MedicationRef() {
-        return new RCMRMT030101UK04MedicationRef();
+    public RCMRMT030101UKMedicationRef createRCMRMT030101UK04MedicationRef() {
+        return new RCMRMT030101UKMedicationRef();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Discontinue }
+     * Create an instance of {@link RCMRMT030101UKDiscontinue }
      * 
      */
-    public RCMRMT030101UK04Discontinue createRCMRMT030101UK04Discontinue() {
-        return new RCMRMT030101UK04Discontinue();
+    public RCMRMT030101UKDiscontinue createRCMRMT030101UK04Discontinue() {
+        return new RCMRMT030101UKDiscontinue();
     }
 
     /**
@@ -1303,19 +1303,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Dispense }
+     * Create an instance of {@link RCMRMT030101UKDispense }
      * 
      */
-    public RCMRMT030101UK04Dispense createRCMRMT030101UK04Dispense() {
-        return new RCMRMT030101UK04Dispense();
+    public RCMRMT030101UKDispense createRCMRMT030101UK04Dispense() {
+        return new RCMRMT030101UKDispense();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04InFulfillmentOf }
+     * Create an instance of {@link RCMRMT030101UKInFulfillmentOf }
      * 
      */
-    public RCMRMT030101UK04InFulfillmentOf createRCMRMT030101UK04InFulfillmentOf() {
-        return new RCMRMT030101UK04InFulfillmentOf();
+    public RCMRMT030101UKInFulfillmentOf createRCMRMT030101UK04InFulfillmentOf() {
+        return new RCMRMT030101UKInFulfillmentOf();
     }
 
     /**
@@ -1327,11 +1327,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04InFulfillmentOf02 }
+     * Create an instance of {@link RCMRMT030101UKInFulfillmentOf02 }
      * 
      */
-    public RCMRMT030101UK04InFulfillmentOf02 createRCMRMT030101UK04InFulfillmentOf02() {
-        return new RCMRMT030101UK04InFulfillmentOf02();
+    public RCMRMT030101UKInFulfillmentOf02 createRCMRMT030101UK04InFulfillmentOf02() {
+        return new RCMRMT030101UKInFulfillmentOf02();
     }
 
     /**
@@ -1343,27 +1343,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04MedicationDosage }
+     * Create an instance of {@link RCMRMT030101UKMedicationDosage }
      * 
      */
-    public RCMRMT030101UK04MedicationDosage createRCMRMT030101UK04MedicationDosage() {
-        return new RCMRMT030101UK04MedicationDosage();
+    public RCMRMT030101UKMedicationDosage createRCMRMT030101UK04MedicationDosage() {
+        return new RCMRMT030101UKMedicationDosage();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04NarrativeStatement }
+     * Create an instance of {@link RCMRMT030101UKNarrativeStatement }
      * 
      */
-    public RCMRMT030101UK04NarrativeStatement createRCMRMT030101UK04NarrativeStatement() {
-        return new RCMRMT030101UK04NarrativeStatement();
+    public RCMRMT030101UKNarrativeStatement createRCMRMT030101UK04NarrativeStatement() {
+        return new RCMRMT030101UKNarrativeStatement();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04ObservationStatement }
+     * Create an instance of {@link RCMRMT030101UKObservationStatement }
      * 
      */
-    public RCMRMT030101UK04ObservationStatement createRCMRMT030101UK04ObservationStatement() {
-        return new RCMRMT030101UK04ObservationStatement();
+    public RCMRMT030101UKObservationStatement createRCMRMT030101UK04ObservationStatement() {
+        return new RCMRMT030101UKObservationStatement();
     }
 
     /**
@@ -1399,11 +1399,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Annotation }
+     * Create an instance of {@link RCMRMT030101UKAnnotation }
      * 
      */
-    public RCMRMT030101UK04Annotation createRCMRMT030101UK04Annotation() {
-        return new RCMRMT030101UK04Annotation();
+    public RCMRMT030101UKAnnotation createRCMRMT030101UK04Annotation() {
+        return new RCMRMT030101UKAnnotation();
     }
 
     /**
@@ -1415,11 +1415,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04InterpretationRange }
+     * Create an instance of {@link RCMRMT030101UKInterpretationRange }
      * 
      */
-    public RCMRMT030101UK04InterpretationRange createRCMRMT030101UK04InterpretationRange() {
-        return new RCMRMT030101UK04InterpretationRange();
+    public RCMRMT030101UKInterpretationRange createRCMRMT030101UK04InterpretationRange() {
+        return new RCMRMT030101UKInterpretationRange();
     }
 
     /**
@@ -1471,43 +1471,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04CompositionRef }
+     * Create an instance of {@link RCMRMT030101UKCompositionRef }
      * 
      */
-    public RCMRMT030101UK04CompositionRef createRCMRMT030101UK04CompositionRef() {
-        return new RCMRMT030101UK04CompositionRef();
+    public RCMRMT030101UKCompositionRef createRCMRMT030101UK04CompositionRef() {
+        return new RCMRMT030101UKCompositionRef();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04InFulfillmentOf2 }
+     * Create an instance of {@link RCMRMT030101UKInFulfillmentOf2 }
      * 
      */
-    public RCMRMT030101UK04InFulfillmentOf2 createRCMRMT030101UK04InFulfillmentOf2() {
-        return new RCMRMT030101UK04InFulfillmentOf2();
+    public RCMRMT030101UKInFulfillmentOf2 createRCMRMT030101UK04InFulfillmentOf2() {
+        return new RCMRMT030101UKInFulfillmentOf2();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04EhrRequest }
+     * Create an instance of {@link RCMRMT030101UKEhrRequest }
      * 
      */
-    public RCMRMT030101UK04EhrRequest createRCMRMT030101UK04EhrRequest() {
-        return new RCMRMT030101UK04EhrRequest();
+    public RCMRMT030101UKEhrRequest createRCMRMT030101UK04EhrRequest() {
+        return new RCMRMT030101UKEhrRequest();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04Limitation }
+     * Create an instance of {@link RCMRMT030101UKLimitation }
      * 
      */
-    public RCMRMT030101UK04Limitation createRCMRMT030101UK04Limitation() {
-        return new RCMRMT030101UK04Limitation();
+    public RCMRMT030101UKLimitation createRCMRMT030101UK04Limitation() {
+        return new RCMRMT030101UKLimitation();
     }
 
     /**
-     * Create an instance of {@link RCMRMT030101UK04EhrExtractSpecification }
+     * Create an instance of {@link RCMRMT030101UKEhrExtractSpecification }
      * 
      */
-    public RCMRMT030101UK04EhrExtractSpecification createRCMRMT030101UK04EhrExtractSpecification() {
-        return new RCMRMT030101UK04EhrExtractSpecification();
+    public RCMRMT030101UKEhrExtractSpecification createRCMRMT030101UK04EhrExtractSpecification() {
+        return new RCMRMT030101UKEhrExtractSpecification();
     }
 
     /**
@@ -1805,16 +1805,16 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RCMRMT030101UK04EhrExtract }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RCMRMT030101UKEhrExtract }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link RCMRMT030101UK04EhrExtract }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link RCMRMT030101UKEhrExtract }{@code >}
      */
     @XmlElementDecl(namespace = NAMESPACEURI, name = "EhrExtract")
-    public JAXBElement<RCMRMT030101UK04EhrExtract> createEhrExtract(RCMRMT030101UK04EhrExtract value) {
-        return new JAXBElement<>(_EhrExtract_QNAME, RCMRMT030101UK04EhrExtract.class, null, value);
+    public JAXBElement<RCMRMT030101UKEhrExtract> createEhrExtract(RCMRMT030101UKEhrExtract value) {
+        return new JAXBElement<>(_EhrExtract_QNAME, RCMRMT030101UKEhrExtract.class, null, value);
     }
 
     /**
@@ -3550,23 +3550,23 @@ public class ObjectFactory {
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "ehrComposition")
-    public JAXBElement<RCMRMT030101UK04EhrComposition> createEhrComposition(RCMRMT030101UK04EhrComposition value) {
-        return new JAXBElement<>(_EHR_COMPOSITION_QNAME, RCMRMT030101UK04EhrComposition.class, null, value);
+    public JAXBElement<RCMRMT030101UKEhrComposition> createEhrComposition(RCMRMT030101UKEhrComposition value) {
+        return new JAXBElement<>(_EHR_COMPOSITION_QNAME, RCMRMT030101UKEhrComposition.class, null, value);
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "LinkSet")
-    public JAXBElement<RCMRMT030101UK04LinkSet> createLinkset(RCMRMT030101UK04LinkSet value) {
-        return new JAXBElement<>(_LINKSET_QNAME, RCMRMT030101UK04LinkSet.class, null, value);
+    public JAXBElement<RCMRMT030101UKLinkSet> createLinkset(RCMRMT030101UKLinkSet value) {
+        return new JAXBElement<>(_LINKSET_QNAME, RCMRMT030101UKLinkSet.class, null, value);
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "ObservationStatement")
-    public JAXBElement<RCMRMT030101UK04ObservationStatement> createObservationStatement(RCMRMT030101UK04ObservationStatement value) {
-        return new JAXBElement<>(_OBSERVATION_STATEMENT_QNAME, RCMRMT030101UK04ObservationStatement.class, null, value);
+    public JAXBElement<RCMRMT030101UKObservationStatement> createObservationStatement(RCMRMT030101UKObservationStatement value) {
+        return new JAXBElement<>(_OBSERVATION_STATEMENT_QNAME, RCMRMT030101UKObservationStatement.class, null, value);
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "agentDirectory")
-    public JAXBElement<RCMRMT030101UK04AgentDirectory> createAgentDirectory(RCMRMT030101UK04AgentDirectory value) {
-        return new JAXBElement<>(_AGENT_DIRECTORY_QNAME, RCMRMT030101UK04AgentDirectory.class, null, value);
+    public JAXBElement<RCMRMT030101UKAgentDirectory> createAgentDirectory(RCMRMT030101UKAgentDirectory value) {
+        return new JAXBElement<>(_AGENT_DIRECTORY_QNAME, RCMRMT030101UKAgentDirectory.class, null, value);
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "patient")
@@ -3585,27 +3585,27 @@ public class ObjectFactory {
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "ehrSupplyAuthorise")
-    public JAXBElement<RCMRMT030101UK04Authorise> createTelecom(RCMRMT030101UK04Authorise supplyAuthorise) {
-        return new JAXBElement<>(_EHR_SUPPLY_AUTHORISE, RCMRMT030101UK04Authorise.class, null, supplyAuthorise);
+    public JAXBElement<RCMRMT030101UKAuthorise> createTelecom(RCMRMT030101UKAuthorise supplyAuthorise) {
+        return new JAXBElement<>(_EHR_SUPPLY_AUTHORISE, RCMRMT030101UKAuthorise.class, null, supplyAuthorise);
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "MedicationStatement")
-    public JAXBElement<RCMRMT030101UK04MedicationStatement> createMedicationStatement(RCMRMT030101UK04MedicationStatement medicationStatement) {
-        return new JAXBElement<>(_MEDICATION_STATEMENT, RCMRMT030101UK04MedicationStatement.class, null, medicationStatement);
+    public JAXBElement<RCMRMT030101UKMedicationStatement> createMedicationStatement(RCMRMT030101UKMedicationStatement medicationStatement) {
+        return new JAXBElement<>(_MEDICATION_STATEMENT, RCMRMT030101UKMedicationStatement.class, null, medicationStatement);
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "consumable")
-    public JAXBElement<RCMRMT030101UK04Consumable> createConsumable(RCMRMT030101UK04Consumable consumable) {
-        return new JAXBElement<>(_CONSUMABLE, RCMRMT030101UK04Consumable.class, null, consumable);
+    public JAXBElement<RCMRMT030101UKConsumable> createConsumable(RCMRMT030101UKConsumable consumable) {
+        return new JAXBElement<>(_CONSUMABLE, RCMRMT030101UKConsumable.class, null, consumable);
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "CompoundStatement")
-    public JAXBElement<RCMRMT030101UK04CompoundStatement> createCompoundStatement(RCMRMT030101UK04CompoundStatement compoundStatement) {
-        return new JAXBElement<>(_COMPOUND_STATEMENT, RCMRMT030101UK04CompoundStatement.class, null, compoundStatement);
+    public JAXBElement<RCMRMT030101UKCompoundStatement> createCompoundStatement(RCMRMT030101UKCompoundStatement compoundStatement) {
+        return new JAXBElement<>(_COMPOUND_STATEMENT, RCMRMT030101UKCompoundStatement.class, null, compoundStatement);
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "NarrativeStatement")
-    public JAXBElement<RCMRMT030101UK04NarrativeStatement> createNarrativeStatement(RCMRMT030101UK04NarrativeStatement narrativeStatement) {
-        return new JAXBElement<>(_NARRATIVE_STATEMENT_QNAME, RCMRMT030101UK04NarrativeStatement.class, null, narrativeStatement);
+    public JAXBElement<RCMRMT030101UKNarrativeStatement> createNarrativeStatement(RCMRMT030101UKNarrativeStatement narrativeStatement) {
+        return new JAXBElement<>(_NARRATIVE_STATEMENT_QNAME, RCMRMT030101UKNarrativeStatement.class, null, narrativeStatement);
     }
 }

@@ -4,17 +4,17 @@ import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.II;
 import org.hl7.v3.INT;
-import org.hl7.v3.RCMRMT030101UK04Annotation;
-import org.hl7.v3.RCMRMT030101UK04Component;
-import org.hl7.v3.RCMRMT030101UK04Component3;
-import org.hl7.v3.RCMRMT030101UK04Component4;
-import org.hl7.v3.RCMRMT030101UK04ConditionNamed;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04EhrFolder;
-import org.hl7.v3.RCMRMT030101UK04Informant;
-import org.hl7.v3.RCMRMT030101UK04LinkSet;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKComponent4;
+import org.hl7.v3.RCMRMT030101UKConditionNamed;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKInformant;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04Participant;
 import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
 import org.hl7.v3.RCMRMT030101UK04Reason;
@@ -25,10 +25,6 @@ import org.hl7.v3.RCMRMT030101UK04SequelTo;
 import org.hl7.v3.RCMRMT030101UK04Specimen;
 import org.hl7.v3.RCMRMT030101UK04StatementRef;
 import org.hl7.v3.RCMRMT030101UK04Subject;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent4;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
@@ -298,7 +294,7 @@ class DuplicateObservationStatementMapperTest {
     @ParameterizedTest
     @MethodSource("generator")
     public void doesntMergeObservationWhereTheLinkedObservationFieldIsPopulated(
-            Consumer<RCMRMT030101UK04ObservationStatement> observation) {
+            Consumer<RCMRMT030101UKObservationStatement> observation) {
 
         var ehrExtract = createExtract(List.of(
                 createObservation("ID-2", "101", "This is an observation which ends with ellipses but there is more."),
@@ -315,7 +311,7 @@ class DuplicateObservationStatementMapperTest {
     @ParameterizedTest
     @MethodSource("generator")
     public void doesntMergeObservationWhereTheObservationFieldIsPopulated(
-            Consumer<RCMRMT030101UK04ObservationStatement> observation) {
+            Consumer<RCMRMT030101UKObservationStatement> observation) {
 
         var ehrExtract = createExtract(List.of(
                 createObservationWithFollowingFieldIsPopulated("ID-2", "101",
@@ -331,34 +327,34 @@ class DuplicateObservationStatementMapperTest {
     }
 
 
-    private static String firstPertinentInformationText(RCMRMT030101UKObservationStatement observationStatement) {
+    private static String firstPertinentInformationText(org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement observationStatement) {
         return observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
     }
 
-    private static List<RCMRMT030101UKComponent4> firstEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private static List<org.hl7.v3.deprecated.RCMRMT030101UKComponent4> firstEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
         return firstEhrComposition(firstEhrFolder(ehrExtract)).getComponent();
     }
 
-    private static RCMRMT030101UKEhrComposition firstEhrComposition(RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder) {
+    private static org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition firstEhrComposition(org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder) {
         return rcmrmt030101UKEhrFolder.getComponent().get(0).getEhrComposition();
     }
 
-    private static RCMRMT030101UKEhrComposition secondEhrComposition(RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder) {
+    private static org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition secondEhrComposition(org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder) {
         return rcmrmt030101UKEhrFolder.getComponent().get(1).getEhrComposition();
     }
 
-    private static RCMRMT030101UKEhrFolder firstEhrFolder(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private static org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder firstEhrFolder(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder();
     }
 
-    private static RCMRMT030101UKEhrFolder secondEhrFolder(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private static org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder secondEhrFolder(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(1).getEhrFolder();
     }
 
     @NotNull
-    private static RCMRMT030101UK04Component4 generateLinksetComponent(String namedConditionId) {
-        RCMRMT030101UK04Component4 component = generateLinksetComponent();
-        RCMRMT030101UK04ConditionNamed namedCondition = new RCMRMT030101UK04ConditionNamed();
+    private static RCMRMT030101UKComponent4 generateLinksetComponent(String namedConditionId) {
+        RCMRMT030101UKComponent4 component = generateLinksetComponent();
+        RCMRMT030101UKConditionNamed namedCondition = new RCMRMT030101UKConditionNamed();
         RCMRMT030101UK04StatementRef value2 = new RCMRMT030101UK04StatementRef();
         value2.setId(generateId(namedConditionId));
         namedCondition.setNamedStatementRef(value2);
@@ -367,45 +363,45 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @NotNull
-    private static RCMRMT030101UK04Component4 generateLinksetComponent() {
-        RCMRMT030101UK04Component4 component = new RCMRMT030101UK04Component4();
-        component.setLinkSet(new RCMRMT030101UK04LinkSet());
+    private static RCMRMT030101UKComponent4 generateLinksetComponent() {
+        RCMRMT030101UKComponent4 component = new RCMRMT030101UKComponent4();
+        component.setLinkSet(new RCMRMT030101UKLinkSet());
         return component;
     }
 
     @NotNull
-    private static RCMRMT030101UK04Component4 createObservation(String id, String code, String pertinentAnnotation) {
+    private static RCMRMT030101UKComponent4 createObservation(String id, String code, String pertinentAnnotation) {
         return createObservation(id, generateCodeableConcept(code), pertinentAnnotation, 1);
     }
 
     @NotNull
-    private static RCMRMT030101UK04Component4 createObservation(
+    private static RCMRMT030101UKComponent4 createObservation(
             String id, @NotNull CD code, String pertinentAnnotation, int annotationSequenceNumber) {
-        RCMRMT030101UK04Component4 rcmrmt030101UK04Component4 = new RCMRMT030101UK04Component4();
-        RCMRMT030101UK04ObservationStatement observationStatement = new RCMRMT030101UK04ObservationStatement();
+        RCMRMT030101UKComponent4 rcmrmt030101UKComponent4 = new RCMRMT030101UKComponent4();
+        RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
         observationStatement.setCode(code);
         observationStatement.setId(generateId(id));
         observationStatement.getPertinentInformation().add(getPertinentInformation(pertinentAnnotation, annotationSequenceNumber));
-        rcmrmt030101UK04Component4.setObservationStatement(observationStatement);
-        return rcmrmt030101UK04Component4;
+        rcmrmt030101UKComponent4.setObservationStatement(observationStatement);
+        return rcmrmt030101UKComponent4;
     }
 
     @NotNull
-    private static RCMRMT030101UK04Component4 createObservationWithFollowingFieldIsPopulated(
+    private static RCMRMT030101UKComponent4 createObservationWithFollowingFieldIsPopulated(
             String id, String code, String pertinentAnnotation, int annotationSequenceNumber,
-            Consumer<RCMRMT030101UK04ObservationStatement> observationLambda) {
-        RCMRMT030101UK04Component4 rcmrmt030101UK04Component4 = new RCMRMT030101UK04Component4();
-        RCMRMT030101UK04ObservationStatement observationStatement = new RCMRMT030101UK04ObservationStatement();
+            Consumer<RCMRMT030101UKObservationStatement> observationLambda) {
+        RCMRMT030101UKComponent4 rcmrmt030101UKComponent4 = new RCMRMT030101UKComponent4();
+        RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
         observationStatement.setCode(generateCodeableConcept(code));
         observationStatement.setId(generateId(id));
         observationStatement.getPertinentInformation().add(getPertinentInformation(pertinentAnnotation, annotationSequenceNumber));
         observationLambda.accept(observationStatement);
-        rcmrmt030101UK04Component4.setObservationStatement(observationStatement);
-        return rcmrmt030101UK04Component4;
+        rcmrmt030101UKComponent4.setObservationStatement(observationStatement);
+        return rcmrmt030101UKComponent4;
     }
 
     @NotNull
-    private static RCMRMT030101UK04Component4 createObservationWithMultiplePertinentInformation(
+    private static RCMRMT030101UKComponent4 createObservationWithMultiplePertinentInformation(
             String id, String code, String pertinentAnnotation) {
         var observation = createObservation(id, code, pertinentAnnotation);
         observation.getObservationStatement().getPertinentInformation().add(
@@ -423,8 +419,8 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @NotNull
-    private static RCMRMT030101UK04Annotation getAnnotation(String pertinentAnnotation) {
-        RCMRMT030101UK04Annotation annotation = new RCMRMT030101UK04Annotation();
+    private static RCMRMT030101UKAnnotation getAnnotation(String pertinentAnnotation) {
+        RCMRMT030101UKAnnotation annotation = new RCMRMT030101UKAnnotation();
         annotation.setText(pertinentAnnotation);
         return annotation;
     }
@@ -450,76 +446,76 @@ class DuplicateObservationStatementMapperTest {
         return value;
     }
 
-    private static RCMRMT030101UK04EhrExtract createExtract(RCMRMT030101UK04Component... folders) {
-        RCMRMT030101UK04EhrExtract rcmrmt030101UK04EhrExtract = new RCMRMT030101UK04EhrExtract();
+    private static RCMRMT030101UKEhrExtract createExtract(RCMRMT030101UKComponent... folders) {
+        RCMRMT030101UKEhrExtract rcmrmt030101UKEhrExtract = new RCMRMT030101UKEhrExtract();
         for (var folder : folders) {
-            rcmrmt030101UK04EhrExtract.getComponent().add(folder);
+            rcmrmt030101UKEhrExtract.getComponent().add(folder);
         }
-        return rcmrmt030101UK04EhrExtract;
+        return rcmrmt030101UKEhrExtract;
     }
 
     @SafeVarargs
-    private static RCMRMT030101UK04EhrExtract createExtract(List<RCMRMT030101UK04Component4>... components) {
+    private static RCMRMT030101UKEhrExtract createExtract(List<RCMRMT030101UKComponent4>... components) {
         return createExtract(createEhrFolder(components));
     }
 
     @NotNull
     @SafeVarargs
-    private static RCMRMT030101UK04Component createEhrFolder(List<RCMRMT030101UK04Component4>... components) {
-        RCMRMT030101UK04Component rcmrmt030101UK04Component = new RCMRMT030101UK04Component();
-        RCMRMT030101UK04EhrFolder rcmrmt030101UK04EhrFolder = new RCMRMT030101UK04EhrFolder();
-        for (List<RCMRMT030101UK04Component4> component : components) {
-            rcmrmt030101UK04EhrFolder.getComponent().add(generateEhrComposition(component));
+    private static RCMRMT030101UKComponent createEhrFolder(List<RCMRMT030101UKComponent4>... components) {
+        RCMRMT030101UKComponent rcmrmt030101UKComponent = new RCMRMT030101UKComponent();
+        RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder = new RCMRMT030101UKEhrFolder();
+        for (List<RCMRMT030101UKComponent4> component : components) {
+            rcmrmt030101UKEhrFolder.getComponent().add(generateEhrComposition(component));
         }
-        rcmrmt030101UK04Component.setEhrFolder(rcmrmt030101UK04EhrFolder);
-        return rcmrmt030101UK04Component;
+        rcmrmt030101UKComponent.setEhrFolder(rcmrmt030101UKEhrFolder);
+        return rcmrmt030101UKComponent;
     }
 
     @NotNull
-    private static RCMRMT030101UK04Component3 generateEhrComposition(List<RCMRMT030101UK04Component4> components) {
-        RCMRMT030101UK04Component3 rcmrmt030101UK04Component3 = new RCMRMT030101UK04Component3();
-        RCMRMT030101UK04EhrComposition rcmrmt030101UK04EhrComposition = new RCMRMT030101UK04EhrComposition();
-        rcmrmt030101UK04EhrComposition.getComponent().addAll(components);
-        rcmrmt030101UK04Component3.setEhrComposition(rcmrmt030101UK04EhrComposition);
-        return rcmrmt030101UK04Component3;
+    private static RCMRMT030101UKComponent3 generateEhrComposition(List<RCMRMT030101UKComponent4> components) {
+        RCMRMT030101UKComponent3 rcmrmt030101UKComponent3 = new RCMRMT030101UKComponent3();
+        RCMRMT030101UKEhrComposition rcmrmt030101UKEhrComposition = new RCMRMT030101UKEhrComposition();
+        rcmrmt030101UKEhrComposition.getComponent().addAll(components);
+        rcmrmt030101UKComponent3.setEhrComposition(rcmrmt030101UKEhrComposition);
+        return rcmrmt030101UKComponent3;
     }
 
     private static Stream<Arguments> generator() {
 
         return Stream.of(
-                Arguments.of(Named.of("Priority Code", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.setPriorityCode(new CV()))),
-                Arguments.of(Named.of("Uncertainity Code", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.setUncertaintyCode(new CV()))),
-                Arguments.of(Named.of("Value Code", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.setValue(new CV()))),
-                Arguments.of(Named.of("Interpretation Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.setValue(new CV()))),
-                Arguments.of(Named.of("Subject Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.setSubject(new RCMRMT030101UK04Subject()))),
-                Arguments.of(Named.of("Specimen Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getSpecimen()
+                Arguments.of(Named.of("Priority Code", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.setPriorityCode(new CV()))),
+                Arguments.of(Named.of("Uncertainity Code", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.setUncertaintyCode(new CV()))),
+                Arguments.of(Named.of("Value Code", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.setValue(new CV()))),
+                Arguments.of(Named.of("Interpretation Value", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.setValue(new CV()))),
+                Arguments.of(Named.of("Subject Value", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.setSubject(new RCMRMT030101UK04Subject()))),
+                Arguments.of(Named.of("Specimen Value", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.getSpecimen()
                                 .add(new RCMRMT030101UK04Specimen()))),
-                Arguments.of(Named.of("Reference Range Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getReferenceRange()
+                Arguments.of(Named.of("Reference Range Value", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.getReferenceRange()
                                 .add(new RCMRMT030101UK04ReferenceRange()))),
-                Arguments.of(Named.of("Informant Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getInformant()
-                                .add(new RCMRMT030101UK04Informant()))),
-                Arguments.of(Named.of("Participant Value", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getParticipant()
+                Arguments.of(Named.of("Informant Value", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.getInformant()
+                                .add(new RCMRMT030101UKInformant()))),
+                Arguments.of(Named.of("Participant Value", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.getParticipant()
                                 .add(new RCMRMT030101UK04Participant()))),
-                Arguments.of(Named.of("ReplacementOf Value ", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getReplacementOf()
+                Arguments.of(Named.of("ReplacementOf Value ", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.getReplacementOf()
                                 .add(new RCMRMT030101UK04ReplacementOf()))),
-                Arguments.of(Named.of("Reason Value ", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getReason()
+                Arguments.of(Named.of("Reason Value ", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.getReason()
                                 .add(new RCMRMT030101UK04Reason()))),
-                Arguments.of(Named.of("Reference Value ", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getReference()
+                Arguments.of(Named.of("Reference Value ", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.getReference()
                                 .add(new RCMRMT030101UK04Reference()))),
-                Arguments.of(Named.of("SequelTo Value ", (Consumer<RCMRMT030101UK04ObservationStatement>)
-                        (RCMRMT030101UK04ObservationStatement observation) -> observation.getSequelTo()
+                Arguments.of(Named.of("SequelTo Value ", (Consumer<RCMRMT030101UKObservationStatement>)
+                        (RCMRMT030101UKObservationStatement observation) -> observation.getSequelTo()
                                 .add(new RCMRMT030101UK04SequelTo())))
         );
     }

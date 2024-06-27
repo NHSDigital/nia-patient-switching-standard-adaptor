@@ -21,7 +21,7 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -426,7 +426,7 @@ public class ReferralRequestMapperTest {
             .isEqualTo(1);
     }
 
-    private RCMRMT030101UKRequestStatement getNestedRequestStatement(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private RCMRMT030101UKRequestStatement getNestedRequestStatement(RCMRMT030101UKEhrComposition ehrComposition) {
         return ehrComposition.getComponent()
             .get(0)
             .getCompoundStatement()
@@ -457,8 +457,8 @@ public class ReferralRequestMapperTest {
         );
     }
 
-    private static ReferralRequest mapReferralRequest(RCMRMT030101UK04EhrComposition ehrComposition,
-        Function<RCMRMT030101UK04EhrComposition, RCMRMT030101UKRequestStatement> extractRequestStatement) {
+    private static ReferralRequest mapReferralRequest(RCMRMT030101UKEhrComposition ehrComposition,
+                                                      Function<RCMRMT030101UKEhrComposition, RCMRMT030101UKRequestStatement> extractRequestStatement) {
 
         var requestStatement = extractRequestStatement.apply(ehrComposition);
 
@@ -477,14 +477,14 @@ public class ReferralRequestMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrComposition unmarshallEhrCompositionElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrComposition.class);
+    private RCMRMT030101UKEhrComposition unmarshallEhrCompositionElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrComposition.class);
     }
 
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrComposition unmarshallStringToEhrCompositionElement(String inputXml) {
-        return unmarshallString(inputXml, RCMRMT030101UK04EhrComposition.class);
+    private RCMRMT030101UKEhrComposition unmarshallStringToEhrCompositionElement(String inputXml) {
+        return unmarshallString(inputXml, RCMRMT030101UKEhrComposition.class);
     }
 
 }

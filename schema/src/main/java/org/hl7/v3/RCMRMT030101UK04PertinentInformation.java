@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.RCMRMT030101UKMedicationDosage;
 import org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation;
 
 
@@ -54,8 +53,8 @@ import org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation;
 })
 public class RCMRMT030101UK04PertinentInformation implements RCMRMT030101UKPertinentInformation {
 
-    @XmlElement(required = true, type = RCMRMT030101UK04MedicationDosage.class)
-    protected RCMRMT030101UKMedicationDosage pertinentMedicationDosage;
+    @XmlElement(required = true, type = RCMRMT030101UKMedicationDosage.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKMedicationDosage pertinentMedicationDosage;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -75,11 +74,11 @@ public class RCMRMT030101UK04PertinentInformation implements RCMRMT030101UKPerti
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04MedicationDosage }
+     *     {@link RCMRMT030101UKMedicationDosage }
      *     
      */
     @Override
-    public RCMRMT030101UKMedicationDosage getPertinentMedicationDosage() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKMedicationDosage getPertinentMedicationDosage() {
         return pertinentMedicationDosage;
     }
 
@@ -88,11 +87,11 @@ public class RCMRMT030101UK04PertinentInformation implements RCMRMT030101UKPerti
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04MedicationDosage }
+     *     {@link RCMRMT030101UKMedicationDosage }
      *     
      */
     @Override
-    public void setPertinentMedicationDosage(RCMRMT030101UKMedicationDosage value) {
+    public void setPertinentMedicationDosage(org.hl7.v3.deprecated.RCMRMT030101UKMedicationDosage value) {
         this.pertinentMedicationDosage = value;
     }
 

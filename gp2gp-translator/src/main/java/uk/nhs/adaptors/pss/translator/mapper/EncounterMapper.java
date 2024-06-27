@@ -34,7 +34,7 @@ import org.hl7.v3.deprecated.RCMRMT030101UKComponent;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent3;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent4;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.deprecated.RCMRMT030101UKLinkSet;
 import org.hl7.v3.deprecated.RCMRMT030101UKAuthor;
@@ -80,7 +80,7 @@ public class EncounterMapper {
     private final ResourceReferenceUtil resourceReferenceUtil;
 
     public Map<String, List<? extends DomainResource>> mapEncounters(
-            RCMRMT030101UK04EhrExtract ehrExtract,
+            RCMRMT030101UKEhrExtract ehrExtract,
             Patient patient,
             String practiseCode,
             List<Location> entryLocations
@@ -242,7 +242,7 @@ public class EncounterMapper {
         return compoundStatement != null && CATEGORY_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
     }
 
-    private List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract
             .getComponent()
             .stream()

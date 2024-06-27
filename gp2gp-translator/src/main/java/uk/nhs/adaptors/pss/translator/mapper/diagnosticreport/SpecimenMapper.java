@@ -21,9 +21,8 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Specimen;
 import org.hl7.fhir.dstu3.model.Specimen.SpecimenCollectionComponent;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.deprecated.RCMRMT030101UKSpecimenRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +41,8 @@ public class SpecimenMapper {
 
     private final DateTimeMapper dateTimeMapper;
 
-    public List<Specimen> mapSpecimen(RCMRMT030101UK04EhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports,
-        Patient patient, String practiceCode) {
+    public List<Specimen> mapSpecimen(RCMRMT030101UKEhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports,
+                                      Patient patient, String practiceCode) {
 
         return diagnosticReports.stream()
             .flatMap(diagnosticReport -> diagnosticReport.getSpecimen().stream())
@@ -58,7 +57,7 @@ public class SpecimenMapper {
             .toList();
     }
 
-    public List<Observation> removeSurplusObservationComments(RCMRMT030101UK04EhrExtract ehrExtract,
+    public List<Observation> removeSurplusObservationComments(RCMRMT030101UKEhrExtract ehrExtract,
                                                               List<Observation> observationComments) {
 
         var specimenCompoundStatements = findAllSpecimenCompoundStatements(ehrExtract);
@@ -153,7 +152,7 @@ public class SpecimenMapper {
     }
 
     private Optional<RCMRMT030101UKCompoundStatement> getParentCompoundStatementByChildId(
-        RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+        RCMRMT030101UKEhrExtract ehrExtract, String id) {
 
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
@@ -167,7 +166,7 @@ public class SpecimenMapper {
             ).findFirst();
     }
 
-    private List<RCMRMT030101UKCompoundStatement> findAllSpecimenCompoundStatements(RCMRMT030101UKEhrExtract ehrExtract) {
+    private List<RCMRMT030101UKCompoundStatement> findAllSpecimenCompoundStatements(org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract ehrExtract) {
 
         var topLevelComponents = ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())

@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.RCMRMT030101UKAnnotation;
 import org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation02;
 
 
@@ -59,8 +58,8 @@ public class RCMRMT030101UK04PertinentInformation02 implements RCMRMT030101UKPer
     @XmlElement(required = true)
     protected INT sequenceNumber;
 
-    @XmlElement(required = true, type = RCMRMT030101UK04Annotation.class)
-    protected RCMRMT030101UKAnnotation pertinentAnnotation;
+    @XmlElement(required = true, type = RCMRMT030101UKAnnotation.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKAnnotation pertinentAnnotation;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -106,11 +105,11 @@ public class RCMRMT030101UK04PertinentInformation02 implements RCMRMT030101UKPer
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04Annotation }
+     *     {@link RCMRMT030101UKAnnotation }
      *     
      */
     @Override
-    public RCMRMT030101UKAnnotation getPertinentAnnotation() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKAnnotation getPertinentAnnotation() {
         return pertinentAnnotation;
     }
 
@@ -119,11 +118,11 @@ public class RCMRMT030101UK04PertinentInformation02 implements RCMRMT030101UKPer
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04Annotation }
+     *     {@link RCMRMT030101UKAnnotation }
      *     
      */
     @Override
-    public void setPertinentAnnotation(RCMRMT030101UKAnnotation value) {
+    public void setPertinentAnnotation(org.hl7.v3.deprecated.RCMRMT030101UKAnnotation value) {
         this.pertinentAnnotation = value;
     }
 

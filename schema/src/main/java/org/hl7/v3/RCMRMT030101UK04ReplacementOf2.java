@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.RCMRMT030101UKCompositionRef;
 import org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf2;
 
 
@@ -54,8 +53,8 @@ import org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf2;
 })
 public class RCMRMT030101UK04ReplacementOf2 implements RCMRMT030101UKReplacementOf2 {
 
-    @XmlElement(required = true, type = RCMRMT030101UK04CompositionRef.class)
-    protected RCMRMT030101UKCompositionRef priorCompositionRef;
+    @XmlElement(required = true, type = RCMRMT030101UKCompositionRef.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKCompositionRef priorCompositionRef;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -74,11 +73,11 @@ public class RCMRMT030101UK04ReplacementOf2 implements RCMRMT030101UKReplacement
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04CompositionRef }
+     *     {@link RCMRMT030101UKCompositionRef }
      *     
      */
     @Override
-    public RCMRMT030101UKCompositionRef getPriorCompositionRef() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKCompositionRef getPriorCompositionRef() {
         return priorCompositionRef;
     }
 
@@ -87,11 +86,11 @@ public class RCMRMT030101UK04ReplacementOf2 implements RCMRMT030101UKReplacement
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04CompositionRef }
+     *     {@link RCMRMT030101UKCompositionRef }
      *     
      */
     @Override
-    public void setPriorCompositionRef(RCMRMT030101UKCompositionRef value) {
+    public void setPriorCompositionRef(org.hl7.v3.deprecated.RCMRMT030101UKCompositionRef value) {
         this.priorCompositionRef = value;
     }
 

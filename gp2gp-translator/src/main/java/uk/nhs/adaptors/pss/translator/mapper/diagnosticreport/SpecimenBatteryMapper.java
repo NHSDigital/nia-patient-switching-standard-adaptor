@@ -30,7 +30,7 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract;
@@ -275,7 +275,7 @@ public class SpecimenBatteryMapper {
         return extractResourcesFromCompound(batteryCompoundStatement, RCMRMT030101UKComponent02::hasObservationStatement,
             RCMRMT030101UKComponent02::getObservationStatement)
             .stream()
-            .map(RCMRMT030101UK04ObservationStatement.class::cast)
+            .map(RCMRMT030101UKObservationStatement.class::cast)
             .map(observationStatement -> new Reference(new IdType(ResourceType.Observation.name(), observationStatement.getId().getRoot())))
             .map(reference -> new ObservationRelatedComponent().setTarget(reference)
                 .setType(ObservationRelationshipType.HASMEMBER));

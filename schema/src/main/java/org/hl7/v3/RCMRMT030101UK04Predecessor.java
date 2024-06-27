@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.RCMRMT030101UKMedicationRef;
 import org.hl7.v3.deprecated.RCMRMT030101UKPredecessor;
 
 
@@ -54,8 +53,8 @@ import org.hl7.v3.deprecated.RCMRMT030101UKPredecessor;
 })
 public class RCMRMT030101UK04Predecessor implements RCMRMT030101UKPredecessor {
 
-    @XmlElement(required = true, type = RCMRMT030101UK04MedicationRef.class)
-    protected RCMRMT030101UKMedicationRef priorMedicationRef;
+    @XmlElement(required = true, type = RCMRMT030101UKMedicationRef.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKMedicationRef priorMedicationRef;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -76,11 +75,11 @@ public class RCMRMT030101UK04Predecessor implements RCMRMT030101UKPredecessor {
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04MedicationRef }
+     *     {@link RCMRMT030101UKMedicationRef }
      *     
      */
     @Override
-    public RCMRMT030101UKMedicationRef getPriorMedicationRef() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKMedicationRef getPriorMedicationRef() {
         return priorMedicationRef;
     }
 
@@ -89,11 +88,11 @@ public class RCMRMT030101UK04Predecessor implements RCMRMT030101UKPredecessor {
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04MedicationRef }
+     *     {@link RCMRMT030101UKMedicationRef }
      *     
      */
     @Override
-    public void setPriorMedicationRef(RCMRMT030101UKMedicationRef value) {
+    public void setPriorMedicationRef(org.hl7.v3.deprecated.RCMRMT030101UKMedicationRef value) {
         this.priorMedicationRef = value;
     }
 

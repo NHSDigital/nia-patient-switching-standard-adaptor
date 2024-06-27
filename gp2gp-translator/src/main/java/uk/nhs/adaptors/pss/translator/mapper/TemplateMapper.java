@@ -27,11 +27,10 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +49,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
     private final ResourceReferenceUtil resourceReferenceUtil;
 
     @Override
-    public List<DomainResource> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient,
+    public List<DomainResource> mapResources(org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract ehrExtract, Patient patient,
                                              List<Encounter> encounters, String practiseCode) {
 
         return  mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
@@ -64,7 +63,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
 
     }
 
-    public void addReferences(List<DomainResource> templates, List<Observation> observations, RCMRMT030101UK04EhrExtract ehrExtract) {
+    public void addReferences(List<DomainResource> templates, List<Observation> observations, RCMRMT030101UKEhrExtract ehrExtract) {
         List<Observation> parentObservations = templates.stream()
             .filter(Observation.class::isInstance)
             .map(Observation.class::cast)
@@ -88,7 +87,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
                     .extractResourcesFromCompound(parentCompoundStatement,
                         RCMRMT030101UKComponent02::hasObservationStatement, RCMRMT030101UKComponent02::getObservationStatement)
                     .stream()
-                    .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                    .map(RCMRMT030101UKObservationStatement.class::cast)
                     .map(observationStatement -> observationStatement.getId().getRoot())
                     .toList();
 
@@ -174,7 +173,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
         return null;
     }
 
-    private List<RCMRMT030101UKCompoundStatement> getCompoundStatementsByIds(RCMRMT030101UK04EhrExtract ehrExtract, List<String> ids) {
+    private List<RCMRMT030101UKCompoundStatement> getCompoundStatementsByIds(RCMRMT030101UKEhrExtract ehrExtract, List<String> ids) {
 
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
             .stream()

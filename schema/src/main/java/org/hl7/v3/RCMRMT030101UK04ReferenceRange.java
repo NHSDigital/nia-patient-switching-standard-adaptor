@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.RCMRMT030101UKInterpretationRange;
 import org.hl7.v3.deprecated.RCMRMT030101UKReferenceRange;
 
 
@@ -54,8 +53,8 @@ import org.hl7.v3.deprecated.RCMRMT030101UKReferenceRange;
 })
 public class RCMRMT030101UK04ReferenceRange implements RCMRMT030101UKReferenceRange {
 
-    @XmlElement(required = true, type = RCMRMT030101UK04InterpretationRange.class)
-    protected RCMRMT030101UKInterpretationRange referenceInterpretationRange;
+    @XmlElement(required = true, type = RCMRMT030101UKInterpretationRange.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKInterpretationRange referenceInterpretationRange;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -75,11 +74,11 @@ public class RCMRMT030101UK04ReferenceRange implements RCMRMT030101UKReferenceRa
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04InterpretationRange }
+     *     {@link RCMRMT030101UKInterpretationRange }
      *     
      */
     @Override
-    public RCMRMT030101UKInterpretationRange getReferenceInterpretationRange() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKInterpretationRange getReferenceInterpretationRange() {
         return referenceInterpretationRange;
     }
 
@@ -88,11 +87,11 @@ public class RCMRMT030101UK04ReferenceRange implements RCMRMT030101UKReferenceRa
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04InterpretationRange }
+     *     {@link RCMRMT030101UKInterpretationRange }
      *     
      */
     @Override
-    public void setReferenceInterpretationRange(RCMRMT030101UKInterpretationRange value) {
+    public void setReferenceInterpretationRange(org.hl7.v3.deprecated.RCMRMT030101UKInterpretationRange value) {
         this.referenceInterpretationRange = value;
     }
 

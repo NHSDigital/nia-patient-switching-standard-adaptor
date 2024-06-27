@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.RCMRMT030101UKAgentRef;
 import org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty3;
 
 
@@ -57,8 +56,8 @@ import org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty3;
 public class RCMRMT030101UK04ResponsibleParty3 implements RCMRMT030101UKResponsibleParty3 {
 
     protected CV modeCode;
-    @XmlElement(required = true, type = RCMRMT030101UK04AgentRef.class)
-    protected RCMRMT030101UKAgentRef agentRef;
+    @XmlElement(required = true, type = RCMRMT030101UKAgentRef.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKAgentRef agentRef;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -103,11 +102,11 @@ public class RCMRMT030101UK04ResponsibleParty3 implements RCMRMT030101UKResponsi
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04AgentRef }
+     *     {@link RCMRMT030101UKAgentRef }
      *     
      */
     @Override
-    public RCMRMT030101UKAgentRef getAgentRef() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKAgentRef getAgentRef() {
         return agentRef;
     }
 
@@ -116,11 +115,11 @@ public class RCMRMT030101UK04ResponsibleParty3 implements RCMRMT030101UKResponsi
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04AgentRef }
+     *     {@link RCMRMT030101UKAgentRef }
      *     
      */
     @Override
-    public void setAgentRef(RCMRMT030101UKAgentRef value) {
+    public void setAgentRef(org.hl7.v3.deprecated.RCMRMT030101UKAgentRef value) {
         this.agentRef = value;
     }
 

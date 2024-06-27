@@ -14,7 +14,7 @@ import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -60,7 +60,7 @@ public class SpecimenCompoundsMapperTest {
 
     @Test
     public void testHandlingFirstLevelObservationStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_observation_statement.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_observation_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
@@ -76,7 +76,7 @@ public class SpecimenCompoundsMapperTest {
 
     @Test
     public void testHandlingSpecimenChildClusterCompoundStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_cluster_compound_statement.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_cluster_compound_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
@@ -100,7 +100,7 @@ public class SpecimenCompoundsMapperTest {
 
     @Test
     public void testHandlingSpecimenChildBatteryCompoundStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
@@ -118,7 +118,7 @@ public class SpecimenCompoundsMapperTest {
 
     @Test
     public void testHandlingUserNarrativeStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_user_narrative_statement.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_user_narrative_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
@@ -136,7 +136,7 @@ public class SpecimenCompoundsMapperTest {
 
     @Test
     public void testHandlingNonUserNarrativeStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_non_user_narrative_statement.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_non_user_narrative_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
@@ -148,7 +148,7 @@ public class SpecimenCompoundsMapperTest {
     }
 
     @Test public void testHandlingObservationStatementWithUnkAvailabilityTime() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_cluster_compound_statement_availability_time_unk.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_cluster_compound_statement_availability_time_unk.xml");
 
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
@@ -204,8 +204,8 @@ public class SpecimenCompoundsMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
 }

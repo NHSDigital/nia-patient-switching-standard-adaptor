@@ -2,7 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.deprecated.RCMRMT030101UKAnnotation;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent3;
@@ -28,7 +28,7 @@ public class DuplicateObservationStatementMapper {
     public static final int CHAR_LIMIT_FOR_TRUNCATION = 50;
     public static final String ELLIPSIS = "...";
 
-    public void mergeDuplicateObservationStatements(RCMRMT030101UK04EhrExtract ehrExtract) {
+    public void mergeDuplicateObservationStatements(RCMRMT030101UKEhrExtract ehrExtract) {
         ehrExtract.getComponent()
                 .stream()
                 .map(RCMRMT030101UKComponent::getEhrFolder)

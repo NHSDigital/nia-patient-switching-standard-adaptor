@@ -8,27 +8,22 @@ import java.util.stream.Stream;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04LinkSet;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent4;
-import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKLinkSet;
-import org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKNarrativeStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompoundStatementResourceExtractors {
 
-    public static Stream<RCMRMT030101UKCompoundStatement> extractAllCompoundStatements(RCMRMT030101UKComponent4 component4) {
+    public static Stream<org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement> extractAllCompoundStatements(RCMRMT030101UKComponent4 component4) {
 
         return Stream.concat(
             Stream.of(component4.getCompoundStatement()),
@@ -36,24 +31,24 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasCompoundStatement, RCMRMT030101UKComponent02::getCompoundStatement)
                 .stream()
-                .map(RCMRMT030101UK04CompoundStatement.class::cast)
+                .map(RCMRMT030101UKCompoundStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UKCompoundStatement> extractAllChildCompoundStatements(RCMRMT030101UKComponent02 component02) {
+    public static Stream<org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement> extractAllChildCompoundStatements(RCMRMT030101UKComponent02 component02) {
         return Stream.concat(
             Stream.of(component02.getCompoundStatement()),
             component02.hasCompoundStatement()
                 ? CompoundStatementUtil.extractCompoundsFromCompound(component02.getCompoundStatement())
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(RCMRMT030101UK04CompoundStatement.class::cast)
+                    .map(RCMRMT030101UKCompoundStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UKLinkSet> extractAllLinkSets(RCMRMT030101UKComponent4 component4) {
+    public static Stream<org.hl7.v3.deprecated.RCMRMT030101UKLinkSet> extractAllLinkSets(RCMRMT030101UKComponent4 component4) {
 
         return Stream.concat(
             Stream.of(component4.getLinkSet()),
@@ -61,24 +56,24 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasLinkSet, RCMRMT030101UKComponent02::getLinkSet)
                 .stream()
-                .map(RCMRMT030101UK04LinkSet.class::cast)
+                .map(RCMRMT030101UKLinkSet.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UKObservationStatement> extractAllObservationStatements(RCMRMT030101UKComponent4 component4) {
+    public static Stream<org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement> extractAllObservationStatements(RCMRMT030101UKComponent4 component4) {
 
         return Stream.concat(
             Stream.of(component4.getObservationStatement()),
             component4.hasCompoundStatement() ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasObservationStatement, RCMRMT030101UKComponent02::getObservationStatement)
                 .stream()
-                .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                .map(RCMRMT030101UKObservationStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UKObservationStatement> extractInnerObservationStatements(RCMRMT030101UKComponent02 component02) {
+    public static Stream<org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement> extractInnerObservationStatements(RCMRMT030101UKComponent02 component02) {
 
         return Stream.concat(
             Stream.of(component02.getObservationStatement()),
@@ -86,12 +81,12 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component02.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasObservationStatement, RCMRMT030101UKComponent02::getObservationStatement)
                     .stream()
-                    .map(RCMRMT030101UKObservationStatement.class::cast)
+                    .map(org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UKObservationStatement> extractAllObservationStatementsWithoutAllergiesAndBloodPressures(
+    public static Stream<org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement> extractAllObservationStatementsWithoutAllergiesAndBloodPressures(
                                                                      RCMRMT030101UKComponent4 component4) {
 
         return Stream.concat(
@@ -103,7 +98,7 @@ public class CompoundStatementResourceExtractors {
                         RCMRMT030101UKComponent02::getObservationStatement,
                         CompoundStatementResourceExtractors::isNotAllergy
                     ).stream()
-                    .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                    .map(RCMRMT030101UKObservationStatement.class::cast)
                 : Stream.empty()
         );
     }
@@ -134,7 +129,7 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
-    public static Stream<RCMRMT030101UKNarrativeStatement> extractAllNonBloodPressureNarrativeStatements(
+    public static Stream<org.hl7.v3.deprecated.RCMRMT030101UKNarrativeStatement> extractAllNonBloodPressureNarrativeStatements(
             RCMRMT030101UKComponent4 component4) {
 
         /*
@@ -142,20 +137,20 @@ public class CompoundStatementResourceExtractors {
             provided component contains a blood pressure triple.
             See PR #367 AKA NIAD-2843 for details.
          */
-        Stream<RCMRMT030101UK04NarrativeStatement> childNarrativeStatements =
+        Stream<RCMRMT030101UKNarrativeStatement> childNarrativeStatements =
                 hasCompoundStatementAndIsNotBloodPressure(component4)
                         ? CompoundStatementUtil.extractResourcesFromCompound(
                                 component4.getCompoundStatement(),
                                 RCMRMT030101UKComponent02::hasNarrativeStatement,
                                 RCMRMT030101UKComponent02::getNarrativeStatement)
                             .stream()
-                            .map(RCMRMT030101UK04NarrativeStatement.class::cast)
+                            .map(RCMRMT030101UKNarrativeStatement.class::cast)
                         : Stream.empty();
 
         return Stream.concat(Stream.of(component4.getNarrativeStatement()), childNarrativeStatements);
     }
 
-    public static Stream<RCMRMT030101UKMedicationStatement> extractAllMedications(RCMRMT030101UKComponent4 component4) {
+    public static Stream<org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement> extractAllMedications(RCMRMT030101UKComponent4 component4) {
 
         return Stream.concat(
             Stream.of(component4.getMedicationStatement()),
@@ -163,12 +158,12 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasMedicationStatement, RCMRMT030101UKComponent02::getMedicationStatement)
                 .stream()
-                .map(RCMRMT030101UK04MedicationStatement.class::cast)
+                .map(RCMRMT030101UKMedicationStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    private static boolean isNotAllergy(RCMRMT030101UKCompoundStatement compoundStatement) {
+    private static boolean isNotAllergy(org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement compoundStatement) {
         if (compoundStatement.hasCode() && compoundStatement.getCode().hasCodeSystem()) {
             return !isAllergyIntolerance(compoundStatement);
         }

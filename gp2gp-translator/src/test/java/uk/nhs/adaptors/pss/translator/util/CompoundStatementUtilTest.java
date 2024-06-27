@@ -9,12 +9,11 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 
 import org.hl7.v3.CD;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
-import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04LinkSet;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;
@@ -53,7 +52,7 @@ public class CompoundStatementUtilTest {
         var displayNames = mappedValues
             .stream()
             .map(RCMRMT030101UKComponent02::getCompoundStatement)
-            .map(RCMRMT030101UKCompoundStatement::getCode)
+            .map(org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement::getCode)
             .map(CD::getDisplayName)
             .toList();
         assertTrue(EXPECTED_DISPLAYED_NAMES.containsAll(displayNames));
@@ -69,7 +68,7 @@ public class CompoundStatementUtilTest {
 
         assertThat(mappedValues.size()).isEqualTo(EXPECTED_MEDICATION_STATEMENT_COUNT);
         mappedValues.forEach(
-            value -> assertTrue(value instanceof RCMRMT030101UK04MedicationStatement)
+            value -> assertTrue(value instanceof RCMRMT030101UKMedicationStatement)
         );
     }
 
@@ -83,7 +82,7 @@ public class CompoundStatementUtilTest {
 
         assertThat(mappedValues.size()).isEqualTo(EXPECTED_OBSERVATION_STATEMENT_COUNT);
         mappedValues.forEach(
-            value -> assertTrue(value instanceof RCMRMT030101UK04ObservationStatement)
+            value -> assertTrue(value instanceof RCMRMT030101UKObservationStatement)
         );
     }
 
@@ -97,7 +96,7 @@ public class CompoundStatementUtilTest {
 
         assertThat(mappedValues.size()).isEqualTo(EXPECTED_LINKSET_COUNT);
         mappedValues.forEach(
-            value -> assertTrue(value instanceof RCMRMT030101UK04LinkSet)
+            value -> assertTrue(value instanceof RCMRMT030101UKLinkSet)
         );
     }
 
@@ -122,19 +121,19 @@ public class CompoundStatementUtilTest {
         assertThat(mappedValuesMedicationStatement.size()).isEqualTo(EXPECTED_MEDICATION_STATEMENT_MIXED_COUNT);
 
         mappedValuesLinkSet.forEach(
-            linkSet -> assertTrue(linkSet instanceof RCMRMT030101UK04LinkSet)
+            linkSet -> assertTrue(linkSet instanceof RCMRMT030101UKLinkSet)
         );
         mappedValuesObservationStatement.forEach(
-            observation -> assertTrue(observation instanceof RCMRMT030101UK04ObservationStatement)
+            observation -> assertTrue(observation instanceof RCMRMT030101UKObservationStatement)
         );
         mappedValuesMedicationStatement.forEach(
-            medicationStatement -> assertTrue(medicationStatement instanceof RCMRMT030101UK04MedicationStatement)
+            medicationStatement -> assertTrue(medicationStatement instanceof RCMRMT030101UKMedicationStatement)
         );
     }
 
     @SneakyThrows
-    private RCMRMT030101UKCompoundStatement unmarshallCompoundStatement(String fileName) {
+    private org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement unmarshallCompoundStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_COMPOUND_STATEMENTS + fileName),
-            RCMRMT030101UK04CompoundStatement.class);
+            RCMRMT030101UKCompoundStatement.class);
     }
 }

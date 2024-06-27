@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.RCMRMT030101UKAgentDirectory;
 import org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty;
 
 
@@ -54,8 +53,8 @@ import org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty;
 })
 public class RCMRMT030101UK04ResponsibleParty implements RCMRMT030101UKResponsibleParty {
 
-    @XmlElement(required = true, type = RCMRMT030101UK04AgentDirectory.class)
-    protected RCMRMT030101UKAgentDirectory agentDirectory;
+    @XmlElement(required = true, type = RCMRMT030101UKAgentDirectory.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKAgentDirectory agentDirectory;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -74,11 +73,11 @@ public class RCMRMT030101UK04ResponsibleParty implements RCMRMT030101UKResponsib
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04AgentDirectory }
+     *     {@link RCMRMT030101UKAgentDirectory }
      *     
      */
     @Override
-    public RCMRMT030101UKAgentDirectory getAgentDirectory() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKAgentDirectory getAgentDirectory() {
         return agentDirectory;
     }
 
@@ -87,11 +86,11 @@ public class RCMRMT030101UK04ResponsibleParty implements RCMRMT030101UKResponsib
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04AgentDirectory }
+     *     {@link RCMRMT030101UKAgentDirectory }
      *     
      */
     @Override
-    public void setAgentDirectory(RCMRMT030101UKAgentDirectory value) {
+    public void setAgentDirectory(org.hl7.v3.deprecated.RCMRMT030101UKAgentDirectory value) {
         this.agentDirectory = value;
     }
 

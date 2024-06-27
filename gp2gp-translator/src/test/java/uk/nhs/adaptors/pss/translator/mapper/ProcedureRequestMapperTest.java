@@ -18,7 +18,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement;
 import org.junit.jupiter.api.Test;
@@ -297,14 +297,14 @@ public class ProcedureRequestMapperTest {
         assertThat(procedureRequest.getSubject().getResource().getIdElement().getValue()).isEqualTo(SUBJECT.getId());
     }
 
-    private RCMRMT030101UKPlanStatement getPlanStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKPlanStatement getPlanStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0)
             .getEhrFolder().getComponent().get(0)
             .getEhrComposition().getComponent().get(0)
             .getPlanStatement();
     }
 
-    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
 
         return ehrExtract.getComponent().get(0)
             .getEhrFolder().getComponent().get(0)
@@ -317,12 +317,12 @@ public class ProcedureRequestMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallCodeElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallCodeElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallCodeElementFromString(String inputXml) {
-        return unmarshallString(inputXml, RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallCodeElementFromString(String inputXml) {
+        return unmarshallString(inputXml, RCMRMT030101UKEhrExtract.class);
     }
 }

@@ -83,8 +83,8 @@ public class RCMRMT030101UK04Prescribe implements RCMRMT030101UKPrescribe {
     @XmlElement(required = true)
     protected PQ quantity;
 
-    @XmlElement(type = RCMRMT030101UK04InFulfillmentOf02.class)
-    protected RCMRMT030101UKInFulfillmentOf02 inFulfillmentOf;
+    @XmlElement(type = RCMRMT030101UKInFulfillmentOf02.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKInFulfillmentOf02 inFulfillmentOf;
 
     @XmlElement(type = RCMRMT030101UK04Performer.class)
     protected RCMRMT030101UKPerformer performer;
@@ -265,11 +265,11 @@ public class RCMRMT030101UK04Prescribe implements RCMRMT030101UKPrescribe {
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04InFulfillmentOf02 }
+     *     {@link RCMRMT030101UKInFulfillmentOf02 }
      *     
      */
     @Override
-    public RCMRMT030101UKInFulfillmentOf02 getInFulfillmentOf() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKInFulfillmentOf02 getInFulfillmentOf() {
         return inFulfillmentOf;
     }
 
@@ -278,11 +278,11 @@ public class RCMRMT030101UK04Prescribe implements RCMRMT030101UKPrescribe {
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04InFulfillmentOf02 }
+     *     {@link RCMRMT030101UKInFulfillmentOf02 }
      *     
      */
     @Override
-    public void setInFulfillmentOf(RCMRMT030101UKInFulfillmentOf02 value) {
+    public void setInFulfillmentOf(org.hl7.v3.deprecated.RCMRMT030101UKInFulfillmentOf02 value) {
         this.inFulfillmentOf = value;
     }
 

@@ -43,9 +43,8 @@ import org.hl7.v3.deprecated.RCMRMT030101UKComponent3;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent4;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent6;
 import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.deprecated.RCMRMT030101UKLinkSet;
 import org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement;
@@ -88,7 +87,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
-    public List<Condition> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    public List<Condition> mapResources(org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                         String practiseCode) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
@@ -143,7 +142,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         return condition;
     }
 
-    public void addHierarchyReferencesToConditions(List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
+    public void addHierarchyReferencesToConditions(List<Condition> conditions, RCMRMT030101UKEhrExtract ehrExtract) {
         var allLinkSets = getCompositionsContainingLinkSets(ehrExtract).stream()
                 .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
                 .map(RCMRMT030101UKComponent4::getLinkSet)
@@ -179,7 +178,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         });
     }
 
-    public void addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UK04EhrExtract ehrExtract) {
+    public void addReferences(Bundle bundle, List<Condition> conditions, RCMRMT030101UKEhrExtract ehrExtract) {
         getCompositionsContainingLinkSets(ehrExtract).stream()
             .flatMap(ehrComposition -> ehrComposition.getComponent().stream())
             .map(RCMRMT030101UKComponent4::getLinkSet)
@@ -335,7 +334,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private List<Extension> buildRelatedClinicalContent(Bundle bundle, List<RCMRMT030101UKStatementRef> relatedClinicalStatementReferences,
-                                                        RCMRMT030101UK04EhrExtract ehrExtract) {
+                                                        RCMRMT030101UKEhrExtract ehrExtract) {
 
         // Filter for bundle entries where entry ID exists in both streams
         var bundleIds = bundle.getEntry()
@@ -366,7 +365,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
     }
 
-    private List<String> getMedicationRequestIds(RCMRMT030101UK04EhrExtract ehrExtract, List<RCMRMT030101UKStatementRef> statementRefs) {
+    private List<String> getMedicationRequestIds(RCMRMT030101UKEhrExtract ehrExtract, List<RCMRMT030101UKStatementRef> statementRefs) {
 
         var medicationStatements = getMedicationStatements(ehrExtract);
         Map<String, String> medicationStatementIdMapping = getMedicationStatementIdMapping(medicationStatements);
@@ -442,7 +441,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
         return annotationList;
     }
 
-    private List<RCMRMT030101UKEhrComposition> getCompositionsContainingLinkSets(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private List<RCMRMT030101UKEhrComposition> getCompositionsContainingLinkSets(RCMRMT030101UKEhrExtract ehrExtract) {
 
         return ehrExtract.getComponent().stream()
             .flatMap(component -> component.getEhrFolder().getComponent().stream())
@@ -454,7 +453,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             .toList();
     }
 
-    private Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UK04EhrExtract ehrExtract, String id) {
+    private Optional<RCMRMT030101UKObservationStatement> getObservationStatementById(RCMRMT030101UKEhrExtract ehrExtract, String id) {
 
         List<RCMRMT030101UKObservationStatement> observationStatements = ehrExtract.getComponent().stream()
             .map(RCMRMT030101UKComponent::getEhrFolder)

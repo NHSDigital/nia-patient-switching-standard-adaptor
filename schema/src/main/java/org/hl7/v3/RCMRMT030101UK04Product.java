@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.RCMRMT030101UKManufacturedProduct;
 import org.hl7.v3.deprecated.RCMRMT030101UKProduct;
 
 
@@ -54,8 +53,8 @@ import org.hl7.v3.deprecated.RCMRMT030101UKProduct;
 })
 public class RCMRMT030101UK04Product implements RCMRMT030101UKProduct {
 
-    @XmlElement(required = true, type = RCMRMT030101UK04ManufacturedProduct.class)
-    protected RCMRMT030101UKManufacturedProduct manufacturedProduct;
+    @XmlElement(required = true, type = RCMRMT030101UKManufacturedProduct.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKManufacturedProduct manufacturedProduct;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -79,11 +78,11 @@ public class RCMRMT030101UK04Product implements RCMRMT030101UKProduct {
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04ManufacturedProduct }
+     *     {@link RCMRMT030101UKManufacturedProduct }
      *     
      */
     @Override
-    public RCMRMT030101UKManufacturedProduct getManufacturedProduct() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKManufacturedProduct getManufacturedProduct() {
         return manufacturedProduct;
     }
 
@@ -92,11 +91,11 @@ public class RCMRMT030101UK04Product implements RCMRMT030101UKProduct {
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04ManufacturedProduct }
+     *     {@link RCMRMT030101UKManufacturedProduct }
      *     
      */
     @Override
-    public void setManufacturedProduct(RCMRMT030101UKManufacturedProduct value) {
+    public void setManufacturedProduct(org.hl7.v3.deprecated.RCMRMT030101UKManufacturedProduct value) {
         this.manufacturedProduct = value;
     }
 

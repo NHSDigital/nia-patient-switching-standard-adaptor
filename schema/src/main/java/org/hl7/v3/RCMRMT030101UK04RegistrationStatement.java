@@ -90,8 +90,8 @@ public class RCMRMT030101UK04RegistrationStatement implements RCMRMT030101UKRegi
     @XmlElement(type = RCMRMT030101UK04ResponsibleParty2.class)
     protected RCMRMT030101UKResponsibleParty2 responsibleParty;
 
-    @XmlElement(type = RCMRMT030101UK04Informant.class)
-    protected List<RCMRMT030101UKInformant> informant;
+    @XmlElement(type = RCMRMT030101UKInformant.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> informant;
 
     @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
     protected List<RCMRMT030101UKParticipant> participant;
@@ -302,12 +302,12 @@ public class RCMRMT030101UK04RegistrationStatement implements RCMRMT030101UKRegi
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04Informant }
+     * {@link RCMRMT030101UKInformant }
      * 
      * 
      */
     @Override
-    public List<RCMRMT030101UKInformant> getInformant() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
             informant = new ArrayList<>();
         }

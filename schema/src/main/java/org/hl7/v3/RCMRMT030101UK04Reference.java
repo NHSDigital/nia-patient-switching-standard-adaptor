@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.RCMRMT030101UKExternalDocument;
 import org.hl7.v3.deprecated.RCMRMT030101UKReference;
 
 
@@ -54,8 +53,8 @@ import org.hl7.v3.deprecated.RCMRMT030101UKReference;
 })
 public class RCMRMT030101UK04Reference implements RCMRMT030101UKReference {
 
-    @XmlElement(required = true, type = RCMRMT030101UK04ExternalDocument.class)
-    protected RCMRMT030101UKExternalDocument referredToExternalDocument;
+    @XmlElement(required = true, type = RCMRMT030101UKExternalDocument.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKExternalDocument referredToExternalDocument;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -76,11 +75,11 @@ public class RCMRMT030101UK04Reference implements RCMRMT030101UKReference {
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04ExternalDocument }
+     *     {@link RCMRMT030101UKExternalDocument }
      *     
      */
     @Override
-    public RCMRMT030101UKExternalDocument getReferredToExternalDocument() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKExternalDocument getReferredToExternalDocument() {
         return referredToExternalDocument;
     }
 
@@ -89,11 +88,11 @@ public class RCMRMT030101UK04Reference implements RCMRMT030101UKReference {
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04ExternalDocument }
+     *     {@link RCMRMT030101UKExternalDocument }
      *     
      */
     @Override
-    public void setReferredToExternalDocument(RCMRMT030101UKExternalDocument value) {
+    public void setReferredToExternalDocument(org.hl7.v3.deprecated.RCMRMT030101UKExternalDocument value) {
         this.referredToExternalDocument = value;
     }
 
