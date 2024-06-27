@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -47,13 +49,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Author4", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.Author4", propOrder = {
     "agentRef"
 })
-public class RCMRMT030101UKAuthor4 implements org.hl7.v3.deprecated.RCMRMT030101UKAuthor4 {
+public class RCMRMT030101UKAuthor4 {
 
     @XmlElement(required = true, type = RCMRMT030101UKAgentRef.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKAgentRef agentRef;
+    protected RCMRMT030101UKAgentRef agentRef;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -75,8 +77,7 @@ public class RCMRMT030101UKAuthor4 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link RCMRMT030101UKAgentRef }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKAgentRef getAgentRef() {
+    public RCMRMT030101UKAgentRef getAgentRef() {
         return agentRef;
     }
 
@@ -88,8 +89,7 @@ public class RCMRMT030101UKAuthor4 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link RCMRMT030101UKAgentRef }
      *     
      */
-    @Override
-    public void setAgentRef(org.hl7.v3.deprecated.RCMRMT030101UKAgentRef value) {
+    public void setAgentRef(RCMRMT030101UKAgentRef value) {
         this.agentRef = value;
     }
 
@@ -101,13 +101,8 @@ public class RCMRMT030101UKAuthor4 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Participation";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Participation");
     }
 
     /**
@@ -118,7 +113,6 @@ public class RCMRMT030101UKAuthor4 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -145,7 +139,6 @@ public class RCMRMT030101UKAuthor4 implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -175,7 +168,6 @@ public class RCMRMT030101UKAuthor4 implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -205,7 +197,6 @@ public class RCMRMT030101UKAuthor4 implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -221,7 +212,6 @@ public class RCMRMT030101UKAuthor4 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -234,7 +224,6 @@ public class RCMRMT030101UKAuthor4 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

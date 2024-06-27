@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,12 +16,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Author2 complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.Author2 complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Author2"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.Author2"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -50,13 +52,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Author2", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.Author2", propOrder = {
     "time",
     "signatureCode",
     "signatureText",
     "agentOrgSDS"
 })
-public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101UKAuthor2 {
+public class RCMRMT030101UKAuthor2 {
 
     @XmlElement(required = true)
     protected TS time;
@@ -85,7 +87,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link TS }
      *     
      */
-    @Override
     public TS getTime() {
         return time;
     }
@@ -98,7 +99,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link TS }
      *     
      */
-    @Override
     public void setTime(TS value) {
         this.time = value;
     }
@@ -111,7 +111,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link CV }
      *     
      */
-    @Override
     public CV getSignatureCode() {
         return signatureCode;
     }
@@ -124,7 +123,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link CV }
      *     
      */
-    @Override
     public void setSignatureCode(CV value) {
         this.signatureCode = value;
     }
@@ -137,7 +135,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link ED }
      *     
      */
-    @Override
     public ED getSignatureText() {
         return signatureText;
     }
@@ -150,7 +147,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link ED }
      *     
      */
-    @Override
     public void setSignatureText(ED value) {
         this.signatureText = value;
     }
@@ -163,7 +159,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link UKCTMT120501UK03AgentOrgSDS }
      *     
      */
-    @Override
     public UKCTMT120501UK03AgentOrgSDS getAgentOrgSDS() {
         return agentOrgSDS;
     }
@@ -176,7 +171,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link UKCTMT120501UK03AgentOrgSDS }
      *     
      */
-    @Override
     public void setAgentOrgSDS(UKCTMT120501UK03AgentOrgSDS value) {
         this.agentOrgSDS = value;
     }
@@ -189,13 +183,8 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Participation";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Participation");
     }
 
     /**
@@ -206,7 +195,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -233,7 +221,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -263,7 +250,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -293,7 +279,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -309,7 +294,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -322,7 +306,6 @@ public class RCMRMT030101UKAuthor2 implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

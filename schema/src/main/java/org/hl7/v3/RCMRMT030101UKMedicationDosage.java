@@ -14,12 +14,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.MedicationDosage complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.MedicationDosage complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.MedicationDosage"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.MedicationDosage"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -48,10 +48,10 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.MedicationDosage", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.MedicationDosage", propOrder = {
     "text"
 })
-public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCMRMT030101UKMedicationDosage {
+public class RCMRMT030101UKMedicationDosage {
 
     @XmlElement(required = true)
     protected String text;
@@ -78,7 +78,6 @@ public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCM
      *     {@link String }
      *     
      */
-    @Override
     public String getText() {
         return text;
     }
@@ -91,12 +90,10 @@ public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCM
      *     {@link String }
      *     
      */
-    @Override
     public void setText(String value) {
         this.text = value;
     }
 
-    @Override
     public boolean hasText() {
         return text != null && !text.equals("");
     }
@@ -109,7 +106,6 @@ public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCM
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
         if (type == null) {
             return "SubstanceAdministration";
@@ -126,7 +122,6 @@ public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCM
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -153,7 +148,6 @@ public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCM
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -183,7 +177,6 @@ public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCM
      * 
      * 
      */
-    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
             moodCode = new ArrayList<>();
@@ -213,7 +206,6 @@ public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCM
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -243,7 +235,6 @@ public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCM
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -259,7 +250,6 @@ public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCM
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -272,9 +262,7 @@ public class RCMRMT030101UKMedicationDosage implements org.hl7.v3.deprecated.RCM
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
-
 }
