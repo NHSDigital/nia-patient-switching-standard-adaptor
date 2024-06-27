@@ -1,7 +1,7 @@
 package org.hl7.v3.deprecated;
 
 import org.hl7.v3.CV;
-import org.hl7.v3.RCMRMT030101UK04Place;
+import org.hl7.v3.RCMRMT030101UKPlace;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ public interface RCMRMT030101UKLocatedEntity {
 
     void setCode(CV value);
 
-    RCMRMT030101UK04Place getLocatedPlace();
+    RCMRMT030101UKPlace getLocatedPlace();
 
-    void setLocatedPlace(RCMRMT030101UK04Place value);
+    void setLocatedPlace(RCMRMT030101UKPlace value);
 
     String getType();
 

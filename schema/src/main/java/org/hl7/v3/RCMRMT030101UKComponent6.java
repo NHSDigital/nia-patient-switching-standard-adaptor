@@ -10,7 +10,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.RCMRMT030101UKStatementRef;
 
 
 /**
@@ -51,8 +50,8 @@ import org.hl7.v3.deprecated.RCMRMT030101UKStatementRef;
 })
 public class RCMRMT030101UKComponent6 implements org.hl7.v3.deprecated.RCMRMT030101UKComponent6 {
 
-    @XmlElement(required = true, type = RCMRMT030101UK04StatementRef.class)
-    protected RCMRMT030101UKStatementRef statementRef;
+    @XmlElement(required = true, type = RCMRMT030101UKStatementRef.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKStatementRef statementRef;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -72,11 +71,11 @@ public class RCMRMT030101UKComponent6 implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04StatementRef }
+     *     {@link RCMRMT030101UKStatementRef }
      *     
      */
     @Override
-    public RCMRMT030101UKStatementRef getStatementRef() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKStatementRef getStatementRef() {
         return statementRef;
     }
 
@@ -85,11 +84,11 @@ public class RCMRMT030101UKComponent6 implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04StatementRef }
+     *     {@link RCMRMT030101UKStatementRef }
      *     
      */
     @Override
-    public void setStatementRef(RCMRMT030101UKStatementRef value) {
+    public void setStatementRef(org.hl7.v3.deprecated.RCMRMT030101UKStatementRef value) {
         this.statementRef = value;
     }
 

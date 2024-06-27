@@ -13,12 +13,10 @@ import org.hl7.v3.RCMRMT030101UKLinkSet;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
-import org.hl7.v3.RCMRMT030101UK04RequestStatement;
+import org.hl7.v3.RCMRMT030101UKPlanStatement;
+import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent4;
-import org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompoundStatementResourceExtractors {
@@ -103,7 +101,7 @@ public class CompoundStatementResourceExtractors {
         );
     }
 
-    public static Stream<RCMRMT030101UKPlanStatement> extractAllPlanStatements(RCMRMT030101UKComponent4 component4) {
+    public static Stream<org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement> extractAllPlanStatements(RCMRMT030101UKComponent4 component4) {
 
         return Stream.concat(
             Stream.of(component4.getPlanStatement()),
@@ -111,12 +109,12 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasPlanStatement, RCMRMT030101UKComponent02::getPlanStatement)
                 .stream()
-                .map(RCMRMT030101UK04PlanStatement.class::cast)
+                .map(RCMRMT030101UKPlanStatement.class::cast)
                 : Stream.empty()
         );
     }
 
-    public static Stream<RCMRMT030101UKRequestStatement> extractAllRequestStatements(RCMRMT030101UKComponent4 component4) {
+    public static Stream<org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement> extractAllRequestStatements(RCMRMT030101UKComponent4 component4) {
 
         return Stream.concat(
             Stream.of(component4.getRequestStatement()),
@@ -124,7 +122,7 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasRequestStatement, RCMRMT030101UKComponent02::getRequestStatement)
                 .stream()
-                .map(RCMRMT030101UK04RequestStatement.class::cast)
+                .map(RCMRMT030101UKRequestStatement.class::cast)
                 : Stream.empty()
         );
     }

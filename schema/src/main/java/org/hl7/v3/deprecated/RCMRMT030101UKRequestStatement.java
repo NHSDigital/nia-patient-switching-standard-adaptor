@@ -34,7 +34,7 @@ public interface RCMRMT030101UKRequestStatement {
 
     RCMRMT030101UKResponsibleParty3 getResponsibleParty();
 
-    void setResponsibleParty(RCMRMT030101UK04ResponsibleParty3 value);
+    void setResponsibleParty(org.hl7.v3.RCMRMT030101UKResponsibleParty3 value);
 
     List<RCMRMT030101UKInformant> getInformant();
 

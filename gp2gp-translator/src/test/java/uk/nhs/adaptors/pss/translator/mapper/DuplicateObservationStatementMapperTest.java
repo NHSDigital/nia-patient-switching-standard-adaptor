@@ -15,16 +15,16 @@ import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKInformant;
 import org.hl7.v3.RCMRMT030101UKLinkSet;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04Participant;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
-import org.hl7.v3.RCMRMT030101UK04Reason;
-import org.hl7.v3.RCMRMT030101UK04Reference;
-import org.hl7.v3.RCMRMT030101UK04ReferenceRange;
-import org.hl7.v3.RCMRMT030101UK04ReplacementOf;
-import org.hl7.v3.RCMRMT030101UK04SequelTo;
-import org.hl7.v3.RCMRMT030101UK04Specimen;
-import org.hl7.v3.RCMRMT030101UK04StatementRef;
-import org.hl7.v3.RCMRMT030101UK04Subject;
+import org.hl7.v3.RCMRMT030101UKParticipant;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKReason;
+import org.hl7.v3.RCMRMT030101UKReference;
+import org.hl7.v3.RCMRMT030101UKReferenceRange;
+import org.hl7.v3.RCMRMT030101UKReplacementOf;
+import org.hl7.v3.RCMRMT030101UKSequelTo;
+import org.hl7.v3.RCMRMT030101UKSpecimen;
+import org.hl7.v3.RCMRMT030101UKStatementRef;
+import org.hl7.v3.RCMRMT030101UKSubject;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
@@ -355,7 +355,7 @@ class DuplicateObservationStatementMapperTest {
     private static RCMRMT030101UKComponent4 generateLinksetComponent(String namedConditionId) {
         RCMRMT030101UKComponent4 component = generateLinksetComponent();
         RCMRMT030101UKConditionNamed namedCondition = new RCMRMT030101UKConditionNamed();
-        RCMRMT030101UK04StatementRef value2 = new RCMRMT030101UK04StatementRef();
+        RCMRMT030101UKStatementRef value2 = new RCMRMT030101UKStatementRef();
         value2.setId(generateId(namedConditionId));
         namedCondition.setNamedStatementRef(value2);
         component.getLinkSet().setConditionNamed(namedCondition);
@@ -411,8 +411,8 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @NotNull
-    private static RCMRMT030101UK04PertinentInformation02 getPertinentInformation(String pertinentAnnotation, int sequenceNumber) {
-        RCMRMT030101UK04PertinentInformation02 e = new RCMRMT030101UK04PertinentInformation02();
+    private static RCMRMT030101UKPertinentInformation02 getPertinentInformation(String pertinentAnnotation, int sequenceNumber) {
+        RCMRMT030101UKPertinentInformation02 e = new RCMRMT030101UKPertinentInformation02();
         e.setSequenceNumber(getAnInt(sequenceNumber));
         e.setPertinentAnnotation(getAnnotation(pertinentAnnotation));
         return e;
@@ -492,31 +492,31 @@ class DuplicateObservationStatementMapperTest {
                 Arguments.of(Named.of("Interpretation Value", (Consumer<RCMRMT030101UKObservationStatement>)
                         (RCMRMT030101UKObservationStatement observation) -> observation.setValue(new CV()))),
                 Arguments.of(Named.of("Subject Value", (Consumer<RCMRMT030101UKObservationStatement>)
-                        (RCMRMT030101UKObservationStatement observation) -> observation.setSubject(new RCMRMT030101UK04Subject()))),
+                        (RCMRMT030101UKObservationStatement observation) -> observation.setSubject(new RCMRMT030101UKSubject()))),
                 Arguments.of(Named.of("Specimen Value", (Consumer<RCMRMT030101UKObservationStatement>)
                         (RCMRMT030101UKObservationStatement observation) -> observation.getSpecimen()
-                                .add(new RCMRMT030101UK04Specimen()))),
+                                .add(new RCMRMT030101UKSpecimen()))),
                 Arguments.of(Named.of("Reference Range Value", (Consumer<RCMRMT030101UKObservationStatement>)
                         (RCMRMT030101UKObservationStatement observation) -> observation.getReferenceRange()
-                                .add(new RCMRMT030101UK04ReferenceRange()))),
+                                .add(new RCMRMT030101UKReferenceRange()))),
                 Arguments.of(Named.of("Informant Value", (Consumer<RCMRMT030101UKObservationStatement>)
                         (RCMRMT030101UKObservationStatement observation) -> observation.getInformant()
                                 .add(new RCMRMT030101UKInformant()))),
                 Arguments.of(Named.of("Participant Value", (Consumer<RCMRMT030101UKObservationStatement>)
                         (RCMRMT030101UKObservationStatement observation) -> observation.getParticipant()
-                                .add(new RCMRMT030101UK04Participant()))),
+                                .add(new RCMRMT030101UKParticipant()))),
                 Arguments.of(Named.of("ReplacementOf Value ", (Consumer<RCMRMT030101UKObservationStatement>)
                         (RCMRMT030101UKObservationStatement observation) -> observation.getReplacementOf()
-                                .add(new RCMRMT030101UK04ReplacementOf()))),
+                                .add(new RCMRMT030101UKReplacementOf()))),
                 Arguments.of(Named.of("Reason Value ", (Consumer<RCMRMT030101UKObservationStatement>)
                         (RCMRMT030101UKObservationStatement observation) -> observation.getReason()
-                                .add(new RCMRMT030101UK04Reason()))),
+                                .add(new RCMRMT030101UKReason()))),
                 Arguments.of(Named.of("Reference Value ", (Consumer<RCMRMT030101UKObservationStatement>)
                         (RCMRMT030101UKObservationStatement observation) -> observation.getReference()
-                                .add(new RCMRMT030101UK04Reference()))),
+                                .add(new RCMRMT030101UKReference()))),
                 Arguments.of(Named.of("SequelTo Value ", (Consumer<RCMRMT030101UKObservationStatement>)
                         (RCMRMT030101UKObservationStatement observation) -> observation.getSequelTo()
-                                .add(new RCMRMT030101UK04SequelTo())))
+                                .add(new RCMRMT030101UKSequelTo())))
         );
     }
 

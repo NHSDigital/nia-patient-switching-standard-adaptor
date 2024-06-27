@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.*;
 
 
 /**
@@ -107,35 +106,35 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
     protected Object value;
     protected CV interpretationCode;
 
-    @XmlElement(type = RCMRMT030101UK04Subject.class)
-    protected RCMRMT030101UKSubject subject;
+    @XmlElement(type = RCMRMT030101UKSubject.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKSubject subject;
 
-    @XmlElement(type = RCMRMT030101UK04Specimen.class)
-    protected List<RCMRMT030101UKSpecimen> specimen;
+    @XmlElement(type = RCMRMT030101UKSpecimen.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKSpecimen> specimen;
 
-    @XmlElement(type = RCMRMT030101UK04PertinentInformation02.class)
-    protected List<RCMRMT030101UKPertinentInformation02> pertinentInformation;
+    @XmlElement(type = RCMRMT030101UKPertinentInformation02.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation02> pertinentInformation;
 
-    @XmlElement(type = RCMRMT030101UK04ReferenceRange.class)
-    protected List<RCMRMT030101UKReferenceRange> referenceRange;
+    @XmlElement(type = RCMRMT030101UKReferenceRange.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReferenceRange> referenceRange;
 
     @XmlElement(type = RCMRMT030101UKInformant.class)
     protected List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> informant;
 
-    @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
-    protected List<RCMRMT030101UKParticipant> participant;
+    @XmlElement(name = "Participant", type = RCMRMT030101UKParticipant.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> participant;
 
-    @XmlElement(type = RCMRMT030101UK04ReplacementOf.class)
-    protected List<RCMRMT030101UKReplacementOf> replacementOf;
+    @XmlElement(type = RCMRMT030101UKReplacementOf.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> replacementOf;
 
-    @XmlElement(type = RCMRMT030101UK04Reason.class)
-    protected List<RCMRMT030101UKReason> reason;
+    @XmlElement(type = RCMRMT030101UKReason.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReason> reason;
 
-    @XmlElement(type = RCMRMT030101UK04Reference.class)
-    protected List<RCMRMT030101UKReference> reference;
+    @XmlElement(type = RCMRMT030101UKReference.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReference> reference;
 
-    @XmlElement(type = RCMRMT030101UK04SequelTo.class)
-    protected List<RCMRMT030101UKSequelTo> sequelTo;
+    @XmlElement(type = RCMRMT030101UKSequelTo.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> sequelTo;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -384,11 +383,11 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04Subject }
+     *     {@link RCMRMT030101UKSubject }
      *
      */
     @Override
-    public RCMRMT030101UKSubject getSubject() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKSubject getSubject() {
         return subject;
     }
 
@@ -397,11 +396,11 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04Subject }
+     *     {@link RCMRMT030101UKSubject }
      *
      */
     @Override
-    public void setSubject(RCMRMT030101UKSubject value) {
+    public void setSubject(org.hl7.v3.deprecated.RCMRMT030101UKSubject value) {
         this.subject = value;
     }
 
@@ -423,12 +422,12 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04Specimen }
+     * {@link RCMRMT030101UKSpecimen }
      *
      *
      */
     @Override
-    public List<RCMRMT030101UKSpecimen> getSpecimen() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKSpecimen> getSpecimen() {
         if (specimen == null) {
             specimen = new ArrayList<>();
         }
@@ -453,12 +452,12 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04PertinentInformation02 }
+     * {@link RCMRMT030101UKPertinentInformation02 }
      *
      *
      */
     @Override
-    public List<RCMRMT030101UKPertinentInformation02> getPertinentInformation() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation02> getPertinentInformation() {
         if (pertinentInformation == null) {
             pertinentInformation = new ArrayList<>();
         }
@@ -483,12 +482,12 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04ReferenceRange }
+     * {@link RCMRMT030101UKReferenceRange }
      *
      *
      */
     @Override
-    public List<RCMRMT030101UKReferenceRange> getReferenceRange() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKReferenceRange> getReferenceRange() {
         if (referenceRange == null) {
             referenceRange = new ArrayList<>();
         }
@@ -543,12 +542,12 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04Participant }
+     * {@link RCMRMT030101UKParticipant }
      *
      *
      */
     @Override
-    public List<RCMRMT030101UKParticipant> getParticipant() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
             participant = new ArrayList<>();
         }
@@ -573,12 +572,12 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04ReplacementOf }
+     * {@link RCMRMT030101UKReplacementOf }
      *
      *
      */
     @Override
-    public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
             replacementOf = new ArrayList<>();
         }
@@ -603,12 +602,12 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04Reason }
+     * {@link RCMRMT030101UKReason }
      *
      *
      */
     @Override
-    public List<RCMRMT030101UKReason> getReason() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKReason> getReason() {
         if (reason == null) {
             reason = new ArrayList<>();
         }
@@ -633,12 +632,12 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04Reference }
+     * {@link RCMRMT030101UKReference }
      *
      *
      */
     @Override
-    public List<RCMRMT030101UKReference> getReference() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKReference> getReference() {
         if (reference == null) {
             reference = new ArrayList<>();
         }
@@ -663,12 +662,12 @@ public class RCMRMT030101UKObservationStatement implements org.hl7.v3.deprecated
      *
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04SequelTo }
+     * {@link RCMRMT030101UKSequelTo }
      *
      *
      */
     @Override
-    public List<RCMRMT030101UKSequelTo> getSequelTo() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
             sequelTo = new ArrayList<>();
         }

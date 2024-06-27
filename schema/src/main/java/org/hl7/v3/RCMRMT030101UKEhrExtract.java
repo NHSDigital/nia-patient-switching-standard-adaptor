@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.*;
 
 
 /**
@@ -77,8 +76,8 @@ public class RCMRMT030101UKEhrExtract implements org.hl7.v3.deprecated.RCMRMT030
     @XmlElement(required = true)
     protected TS availabilityTime;
 
-    @XmlElement(required = true, type = RCMRMT030101UK04PatientSubject.class)
-    protected RCMRMT030101UKPatientSubject recordTarget;
+    @XmlElement(required = true, type = RCMRMT030101UKPatientSubject.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKPatientSubject recordTarget;
 
     @XmlElement(required = true, type = RCMRMT030101UKAuthor3.class)
     protected org.hl7.v3.deprecated.RCMRMT030101UKAuthor3 author;
@@ -194,11 +193,11 @@ public class RCMRMT030101UKEhrExtract implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04PatientSubject }
+     *     {@link RCMRMT030101UKPatientSubject }
      *     
      */
     @Override
-    public RCMRMT030101UKPatientSubject getRecordTarget() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKPatientSubject getRecordTarget() {
         return recordTarget;
     }
 
@@ -207,11 +206,11 @@ public class RCMRMT030101UKEhrExtract implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04PatientSubject }
+     *     {@link RCMRMT030101UKPatientSubject }
      *     
      */
     @Override
-    public void setRecordTarget(RCMRMT030101UKPatientSubject value) {
+    public void setRecordTarget(org.hl7.v3.deprecated.RCMRMT030101UKPatientSubject value) {
         this.recordTarget = value;
     }
 

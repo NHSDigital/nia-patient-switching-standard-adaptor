@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.*;
 
 
 /**
@@ -84,20 +83,20 @@ public class RCMRMT030101UKNarrativeStatement implements org.hl7.v3.deprecated.R
     @XmlElement(type = RCMRMT030101UKInformant.class)
     protected List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> informant;
 
-    @XmlElement(name = "Participant", type = RCMRMT030101UK04Participant.class)
-    protected List<RCMRMT030101UKParticipant> participant;
+    @XmlElement(name = "Participant", type = RCMRMT030101UKParticipant.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> participant;
 
-    @XmlElement(type = RCMRMT030101UK04ReplacementOf.class)
-    protected List<RCMRMT030101UKReplacementOf> replacementOf;
+    @XmlElement(type = RCMRMT030101UKReplacementOf.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> replacementOf;
 
-    @XmlElement(type = RCMRMT030101UK04Reason.class)
-    protected List<RCMRMT030101UKReason> reason;
+    @XmlElement(type = RCMRMT030101UKReason.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReason> reason;
 
-    @XmlElement(type = RCMRMT030101UK04Reference.class)
-    protected List<RCMRMT030101UKReference> reference;
+    @XmlElement(type = RCMRMT030101UKReference.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReference> reference;
 
-    @XmlElement(type = RCMRMT030101UK04SequelTo.class)
-    protected List<RCMRMT030101UKSequelTo> sequelTo;
+    @XmlElement(type = RCMRMT030101UKSequelTo.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> sequelTo;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -281,12 +280,12 @@ public class RCMRMT030101UKNarrativeStatement implements org.hl7.v3.deprecated.R
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04Participant }
+     * {@link RCMRMT030101UKParticipant }
      * 
      * 
      */
     @Override
-    public List<RCMRMT030101UKParticipant> getParticipant() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
             participant = new ArrayList<>();
         }
@@ -311,12 +310,12 @@ public class RCMRMT030101UKNarrativeStatement implements org.hl7.v3.deprecated.R
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04ReplacementOf }
+     * {@link RCMRMT030101UKReplacementOf }
      * 
      * 
      */
     @Override
-    public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
             replacementOf = new ArrayList<>();
         }
@@ -341,12 +340,12 @@ public class RCMRMT030101UKNarrativeStatement implements org.hl7.v3.deprecated.R
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04Reason }
+     * {@link RCMRMT030101UKReason }
      * 
      * 
      */
     @Override
-    public List<RCMRMT030101UKReason> getReason() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKReason> getReason() {
         if (reason == null) {
             reason = new ArrayList<>();
         }
@@ -371,12 +370,12 @@ public class RCMRMT030101UKNarrativeStatement implements org.hl7.v3.deprecated.R
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04Reference }
+     * {@link RCMRMT030101UKReference }
      * 
      * 
      */
     @Override
-    public List<RCMRMT030101UKReference> getReference() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKReference> getReference() {
         if (reference == null) {
             reference = new ArrayList<>();
         }
@@ -401,12 +400,12 @@ public class RCMRMT030101UKNarrativeStatement implements org.hl7.v3.deprecated.R
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04SequelTo }
+     * {@link RCMRMT030101UKSequelTo }
      * 
      * 
      */
     @Override
-    public List<RCMRMT030101UKSequelTo> getSequelTo() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
             sequelTo = new ArrayList<>();
         }

@@ -34,13 +34,12 @@ import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.deprecated.RCMRMT030101UKAnnotation;
 import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04PertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.deprecated.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -134,8 +133,8 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
             : observationStatements) {
             var bloodPressureText = observationStatement.getPertinentInformation().stream()
                 .filter(this::pertinentInformationHasText)
-                .map(RCMRMT030101UK04PertinentInformation02.class::cast)
-                .map(RCMRMT030101UK04PertinentInformation02::getPertinentAnnotation)
+                .map(RCMRMT030101UKPertinentInformation02.class::cast)
+                .map(RCMRMT030101UKPertinentInformation02::getPertinentAnnotation)
                 .map(RCMRMT030101UKAnnotation::getText)
                 .map(text -> {
 
@@ -169,7 +168,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         return stringBuilder.toString().trim();
     }
 
-    private boolean pertinentInformationHasText(RCMRMT030101UKPertinentInformation02 pertinentInformation) {
+    private boolean pertinentInformationHasText(org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation02 pertinentInformation) {
         return pertinentInformation != null && pertinentInformation.getPertinentAnnotation() != null
             && StringUtils.isNotEmpty(pertinentInformation.getPertinentAnnotation().getText());
     }

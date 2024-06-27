@@ -14,25 +14,30 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.EhrFolder complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK04.RegistrationStatement complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.EhrFolder"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK04.RegistrationStatement"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
  *         &amp;lt;element name="id" type="{urn:hl7-org:v3}II"/&amp;gt;
+ *         &amp;lt;element name="code" type="{urn:hl7-org:v3}CE"/&amp;gt;
  *         &amp;lt;element name="statusCode" type="{urn:hl7-org:v3}CS"/&amp;gt;
  *         &amp;lt;element name="effectiveTime" type="{urn:hl7-org:v3}IVL_TS"/&amp;gt;
  *         &amp;lt;element name="availabilityTime" type="{urn:hl7-org:v3}TS"/&amp;gt;
- *         &amp;lt;element name="author" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Author2"/&amp;gt;
- *         &amp;lt;element name="responsibleParty" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ResponsibleParty"/&amp;gt;
- *         &amp;lt;element name="component" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Component3" maxOccurs="unbounded"/&amp;gt;
+ *         &amp;lt;element name="responsibleParty" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ResponsibleParty2" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="informant" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Informant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="Participant" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Participant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="replacementOf" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ReplacementOf" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="reason" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Reason" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="reference" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Reference" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="sequelTo" type="{urn:hl7-org:v3}RCMR_MT030101UK04.SequelTo" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
- *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ActHeir" /&amp;gt;
- *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="FOLDER" /&amp;gt;
+ *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Observation" /&amp;gt;
+ *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="OBS" /&amp;gt;
  *       &amp;lt;attribute name="moodCode" type="{urn:hl7-org:v3}ActMood" default="EVN" /&amp;gt;
  *       &amp;lt;attribute name="typeID"&amp;gt;
  *         &amp;lt;simpleType&amp;gt;
@@ -54,19 +59,26 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.EhrFolder", propOrder = {
+@XmlType(name = "RCMR_MT030101UK04.RegistrationStatement", propOrder = {
     "id",
+    "code",
     "statusCode",
     "effectiveTime",
     "availabilityTime",
-    "author",
     "responsibleParty",
-    "component"
+    "informant",
+    "participant",
+    "replacementOf",
+    "reason",
+    "reference",
+    "sequelTo"
 })
-public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder {
+public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecated.RCMRMT030101UKRegistrationStatement {
 
     @XmlElement(required = true)
     protected II id;
+    @XmlElement(required = true)
+    protected CE code;
     @XmlElement(required = true)
     protected CS statusCode;
     @XmlElement(required = true)
@@ -74,14 +86,26 @@ public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT0301
     @XmlElement(required = true)
     protected TS availabilityTime;
 
-    @XmlElement(required = true, type = RCMRMT030101UKAuthor2.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKAuthor2 author;
+    @XmlElement(type = RCMRMT030101UKResponsibleParty2.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty2 responsibleParty;
 
-    @XmlElement(required = true, type = RCMRMT030101UKResponsibleParty.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty responsibleParty;
+    @XmlElement(type = RCMRMT030101UKInformant.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> informant;
 
-    @XmlElement(required = true, type = RCMRMT030101UKComponent3.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKComponent3> component;
+    @XmlElement(name = "Participant", type = RCMRMT030101UKParticipant.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> participant;
+
+    @XmlElement(type = RCMRMT030101UKReplacementOf.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> replacementOf;
+
+    @XmlElement(type = RCMRMT030101UKReason.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReason> reason;
+
+    @XmlElement(type = RCMRMT030101UKReference.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReference> reference;
+
+    @XmlElement(type = RCMRMT030101UKSequelTo.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> sequelTo;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -89,12 +113,16 @@ public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT0301
 
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
+
     @XmlAttribute(name = "moodCode")
     protected List<String> moodCode;
+
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
+
     @XmlAttribute(name = "realmCode")
     protected List<String> realmCode;
+
     @XmlAttribute(name = "nullFlavor")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String nullFlavor;
@@ -123,6 +151,32 @@ public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT0301
     @Override
     public void setId(II value) {
         this.id = value;
+    }
+
+    /**
+     * Gets the value of the code property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CE }
+     *     
+     */
+    @Override
+    public CE getCode() {
+        return code;
+    }
+
+    /**
+     * Sets the value of the code property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CE }
+     *     
+     */
+    @Override
+    public void setCode(CE value) {
+        this.code = value;
     }
 
     /**
@@ -204,41 +258,15 @@ public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT0301
     }
 
     /**
-     * Gets the value of the author property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link RCMRMT030101UKAuthor2 }
-     *     
-     */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKAuthor2 getAuthor() {
-        return author;
-    }
-
-    /**
-     * Sets the value of the author property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link RCMRMT030101UKAuthor2 }
-     *     
-     */
-    @Override
-    public void setAuthor(org.hl7.v3.deprecated.RCMRMT030101UKAuthor2 value) {
-        this.author = value;
-    }
-
-    /**
      * Gets the value of the responsibleParty property.
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UKResponsibleParty }
+     *     {@link RCMRMT030101UKResponsibleParty2 }
      *     
      */
     @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty getResponsibleParty() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty2 getResponsibleParty() {
         return responsibleParty;
     }
 
@@ -247,42 +275,192 @@ public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT0301
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UKResponsibleParty }
+     *     {@link RCMRMT030101UKResponsibleParty2 }
      *     
      */
     @Override
-    public void setResponsibleParty(org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty value) {
+    public void setResponsibleParty(org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty2 value) {
         this.responsibleParty = value;
     }
 
     /**
-     * Gets the value of the component property.
+     * Gets the value of the informant property.
      * 
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the component property.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the informant property.
      * 
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
-     *    getComponent().add(newItem);
+     *    getInformant().add(newItem);
      * &lt;/pre&gt;
      * 
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UKComponent3 }
+     * {@link RCMRMT030101UKInformant }
      * 
      * 
      */
     @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKComponent3> getComponent() {
-        if (component == null) {
-            component = new ArrayList<>();
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> getInformant() {
+        if (informant == null) {
+            informant = new ArrayList<>();
         }
-        return this.component;
+        return this.informant;
+    }
+
+    /**
+     * Gets the value of the participant property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the participant property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getParticipant().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link RCMRMT030101UKParticipant }
+     * 
+     * 
+     */
+    @Override
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> getParticipant() {
+        if (participant == null) {
+            participant = new ArrayList<>();
+        }
+        return this.participant;
+    }
+
+    /**
+     * Gets the value of the replacementOf property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the replacementOf property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getReplacementOf().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link RCMRMT030101UKReplacementOf }
+     * 
+     * 
+     */
+    @Override
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> getReplacementOf() {
+        if (replacementOf == null) {
+            replacementOf = new ArrayList<>();
+        }
+        return this.replacementOf;
+    }
+
+    /**
+     * Gets the value of the reason property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the reason property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getReason().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link RCMRMT030101UKReason }
+     * 
+     * 
+     */
+    @Override
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKReason> getReason() {
+        if (reason == null) {
+            reason = new ArrayList<>();
+        }
+        return this.reason;
+    }
+
+    /**
+     * Gets the value of the reference property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the reference property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getReference().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link RCMRMT030101UKReference }
+     * 
+     * 
+     */
+    @Override
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKReference> getReference() {
+        if (reference == null) {
+            reference = new ArrayList<>();
+        }
+        return this.reference;
+    }
+
+    /**
+     * Gets the value of the sequelTo property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the sequelTo property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getSequelTo().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link RCMRMT030101UKSequelTo }
+     * 
+     * 
+     */
+    @Override
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> getSequelTo() {
+        if (sequelTo == null) {
+            sequelTo = new ArrayList<>();
+        }
+        return this.sequelTo;
     }
 
     /**
@@ -296,7 +474,7 @@ public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT0301
     @Override
     public String getType() {
         if (type == null) {
-            return "ActHeir";
+            return "Observation";
         } else {
             return type;
         }

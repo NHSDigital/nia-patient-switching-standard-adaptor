@@ -14,20 +14,21 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.InformantRole complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK04.SpecimenRole complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.InformantRole"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK04.SpecimenRole"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="code" type="{urn:hl7-org:v3}CE" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="playingPerson" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Person" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="id" type="{urn:hl7-org:v3}II" maxOccurs="2"/&amp;gt;
+ *         &amp;lt;element name="effectiveTime" type="{urn:hl7-org:v3}IVL_TS" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="specimenSpecimenMaterial" type="{urn:hl7-org:v3}RCMR_MT030101UK04.SpecimenMaterial"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="RoleHeir" /&amp;gt;
- *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}RoleClass" default="ROL" /&amp;gt;
+ *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}RoleClass" default="SPEC" /&amp;gt;
  *       &amp;lt;attribute name="typeID"&amp;gt;
  *         &amp;lt;simpleType&amp;gt;
  *           &amp;lt;list itemType="{urn:hl7-org:v3}oid" /&amp;gt;
@@ -48,15 +49,20 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.InformantRole", propOrder = {
-    "code",
-    "playingPerson"
+@XmlType(name = "RCMR_MT030101UK04.SpecimenRole", propOrder = {
+    "id",
+    "effectiveTime",
+    "specimenSpecimenMaterial"
 })
-public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT030101UKInformantRole {
+public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT030101UKSpecimenRole {
 
-    protected CE code;
-    @XmlElement(type = RCMRMT030101UKPerson.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKPerson playingPerson;
+    @XmlElement(required = true)
+    protected List<II> id;
+    protected IVLTS effectiveTime;
+
+    @XmlElement(required = true, type = RCMRMT030101UKSpecimenMaterial.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKSpecimenMaterial specimenSpecimenMaterial;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -71,55 +77,85 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
     protected String nullFlavor;
 
     /**
-     * Gets the value of the code property.
+     * Gets the value of the id property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the id property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getId().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link II }
+     * 
+     * 
+     */
+    @Override
+    public List<II> getId() {
+        if (id == null) {
+            id = new ArrayList<>();
+        }
+        return this.id;
+    }
+
+    /**
+     * Gets the value of the effectiveTime property.
      * 
      * @return
      *     possible object is
-     *     {@link CE }
+     *     {@link IVLTS }
      *     
      */
     @Override
-    public CE getCode() {
-        return code;
+    public IVLTS getEffectiveTime() {
+        return effectiveTime;
     }
 
     /**
-     * Sets the value of the code property.
+     * Sets the value of the effectiveTime property.
      * 
      * @param value
      *     allowed object is
-     *     {@link CE }
+     *     {@link IVLTS }
      *     
      */
     @Override
-    public void setCode(CE value) {
-        this.code = value;
+    public void setEffectiveTime(IVLTS value) {
+        this.effectiveTime = value;
     }
 
     /**
-     * Gets the value of the playingPerson property.
+     * Gets the value of the specimenSpecimenMaterial property.
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UKPerson }
+     *     {@link RCMRMT030101UKSpecimenMaterial }
      *     
      */
     @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKPerson getPlayingPerson() {
-        return playingPerson;
+    public org.hl7.v3.deprecated.RCMRMT030101UKSpecimenMaterial getSpecimenSpecimenMaterial() {
+        return specimenSpecimenMaterial;
     }
 
     /**
-     * Sets the value of the playingPerson property.
+     * Sets the value of the specimenSpecimenMaterial property.
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UKPerson }
+     *     {@link RCMRMT030101UKSpecimenMaterial }
      *     
      */
     @Override
-    public void setPlayingPerson(org.hl7.v3.deprecated.RCMRMT030101UKPerson value) {
-        this.playingPerson = value;
+    public void setSpecimenSpecimenMaterial(org.hl7.v3.deprecated.RCMRMT030101UKSpecimenMaterial value) {
+        this.specimenSpecimenMaterial = value;
     }
 
     /**
@@ -177,7 +213,7 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
     @Override
     public List<String> getClassCode() {
         if (classCode == null) {
-            classCode = new ArrayList<>();
+            classCode = new  ArrayList<>();
         }
         return this.classCode;
     }
@@ -207,7 +243,7 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
     @Override
     public List<String> getTypeID() {
         if (typeID == null) {
-            typeID = new ArrayList<>();
+            typeID = new  ArrayList<>();
         }
         return this.typeID;
     }
@@ -237,7 +273,7 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
     @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
-            realmCode = new ArrayList<>();
+            realmCode = new  ArrayList<>();
         }
         return this.realmCode;
     }

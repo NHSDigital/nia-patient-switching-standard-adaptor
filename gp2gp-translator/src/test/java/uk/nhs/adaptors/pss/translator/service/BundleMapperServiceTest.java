@@ -25,8 +25,7 @@ import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRMT030101UKAgentDirectory;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKLocation;
-import org.hl7.v3.RCMRMT030101UK04Patient;
-import org.hl7.v3.deprecated.RCMRMT030101UKPatient;
+import org.hl7.v3.RCMRMT030101UKPatient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -141,7 +140,7 @@ public class BundleMapperServiceTest {
 
         when(agentDirectoryMapper.mapAgentDirectory(any())).thenReturn(mockedList);
         when(mockedList.stream()).thenReturn(agentResourceList.stream());
-        when(patientMapper.mapToPatient(any(RCMRMT030101UKPatient.class), any(Organization.class))).thenReturn(new Patient());
+        when(patientMapper.mapToPatient(any(org.hl7.v3.deprecated.RCMRMT030101UKPatient.class), any(Organization.class))).thenReturn(new Patient());
         when(encounterMapper.mapEncounters(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), any(String.class), any(List.class)))
             .thenReturn(encounterResources);
         when(organizationMapper.mapAuthorOrganization(anyString(), anyList())).thenReturn(new Organization());
@@ -153,7 +152,7 @@ public class BundleMapperServiceTest {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
         Bundle bundle = bundleMapperService.mapToBundle(xml, LOSING_ODS_CODE, new ArrayList<>());
 
-        verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
+        verify(patientMapper).mapToPatient(any(RCMRMT030101UKPatient.class), any(Organization.class));
         verify(organizationMapper).mapAuthorOrganization(anyString(), anyList());
         verify(duplicateObservationStatementMapper).mergeDuplicateObservationStatements(any(RCMRMT030101UKEhrExtract.class));
         verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UKAgentDirectory.class));

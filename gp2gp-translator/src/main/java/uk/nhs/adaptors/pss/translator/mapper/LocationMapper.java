@@ -8,7 +8,7 @@ import org.hl7.fhir.dstu3.model.Address;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.ContactPoint;
-import org.hl7.v3.RCMRMT030101UK04Place;
+import org.hl7.v3.RCMRMT030101UKPlace;
 import org.hl7.v3.deprecated.RCMRMT030101UKLocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,12 +42,12 @@ public class LocationMapper {
         return createLocation(id, identifier, null, null, null);
     }
 
-    private String getName(RCMRMT030101UK04Place locatedPlace) {
+    private String getName(RCMRMT030101UKPlace locatedPlace) {
         var name = locatedPlace.getName();
         return name != null ? name : UNKNOWN_NAME;
     }
 
-    private ContactPoint getLocationTelecom(RCMRMT030101UK04Place locatedPlace) {
+    private ContactPoint getLocationTelecom(RCMRMT030101UKPlace locatedPlace) {
         var telecom = locatedPlace.getTelecom().stream().findFirst();
         if (telecom.isPresent()) {
             return TelecomUtil.mapTelecom(telecom.get());
@@ -56,7 +56,7 @@ public class LocationMapper {
         return null;
     }
 
-    private Address getLocationAddress(RCMRMT030101UK04Place locatedPlace) {
+    private Address getLocationAddress(RCMRMT030101UKPlace locatedPlace) {
         var address = locatedPlace.getAddr();
         if (address != null) {
             return AddressUtil.mapAddress(address);

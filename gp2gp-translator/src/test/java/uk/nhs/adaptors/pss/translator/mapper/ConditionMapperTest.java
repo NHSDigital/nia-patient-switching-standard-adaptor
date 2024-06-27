@@ -29,7 +29,7 @@ import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04Prescribe;
+import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -315,7 +315,7 @@ public class ConditionMapperTest {
         orderMedicationStatement.setId(createIdWithRoot(MEDICATION_STATEMENT_ORDER_ID));
         orderMedicationStatement.getMoodCode().add("ORD");
 
-        var prescribe = new RCMRMT030101UK04Prescribe();
+        var prescribe = new RCMRMT030101UKPrescribe();
         prescribe.setId(createIdWithRoot(PRESCRIBE_ID));
 
         var orderComponent = new RCMRMT030101UKComponent2();

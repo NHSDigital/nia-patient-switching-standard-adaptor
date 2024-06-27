@@ -14,26 +14,28 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.EhrFolder complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK04.Prescribe complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.EhrFolder"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK04.Prescribe"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
  *         &amp;lt;element name="id" type="{urn:hl7-org:v3}II"/&amp;gt;
+ *         &amp;lt;element name="code" type="{urn:hl7-org:v3}CV"/&amp;gt;
  *         &amp;lt;element name="statusCode" type="{urn:hl7-org:v3}CS"/&amp;gt;
- *         &amp;lt;element name="effectiveTime" type="{urn:hl7-org:v3}IVL_TS"/&amp;gt;
  *         &amp;lt;element name="availabilityTime" type="{urn:hl7-org:v3}TS"/&amp;gt;
- *         &amp;lt;element name="author" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Author2"/&amp;gt;
- *         &amp;lt;element name="responsibleParty" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ResponsibleParty"/&amp;gt;
- *         &amp;lt;element name="component" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Component3" maxOccurs="unbounded"/&amp;gt;
+ *         &amp;lt;element name="quantity" type="{urn:hl7-org:v3}PQ"/&amp;gt;
+ *         &amp;lt;element name="inFulfillmentOf" type="{urn:hl7-org:v3}RCMR_MT030101UK04.InFulfillmentOf02" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="performer" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Performer" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="consumable" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Product" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="pertinentInformation" type="{urn:hl7-org:v3}RCMR_MT030101UK04.PertinentInformation2" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
- *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ActHeir" /&amp;gt;
- *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="FOLDER" /&amp;gt;
- *       &amp;lt;attribute name="moodCode" type="{urn:hl7-org:v3}ActMood" default="EVN" /&amp;gt;
+ *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Supply" /&amp;gt;
+ *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="SPLY" /&amp;gt;
+ *       &amp;lt;attribute name="moodCode" type="{urn:hl7-org:v3}ActMood" default="RQO" /&amp;gt;
  *       &amp;lt;attribute name="typeID"&amp;gt;
  *         &amp;lt;simpleType&amp;gt;
  *           &amp;lt;list itemType="{urn:hl7-org:v3}oid" /&amp;gt;
@@ -54,39 +56,47 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.EhrFolder", propOrder = {
+@XmlType(name = "RCMR_MT030101UK04.Prescribe", propOrder = {
     "id",
+    "code",
     "statusCode",
-    "effectiveTime",
     "availabilityTime",
-    "author",
-    "responsibleParty",
-    "component"
+    "quantity",
+    "inFulfillmentOf",
+    "performer",
+    "consumable",
+    "pertinentInformation"
 })
-public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder {
+public class RCMRMT030101UKPrescribe implements org.hl7.v3.deprecated.RCMRMT030101UKPrescribe {
 
     @XmlElement(required = true)
     protected II id;
     @XmlElement(required = true)
-    protected CS statusCode;
+    protected CV code;
     @XmlElement(required = true)
-    protected IVLTS effectiveTime;
+    protected CS statusCode;
+
     @XmlElement(required = true)
     protected TS availabilityTime;
 
-    @XmlElement(required = true, type = RCMRMT030101UKAuthor2.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKAuthor2 author;
+    @XmlElement(required = true)
+    protected PQ quantity;
 
-    @XmlElement(required = true, type = RCMRMT030101UKResponsibleParty.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty responsibleParty;
+    @XmlElement(type = RCMRMT030101UKInFulfillmentOf02.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKInFulfillmentOf02 inFulfillmentOf;
 
-    @XmlElement(required = true, type = RCMRMT030101UKComponent3.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKComponent3> component;
+    @XmlElement(type = RCMRMT030101UKPerformer.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKPerformer performer;
+
+    @XmlElement(type = RCMRMT030101UKProduct.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKProduct consumable;
+
+    @XmlElement(type = RCMRMT030101UKPertinentInformation2.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation2> pertinentInformation;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
-
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
     @XmlAttribute(name = "moodCode")
@@ -125,6 +135,42 @@ public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT0301
         this.id = value;
     }
 
+    @Override
+    public boolean hasId() {
+        return id != null;
+    }
+
+    /**
+     * Gets the value of the code property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CV }
+     *     
+     */
+    @Override
+    public CV getCode() {
+        return code;
+    }
+
+    /**
+     * Sets the value of the code property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CV }
+     *     
+     */
+    @Override
+    public void setCode(CV value) {
+        this.code = value;
+    }
+
+    @Override
+    public boolean hasCode() {
+        return code != null;
+    }
+
     /**
      * Gets the value of the statusCode property.
      * 
@@ -149,32 +195,6 @@ public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT0301
     @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
-    }
-
-    /**
-     * Gets the value of the effectiveTime property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link IVLTS }
-     *     
-     */
-    @Override
-    public IVLTS getEffectiveTime() {
-        return effectiveTime;
-    }
-
-    /**
-     * Sets the value of the effectiveTime property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link IVLTS }
-     *     
-     */
-    @Override
-    public void setEffectiveTime(IVLTS value) {
-        this.effectiveTime = value;
     }
 
     /**
@@ -203,86 +223,153 @@ public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT0301
         this.availabilityTime = value;
     }
 
+    @Override
+    public boolean hasAvailabilityTime() {
+        return availabilityTime != null;
+    }
+
     /**
-     * Gets the value of the author property.
+     * Gets the value of the quantity property.
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UKAuthor2 }
+     *     {@link PQ }
      *     
      */
     @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKAuthor2 getAuthor() {
-        return author;
+    public PQ getQuantity() {
+        return quantity;
     }
 
     /**
-     * Sets the value of the author property.
+     * Sets the value of the quantity property.
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UKAuthor2 }
+     *     {@link PQ }
      *     
      */
     @Override
-    public void setAuthor(org.hl7.v3.deprecated.RCMRMT030101UKAuthor2 value) {
-        this.author = value;
+    public void setQuantity(PQ value) {
+        this.quantity = value;
+    }
+
+    @Override
+    public boolean hasQuantity() {
+        return quantity != null;
     }
 
     /**
-     * Gets the value of the responsibleParty property.
+     * Gets the value of the inFulfillmentOf property.
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UKResponsibleParty }
+     *     {@link RCMRMT030101UKInFulfillmentOf02 }
      *     
      */
     @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty getResponsibleParty() {
-        return responsibleParty;
+    public org.hl7.v3.deprecated.RCMRMT030101UKInFulfillmentOf02 getInFulfillmentOf() {
+        return inFulfillmentOf;
     }
 
     /**
-     * Sets the value of the responsibleParty property.
+     * Sets the value of the inFulfillmentOf property.
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UKResponsibleParty }
+     *     {@link RCMRMT030101UKInFulfillmentOf02 }
      *     
      */
     @Override
-    public void setResponsibleParty(org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty value) {
-        this.responsibleParty = value;
+    public void setInFulfillmentOf(org.hl7.v3.deprecated.RCMRMT030101UKInFulfillmentOf02 value) {
+        this.inFulfillmentOf = value;
+    }
+
+    @Override
+    public boolean hasInFulfillmentOf() {
+        return inFulfillmentOf != null;
     }
 
     /**
-     * Gets the value of the component property.
+     * Gets the value of the performer property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link RCMRMT030101UKPerformer }
+     *     
+     */
+    @Override
+    public org.hl7.v3.deprecated.RCMRMT030101UKPerformer getPerformer() {
+        return performer;
+    }
+
+    /**
+     * Sets the value of the performer property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link RCMRMT030101UKPerformer }
+     *     
+     */
+    @Override
+    public void setPerformer(org.hl7.v3.deprecated.RCMRMT030101UKPerformer value) {
+        this.performer = value;
+    }
+
+    /**
+     * Gets the value of the consumable property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link RCMRMT030101UKProduct }
+     *     
+     */
+    @Override
+    public org.hl7.v3.deprecated.RCMRMT030101UKProduct getConsumable() {
+        return consumable;
+    }
+
+    /**
+     * Sets the value of the consumable property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link RCMRMT030101UKProduct }
+     *     
+     */
+    @Override
+    public void setConsumable(org.hl7.v3.deprecated.RCMRMT030101UKProduct value) {
+        this.consumable = value;
+    }
+
+    /**
+     * Gets the value of the pertinentInformation property.
      * 
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the component property.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the pertinentInformation property.
      * 
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
-     *    getComponent().add(newItem);
+     *    getPertinentInformation().add(newItem);
      * &lt;/pre&gt;
      * 
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UKComponent3 }
+     * {@link RCMRMT030101UKPertinentInformation2 }
      * 
      * 
      */
     @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKComponent3> getComponent() {
-        if (component == null) {
-            component = new ArrayList<>();
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation2> getPertinentInformation() {
+        if (pertinentInformation == null) {
+            pertinentInformation = new ArrayList<>();
         }
-        return this.component;
+        return this.pertinentInformation;
     }
 
     /**
@@ -296,7 +383,7 @@ public class RCMRMT030101UKEhrFolder implements org.hl7.v3.deprecated.RCMRMT0301
     @Override
     public String getType() {
         if (type == null) {
-            return "ActHeir";
+            return "Supply";
         } else {
             return type;
         }

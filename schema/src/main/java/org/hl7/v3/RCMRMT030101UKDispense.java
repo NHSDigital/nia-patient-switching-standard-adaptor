@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.*;
 
 
 /**
@@ -84,14 +83,14 @@ public class RCMRMT030101UKDispense implements org.hl7.v3.deprecated.RCMRMT03010
     @XmlElement(type = RCMRMT030101UKInFulfillmentOf.class)
     protected org.hl7.v3.deprecated.RCMRMT030101UKInFulfillmentOf inFulfillmentOf;
 
-    @XmlElement(type = RCMRMT030101UK04Performer.class)
-    protected RCMRMT030101UKPerformer performer;
+    @XmlElement(type = RCMRMT030101UKPerformer.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKPerformer performer;
 
-    @XmlElement(type = RCMRMT030101UK04Product.class)
-    protected RCMRMT030101UKProduct consumable;
+    @XmlElement(type = RCMRMT030101UKProduct.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKProduct consumable;
 
-    @XmlElement(type = RCMRMT030101UK04PertinentInformation2.class)
-    protected List<RCMRMT030101UKPertinentInformation2> pertinentInformation;
+    @XmlElement(type = RCMRMT030101UKPertinentInformation2.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation2> pertinentInformation;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -274,11 +273,11 @@ public class RCMRMT030101UKDispense implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04Performer }
+     *     {@link RCMRMT030101UKPerformer }
      *     
      */
     @Override
-    public RCMRMT030101UKPerformer getPerformer() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKPerformer getPerformer() {
         return performer;
     }
 
@@ -287,11 +286,11 @@ public class RCMRMT030101UKDispense implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04Performer }
+     *     {@link RCMRMT030101UKPerformer }
      *     
      */
     @Override
-    public void setPerformer(RCMRMT030101UKPerformer value) {
+    public void setPerformer(org.hl7.v3.deprecated.RCMRMT030101UKPerformer value) {
         this.performer = value;
     }
 
@@ -300,11 +299,11 @@ public class RCMRMT030101UKDispense implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04Product }
+     *     {@link RCMRMT030101UKProduct }
      *     
      */
     @Override
-    public RCMRMT030101UKProduct getConsumable() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKProduct getConsumable() {
         return consumable;
     }
 
@@ -313,11 +312,11 @@ public class RCMRMT030101UKDispense implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04Product }
+     *     {@link RCMRMT030101UKProduct }
      *     
      */
     @Override
-    public void setConsumable(RCMRMT030101UKProduct value) {
+    public void setConsumable(org.hl7.v3.deprecated.RCMRMT030101UKProduct value) {
         this.consumable = value;
     }
 
@@ -339,12 +338,12 @@ public class RCMRMT030101UKDispense implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04PertinentInformation2 }
+     * {@link RCMRMT030101UKPertinentInformation2 }
      * 
      * 
      */
     @Override
-    public List<RCMRMT030101UKPertinentInformation2> getPertinentInformation() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation2> getPertinentInformation() {
         if (pertinentInformation == null) {
             pertinentInformation = new ArrayList<>();
         }

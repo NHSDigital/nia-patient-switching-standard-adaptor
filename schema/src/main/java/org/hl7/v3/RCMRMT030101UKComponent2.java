@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.*;
 
 
 /**
@@ -70,8 +69,8 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
     @XmlElement(type = RCMRMT030101UKDispense.class)
     protected org.hl7.v3.deprecated.RCMRMT030101UKDispense ehrSupplyDispense;
 
-    @XmlElement(type = RCMRMT030101UK04Prescribe.class)
-    protected RCMRMT030101UKPrescribe ehrSupplyPrescribe;
+    @XmlElement(type = RCMRMT030101UKPrescribe.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKPrescribe ehrSupplyPrescribe;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -180,11 +179,11 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04Prescribe }
+     *     {@link RCMRMT030101UKPrescribe }
      *     
      */
     @Override
-    public RCMRMT030101UKPrescribe getEhrSupplyPrescribe() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKPrescribe getEhrSupplyPrescribe() {
         return ehrSupplyPrescribe;
     }
 
@@ -193,11 +192,11 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04Prescribe }
+     *     {@link RCMRMT030101UKPrescribe }
      *     
      */
     @Override
-    public void setEhrSupplyPrescribe(RCMRMT030101UKPrescribe value) {
+    public void setEhrSupplyPrescribe(org.hl7.v3.deprecated.RCMRMT030101UKPrescribe value) {
         this.ehrSupplyPrescribe = value;
     }
 

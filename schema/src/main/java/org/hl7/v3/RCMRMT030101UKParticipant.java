@@ -14,20 +14,21 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.InformantRole complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK04.Participant complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.InformantRole"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK04.Participant"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="code" type="{urn:hl7-org:v3}CE" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="playingPerson" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Person" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="time" type="{urn:hl7-org:v3}IVL_TS" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="agentRef" type="{urn:hl7-org:v3}RCMR_MT030101UK04.AgentRef"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
- *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="RoleHeir" /&amp;gt;
- *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}RoleClass" default="ROL" /&amp;gt;
+ *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Participation" /&amp;gt;
+ *       &amp;lt;attribute name="typeCode" use="required" type="{urn:hl7-org:v3}ParticipationType" /&amp;gt;
+ *       &amp;lt;attribute name="contextControlCode" type="{urn:hl7-org:v3}ContextControl" default="OP" /&amp;gt;
  *       &amp;lt;attribute name="typeID"&amp;gt;
  *         &amp;lt;simpleType&amp;gt;
  *           &amp;lt;list itemType="{urn:hl7-org:v3}oid" /&amp;gt;
@@ -48,20 +49,25 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.InformantRole", propOrder = {
-    "code",
-    "playingPerson"
+@XmlType(name = "RCMR_MT030101UK04.Participant", propOrder = {
+    "time",
+    "agentRef"
 })
-public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT030101UKInformantRole {
+public class RCMRMT030101UKParticipant implements org.hl7.v3.deprecated.RCMRMT030101UKParticipant {
 
-    protected CE code;
-    @XmlElement(type = RCMRMT030101UKPerson.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKPerson playingPerson;
+    protected IVLTS time;
+
+    @XmlElement(required = true, type = RCMRMT030101UKAgentRef.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKAgentRef agentRef;
+
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
-    @XmlAttribute(name = "classCode")
-    protected List<String> classCode;
+
+    @XmlAttribute(name = "typeCode", required = true)
+    protected List<String> typeCode;
+    @XmlAttribute(name = "contextControlCode")
+    protected List<String> contextControlCode;
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
     @XmlAttribute(name = "realmCode")
@@ -71,55 +77,55 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
     protected String nullFlavor;
 
     /**
-     * Gets the value of the code property.
+     * Gets the value of the time property.
      * 
      * @return
      *     possible object is
-     *     {@link CE }
+     *     {@link IVLTS }
      *     
      */
     @Override
-    public CE getCode() {
-        return code;
+    public IVLTS getTime() {
+        return time;
     }
 
     /**
-     * Sets the value of the code property.
+     * Sets the value of the time property.
      * 
      * @param value
      *     allowed object is
-     *     {@link CE }
+     *     {@link IVLTS }
      *     
      */
     @Override
-    public void setCode(CE value) {
-        this.code = value;
+    public void setTime(IVLTS value) {
+        this.time = value;
     }
 
     /**
-     * Gets the value of the playingPerson property.
+     * Gets the value of the agentRef property.
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UKPerson }
+     *     {@link RCMRMT030101UKAgentRef }
      *     
      */
     @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKPerson getPlayingPerson() {
-        return playingPerson;
+    public org.hl7.v3.deprecated.RCMRMT030101UKAgentRef getAgentRef() {
+        return agentRef;
     }
 
     /**
-     * Sets the value of the playingPerson property.
+     * Sets the value of the agentRef property.
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UKPerson }
+     *     {@link RCMRMT030101UKAgentRef }
      *     
      */
     @Override
-    public void setPlayingPerson(org.hl7.v3.deprecated.RCMRMT030101UKPerson value) {
-        this.playingPerson = value;
+    public void setAgentRef(org.hl7.v3.deprecated.RCMRMT030101UKAgentRef value) {
+        this.agentRef = value;
     }
 
     /**
@@ -133,7 +139,7 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
     @Override
     public String getType() {
         if (type == null) {
-            return "RoleHeir";
+            return "Participation";
         } else {
             return type;
         }
@@ -153,18 +159,18 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
     }
 
     /**
-     * Gets the value of the classCode property.
+     * Gets the value of the typeCode property.
      * 
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the classCode property.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the typeCode property.
      * 
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
-     *    getClassCode().add(newItem);
+     *    getTypeCode().add(newItem);
      * &lt;/pre&gt;
      * 
      * 
@@ -175,11 +181,41 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
      * 
      */
     @Override
-    public List<String> getClassCode() {
-        if (classCode == null) {
-            classCode = new ArrayList<>();
+    public List<String> getTypeCode() {
+        if (typeCode == null) {
+            typeCode = new ArrayList<>();
         }
-        return this.classCode;
+        return this.typeCode;
+    }
+
+    /**
+     * Gets the value of the contextControlCode property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the contextControlCode property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getContextControlCode().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    @Override
+    public List<String> getContextControlCode() {
+        if (contextControlCode == null) {
+            contextControlCode = new ArrayList<>();
+        }
+        return this.contextControlCode;
     }
 
     /**
@@ -266,6 +302,11 @@ public class RCMRMT030101UKInformantRole implements org.hl7.v3.deprecated.RCMRMT
     @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
+    }
+
+    @Override
+    public boolean hasNullFlavour() {
+        return nullFlavor != null && !nullFlavor.equals("");
     }
 
 }

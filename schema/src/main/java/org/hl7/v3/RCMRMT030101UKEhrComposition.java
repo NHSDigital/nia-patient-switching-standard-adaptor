@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.*;
 
 
 /**
@@ -89,14 +88,14 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
     @XmlElement(type = RCMRMT030101UKLocation.class)
     protected org.hl7.v3.deprecated.RCMRMT030101UKLocation location;
 
-    @XmlElement(name = "Participant2", type = RCMRMT030101UK04Participant2.class)
-    protected List<RCMRMT030101UKParticipant2> participant2;
+    @XmlElement(name = "Participant2", type = RCMRMT030101UKParticipant2.class)
+    protected List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant2> participant2;
 
     @XmlElement(required = true, type = RCMRMT030101UKComponent4.class)
     protected List<org.hl7.v3.deprecated.RCMRMT030101UKComponent4> component;
 
-    @XmlElement(type = RCMRMT030101UK04ReplacementOf2.class)
-    protected RCMRMT030101UKReplacementOf2 replacementOf;
+    @XmlElement(type = RCMRMT030101UKReplacementOf2.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf2 replacementOf;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -321,12 +320,12 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      * 
      * &lt;p&gt;
      * Objects of the following type(s) are allowed in the list
-     * {@link RCMRMT030101UK04Participant2 }
+     * {@link RCMRMT030101UKParticipant2 }
      * 
      * 
      */
     @Override
-    public List<RCMRMT030101UKParticipant2> getParticipant2() {
+    public List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant2> getParticipant2() {
         if (participant2 == null) {
             participant2 = new ArrayList<>();
         }
@@ -386,11 +385,11 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04ReplacementOf2 }
+     *     {@link RCMRMT030101UKReplacementOf2 }
      *     
      */
     @Override
-    public RCMRMT030101UKReplacementOf2 getReplacementOf() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf2 getReplacementOf() {
         return replacementOf;
     }
 
@@ -399,11 +398,11 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04ReplacementOf2 }
+     *     {@link RCMRMT030101UKReplacementOf2 }
      *     
      */
     @Override
-    public void setReplacementOf(RCMRMT030101UKReplacementOf2 value) {
+    public void setReplacementOf(org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf2 value) {
         this.replacementOf = value;
     }
 

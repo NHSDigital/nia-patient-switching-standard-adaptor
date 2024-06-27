@@ -54,7 +54,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT030101UKLocatedEntity {
 
     protected CV code;
-    protected RCMRMT030101UK04Place locatedPlace;
+    protected RCMRMT030101UKPlace locatedPlace;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -99,11 +99,11 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04Place }
+     *     {@link RCMRMT030101UKPlace }
      *     
      */
     @Override
-    public RCMRMT030101UK04Place getLocatedPlace() {
+    public RCMRMT030101UKPlace getLocatedPlace() {
         return locatedPlace;
     }
 
@@ -112,11 +112,11 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04Place }
+     *     {@link RCMRMT030101UKPlace }
      *     
      */
     @Override
-    public void setLocatedPlace(RCMRMT030101UK04Place value) {
+    public void setLocatedPlace(RCMRMT030101UKPlace value) {
         this.locatedPlace = value;
     }
 

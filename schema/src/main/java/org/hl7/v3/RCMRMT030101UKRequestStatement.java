@@ -14,16 +14,23 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.EhrEmpty complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK04.RequestStatement complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.EhrEmpty"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK04.RequestStatement"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="id" type="{urn:hl7-org:v3}II"/&amp;gt;
+ *         &amp;lt;element name="id" type="{urn:hl7-org:v3}II" maxOccurs="2"/&amp;gt;
+ *         &amp;lt;element name="code" type="{urn:hl7-org:v3}CD"/&amp;gt;
+ *         &amp;lt;element name="text" type="{urn:hl7-org:v3}ED" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="statusCode" type="{urn:hl7-org:v3}CS"/&amp;gt;
+ *         &amp;lt;element name="effectiveTime" type="{urn:hl7-org:v3}IVL_TS"/&amp;gt;
+ *         &amp;lt;element name="availabilityTime" type="{urn:hl7-org:v3}TS"/&amp;gt;
+ *         &amp;lt;element name="priorityCode" type="{urn:hl7-org:v3}CV" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="responsibleParty" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ResponsibleParty3" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="informant" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Informant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="Participant" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Participant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="replacementOf" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ReplacementOf" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
@@ -33,7 +40,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Observation" /&amp;gt;
  *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="OBS" /&amp;gt;
- *       &amp;lt;attribute name="moodCode" use="required" type="{urn:hl7-org:v3}ActMood" /&amp;gt;
+ *       &amp;lt;attribute name="moodCode" type="{urn:hl7-org:v3}ActMood" default="RQO" /&amp;gt;
  *       &amp;lt;attribute name="typeID"&amp;gt;
  *         &amp;lt;simpleType&amp;gt;
  *           &amp;lt;list itemType="{urn:hl7-org:v3}oid" /&amp;gt;
@@ -54,8 +61,15 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.EhrEmpty", propOrder = {
+@XmlType(name = "RCMR_MT030101UK04.RequestStatement", propOrder = {
     "id",
+    "code",
+    "text",
+    "statusCode",
+    "effectiveTime",
+    "availabilityTime",
+    "priorityCode",
+    "responsibleParty",
     "informant",
     "participant",
     "replacementOf",
@@ -63,10 +77,23 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "reference",
     "sequelTo"
 })
-public class RCMRMT030101UKEhrEmpty implements org.hl7.v3.deprecated.RCMRMT030101UKEhrEmpty {
+public class RCMRMT030101UKRequestStatement implements org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement {
 
     @XmlElement(required = true)
-    protected II id;
+    protected List<II> id;
+    @XmlElement(required = true)
+    protected CD code;
+    protected String text;
+    @XmlElement(required = true)
+    protected CS statusCode;
+    @XmlElement(required = true)
+    protected IVLTS effectiveTime;
+    @XmlElement(required = true)
+    protected TS availabilityTime;
+    protected CV priorityCode;
+
+    @XmlElement(type = RCMRMT030101UKResponsibleParty3.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty3 responsibleParty;
 
     @XmlElement(type = RCMRMT030101UKInformant.class)
     protected List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> informant;
@@ -85,15 +112,12 @@ public class RCMRMT030101UKEhrEmpty implements org.hl7.v3.deprecated.RCMRMT03010
 
     @XmlElement(type = RCMRMT030101UKSequelTo.class)
     protected List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> sequelTo;
-
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
-
     @XmlAttribute(name = "classCode")
     protected List<String> classCode;
-
-    @XmlAttribute(name = "moodCode", required = true)
+    @XmlAttribute(name = "moodCode")
     protected List<String> moodCode;
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
@@ -106,27 +130,213 @@ public class RCMRMT030101UKEhrEmpty implements org.hl7.v3.deprecated.RCMRMT03010
     /**
      * Gets the value of the id property.
      * 
-     * @return
-     *     possible object is
-     *     {@link II }
-     *     
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the id property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getId().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link II }
+     * 
+     * 
      */
     @Override
-    public II getId() {
-        return id;
+    public List<II> getId() {
+        if (id == null) {
+            id = new ArrayList<>();
+        }
+        return this.id;
     }
 
     /**
-     * Sets the value of the id property.
+     * Gets the value of the code property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link II }
+     * @return
+     *     possible object is
+     *     {@link CD }
      *     
      */
     @Override
-    public void setId(II value) {
-        this.id = value;
+    public CD getCode() {
+        return code;
+    }
+
+    /**
+     * Sets the value of the code property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CD }
+     *     
+     */
+    @Override
+    public void setCode(CD value) {
+        this.code = value;
+    }
+
+    /**
+     * Gets the value of the text property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    @Override
+    public String getText() {
+        return text;
+    }
+
+    /**
+     * Sets the value of the text property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    @Override
+    public void setText(String value) {
+        this.text = value;
+    }
+
+    /**
+     * Gets the value of the statusCode property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CS }
+     *     
+     */
+    @Override
+    public CS getStatusCode() {
+        return statusCode;
+    }
+
+    /**
+     * Sets the value of the statusCode property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CS }
+     *     
+     */
+    @Override
+    public void setStatusCode(CS value) {
+        this.statusCode = value;
+    }
+
+    /**
+     * Gets the value of the effectiveTime property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link IVLTS }
+     *     
+     */
+    @Override
+    public IVLTS getEffectiveTime() {
+        return effectiveTime;
+    }
+
+    /**
+     * Sets the value of the effectiveTime property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link IVLTS }
+     *     
+     */
+    @Override
+    public void setEffectiveTime(IVLTS value) {
+        this.effectiveTime = value;
+    }
+
+    /**
+     * Gets the value of the availabilityTime property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TS }
+     *     
+     */
+    @Override
+    public TS getAvailabilityTime() {
+        return availabilityTime;
+    }
+
+    /**
+     * Sets the value of the availabilityTime property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TS }
+     *     
+     */
+    @Override
+    public void setAvailabilityTime(TS value) {
+        this.availabilityTime = value;
+    }
+
+    /**
+     * Gets the value of the priorityCode property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CV }
+     *     
+     */
+    @Override
+    public CV getPriorityCode() {
+        return priorityCode;
+    }
+
+    /**
+     * Sets the value of the priorityCode property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CV }
+     *     
+     */
+    @Override
+    public void setPriorityCode(CV value) {
+        this.priorityCode = value;
+    }
+
+    /**
+     * Gets the value of the responsibleParty property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link RCMRMT030101UKResponsibleParty3 }
+     *     
+     */
+    @Override
+    public org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty3 getResponsibleParty() {
+        return responsibleParty;
+    }
+
+    /**
+     * Sets the value of the responsibleParty property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link RCMRMT030101UKResponsibleParty3 }
+     *     
+     */
+    @Override
+    public void setResponsibleParty(RCMRMT030101UKResponsibleParty3 value) {
+        this.responsibleParty = value;
     }
 
     /**

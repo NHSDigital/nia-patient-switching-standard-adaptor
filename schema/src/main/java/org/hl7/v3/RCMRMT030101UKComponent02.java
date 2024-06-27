@@ -11,7 +11,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.hl7.v3.deprecated.*;
 
 
 /**
@@ -97,14 +96,14 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
     @XmlElement(name = "ObservationStatement", type = RCMRMT030101UKObservationStatement.class)
     protected org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement observationStatement;
 
-    @XmlElement(name = "PlanStatement", type = RCMRMT030101UK04PlanStatement.class)
-    protected RCMRMT030101UKPlanStatement planStatement;
+    @XmlElement(name = "PlanStatement", type = RCMRMT030101UKPlanStatement.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement planStatement;
 
-    @XmlElement(name = "RegistrationStatement", type = RCMRMT030101UK04RegistrationStatement.class)
-    protected RCMRMT030101UKRegistrationStatement registrationStatement;
+    @XmlElement(name = "RegistrationStatement", type = RCMRMT030101UKRegistrationStatement.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKRegistrationStatement registrationStatement;
 
-    @XmlElement(name = "RequestStatement", type = RCMRMT030101UK04RequestStatement.class)
-    protected RCMRMT030101UKRequestStatement requestStatement;
+    @XmlElement(name = "RequestStatement", type = RCMRMT030101UKRequestStatement.class)
+    protected org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement requestStatement;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -363,11 +362,11 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04PlanStatement }
+     *     {@link RCMRMT030101UKPlanStatement }
      *     
      */
     @Override
-    public RCMRMT030101UKPlanStatement getPlanStatement() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement getPlanStatement() {
         return planStatement;
     }
 
@@ -376,11 +375,11 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04PlanStatement }
+     *     {@link RCMRMT030101UKPlanStatement }
      *     
      */
     @Override
-    public void setPlanStatement(RCMRMT030101UKPlanStatement value) {
+    public void setPlanStatement(org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement value) {
         this.planStatement = value;
     }
 
@@ -394,11 +393,11 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04RegistrationStatement }
+     *     {@link RCMRMT030101UKRegistrationStatement }
      *     
      */
     @Override
-    public RCMRMT030101UKRegistrationStatement getRegistrationStatement() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKRegistrationStatement getRegistrationStatement() {
         return registrationStatement;
     }
 
@@ -407,11 +406,11 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04RegistrationStatement }
+     *     {@link RCMRMT030101UKRegistrationStatement }
      *     
      */
     @Override
-    public void setRegistrationStatement(RCMRMT030101UKRegistrationStatement value) {
+    public void setRegistrationStatement(org.hl7.v3.deprecated.RCMRMT030101UKRegistrationStatement value) {
         this.registrationStatement = value;
     }
 
@@ -424,11 +423,11 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04RequestStatement }
+     *     {@link RCMRMT030101UKRequestStatement }
      *     
      */
     @Override
-    public RCMRMT030101UKRequestStatement getRequestStatement() {
+    public org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement getRequestStatement() {
         return requestStatement;
     }
 
@@ -437,11 +436,11 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04RequestStatement }
+     *     {@link RCMRMT030101UKRequestStatement }
      *     
      */
     @Override
-    public void setRequestStatement(RCMRMT030101UKRequestStatement value) {
+    public void setRequestStatement(org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement value) {
         this.requestStatement = value;
     }
 
