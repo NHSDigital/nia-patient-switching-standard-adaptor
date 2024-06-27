@@ -24,10 +24,10 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRIN030000UK07Message;
 import org.hl7.v3.RCMRIN030000UKMessage;
-import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.deprecated.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.RCMRMT030101UKPatient;
+import org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.deprecated.RCMRMT030101UKPatient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

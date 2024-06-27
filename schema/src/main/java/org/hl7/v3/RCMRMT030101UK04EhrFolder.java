@@ -11,6 +11,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import org.hl7.v3.deprecated.RCMRMT030101UKAuthor2;
+import org.hl7.v3.deprecated.RCMRMT030101UKComponent3;
+import org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty;
 
 
 /**

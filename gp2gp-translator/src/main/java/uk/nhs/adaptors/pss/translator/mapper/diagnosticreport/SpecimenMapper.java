@@ -20,11 +20,11 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Specimen;
 import org.hl7.fhir.dstu3.model.Specimen.SpecimenCollectionComponent;
-import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.RCMRMT030101UKSpecimenRole;
+import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.deprecated.RCMRMT030101UKSpecimenRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

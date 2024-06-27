@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
+import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04LinkSet;
 import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;

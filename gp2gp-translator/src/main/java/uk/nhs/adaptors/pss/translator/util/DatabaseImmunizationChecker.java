@@ -1,6 +1,6 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

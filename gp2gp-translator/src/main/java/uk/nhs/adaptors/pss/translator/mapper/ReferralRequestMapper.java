@@ -25,10 +25,10 @@ import org.hl7.v3.CD;
 import org.hl7.v3.CR;
 import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.RCMRMT030101UKRequestStatement;
-import org.hl7.v3.RCMRMT030101UKResponsibleParty3;
+import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty3;
 import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 

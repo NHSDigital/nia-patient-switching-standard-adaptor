@@ -10,6 +10,8 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import org.hl7.v3.deprecated.RCMRMT030101UKComponent6;
+import org.hl7.v3.deprecated.RCMRMT030101UKStatementRef;
 
 
 /**

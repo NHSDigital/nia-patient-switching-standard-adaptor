@@ -11,7 +11,7 @@ import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
-import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourceUtil {

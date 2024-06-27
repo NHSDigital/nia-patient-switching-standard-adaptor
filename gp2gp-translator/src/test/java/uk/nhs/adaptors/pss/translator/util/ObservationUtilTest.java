@@ -13,8 +13,8 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
 
 

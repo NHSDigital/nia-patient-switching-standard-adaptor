@@ -15,15 +15,15 @@ import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
 import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
 import org.hl7.v3.RCMRMT030101UK04PlanStatement;
 import org.hl7.v3.RCMRMT030101UK04RequestStatement;
-import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UKComponent4;
-import org.hl7.v3.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.RCMRMT030101UKLinkSet;
-import org.hl7.v3.RCMRMT030101UKMedicationStatement;
-import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
-import org.hl7.v3.RCMRMT030101UKObservationStatement;
-import org.hl7.v3.RCMRMT030101UKPlanStatement;
-import org.hl7.v3.RCMRMT030101UKRequestStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
+import org.hl7.v3.deprecated.RCMRMT030101UKComponent4;
+import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKLinkSet;
+import org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKNarrativeStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompoundStatementResourceExtractors {

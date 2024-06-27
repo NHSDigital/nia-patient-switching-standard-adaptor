@@ -8,9 +8,9 @@ import java.util.Optional;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hl7.v3.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.deprecated.RCMRMT030101UKNarrativeStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourceFilterUtil {

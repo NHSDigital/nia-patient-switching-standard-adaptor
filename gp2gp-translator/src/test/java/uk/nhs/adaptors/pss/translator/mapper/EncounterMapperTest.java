@@ -25,7 +25,7 @@ import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 
-import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

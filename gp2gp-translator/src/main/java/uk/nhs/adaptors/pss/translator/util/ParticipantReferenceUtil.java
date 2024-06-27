@@ -8,10 +8,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UKAgentRef;
-import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKParticipant;
-import org.hl7.v3.RCMRMT030101UKParticipant2;
+import org.hl7.v3.deprecated.RCMRMT030101UKAgentRef;
+import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.deprecated.RCMRMT030101UKParticipant;
+import org.hl7.v3.deprecated.RCMRMT030101UKParticipant2;
 
 import static uk.nhs.adaptors.pss.translator.util.AuthorUtil.getAuthorReference;
 

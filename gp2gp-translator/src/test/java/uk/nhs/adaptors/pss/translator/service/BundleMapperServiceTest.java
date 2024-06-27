@@ -26,7 +26,7 @@ import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
 import org.hl7.v3.RCMRMT030101UK04EhrExtract;
 import org.hl7.v3.RCMRMT030101UK04Location;
 import org.hl7.v3.RCMRMT030101UK04Patient;
-import org.hl7.v3.RCMRMT030101UKPatient;
+import org.hl7.v3.deprecated.RCMRMT030101UKPatient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
