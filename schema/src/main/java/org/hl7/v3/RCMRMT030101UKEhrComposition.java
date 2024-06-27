@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,12 +16,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.EhrComposition complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.EhrComposition complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.EhrComposition"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.EhrComposition"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -28,11 +30,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &amp;lt;element name="statusCode" type="{urn:hl7-org:v3}CS"/&amp;gt;
  *         &amp;lt;element name="effectiveTime" type="{urn:hl7-org:v3}IVL_TS"/&amp;gt;
  *         &amp;lt;element name="availabilityTime" type="{urn:hl7-org:v3}TS"/&amp;gt;
- *         &amp;lt;element name="author" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Author"/&amp;gt;
- *         &amp;lt;element name="location" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Location" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="Participant2" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Participant2" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="component" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Component4" maxOccurs="unbounded"/&amp;gt;
- *         &amp;lt;element name="replacementOf" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ReplacementOf2" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="author" type="{urn:hl7-org:v3}RCMR_MT030101UK.Author"/&amp;gt;
+ *         &amp;lt;element name="location" type="{urn:hl7-org:v3}RCMR_MT030101UK.Location" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="Participant2" type="{urn:hl7-org:v3}RCMR_MT030101UK.Participant2" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="component" type="{urn:hl7-org:v3}RCMR_MT030101UK.Component4" maxOccurs="unbounded"/&amp;gt;
+ *         &amp;lt;element name="replacementOf" type="{urn:hl7-org:v3}RCMR_MT030101UK.ReplacementOf2" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ContextStructure" /&amp;gt;
  *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="COMPOSITION" /&amp;gt;
@@ -57,7 +59,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.EhrComposition", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.EhrComposition", propOrder = {
     "id",
     "code",
     "statusCode",
@@ -69,7 +71,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "component",
     "replacementOf"
 })
-public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition {
+public class RCMRMT030101UKEhrComposition {
 
     @XmlElement(required = true)
     protected II id;
@@ -83,19 +85,19 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
     protected TS availabilityTime;
 
     @XmlElement(required = true, type = RCMRMT030101UKAuthor.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKAuthor author;
+    protected RCMRMT030101UKAuthor author;
 
     @XmlElement(type = RCMRMT030101UKLocation.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKLocation location;
+    protected RCMRMT030101UKLocation location;
 
     @XmlElement(name = "Participant2", type = RCMRMT030101UKParticipant2.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant2> participant2;
+    protected List<RCMRMT030101UKParticipant2> participant2;
 
     @XmlElement(required = true, type = RCMRMT030101UKComponent4.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKComponent4> component;
+    protected List<RCMRMT030101UKComponent4> component;
 
     @XmlElement(type = RCMRMT030101UKReplacementOf2.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf2 replacementOf;
+    protected RCMRMT030101UKReplacementOf2 replacementOf;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -120,7 +122,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link II }
      *     
      */
-    @Override
     public II getId() {
         return id;
     }
@@ -133,7 +134,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link II }
      *     
      */
-    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -146,7 +146,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link CD }
      *     
      */
-    @Override
     public CD getCode() {
         return code;
     }
@@ -159,7 +158,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link CD }
      *     
      */
-    @Override
     public void setCode(CD value) {
         this.code = value;
     }
@@ -172,7 +170,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link CS }
      *     
      */
-    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -185,7 +182,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link CS }
      *     
      */
-    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -198,7 +194,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link IVLTS }
      *     
      */
-    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -211,7 +206,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link IVLTS }
      *     
      */
-    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
@@ -224,7 +218,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link TS }
      *     
      */
-    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -237,12 +230,11 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link TS }
      *     
      */
-    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
 
-    @Override
+    
     public boolean hasAvailabilityTime() { return availabilityTime != null; }
 
     /**
@@ -253,8 +245,7 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link RCMRMT030101UKAuthor }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKAuthor getAuthor() {
+    public RCMRMT030101UKAuthor getAuthor() {
         return author;
     }
 
@@ -266,12 +257,10 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link RCMRMT030101UKAuthor }
      *     
      */
-    @Override
-    public void setAuthor(org.hl7.v3.deprecated.RCMRMT030101UKAuthor value) {
+    public void setAuthor(RCMRMT030101UKAuthor value) {
         this.author = value;
     }
 
-    @Override
     public boolean hasAuthor() {
         return author != null;
     }
@@ -284,8 +273,7 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link RCMRMT030101UKLocation }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKLocation getLocation() {
+    public RCMRMT030101UKLocation getLocation() {
         return location;
     }
 
@@ -297,8 +285,7 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link RCMRMT030101UKLocation }
      *     
      */
-    @Override
-    public void setLocation(org.hl7.v3.deprecated.RCMRMT030101UKLocation value) {
+    public void setLocation(RCMRMT030101UKLocation value) {
         this.location = value;
     }
 
@@ -324,15 +311,13 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant2> getParticipant2() {
+    public List<RCMRMT030101UKParticipant2> getParticipant2() {
         if (participant2 == null) {
             participant2 = new ArrayList<>();
         }
         return this.participant2;
     }
 
-    @Override
     public boolean hasParticipant2() {
         return participant2 != null && !participant2.isEmpty();
     }
@@ -359,8 +344,7 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKComponent4> getComponent() {
+    public List<RCMRMT030101UKComponent4> getComponent() {
         if (component == null) {
             component = new ArrayList<>();
         }
@@ -375,8 +359,7 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link RCMRMT030101UKComponent4 }
      *
      */
-    @Override
-    public void setComponent(List<org.hl7.v3.deprecated.RCMRMT030101UKComponent4> value) {
+    public void setComponent(List<RCMRMT030101UKComponent4> value) {
         this.component = value;
     }
 
@@ -388,8 +371,7 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link RCMRMT030101UKReplacementOf2 }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf2 getReplacementOf() {
+    public RCMRMT030101UKReplacementOf2 getReplacementOf() {
         return replacementOf;
     }
 
@@ -401,8 +383,7 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link RCMRMT030101UKReplacementOf2 }
      *     
      */
-    @Override
-    public void setReplacementOf(org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf2 value) {
+    public void setReplacementOf(RCMRMT030101UKReplacementOf2 value) {
         this.replacementOf = value;
     }
 
@@ -414,13 +395,8 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "ContextStructure";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "ContextStructure");
     }
 
     /**
@@ -431,7 +407,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -458,7 +433,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -488,7 +462,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      * 
      * 
      */
-    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
             moodCode = new ArrayList<>();
@@ -518,7 +491,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -548,7 +520,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -564,7 +535,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -577,7 +547,6 @@ public class RCMRMT030101UKEhrComposition implements org.hl7.v3.deprecated.RCMRM
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,16 +16,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.ConditionNamed complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.ConditionNamed complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.ConditionNamed"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.ConditionNamed"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="namedStatementRef" type="{urn:hl7-org:v3}RCMR_MT030101UK04.StatementRef"/&amp;gt;
+ *         &amp;lt;element name="namedStatementRef" type="{urn:hl7-org:v3}RCMR_MT030101UK.StatementRef"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ActRelationship" /&amp;gt;
  *       &amp;lt;attribute name="typeCode" type="{urn:hl7-org:v3}ActRelationshipType" default="NAME" /&amp;gt;
@@ -48,13 +50,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.ConditionNamed", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.ConditionNamed", propOrder = {
     "namedStatementRef"
 })
-public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRMT030101UKConditionNamed {
+public class RCMRMT030101UKConditionNamed {
 
     @XmlElement(required = true, type = RCMRMT030101UKStatementRef.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKStatementRef namedStatementRef;
+    protected RCMRMT030101UKStatementRef namedStatementRef;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -80,8 +82,7 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      *     {@link RCMRMT030101UKStatementRef }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKStatementRef getNamedStatementRef() {
+    public RCMRMT030101UKStatementRef getNamedStatementRef() {
         return namedStatementRef;
     }
 
@@ -93,8 +94,7 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      *     {@link RCMRMT030101UKStatementRef }
      *     
      */
-    @Override
-    public void setNamedStatementRef(org.hl7.v3.deprecated.RCMRMT030101UKStatementRef value) {
+    public void setNamedStatementRef(RCMRMT030101UKStatementRef value) {
         this.namedStatementRef = value;
     }
 
@@ -106,13 +106,8 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "ActRelationship";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "ActRelationship");
     }
 
     /**
@@ -123,7 +118,6 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -150,7 +144,6 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -166,13 +159,8 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      *     {@link Boolean }
      *     
      */
-    @Override
     public boolean isInversionInd() {
-        if (inversionInd == null) {
-            return true;
-        } else {
-            return inversionInd;
-        }
+        return Objects.requireNonNullElse(inversionInd, true);
     }
 
     /**
@@ -183,7 +171,6 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      *     {@link Boolean }
      *     
      */
-    @Override
     public void setInversionInd(Boolean value) {
         this.inversionInd = value;
     }
@@ -210,7 +197,6 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -240,7 +226,6 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -256,7 +241,6 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -269,7 +253,6 @@ public class RCMRMT030101UKConditionNamed implements org.hl7.v3.deprecated.RCMRM
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
