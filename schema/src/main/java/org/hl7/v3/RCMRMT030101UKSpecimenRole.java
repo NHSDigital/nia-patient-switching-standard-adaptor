@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,18 +16,18 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.SpecimenRole complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101.SpecimenRole complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.SpecimenRole"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101.SpecimenRole"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
  *         &amp;lt;element name="id" type="{urn:hl7-org:v3}II" maxOccurs="2"/&amp;gt;
  *         &amp;lt;element name="effectiveTime" type="{urn:hl7-org:v3}IVL_TS" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="specimenSpecimenMaterial" type="{urn:hl7-org:v3}RCMR_MT030101UK04.SpecimenMaterial"/&amp;gt;
+ *         &amp;lt;element name="specimenSpecimenMaterial" type="{urn:hl7-org:v3}RCMR_MT030101.SpecimenMaterial"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="RoleHeir" /&amp;gt;
  *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}RoleClass" default="SPEC" /&amp;gt;
@@ -49,19 +51,19 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.SpecimenRole", propOrder = {
+@XmlType(name = "RCMR_MT030101.SpecimenRole", propOrder = {
     "id",
     "effectiveTime",
     "specimenSpecimenMaterial"
 })
-public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT030101UKSpecimenRole {
+public class RCMRMT030101UKSpecimenRole {
 
     @XmlElement(required = true)
     protected List<II> id;
     protected IVLTS effectiveTime;
 
     @XmlElement(required = true, type = RCMRMT030101UKSpecimenMaterial.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKSpecimenMaterial specimenSpecimenMaterial;
+    protected RCMRMT030101UKSpecimenMaterial specimenSpecimenMaterial;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -98,7 +100,6 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      * 
      * 
      */
-    @Override
     public List<II> getId() {
         if (id == null) {
             id = new ArrayList<>();
@@ -114,7 +115,6 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      *     {@link IVLTS }
      *     
      */
-    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -127,7 +127,6 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      *     {@link IVLTS }
      *     
      */
-    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
@@ -140,8 +139,7 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      *     {@link RCMRMT030101UKSpecimenMaterial }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKSpecimenMaterial getSpecimenSpecimenMaterial() {
+    public RCMRMT030101UKSpecimenMaterial getSpecimenSpecimenMaterial() {
         return specimenSpecimenMaterial;
     }
 
@@ -153,8 +151,7 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      *     {@link RCMRMT030101UKSpecimenMaterial }
      *     
      */
-    @Override
-    public void setSpecimenSpecimenMaterial(org.hl7.v3.deprecated.RCMRMT030101UKSpecimenMaterial value) {
+    public void setSpecimenSpecimenMaterial(RCMRMT030101UKSpecimenMaterial value) {
         this.specimenSpecimenMaterial = value;
     }
 
@@ -166,13 +163,8 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "RoleHeir";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "RoleHeir");
     }
 
     /**
@@ -183,7 +175,6 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -210,7 +201,6 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new  ArrayList<>();
@@ -240,7 +230,6 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new  ArrayList<>();
@@ -270,7 +259,6 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new  ArrayList<>();
@@ -286,7 +274,6 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -299,7 +286,6 @@ public class RCMRMT030101UKSpecimenRole implements org.hl7.v3.deprecated.RCMRMT0
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

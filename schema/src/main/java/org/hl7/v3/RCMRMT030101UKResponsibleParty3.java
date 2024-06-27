@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,17 +16,17 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.ResponsibleParty3 complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101.ResponsibleParty3 complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.ResponsibleParty3"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101.ResponsibleParty3"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
  *         &amp;lt;element name="modeCode" type="{urn:hl7-org:v3}CV" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="agentRef" type="{urn:hl7-org:v3}RCMR_MT030101UK04.AgentRef"/&amp;gt;
+ *         &amp;lt;element name="agentRef" type="{urn:hl7-org:v3}RCMR_MT030101.AgentRef"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Participation" /&amp;gt;
  *       &amp;lt;attribute name="typeCode" type="{urn:hl7-org:v3}ParticipationType" default="RESP" /&amp;gt;
@@ -48,15 +50,15 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.ResponsibleParty3", propOrder = {
+@XmlType(name = "RCMR_MT030101.ResponsibleParty3", propOrder = {
     "modeCode",
     "agentRef"
 })
-public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty3 {
+public class RCMRMT030101UKResponsibleParty3 {
 
     protected CV modeCode;
     @XmlElement(required = true, type = RCMRMT030101UKAgentRef.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKAgentRef agentRef;
+    protected RCMRMT030101UKAgentRef agentRef;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -78,7 +80,6 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      *     {@link CV }
      *     
      */
-    @Override
     public CV getModeCode() {
         return modeCode;
     }
@@ -91,7 +92,6 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      *     {@link CV }
      *     
      */
-    @Override
     public void setModeCode(CV value) {
         this.modeCode = value;
     }
@@ -104,8 +104,7 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      *     {@link RCMRMT030101UKAgentRef }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKAgentRef getAgentRef() {
+    public RCMRMT030101UKAgentRef getAgentRef() {
         return agentRef;
     }
 
@@ -117,8 +116,7 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      *     {@link RCMRMT030101UKAgentRef }
      *     
      */
-    @Override
-    public void setAgentRef(org.hl7.v3.deprecated.RCMRMT030101UKAgentRef value) {
+    public void setAgentRef(RCMRMT030101UKAgentRef value) {
         this.agentRef = value;
     }
 
@@ -130,13 +128,8 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Participation";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Participation");
     }
 
     /**
@@ -147,7 +140,6 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -174,7 +166,6 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -204,7 +195,6 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -234,7 +224,6 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -250,7 +239,6 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -263,7 +251,6 @@ public class RCMRMT030101UKResponsibleParty3 implements org.hl7.v3.deprecated.RC
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

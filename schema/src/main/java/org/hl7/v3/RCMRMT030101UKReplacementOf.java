@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,16 +16,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.ReplacementOf complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101.ReplacementOf complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.ReplacementOf"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101.ReplacementOf"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="priorStatementRef" type="{urn:hl7-org:v3}RCMR_MT030101UK04.StatementRef"/&amp;gt;
+ *         &amp;lt;element name="priorStatementRef" type="{urn:hl7-org:v3}RCMR_MT030101.StatementRef"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ActRelationship" /&amp;gt;
  *       &amp;lt;attribute name="typeCode" type="{urn:hl7-org:v3}ActRelationshipType" default="RPLC" /&amp;gt;
@@ -47,13 +49,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.ReplacementOf", propOrder = {
+@XmlType(name = "RCMR_MT030101.ReplacementOf", propOrder = {
     "priorStatementRef"
 })
-public class RCMRMT030101UKReplacementOf implements org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf {
+public class RCMRMT030101UKReplacementOf {
 
     @XmlElement(required = true, type = RCMRMT030101UKStatementRef.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKStatementRef priorStatementRef;
+    protected RCMRMT030101UKStatementRef priorStatementRef;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -77,8 +79,7 @@ public class RCMRMT030101UKReplacementOf implements org.hl7.v3.deprecated.RCMRMT
      *     {@link RCMRMT030101UKStatementRef }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKStatementRef getPriorStatementRef() {
+    public RCMRMT030101UKStatementRef getPriorStatementRef() {
         return priorStatementRef;
     }
 
@@ -90,8 +91,7 @@ public class RCMRMT030101UKReplacementOf implements org.hl7.v3.deprecated.RCMRMT
      *     {@link RCMRMT030101UKStatementRef }
      *     
      */
-    @Override
-    public void setPriorStatementRef(org.hl7.v3.deprecated.RCMRMT030101UKStatementRef value) {
+    public void setPriorStatementRef(RCMRMT030101UKStatementRef value) {
         this.priorStatementRef = value;
     }
 
@@ -103,13 +103,8 @@ public class RCMRMT030101UKReplacementOf implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "ActRelationship";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "ActRelationship");
     }
 
     /**
@@ -120,7 +115,6 @@ public class RCMRMT030101UKReplacementOf implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -147,7 +141,6 @@ public class RCMRMT030101UKReplacementOf implements org.hl7.v3.deprecated.RCMRMT
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -177,7 +170,6 @@ public class RCMRMT030101UKReplacementOf implements org.hl7.v3.deprecated.RCMRMT
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -207,7 +199,6 @@ public class RCMRMT030101UKReplacementOf implements org.hl7.v3.deprecated.RCMRMT
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -223,7 +214,6 @@ public class RCMRMT030101UKReplacementOf implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -236,7 +226,6 @@ public class RCMRMT030101UKReplacementOf implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

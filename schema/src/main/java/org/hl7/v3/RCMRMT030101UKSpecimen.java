@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,16 +16,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Specimen complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101.Specimen complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Specimen"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101.Specimen"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="specimenRole" type="{urn:hl7-org:v3}RCMR_MT030101UK04.SpecimenRole"/&amp;gt;
+ *         &amp;lt;element name="specimenRole" type="{urn:hl7-org:v3}RCMR_MT030101.SpecimenRole"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Participation" /&amp;gt;
  *       &amp;lt;attribute name="typeCode" type="{urn:hl7-org:v3}ParticipationType" default="SPC" /&amp;gt;
@@ -47,13 +49,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Specimen", propOrder = {
+@XmlType(name = "RCMR_MT030101.Specimen", propOrder = {
     "specimenRole"
 })
-public class RCMRMT030101UKSpecimen implements org.hl7.v3.deprecated.RCMRMT030101UKSpecimen {
+public class RCMRMT030101UKSpecimen {
 
     @XmlElement(required = true, type = RCMRMT030101UKSpecimenRole.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKSpecimenRole specimenRole;
+    protected RCMRMT030101UKSpecimenRole specimenRole;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -77,8 +79,7 @@ public class RCMRMT030101UKSpecimen implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link RCMRMT030101UKSpecimenRole }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKSpecimenRole getSpecimenRole() {
+    public RCMRMT030101UKSpecimenRole getSpecimenRole() {
         return specimenRole;
     }
 
@@ -90,8 +91,7 @@ public class RCMRMT030101UKSpecimen implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link RCMRMT030101UKSpecimenRole }
      *     
      */
-    @Override
-    public void setSpecimenRole(org.hl7.v3.deprecated.RCMRMT030101UKSpecimenRole value) {
+    public void setSpecimenRole(RCMRMT030101UKSpecimenRole value) {
         this.specimenRole = value;
     }
 
@@ -103,13 +103,8 @@ public class RCMRMT030101UKSpecimen implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Participation";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Participation");
     }
 
     /**
@@ -120,7 +115,6 @@ public class RCMRMT030101UKSpecimen implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -147,7 +141,6 @@ public class RCMRMT030101UKSpecimen implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new  ArrayList<>();
@@ -177,7 +170,6 @@ public class RCMRMT030101UKSpecimen implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new  ArrayList<>();
@@ -207,7 +199,6 @@ public class RCMRMT030101UKSpecimen implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new  ArrayList<>();
@@ -223,7 +214,6 @@ public class RCMRMT030101UKSpecimen implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -236,7 +226,6 @@ public class RCMRMT030101UKSpecimen implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

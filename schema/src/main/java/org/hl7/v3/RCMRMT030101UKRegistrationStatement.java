@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,12 +16,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.RegistrationStatement complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101.RegistrationStatement complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.RegistrationStatement"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101.RegistrationStatement"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -28,13 +30,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *         &amp;lt;element name="statusCode" type="{urn:hl7-org:v3}CS"/&amp;gt;
  *         &amp;lt;element name="effectiveTime" type="{urn:hl7-org:v3}IVL_TS"/&amp;gt;
  *         &amp;lt;element name="availabilityTime" type="{urn:hl7-org:v3}TS"/&amp;gt;
- *         &amp;lt;element name="responsibleParty" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ResponsibleParty2" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="informant" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Informant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="Participant" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Participant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="replacementOf" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ReplacementOf" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="reason" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Reason" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="reference" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Reference" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="sequelTo" type="{urn:hl7-org:v3}RCMR_MT030101UK04.SequelTo" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="responsibleParty" type="{urn:hl7-org:v3}RCMR_MT030101.ResponsibleParty2" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="informant" type="{urn:hl7-org:v3}RCMR_MT030101.Informant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="Participant" type="{urn:hl7-org:v3}RCMR_MT030101.Participant" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="replacementOf" type="{urn:hl7-org:v3}RCMR_MT030101.ReplacementOf" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="reason" type="{urn:hl7-org:v3}RCMR_MT030101.Reason" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="reference" type="{urn:hl7-org:v3}RCMR_MT030101.Reference" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="sequelTo" type="{urn:hl7-org:v3}RCMR_MT030101.SequelTo" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Observation" /&amp;gt;
  *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="OBS" /&amp;gt;
@@ -59,7 +61,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.RegistrationStatement", propOrder = {
+@XmlType(name = "RCMR_MT030101.RegistrationStatement", propOrder = {
     "id",
     "code",
     "statusCode",
@@ -73,7 +75,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "reference",
     "sequelTo"
 })
-public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecated.RCMRMT030101UKRegistrationStatement {
+public class RCMRMT030101UKRegistrationStatement {
 
     @XmlElement(required = true)
     protected II id;
@@ -87,25 +89,25 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
     protected TS availabilityTime;
 
     @XmlElement(type = RCMRMT030101UKResponsibleParty2.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty2 responsibleParty;
+    protected RCMRMT030101UKResponsibleParty2 responsibleParty;
 
     @XmlElement(type = RCMRMT030101UKInformant.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> informant;
+    protected List<RCMRMT030101UKInformant> informant;
 
     @XmlElement(name = "Participant", type = RCMRMT030101UKParticipant.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> participant;
+    protected List<RCMRMT030101UKParticipant> participant;
 
     @XmlElement(type = RCMRMT030101UKReplacementOf.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> replacementOf;
+    protected List<RCMRMT030101UKReplacementOf> replacementOf;
 
     @XmlElement(type = RCMRMT030101UKReason.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReason> reason;
+    protected List<RCMRMT030101UKReason> reason;
 
     @XmlElement(type = RCMRMT030101UKReference.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKReference> reference;
+    protected List<RCMRMT030101UKReference> reference;
 
     @XmlElement(type = RCMRMT030101UKSequelTo.class)
-    protected List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> sequelTo;
+    protected List<RCMRMT030101UKSequelTo> sequelTo;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -135,7 +137,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link II }
      *     
      */
-    @Override
     public II getId() {
         return id;
     }
@@ -148,7 +149,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link II }
      *     
      */
-    @Override
     public void setId(II value) {
         this.id = value;
     }
@@ -161,7 +161,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link CE }
      *     
      */
-    @Override
     public CE getCode() {
         return code;
     }
@@ -174,7 +173,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link CE }
      *     
      */
-    @Override
     public void setCode(CE value) {
         this.code = value;
     }
@@ -187,7 +185,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link CS }
      *     
      */
-    @Override
     public CS getStatusCode() {
         return statusCode;
     }
@@ -200,7 +197,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link CS }
      *     
      */
-    @Override
     public void setStatusCode(CS value) {
         this.statusCode = value;
     }
@@ -213,7 +209,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link IVLTS }
      *     
      */
-    @Override
     public IVLTS getEffectiveTime() {
         return effectiveTime;
     }
@@ -226,7 +221,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link IVLTS }
      *     
      */
-    @Override
     public void setEffectiveTime(IVLTS value) {
         this.effectiveTime = value;
     }
@@ -239,7 +233,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link TS }
      *     
      */
-    @Override
     public TS getAvailabilityTime() {
         return availabilityTime;
     }
@@ -252,7 +245,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link TS }
      *     
      */
-    @Override
     public void setAvailabilityTime(TS value) {
         this.availabilityTime = value;
     }
@@ -265,8 +257,7 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link RCMRMT030101UKResponsibleParty2 }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty2 getResponsibleParty() {
+    public RCMRMT030101UKResponsibleParty2 getResponsibleParty() {
         return responsibleParty;
     }
 
@@ -278,8 +269,7 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link RCMRMT030101UKResponsibleParty2 }
      *     
      */
-    @Override
-    public void setResponsibleParty(org.hl7.v3.deprecated.RCMRMT030101UKResponsibleParty2 value) {
+    public void setResponsibleParty(RCMRMT030101UKResponsibleParty2 value) {
         this.responsibleParty = value;
     }
 
@@ -305,8 +295,7 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKInformant> getInformant() {
+    public List<RCMRMT030101UKInformant> getInformant() {
         if (informant == null) {
             informant = new ArrayList<>();
         }
@@ -335,8 +324,7 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKParticipant> getParticipant() {
+    public List<RCMRMT030101UKParticipant> getParticipant() {
         if (participant == null) {
             participant = new ArrayList<>();
         }
@@ -365,8 +353,7 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKReplacementOf> getReplacementOf() {
+    public List<RCMRMT030101UKReplacementOf> getReplacementOf() {
         if (replacementOf == null) {
             replacementOf = new ArrayList<>();
         }
@@ -395,8 +382,7 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKReason> getReason() {
+    public List<RCMRMT030101UKReason> getReason() {
         if (reason == null) {
             reason = new ArrayList<>();
         }
@@ -425,8 +411,7 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKReference> getReference() {
+    public List<RCMRMT030101UKReference> getReference() {
         if (reference == null) {
             reference = new ArrayList<>();
         }
@@ -455,8 +440,7 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      * 
      * 
      */
-    @Override
-    public List<org.hl7.v3.deprecated.RCMRMT030101UKSequelTo> getSequelTo() {
+    public List<RCMRMT030101UKSequelTo> getSequelTo() {
         if (sequelTo == null) {
             sequelTo = new ArrayList<>();
         }
@@ -471,13 +455,8 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Observation";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Observation");
     }
 
     /**
@@ -488,7 +467,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -515,7 +493,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -545,7 +522,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      * 
      * 
      */
-    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
             moodCode = new ArrayList<>();
@@ -575,7 +551,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -605,7 +580,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -621,7 +595,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -634,7 +607,6 @@ public class RCMRMT030101UKRegistrationStatement implements org.hl7.v3.deprecate
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
