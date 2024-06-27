@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,16 +16,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Component complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.Component complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Component"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.Component"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="ehrFolder" type="{urn:hl7-org:v3}RCMR_MT030101UK04.EhrFolder"/&amp;gt;
+ *         &amp;lt;element name="ehrFolder" type="{urn:hl7-org:v3}RCMR_MT030101UK.EhrFolder"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ActRelationship" /&amp;gt;
  *       &amp;lt;attribute name="typeCode" type="{urn:hl7-org:v3}ActRelationshipType" default="COMP" /&amp;gt;
@@ -47,13 +49,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Component", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.Component", propOrder = {
     "ehrFolder"
 })
-public class RCMRMT030101UKComponent implements org.hl7.v3.deprecated.RCMRMT030101UKComponent {
+public class RCMRMT030101UKComponent {
 
     @XmlElement(required = true, type = RCMRMT030101UKEhrFolder.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder ehrFolder;
+    protected RCMRMT030101UKEhrFolder ehrFolder;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -80,8 +82,7 @@ public class RCMRMT030101UKComponent implements org.hl7.v3.deprecated.RCMRMT0301
      *     {@link RCMRMT030101UKEhrFolder }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder getEhrFolder() {
+    public RCMRMT030101UKEhrFolder getEhrFolder() {
         return ehrFolder;
     }
 
@@ -93,12 +94,10 @@ public class RCMRMT030101UKComponent implements org.hl7.v3.deprecated.RCMRMT0301
      *     {@link RCMRMT030101UKEhrFolder }
      *     
      */
-    @Override
-    public void setEhrFolder(org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder value) {
+    public void setEhrFolder(RCMRMT030101UKEhrFolder value) {
         this.ehrFolder = value;
     }
 
-    @Override
     public boolean hasEhrFolder() {
         return ehrFolder != null;
     }
@@ -111,13 +110,8 @@ public class RCMRMT030101UKComponent implements org.hl7.v3.deprecated.RCMRMT0301
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "ActRelationship";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "ActRelationship");
     }
 
     /**
@@ -128,7 +122,6 @@ public class RCMRMT030101UKComponent implements org.hl7.v3.deprecated.RCMRMT0301
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -155,7 +148,6 @@ public class RCMRMT030101UKComponent implements org.hl7.v3.deprecated.RCMRMT0301
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -185,7 +177,6 @@ public class RCMRMT030101UKComponent implements org.hl7.v3.deprecated.RCMRMT0301
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -215,7 +206,6 @@ public class RCMRMT030101UKComponent implements org.hl7.v3.deprecated.RCMRMT0301
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -231,7 +221,6 @@ public class RCMRMT030101UKComponent implements org.hl7.v3.deprecated.RCMRMT0301
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -244,7 +233,6 @@ public class RCMRMT030101UKComponent implements org.hl7.v3.deprecated.RCMRMT0301
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

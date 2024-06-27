@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,27 +16,27 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Component02 complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.Component02 complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Component02"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.Component02"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
  *         &amp;lt;element name="sequenceNumber" type="{urn:hl7-org:v3}INT" minOccurs="0"/&amp;gt;
  *         &amp;lt;element name="seperatableInd" type="{urn:hl7-org:v3}BL" minOccurs="0"/&amp;gt;
  *         &amp;lt;choice&amp;gt;
- *           &amp;lt;element name="CompoundStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK04.CompoundStatement"/&amp;gt;
- *           &amp;lt;element name="EhrEmpty" type="{urn:hl7-org:v3}RCMR_MT030101UK04.EhrEmpty"/&amp;gt;
- *           &amp;lt;element name="LinkSet" type="{urn:hl7-org:v3}RCMR_MT030101UK04.LinkSet"/&amp;gt;
- *           &amp;lt;element name="MedicationStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK04.MedicationStatement"/&amp;gt;
- *           &amp;lt;element name="NarrativeStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK04.NarrativeStatement"/&amp;gt;
- *           &amp;lt;element name="ObservationStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ObservationStatement"/&amp;gt;
- *           &amp;lt;element name="PlanStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK04.PlanStatement"/&amp;gt;
- *           &amp;lt;element name="RegistrationStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK04.RegistrationStatement"/&amp;gt;
- *           &amp;lt;element name="RequestStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK04.RequestStatement"/&amp;gt;
+ *           &amp;lt;element name="CompoundStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK.CompoundStatement"/&amp;gt;
+ *           &amp;lt;element name="EhrEmpty" type="{urn:hl7-org:v3}RCMR_MT030101UK.EhrEmpty"/&amp;gt;
+ *           &amp;lt;element name="LinkSet" type="{urn:hl7-org:v3}RCMR_MT030101UK.LinkSet"/&amp;gt;
+ *           &amp;lt;element name="MedicationStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK.MedicationStatement"/&amp;gt;
+ *           &amp;lt;element name="NarrativeStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK.NarrativeStatement"/&amp;gt;
+ *           &amp;lt;element name="ObservationStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK.ObservationStatement"/&amp;gt;
+ *           &amp;lt;element name="PlanStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK.PlanStatement"/&amp;gt;
+ *           &amp;lt;element name="RegistrationStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK.RegistrationStatement"/&amp;gt;
+ *           &amp;lt;element name="RequestStatement" type="{urn:hl7-org:v3}RCMR_MT030101UK.RequestStatement"/&amp;gt;
  *         &amp;lt;/choice&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ActRelationship" /&amp;gt;
@@ -60,7 +62,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Component02", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.Component02", propOrder = {
     "sequenceNumber",
     "seperatableInd",
     "compoundStatement",
@@ -73,37 +75,37 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "registrationStatement",
     "requestStatement"
 })
-public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT030101UKComponent02 {
+public class RCMRMT030101UKComponent02 {
 
     protected INT sequenceNumber;
     protected BL seperatableInd;
 
     @XmlElement(name = "CompoundStatement", type = RCMRMT030101UKCompoundStatement.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement compoundStatement;
+    protected RCMRMT030101UKCompoundStatement compoundStatement;
 
     @XmlElement(name = "EhrEmpty", type = RCMRMT030101UKEhrEmpty.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKEhrEmpty ehrEmpty;
+    protected RCMRMT030101UKEhrEmpty ehrEmpty;
 
     @XmlElement(name = "LinkSet", type = RCMRMT030101UKLinkSet.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKLinkSet linkSet;
+    protected RCMRMT030101UKLinkSet linkSet;
 
     @XmlElement(name = "MedicationStatement", type = RCMRMT030101UKMedicationStatement.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement medicationStatement;
+    protected RCMRMT030101UKMedicationStatement medicationStatement;
 
     @XmlElement(name = "NarrativeStatement", type = RCMRMT030101UKNarrativeStatement.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKNarrativeStatement narrativeStatement;
+    protected RCMRMT030101UKNarrativeStatement narrativeStatement;
 
     @XmlElement(name = "ObservationStatement", type = RCMRMT030101UKObservationStatement.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement observationStatement;
+    protected RCMRMT030101UKObservationStatement observationStatement;
 
     @XmlElement(name = "PlanStatement", type = RCMRMT030101UKPlanStatement.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement planStatement;
+    protected RCMRMT030101UKPlanStatement planStatement;
 
     @XmlElement(name = "RegistrationStatement", type = RCMRMT030101UKRegistrationStatement.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKRegistrationStatement registrationStatement;
+    protected RCMRMT030101UKRegistrationStatement registrationStatement;
 
     @XmlElement(name = "RequestStatement", type = RCMRMT030101UKRequestStatement.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement requestStatement;
+    protected RCMRMT030101UKRequestStatement requestStatement;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -127,7 +129,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link INT }
      *     
      */
-    @Override
     public INT getSequenceNumber() {
         return sequenceNumber;
     }
@@ -140,7 +141,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link INT }
      *     
      */
-    @Override
     public void setSequenceNumber(INT value) {
         this.sequenceNumber = value;
     }
@@ -153,7 +153,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link BL }
      *     
      */
-    @Override
     public BL getSeperatableInd() {
         return seperatableInd;
     }
@@ -166,7 +165,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link BL }
      *     
      */
-    @Override
     public void setSeperatableInd(BL value) {
         this.seperatableInd = value;
     }
@@ -179,8 +177,7 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKCompoundStatement }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement getCompoundStatement() {
+    public RCMRMT030101UKCompoundStatement getCompoundStatement() {
         return compoundStatement;
     }
 
@@ -192,12 +189,10 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKCompoundStatement }
      *     
      */
-    @Override
-    public void setCompoundStatement(org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement value) {
+    public void setCompoundStatement(RCMRMT030101UKCompoundStatement value) {
         this.compoundStatement = value;
     }
 
-    @Override
     public boolean hasCompoundStatement() {
         return compoundStatement != null;
     }
@@ -210,8 +205,7 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKEhrEmpty }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKEhrEmpty getEhrEmpty() {
+    public RCMRMT030101UKEhrEmpty getEhrEmpty() {
         return ehrEmpty;
     }
 
@@ -223,12 +217,10 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKEhrEmpty }
      *     
      */
-    @Override
-    public void setEhrEmpty(org.hl7.v3.deprecated.RCMRMT030101UKEhrEmpty value) {
+    public void setEhrEmpty(RCMRMT030101UKEhrEmpty value) {
         this.ehrEmpty = value;
     }
 
-    @Override
     public boolean hasEhrEmpty() {
         return ehrEmpty != null;
     }
@@ -241,8 +233,7 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKLinkSet }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKLinkSet getLinkSet() {
+    public RCMRMT030101UKLinkSet getLinkSet() {
         return linkSet;
     }
 
@@ -254,12 +245,10 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKLinkSet }
      *     
      */
-    @Override
-    public void setLinkSet(org.hl7.v3.deprecated.RCMRMT030101UKLinkSet value) {
+    public void setLinkSet(RCMRMT030101UKLinkSet value) {
         this.linkSet = value;
     }
 
-    @Override
     public boolean hasLinkSet() {
         return linkSet != null;
     }
@@ -272,8 +261,7 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKMedicationStatement }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement getMedicationStatement() {
+    public RCMRMT030101UKMedicationStatement getMedicationStatement() {
         return medicationStatement;
     }
 
@@ -285,12 +273,10 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKMedicationStatement }
      *     
      */
-    @Override
-    public void setMedicationStatement(org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement value) {
+    public void setMedicationStatement(RCMRMT030101UKMedicationStatement value) {
         this.medicationStatement = value;
     }
 
-    @Override
     public boolean hasMedicationStatement() {
         return medicationStatement != null;
     }
@@ -303,8 +289,7 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKNarrativeStatement }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKNarrativeStatement getNarrativeStatement() {
+    public RCMRMT030101UKNarrativeStatement getNarrativeStatement() {
         return narrativeStatement;
     }
 
@@ -316,12 +301,10 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKNarrativeStatement }
      *     
      */
-    @Override
-    public void setNarrativeStatement(org.hl7.v3.deprecated.RCMRMT030101UKNarrativeStatement value) {
+    public void setNarrativeStatement(RCMRMT030101UKNarrativeStatement value) {
         this.narrativeStatement = value;
     }
 
-    @Override
     public boolean hasNarrativeStatement() {
         return narrativeStatement != null;
     }
@@ -334,8 +317,7 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKObservationStatement }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement getObservationStatement() {
+    public RCMRMT030101UKObservationStatement getObservationStatement() {
         return observationStatement;
     }
 
@@ -347,12 +329,10 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKObservationStatement }
      *     
      */
-    @Override
-    public void setObservationStatement(org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement value) {
+    public void setObservationStatement(RCMRMT030101UKObservationStatement value) {
         this.observationStatement = value;
     }
 
-    @Override
     public boolean hasObservationStatement() {
         return observationStatement != null;
     }
@@ -365,8 +345,7 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKPlanStatement }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement getPlanStatement() {
+    public RCMRMT030101UKPlanStatement getPlanStatement() {
         return planStatement;
     }
 
@@ -378,12 +357,10 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKPlanStatement }
      *     
      */
-    @Override
-    public void setPlanStatement(org.hl7.v3.deprecated.RCMRMT030101UKPlanStatement value) {
+    public void setPlanStatement(RCMRMT030101UKPlanStatement value) {
         this.planStatement = value;
     }
 
-    @Override
     public boolean hasPlanStatement() {
         return planStatement != null;
     }
@@ -396,8 +373,7 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKRegistrationStatement }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKRegistrationStatement getRegistrationStatement() {
+    public RCMRMT030101UKRegistrationStatement getRegistrationStatement() {
         return registrationStatement;
     }
 
@@ -409,15 +385,14 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKRegistrationStatement }
      *     
      */
-    @Override
-    public void setRegistrationStatement(org.hl7.v3.deprecated.RCMRMT030101UKRegistrationStatement value) {
+    public void setRegistrationStatement(RCMRMT030101UKRegistrationStatement value) {
         this.registrationStatement = value;
     }
-
-    @Override
+    
     public boolean hasRegistrationStatement() {
         return registrationStatement != null;
     }
+
     /**
      * Gets the value of the requestStatement property.
      * 
@@ -426,8 +401,7 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKRequestStatement }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement getRequestStatement() {
+    public RCMRMT030101UKRequestStatement getRequestStatement() {
         return requestStatement;
     }
 
@@ -439,12 +413,10 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link RCMRMT030101UKRequestStatement }
      *     
      */
-    @Override
-    public void setRequestStatement(org.hl7.v3.deprecated.RCMRMT030101UKRequestStatement value) {
+    public void setRequestStatement(RCMRMT030101UKRequestStatement value) {
         this.requestStatement = value;
     }
 
-    @Override
     public boolean hasRequestStatement() {
         return requestStatement != null;
     }
@@ -457,13 +429,8 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "ActRelationship";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "ActRelationship");
     }
 
     /**
@@ -474,7 +441,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -501,7 +467,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -517,13 +482,8 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link Boolean }
      *     
      */
-    @Override
     public boolean isContextConductionInd() {
-        if (contextConductionInd == null) {
-            return true;
-        } else {
-            return contextConductionInd;
-        }
+        return Objects.requireNonNullElse(contextConductionInd, true);
     }
 
     /**
@@ -534,7 +494,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link Boolean }
      *     
      */
-    @Override
     public void setContextConductionInd(Boolean value) {
         this.contextConductionInd = value;
     }
@@ -561,7 +520,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -591,7 +549,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -607,7 +564,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -620,7 +576,6 @@ public class RCMRMT030101UKComponent02 implements org.hl7.v3.deprecated.RCMRMT03
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

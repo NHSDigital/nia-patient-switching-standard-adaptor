@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,20 +16,20 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Component2 complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.Component2 complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Component2"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.Component2"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
  *         &amp;lt;choice&amp;gt;
- *           &amp;lt;element name="ehrSupplyAuthorise" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Authorise"/&amp;gt;
- *           &amp;lt;element name="ehrSupplyDiscontinue" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Discontinue"/&amp;gt;
- *           &amp;lt;element name="ehrSupplyDispense" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Dispense"/&amp;gt;
- *           &amp;lt;element name="ehrSupplyPrescribe" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Prescribe"/&amp;gt;
+ *           &amp;lt;element name="ehrSupplyAuthorise" type="{urn:hl7-org:v3}RCMR_MT030101UK.Authorise"/&amp;gt;
+ *           &amp;lt;element name="ehrSupplyDiscontinue" type="{urn:hl7-org:v3}RCMR_MT030101UK.Discontinue"/&amp;gt;
+ *           &amp;lt;element name="ehrSupplyDispense" type="{urn:hl7-org:v3}RCMR_MT030101UK.Dispense"/&amp;gt;
+ *           &amp;lt;element name="ehrSupplyPrescribe" type="{urn:hl7-org:v3}RCMR_MT030101UK.Prescribe"/&amp;gt;
  *         &amp;lt;/choice&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ActRelationship" /&amp;gt;
@@ -52,25 +54,25 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Component2", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.Component2", propOrder = {
     "ehrSupplyAuthorise",
     "ehrSupplyDiscontinue",
     "ehrSupplyDispense",
     "ehrSupplyPrescribe"
 })
-public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030101UKComponent2 {
+public class RCMRMT030101UKComponent2 {
 
     @XmlElement(type = RCMRMT030101UKAuthorise.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKAuthorise ehrSupplyAuthorise;
+    protected RCMRMT030101UKAuthorise ehrSupplyAuthorise;
 
     @XmlElement(type = RCMRMT030101UKDiscontinue.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKDiscontinue ehrSupplyDiscontinue;
+    protected RCMRMT030101UKDiscontinue ehrSupplyDiscontinue;
 
     @XmlElement(type = RCMRMT030101UKDispense.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKDispense ehrSupplyDispense;
+    protected RCMRMT030101UKDispense ehrSupplyDispense;
 
     @XmlElement(type = RCMRMT030101UKPrescribe.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKPrescribe ehrSupplyPrescribe;
+    protected RCMRMT030101UKPrescribe ehrSupplyPrescribe;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -95,8 +97,7 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link RCMRMT030101UKAuthorise }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKAuthorise getEhrSupplyAuthorise() {
+    public RCMRMT030101UKAuthorise getEhrSupplyAuthorise() {
         return ehrSupplyAuthorise;
     }
 
@@ -108,12 +109,10 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link RCMRMT030101UKAuthorise }
      *     
      */
-    @Override
-    public void setEhrSupplyAuthorise(org.hl7.v3.deprecated.RCMRMT030101UKAuthorise value) {
+    public void setEhrSupplyAuthorise(RCMRMT030101UKAuthorise value) {
         this.ehrSupplyAuthorise = value;
     }
 
-    @Override
     public boolean hasEhrSupplyAuthorise() {
         return ehrSupplyAuthorise != null;
     }
@@ -125,8 +124,7 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link RCMRMT030101UKDiscontinue }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKDiscontinue getEhrSupplyDiscontinue() {
+    public RCMRMT030101UKDiscontinue getEhrSupplyDiscontinue() {
         return ehrSupplyDiscontinue;
     }
 
@@ -138,12 +136,10 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link RCMRMT030101UKDiscontinue }
      *     
      */
-    @Override
-    public void setEhrSupplyDiscontinue(org.hl7.v3.deprecated.RCMRMT030101UKDiscontinue value) {
+    public void setEhrSupplyDiscontinue(RCMRMT030101UKDiscontinue value) {
         this.ehrSupplyDiscontinue = value;
     }
 
-    @Override
     public boolean hasEhrSupplyDiscontinue() {
         return ehrSupplyDiscontinue != null;
     }
@@ -156,8 +152,7 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link RCMRMT030101UKDispense }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKDispense getEhrSupplyDispense() {
+    public RCMRMT030101UKDispense getEhrSupplyDispense() {
         return ehrSupplyDispense;
     }
 
@@ -169,8 +164,7 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link RCMRMT030101UKDispense }
      *     
      */
-    @Override
-    public void setEhrSupplyDispense(org.hl7.v3.deprecated.RCMRMT030101UKDispense value) {
+    public void setEhrSupplyDispense(RCMRMT030101UKDispense value) {
         this.ehrSupplyDispense = value;
     }
 
@@ -182,8 +176,7 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link RCMRMT030101UKPrescribe }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKPrescribe getEhrSupplyPrescribe() {
+    public RCMRMT030101UKPrescribe getEhrSupplyPrescribe() {
         return ehrSupplyPrescribe;
     }
 
@@ -195,15 +188,14 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link RCMRMT030101UKPrescribe }
      *     
      */
-    @Override
-    public void setEhrSupplyPrescribe(org.hl7.v3.deprecated.RCMRMT030101UKPrescribe value) {
+    public void setEhrSupplyPrescribe(RCMRMT030101UKPrescribe value) {
         this.ehrSupplyPrescribe = value;
     }
 
-    @Override
     public boolean hasEhrSupplyPrescribe() {
         return ehrSupplyPrescribe != null;
     }
+
     /**
      * Gets the value of the type property.
      * 
@@ -212,13 +204,8 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "ActRelationship";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "ActRelationship");
     }
 
     /**
@@ -229,7 +216,6 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -256,7 +242,6 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -286,7 +271,6 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -316,7 +300,6 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -332,7 +315,6 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -345,7 +327,6 @@ public class RCMRMT030101UKComponent2 implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
