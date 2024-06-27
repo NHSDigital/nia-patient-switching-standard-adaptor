@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,16 +16,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Product complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101.Product complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Product"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101.Product"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="manufacturedProduct" type="{urn:hl7-org:v3}RCMR_MT030101UK04.ManufacturedProduct"/&amp;gt;
+ *         &amp;lt;element name="manufacturedProduct" type="{urn:hl7-org:v3}RCMR_MT030101.ManufacturedProduct"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Participation" /&amp;gt;
  *       &amp;lt;attribute name="typeCode" type="{urn:hl7-org:v3}ParticipationType" default="CSM" /&amp;gt;
@@ -47,13 +49,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Product", propOrder = {
+@XmlType(name = "RCMR_MT030101.Product", propOrder = {
     "manufacturedProduct"
 })
-public class RCMRMT030101UKProduct implements org.hl7.v3.deprecated.RCMRMT030101UKProduct {
+public class RCMRMT030101UKProduct {
 
     @XmlElement(required = true, type = RCMRMT030101UKManufacturedProduct.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKManufacturedProduct manufacturedProduct;
+    protected RCMRMT030101UKManufacturedProduct manufacturedProduct;
 
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -80,8 +82,7 @@ public class RCMRMT030101UKProduct implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link RCMRMT030101UKManufacturedProduct }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKManufacturedProduct getManufacturedProduct() {
+    public RCMRMT030101UKManufacturedProduct getManufacturedProduct() {
         return manufacturedProduct;
     }
 
@@ -93,8 +94,7 @@ public class RCMRMT030101UKProduct implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link RCMRMT030101UKManufacturedProduct }
      *     
      */
-    @Override
-    public void setManufacturedProduct(org.hl7.v3.deprecated.RCMRMT030101UKManufacturedProduct value) {
+    public void setManufacturedProduct(RCMRMT030101UKManufacturedProduct value) {
         this.manufacturedProduct = value;
     }
 
@@ -106,13 +106,8 @@ public class RCMRMT030101UKProduct implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Participation";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Participation");
     }
 
     /**
@@ -123,7 +118,6 @@ public class RCMRMT030101UKProduct implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -150,7 +144,6 @@ public class RCMRMT030101UKProduct implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -180,7 +173,6 @@ public class RCMRMT030101UKProduct implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -210,7 +202,6 @@ public class RCMRMT030101UKProduct implements org.hl7.v3.deprecated.RCMRMT030101
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -226,7 +217,6 @@ public class RCMRMT030101UKProduct implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -239,7 +229,6 @@ public class RCMRMT030101UKProduct implements org.hl7.v3.deprecated.RCMRMT030101
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
