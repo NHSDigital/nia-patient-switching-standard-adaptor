@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -13,12 +15,12 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.InterpretationRange complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.InterpretationRange complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.InterpretationRange"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.InterpretationRange"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
@@ -48,11 +50,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.InterpretationRange", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.InterpretationRange", propOrder = {
     "text",
     "value"
 })
-public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.RCMRMT030101UKInterpretationRange {
+public class RCMRMT030101UKInterpretationRange {
 
     protected String text;
     protected IVLPQ value;
@@ -85,7 +87,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      *     {@link String }
      *     
      */
-    @Override
     public String getText() {
         return text;
     }
@@ -98,7 +99,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      *     {@link String }
      *     
      */
-    @Override
     public void setText(String value) {
         this.text = value;
     }
@@ -111,7 +111,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      *     {@link IVLPQ }
      *     
      */
-    @Override
     public IVLPQ getValue() {
         return value;
     }
@@ -124,7 +123,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      *     {@link IVLPQ }
      *     
      */
-    @Override
     public void setValue(IVLPQ value) {
         this.value = value;
     }
@@ -137,13 +135,8 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Observation";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Observation");
     }
 
     /**
@@ -154,7 +147,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -181,7 +173,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -211,7 +202,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
     public List<String> getMoodCode() {
         if (moodCode == null) {
             moodCode = new ArrayList<>();
@@ -241,7 +231,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -271,7 +260,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -287,7 +275,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -300,7 +287,6 @@ public class RCMRMT030101UKInterpretationRange implements org.hl7.v3.deprecated.
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

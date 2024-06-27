@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,16 +16,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Location complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.Location complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Location"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.Location"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="locatedEntity" type="{urn:hl7-org:v3}RCMR_MT030101UK04.LocatedEntity"/&amp;gt;
+ *         &amp;lt;element name="locatedEntity" type="{urn:hl7-org:v3}RCMR_MT030101UK.LocatedEntity"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Participation" /&amp;gt;
  *       &amp;lt;attribute name="typeCode" type="{urn:hl7-org:v3}ParticipationType" default="LOC" /&amp;gt;
@@ -47,13 +49,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Location", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.Location", propOrder = {
     "locatedEntity"
 })
-public class RCMRMT030101UKLocation implements org.hl7.v3.deprecated.RCMRMT030101UKLocation {
+public class RCMRMT030101UKLocation {
 
     @XmlElement(required = true, type = RCMRMT030101UKLocatedEntity.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKLocatedEntity locatedEntity;
+    protected RCMRMT030101UKLocatedEntity locatedEntity;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -75,8 +77,7 @@ public class RCMRMT030101UKLocation implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link RCMRMT030101UKLocatedEntity }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKLocatedEntity getLocatedEntity() {
+    public RCMRMT030101UKLocatedEntity getLocatedEntity() {
         return locatedEntity;
     }
 
@@ -88,8 +89,7 @@ public class RCMRMT030101UKLocation implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link RCMRMT030101UKLocatedEntity }
      *     
      */
-    @Override
-    public void setLocatedEntity(org.hl7.v3.deprecated.RCMRMT030101UKLocatedEntity value) {
+    public void setLocatedEntity(RCMRMT030101UKLocatedEntity value) {
         this.locatedEntity = value;
     }
 
@@ -101,13 +101,8 @@ public class RCMRMT030101UKLocation implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "Participation";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "Participation");
     }
 
     /**
@@ -118,7 +113,6 @@ public class RCMRMT030101UKLocation implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -145,7 +139,6 @@ public class RCMRMT030101UKLocation implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -175,7 +168,6 @@ public class RCMRMT030101UKLocation implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -205,7 +197,6 @@ public class RCMRMT030101UKLocation implements org.hl7.v3.deprecated.RCMRMT03010
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -221,7 +212,6 @@ public class RCMRMT030101UKLocation implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -234,7 +224,6 @@ public class RCMRMT030101UKLocation implements org.hl7.v3.deprecated.RCMRMT03010
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

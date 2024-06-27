@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,16 +16,16 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.Limitation complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.Limitation complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.Limitation"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.Limitation"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="limitingEhrExtractSpecification" type="{urn:hl7-org:v3}RCMR_MT030101UK04.EhrExtractSpecification"/&amp;gt;
+ *         &amp;lt;element name="limitingEhrExtractSpecification" type="{urn:hl7-org:v3}RCMR_MT030101UK.EhrExtractSpecification"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ActRelationship" /&amp;gt;
  *       &amp;lt;attribute name="typeCode" type="{urn:hl7-org:v3}ActRelationshipType" default="LIMIT" /&amp;gt;
@@ -48,13 +50,13 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.Limitation", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.Limitation", propOrder = {
     "limitingEhrExtractSpecification"
 })
-public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030101UKLimitation {
+public class RCMRMT030101UKLimitation {
 
     @XmlElement(required = true, type = RCMRMT030101UKEhrExtractSpecification.class)
-    protected org.hl7.v3.deprecated.RCMRMT030101UKEhrExtractSpecification limitingEhrExtractSpecification;
+    protected RCMRMT030101UKEhrExtractSpecification limitingEhrExtractSpecification;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -78,8 +80,7 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link RCMRMT030101UKEhrExtractSpecification }
      *     
      */
-    @Override
-    public org.hl7.v3.deprecated.RCMRMT030101UKEhrExtractSpecification getLimitingEhrExtractSpecification() {
+    public RCMRMT030101UKEhrExtractSpecification getLimitingEhrExtractSpecification() {
         return limitingEhrExtractSpecification;
     }
 
@@ -91,8 +92,7 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link RCMRMT030101UKEhrExtractSpecification }
      *     
      */
-    @Override
-    public void setLimitingEhrExtractSpecification(org.hl7.v3.deprecated.RCMRMT030101UKEhrExtractSpecification value) {
+    public void setLimitingEhrExtractSpecification(RCMRMT030101UKEhrExtractSpecification value) {
         this.limitingEhrExtractSpecification = value;
     }
 
@@ -104,13 +104,8 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "ActRelationship";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "ActRelationship");
     }
 
     /**
@@ -121,7 +116,6 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -148,7 +142,6 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * 
      */
-    @Override
     public List<String> getTypeCode() {
         if (typeCode == null) {
             typeCode = new ArrayList<>();
@@ -164,13 +157,8 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link Boolean }
      *     
      */
-    @Override
     public boolean isInversionInd() {
-        if (inversionInd == null) {
-            return true;
-        } else {
-            return inversionInd;
-        }
+        return Objects.requireNonNullElse(inversionInd, true);
     }
 
     /**
@@ -181,7 +169,6 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link Boolean }
      *     
      */
-    @Override
     public void setInversionInd(Boolean value) {
         this.inversionInd = value;
     }
@@ -208,7 +195,6 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -238,7 +224,6 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -254,7 +239,6 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -267,7 +251,6 @@ public class RCMRMT030101UKLimitation implements org.hl7.v3.deprecated.RCMRMT030
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }

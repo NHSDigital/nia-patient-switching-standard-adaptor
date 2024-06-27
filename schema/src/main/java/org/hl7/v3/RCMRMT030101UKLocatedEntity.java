@@ -3,6 +3,8 @@ package org.hl7.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -13,17 +15,17 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_MT030101UK04.LocatedEntity complex type.
+ * &lt;p&gt;Java class for RCMR_MT030101UK.LocatedEntity complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_MT030101UK04.LocatedEntity"&amp;gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.LocatedEntity"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
  *         &amp;lt;element name="code" type="{urn:hl7-org:v3}CV" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="locatedPlace" type="{urn:hl7-org:v3}RCMR_MT030101UK04.Place" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="locatedPlace" type="{urn:hl7-org:v3}RCMR_MT030101UK.Place" minOccurs="0"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
  *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="RoleHeir" /&amp;gt;
  *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}RoleClass" default="LOCE" /&amp;gt;
@@ -47,11 +49,11 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_MT030101UK04.LocatedEntity", propOrder = {
+@XmlType(name = "RCMR_MT030101UK.LocatedEntity", propOrder = {
     "code",
     "locatedPlace"
 })
-public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT030101UKLocatedEntity {
+public class RCMRMT030101UKLocatedEntity {
 
     protected CV code;
     protected RCMRMT030101UKPlace locatedPlace;
@@ -76,7 +78,6 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      *     {@link CV }
      *     
      */
-    @Override
     public CV getCode() {
         return code;
     }
@@ -89,7 +90,6 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      *     {@link CV }
      *     
      */
-    @Override
     public void setCode(CV value) {
         this.code = value;
     }
@@ -102,7 +102,6 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      *     {@link RCMRMT030101UKPlace }
      *     
      */
-    @Override
     public RCMRMT030101UKPlace getLocatedPlace() {
         return locatedPlace;
     }
@@ -115,7 +114,6 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      *     {@link RCMRMT030101UKPlace }
      *     
      */
-    @Override
     public void setLocatedPlace(RCMRMT030101UKPlace value) {
         this.locatedPlace = value;
     }
@@ -128,13 +126,8 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public String getType() {
-        if (type == null) {
-            return "RoleHeir";
-        } else {
-            return type;
-        }
+        return Objects.requireNonNullElse(type, "RoleHeir");
     }
 
     /**
@@ -145,7 +138,6 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public void setType(String value) {
         this.type = value;
     }
@@ -172,7 +164,6 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      * 
      * 
      */
-    @Override
     public List<String> getClassCode() {
         if (classCode == null) {
             classCode = new ArrayList<>();
@@ -202,7 +193,6 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      * 
      * 
      */
-    @Override
     public List<String> getTypeID() {
         if (typeID == null) {
             typeID = new ArrayList<>();
@@ -232,7 +222,6 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      * 
      * 
      */
-    @Override
     public List<String> getRealmCode() {
         if (realmCode == null) {
             realmCode = new ArrayList<>();
@@ -248,7 +237,6 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public String getNullFlavor() {
         return nullFlavor;
     }
@@ -261,7 +249,6 @@ public class RCMRMT030101UKLocatedEntity implements org.hl7.v3.deprecated.RCMRMT
      *     {@link String }
      *     
      */
-    @Override
     public void setNullFlavor(String value) {
         this.nullFlavor = value;
     }
