@@ -181,7 +181,7 @@ public class EhrExtractMessageHandler {
         }
 
         // upload all references to files in the inbound message
-        var fileUpdatedPayload = attachmentReferenceUpdaterService.updateReferenceToAttachment(
+        var fileUpdatedPayload = attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
             inboundMessage.getAttachments(),
             conversationId,
             inboundMessage.getPayload()
