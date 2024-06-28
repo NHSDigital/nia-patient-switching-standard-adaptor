@@ -24,11 +24,10 @@ import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UKComponent4;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -99,7 +98,7 @@ public class MedicationStatementMapperTest {
 
         assertThat(authorise.isPresent()).isTrue();
         var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(
-            new RCMRMT030101UK04EhrExtract(), medicationStatement, authorise.get(), PRACTISE_CODE, new DateTimeType());
+            new RCMRMT030101UKEhrExtract(), medicationStatement, authorise.get(), PRACTISE_CODE, new DateTimeType());
 
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
@@ -209,14 +208,14 @@ public class MedicationStatementMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04MedicationStatement unmarshallMedicationStatement(String fileName) {
+    private RCMRMT030101UKMedicationStatement unmarshallMedicationStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName),
-            RCMRMT030101UK04MedicationStatement.class);
+            RCMRMT030101UKMedicationStatement.class);
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
 
@@ -235,7 +234,7 @@ public class MedicationStatementMapperTest {
             ehrExtract, medicationStatement.orElseThrow(), authorise.orElseThrow(), PRACTISE_CODE, authoredOn);
     }
 
-    private Optional<RCMRMT030101UKMedicationStatement> extractMedicationStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private Optional<RCMRMT030101UKMedicationStatement> extractMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract
             .getComponent()
             .stream()

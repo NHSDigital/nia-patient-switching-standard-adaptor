@@ -6,7 +6,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 
 import java.util.List;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKParticipant;
 import org.junit.jupiter.api.Test;
 
@@ -16,11 +16,11 @@ public class ParticipantReferenceUtilTest {
     private static final String XML_RESOURCES_BASE = "xml/Participant/";
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrComposition unmarshallEhrCompositionElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrComposition.class);
+    private RCMRMT030101UKEhrComposition unmarshallEhrCompositionElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrComposition.class);
     }
 
-    private List<RCMRMT030101UKParticipant> getParticipants(RCMRMT030101UK04EhrComposition ehrComposition) {
+    private List<RCMRMT030101UKParticipant> getParticipants(RCMRMT030101UKEhrComposition ehrComposition) {
         return ehrComposition.getComponent().get(0).getPlanStatement().getParticipant();
     }
 

@@ -22,13 +22,12 @@ import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKComponent;
 import org.hl7.v3.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UKComponent4;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
@@ -517,7 +516,7 @@ public class MedicationRequestPlanMapperTest {
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallEhrExtractFromMedicationRequestXml(String medicationRequestXml) {
         var ehrExtractXml = EHR_EXTRACT_WRAPPER.replace("{{MedicationStatement}}", medicationRequestXml);
-        return unmarshallString(ehrExtractXml, RCMRMT030101UK04EhrExtract.class);
+        return unmarshallString(ehrExtractXml, RCMRMT030101UKEhrExtract.class);
     }
 
     private static @NotNull String medicationStatementFromEhrSupplyDiscontinue(String ehrSupplyDiscontinue) {

@@ -8,7 +8,6 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.RCMRMT030101UK04Patient;
 import org.hl7.v3.RCMRMT030101UKPatient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,7 +77,7 @@ public class PatientMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04Patient unmarshallCodeElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04Patient.class);
+    private RCMRMT030101UKPatient unmarshallCodeElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKPatient.class);
     }
 }

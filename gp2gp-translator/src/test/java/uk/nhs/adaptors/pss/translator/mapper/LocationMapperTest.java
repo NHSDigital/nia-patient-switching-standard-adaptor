@@ -9,7 +9,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Location;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;
@@ -183,7 +183,7 @@ public class LocationMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrComposition unmarshallCodeElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrComposition.class);
+    private RCMRMT030101UKEhrComposition unmarshallCodeElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrComposition.class);
     }
 }

@@ -7,9 +7,9 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 
 import java.util.stream.Stream;
 
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -23,7 +23,7 @@ public class ResourceFilterUtilTest {
 
     @Test
     public void testIsDocumentReferenceResource() {
-        final RCMRMT030101UK04NarrativeStatement narrativeStatement = unmarshallNarrativeStatementElement(
+        final RCMRMT030101UKNarrativeStatement narrativeStatement = unmarshallNarrativeStatementElement(
             "document_reference_resource.xml");
 
         assertThat(ResourceFilterUtil.isDocumentReference(narrativeStatement)).isTrue();
@@ -31,7 +31,7 @@ public class ResourceFilterUtilTest {
 
     @Test
     public void testIsNotDocumentReferenceResource() {
-        final RCMRMT030101UK04NarrativeStatement narrativeStatement = unmarshallNarrativeStatementElement(
+        final RCMRMT030101UKNarrativeStatement narrativeStatement = unmarshallNarrativeStatementElement(
             "observation_comment_resource.xml");
 
         assertThat(ResourceFilterUtil.isDocumentReference(narrativeStatement)).isFalse();
@@ -39,7 +39,7 @@ public class ResourceFilterUtilTest {
 
     @Test
     public void testIsBloodPressureResource() {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("blood_pressure_resource.xml");
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement("blood_pressure_resource.xml");
 
         assertThat(ResourceFilterUtil.isBloodPressure(compoundStatement)).isTrue();
     }
@@ -47,7 +47,7 @@ public class ResourceFilterUtilTest {
     @ParameterizedTest
     @MethodSource("nonBloodPressureTestFiles")
     public void testIsNotBloodPressureResource(String inputXML) {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
 
         assertThat(ResourceFilterUtil.isBloodPressure(compoundStatement)).isFalse();
     }
@@ -63,7 +63,7 @@ public class ResourceFilterUtilTest {
 
     @Test
     public void testIsAllergyIntoleranceResource() {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("allergy_intolerance_resource.xml");
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement("allergy_intolerance_resource.xml");
 
         assertThat(ResourceFilterUtil.isAllergyIntolerance(compoundStatement)).isTrue();
     }
@@ -71,7 +71,7 @@ public class ResourceFilterUtilTest {
     @ParameterizedTest
     @MethodSource("nonAllergyIntoleranceTestFiles")
     public void testIsNotAllergyIntoleranceResource(String inputXML) {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
 
         assertThat(ResourceFilterUtil.isAllergyIntolerance(compoundStatement)).isFalse();
     }
@@ -87,7 +87,7 @@ public class ResourceFilterUtilTest {
 
     @Test
     public void testIsDiagnosticReportResource() {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("diagnostic_report_resource.xml");
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement("diagnostic_report_resource.xml");
 
         assertThat(ResourceFilterUtil.isDiagnosticReport(compoundStatement)).isTrue();
     }
@@ -95,7 +95,7 @@ public class ResourceFilterUtilTest {
     @ParameterizedTest
     @MethodSource("nonDiagnosticReportTestFiles")
     public void testIsNotBloodPressure(String inputXML) {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
 
         assertThat(ResourceFilterUtil.isDiagnosticReport(compoundStatement)).isFalse();
     }
@@ -111,7 +111,7 @@ public class ResourceFilterUtilTest {
 
     @Test
     public void testIsTemplateResource() {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("template_resource.xml");
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement("template_resource.xml");
 
         assertThat(ResourceFilterUtil.isTemplate(compoundStatement)).isTrue();
     }
@@ -119,7 +119,7 @@ public class ResourceFilterUtilTest {
     @ParameterizedTest
     @MethodSource("nonTemplateTestFiles")
     public void testIsNotTemplateResource(String inputXML) {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
 
         assertThat(ResourceFilterUtil.isTemplate(compoundStatement)).isFalse();
     }
@@ -135,7 +135,7 @@ public class ResourceFilterUtilTest {
 
     @Test
     public void testIsSpecimenResource() {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("specimen_resource.xml");
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement("specimen_resource.xml");
 
         assertThat(ResourceFilterUtil.isSpecimen(compoundStatement)).isTrue();
     }
@@ -143,7 +143,7 @@ public class ResourceFilterUtilTest {
     @ParameterizedTest
     @MethodSource("nonSpecimenTestFiles")
     public void testIsNotSpecimenResource(String inputXML) {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
 
         assertThat(ResourceFilterUtil.isSpecimen(compoundStatement)).isFalse();
     }
@@ -158,20 +158,20 @@ public class ResourceFilterUtilTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04CompoundStatement unmarshallCompoundStatementElement(String fileName) {
+    private RCMRMT030101UKCompoundStatement unmarshallCompoundStatementElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES + fileName),
-            RCMRMT030101UK04CompoundStatement.class);
+            RCMRMT030101UKCompoundStatement.class);
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04ObservationStatement unmarshallObservationStatementElement(String fileName) {
+    private RCMRMT030101UKObservationStatement unmarshallObservationStatementElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES + fileName),
-            RCMRMT030101UK04ObservationStatement.class);
+            RCMRMT030101UKObservationStatement.class);
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04NarrativeStatement unmarshallNarrativeStatementElement(String fileName) {
+    private RCMRMT030101UKNarrativeStatement unmarshallNarrativeStatementElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES + fileName),
-            RCMRMT030101UK04NarrativeStatement.class);
+            RCMRMT030101UKNarrativeStatement.class);
     }
 }

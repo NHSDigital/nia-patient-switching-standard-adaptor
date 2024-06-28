@@ -1,36 +1,327 @@
+
 package org.hl7.v3;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public interface RCMRMT030101UKMaterial {
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-    CE getCode();
 
-    void setCode(CE value);
+/**
+ * &lt;p&gt;Java class for RCMR_MT030101UK.Material complex type.
+ * 
+ * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
+ * 
+ * &lt;pre&gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.Material"&amp;gt;
+ *   &amp;lt;complexContent&amp;gt;
+ *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
+ *       &amp;lt;sequence&amp;gt;
+ *         &amp;lt;element name="code" type="{urn:hl7-org:v3}CE"/&amp;gt;
+ *         &amp;lt;element name="quantity" type="{urn:hl7-org:v3}PQ" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="expirationTime" type="{urn:hl7-org:v3}TS" minOccurs="0"/&amp;gt;
+ *       &amp;lt;/sequence&amp;gt;
+ *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ManufacturedMaterial" /&amp;gt;
+ *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}EntityClass" default="MMAT" /&amp;gt;
+ *       &amp;lt;attribute name="determinerCode" use="required" type="{urn:hl7-org:v3}EntityDeterminer" /&amp;gt;
+ *       &amp;lt;attribute name="typeID"&amp;gt;
+ *         &amp;lt;simpleType&amp;gt;
+ *           &amp;lt;list itemType="{urn:hl7-org:v3}oid" /&amp;gt;
+ *         &amp;lt;/simpleType&amp;gt;
+ *       &amp;lt;/attribute&amp;gt;
+ *       &amp;lt;attribute name="realmCode"&amp;gt;
+ *         &amp;lt;simpleType&amp;gt;
+ *           &amp;lt;list itemType="{urn:hl7-org:v3}cs" /&amp;gt;
+ *         &amp;lt;/simpleType&amp;gt;
+ *       &amp;lt;/attribute&amp;gt;
+ *       &amp;lt;attribute name="nullFlavor" type="{urn:hl7-org:v3}cs" /&amp;gt;
+ *     &amp;lt;/restriction&amp;gt;
+ *   &amp;lt;/complexContent&amp;gt;
+ * &amp;lt;/complexType&amp;gt;
+ * &lt;/pre&gt;
+ * 
+ * 
+ */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RCMR_MT030101UK.Material", propOrder = {
+    "code",
+    "quantity",
+    "expirationTime"
+})
+public class RCMRMT030101UKMaterial {
 
-    boolean hasCode();
+    @XmlElement(required = true)
+    protected CE code;
+    protected PQ quantity;
+    protected TS expirationTime;
 
-    PQ getQuantity();
+    @XmlAttribute(name = "type")
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    protected String type;
 
-    void setQuantity(PQ value);
+    @XmlAttribute(name = "classCode")
+    protected List<String> classCode;
 
-    TS getExpirationTime();
+    @XmlAttribute(name = "determinerCode", required = true)
+    protected List<String> determinerCode;
 
-    void setExpirationTime(TS value);
+    @XmlAttribute(name = "typeID")
+    protected List<String> typeID;
 
-    String getType();
+    @XmlAttribute(name = "realmCode")
+    protected List<String> realmCode;
 
-    void setType(String value);
+    @XmlAttribute(name = "nullFlavor")
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    protected String nullFlavor;
 
-    List<String> getClassCode();
+    /**
+     * Gets the value of the code property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CE }
+     *     
+     */
+    public CE getCode() {
+        return code;
+    }
 
-    List<String> getDeterminerCode();
+    /**
+     * Sets the value of the code property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CE }
+     *     
+     */
+    public void setCode(CE value) {
+        this.code = value;
+    }
 
-    List<String> getTypeID();
+    public boolean hasCode() {
+        return code != null;
+    }
 
-    List<String> getRealmCode();
+    /**
+     * Gets the value of the quantity property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link PQ }
+     *     
+     */
+    public PQ getQuantity() {
+        return quantity;
+    }
 
-    String getNullFlavor();
+    /**
+     * Sets the value of the quantity property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link PQ }
+     *     
+     */
+    public void setQuantity(PQ value) {
+        this.quantity = value;
+    }
 
-    void setNullFlavor(String value);
+    /**
+     * Gets the value of the expirationTime property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TS }
+     *     
+     */
+    public TS getExpirationTime() {
+        return expirationTime;
+    }
+
+    /**
+     * Sets the value of the expirationTime property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TS }
+     *     
+     */
+    public void setExpirationTime(TS value) {
+        this.expirationTime = value;
+    }
+
+    /**
+     * Gets the value of the type property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getType() {
+        return Objects.requireNonNullElse(type, "ManufacturedMaterial");
+    }
+
+    /**
+     * Sets the value of the type property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setType(String value) {
+        this.type = value;
+    }
+
+    /**
+     * Gets the value of the classCode property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the classCode property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getClassCode().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getClassCode() {
+        if (classCode == null) {
+            classCode = new ArrayList<>();
+        }
+        return this.classCode;
+    }
+
+    /**
+     * Gets the value of the determinerCode property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the determinerCode property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getDeterminerCode().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getDeterminerCode() {
+        if (determinerCode == null) {
+            determinerCode = new ArrayList<>();
+        }
+        return this.determinerCode;
+    }
+
+    /**
+     * Gets the value of the typeID property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the typeID property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getTypeID().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getTypeID() {
+        if (typeID == null) {
+            typeID = new ArrayList<>();
+        }
+        return this.typeID;
+    }
+
+    /**
+     * Gets the value of the realmCode property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the realmCode property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getRealmCode().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getRealmCode() {
+        if (realmCode == null) {
+            realmCode = new ArrayList<>();
+        }
+        return this.realmCode;
+    }
+
+    /**
+     * Gets the value of the nullFlavor property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getNullFlavor() {
+        return nullFlavor;
+    }
+
+    /**
+     * Sets the value of the nullFlavor property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setNullFlavor(String value) {
+        this.nullFlavor = value;
+    }
+
 }
