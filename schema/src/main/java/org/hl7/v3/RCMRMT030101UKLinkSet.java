@@ -648,7 +648,7 @@ public class RCMRMT030101UKLinkSet {
     }
 
     public Optional<CV> getConfidentialityCode() {
-        return Optional.of(confidentialityCode);
+        return Optional.ofNullable(confidentialityCode);
     }
 
     public void setConfidentialityCode(CV confidentialityCode) {
