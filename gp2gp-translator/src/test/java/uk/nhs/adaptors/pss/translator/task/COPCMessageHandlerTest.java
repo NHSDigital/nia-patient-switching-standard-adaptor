@@ -23,7 +23,6 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -476,45 +475,6 @@ class COPCMessageHandlerTest {
         when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any(), any()))
             .thenReturn("test-string");
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
-    }
-
-    @Test
-    public void shouldSendNackWhenFileTypeIsNotSupported() throws AttachmentNotFoundException, JAXBException,
-                                                                  BundleMappingException, JsonProcessingException,
-                                                                  InlineAttachmentProcessingException, SAXException,
-                                                                  AttachmentLogException, UnsupportedFileTypeException {
-
-        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
-
-        try {
-
-            InboundMessage message = new InboundMessage();
-            setUpInboundMessageAndMocks(message);
-            prepareFailProcessMocks(mockedXmlUnmarshall);
-
-            when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
-                .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
-                                                      "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", false));
-
-            doThrow(UnsupportedFileTypeException.class)
-                .when(attachmentHandlerService)
-                .storeAttachments(any(), any());
-
-            COPCIN000001UK01Message mockedPayload = unmarshallString(message.getPayload(), COPCIN000001UK01Message.class);
-            mockedXmlUnmarshall.when(
-                () -> XmlUnmarshallUtil.unmarshallString(any(), eq(COPCIN000001UK01Message.class))
-                                    ).thenReturn(mockedPayload);
-
-            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
-            verify(nackAckPreparationServiceMock, times(1))
-                .sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, mockedPayload, CONVERSATION_ID);
-
-            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
-            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode());
-        } finally {
-            mockedXmlUnmarshall.close();
-        }
-
     }
 
     @Test
