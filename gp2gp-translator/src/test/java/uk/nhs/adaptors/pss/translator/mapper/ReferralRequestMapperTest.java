@@ -458,7 +458,8 @@ public class ReferralRequestMapperTest {
     }
 
     private static ReferralRequest mapReferralRequest(RCMRMT030101UKEhrComposition ehrComposition,
-                                                      Function<RCMRMT030101UKEhrComposition, RCMRMT030101UKRequestStatement> extractRequestStatement) {
+                                                      Function<RCMRMT030101UKEhrComposition,
+                                                      RCMRMT030101UKRequestStatement> extractRequestStatement) {
 
         var requestStatement = extractRequestStatement.apply(ehrComposition);
 
