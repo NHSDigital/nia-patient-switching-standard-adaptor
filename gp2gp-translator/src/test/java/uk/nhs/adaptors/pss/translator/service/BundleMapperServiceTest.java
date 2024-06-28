@@ -140,7 +140,7 @@ public class BundleMapperServiceTest {
 
         when(agentDirectoryMapper.mapAgentDirectory(any())).thenReturn(mockedList);
         when(mockedList.stream()).thenReturn(agentResourceList.stream());
-        when(patientMapper.mapToPatient(any(org.hl7.v3.deprecated.RCMRMT030101UKPatient.class), any(Organization.class))).thenReturn(new Patient());
+        when(patientMapper.mapToPatient(any(RCMRMT030101UKPatient.class), any(Organization.class))).thenReturn(new Patient());
         when(encounterMapper.mapEncounters(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), any(String.class), any(List.class)))
             .thenReturn(encounterResources);
         when(organizationMapper.mapAuthorOrganization(anyString(), anyList())).thenReturn(new Organization());

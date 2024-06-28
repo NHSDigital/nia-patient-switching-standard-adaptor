@@ -9,10 +9,10 @@ import org.hl7.fhir.dstu3.model.Medication;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.CD;
-import org.hl7.v3.deprecated.RCMRMT030101UKConsumable;
-import org.hl7.v3.deprecated.RCMRMT030101UKManufacturedProduct;
-import org.hl7.v3.deprecated.RCMRMT030101UKMaterial;
-import org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKConsumable;
+import org.hl7.v3.RCMRMT030101UKManufacturedProduct;
+import org.hl7.v3.RCMRMT030101UKMaterial;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;

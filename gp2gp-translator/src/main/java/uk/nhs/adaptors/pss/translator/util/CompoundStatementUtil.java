@@ -6,8 +6,8 @@ import java.util.stream.Stream;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
-import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompoundStatementUtil {

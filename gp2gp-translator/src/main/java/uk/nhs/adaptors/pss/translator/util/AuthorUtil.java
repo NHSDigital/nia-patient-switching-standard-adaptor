@@ -3,8 +3,8 @@ package uk.nhs.adaptors.pss.translator.util;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.deprecated.RCMRMT030101UKAuthor;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKAuthor;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 
 import java.util.Optional;
 

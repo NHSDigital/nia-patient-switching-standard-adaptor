@@ -7,7 +7,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.List;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.deprecated.RCMRMT030101UKParticipant;
+import org.hl7.v3.RCMRMT030101UKParticipant;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;

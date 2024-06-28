@@ -30,12 +30,12 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.II;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.deprecated.RCMRMT030101UKNarrativeStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKAuthor;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
+import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,12 +69,12 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     }
 
     @Override
-    public List<DiagnosticReport> mapResources(org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    public List<DiagnosticReport> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                                String practiceCode) {
         return mapResources(ehrExtract, patient, encounters, practiceCode, new ArrayList<>());
     }
 
-    public List<DiagnosticReport> mapResources(org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    public List<DiagnosticReport> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                                String practiceCode, List<Observation> observationComments) {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
                 extractAllCompoundStatements(component)

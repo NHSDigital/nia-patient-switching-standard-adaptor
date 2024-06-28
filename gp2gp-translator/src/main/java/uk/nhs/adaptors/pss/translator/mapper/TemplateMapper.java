@@ -26,11 +26,11 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +49,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
     private final ResourceReferenceUtil resourceReferenceUtil;
 
     @Override
-    public List<DomainResource> mapResources(org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract ehrExtract, Patient patient,
+    public List<DomainResource> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient,
                                              List<Encounter> encounters, String practiseCode) {
 
         return  mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->

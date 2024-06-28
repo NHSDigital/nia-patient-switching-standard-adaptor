@@ -18,10 +18,10 @@ import org.hl7.v3.CV;
 import org.hl7.v3.IVLPQ;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.PQ;
-import org.hl7.v3.deprecated.RCMRMT030101UKAuthor;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.deprecated.RCMRMT030101UKInterpretationRange;
-import org.hl7.v3.deprecated.RCMRMT030101UKReferenceRange;
+import org.hl7.v3.RCMRMT030101UKAuthor;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKInterpretationRange;
+import org.hl7.v3.RCMRMT030101UKReferenceRange;
 import org.hl7.v3.TS;
 
 import org.springframework.stereotype.Component;

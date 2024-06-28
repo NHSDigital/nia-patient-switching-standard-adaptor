@@ -36,20 +36,20 @@ import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.CD;
 import org.hl7.v3.IVLTS;
-import org.hl7.v3.deprecated.RCMRMT030101UKAnnotation;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent2;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent3;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent4;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent6;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent2;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKComponent4;
+import org.hl7.v3.RCMRMT030101UKComponent6;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.deprecated.RCMRMT030101UKLinkSet;
-import org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation02;
-import org.hl7.v3.deprecated.RCMRMT030101UKStatementRef;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKStatementRef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,7 +87,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
 
-    public List<Condition> mapResources(org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    public List<Condition> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                         String practiseCode) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->

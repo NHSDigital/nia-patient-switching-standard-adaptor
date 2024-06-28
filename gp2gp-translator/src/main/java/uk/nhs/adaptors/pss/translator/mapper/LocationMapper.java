@@ -9,7 +9,7 @@ import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.v3.RCMRMT030101UKPlace;
-import org.hl7.v3.deprecated.RCMRMT030101UKLocation;
+import org.hl7.v3.RCMRMT030101UKLocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

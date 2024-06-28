@@ -327,27 +327,27 @@ class DuplicateObservationStatementMapperTest {
     }
 
 
-    private static String firstPertinentInformationText(org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement observationStatement) {
+    private static String firstPertinentInformationText(RCMRMT030101UKObservationStatement observationStatement) {
         return observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
     }
 
-    private static List<org.hl7.v3.deprecated.RCMRMT030101UKComponent4> firstEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
+    private static List<RCMRMT030101UKComponent4> firstEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
         return firstEhrComposition(firstEhrFolder(ehrExtract)).getComponent();
     }
 
-    private static org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition firstEhrComposition(org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder) {
+    private static RCMRMT030101UKEhrComposition firstEhrComposition(RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder) {
         return rcmrmt030101UKEhrFolder.getComponent().get(0).getEhrComposition();
     }
 
-    private static org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition secondEhrComposition(org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder) {
+    private static RCMRMT030101UKEhrComposition secondEhrComposition(RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder) {
         return rcmrmt030101UKEhrFolder.getComponent().get(1).getEhrComposition();
     }
 
-    private static org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder firstEhrFolder(RCMRMT030101UKEhrExtract ehrExtract) {
+    private static RCMRMT030101UKEhrFolder firstEhrFolder(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder();
     }
 
-    private static org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder secondEhrFolder(RCMRMT030101UKEhrExtract ehrExtract) {
+    private static RCMRMT030101UKEhrFolder secondEhrFolder(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(1).getEhrFolder();
     }
 

@@ -98,7 +98,7 @@ public class ResourceReferenceUtilTest {
 
     @Test
     public void testTemplateChildResourcesReferencedAsQuestionnaireAnswers() {
-        final org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_template.xml");
+        final RCMRMT030101UKEhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_template.xml");
 
         List<Reference> references = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromTemplate(

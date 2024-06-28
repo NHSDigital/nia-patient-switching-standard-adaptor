@@ -25,11 +25,11 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.II;
-import org.hl7.v3.deprecated.RCMRMT030101UKAnnotation;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.deprecated.RCMRMT030101UKObservationStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKPertinentInformation02;
+import org.hl7.v3.RCMRMT030101UKAnnotation;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 

@@ -6,12 +6,12 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.function.TriFunction;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent4;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKComponent4;
+import org.hl7.v3.RCMRMT030101UKComponent3;
 
 public abstract class AbstractMapper<T> {
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UKLinkSet;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
@@ -52,7 +52,7 @@ public class CompoundStatementUtilTest {
         var displayNames = mappedValues
             .stream()
             .map(RCMRMT030101UKComponent02::getCompoundStatement)
-            .map(org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement::getCode)
+            .map(RCMRMT030101UKCompoundStatement::getCode)
             .map(CD::getDisplayName)
             .toList();
         assertTrue(EXPECTED_DISPLAYED_NAMES.containsAll(displayNames));
@@ -132,7 +132,7 @@ public class CompoundStatementUtilTest {
     }
 
     @SneakyThrows
-    private org.hl7.v3.deprecated.RCMRMT030101UKCompoundStatement unmarshallCompoundStatement(String fileName) {
+    private RCMRMT030101UKCompoundStatement unmarshallCompoundStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_COMPOUND_STATEMENTS + fileName),
             RCMRMT030101UKCompoundStatement.class);
     }

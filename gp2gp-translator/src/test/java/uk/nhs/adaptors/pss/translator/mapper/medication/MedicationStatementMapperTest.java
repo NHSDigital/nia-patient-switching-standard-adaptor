@@ -19,15 +19,15 @@ import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent2;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent3;
-import org.hl7.v3.deprecated.RCMRMT030101UKComponent4;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent2;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKComponent4;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.deprecated.RCMRMT030101UKEhrFolder;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
-import org.hl7.v3.deprecated.RCMRMT030101UKAuthorise;
+import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -234,7 +234,7 @@ public class MedicationStatementMapperTest {
             ehrExtract, medicationStatement.orElseThrow(), authorise.orElseThrow(), PRACTISE_CODE, authoredOn);
     }
 
-    private Optional<org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement> extractMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract) {
+    private Optional<RCMRMT030101UKMedicationStatement> extractMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract
             .getComponent()
             .stream()
@@ -248,7 +248,7 @@ public class MedicationStatementMapperTest {
             .findFirst();
     }
 
-    private Optional<RCMRMT030101UKAuthorise> extractAuthorise(org.hl7.v3.deprecated.RCMRMT030101UKMedicationStatement medicationStatement) {
+    private Optional<RCMRMT030101UKAuthorise> extractAuthorise(RCMRMT030101UKMedicationStatement medicationStatement) {
 
         return medicationStatement.getComponent()
             .stream()

@@ -48,7 +48,7 @@ public class PatientMapperTest {
 
     @Test
     public void testIdMetaAndNhsNumberIsAddedToPatient() {
-        org.hl7.v3.deprecated.RCMRMT030101UKPatient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML);
+        RCMRMT030101UKPatient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML);
 
         Patient patient = patientMapper.mapToPatient(patientXml, null);
 
@@ -67,7 +67,7 @@ public class PatientMapperTest {
 
     @Test
     public void testOrganizationReferenceIsAddedToPatient() {
-        org.hl7.v3.deprecated.RCMRMT030101UKPatient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML);
+        RCMRMT030101UKPatient patientXml = unmarshallCodeElement(PATIENT_EXAMPLE_XML);
 
         Patient patient = patientMapper.mapToPatient(patientXml, ORGANIZATION);
 
