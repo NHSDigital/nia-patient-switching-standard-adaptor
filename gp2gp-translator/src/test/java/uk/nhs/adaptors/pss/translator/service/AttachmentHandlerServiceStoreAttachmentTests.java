@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import uk.nhs.adaptors.pss.translator.config.SupportedFileTypes;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
@@ -58,9 +57,6 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
     @InjectMocks
     private AttachmentHandlerService attachmentHandlerService;
-
-    @Mock
-    private SupportedFileTypes supportedFileTypesMock;
 
     @BeforeAll
     static void setMockedCompressedAttachments() throws IOException {

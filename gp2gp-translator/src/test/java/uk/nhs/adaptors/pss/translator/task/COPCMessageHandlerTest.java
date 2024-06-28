@@ -58,7 +58,6 @@ import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
-import uk.nhs.adaptors.pss.translator.config.SupportedFileTypes;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
@@ -115,8 +114,7 @@ class COPCMessageHandlerTest {
     private InboundMessageMergingService inboundMessageMergingService;
     @Mock
     private XmlParseUtilService xmlParseUtilService;
-    @Mock
-    private SupportedFileTypes supportedFileTypesMock;
+
     @Mock
     private FailedProcessHandlingService failedProcessHandlingService;
 

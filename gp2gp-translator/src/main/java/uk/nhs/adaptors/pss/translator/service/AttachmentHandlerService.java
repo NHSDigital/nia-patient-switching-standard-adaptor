@@ -19,7 +19,6 @@ import org.springframework.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
-import uk.nhs.adaptors.pss.translator.config.SupportedFileTypes;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.InlineAttachment;
@@ -33,7 +32,6 @@ import uk.nhs.adaptors.pss.translator.storage.StorageManagerService;
 public class AttachmentHandlerService {
 
     private final StorageManagerService storageManagerService;
-    private final SupportedFileTypes supportedFileTypes;
 
     public void storeAttachments(List<InboundMessage.Attachment> attachments, String conversationId) throws ValidationException,
                                                                                                     InlineAttachmentProcessingException {
