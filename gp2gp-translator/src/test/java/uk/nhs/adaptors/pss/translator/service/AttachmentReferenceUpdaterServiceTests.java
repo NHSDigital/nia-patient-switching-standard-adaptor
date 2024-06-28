@@ -140,7 +140,9 @@ public class AttachmentReferenceUpdaterServiceTests {
 
         var content = getFileContent(PAYLOAD_XML);
 
-        var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(null, CONVERSATION_ID, content);
+        var result = attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+            null, CONVERSATION_ID, content
+        );
 
         assertEquals(content, result);
     }
@@ -153,7 +155,9 @@ public class AttachmentReferenceUpdaterServiceTests {
 
         when(storageManagerService.getFileLocation(any(), any())).thenReturn("https://location.com");
 
-        attachmentReferenceUpdaterService.updateReferenceToAttachment(mockAttachment, CONVERSATION_ID, content);
+        attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+            mockAttachment, CONVERSATION_ID, content
+        );
 
         verify(storageManagerService, times(1)).getFileLocation(any(), any());
     }
@@ -165,7 +169,9 @@ public class AttachmentReferenceUpdaterServiceTests {
         var content = getFileContent(PAYLOAD_XML);
         when(storageManagerService.getFileLocation(any(), any())).thenReturn("https://location.com");
 
-        var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockAttachment, CONVERSATION_ID, content);
+        var result = attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+            mockAttachment, CONVERSATION_ID, content
+        );
 
         assertNotEquals(content, result);
         assertTrue(result.contains("https://location.com"));
@@ -180,7 +186,9 @@ public class AttachmentReferenceUpdaterServiceTests {
         var content = getFileContent(FLAT_PAYLOAD_XML);
         when(storageManagerService.getFileLocation(any(), any())).thenReturn("https://location.com");
 
-        var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockAttachment, CONVERSATION_ID, content);
+        var result = attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+            mockAttachment, CONVERSATION_ID, content
+        );
 
         assertNotEquals(content, result);
         assertTrue(result.contains("https://location.com"));
@@ -199,7 +207,9 @@ public class AttachmentReferenceUpdaterServiceTests {
         var content = getFileContent(PAYLOAD_XML);
         when(storageManagerService.getFileLocation(any(), any())).thenReturn("https://location.com");
 
-        var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockThreeAttachments, CONVERSATION_ID, content);
+        var result = attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+            mockThreeAttachments, CONVERSATION_ID, content
+        );
 
         verify(storageManagerService, times(mockThreeAttachments.size())).getFileLocation(any(), any());
         assertTrue(result.contains("https://location.com"));
@@ -215,7 +225,9 @@ public class AttachmentReferenceUpdaterServiceTests {
         var content = getFileContent(FLAT_PAYLOAD_XML);
         when(storageManagerService.getFileLocation(any(), any())).thenReturn("https://location.com");
 
-        var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockTppStyleAttachment, CONVERSATION_ID, content);
+        var result = attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+            mockTppStyleAttachment, CONVERSATION_ID, content
+        );
 
         verify(storageManagerService, times(mockTppStyleAttachment.size())).getFileLocation(any(), any());
         assertTrue(result.contains("https://location.com"));
@@ -236,7 +248,9 @@ public class AttachmentReferenceUpdaterServiceTests {
         when(storageManagerService.getFileLocation(eq("8681AF4F-E577-4C8D-A2CE-43CABE3D5FB4_sample_mpeg4.mp4"), any()))
             .thenReturn("https://location.com/sampleMpeg4.mp4");
 
-        var result = attachmentReferenceUpdaterService.updateReferenceToAttachment(mockEncodedAttachments, CONVERSATION_ID, content);
+        var result = attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+            mockEncodedAttachments, CONVERSATION_ID, content
+        );
 
         verify(storageManagerService, times(mockEncodedAttachments.size())).getFileLocation(any(), any());
 
@@ -248,10 +262,12 @@ public class AttachmentReferenceUpdaterServiceTests {
         var content = getFileContent(PAYLOAD_XML);
 
         assertThatThrownBy(
-            () -> attachmentReferenceUpdaterService.updateReferenceToAttachment(mockMissingAttachment, CONVERSATION_ID, content)
+            () -> attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+                mockMissingAttachment, CONVERSATION_ID, content
+            )
         )
             .isInstanceOf(AttachmentNotFoundException.class)
-            .hasMessageContaining("Unable to find attachment(s): [missing_attachment.txt]");
+            .hasMessageContaining("Unable to find attachment(s) in EhrExtract: [missing_attachment.txt]");
     }
 
     private String getFileContent(String filename) {

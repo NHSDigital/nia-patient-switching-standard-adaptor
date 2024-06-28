@@ -5,11 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.1.2] - 2024-06-28
+
 ### Changed
 * The `/$gpc.ack` endpoint is now case insensitive and supports uppercase and lowercase values for the `conversationId` header values.
 
 ### Added
-* Retry mechanism has been added for MHS Runtime exceptions 
+* Retry mechanism has been added for when the MHS outbound returns a 500 server response when acknowledging COPC messages.
 
 ### Fixed
 * Mapping of `issued` for Test Group Headers, Test Results, Filing Comment and has been updated to use time value from

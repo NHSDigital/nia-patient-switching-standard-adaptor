@@ -235,7 +235,7 @@ public class EhrExtractMessageHandlerTest {
 
         ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
 
-        verify(attachmentReferenceUpdaterService).updateReferenceToAttachment(
+        verify(attachmentReferenceUpdaterService).replaceOriginalFilenameWithStorageFilenameInEhrExtract(
                 inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload());
     }
 
@@ -378,9 +378,9 @@ public class EhrExtractMessageHandlerTest {
                 .build();
 
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(attachmentReferenceUpdaterService
-                .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()))
-                .thenReturn(inboundMessage.getPayload());
+        when(attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+            inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
+        )).thenReturn(inboundMessage.getPayload());
 
         doThrow(new BundleMappingException("Test Exception"))
             .when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), any());
@@ -407,9 +407,9 @@ public class EhrExtractMessageHandlerTest {
 
         when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE), any())).thenReturn(bundle);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
-        when(attachmentReferenceUpdaterService
-                .updateReferenceToAttachment(inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()))
-                .thenReturn(inboundMessage.getPayload());
+        when(attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+            inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
+        )).thenReturn(inboundMessage.getPayload());
 
         doThrow(new DataFormatException()).when(fhirParser).encodeToJson(bundle);
 
@@ -440,7 +440,7 @@ public class EhrExtractMessageHandlerTest {
         prepareMigrationRequestAndMigrationStatusMocks();
 
         when(attachmentReferenceUpdaterService
-                .updateReferenceToAttachment(
+                .replaceOriginalFilenameWithStorageFilenameInEhrExtract(
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
                 )).thenReturn(inboundMessage.getPayload());
 
@@ -489,7 +489,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(any(), any())).thenReturn("MESSAGE-ID");
         when(skeletonProcessingService.updateInboundMessageWithSkeleton(any(), any(), any())).thenReturn(inboundMessage);
         when(attachmentReferenceUpdaterService
-            .updateReferenceToAttachment(
+            .replaceOriginalFilenameWithStorageFilenameInEhrExtract(
                 inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
             )).thenReturn(inboundMessage.getPayload());
 
@@ -521,7 +521,7 @@ public class EhrExtractMessageHandlerTest {
 
         when(xPathService.getNodeValue(any(), any())).thenReturn("MESSAGE-ID");
         when(attachmentReferenceUpdaterService
-                .updateReferenceToAttachment(
+                .replaceOriginalFilenameWithStorageFilenameInEhrExtract(
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
                 )).thenReturn(inboundMessage.getPayload());
 
@@ -803,7 +803,7 @@ public class EhrExtractMessageHandlerTest {
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
         when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE), any())).thenReturn(bundle);
         when(attachmentReferenceUpdaterService
-                .updateReferenceToAttachment(
+                .replaceOriginalFilenameWithStorageFilenameInEhrExtract(
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
                 )).thenReturn(inboundMessage.getPayload());
     }

@@ -32,7 +32,10 @@ public class AttachmentReferenceUpdaterService {
 
     private final StorageManagerService storageManagerService;
 
-    public String updateReferenceToAttachment(List<InboundMessage.Attachment> attachments, String conversationId, String payloadStr)
+    public String replaceOriginalFilenameWithStorageFilenameInEhrExtract(
+            List<InboundMessage.Attachment> attachments,
+            String conversationId,
+            String ehrExtract)
             throws ValidationException, AttachmentNotFoundException, InlineAttachmentProcessingException {
 
         if (conversationId == null || conversationId.isEmpty()) {
@@ -40,10 +43,10 @@ public class AttachmentReferenceUpdaterService {
         }
 
         if (attachments == null) {
-            return payloadStr;
+            return ehrExtract;
         }
 
-        String resultPayload = payloadStr;
+        String resultPayload = ehrExtract;
 
         Set<String> expectedFilenames = attachments.stream()
             .filter(attachment -> !XmlParseUtilService.parseIsSkeleton(attachment.getDescription()))
@@ -52,28 +55,27 @@ public class AttachmentReferenceUpdaterService {
             .collect(Collectors.toCollection(HashSet::new));
 
         Pattern pattern = Pattern.compile(wrapWithReferenceElement("file://localhost/([^\"]+)"));
-        Matcher matcher = pattern.matcher(payloadStr);
+        Matcher originalFilenameMatch = pattern.matcher(ehrExtract);
 
-        while (matcher.find()) {
-            String decodedFilename = UriUtils.decode(matcher.group(1), StandardCharsets.UTF_8);
+        while (originalFilenameMatch.find()) {
+            String decodedFilename = UriUtils.decode(originalFilenameMatch.group(1), StandardCharsets.UTF_8);
 
             if (expectedFilenames.contains(decodedFilename)) {
 
                 String fileLocation = storageManagerService.getFileLocation(decodedFilename, conversationId);
-                String referenceElement = wrapWithReferenceElement(xmlEscape(fileLocation));
+                String updatedReferenceElement = wrapWithReferenceElement(xmlEscape(fileLocation));
 
-                resultPayload = resultPayload.replace(matcher.group(0), referenceElement);
+                resultPayload = resultPayload.replace(originalFilenameMatch.group(0), updatedReferenceElement);
 
                 expectedFilenames.remove(decodedFilename);
             }
         }
 
         if (!expectedFilenames.isEmpty()) {
-            throw new AttachmentNotFoundException("Unable to find attachment(s): " + expectedFilenames);
+            throw new AttachmentNotFoundException("Unable to find attachment(s) in EhrExtract: " + expectedFilenames);
         }
 
         return resultPayload;
-
     }
 
     private String xmlEscape(String str) {
