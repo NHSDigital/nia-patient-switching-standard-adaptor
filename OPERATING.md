@@ -355,7 +355,6 @@ The following variables are used for [storing attachments](#attachment-storage).
   - `STORAGE_CONTAINER_NAME`: The name of the Azure Storage container or Amazon S3 Bucket
   - `STORAGE_REFERENCE`: The Azure account name or AWS Access Key ID (leave undefined if using an AWS instance role)
   - `STORAGE_SECRET`: The Azure account key or the Amazon Access Key. (leave undefined if using an AWS instance role)
-  - `SUPPORTED_FILE_TYPES`: List of attachment mime file types which the Adaptor accepts, e.g. `image/jpeg,image/png`
 
 **Optional**
   - `STORAGE_RETRY_LIMIT`: The number of retries that are performed when uploading an attachment to storage before
