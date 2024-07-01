@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Address;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.ContactPoint;
@@ -34,7 +35,6 @@ import org.hl7.v3.TEL;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import uk.nhs.adaptors.pss.translator.util.AddressUtil;
 import uk.nhs.adaptors.pss.translator.util.CodeSystemsUtil;
 import uk.nhs.adaptors.pss.translator.util.TelecomUtil;

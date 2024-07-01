@@ -116,9 +116,9 @@ public class CompoundStatementUtilTest {
                 RCMRMT030101UKComponent02::hasMedicationStatement,
                 RCMRMT030101UKComponent02::getMedicationStatement);
 
-        assertThat(mappedValuesLinkSet.size()).isEqualTo(EXPECTED_LINKSET_MIXED_COUNT);
-        assertThat(mappedValuesObservationStatement.size()).isEqualTo(EXPECTED_OBSERVATION_STATEMENT_MIXED_COUNT);
-        assertThat(mappedValuesMedicationStatement.size()).isEqualTo(EXPECTED_MEDICATION_STATEMENT_MIXED_COUNT);
+        assertThat(mappedValuesLinkSet).hasSize(EXPECTED_LINKSET_MIXED_COUNT);
+        assertThat(mappedValuesObservationStatement).hasSize(EXPECTED_OBSERVATION_STATEMENT_MIXED_COUNT);
+        assertThat(mappedValuesMedicationStatement).hasSize(EXPECTED_MEDICATION_STATEMENT_MIXED_COUNT);
 
         mappedValuesLinkSet.forEach(
             linkSet -> assertTrue(linkSet instanceof RCMRMT030101UKLinkSet)
