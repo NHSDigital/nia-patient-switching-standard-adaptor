@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,28 +16,26 @@ import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import uk.nhs.adaptors.pss.translator.mapper.factory.CodingFactory;
 
-import static uk.nhs.adaptors.pss.translator.mapper.factory.CodingFactory.CodingType.META_SECURITY;
+import static uk.nhs.adaptors.pss.translator.mapper.factory.CodingFactory.CodingType.META_SECURITY_CODING;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourceUtil {
 
     private static final String META_PROFILE_TEMPLATE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-%s";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/%s";
+    private static final UnaryOperator<Meta> META_SECURITY = meta -> meta
+        .setSecurity(
+            Collections.singletonList(
+                CodingFactory.getCodingFor(META_SECURITY_CODING)
+            )
+        );
 
-    public static Meta generateMeta(String urlProfile) {
-        Meta meta = new Meta();
-        UriType profile = new UriType(String.format(META_PROFILE_TEMPLATE, urlProfile));
-        meta.setProfile(List.of(profile));
-        return meta;
-    }
+    public static Meta generateMeta(String urlProfile, boolean isConfidential) {
+        final Meta meta = new Meta().setProfile(Collections.singletonList(
+            new UriType(String.format(META_PROFILE_TEMPLATE, urlProfile))
+        ));
 
-    public static Meta generateMetaWithSecurity(String urlProfile) {
-        return generateMeta(urlProfile)
-            .setSecurity(
-                Collections.singletonList(
-                    CodingFactory.getCodingFor(META_SECURITY)
-                )
-            );
+        return isConfidential ? META_SECURITY.apply(meta) : meta;
     }
 
     public static Identifier buildIdentifier(String rootId, String practiseCode) {
