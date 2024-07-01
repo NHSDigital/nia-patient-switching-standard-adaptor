@@ -24,16 +24,22 @@ public class ResourceUtil {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/%s";
 
     public static Meta generateMeta(String urlProfile) {
-        return new Meta().setProfile(Collections.singletonList(
-            new UriType(String.format(META_PROFILE_TEMPLATE, urlProfile))
-        ));
+        return new Meta().setProfile(
+            Collections.singletonList(
+                new UriType(
+                    String.format(META_PROFILE_TEMPLATE, urlProfile)
+                )
+            )
+        );
     }
 
     public static Meta generateMetaWithSecurity(String urlProfile) {
         return generateMeta(urlProfile)
-            .setSecurity(Collections.singletonList(
-                CodingFactory.getCodingFor(META_SECURITY)
-            ));
+            .setSecurity(
+                Collections.singletonList(
+                    CodingFactory.getCodingFor(META_SECURITY)
+                )
+            );
     }
 
     public static Identifier buildIdentifier(String rootId, String practiseCode) {
