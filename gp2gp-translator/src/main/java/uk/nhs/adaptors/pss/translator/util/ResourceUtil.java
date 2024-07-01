@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.UnaryOperator;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import uk.nhs.adaptors.pss.translator.mapper.factory.CodingFactory;
 
-import static uk.nhs.adaptors.pss.translator.mapper.factory.CodingFactory.CodingType.META_SECURITY_CODING;
+import static uk.nhs.adaptors.pss.translator.mapper.factory.CodingFactory.CodingType.META_SECURITY;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourceUtil {
@@ -33,7 +32,7 @@ public class ResourceUtil {
     public static Meta generateMetaWithSecurity(String urlProfile) {
         return generateMeta(urlProfile)
             .setSecurity(Collections.singletonList(
-                CodingFactory.getCodingFor(META_SECURITY_CODING)
+                CodingFactory.getCodingFor(META_SECURITY)
             ));
     }
 
