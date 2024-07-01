@@ -11,6 +11,10 @@ public final class CodingFactory {
         };
     }
 
+    /**
+     * Creates the coding for redactions support (confidentialityCode).
+     * @return Coding
+     */
     private static Coding getMetaSecurityCoding() {
         return new Coding()
             .setSystem("http://hl7.org/fhir/v3/ActCode")
