@@ -93,7 +93,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertThat(allergyIntolerances).hasSize(1);
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertFixedValues(allergyIntolerance);
@@ -209,7 +209,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertThat(allergyIntolerances).hasSize(1);
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertThat(allergyIntolerance.getCode().getCodingFirstRep())
@@ -225,7 +225,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
                 getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertThat(allergyIntolerances).hasSize(1);
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertThat(allergyIntolerance.getCode().getCodingFirstRep())
@@ -242,7 +242,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertThat(allergyIntolerances).hasSize(1);
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertFixedValues(allergyIntolerance);
@@ -257,7 +257,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertThat(allergyIntolerances).hasSize(1);
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertFixedValues(allergyIntolerance);
@@ -278,7 +278,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
                 getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertThat(allergyIntolerances).hasSize(1);
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertFixedValues(allergyIntolerance);
@@ -314,7 +314,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertThat(allergyIntolerances).hasSize(1);
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertFixedValues(allergyIntolerance);
@@ -341,7 +341,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertThat(allergyIntolerances).hasSize(1);
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertFixedValues(allergyIntolerance);
@@ -368,7 +368,7 @@ public class AllergyIntoleranceMapperTest {
         List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper.mapResources(ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerances.size()).isEqualTo(1);
+        assertThat(allergyIntolerances).hasSize(1);
         var allergyIntolerance = allergyIntolerances.get(0);
 
         assertFixedValues(allergyIntolerance);

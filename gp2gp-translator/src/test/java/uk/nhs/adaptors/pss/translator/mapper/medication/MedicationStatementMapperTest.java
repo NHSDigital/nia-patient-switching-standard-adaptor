@@ -102,7 +102,7 @@ public class MedicationStatementMapperTest {
 
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
-        assertThat(lastIssuedDate.size()).isZero();
+        assertThat(lastIssuedDate).isEmpty();
 
         var prescribingAgency = medicationStatement1
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
