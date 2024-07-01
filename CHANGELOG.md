@@ -5,8 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Changed
-The type restriction for file attachments has been removed.
+### Removed
+* The adaptor no longer checks incoming attachment content types aginst the `SUPPORTED_FILE_TYPES` list.
+  This functionality can be implemented outside the adaptor if still desired.
 
 ## [2.1.2] - 2024-06-28
 
