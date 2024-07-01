@@ -26,9 +26,9 @@ dependencies {
     api 'org.springframework:spring-jms'
     api 'org.apache.commons:commons-lang3:3.14.0'
     api 'org.apache.qpid:qpid-jms-client:2.5.0'
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.3'
+
 }
 
 test {
