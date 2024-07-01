@@ -7,14 +7,17 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVeri
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
+import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.CONFIDENTIALITY_CODE_PRESENT;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.fetchRecorderAndAsserter;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMetaWithSecurity;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +27,7 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
@@ -88,6 +92,10 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 .getId()
                 .getRoot();
 
+        final Meta meta = CONFIDENTIALITY_CODE_PRESENT.test(observationStatement) ?
+            generateMetaWithSecurity(META_PROFILE) :
+            generateMeta(META_PROFILE);
+
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
             .setAssertedDateElement(getAssertedDateElement(compoundStatement.getAvailabilityTime(), ehrComposition))
@@ -95,7 +103,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
             .setClinicalStatus(ACTIVE)
             .setVerificationStatus(UNCONFIRMED)
             .addIdentifier(buildIdentifier(id, practiseCode))
-            .setMeta(generateMeta(META_PROFILE))
+            .setMeta(meta)
             .setId(id);
 
         buildOnset(compoundStatement, allergyIntolerance);
