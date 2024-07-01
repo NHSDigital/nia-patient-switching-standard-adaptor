@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -14,15 +15,7 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.SimpleQuantity;
-import org.hl7.v3.CV;
-import org.hl7.v3.IVLPQ;
-import org.hl7.v3.IVLTS;
-import org.hl7.v3.PQ;
-import org.hl7.v3.RCMRMT030101UKAuthor;
-import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKInterpretationRange;
-import org.hl7.v3.RCMRMT030101UKReferenceRange;
-import org.hl7.v3.TS;
+import org.hl7.v3.*;
 
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.common.util.CodeableConceptUtils;
@@ -35,6 +28,11 @@ public class ObservationUtil {
     private static final String VALUE_QUANTITY_EXTENSION =
         "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-ValueApproximation-1";
     private static final String CODING_SYSTEM = "http://hl7.org/fhir/v2/0078";
+
+    public static final Predicate<RCMRMT030101UKObservationStatement> CONFIDENTIALITY_CODE_PRESENT =
+        observationStatement -> observationStatement
+            .getConfidentialityCode()
+            .isPresent();
 
     public static Quantity getValueQuantity(Object value, CV uncertaintyCode) {
         if (isValidValueQuantity(value)) {
