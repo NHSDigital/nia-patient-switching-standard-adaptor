@@ -47,7 +47,6 @@ services:
       - MHS_AMQP_MAX_REDELIVERIES
       - MHS_BASE_URL=http://mhs-adaptor-mock:8080/
       - PS_LOGGING_LEVEL
-      - SUPPORTED_FILE_TYPES
       - SDS_API_KEY
       - SDS_BASE_URL
     networks:

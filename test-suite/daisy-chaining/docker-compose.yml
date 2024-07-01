@@ -38,7 +38,6 @@ services:
       - MHS_INBOUND_USE_SSL
       - TCP_PORTS=${MHS_INBOUND_PORT}
       - SERVICE_PORTS=${MHS_INBOUND_SERVICE_PORTS}
-      - SUPPORTED_FILE_TYPES
 
   outbound:
     image: ${MHS_OUTBOUND_VERSION}
@@ -68,7 +67,6 @@ services:
       - MHS_OUTBOUND_ROUTING_LOOKUP_METHOD
       - MHS_SDS_API_URL
       - MHS_SDS_API_KEY
-      - SUPPORTED_FILE_TYPES
 
   ########### PS Adapter Specific ###############
 
@@ -113,7 +111,6 @@ services:
       - MHS_AMQP_MAX_REDELIVERIES
       - MHS_BASE_URL
       - PS_LOGGING_LEVEL
-      - SUPPORTED_FILE_TYPES
       - STORAGE_TYPE
       - STORAGE_REGION
       - STORAGE_CONTAINER_NAME
