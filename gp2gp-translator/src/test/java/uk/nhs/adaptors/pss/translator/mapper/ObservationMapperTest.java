@@ -87,11 +87,11 @@ public class ObservationMapperTest {
 
         assertFixedValues(observation);
         assertThat(observation.getId()).isEqualTo(EXAMPLE_ID);
-        assertThat(observation.getEffective() instanceof DateTimeType).isTrue();
+        assertThat(observation.getEffective()).isInstanceOf(DateTimeType.class);
         assertThat(observation.getEffectiveDateTimeType().getValue()).isEqualTo("2019-07-08T13:35:00+00:00");
         assertThat(observation.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EHR_COMPOSITION_EXAMPLE);
         assertThat(observation.getPerformer().get(0).getReference()).isEqualTo(PPRF_PARTICIPANT_ID);
-        assertThat(observation.getValue() instanceof Quantity).isTrue();
+        assertThat(observation.getValue()).isInstanceOf(Quantity.class);
         assertQuantity(observation.getValueQuantity(), QUANTITY_VALUE, "kilogram per square meter", "kg/m2");
         assertInterpretation(observation.getInterpretation(), "High", "H", "High");
         assertThat(observation.getComment()).isEqualTo("Subject: Uncle Test text 1");
@@ -174,7 +174,7 @@ public class ObservationMapperTest {
         var ehrExtract = unmarshallEhrExtractElement("value_st_observation_example.xml");
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(observation.getValue() instanceof StringType).isTrue();
+        assertThat(observation.getValue()).isInstanceOf(StringType.class);
         assertThat(observation.getValueStringType().getValue()).isEqualToIgnoringWhitespace(NEGATIVE_VALUE);
     }
 
@@ -183,7 +183,7 @@ public class ObservationMapperTest {
         var ehrExtract = unmarshallEhrExtractElement("value_cv_display_name_observation_example.xml");
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(observation.getValue() instanceof StringType).isTrue();
+        assertThat(observation.getValue()).isInstanceOf(StringType.class);
         assertThat(observation.getValueStringType().getValue()).isEqualTo(TEST_DISPLAY_VALUE);
     }
 

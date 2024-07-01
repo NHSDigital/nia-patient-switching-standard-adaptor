@@ -202,7 +202,7 @@ public class BloodPressureMapperTest {
 
         var bloodPressure = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(bloodPressure.getEffective() instanceof DateTimeType).isTrue();
+        assertThat(bloodPressure.getEffective()).isInstanceOf(DateTimeType.class);
         assertThat(bloodPressure.getEffectiveDateTimeType().getValueAsString()).isEqualTo("2006-04-25");
     }
 
@@ -213,7 +213,7 @@ public class BloodPressureMapperTest {
 
         var bloodPressure = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(bloodPressure.getEffective() instanceof Period).isTrue();
+        assertThat(bloodPressure.getEffective()).isInstanceOf(Period.class);
         assertThat(bloodPressure.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo("2006-04-25");
         assertThat(bloodPressure.getEffectivePeriod().getEndElement().getValueAsString()).isEqualTo("2006-04-26");
     }

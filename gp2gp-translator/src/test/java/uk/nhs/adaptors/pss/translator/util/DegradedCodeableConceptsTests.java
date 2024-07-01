@@ -22,7 +22,7 @@ public class DegradedCodeableConceptsTests {
 
         DegradedCodeableConcepts.addDegradedEntryIfRequired(codeableConcept, DegradedCodeableConcepts.DEGRADED_PLAN);
 
-        assertThat(codeableConcept.getCoding().size()).isEqualTo(1);
+        assertThat(codeableConcept.getCoding()).hasSize(1);
         assertThat(codeableConcept.getCodingFirstRep()).isEqualTo(snomedCoding);
     }
 
@@ -32,7 +32,7 @@ public class DegradedCodeableConceptsTests {
 
         DegradedCodeableConcepts.addDegradedEntryIfRequired(codeableConcept, DegradedCodeableConcepts.DEGRADED_PLAN);
 
-        assertThat(codeableConcept.getCoding().size()).isEqualTo(1);
+        assertThat(codeableConcept.getCoding()).hasSize(1);
         assertThat(codeableConcept.getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_PLAN);
     }
 
@@ -44,7 +44,7 @@ public class DegradedCodeableConceptsTests {
 
         DegradedCodeableConcepts.addDegradedEntryIfRequired(codeableConcept, DegradedCodeableConcepts.DEGRADED_PLAN);
 
-        assertThat(codeableConcept.getCoding().size()).isEqualTo(2);
+        assertThat(codeableConcept.getCoding()).hasSize(2);
         assertThat(codeableConcept.getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_PLAN);
         assertThat(codeableConcept.getCoding().get(1)).isEqualTo(nonSnomedCoding);
     }
