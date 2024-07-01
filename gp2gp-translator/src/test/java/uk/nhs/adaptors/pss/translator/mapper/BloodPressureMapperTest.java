@@ -19,7 +19,7 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,8 +75,8 @@ public class BloodPressureMapperTest {
     private BloodPressureMapper bloodPressureMapper;
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
     private void assertFixedValues(Observation bloodPressure) {
@@ -202,7 +202,7 @@ public class BloodPressureMapperTest {
 
         var bloodPressure = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(bloodPressure.getEffective() instanceof DateTimeType).isTrue();
+        assertThat(bloodPressure.getEffective()).isInstanceOf(DateTimeType.class);
         assertThat(bloodPressure.getEffectiveDateTimeType().getValueAsString()).isEqualTo("2006-04-25");
     }
 
@@ -213,7 +213,7 @@ public class BloodPressureMapperTest {
 
         var bloodPressure = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(bloodPressure.getEffective() instanceof Period).isTrue();
+        assertThat(bloodPressure.getEffective()).isInstanceOf(Period.class);
         assertThat(bloodPressure.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo("2006-04-25");
         assertThat(bloodPressure.getEffectivePeriod().getEndElement().getValueAsString()).isEqualTo("2006-04-26");
     }

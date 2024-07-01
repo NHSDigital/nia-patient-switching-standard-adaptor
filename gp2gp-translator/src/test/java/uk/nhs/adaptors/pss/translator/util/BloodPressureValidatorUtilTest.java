@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -157,8 +157,8 @@ public class BloodPressureValidatorUtilTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04CompoundStatement unmarshallCompoundStatement(String fileName) {
+    private RCMRMT030101UKCompoundStatement unmarshallCompoundStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + BLOOD_PRESSURE_DIRECTORY + fileName),
-            RCMRMT030101UK04CompoundStatement.class);
+            RCMRMT030101UKCompoundStatement.class);
     }
 }

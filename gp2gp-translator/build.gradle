@@ -33,7 +33,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.3'
     testImplementation 'org.assertj:assertj-core:3.26.0'
     testImplementation 'org.mockito:mockito-inline:5.2.0'
     testImplementation 'org.projectlombok:lombok'
@@ -43,7 +43,7 @@ dependencies {
 
     implementation 'com.azure:azure-storage-blob:12.26.1'
 
-    implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.751')
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.753')
     implementation 'com.amazonaws:aws-java-sdk-s3'
 }
 

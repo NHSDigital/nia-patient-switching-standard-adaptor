@@ -25,7 +25,7 @@ import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRIN030000UK07Message;
 import org.hl7.v3.RCMRIN030000UKMessage;
 import org.hl7.v3.RCMRMT030101UKComponent3;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKPatient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +96,7 @@ public class BundleMapperService {
         try {
 
             Bundle bundle = generator.generateBundle();
-            final RCMRMT030101UK04EhrExtract ehrExtract = getEhrExtract(xmlMessage);
+            final RCMRMT030101UKEhrExtract ehrExtract = getEhrExtract(xmlMessage);
             duplicateObservationStatementMapper.mergeDuplicateObservationStatements(ehrExtract);
             final RCMRMT030101UKEhrFolder ehrFolder = getEhrFolder(xmlMessage);
 
@@ -166,7 +166,7 @@ public class BundleMapperService {
         }
     }
 
-    private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UK04EhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
+    private void mapDiagnosticReports(Bundle bundle, RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                       List<Observation> observations, List<Observation> observationComments, String practiceCode) {
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, patient, encounters, practiceCode, observationComments);
 
@@ -203,7 +203,7 @@ public class BundleMapperService {
     }
 
     private Map<String, List<? extends DomainResource>> mapEncounters(
-            RCMRMT030101UK04EhrExtract ehrExtract,
+            RCMRMT030101UKEhrExtract ehrExtract,
             Patient patient,
             String losingPracticeOdsCode,
             List<Location> locations) {
@@ -235,7 +235,7 @@ public class BundleMapperService {
                 );
     }
 
-    private Patient mapPatient(RCMRMT030101UK04EhrExtract ehrExtract, Organization organization) {
+    private Patient mapPatient(RCMRMT030101UKEhrExtract ehrExtract, Organization organization) {
         RCMRMT030101UKPatient xmlPatient = ehrExtract.getRecordTarget().getPatient();
         return patientMapper.mapToPatient(xmlPatient, organization);
     }
@@ -267,7 +267,7 @@ public class BundleMapperService {
         }
     }
 
-    private RCMRMT030101UK04EhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
+    private RCMRMT030101UKEhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
         if (xmlMessage instanceof RCMRIN030000UK07Message rcmrin030000uk07message) {
             return rcmrin030000uk07message.getControlActEvent().getSubject().getEhrExtract();
         } else {

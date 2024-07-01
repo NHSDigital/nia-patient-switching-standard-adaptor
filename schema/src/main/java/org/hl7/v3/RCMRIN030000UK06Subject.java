@@ -52,7 +52,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class RCMRIN030000UK06Subject {
 
     @XmlElement(name = "EhrExtract", required = true)
-    protected RCMRMT030101UK04EhrExtract ehrExtract;
+    protected RCMRMT030101UKEhrExtract ehrExtract;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
@@ -73,10 +73,10 @@ public class RCMRIN030000UK06Subject {
      * 
      * @return
      *     possible object is
-     *     {@link RCMRMT030101UK04EhrExtract }
+     *     {@link RCMRMT030101UKEhrExtract }
      *     
      */
-    public RCMRMT030101UK04EhrExtract getEhrExtract() {
+    public RCMRMT030101UKEhrExtract getEhrExtract() {
         return ehrExtract;
     }
 
@@ -85,10 +85,10 @@ public class RCMRIN030000UK06Subject {
      * 
      * @param value
      *     allowed object is
-     *     {@link RCMRMT030101UK04EhrExtract }
+     *     {@link RCMRMT030101UKEhrExtract }
      *     
      */
-    public void setEhrExtract(RCMRMT030101UK04EhrExtract value) {
+    public void setEhrExtract(RCMRMT030101UKEhrExtract value) {
         this.ehrExtract = value;
     }
 

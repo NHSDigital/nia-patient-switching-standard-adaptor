@@ -19,7 +19,7 @@ import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -294,7 +294,7 @@ public class SpecimenBatteryMapperTest {
         final var codeableConcept = createCodeableConcept("1.2.3.4.5", "http://snomed.info/sct", "Test Display");
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = getSpecimenBatteryEhrExtract();
+        final RCMRMT030101UKEhrExtract ehrExtract = getSpecimenBatteryEhrExtract();
         var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
 
         var batteryParameters = getSpecimenBatteryParameters(
@@ -314,7 +314,7 @@ public class SpecimenBatteryMapperTest {
         var codeableConcept = createCodeableConcept("1.2.3.4.5", null, "Test Display");
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = getSpecimenBatteryEhrExtract();
+        final RCMRMT030101UKEhrExtract ehrExtract = getSpecimenBatteryEhrExtract();
         var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
 
         final List<Observation> observations = getObservations();
@@ -368,7 +368,7 @@ public class SpecimenBatteryMapperTest {
     }
 
     private SpecimenBatteryParameters getSpecimenBatteryParameters(
-        RCMRMT030101UK04EhrExtract ehrExtract,
+        RCMRMT030101UKEhrExtract ehrExtract,
         RCMRMT030101UKCompoundStatement batteryCompoundStatement,
         List<Observation> observations,
         List<Observation> observationComments) {
@@ -387,16 +387,16 @@ public class SpecimenBatteryMapperTest {
             .build();
     }
 
-    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
     }
 
-    private RCMRMT030101UKCompoundStatement getSpecimenCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKCompoundStatement getSpecimenCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return getEhrComposition(ehrExtract).getComponent().get(0).getCompoundStatement()
             .getComponent().get(0).getCompoundStatement();
     }
 
-    private DiagnosticReport getDiagnosticReport(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private DiagnosticReport getDiagnosticReport(RCMRMT030101UKEhrExtract ehrExtract) {
         var compoundStatement = getEhrComposition(ehrExtract).getComponent().get(0).getCompoundStatement();
         var diagnosticReport = new DiagnosticReport();
         diagnosticReport.setId(compoundStatement.getId().get(0).getRoot());
@@ -417,7 +417,7 @@ public class SpecimenBatteryMapperTest {
         );
     }
 
-    private RCMRMT030101UKCompoundStatement getBatteryCompoundStatements(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKCompoundStatement getBatteryCompoundStatements(RCMRMT030101UKEhrExtract ehrExtract) {
         return getEhrComposition(ehrExtract).getComponent()
             .stream()
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
@@ -427,17 +427,17 @@ public class SpecimenBatteryMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract getSpecimenBatteryEhrExtract() {
+    private RCMRMT030101UKEhrExtract getSpecimenBatteryEhrExtract() {
         return unmarshallFile(
             getFile("classpath:xml/SpecimenBattery/specimen_battery_compound_statement.xml"),
-            RCMRMT030101UK04EhrExtract.class
+            RCMRMT030101UKEhrExtract.class
         );
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractFromEhrCompositionXml(String ehrCompositionXml) {
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractFromEhrCompositionXml(String ehrCompositionXml) {
         var ehrExtractXml = EHR_EXTRACT_WRAPPER.replace("{{ehrComposition}}", ehrCompositionXml);
-        return unmarshallString(ehrExtractXml, RCMRMT030101UK04EhrExtract.class);
+        return unmarshallString(ehrExtractXml, RCMRMT030101UKEhrExtract.class);
     }
 }
 

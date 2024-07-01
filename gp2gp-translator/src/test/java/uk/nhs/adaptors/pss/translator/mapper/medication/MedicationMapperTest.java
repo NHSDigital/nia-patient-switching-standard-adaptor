@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.v3.RCMRMT030101UK04Consumable;
+import org.hl7.v3.RCMRMT030101UKConsumable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -95,7 +95,7 @@ public class MedicationMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04Consumable unmarshallConsumable(String inputXml) {
-        return unmarshallString(inputXml, RCMRMT030101UK04Consumable.class);
+    private RCMRMT030101UKConsumable unmarshallConsumable(String inputXml) {
+        return unmarshallString(inputXml, RCMRMT030101UKConsumable.class);
     }
 }

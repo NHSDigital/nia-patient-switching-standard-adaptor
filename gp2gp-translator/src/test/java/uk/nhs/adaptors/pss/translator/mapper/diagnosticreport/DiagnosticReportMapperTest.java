@@ -19,7 +19,7 @@ import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -541,8 +541,8 @@ TEST COMMENT
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractFromXmlString(String xmlString) {
-        return unmarshallString(xmlString, RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractFromXmlString(String xmlString) {
+        return unmarshallString(xmlString, RCMRMT030101UKEhrExtract.class);
     }
 
     private static String buildEhrExtractStringFromDiagnosticReportXml(String diagnosticReportXml) {

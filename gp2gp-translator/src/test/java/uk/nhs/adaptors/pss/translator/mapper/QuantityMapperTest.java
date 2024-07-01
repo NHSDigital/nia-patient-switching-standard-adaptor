@@ -9,7 +9,7 @@ import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.Quantity.QuantityComparator;
 import org.hl7.v3.IVLPQ;
 import org.hl7.v3.PQ;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
 
 import lombok.SneakyThrows;
@@ -203,7 +203,7 @@ public class QuantityMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04ObservationStatement unmarshallObservationStatement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04ObservationStatement.class);
+    private RCMRMT030101UKObservationStatement unmarshallObservationStatement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKObservationStatement.class);
     }
 }

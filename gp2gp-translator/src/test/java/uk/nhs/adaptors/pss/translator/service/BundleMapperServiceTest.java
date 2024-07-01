@@ -22,10 +22,9 @@ import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.RCMRIN030000UK06Message;
-import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04Location;
-import org.hl7.v3.RCMRMT030101UK04Patient;
+import org.hl7.v3.RCMRMT030101UKAgentDirectory;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKLocation;
 import org.hl7.v3.RCMRMT030101UKPatient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -137,12 +136,12 @@ public class BundleMapperServiceTest {
         location1.setName("EMIS Test Practice Location");
         location1.setId("1");
 
-        when(locationMapper.mapToLocation(any(RCMRMT030101UK04Location.class), anyString())).thenReturn(location1);
+        when(locationMapper.mapToLocation(any(RCMRMT030101UKLocation.class), anyString())).thenReturn(location1);
 
         when(agentDirectoryMapper.mapAgentDirectory(any())).thenReturn(mockedList);
         when(mockedList.stream()).thenReturn(agentResourceList.stream());
         when(patientMapper.mapToPatient(any(RCMRMT030101UKPatient.class), any(Organization.class))).thenReturn(new Patient());
-        when(encounterMapper.mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), any(String.class), any(List.class)))
+        when(encounterMapper.mapEncounters(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), any(String.class), any(List.class)))
             .thenReturn(encounterResources);
         when(organizationMapper.mapAuthorOrganization(anyString(), anyList())).thenReturn(new Organization());
     }
@@ -153,46 +152,46 @@ public class BundleMapperServiceTest {
         final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
         Bundle bundle = bundleMapperService.mapToBundle(xml, LOSING_ODS_CODE, new ArrayList<>());
 
-        verify(patientMapper).mapToPatient(any(RCMRMT030101UK04Patient.class), any(Organization.class));
+        verify(patientMapper).mapToPatient(any(RCMRMT030101UKPatient.class), any(Organization.class));
         verify(organizationMapper).mapAuthorOrganization(anyString(), anyList());
-        verify(duplicateObservationStatementMapper).mergeDuplicateObservationStatements(any(RCMRMT030101UK04EhrExtract.class));
-        verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UK04AgentDirectory.class));
-        verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UK04Location.class), anyString());
-        verify(encounterMapper).mapEncounters(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyString(), anyList());
+        verify(duplicateObservationStatementMapper).mergeDuplicateObservationStatements(any(RCMRMT030101UKEhrExtract.class));
+        verify(agentDirectoryMapper).mapAgentDirectory(any(RCMRMT030101UKAgentDirectory.class));
+        verify(locationMapper, atLeast(1)).mapToLocation(any(RCMRMT030101UKLocation.class), anyString());
+        verify(encounterMapper).mapEncounters(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyString(), anyList());
         verify(procedureRequestMapper).mapResources(
-            any(RCMRMT030101UK04EhrExtract.class),
+            any(RCMRMT030101UKEhrExtract.class),
             any(Patient.class),
             anyList(),
             anyString()
         );
         verify(referralRequestMapper).mapResources(
-            any(RCMRMT030101UK04EhrExtract.class),
+            any(RCMRMT030101UKEhrExtract.class),
             any(Patient.class),
             anyList(),
             anyString()
         );
-        verify(bloodPressureMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+        verify(bloodPressureMapper).mapResources(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(),
             any(String.class));
-        verify(observationMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
-        verify(conditionMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
-        verify(immunizationMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+        verify(observationMapper).mapResources(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(), anyString());
+        verify(conditionMapper).mapResources(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(), anyString());
+        verify(immunizationMapper).mapResources(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(),
             any(String.class));
-        verify(observationCommentMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+        verify(observationCommentMapper).mapResources(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(),
             anyString());
         verify(medicationRequestMapper, atLeast(1))
-            .mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
+            .mapResources(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(), anyString());
         verify(unknownPractitionerHandler).updateUnknownPractitionersRefs(bundle);
-        verify(documentReferenceMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+        verify(documentReferenceMapper).mapResources(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(),
             any(Organization.class), anyList());
-        verify(templateMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(),
+        verify(templateMapper).mapResources(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(),
             anyString());
-        verify(allergyIntoleranceMapper).mapResources(any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), anyString());
+        verify(allergyIntoleranceMapper).mapResources(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(), anyString());
         verify(diagnosticReportMapper).mapResources(
-            any(RCMRMT030101UK04EhrExtract.class), any(Patient.class), anyList(), any(String.class), any(ArrayList.class));
-        verify(specimenMapper).mapSpecimen(any(RCMRMT030101UK04EhrExtract.class), anyList(), any(Patient.class), anyString());
-        verify(diagnosticReportMapper).handleChildObservationComments(any(RCMRMT030101UK04EhrExtract.class), anyList());
+            any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(), any(String.class), any(ArrayList.class));
+        verify(specimenMapper).mapSpecimen(any(RCMRMT030101UKEhrExtract.class), anyList(), any(Patient.class), anyString());
+        verify(diagnosticReportMapper).handleChildObservationComments(any(RCMRMT030101UKEhrExtract.class), anyList());
         verify(specimenCompoundsMapper).handleSpecimenChildComponents(
-            any(RCMRMT030101UK04EhrExtract.class), anyList(), anyList(), anyList(), any(Patient.class), anyList(), anyString()
+            any(RCMRMT030101UKEhrExtract.class), anyList(), anyList(), anyList(), any(Patient.class), anyList(), anyString()
         );
     }
 

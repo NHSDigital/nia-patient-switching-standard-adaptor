@@ -19,8 +19,8 @@ import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UKComponent2;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -62,7 +62,7 @@ public class MedicationRequestOrderMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         assertThat(prescribe.isPresent()).isTrue();
-        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UK04EhrExtract(),
+        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UKEhrExtract(),
             medicationStatement, prescribe.get(), PRACTISE_CODE);
         assertCommonValues(medicationRequest);
         medicationRequest
@@ -89,7 +89,7 @@ public class MedicationRequestOrderMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         assertThat(prescribe.isPresent()).isTrue();
-        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UK04EhrExtract(),
+        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UKEhrExtract(),
             medicationStatement, prescribe.get(), PRACTISE_CODE);
         assertCommonValues(medicationRequest);
 
@@ -117,8 +117,8 @@ public class MedicationRequestOrderMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04MedicationStatement unmarshallMedicationStatement(String fileName) {
+    private RCMRMT030101UKMedicationStatement unmarshallMedicationStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName),
-            RCMRMT030101UK04MedicationStatement.class);
+            RCMRMT030101UKMedicationStatement.class);
     }
 }

@@ -29,8 +29,8 @@ repositories {
 dependencies {
     implementation project(':common')
     implementation 'org.postgresql:postgresql:42.7.3'
-    implementation 'org.jdbi:jdbi3-core:3.45.1'
-    implementation 'org.jdbi:jdbi3-sqlobject:3.45.1'
+    implementation 'org.jdbi:jdbi3-core:3.45.2'
+    implementation 'org.jdbi:jdbi3-sqlobject:3.45.2'
     implementation 'org.jdbi:jdbi3-postgres:3.45.1'
 
     liquibaseRuntime 'org.liquibase:liquibase-core:4.28.0'
@@ -40,8 +40,8 @@ dependencies {
     liquibaseRuntime 'org.yaml:snakeyaml:2.2'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.3'
 }
 
 test {

@@ -12,7 +12,7 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
@@ -43,16 +43,16 @@ public class ObservationUtilTest {
 
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
-    private RCMRMT030101UKObservationStatement getObservationStatementFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKObservationStatement getObservationStatementFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition().getComponent().get(0)
             .getObservationStatement();
     }
 
-    private RCMRMT030101UKEhrComposition getEhrCompositionFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKEhrComposition getEhrCompositionFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
     }
 

@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.config;
 
 import static org.springframework.jms.listener.DefaultMessageListenerContainer.CACHE_CONSUMER;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.qpid.jms.JmsConnectionFactory;
 import org.apache.qpid.jms.JmsDestination;
 import org.apache.qpid.jms.message.JmsMessageSupport;
@@ -17,7 +18,6 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import uk.nhs.adaptors.pss.translator.amqp.JmsListenerErrorHandler;
 
 @Configuration

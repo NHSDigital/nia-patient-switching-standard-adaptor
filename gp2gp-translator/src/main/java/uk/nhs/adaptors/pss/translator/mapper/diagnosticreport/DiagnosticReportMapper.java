@@ -31,10 +31,9 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.jetbrains.annotations.NotNull;
@@ -91,7 +90,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
                         )).toList();
     }
 
-    public void handleChildObservationComments(RCMRMT030101UK04EhrExtract ehrExtract, List<Observation> observationComments) {
+    public void handleChildObservationComments(RCMRMT030101UKEhrExtract ehrExtract, List<Observation> observationComments) {
 
         List<Observation> conclusionComments = new ArrayList<>();
 

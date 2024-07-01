@@ -1,32 +1,297 @@
+
 package org.hl7.v3;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public interface RCMRMT030101UKParticipant {
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-    IVLTS getTime();
 
-    void setTime(IVLTS value);
+/**
+ * &lt;p&gt;Java class for RCMR_MT030101.Participant complex type.
+ * 
+ * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
+ * 
+ * &lt;pre&gt;
+ * &amp;lt;complexType name="RCMR_MT030101.Participant"&amp;gt;
+ *   &amp;lt;complexContent&amp;gt;
+ *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
+ *       &amp;lt;sequence&amp;gt;
+ *         &amp;lt;element name="time" type="{urn:hl7-org:v3}IVL_TS" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="agentRef" type="{urn:hl7-org:v3}RCMR_MT030101.AgentRef"/&amp;gt;
+ *       &amp;lt;/sequence&amp;gt;
+ *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Participation" /&amp;gt;
+ *       &amp;lt;attribute name="typeCode" use="required" type="{urn:hl7-org:v3}ParticipationType" /&amp;gt;
+ *       &amp;lt;attribute name="contextControlCode" type="{urn:hl7-org:v3}ContextControl" default="OP" /&amp;gt;
+ *       &amp;lt;attribute name="typeID"&amp;gt;
+ *         &amp;lt;simpleType&amp;gt;
+ *           &amp;lt;list itemType="{urn:hl7-org:v3}oid" /&amp;gt;
+ *         &amp;lt;/simpleType&amp;gt;
+ *       &amp;lt;/attribute&amp;gt;
+ *       &amp;lt;attribute name="realmCode"&amp;gt;
+ *         &amp;lt;simpleType&amp;gt;
+ *           &amp;lt;list itemType="{urn:hl7-org:v3}cs" /&amp;gt;
+ *         &amp;lt;/simpleType&amp;gt;
+ *       &amp;lt;/attribute&amp;gt;
+ *       &amp;lt;attribute name="nullFlavor" type="{urn:hl7-org:v3}cs" /&amp;gt;
+ *     &amp;lt;/restriction&amp;gt;
+ *   &amp;lt;/complexContent&amp;gt;
+ * &amp;lt;/complexType&amp;gt;
+ * &lt;/pre&gt;
+ * 
+ * 
+ */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RCMR_MT030101.Participant", propOrder = {
+    "time",
+    "agentRef"
+})
+public class RCMRMT030101UKParticipant {
 
-    RCMRMT030101UKAgentRef getAgentRef();
+    protected IVLTS time;
 
-    void setAgentRef(RCMRMT030101UKAgentRef value);
+    @XmlElement(required = true, type = RCMRMT030101UKAgentRef.class)
+    protected RCMRMT030101UKAgentRef agentRef;
 
-    String getType();
+    @XmlAttribute(name = "type")
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    protected String type;
 
-    void setType(String value);
+    @XmlAttribute(name = "typeCode", required = true)
+    protected List<String> typeCode;
+    @XmlAttribute(name = "contextControlCode")
+    protected List<String> contextControlCode;
+    @XmlAttribute(name = "typeID")
+    protected List<String> typeID;
+    @XmlAttribute(name = "realmCode")
+    protected List<String> realmCode;
+    @XmlAttribute(name = "nullFlavor")
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    protected String nullFlavor;
 
-    List<String> getTypeCode();
+    /**
+     * Gets the value of the time property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link IVLTS }
+     *     
+     */
+    public IVLTS getTime() {
+        return time;
+    }
 
-    List<String> getContextControlCode();
+    /**
+     * Sets the value of the time property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link IVLTS }
+     *     
+     */
+    public void setTime(IVLTS value) {
+        this.time = value;
+    }
 
-    List<String> getTypeID();
+    /**
+     * Gets the value of the agentRef property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link RCMRMT030101UKAgentRef }
+     *     
+     */
+    public RCMRMT030101UKAgentRef getAgentRef() {
+        return agentRef;
+    }
 
-    List<String> getRealmCode();
+    /**
+     * Sets the value of the agentRef property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link RCMRMT030101UKAgentRef }
+     *     
+     */
+    public void setAgentRef(RCMRMT030101UKAgentRef value) {
+        this.agentRef = value;
+    }
 
-    String getNullFlavor();
+    /**
+     * Gets the value of the type property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getType() {
+        return Objects.requireNonNullElse(type, "Participation");
+    }
 
-    void setNullFlavor(String value);
+    /**
+     * Sets the value of the type property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setType(String value) {
+        this.type = value;
+    }
 
-    boolean hasNullFlavour();
+    /**
+     * Gets the value of the typeCode property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the typeCode property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getTypeCode().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getTypeCode() {
+        if (typeCode == null) {
+            typeCode = new ArrayList<>();
+        }
+        return this.typeCode;
+    }
+
+    /**
+     * Gets the value of the contextControlCode property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the contextControlCode property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getContextControlCode().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getContextControlCode() {
+        if (contextControlCode == null) {
+            contextControlCode = new ArrayList<>();
+        }
+        return this.contextControlCode;
+    }
+
+    /**
+     * Gets the value of the typeID property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the typeID property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getTypeID().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getTypeID() {
+        if (typeID == null) {
+            typeID = new ArrayList<>();
+        }
+        return this.typeID;
+    }
+
+    /**
+     * Gets the value of the realmCode property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the realmCode property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getRealmCode().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getRealmCode() {
+        if (realmCode == null) {
+            realmCode = new ArrayList<>();
+        }
+        return this.realmCode;
+    }
+
+    /**
+     * Gets the value of the nullFlavor property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getNullFlavor() {
+        return nullFlavor;
+    }
+
+    /**
+     * Sets the value of the nullFlavor property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setNullFlavor(String value) {
+        this.nullFlavor = value;
+    }
+
+    public boolean hasNullFlavour() {
+        return nullFlavor != null && !nullFlavor.equals("");
+    }
+
 }

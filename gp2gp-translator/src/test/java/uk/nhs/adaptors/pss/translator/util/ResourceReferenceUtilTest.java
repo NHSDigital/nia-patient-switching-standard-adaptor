@@ -12,10 +12,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,7 +44,7 @@ public class ResourceReferenceUtilTest {
 
     @Test
     public void testMedicationResourcesReferencedAtEhrCompositionLevel() {
-        final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_medication.xml");
+        final RCMRMT030101UKEhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_medication.xml");
 
         List<Reference> references = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
@@ -57,7 +56,7 @@ public class ResourceReferenceUtilTest {
 
     @Test
     public void testMedicationResourcesReferencedAtCompoundStatementLevel() {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("compound_statement_medication.xml");
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement("compound_statement_medication.xml");
 
         List<Reference> references = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
@@ -113,11 +112,11 @@ public class ResourceReferenceUtilTest {
     @ParameterizedTest
     @MethodSource("ehrCompositionResourceFiles")
     public void testResourcesReferencedAtEhrCompositionLevel(String inputXML, String referenceString) {
-        final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement(inputXML);
+        final RCMRMT030101UKEhrComposition ehrComposition = unmarshallEhrCompositionElement(inputXML);
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
-                RCMRMT030101UK04ObservationStatement statement = (RCMRMT030101UK04ObservationStatement) invocation.getArgument(0);
+                RCMRMT030101UKObservationStatement statement = (RCMRMT030101UKObservationStatement) invocation.getArgument(0);
                 return statement.getCode().getCode().equals("1664081000000114");
             }
         });
@@ -145,11 +144,11 @@ public class ResourceReferenceUtilTest {
     @ParameterizedTest
     @MethodSource("compoundStatementResourceFiles")
     public void testResourcesReferencedAtCompoundStatementLevel(String inputXML, String referenceString) {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
-                RCMRMT030101UK04ObservationStatement statement = (RCMRMT030101UK04ObservationStatement) invocation.getArgument(0);
+                RCMRMT030101UKObservationStatement statement = (RCMRMT030101UKObservationStatement) invocation.getArgument(0);
                 return statement.getCode().getCode().equals("1664081000000114");
             }
         });
@@ -175,13 +174,13 @@ public class ResourceReferenceUtilTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04CompoundStatement unmarshallCompoundStatementElement(String fileName) {
+    private RCMRMT030101UKCompoundStatement unmarshallCompoundStatementElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_COMPOUND + fileName),
-            RCMRMT030101UK04CompoundStatement.class);
+            RCMRMT030101UKCompoundStatement.class);
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrComposition unmarshallEhrCompositionElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_COMPOSITION + fileName), RCMRMT030101UK04EhrComposition.class);
+    private RCMRMT030101UKEhrComposition unmarshallEhrCompositionElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_COMPOSITION + fileName), RCMRMT030101UKEhrComposition.class);
     }
 }
