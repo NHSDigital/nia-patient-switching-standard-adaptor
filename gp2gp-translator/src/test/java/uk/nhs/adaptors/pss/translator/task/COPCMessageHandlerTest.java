@@ -64,7 +64,6 @@ import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ExternalAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
-import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
@@ -453,7 +452,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_HappyPath_Expect_ThrowNoErrors()
         throws SAXException, ValidationException, AttachmentLogException,
-               InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -490,7 +489,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_CurrentAttachmentLogExists_Expect_ThrowNoError()
         throws ValidationException, SAXException, AttachmentLogException,
-               InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -513,7 +512,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_FragmentsAreMissingOrUploaded_Expect_NotDeleteFragments()
         throws ValidationException, SAXException, AttachmentLogException,
-               InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -555,7 +554,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_CheckByteCompilationCreatesFileAsExpected_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-               InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -583,7 +582,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_EnsureStoreAttachmentsIsCalled_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-               InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -649,7 +648,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_UpdateAttachmentLogDoesAsExpected_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-               InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -717,7 +716,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_DeleteAttachmentCalledForEachAttachmentLogFragment_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-               InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -784,7 +783,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_RemoveAttachmentCalledForEachAttachmentLogFragment_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-               InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -852,7 +851,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_ParentCOPCMessageIncomingAfterFragments_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-               InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -879,7 +878,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_ParentCOPCMessageIncomingAfterFragments_Expect_CorrectPostProcessedLength()
         throws ValidationException, SAXException, AttachmentLogException,
-               InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());

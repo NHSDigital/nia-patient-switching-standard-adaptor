@@ -13,7 +13,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.storage.StorageDataUploadWrapper;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
@@ -130,7 +129,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
     @Test
     public void When_ValidListOfAttachmentsFromEMIS_Expect_DoesNotThrow() throws ValidationException,
-            InlineAttachmentProcessingException, UnsupportedFileTypeException, IOException {
+            InlineAttachmentProcessingException, IOException {
 
         List<InboundMessage.Attachment> emisAttachment = List.of(
                 InboundMessage.Attachment.builder()
@@ -219,7 +218,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
     @Test
     public void When_CompressedListOfAttachmentsAndConversationId_Expect_PayloadIsDecodedAndDecompressed() throws ValidationException,
-        IOException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
+        IOException, InlineAttachmentProcessingException {
 
         attachmentHandlerService.storeAttachments(mockCompressedAttachments, CONVERSATION_ID);
 
@@ -260,7 +259,7 @@ public class AttachmentHandlerServiceStoreAttachmentTests {
 
     @Test
     public void When_CompressedListOfAttachmentContainsPdf_Expect_DecodedAndDecompressed() throws ValidationException, IOException,
-        InlineAttachmentProcessingException, UnsupportedFileTypeException {
+        InlineAttachmentProcessingException {
 
         attachmentHandlerService.storeAttachments(mockCompressedAttachments, CONVERSATION_ID);
 

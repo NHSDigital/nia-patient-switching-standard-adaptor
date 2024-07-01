@@ -26,7 +26,6 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
-import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
@@ -84,7 +83,7 @@ public class EhrExtractMessageHandler {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException, UnsupportedFileTypeException {
+        SAXException, TransformerException {
 
         RCMRIN030000UKMessage payload = unmarshallString(inboundMessage.getPayload(), destinationClass);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -126,8 +125,7 @@ public class EhrExtractMessageHandler {
                     | SAXException
                     | StorageException
                     | TransformerException
-                    | ParseException
-                    | UnsupportedFileTypeException ex
+                    | ParseException ex
         ) {
             if (ex instanceof StorageException || ex.getCause() instanceof StorageException) {
                 nackAckPreparationService.sendNackMessage(UNEXPECTED_CONDITION, payload, conversationId);
@@ -143,7 +141,7 @@ public class EhrExtractMessageHandler {
 
     private PatientAttachmentLog processInternalAttachmentsAndReturnSkeletonLog(InboundMessage inboundMessage,
         PatientMigrationRequest migrationRequest, String conversationId, String messageId)
-        throws ParseException, ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
+        throws ParseException, ValidationException, InlineAttachmentProcessingException {
 
         PatientAttachmentLog skeletonCIDAttachmentLog = null;
 
