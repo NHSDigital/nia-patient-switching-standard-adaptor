@@ -23,19 +23,18 @@ public class ResourceUtil {
 
     private static final String META_PROFILE_TEMPLATE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-%s";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/%s";
-    private static final UnaryOperator<Meta> META_SECURITY = meta -> meta
-        .setSecurity(
-            Collections.singletonList(
-                CodingFactory.getCodingFor(META_SECURITY_CODING)
-            )
-        );
 
-    public static Meta generateMeta(String urlProfile, boolean isConfidential) {
-        final Meta meta = new Meta().setProfile(Collections.singletonList(
+    public static Meta generateMeta(String urlProfile) {
+        return new Meta().setProfile(Collections.singletonList(
             new UriType(String.format(META_PROFILE_TEMPLATE, urlProfile))
         ));
+    }
 
-        return isConfidential ? META_SECURITY.apply(meta) : meta;
+    public static Meta generateMetaWithSecurity(String urlProfile) {
+        return generateMeta(urlProfile)
+            .setSecurity(Collections.singletonList(
+                CodingFactory.getCodingFor(META_SECURITY_CODING)
+            ));
     }
 
     public static Identifier buildIdentifier(String rootId, String practiseCode) {
