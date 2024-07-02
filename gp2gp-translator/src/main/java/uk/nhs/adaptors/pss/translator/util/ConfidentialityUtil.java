@@ -15,7 +15,7 @@ public final class ConfidentialityUtil {
         .setCode("NOPAT")
         .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization");
 
-    public static Meta processConfidentiality(Collection<Optional<CV>> confidentialityCodes, Meta meta) {
+    public static Meta addSecurityToMetaIfConfidentialityCodesPresent(Collection<Optional<CV>> confidentialityCodes, Meta meta) {
         final Collection<Boolean> values = confidentialityCodes.stream()
             .filter(Optional::isPresent)
             .map(Optional::get)

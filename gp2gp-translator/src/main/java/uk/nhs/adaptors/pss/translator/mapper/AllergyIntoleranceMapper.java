@@ -90,7 +90,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 .getId()
                 .getRoot();
 
-        final Meta meta = ConfidentialityUtil.processConfidentiality(List.of(
+        final Meta meta = ConfidentialityUtil.addSecurityToMetaIfConfidentialityCodesPresent(List.of(
             ehrComposition.getConfidentialityCode(),
             observationStatement.getConfidentialityCode()
         ), generateMeta(META_PROFILE));
