@@ -80,6 +80,8 @@ public class FailedProcessHandlingService {
     public boolean hasProcessFailed(String conversationId) {
         MigrationStatus migrationStatus = getMigrationStatus(conversationId);
 
+        LOGGER.info("Migration status is: ", migrationStatus);
+
         return FAILED_MIGRATION_STATUSES.contains(migrationStatus);
     }
 
