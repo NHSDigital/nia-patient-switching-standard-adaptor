@@ -15,16 +15,11 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.hl7.fhir.dstu3.model.AllergyIntolerance;
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.v3.CD;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 
@@ -154,6 +149,40 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
+    void testGivenConfidentialityCodeThenMetaSecurityPopulated() {
+        // given
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-confidentiality-code.xml");
+        final Coding coding = new Coding()
+            .setSystem("http://hl7.org/fhir/v3/ActCode")
+            .setCode("NOPAT")
+            .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization");
+
+        // when
+        final List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper
+            .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
+
+        // then
+        assertEquals(1, allergyIntolerances.size());
+        var allergyIntolerance = allergyIntolerances.get(0);
+        assertThat(allergyIntolerance.getMeta().getSecurity()).usingRecursiveComparison().isEqualTo(Collections.singletonList(coding));
+    }
+
+    @Test
+    void testGivenNoConfidentialityCodeThenMetaSecurityNotPopulated() {
+        // given
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-participant-of-aut-typecode.xml");
+
+        // when
+        final List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper
+            .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
+
+        // then
+        assertEquals(1, allergyIntolerances.size());
+        var allergyIntolerance = allergyIntolerances.get(0);
+        assertThat(allergyIntolerance.getMeta().getSecurity()).isEmpty();
+    }
+
+    @Test
     public void testGivenAuthorAndMultipleParticipant2sAndOneAutParticipant2AuthorAndRecorderPopulatedWithAuthorAndParticipant2() {
         // At this moment it is not very clear if this is the correct behavior with such number of participants.
         // We haven't seen a supplier send over a HL7 in this form, but we want to specify some behaviour.
@@ -230,6 +259,7 @@ public class AllergyIntoleranceMapperTest {
 
         assertThat(allergyIntolerance.getCode().getCodingFirstRep())
                 .isEqualTo(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
+        assertThat(allergyIntolerance.getMeta().getSecurity()).isEmpty();
     }
 
     @Test
