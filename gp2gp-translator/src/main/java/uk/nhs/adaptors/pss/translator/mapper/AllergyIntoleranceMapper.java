@@ -17,7 +17,6 @@ import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMetaWithS
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -92,8 +91,10 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 .getId()
                 .getRoot();
 
-        final Meta meta = CONFIDENTIALITY_CODE_PRESENT.test(observationStatement) ?
-            generateMetaWithSecurity(META_PROFILE) :
+        final Meta meta = CONFIDENTIALITY_CODE_PRESENT.test(observationStatement)
+            ?
+            generateMetaWithSecurity(META_PROFILE)
+            :
             generateMeta(META_PROFILE);
 
         allergyIntolerance
