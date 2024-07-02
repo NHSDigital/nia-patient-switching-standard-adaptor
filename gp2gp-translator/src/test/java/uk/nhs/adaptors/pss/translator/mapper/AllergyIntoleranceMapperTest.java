@@ -76,6 +76,10 @@ class AllergyIntoleranceMapperTest {
     private static final String MULTILEX_COCONUT_OIL = "01142009";
     private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
     private static final String SNOMED_COCONUT_OIL = "14613911000001107";
+    private static final Coding CONFIDENTIALITY_CODING = new Coding()
+        .setSystem("http://hl7.org/fhir/v3/ActCode")
+        .setCode("NOPAT")
+        .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization");
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -163,23 +167,19 @@ class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    void testGivenConfidentialityCodeWithinObservationStatementThenMetaSecurityPopulated() {
+    void testGivenConfidentialityCodeWithNopatWithinObservationStatementThenMetaSecurityPopulated() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-observation-statement-confidentiality-code.xml");
-        final Coding coding = new Coding()
-            .setSystem("http://hl7.org/fhir/v3/ActCode")
-            .setCode("NOPAT")
-            .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization");
 
         final List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper
             .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
         assertEquals(1, allergyIntolerances.size());
         final AllergyIntolerance allergyIntolerance = allergyIntolerances.get(0);
-        assertThat(allergyIntolerance.getMeta().getSecurity()).usingRecursiveComparison().isEqualTo(Collections.singletonList(coding));
+        assertThat(allergyIntolerance.getMeta().getSecurity()).usingRecursiveComparison().isEqualTo(Collections.singletonList(CONFIDENTIALITY_CODING));
     }
 
     @Test
-    void testGivenConfidentialityCodeWithinObservationStatementThenMetaSecurityNotPopulated() {
+    void testGivenConfidentialityCodeWithNopatWithinObservationStatementThenMetaSecurityNotPopulated() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-participant-of-aut-typecode.xml");
 
         final List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper
@@ -191,19 +191,15 @@ class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    void testGivenConfidentialityCodeWithinEhrCompositionAndNotObservationStatementThenMetaSecurityPopulated() {
+    void testGivenConfidentialityCodeWithNopatWithinEhrCompositionAndNotObservationStatementThenMetaSecurityPopulated() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-ehr-composition-confidentiality-code.xml");
-        final Coding coding = new Coding()
-            .setSystem("http://hl7.org/fhir/v3/ActCode")
-            .setCode("NOPAT")
-            .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization");
 
         final List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper
             .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
         assertEquals(1, allergyIntolerances.size());
         final AllergyIntolerance allergyIntolerance = allergyIntolerances.get(0);
-        assertThat(allergyIntolerance.getMeta().getSecurity()).usingRecursiveComparison().isEqualTo(Collections.singletonList(coding));
+        assertThat(allergyIntolerance.getMeta().getSecurity()).usingRecursiveComparison().isEqualTo(Collections.singletonList(CONFIDENTIALITY_CODING));
     }
 
     /**
