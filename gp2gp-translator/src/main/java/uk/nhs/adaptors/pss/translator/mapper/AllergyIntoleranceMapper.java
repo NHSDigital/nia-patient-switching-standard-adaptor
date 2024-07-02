@@ -7,12 +7,10 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVeri
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
-import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.CONFIDENTIALITY_CODE_PRESENT;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.fetchRecorderAndAsserter;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMetaWithSecurity;
 
 import java.util.List;
 import java.util.Objects;
@@ -41,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.ConfidentialityUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
@@ -91,11 +90,10 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 .getId()
                 .getRoot();
 
-        final Meta meta = CONFIDENTIALITY_CODE_PRESENT.test(observationStatement)
-            ?
-            generateMetaWithSecurity(META_PROFILE)
-            :
-            generateMeta(META_PROFILE);
+        final Meta meta = ConfidentialityUtil.processConfidentiality(List.of(
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode()
+        ), generateMeta(META_PROFILE));
 
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
