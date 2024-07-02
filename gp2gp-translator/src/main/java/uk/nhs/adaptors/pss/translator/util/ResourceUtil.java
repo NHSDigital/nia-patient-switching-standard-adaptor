@@ -13,9 +13,6 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import uk.nhs.adaptors.pss.translator.mapper.factory.CodingFactory;
-
-import static uk.nhs.adaptors.pss.translator.mapper.factory.CodingFactory.CodingType.META_SECURITY;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResourceUtil {
@@ -31,15 +28,6 @@ public class ResourceUtil {
                 )
             )
         );
-    }
-
-    public static Meta generateMetaWithSecurity(String urlProfile) {
-        return generateMeta(urlProfile)
-            .setSecurity(
-                Collections.singletonList(
-                    CodingFactory.getCodingFor(META_SECURITY)
-                )
-            );
     }
 
     public static Identifier buildIdentifier(String rootId, String practiseCode) {
