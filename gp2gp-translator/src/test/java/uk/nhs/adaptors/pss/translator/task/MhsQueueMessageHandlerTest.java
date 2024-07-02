@@ -45,7 +45,6 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ConversationIdNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 
@@ -108,7 +107,7 @@ public class MhsQueueMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException, UnsupportedFileTypeException {
+        SAXException, TransformerException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
@@ -131,7 +130,7 @@ public class MhsQueueMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException, UnsupportedFileTypeException {
+        SAXException, TransformerException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
@@ -155,7 +154,7 @@ public class MhsQueueMessageHandlerTest {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException, UnsupportedFileTypeException {
+        SAXException, TransformerException {
 
         inboundMessage = new InboundMessage();
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);

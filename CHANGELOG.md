@@ -5,8 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-## Added
+### Added
 * The AllergyIntoleranceMapper has been enhanced to support the redaction fix. If an Allergy Intolerance record includes a confidentialityCode, the meta.security field of the corresponding FHIR resource will now be appropriately populated.
+
+### Removed
+* The adaptor no longer checks incoming attachment content types aginst the `SUPPORTED_FILE_TYPES` list.
+  This functionality can be implemented outside the adaptor if still desired.
 
 ## [2.1.2] - 2024-06-28
 
