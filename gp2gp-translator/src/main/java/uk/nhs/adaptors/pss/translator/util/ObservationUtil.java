@@ -14,7 +14,6 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.SimpleQuantity;
-
 import org.hl7.v3.CV;
 import org.hl7.v3.IVLPQ;
 import org.hl7.v3.IVLTS;
@@ -24,6 +23,7 @@ import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKInterpretationRange;
 import org.hl7.v3.RCMRMT030101UKReferenceRange;
 import org.hl7.v3.TS;
+
 import org.springframework.stereotype.Component;
 import uk.nhs.adaptors.common.util.CodeableConceptUtils;
 import uk.nhs.adaptors.pss.translator.mapper.QuantityMapper;
