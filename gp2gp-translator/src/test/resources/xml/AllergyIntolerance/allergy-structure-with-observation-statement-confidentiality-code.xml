@@ -41,7 +41,7 @@
                     <center nullFlavor="NI" />
                   </effectiveTime>
                   <availabilityTime value="19781231" />
-                  <confidentialityCode code="" />
+                  <confidentialityCode code="NOPAT" codeSystem="2.16.840.1.113883.4.642.3.47" displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
                   <value type="CD" code="ALLERGY-READ2-TJ003" codeSystem="2.16.840.1.113883.2.1.6.3" displayName="Adverse reaction to amoxycillin" />
                 </ObservationStatement>
               </component>

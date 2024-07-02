@@ -163,7 +163,7 @@ class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    void testGivenConfidentialityCodeThenMetaSecurityPopulated() {
+    void testGivenConfidentialityCodeWithinObservationStatementThenMetaSecurityPopulated() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-confidentiality-code.xml");
         final Coding coding = new Coding()
             .setSystem("http://hl7.org/fhir/v3/ActCode")
@@ -179,7 +179,7 @@ class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    void testGivenNoConfidentialityCodeThenMetaSecurityNotPopulated() {
+    void testGivenConfidentialityCodeWithinObservationStatementThenMetaSecurityNotPopulated() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-participant-of-aut-typecode.xml");
 
         final List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper
@@ -188,6 +188,22 @@ class AllergyIntoleranceMapperTest {
         assertEquals(1, allergyIntolerances.size());
         final AllergyIntolerance allergyIntolerance = allergyIntolerances.get(0);
         assertThat(allergyIntolerance.getMeta().getSecurity()).isEmpty();
+    }
+
+    @Test
+    void testGivenConfidentialityCodeWithinEhrCompositionAndNotObservationStatementThenMetaSecurityPopulated() {
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-ehr-composition-confidentiality-code.xml");
+        final Coding coding = new Coding()
+            .setSystem("http://hl7.org/fhir/v3/ActCode")
+            .setCode("NOPAT")
+            .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization");
+
+        final List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper
+            .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
+
+        assertEquals(1, allergyIntolerances.size());
+        final AllergyIntolerance allergyIntolerance = allergyIntolerances.get(0);
+        assertThat(allergyIntolerance.getMeta().getSecurity()).usingRecursiveComparison().isEqualTo(Collections.singletonList(coding));
     }
 
     /**
