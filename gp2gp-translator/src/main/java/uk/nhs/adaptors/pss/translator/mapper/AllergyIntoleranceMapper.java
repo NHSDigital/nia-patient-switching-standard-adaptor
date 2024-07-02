@@ -24,6 +24,7 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
@@ -38,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.util.ConfidentialityUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
@@ -88,6 +90,11 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 .getId()
                 .getRoot();
 
+        final Meta meta = ConfidentialityUtil.addSecurityToMetaIfConfidentialityCodesPresent(List.of(
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode()
+        ), generateMeta(META_PROFILE));
+
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
             .setAssertedDateElement(getAssertedDateElement(compoundStatement.getAvailabilityTime(), ehrComposition))
@@ -95,7 +102,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
             .setClinicalStatus(ACTIVE)
             .setVerificationStatus(UNCONFIRMED)
             .addIdentifier(buildIdentifier(id, practiseCode))
-            .setMeta(generateMeta(META_PROFILE))
+            .setMeta(meta)
             .setId(id);
 
         buildOnset(compoundStatement, allergyIntolerance);
