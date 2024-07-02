@@ -47,7 +47,7 @@ import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
-public class AllergyIntoleranceMapperTest {
+class AllergyIntoleranceMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/AllergyIntolerance/";
     private static final String COMPOUND_STATEMENT_ROOT_ID = "394559384658936";
@@ -87,7 +87,7 @@ public class AllergyIntoleranceMapperTest {
     private AllergyIntoleranceMapper allergyIntoleranceMapper;
 
     @Test
-    public void testGivenDrugAllergyWithAllDataThenAllDataPopulated() {
+    void testGivenDrugAllergyWithAllDataThenAllDataPopulated() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("drug-allergy-structure.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -117,7 +117,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenAuthorAndParticipantThenMapsToRecorderAndAsserterAllergyIntolerance() {
+    void testGivenAuthorAndParticipantThenMapsToRecorderAndAsserterAllergyIntolerance() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-valid-author-and-participant2.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -142,7 +142,7 @@ public class AllergyIntoleranceMapperTest {
      * We haven't seen a supplier send over a HL7 in this form, but we want to specify some behaviour.
      */
     @Test
-    public void testGivenAuthorAndAutParticipant2AuthorAndRecorderThenPopulatedWithParticipant2() {
+    void testGivenAuthorAndAutParticipant2AuthorAndRecorderThenPopulatedWithParticipant2() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-participant-of-aut-typecode.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -195,7 +195,7 @@ public class AllergyIntoleranceMapperTest {
      * We haven't seen a supplier send over a HL7 in this form, but we want to specify some behaviour.
      */
     @Test
-    public void testGivenAuthorAndMultipleParticipant2sAndOneAutParticipant2AuthorAndRecorderThenPopulatedWithAuthorAndParticipant2() {
+    void testGivenAuthorAndMultipleParticipant2sAndOneAutParticipant2AuthorAndRecorderThenPopulatedWithAuthorAndParticipant2() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-author-and-multiple-participants.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -216,7 +216,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenNonDrugAllergyWithAllDataThenMapsSuccessfully() {
+    void testGivenNonDrugAllergyWithAllDataThenMapsSuccessfully() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("non-drug-allergy-structure.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -244,7 +244,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenCompoundStatementCodeOfNonDrugAllergyCodeThenSetsCodeToTransferDegradedNonDrugAllergy() {
+    void testGivenCompoundStatementCodeOfNonDrugAllergyCodeThenSetsCodeToTransferDegradedNonDrugAllergy() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("degraded-non-drug-allergy-structure.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -261,7 +261,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenCompoundStatementCodeOfDrugAllergyCodeThenSetsCodeToTransferDegradedDrugAllergy() {
+    void testGivenCompoundStatementCodeOfDrugAllergyCodeThenSetsCodeToTransferDegradedDrugAllergy() {
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
                 .thenReturn(nonSnomedCodeableConcept());
 
@@ -277,7 +277,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenAllergyWithOriginalTextAndNoValueThenMapsCodingTextFromCodeOriginalText() {
+    void testGivenAllergyWithOriginalTextAndNoValueThenMapsCodingTextFromCodeOriginalText() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-original-text-in-code.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -296,7 +296,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenAllergyWithNoOptionalData() {
+    void testGivenAllergyWithNoOptionalData() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-optional-data.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
@@ -317,7 +317,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenUnkAvailabilityTimeThenAssertedDateIsAuthorTime() {
+    void testGivenUnkAvailabilityTimeThenAssertedDateIsAuthorTime() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-asserted-date-fallback.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
@@ -334,7 +334,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenMultipleAllergiesThenExpectAllToBePresent() {
+    void testGivenMultipleAllergiesThenExpectAllToBePresent() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-multiple-allergy.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
@@ -346,7 +346,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenStandaloneAllergyThenNoExtensionPresent() {
+    void testGivenStandaloneAllergyThenNoExtensionPresent() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-invalid-encounter-reference.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
@@ -359,7 +359,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenAllergyWithSameTermTexts() {
+    void testGivenAllergyWithSameTermTexts() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("drug-allergy-structure-with-term-text.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class))).thenReturn(defaultCodeableConcept());
@@ -386,7 +386,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testMapAllergyWithDrugTermText() {
+    void testMapAllergyWithDrugTermText() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("drug-allergy-structure-with-term-text.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -415,7 +415,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenDrugAllergyWithValueElementThenMapsCodingTextFromValueDescription() {
+    void testGivenDrugAllergyWithValueElementThenMapsCodingTextFromValueDescription() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("drug-allergy-with-value.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -436,7 +436,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenAllergyIntoleranceWithQualifierAndOriginalTextThenNotesContainsEpisodicity() {
+    void testGivenAllergyIntoleranceWithQualifierAndOriginalTextThenNotesContainsEpisodicity() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("drug_allergy_with_qualifier_and_original_text.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -452,7 +452,7 @@ public class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    public void testGivenAllergyIntoleranceWithQualifierAndWithoutOriginalTextThenNotesContainsEpisodicity() {
+    void testGivenAllergyIntoleranceWithQualifierAndWithoutOriginalTextThenNotesContainsEpisodicity() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("drug_allergy_with_qualifier_without_original_text.xml");
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
@@ -469,7 +469,7 @@ public class AllergyIntoleranceMapperTest {
 
     @ParameterizedTest
     @MethodSource("allergyStructuresWithTranslations")
-    public void testTppNamedSchemaInValue(String filename) {
+    void testTppNamedSchemaInValue(String filename) {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract(filename);
 
         when(codeableConceptMapper.mapToCodeableConcept(any(CD.class)))
