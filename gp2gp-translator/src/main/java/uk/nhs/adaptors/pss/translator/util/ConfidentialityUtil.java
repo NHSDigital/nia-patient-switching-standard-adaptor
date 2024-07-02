@@ -19,9 +19,7 @@ public final class ConfidentialityUtil {
         final boolean isCodePresent = confidentialityCodes.stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .map(ConfidentialityUtil::isNopat)
-            .findAny()
-            .isPresent();
+            .anyMatch(ConfidentialityUtil::isNopat);
 
         if(isCodePresent) {
             return ConfidentialityUtil.addConfidentialityToMeta(meta);
