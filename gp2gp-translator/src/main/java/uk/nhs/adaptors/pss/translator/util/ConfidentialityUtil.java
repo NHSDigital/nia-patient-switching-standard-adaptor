@@ -16,13 +16,14 @@ public final class ConfidentialityUtil {
         .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization");
 
     public static Meta addSecurityToMetaIfConfidentialityCodesPresent(Collection<Optional<CV>> confidentialityCodes, Meta meta) {
-        final Collection<Boolean> values = confidentialityCodes.stream()
+        final boolean isCodePresent = confidentialityCodes.stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
             .map(ConfidentialityUtil::isNopat)
-            .toList();
+            .findAny()
+            .isPresent();
 
-        if(!values.isEmpty()) {
+        if(isCodePresent) {
             return ConfidentialityUtil.addConfidentialityToMeta(meta);
         }
 
