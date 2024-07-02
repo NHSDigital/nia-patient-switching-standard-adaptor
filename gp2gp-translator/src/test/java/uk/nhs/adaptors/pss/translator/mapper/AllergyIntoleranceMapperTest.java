@@ -164,7 +164,7 @@ class AllergyIntoleranceMapperTest {
 
     @Test
     void testGivenConfidentialityCodeWithinObservationStatementThenMetaSecurityPopulated() {
-        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-confidentiality-code.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-observation-statement-confidentiality-code.xml");
         final Coding coding = new Coding()
             .setSystem("http://hl7.org/fhir/v3/ActCode")
             .setCode("NOPAT")
