@@ -12,8 +12,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ConfidentialityUtilTest {
-    private static final CV NOPAT = new CV();
-    private static final CV WITHOUT_NOPAT = new CV();
+    private static final CV CV_WITH_NOPAT = new CV();
+    private static final CV CV_WITHOUT_NOPAT = new CV();
     private static final Meta INITIAL_META = new Meta().setProfile(
         Collections.singletonList(
             new UriType("https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-AllergyIntolerance-1")
@@ -21,15 +21,15 @@ class ConfidentialityUtilTest {
     );
 
     static {
-        NOPAT.setCode("NOPAT");
-        WITHOUT_NOPAT.setCode("NOSCRUB");
+        CV_WITH_NOPAT.setCode("NOPAT");
+        CV_WITHOUT_NOPAT.setCode("NOSCRUB");
     }
 
     @Test
     void Given_CvWithNopatAndOptionalEmpty_Expect_MetaSecurityAdded() {
         // when
         final Meta expected = ConfidentialityUtil.addSecurityToMetaIfConfidentialityCodesPresent(List.of(
-            Optional.of(NOPAT),
+            Optional.of(CV_WITH_NOPAT),
             Optional.empty()
         ), INITIAL_META);
 
@@ -42,8 +42,8 @@ class ConfidentialityUtilTest {
     void Given_CvWithNopatAndCvWithoutNopat_Expect_MetaSecurityAdded() {
         // when
         final Meta expected = ConfidentialityUtil.addSecurityToMetaIfConfidentialityCodesPresent(List.of(
-            Optional.of(NOPAT),
-            Optional.of(WITHOUT_NOPAT)
+            Optional.of(CV_WITH_NOPAT),
+            Optional.of(CV_WITHOUT_NOPAT)
         ), INITIAL_META);
 
         // then
@@ -55,7 +55,7 @@ class ConfidentialityUtilTest {
     void Given_CvWithoutNopatAndOptionalEmpty_Expect_MetaSecurityNotAdded() {
         // when
         final Meta expected = ConfidentialityUtil.addSecurityToMetaIfConfidentialityCodesPresent(List.of(
-            Optional.of(WITHOUT_NOPAT),
+            Optional.of(CV_WITHOUT_NOPAT),
             Optional.empty()
         ), INITIAL_META);
 
