@@ -1,6 +1,5 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import java.util.Collections;
 import java.util.List;
 
 import lombok.AccessLevel;
@@ -21,13 +20,10 @@ public class ResourceUtil {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/%s";
 
     public static Meta generateMeta(String urlProfile) {
-        return new Meta().setProfile(
-            Collections.singletonList(
-                new UriType(
-                    String.format(META_PROFILE_TEMPLATE, urlProfile)
-                )
-            )
-        );
+        Meta meta = new Meta();
+        UriType profile = new UriType(String.format(META_PROFILE_TEMPLATE, urlProfile));
+        meta.setProfile(List.of(profile));
+        return meta;
     }
 
     public static Identifier buildIdentifier(String rootId, String practiseCode) {
