@@ -16,7 +16,7 @@ public final class MetaBuilder {
         this.meta = Objects.requireNonNull(metaSupplier.get());
         return this;
     }
-    
+
     @SafeVarargs
     public final MetaBuilder withSecurityIfConfidentialityCodesPresent(Optional<CV>... confidentialityCodes) {
         this.meta = ConfidentialityUtil.addSecurityToMetaIfConfidentialityCodesPresent(
