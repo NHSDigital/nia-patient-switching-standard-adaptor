@@ -9,7 +9,9 @@ import java.util.Collections;
 import java.util.Optional;
 
 public final class ConfidentialityUtil {
+
     private ConfidentialityUtil() { }
+
     private static final Coding CONFIDENTIALITY_CODING = new Coding()
         .setSystem("http://hl7.org/fhir/v3/ActCode")
         .setCode("NOPAT")
