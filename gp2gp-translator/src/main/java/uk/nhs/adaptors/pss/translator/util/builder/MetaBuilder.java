@@ -5,7 +5,6 @@ import org.hl7.v3.CV;
 import uk.nhs.adaptors.pss.translator.util.ConfidentialityUtil;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
