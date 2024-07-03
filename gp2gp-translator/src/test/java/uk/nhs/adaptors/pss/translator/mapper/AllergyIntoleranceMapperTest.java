@@ -169,31 +169,38 @@ class AllergyIntoleranceMapperTest {
 
     @Test
     void testGivenConfidentialityCodeWithNopatWithinObservationStatementThenMetaSecurityPopulated() {
-        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-observation-statement-confidentiality-code.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtract("allergy-structure-with-observation-statement-confidentiality-code.xml");
 
         final List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper
             .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
         assertEquals(1, allergyIntolerances.size());
         final AllergyIntolerance allergyIntolerance = allergyIntolerances.get(0);
-        assertThat(allergyIntolerance.getMeta().getSecurity()).usingRecursiveComparison().isEqualTo(Collections.singletonList(CONFIDENTIALITY_CODING));
+        assertThat(allergyIntolerance.getMeta().getSecurity())
+            .usingRecursiveComparison()
+            .isEqualTo(Collections.singletonList(CONFIDENTIALITY_CODING));
     }
 
     @Test
     void testGivenConfidentialityCodeWithNopatWithinEhrCompositionAndNotObservationStatementThenMetaSecurityPopulated() {
-        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-ehr-composition-confidentiality-code.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtract("allergy-structure-with-ehr-composition-confidentiality-code.xml");
 
         final List<AllergyIntolerance> allergyIntolerances = allergyIntoleranceMapper
             .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
         assertEquals(1, allergyIntolerances.size());
         final AllergyIntolerance allergyIntolerance = allergyIntolerances.get(0);
-        assertThat(allergyIntolerance.getMeta().getSecurity()).usingRecursiveComparison().isEqualTo(Collections.singletonList(CONFIDENTIALITY_CODING));
+        assertThat(allergyIntolerance.getMeta().getSecurity())
+            .usingRecursiveComparison()
+            .isEqualTo(Collections.singletonList(CONFIDENTIALITY_CODING));
     }
 
     @Test
     void testGivenConfidentialityCodeWithCodeOtherThanNopatWithinObservationStatementThenMetaSecurityNotPopulated() {
-        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("allergy-structure-with-observation-statement-confidentiality-code.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtract("allergy-structure-with-observation-statement-confidentiality-code.xml");
         final CV invalidCoding = new CV();
 
         invalidCoding.setCode("NOSCRUB");

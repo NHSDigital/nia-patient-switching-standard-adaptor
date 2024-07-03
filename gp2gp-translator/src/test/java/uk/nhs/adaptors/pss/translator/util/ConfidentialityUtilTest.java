@@ -26,7 +26,7 @@ class ConfidentialityUtilTest {
     }
 
     @Test
-    void Given_CvWithNopatAndOptionalEmpty_Expect_MetaSecurityAdded() {
+    void When_CvWithNopatAndOptionalEmpty_Expect_MetaSecurityAdded() {
         // when
         final Meta expected = ConfidentialityUtil.addSecurityToMetaIfConfidentialityCodesPresent(List.of(
             Optional.of(CV_WITH_NOPAT),
@@ -39,7 +39,7 @@ class ConfidentialityUtilTest {
     }
 
     @Test
-    void Given_CvWithNopatAndCvWithoutNopat_Expect_MetaSecurityAdded() {
+    void When_CvWithNopatAndCvWithoutNopat_Expect_MetaSecurityAdded() {
         // when
         final Meta expected = ConfidentialityUtil.addSecurityToMetaIfConfidentialityCodesPresent(List.of(
             Optional.of(CV_WITH_NOPAT),
@@ -52,7 +52,7 @@ class ConfidentialityUtilTest {
     }
 
     @Test
-    void Given_CvWithoutNopatAndOptionalEmpty_Expect_MetaSecurityNotAdded() {
+    void When_CvWithoutNopatAndOptionalEmpty_Expect_MetaSecurityNotAdded() {
         // when
         final Meta expected = ConfidentialityUtil.addSecurityToMetaIfConfidentialityCodesPresent(List.of(
             Optional.of(CV_WITHOUT_NOPAT),

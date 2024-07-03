@@ -21,7 +21,7 @@ public final class ConfidentialityUtil {
             .map(Optional::get)
             .anyMatch(ConfidentialityUtil::isNopat);
 
-        if(isCodePresent) {
+        if (isCodePresent) {
             return ConfidentialityUtil.addConfidentialityToMeta(meta);
         }
 
