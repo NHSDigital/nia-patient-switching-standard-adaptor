@@ -39,9 +39,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import uk.nhs.adaptors.pss.translator.util.ConfidentialityUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
+import uk.nhs.adaptors.pss.translator.util.builder.MetaBuilder;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -90,10 +90,12 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 .getId()
                 .getRoot();
 
-        final Meta meta = ConfidentialityUtil.addSecurityToMetaIfConfidentialityCodesPresent(List.of(
-            ehrComposition.getConfidentialityCode(),
-            observationStatement.getConfidentialityCode()
-        ), generateMeta(META_PROFILE));
+        final Meta meta = new MetaBuilder()
+            .withInitialMeta(() -> generateMeta(META_PROFILE))
+            .withSecurityIfConfidentialityCodesPresent(
+                ehrComposition.getConfidentialityCode(),
+                observationStatement.getConfidentialityCode()
+            ).build();
 
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
