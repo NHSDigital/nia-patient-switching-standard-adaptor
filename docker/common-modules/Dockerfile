@@ -1,4 +1,4 @@
-FROM gradle:7.6-jdk17 AS build
+FROM gradle:8.8-jdk17 AS build
 COPY --chown=gradle:gradle settings.gradle /home/gradle/service/
 COPY --chown=gradle:gradle ./common /home/gradle/service/common
 COPY --chown=gradle:gradle ./db-connector /home/gradle/service/db-connector
