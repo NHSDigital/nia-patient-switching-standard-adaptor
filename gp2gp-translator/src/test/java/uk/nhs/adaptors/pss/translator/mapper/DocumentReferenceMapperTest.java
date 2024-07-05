@@ -32,7 +32,7 @@ import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
-public class DocumentReferenceTest {
+public class DocumentReferenceMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/DocumentReference/";
     private static final String NARRATIVE_STATEMENT_ROOT_ID = "5E496953-065B-41F2-9577-BE8F2FBD0757";
