@@ -298,7 +298,7 @@ public class DiagnosticReportMapperTest {
     }
 
     @Test
-    public void When_DiagnosticReportWithSomeObservationStatements_Expect_DiagnosticReportResultsCorrectlyOrdered()
+    public void When_DiagnosticReportWithSomeNarativeStatements_Expect_DiagnosticReportResultsCorrectlyOrdered()
         throws IOException {
 
         var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
