@@ -27,7 +27,7 @@ dependencies {
     implementation project(':common')
     implementation project(':db-connector')
     implementation project(':schema')
-    implementation 'com.github.spullara.mustache.java:compiler:0.9.13'
+    implementation 'com.github.spullara.mustache.java:compiler:0.9.14'
     implementation 'org.jdbi:jdbi3-core:3.45.2'
     implementation 'org.jetbrains:annotations:24.1.0'
 
