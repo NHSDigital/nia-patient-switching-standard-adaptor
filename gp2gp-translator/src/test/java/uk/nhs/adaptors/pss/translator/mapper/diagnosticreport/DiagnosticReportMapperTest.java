@@ -3,10 +3,11 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.io.IOException;
+import java.nio.file.Files;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
-
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,6 +27,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.when;
 import lombok.SneakyThrows;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.UNKNOWN;
@@ -74,8 +77,7 @@ public class DiagnosticReportMapperTest {
                     </component>
                 </EhrExtract>
                 """;
-    public static final int FOUR = 4;
-    public static final int THREE = 3;
+
     @Mock
     private IdGeneratorService idGeneratorService;
 
@@ -296,133 +298,11 @@ public class DiagnosticReportMapperTest {
     }
 
     @Test
-    public void When_DiagnosticReportWithSomeObservationStatements_Expect_DiagnosticReportResultsCorrectlyOrdered() {
-        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
-            """
-                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
-                    <id root="C8B1BEAF-FB71-45D1-89DA-298148C00CE1" />
-                    <code code="16488004" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Happy puppet syndrome">
-                        <translation code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                    </code>
-                    <statusCode code="COMPLETE" />
-                    <effectiveTime>
-                        <center nullFlavor="NI" />
-                    </effectiveTime>
-                    <availabilityTime value="201101111533" />
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <ObservationStatement classCode="OBS" moodCode="EVN">
-                            <id root="6418F5A3-C427-4292-ABCF-F53E71B43F15" />
-                            <code code="1683.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Tired all the time">
-                                <translation code="267032009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                            </code>
-                            <statusCode code="COMPLETE" />
-                            <effectiveTime>
-                                <center nullFlavor="NI" />
-                            </effectiveTime>
-                            <availabilityTime value="201101111533" />
-                            <pertinentInformation typeCode="PERT">
-                                <sequenceNumber value="+1" />
-                                <pertinentAnnotation classCode="OBS" moodCode="EVN">
-                                    <text>Notes on the tired all the time entry</text>
-                                </pertinentAnnotation>
-                            </pertinentInformation>
-                        </ObservationStatement>
-                    </component>
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <NarrativeStatement classCode="OBS" moodCode="EVN">
-                            <id root="3E1A4EA2-661B-4467-8843-6A6B21DEF14F" />
-                            <text>Comments - Aaaargh</text>
-                            <statusCode code="COMPLETE" />
-                            <availabilityTime value="201101111533" />
-                        </NarrativeStatement>
-                    </component>
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <ObservationStatement classCode="OBS" moodCode="EVN">
-                            <id root="58E20D47-F007-47F4-811E-992AE160BECC" />
-                            <code code="7K30.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Total
-                            prosthetic replacement of knee joint using cement">
-                                <translation code="265170009" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                            </code>
-                            <statusCode code="COMPLETE" />
-                            <effectiveTime>
-                                <center nullFlavor="NI" />
-                            </effectiveTime>
-                            <availabilityTime value="201101111533" />
-                            <pertinentInformation typeCode="PERT">
-                                <sequenceNumber value="+1" />
-                                <pertinentAnnotation classCode="OBS" moodCode="EVN">
-                                    <text>cementing the agreement</text>
-                                </pertinentAnnotation>
-                            </pertinentInformation>
-                        </ObservationStatement>
-                    </component>
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <ObservationStatement classCode="OBS" moodCode="EVN">
-                            <id root="C6D2153A-7EF6-4B1F-8F79-850372BFF67D" />
-                            <code code="7K20.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Total prosthetic
-                            replacement of hip joint using cement">
-                                <translation code="265157000" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                            </code>
-                            <statusCode code="COMPLETE" />
-                            <effectiveTime>
-                                <center nullFlavor="NI" />
-                            </effectiveTime>
-                            <availabilityTime value="20110104" />
-                        </ObservationStatement>
-                    </component>
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <ObservationStatement classCode="OBS" moodCode="EVN">
-                            <id root="A77C238E-F630-48C0-B2EA-26F1B126DC1D" />
-                            <code code="35Z..00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Surgical biopsy (admin) NOS">
-                                <translation code="165127005" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                            </code>
-                            <statusCode code="COMPLETE" />
-                            <effectiveTime>
-                                <center nullFlavor="NI" />
-                            </effectiveTime>
-                            <availabilityTime value="201101111533" />
-                        </ObservationStatement>
-                    </component>
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <NarrativeStatement classCode="OBS" moodCode="EVN">
-                            <id root="E8746411-9D21-4A5C-B70B-9D1FF00D3AE4" />
-                            <text>Option A</text>
-                            <statusCode code="COMPLETE" />
-                            <availabilityTime value="201101111533" />
-                        </NarrativeStatement>
-                    </component>
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <NarrativeStatement classCode="OBS" moodCode="EVN">
-                            <id root="21B95C86-121F-4BC5-A2CD-3E2955F4D604" />
-                            <text>Option C</text>
-                            <statusCode code="COMPLETE" />
-                            <availabilityTime value="201101111533" />
-                        </NarrativeStatement>
-                    </component>
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <ObservationStatement classCode="OBS" moodCode="EVN">
-                            <id root="E0DD7160-64CA-48F3-AB00-B21C39D3FB23" />
-                            <code code="136Q.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Very heavy drinker">
-                                <translation code="228279004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                            </code>
-                            <statusCode code="COMPLETE" />
-                            <effectiveTime>
-                                <center nullFlavor="NI" />
-                            </effectiveTime>
-                            <availabilityTime value="201101111533" />
-                        </ObservationStatement>
-                    </component>
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <NarrativeStatement classCode="OBS" moodCode="EVN">
-                            <id root="B141FC3E-4DD2-4412-9655-DF43BBCE290B" />
-                            <text>Some freetext - This is total freetext madness</text>
-                            <statusCode code="COMPLETE" />
-                            <availabilityTime value="201101111533" />
-                        </NarrativeStatement>
-                    </component>
-               </CompoundStatement>
-               """);
+    public void When_DiagnosticReportWithSomeObservationStatements_Expect_DiagnosticReportResultsCorrectlyOrdered()
+        throws IOException {
 
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
+                                        readFileAsString("xml/DiagnosticReport/diagnostic_report_with_observation_statements.xml"));
         var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(
@@ -432,17 +312,11 @@ public class DiagnosticReportMapperTest {
             PRACTICE_CODE);
         var diagnosticReport = diagnosticReports.get(0);
 
-        assertAll(
-            () -> assertThat(diagnosticReport.getResult()).hasSize(FOUR),
-            () -> assertEquals("Observation/3E1A4EA2-661B-4467-8843-6A6B21DEF14F",
-                               diagnosticReport.getResult().get(0).getReference()),
-            () -> assertEquals("Observation/E8746411-9D21-4A5C-B70B-9D1FF00D3AE4",
-                               diagnosticReport.getResult().get(1).getReference()),
-            () -> assertEquals("Observation/21B95C86-121F-4BC5-A2CD-3E2955F4D604",
-                               diagnosticReport.getResult().get(2).getReference()),
-            () -> assertEquals("Observation/B141FC3E-4DD2-4412-9655-DF43BBCE290B",
-                               diagnosticReport.getResult().get(THREE).getReference())
-        );
+        assertThat(diagnosticReport.getResult()).map(r -> r.getReference())
+                .isEqualTo(List.of("Observation/3E1A4EA2-661B-4467-8843-6A6B21DEF14F",
+                                   "Observation/E8746411-9D21-4A5C-B70B-9D1FF00D3AE4",
+                                   "Observation/21B95C86-121F-4BC5-A2CD-3E2955F4D604",
+                                   "Observation/B141FC3E-4DD2-4412-9655-DF43BBCE290B"));
     }
 
     @Test
@@ -694,6 +568,11 @@ TEST COMMENT
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallEhrExtractFromXmlString(String xmlString) {
         return unmarshallString(xmlString, RCMRMT030101UKEhrExtract.class);
+    }
+
+    private static String readFileAsString(String path) throws IOException {
+        Resource resource = new ClassPathResource(path);
+        return Files.readString(Paths.get(resource.getURI()));
     }
 
     private static String buildEhrExtractStringFromDiagnosticReportXml(String diagnosticReportXml) {
