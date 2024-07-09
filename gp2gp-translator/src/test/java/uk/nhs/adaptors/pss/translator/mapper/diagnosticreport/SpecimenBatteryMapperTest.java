@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -52,7 +51,6 @@ public class SpecimenBatteryMapperTest {
             </component>
         </EhrExtract>
         """;
-    public static final int THREE = 3;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -119,15 +117,10 @@ public class SpecimenBatteryMapperTest {
         final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
         final var batteryCompoundStatements = getBatteryCompoundStatements(ehrExtract);
 
-        assertAll(
-            () -> assertThat(batteryCompoundStatements).hasSize(THREE),
-            () -> assertEquals("SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1",
-                               batteryCompoundStatements.get(0).getId().get(0).getRoot()),
-            () -> assertEquals("SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_2",
-                               batteryCompoundStatements.get(1).getId().get(0).getRoot()),
-            () -> assertEquals("SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_3",
-                               batteryCompoundStatements.get(2).getId().get(0).getRoot())
-        );
+        assertThat(batteryCompoundStatements).map(r -> r.getId().get(0).getRoot())
+                    .isEqualTo(List.of("SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1",
+                                       "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_2",
+                                       "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_3"));
     }
 
     @Test void When_MappingObservationWithAvailabilityTimeInBatteryCompoundStatement_Expect_IssuedUsesThisValue() {
