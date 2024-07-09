@@ -58,6 +58,71 @@ public class SpecimenBatteryMapperTest {
     @InjectMocks
     private SpecimenBatteryMapper specimenBatteryMapper;
 
+    @Test
+    void When_MappingObservationWithAvailabilityTimeInDiagnosticReport_Expect_MoreThanOneCompoundStatement() {
+        final var ehrCompositionXml = """
+            <ehrComposition>
+                <id root="ENCOUNTER_ID"/>
+                <component>
+                    <CompoundStatement classCode="CLUSTER">
+                        <id root="DR_TEST_ID1"/>
+                        <availabilityTime value="20100225154201"/>
+                        <component>
+                            <CompoundStatement classCode="CLUSTER">
+                                <id root="TEST_SPECIMEN_ID_1"/>
+                                <component typeCode="COMP" contextConductionInd="true">
+                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                        <id root="SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1"/>
+                                    </CompoundStatement>
+                                </component>
+                            </CompoundStatement>
+                        </component>
+                    </CompoundStatement>
+                </component>
+                <component>
+                    <CompoundStatement classCode="CLUSTER">
+                        <id root="DR_TEST_ID2"/>
+                        <availabilityTime value="20100225154202"/>
+                        <component>
+                            <CompoundStatement classCode="CLUSTER">
+                                <id root="TEST_SPECIMEN_ID_2"/>
+                                <component typeCode="COMP" contextConductionInd="true">
+                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                        <id root="SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_2"/>
+                                    </CompoundStatement>
+                                </component>
+                            </CompoundStatement>
+                        </component>
+                    </CompoundStatement>
+                </component>
+                <component>
+                    <CompoundStatement classCode="CLUSTER">
+                        <id root="DR_TEST_ID3"/>
+                        <availabilityTime value="20100225154203"/>
+                        <component>
+                            <CompoundStatement classCode="CLUSTER">
+                                <id root="TEST_SPECIMEN_ID_3"/>
+                                <component typeCode="COMP" contextConductionInd="true">
+                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                        <id root="SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_3"/>
+                                    </CompoundStatement>
+                                </component>
+                            </CompoundStatement>
+                        </component>
+                    </CompoundStatement>
+                </component>
+            </ehrComposition>
+            """;
+
+        final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
+        final var batteryCompoundStatements = getBatteryCompoundStatements(ehrExtract);
+
+        assertThat(batteryCompoundStatements).map(r -> r.getId().get(0).getRoot())
+                    .isEqualTo(List.of("SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1",
+                                       "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_2",
+                                       "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_3"));
+    }
+
     @Test void When_MappingObservationWithAvailabilityTimeInBatteryCompoundStatement_Expect_IssuedUsesThisValue() {
         final var ehrCompositionXml = """
             <ehrComposition>
@@ -82,7 +147,7 @@ public class SpecimenBatteryMapperTest {
             """;
 
         final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
-        final var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
         final var batteryParameters = getSpecimenBatteryParameters(
             ehrExtract,
             batteryCompoundStatement,
@@ -120,7 +185,7 @@ public class SpecimenBatteryMapperTest {
             """;
 
         final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
-        final var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
         final var batteryParameters = getSpecimenBatteryParameters(
             ehrExtract,
             batteryCompoundStatement,
@@ -163,7 +228,7 @@ public class SpecimenBatteryMapperTest {
             """;
 
         final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
-        final var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
         final var batteryParameters = getSpecimenBatteryParameters(
             ehrExtract,
             batteryCompoundStatement,
@@ -211,7 +276,7 @@ public class SpecimenBatteryMapperTest {
             """;
 
         final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
-        final var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
         final var batteryParameters = getSpecimenBatteryParameters(
             ehrExtract,
             batteryCompoundStatement,
@@ -246,7 +311,7 @@ public class SpecimenBatteryMapperTest {
     @Test
     public void When_MappingObservation_Expect_ObservationRelationshipsSet() {
         final var ehrExtract = getSpecimenBatteryEhrExtract();
-        final var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
         final var observations = getObservations();
         final var batteryParameters = getSpecimenBatteryParameters(
             ehrExtract,
@@ -269,7 +334,7 @@ public class SpecimenBatteryMapperTest {
     @Test
     public void When_MappingObservation_Expect_ObservationCommentsDoNotContainBatteryDirectChildNarrativeStatement() {
         final var ehrExtract = getSpecimenBatteryEhrExtract();
-        final var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
         final var observationComments = getObservationComments();
         final var batteryParameters = getSpecimenBatteryParameters(
             ehrExtract,
@@ -295,7 +360,7 @@ public class SpecimenBatteryMapperTest {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         final RCMRMT030101UKEhrExtract ehrExtract = getSpecimenBatteryEhrExtract();
-        var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+        var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
 
         var batteryParameters = getSpecimenBatteryParameters(
             ehrExtract,
@@ -315,7 +380,7 @@ public class SpecimenBatteryMapperTest {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
         final RCMRMT030101UKEhrExtract ehrExtract = getSpecimenBatteryEhrExtract();
-        var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+        var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
 
         final List<Observation> observations = getObservations();
         final List<Observation> observationComments = getObservationComments();
@@ -417,13 +482,21 @@ public class SpecimenBatteryMapperTest {
         );
     }
 
-    private RCMRMT030101UKCompoundStatement getBatteryCompoundStatements(RCMRMT030101UKEhrExtract ehrExtract) {
+    private RCMRMT030101UKCompoundStatement getBatteryCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return getEhrComposition(ehrExtract).getComponent()
             .stream()
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
             .filter(compoundStatement -> "BATTERY".equals(compoundStatement.getClassCode().get(0)))
             .findFirst()
             .orElseThrow();
+    }
+
+    private List<RCMRMT030101UKCompoundStatement> getBatteryCompoundStatements(RCMRMT030101UKEhrExtract ehrExtract) {
+        return getEhrComposition(ehrExtract).getComponent()
+            .stream()
+            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
+            .filter(compoundStatement -> "BATTERY".equals(compoundStatement.getClassCode().get(0)))
+            .toList();
     }
 
     @SneakyThrows
