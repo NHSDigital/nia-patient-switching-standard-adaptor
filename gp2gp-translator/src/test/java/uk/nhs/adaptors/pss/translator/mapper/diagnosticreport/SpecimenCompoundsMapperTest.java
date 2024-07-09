@@ -1,6 +1,9 @@
 package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -15,6 +18,7 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,8 +74,20 @@ public class SpecimenCompoundsMapperTest {
         assertThat(diagnosticReports.get(0).getResult()).isNotEmpty();
 
         final Reference result = diagnosticReports.get(0).getResult().get(0);
-        assertThat(result.getResource()).isNotNull();
+        assertNotNull(result.getResource());
         assertThat(result.getResource().getIdElement().getValue()).isEqualTo(OBSERVATION_STATEMENT_ID);
+    }
+
+    @Test
+    public void testHandlingSpecimenChildClusterAndBatteryCompoundStatement() {
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_with_cluster_and_battery_compound_statements.xml");
+
+        specimenCompoundsMapper.handleSpecimenChildComponents(
+            ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
+        );
+
+        assertNotNull(diagnosticReports);
+        assertThat(diagnosticReports.get(0).getResult()).hasSize(1);
     }
 
     @Test
@@ -92,10 +108,10 @@ public class SpecimenCompoundsMapperTest {
         assertThat(observationComments).hasSize(2);
         assertThat(observationComment.getComment()).isEqualTo(TEST_COMMENT_LINE_1);
         assertThat(observationComment.getRelated()).isNotEmpty();
-        assertThat(observationComment.getRelated().get(0).getTarget().getResource()).isNotNull();
+        assertNotNull(observationComment.getRelated().get(0).getTarget().getResource());
         assertThat(observationComment.getRelated().get(0).getTarget().getResource().getIdElement().getValue())
                 .isEqualTo(observation.getId());
-        assertThat(diagnosticReports.get(0).getResult().size()).isOne();
+        assertThat(diagnosticReports.get(0).getResult()).hasSize(1);
     }
 
     @Test
@@ -127,8 +143,7 @@ public class SpecimenCompoundsMapperTest {
         assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2022-03-14T18:24:45.000+00:00");
         assertThat(observationComments).hasSize(2);
         assertThat(observationComments.get(0).getRelated()).isNotEmpty();
-        assertThat(observationComments.get(0).getRelated()).isNotEmpty();
-        assertThat(observationComments.get(0).getRelated().get(0).getTarget().getResource()).isNotNull();
+        assertNotNull(observationComments.get(0).getRelated().get(0).getTarget().getResource());
         assertThat(observationComments.get(0).getRelated().get(0).getTarget().getResource().getIdElement().getValue())
                 .isEqualTo(observations.get(0).getId());
         assertThat(observations.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE);
@@ -143,7 +158,7 @@ public class SpecimenCompoundsMapperTest {
 
         assertParentSpecimenIsReferenced(observations.get(0));
         assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2022-03-14T18:24:45.000+00:00");
-        assertThat(observationComments.size()).isOne();
+        assertThat(observationComments).hasSize(1);
         assertThat(observations.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE + "\n" + TEST_COMMENT_LINE_1);
     }
 
@@ -156,12 +171,12 @@ public class SpecimenCompoundsMapperTest {
 
         final Observation observation = observations.get(0);
 
-        assertThat(observation.getIssuedElement().asStringValue()).isNull();
+        assertNull(observation.getIssuedElement().asStringValue());
     }
 
     private void assertParentSpecimenIsReferenced(Observation observation) {
-        assertThat(observation.hasSpecimen()).isTrue();
-        assertThat(observation.getSpecimen().hasReference()).isTrue();
+        assertTrue(observation.hasSpecimen());
+        assertTrue(observation.getSpecimen().hasReference());
         assertThat(observation.getSpecimen().getReference()).contains(SPECIMEN_ID);
     }
 

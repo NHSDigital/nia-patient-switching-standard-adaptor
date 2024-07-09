@@ -71,8 +71,40 @@ public class SpecimenCompoundsMapper {
                             });
                     }
 
-                    for (var clusterCompoundStatement : getCompoundStatementsInSpecimenCompound(specimenCompoundStatement,
-                        CLUSTER_CLASSCODE)) {
+                    for (var compoundStatement : getCompoundStatementsInSpecimenCompound(specimenCompoundStatement,
+                                                                                         Optional.of(CLUSTER_CLASSCODE),
+                                                                                         Optional.of(BATTERY_CLASSCODE))) {
+
+                        if (CLUSTER_CLASSCODE.equals(compoundStatement.getClassCode().get(0))) {
+                            handleClusterCompoundStatement(
+                                specimenCompoundStatement, compoundStatement, observations, observationComments, diagnosticReport,
+                                false
+                            );
+                        } else {
+                            handleBatteryCompoundStatement(
+                                specimenCompoundStatement, compoundStatement, observations, observationComments, diagnosticReport
+                            );
+
+                            final SpecimenBatteryParameters batteryParameters = SpecimenBatteryParameters.builder()
+                                .ehrExtract(ehrExtract)
+                                .batteryCompoundStatement(compoundStatement)
+                                .specimenCompoundStatement(specimenCompoundStatement)
+                                .ehrComposition(getCurrentEhrComposition(ehrExtract, diagnosticReportCompoundStatement.orElseThrow()))
+                                .diagnosticReport(diagnosticReport)
+                                .patient(patient)
+                                .encounters(encounters)
+                                .observations(observations)
+                                .observationComments(observationComments)
+                                .practiseCode(practiseCode)
+                                .build();
+
+                            batteryObservations.add(batteryMapper.mapBatteryObservation(batteryParameters));
+                        }
+
+                    }
+
+                    /*for (var clusterCompoundStatement : getCompoundStatementsInSpecimenCompound(specimenCompoundStatement,
+                                                                                                CLUSTER_CLASSCODE)) {
                         handleClusterCompoundStatement(
                             specimenCompoundStatement, clusterCompoundStatement, observations, observationComments, diagnosticReport,
                             false
@@ -99,7 +131,7 @@ public class SpecimenCompoundsMapper {
                             .build();
 
                         batteryObservations.add(batteryMapper.mapBatteryObservation(batteryParameters));
-                    }
+                    }*/
                 }
             }
         }
@@ -283,13 +315,14 @@ public class SpecimenCompoundsMapper {
     }
 
     private List<RCMRMT030101UKCompoundStatement> getCompoundStatementsInSpecimenCompound(
-        RCMRMT030101UKCompoundStatement specimenCompoundStatement, String classCode) {
+        RCMRMT030101UKCompoundStatement specimenCompoundStatement, Optional<String> clusterClassCode, Optional<String> batteryClassCode) {
 
         return specimenCompoundStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
             .map(RCMRMT030101UKComponent02::getCompoundStatement)
-            .filter(compoundStatement -> classCode.equals(compoundStatement.getClassCode().get(0)))
+            .filter(compoundStatement -> clusterClassCode.orElse("").equals(compoundStatement.getClassCode().get(0))
+                                         || batteryClassCode.orElse("").equals(compoundStatement.getClassCode().get(0)))
             .toList();
     }
 
