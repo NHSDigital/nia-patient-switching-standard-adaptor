@@ -73,7 +73,7 @@ Before cloning the project, we need to create a `.gitconfig` file.
    run in order (inside the Ubuntu terminal)
 
    ```
-   sudo apt install openjdk-17-jdk
+   sudo apt install openjdk-21-jdk
    sudo apt update
    ```
 7. Now we need to configure JAVA_HOME variable
@@ -93,15 +93,13 @@ Before cloning the project, we need to create a `.gitconfig` file.
    sudo update-alternatives --config java
    sudo apt update
    ```
-11. Use this command to check if JAVA17 is installed
+11. Use this command to check if JAVA21 is installed
    ```
    java -version   
    ```
 12. You should be presented with this:
    ```
-   openjdk version "17.0.7" 2023-04-18
-   OpenJDK Runtime Environment (build 17.0.7+7-Ubuntu-0ubuntu122.04.2)
-   OpenJDK 64-Bit Server VM (build 17.0.7+7-Ubuntu-0ubuntu122.04.2, mixed mode, sharing)
+   openjdk version "21.0.0"
    ```
 
 13. To install unzip run in the Ubuntu Terminal

@@ -1,4 +1,4 @@
-FROM gradle:8.8-jdk17
+FROM gradle:8.8-jdk21
 
 COPY --chown=gradle:gradle settings.gradle /home/gradle/service/
 COPY --chown=gradle:gradle ./common /home/gradle/service/common
