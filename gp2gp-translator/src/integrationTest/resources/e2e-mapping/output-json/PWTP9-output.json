@@ -13734,15 +13734,15 @@
       "result": [ {
         "reference": "Observation/00000000-0000-0000-0000-000000000006"
       }, {
+        "reference": "Observation/B39D6784-5532-45FB-BDCC-7F7F21A70857"
+      }, {
+        "reference": "Observation/CDC2077F-F701-47F9-AFF9-87E8C07E8C69"
+      }, {
         "reference": "Observation/05E6D1C6-9B66-4D02-8FC3-C5CF3CC0EB1C"
       }, {
         "reference": "Observation/CFAF8307-C6B6-4EB4-A69D-81DDE4D2CD91"
       }, {
         "reference": "Observation/45F8816D-FC99-4131-ABE6-01CD8A8DE49C"
-      }, {
-        "reference": "Observation/B39D6784-5532-45FB-BDCC-7F7F21A70857"
-      }, {
-        "reference": "Observation/CDC2077F-F701-47F9-AFF9-87E8C07E8C69"
       } ],
       "conclusion": "                                                                    Clinical Details:\n                                                                    NOTE:Specimen date"
     }
@@ -13781,13 +13781,13 @@
       "result": [ {
         "reference": "Observation/00000000-0000-0000-0000-000000000007"
       }, {
+        "reference": "Observation/15A8BA89-FF03-4880-B540-613745F6BFE3"
+      }, {
         "reference": "Observation/471FD197-79B8-47C0-B5D1-6A4AFBA3D31D"
       }, {
         "reference": "Observation/59F968AD-21F1-4B97-96DE-D1AE22091132"
       }, {
         "reference": "Observation/36DA8895-114B-40D6-9FA1-82B543D86893"
-      }, {
-        "reference": "Observation/15A8BA89-FF03-4880-B540-613745F6BFE3"
       } ]
     }
   }, {
@@ -13864,11 +13864,11 @@
       "result": [ {
         "reference": "Observation/00000000-0000-0000-0000-000000000008"
       }, {
+        "reference": "Observation/0F1AD848-FA61-4278-B273-048B0E247D39"
+      }, {
         "reference": "Observation/768BF90A-8E36-49D0-9D29-BD3FF0DE733D"
       }, {
         "reference": "Observation/69832EFE-727E-4270-BDF5-179851BDF295"
-      }, {
-        "reference": "Observation/0F1AD848-FA61-4278-B273-048B0E247D39"
       } ],
       "conclusion": "                                                                    Infection"
     }
@@ -13905,6 +13905,8 @@
         "reference": "Specimen/EC494B1A-FFEF-41E2-94AB-B287AE516361"
       } ],
       "result": [ {
+        "reference": "Observation/8DDBEE57-3545-490B-BE7F-EEB352A5BB6F"
+      }, {
         "reference": "Observation/E956E311-2809-400A-97E1-73F6CD15F98A"
       }, {
         "reference": "Observation/701F4CF2-3A60-4117-9DF5-8178D4FCA019"
@@ -13924,8 +13926,6 @@
         "reference": "Observation/CF963013-BE3D-4845-865A-05722B1DB292"
       }, {
         "reference": "Observation/D04342AD-DD02-40A4-AE8B-CBB62588B448"
-      }, {
-        "reference": "Observation/8DDBEE57-3545-490B-BE7F-EEB352A5BB6F"
       } ]
     }
   }, {
@@ -13961,11 +13961,11 @@
         "reference": "Specimen/EFB6D2BC-B95B-42DE-A021-6C83225E7BAC"
       } ],
       "result": [ {
-        "reference": "Observation/5578BCAA-4C60-482E-ADFD-095CC8CAB102"
-      }, {
         "reference": "Observation/EBEDD7EA-EE7A-4632-BEE4-FDDA9B4D4B11"
       }, {
         "reference": "Observation/2418B6B6-C4C0-46CB-9030-5B7DD39C80FC"
+      }, {
+        "reference": "Observation/5578BCAA-4C60-482E-ADFD-095CC8CAB102"
       } ],
       "conclusion": "                                                                    No clinical details given"
     }
