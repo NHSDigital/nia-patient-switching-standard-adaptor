@@ -30,7 +30,7 @@ public class ApplicationCommandLineRunnerTest {
     }
 
     @Test
-    public void When_RunApplicationAndImmunizationsNotLoaded_Expect_RuntimeExceptionThrown() {
+    public void When_RunApplicationAndImmunizationsNotLoaded_Expect_DataAccessExceptionThrown() {
         when(immunizationSnomedCTDao.areImmunizationCodesLoaded()).thenReturn(false);
 
         assertThrows(DataAccessException.class, () -> applicationCommandLineRunner.run());
