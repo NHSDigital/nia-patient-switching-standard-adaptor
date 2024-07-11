@@ -57,7 +57,9 @@ public class SpecimenCompoundsMapper {
         List<Observation> observations,
         List<Observation> observationComments,
         List<DiagnosticReport> diagnosticReports,
-        Patient patient, List<Encounter> encounters, String practiseCode
+        Patient patient,
+        List<Encounter> encounters,
+        String practiseCode
     ) {
         final List<Observation> batteryObservations = new ArrayList<>();
 
@@ -131,13 +133,12 @@ public class SpecimenCompoundsMapper {
         DiagnosticReport diagnosticReport,
         RCMRMT030101UKCompoundStatement specimenCompoundStatement
     ) {
-        for (var specimenObservationStatement : getObservationStatementsInCompound(specimenCompoundStatement)) {
+        getObservationStatementsInCompound(specimenCompoundStatement).forEach(specimenObservationStatement ->
             getObservationById(observations, specimenObservationStatement.getId().getRoot())
-                .ifPresent(observation -> {
-                    handleObservationStatement(specimenCompoundStatement, specimenObservationStatement, observation);
-                    DiagnosticReportMapper.addResultToDiagnosticReport(observation, diagnosticReport);
-                });
-        }
+            .ifPresent(observation -> {
+                handleObservationStatement(specimenCompoundStatement, specimenObservationStatement, observation);
+                DiagnosticReportMapper.addResultToDiagnosticReport(observation, diagnosticReport);
+            }));
     }
 
     private void handleObservationStatement(RCMRMT030101UKCompoundStatement specimenCompoundStatement,

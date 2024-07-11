@@ -170,7 +170,7 @@ public class SpecimenCompoundsMapperTest {
     }
 
     @Test public void testOrderingIsPreservedForDiagnosticReportResults() {
-        final RCMRMT030101UKEhrExtract  ehrExtract =
+        final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtract("specimen_with_three_test_group_headers.xml");
 
         final var testObservations = List.of(
@@ -204,6 +204,7 @@ public class SpecimenCompoundsMapperTest {
             List.of(),
             TEST_PRACTISE_CODE
         );
+
         var diagnosticReport = diagnosticReports.get(0);
 
         assertAll(
