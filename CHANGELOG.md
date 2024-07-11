@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
-* The AllergyIntoleranceMapper and EncounterMapper has been enhanced to support the redaction fix. If any of these includes a confidentialityCode, the meta.security field of the corresponding FHIR resource will now be appropriately populated.
+* The AllergyIntoleranceMapper and EncounterMapper has been enhanced to support the redaction fix. If any of these include a confidentialityCode, the meta.security field of the corresponding FHIR resource will now be appropriately populated.
 
 ### Fixed
 * DiagnosticReports now preserves original ordering for mapped result references.
