@@ -5,34 +5,25 @@ import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@ContextConfiguration(classes = {
-    ConfidentialityService.class
-})
 class ConfidentialityServiceTest {
     private static final String DUMMY_PROFILE = "MyProfile-1";
     private static final String DUMMY_PROFILE_URI;
     private static final CV ALTERNATIVE_CV;
     private static final CV NOPAT_CV;
 
+    private static ConfidentialityService confidentialityService;
+
     static {
         DUMMY_PROFILE_URI = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-%s"
             .formatted(DUMMY_PROFILE);
-    }
 
-    @Autowired
-    private ConfidentialityService confidentialityService;
-
-    static {
         NOPAT_CV = new CV();
         NOPAT_CV.setCode("NOPAT");
         NOPAT_CV.setCodeSystem("http://hl7.org/fhir/v3/ActCode");
@@ -42,6 +33,11 @@ class ConfidentialityServiceTest {
         ALTERNATIVE_CV.setCode("NOSCRUB");
         ALTERNATIVE_CV.setCodeSystem("http://hl7.org/fhir/v3/ActCode");
         ALTERNATIVE_CV.setDisplayName("no scrubbing of the patient, family or caregivers without attending provider's authorization");
+    }
+
+    @BeforeAll
+    static void beforeAll() {
+        confidentialityService = new ConfidentialityService();
     }
 
     @Test
