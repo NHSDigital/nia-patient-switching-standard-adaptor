@@ -47,8 +47,12 @@ An example of one of these codes in the [SNOMED CT Browser](https://termbrowser.
 
 ![immunization_not_in_hierarchy_example.png](immunization_not_in_hierarchy_example.png)
 
-However, the reference set used to build the immunization codes still includes inactive relationships so these will
-we included when building the descendants of immunization root codes.
+However, the reference set used to build the immunization codes still includes inactive relationships, so these will be 
+included when building the descendants of immunization root codes.
+
+If the immunization codes have not been loaded successfully into the SNOMED DB then a DataAccessException with the
+message `"FATAL: Database not set up correctly. Immunization codes are not loaded."` will be thrown during 
+initialization of the GP2GP Translator Service and the service will then terminate.
 
 ## Minimum Specification
 
