@@ -11,17 +11,13 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-import org.hl7.fhir.dstu3.model.DomainResource;
-import org.hl7.fhir.dstu3.model.Encounter;
+
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
-import org.hl7.fhir.dstu3.model.ListResource;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 
@@ -39,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
@@ -98,6 +95,9 @@ public class EncounterMapperTest {
     @Mock
     private ResourceReferenceUtil resourceReferenceUtil;
 
+    @Mock
+    private ConfidentialityService confidentialityService;
+
     @InjectMocks
     private EncounterMapper encounterMapper;
 
@@ -108,6 +108,17 @@ public class EncounterMapperTest {
     private static final String LOCATION_ID =  "3";
 
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
+
+    private static final Meta META;
+
+    static {
+        META = new Meta();
+        META.setProfile(
+            List.of(
+                new UriType(ENCOUNTER_META_PROFILE)
+            )
+        );
+    }
 
     @BeforeEach
     public void setup() {
@@ -138,6 +149,9 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         var ehrExtract = unmarshallEhrExtractElement(ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -160,6 +174,9 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -189,6 +206,9 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -214,6 +234,9 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -247,11 +270,14 @@ public class EncounterMapperTest {
     @Test
     public void testValidEncounterWithLinkSetWithStructuredConsultation() {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
-                                                      .thenReturn(getList());
+            .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
-                                                .thenReturn(getList());
+            .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
-                                                   .thenReturn(getList());
+            .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -302,6 +328,9 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_LINK_SET_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -335,6 +364,9 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -365,6 +397,9 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_FLAT_ENCOUNTER_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -396,6 +431,9 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_RESOURCES_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -434,6 +472,9 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_RESOURCES_XML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
@@ -467,6 +508,9 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
+        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+            .thenReturn(META);
+
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
