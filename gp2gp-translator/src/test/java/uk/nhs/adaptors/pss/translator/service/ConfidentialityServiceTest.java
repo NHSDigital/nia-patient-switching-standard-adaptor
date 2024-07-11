@@ -24,15 +24,17 @@ class ConfidentialityServiceTest {
         DUMMY_PROFILE_URI = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-%s"
             .formatted(DUMMY_PROFILE);
 
-        NOPAT_CV = new CV();
-        NOPAT_CV.setCode("NOPAT");
-        NOPAT_CV.setCodeSystem("http://hl7.org/fhir/v3/ActCode");
-        NOPAT_CV.setDisplayName("no disclosure to patient, family or caregivers without attending provider's authorization");
+        NOPAT_CV = createCv(
+            "NOPAT",
+            "http://hl7.org/fhir/v3/ActCode",
+            "no disclosure to patient, family or caregivers without attending provider's authorization"
+        );
 
-        ALTERNATIVE_CV = new CV();
-        ALTERNATIVE_CV.setCode("NOSCRUB");
-        ALTERNATIVE_CV.setCodeSystem("http://hl7.org/fhir/v3/ActCode");
-        ALTERNATIVE_CV.setDisplayName("no scrubbing of the patient, family or caregivers without attending provider's authorization");
+        ALTERNATIVE_CV = createCv(
+            "NOSCRUB",
+            "http://hl7.org/fhir/v3/FakeCode",
+            "no scrubbing of the patient, family or caregivers without attending provider's authorization"
+        );
     }
 
     @BeforeAll
@@ -120,5 +122,13 @@ class ConfidentialityServiceTest {
 
         assertThat(result.getSecurity().size()).isEqualTo(0);
         assertThat(result.getProfile().get(0).getValue()).isEqualTo(DUMMY_PROFILE_URI);
+    }
+
+    private static CV createCv(String code, String codeSystem, String displayName) {
+        final CV cv = new CV();
+        cv.setCode(code);
+        cv.setCodeSystem(codeSystem);
+        cv.setDisplayName(displayName);
+        return cv;
     }
 }
