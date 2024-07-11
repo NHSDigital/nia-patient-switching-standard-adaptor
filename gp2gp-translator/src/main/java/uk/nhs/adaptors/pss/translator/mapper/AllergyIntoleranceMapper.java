@@ -39,9 +39,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
-import uk.nhs.adaptors.pss.translator.util.builder.MetaBuilder;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -59,6 +59,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     public static final String RECORDER = "recorder";
 
     private final CodeableConceptMapper codeableConceptMapper;
+    private final ConfidentialityService confidentialityService;
 
     @Override
     public List<AllergyIntolerance> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
@@ -90,12 +91,13 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 .getId()
                 .getRoot();
 
-        final Meta meta = new MetaBuilder()
-            .withInitialMeta(() -> generateMeta(META_PROFILE))
-            .withSecurityIfConfidentialityCodesPresent(
+        final Meta meta = confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(
+            List.of(
                 ehrComposition.getConfidentialityCode(),
                 observationStatement.getConfidentialityCode()
-            ).build();
+            ),
+            generateMeta(META_PROFILE)
+        );
 
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
