@@ -10,7 +10,6 @@ import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTime
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.fetchRecorderAndAsserter;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
 import java.util.Objects;
@@ -91,12 +90,12 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 .getId()
                 .getRoot();
 
-        final Meta meta = confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             List.of(
                 ehrComposition.getConfidentialityCode(),
                 observationStatement.getConfidentialityCode()
             ),
-            generateMeta(META_PROFILE)
+            META_PROFILE
         );
 
         allergyIntolerance

@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
+
 @Service
 public class ConfidentialityService {
     private static final Coding CONFIDENTIALITY_CODING = new Coding()
@@ -16,7 +18,8 @@ public class ConfidentialityService {
         .setCode("NOPAT")
         .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization");
 
-    public Meta addSecurityToMetaIfConfidentialityCodesPresent(Collection<Optional<CV>> confidentialityCodes, Meta meta) {
+    public Meta createMetaAndAddSecurityIfConfidentialityCodesPresent(Collection<Optional<CV>> confidentialityCodes, String metaProfile) {
+        final Meta meta = generateMeta(metaProfile);
         final boolean isCodePresent = confidentialityCodes.stream()
             .filter(Optional::isPresent)
             .map(Optional::get)
