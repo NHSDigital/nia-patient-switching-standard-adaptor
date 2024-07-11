@@ -7,9 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 * The AllergyIntoleranceMapper has been enhanced to support the redaction fix. If an Allergy Intolerance record includes a confidentialityCode, the meta.security field of the corresponding FHIR resource will now be appropriately populated.
-* **BREAKING CHANGE**: The GP2GP Translator Service will now exit and throw a DataAccessException with a message of
-`"FATAL: Database not set up correctly. Immunization codes are not loaded."` when the SNOMED DB ingest script has not 
-completed successfully.
+* When the SNOMED DB ingest script has not completed successfully, The GP2GP Translator Service will now exit and throw a
+RuntimeException with the following message:
+```
+FATAL: Expected Immunization codes not found in snomedct.immunization_codes view.
+SNOMED CT Database not set up correctly.
+Please update / reload the SNOMED DB.
+``` 
 
 ### Fixed
 * DiagnosticReports now preserves original ordering for mapped result references.
