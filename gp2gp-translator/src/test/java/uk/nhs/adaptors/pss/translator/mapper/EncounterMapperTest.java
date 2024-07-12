@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.lenient;
@@ -15,8 +14,10 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.DomainResource;
@@ -30,6 +31,7 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 
+import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -43,7 +45,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
@@ -65,7 +66,7 @@ public class EncounterMapperTest {
     private static final String TOPIC_KEY = "topics";
     private static final String CATEGORY_KEY = "categories";
     private static final String LOCATION_PREFIX = "Location/";
-    private static final String ENCOUNTER_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Encounter-1";
+    private static final String META_PROFILE = "Encounter-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String PATIENT_ID = "0E6F45F0-8D7B-11EC-B1E5-0800200C9A66";
@@ -122,16 +123,11 @@ public class EncounterMapperTest {
 
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
 
-    private static final Meta META;
-
-    static {
-        META = new Meta();
-        META.setProfile(
-            List.of(
-                new UriType(ENCOUNTER_META_PROFILE)
-            )
-        );
-    }
+    private static final Meta META = new Meta().setProfile(
+        Collections.singletonList(
+            new UriType(META_PROFILE)
+        )
+    );
 
     @BeforeEach
     public void setup() {
@@ -162,7 +158,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML);
@@ -177,6 +173,7 @@ public class EncounterMapperTest {
         assertThat(mappedResources.get(TOPIC_KEY)).hasSize(TWO_MAPPED_RESOURCES);
         assertThat(mappedResources.get(CATEGORY_KEY)).hasSize(ONE_MAPPED_RESOURCE);
         assertThat(encounterList).hasSize(1);
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @Test
@@ -187,7 +184,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
@@ -205,6 +202,7 @@ public class EncounterMapperTest {
 
         assertThat(encounter.getType().get(0).getCodingFirstRep().getDisplay())
             .isEqualTo(CODING_DISPLAY);
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @Test
@@ -219,7 +217,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
@@ -237,6 +235,7 @@ public class EncounterMapperTest {
 
         assertThat(encounter.getType().get(0).getCodingFirstRep())
             .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @Test
@@ -247,7 +246,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
@@ -264,7 +263,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -278,6 +277,7 @@ public class EncounterMapperTest {
         assertThat(category.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(topic.getEntryFirstRep().getItem().getReference())
             .isEqualTo(ENCOUNTER_ID);
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @Test
@@ -288,7 +288,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
@@ -308,8 +308,7 @@ public class EncounterMapperTest {
                 encounter,
                 "2485BC20-90B4-11EC-B1E5-0800200C9A66",
                 true, "2010-01-13T15:20:00+00:00",
-                "2010-01-13T15:20:00+00:00",
-                LOCATION_ID
+                "2010-01-13T15:20:00+00:00"
         );
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
@@ -333,6 +332,7 @@ public class EncounterMapperTest {
         assertThat(category.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(topic.getEntryFirstRep().getItem().getReference())
             .isEqualTo(ENCOUNTER_ID);
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @Test
@@ -341,7 +341,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_LINK_SET_XML);
@@ -358,7 +358,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -369,6 +369,7 @@ public class EncounterMapperTest {
 
         var relatedProblemExt = topic.getExtensionsByUrl(RELATED_PROBLEM_EXT_URL);
         assertThat(relatedProblemExt).isEmpty();
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @Test
@@ -377,7 +378,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_XML);
@@ -394,7 +395,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -402,6 +403,7 @@ public class EncounterMapperTest {
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @Test
@@ -410,7 +412,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_FLAT_ENCOUNTER_XML);
@@ -426,7 +428,7 @@ public class EncounterMapperTest {
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
-        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, null, null, LOCATION_ID);
+        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, null, null);
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -434,6 +436,7 @@ public class EncounterMapperTest {
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @Test
@@ -444,7 +447,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_RESOURCES_XML);
@@ -461,7 +464,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "2485BC20-90B4-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -476,7 +479,9 @@ public class EncounterMapperTest {
         assertThat(topic.getEntryFirstRep().getItem().getReference())
             .isEqualTo(ENCOUNTER_ID);
 
-        verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromCompoundStatement(any(), any());
+        verify(resourceReferenceUtil, atLeast(1))
+            .extractChildReferencesFromCompoundStatement(any(), any());
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @Test
@@ -485,7 +490,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_RESOURCES_XML);
@@ -502,7 +507,7 @@ public class EncounterMapperTest {
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
 
         assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", true,
-            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00", LOCATION_ID);
+            "2010-01-13T15:20:00+00:00", "2010-01-13T15:20:00+00:00");
 
         var consultation = (ListResource) mappedResources.get(CONSULTATION_KEY).get(0);
         assertThat(consultation.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
@@ -511,17 +516,19 @@ public class EncounterMapperTest {
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
 
-        verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromEhrComposition(any(), any());
+        verify(resourceReferenceUtil, atLeast(1))
+            .extractChildReferencesFromEhrComposition(any(), any());
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @ParameterizedTest
     @MethodSource("encounterPeriodTestFiles")
-    public void testEncounterPeriod(String inputXML, String startDate, String endDate) {
+    public void testEncounterPeriod(String inputXML, String startDate, String endDate)   {
         when(consultationListMapper.mapToConsultation(any(RCMRMT030101UKEhrComposition.class), any(Encounter.class)))
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
             .thenReturn(META);
 
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
@@ -534,20 +541,8 @@ public class EncounterMapperTest {
         assertThat(encounterList.size()).isOne();
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
-        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, startDate, endDate, LOCATION_ID);
-    }
-
-    private static Stream<Arguments> encounterPeriodTestFiles() {
-        return Stream.of(
-            Arguments.of(EFFECTIVE_CENTER_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
-            Arguments.of(EFFECTIVE_LOW_AND_HIGH_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", "2015-01-13T15:20:00+00:00"),
-            Arguments.of(EFFECTIVE_LOW_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
-            Arguments.of(EFFECTIVE_HIGH_ENCOUNTER_PERIOD_XML, null, "2010-01-13T15:20:00+00:00"),
-            Arguments.of(EFFECTIVE_CENTER_UNK_NULL_FLAVOR_ENCOUNTER_PERIOD_XML, null, null),
-            Arguments.of(AVAILABILITY_TIME_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
-            Arguments.of(NO_ENCOUNTER_PERIOD_XML, "2012-06-15T14:20:00+00:00", null),
-            Arguments.of(NULL_FLAVOR_EFFECTIVE_TIMES_XML, "2010-01-13T15:20:00+00:00", null)
-        );
+        assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, startDate, endDate);
+        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
     }
 
     @ParameterizedTest
@@ -565,6 +560,19 @@ public class EncounterMapperTest {
         assertThat(mappedResources.get(CATEGORY_KEY)).isEmpty();
     }
 
+    private static Stream<Arguments> encounterPeriodTestFiles() {
+        return Stream.of(
+            Arguments.of(EFFECTIVE_CENTER_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
+            Arguments.of(EFFECTIVE_LOW_AND_HIGH_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", "2015-01-13T15:20:00+00:00"),
+            Arguments.of(EFFECTIVE_LOW_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
+            Arguments.of(EFFECTIVE_HIGH_ENCOUNTER_PERIOD_XML, null, "2010-01-13T15:20:00+00:00"),
+            Arguments.of(EFFECTIVE_CENTER_UNK_NULL_FLAVOR_ENCOUNTER_PERIOD_XML, null, null),
+            Arguments.of(AVAILABILITY_TIME_ENCOUNTER_PERIOD_XML, "2010-01-13T15:20:00+00:00", null),
+            Arguments.of(NO_ENCOUNTER_PERIOD_XML, "2012-06-15T14:20:00+00:00", null),
+            Arguments.of(NULL_FLAVOR_EFFECTIVE_TIMES_XML, "2010-01-13T15:20:00+00:00", null)
+        );
+    }
+
     private static Stream<Arguments> invalidEhrCompositionTestFiles() {
         return Stream.of(
             Arguments.of(INVALID_ENCOUNTER_CODE_1_XML),
@@ -579,23 +587,22 @@ public class EncounterMapperTest {
             String id,
             Boolean hasLocation,
             String startDate,
-            String endDate,
-            String locationId
+            String endDate
     ) {
         assertThat(encounter.getId()).isEqualTo(id);
-        assertThat(encounter.getMeta().getProfile().get(0).getValue()).isEqualTo(ENCOUNTER_META_PROFILE);
+        assertThat(encounter.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
         assertThat(encounter.getIdentifierFirstRep().getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
         assertThat(encounter.getIdentifierFirstRep().getValue()).isEqualTo(id);
         assertThat(encounter.getStatus()).isEqualTo(EncounterStatus.FINISHED);
         assertThat(encounter.getSubject().getResource()).isEqualTo(patient);
-        assertLocation(encounter, locationId, hasLocation);
+        assertLocation(encounter, hasLocation);
         assertPeriod(encounter.getPeriod(), startDate, endDate);
     }
 
-    private void assertLocation(Encounter encounter, String id, boolean hasLocation) {
+    private void assertLocation(Encounter encounter, boolean hasLocation) {
         if (hasLocation) {
             assertThat(encounter.getLocationFirstRep().getLocation().getReference())
-                .isEqualTo(LOCATION_PREFIX + id);
+                .isEqualTo(LOCATION_PREFIX + EncounterMapperTest.LOCATION_ID);
         } else {
             assertThat(encounter.getLocation()).isEmpty();
         }
@@ -610,12 +617,9 @@ public class EncounterMapperTest {
 
         var codeableConcept = createCodeableConcept(null, SNOMED_SYSTEM, CODING_DISPLAY);
         lenient().when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
-        lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
-            @Override
-            public Boolean answer(InvocationOnMock invocation) throws Throwable {
-                String code = invocation.getArgument(0);
-                return code.equals("1664081000000114");
-            }
+        lenient().when(immunizationChecker.isImmunization(any())).thenAnswer((Answer<Boolean>) invocation -> {
+            String code = invocation.getArgument(0);
+            return code.equals("1664081000000114");
         });
     }
 
@@ -630,5 +634,11 @@ public class EncounterMapperTest {
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
+    }
+
+    @SafeVarargs
+    private void verifyCreateMetaAndAddSecurityCalled(Optional<CV>... cvs) {
+        verify(confidentialityService)
+            .createMetaAndAddSecurityIfConfidentialityCodesPresent(META_PROFILE, cvs);
     }
 }
