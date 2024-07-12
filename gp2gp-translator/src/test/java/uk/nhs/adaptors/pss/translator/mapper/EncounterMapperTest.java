@@ -2,31 +2,45 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
+
+import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.hl7.fhir.dstu3.model.*;
+import org.hl7.fhir.dstu3.model.DomainResource;
+import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
+import org.hl7.fhir.dstu3.model.ListResource;
+import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Meta;
+import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Period;
+import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.UriType;
+
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
-
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
@@ -34,11 +48,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import lombok.SneakyThrows;
+
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
-import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
 public class EncounterMapperTest {
@@ -148,7 +162,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML);
@@ -173,7 +187,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
@@ -205,7 +219,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
@@ -233,7 +247,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
@@ -274,7 +288,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
@@ -327,7 +341,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_LINK_SET_XML);
@@ -363,7 +377,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_XML);
@@ -396,7 +410,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_FLAT_ENCOUNTER_XML);
@@ -430,7 +444,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_RESOURCES_XML);
@@ -471,7 +485,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_RESOURCES_XML);
@@ -507,7 +521,7 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.addSecurityToMetaIfConfidentialityCodesPresent(any(), any(Meta.class)))
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), anyString()))
             .thenReturn(META);
 
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
