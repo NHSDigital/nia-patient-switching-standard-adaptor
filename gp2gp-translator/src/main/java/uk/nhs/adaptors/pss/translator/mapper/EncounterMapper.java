@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -293,8 +292,8 @@ public class EncounterMapper {
         var encounter = new Encounter();
 
         final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            Collections.singletonList(ehrComposition.getConfidentialityCode()),
-            ENCOUNTER_META_PROFILE
+            ENCOUNTER_META_PROFILE,
+            ehrComposition.getConfidentialityCode()
         );
 
         encounter

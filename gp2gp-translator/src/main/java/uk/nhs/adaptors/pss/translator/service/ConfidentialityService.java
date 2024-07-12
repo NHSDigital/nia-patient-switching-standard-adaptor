@@ -5,7 +5,7 @@ import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.v3.CV;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -18,9 +18,10 @@ public class ConfidentialityService {
         .setCode("NOPAT")
         .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization");
 
-    public Meta createMetaAndAddSecurityIfConfidentialityCodesPresent(Collection<Optional<CV>> confidentialityCodes, String metaProfile) {
+    @SafeVarargs
+    public final Meta createMetaAndAddSecurityIfConfidentialityCodesPresent(String metaProfile, Optional<CV>... cvs) {
         final Meta meta = generateMeta(metaProfile);
-        final boolean isCodePresent = confidentialityCodes.stream()
+        final boolean isCodePresent = Arrays.stream(cvs)
             .filter(Optional::isPresent)
             .map(Optional::get)
             .anyMatch(this::isNopat);

@@ -8,8 +8,6 @@ import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ConfidentialityServiceTest {
@@ -47,8 +45,8 @@ class ConfidentialityServiceTest {
         final RCMRMT030101UKEhrComposition ehrComposition = new RCMRMT030101UKEhrComposition();
         ehrComposition.setConfidentialityCode(NOPAT_CV);
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            Collections.singletonList((ehrComposition.getConfidentialityCode())),
-            DUMMY_PROFILE
+            DUMMY_PROFILE,
+            ehrComposition.getConfidentialityCode()
         );
 
         assertThat(result.getSecurity().size()).isEqualTo(1);
@@ -63,8 +61,8 @@ class ConfidentialityServiceTest {
         final RCMRMT030101UKEhrComposition ehrComposition = new RCMRMT030101UKEhrComposition();
         ehrComposition.setConfidentialityCode(ALTERNATIVE_CV);
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            Collections.singletonList((ehrComposition.getConfidentialityCode())),
-            DUMMY_PROFILE
+            DUMMY_PROFILE,
+            ehrComposition.getConfidentialityCode()
         );
 
         assertThat(result.getSecurity().size()).isEqualTo(0);
@@ -75,8 +73,8 @@ class ConfidentialityServiceTest {
     void Given_EhrCompositionWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
         final RCMRMT030101UKEhrComposition ehrComposition = new RCMRMT030101UKEhrComposition();
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            Collections.singletonList((ehrComposition.getConfidentialityCode())),
-            DUMMY_PROFILE
+            DUMMY_PROFILE,
+            ehrComposition.getConfidentialityCode()
         );
 
         assertThat(result.getSecurity().size()).isEqualTo(0);
@@ -88,8 +86,8 @@ class ConfidentialityServiceTest {
         final RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
         observationStatement.setConfidentialityCode(NOPAT_CV);
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            Collections.singletonList((observationStatement.getConfidentialityCode())),
-            DUMMY_PROFILE
+            DUMMY_PROFILE,
+            observationStatement.getConfidentialityCode()
         );
 
         assertThat(result.getSecurity().size()).isEqualTo(1);
@@ -104,8 +102,8 @@ class ConfidentialityServiceTest {
         final RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
         observationStatement.setConfidentialityCode(ALTERNATIVE_CV);
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            Collections.singletonList((observationStatement.getConfidentialityCode())),
-            DUMMY_PROFILE
+            DUMMY_PROFILE,
+            observationStatement.getConfidentialityCode()
         );
 
         assertThat(result.getSecurity().size()).isEqualTo(0);
@@ -116,8 +114,8 @@ class ConfidentialityServiceTest {
     void Given_ObservationStatementWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
         final RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            Collections.singletonList((observationStatement.getConfidentialityCode())),
-            DUMMY_PROFILE
+            DUMMY_PROFILE,
+            observationStatement.getConfidentialityCode()
         );
 
         assertThat(result.getSecurity().size()).isEqualTo(0);
