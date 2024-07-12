@@ -2,7 +2,7 @@
 
 ## Requirements:
 
-* JDK 17 - We develop the adaptor in Java with Spring Boot
+* JDK 21 - We develop the adaptor in Java with Spring Boot
 * Docker
 * Version 38.2 of the SNOMED CT UK Edition monolith zip file.
   See [First Installation](./OPERATING.md#populating-the-snomed-database) for instructions on how to download.
