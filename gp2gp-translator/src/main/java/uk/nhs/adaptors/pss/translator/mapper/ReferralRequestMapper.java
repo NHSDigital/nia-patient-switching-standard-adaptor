@@ -67,7 +67,8 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             extractAllRequestStatements(component)
                 .filter(Objects::nonNull)
                 .filter(this::isNotSelfReferral)
-                .map(requestStatement -> mapToReferralRequest(ehrExtract, composition, requestStatement, patient, encounters, practiseCode)))
+                .map(requestStatement
+                         -> mapToReferralRequest(ehrExtract, composition, requestStatement, patient, encounters, practiseCode)))
             .toList();
     }
 

@@ -71,7 +71,8 @@ public class ReferralRequestMapperTest {
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_with_referral_request.xml");
 
-        var referralRequest = mapReferralRequest(ehrExtract, ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition(),
+        var referralRequest = mapReferralRequest(ehrExtract,
+                                                 ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition(),
                                                  composition -> composition.getComponent().get(0).getRequestStatement());
 
         assertAll(
