@@ -3,11 +3,8 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -45,6 +42,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
@@ -148,6 +146,11 @@ public class EncounterMapperTest {
         location3.setId(LOCATION_ID);
 
         entryLocations = List.of(location1, location2, location3);
+
+        Mockito.lenient()
+            .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                any(String.class), any(Optional.class)
+            )).thenReturn(META);
     }
 
     @Test
@@ -158,8 +161,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(ENCOUNTER_WITH_MULTIPLE_COMPOUND_STATEMENTS_XML);
 
@@ -173,7 +174,7 @@ public class EncounterMapperTest {
         assertThat(mappedResources.get(TOPIC_KEY)).hasSize(TWO_MAPPED_RESOURCES);
         assertThat(mappedResources.get(CATEGORY_KEY)).hasSize(ONE_MAPPED_RESOURCE);
         assertThat(encounterList).hasSize(1);
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @Test
@@ -184,8 +185,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
@@ -202,7 +201,7 @@ public class EncounterMapperTest {
 
         assertThat(encounter.getType().get(0).getCodingFirstRep().getDisplay())
             .isEqualTo(CODING_DISPLAY);
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @Test
@@ -217,8 +216,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
@@ -235,7 +232,7 @@ public class EncounterMapperTest {
 
         assertThat(encounter.getType().get(0).getCodingFirstRep())
             .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @Test
@@ -246,8 +243,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_XML);
 
@@ -277,7 +272,7 @@ public class EncounterMapperTest {
         assertThat(category.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(topic.getEntryFirstRep().getItem().getReference())
             .isEqualTo(ENCOUNTER_ID);
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @Test
@@ -288,8 +283,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_LINKSET_XML);
 
@@ -332,7 +325,7 @@ public class EncounterMapperTest {
         assertThat(category.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(topic.getEntryFirstRep().getItem().getReference())
             .isEqualTo(ENCOUNTER_ID);
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @Test
@@ -341,8 +334,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_LINK_SET_XML);
 
@@ -369,7 +360,7 @@ public class EncounterMapperTest {
 
         var relatedProblemExt = topic.getExtensionsByUrl(RELATED_PROBLEM_EXT_URL);
         assertThat(relatedProblemExt).isEmpty();
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @Test
@@ -378,8 +369,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_XML);
 
@@ -403,7 +392,7 @@ public class EncounterMapperTest {
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @Test
@@ -412,8 +401,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(NO_OPTIONAL_FLAT_ENCOUNTER_XML);
 
@@ -436,7 +423,7 @@ public class EncounterMapperTest {
         var topic = (ListResource) mappedResources.get(TOPIC_KEY).get(0);
         assertThat(topic.getEncounter().getReference()).isEqualTo(ENCOUNTER_ID);
         assertThat(consultation.getEntryFirstRep().getItem().getReference()).isEqualTo(ENCOUNTER_ID);
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @Test
@@ -447,8 +434,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToCategory(any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class)))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_STRUCTURED_ENCOUNTER_WITH_RESOURCES_XML);
 
@@ -481,7 +466,7 @@ public class EncounterMapperTest {
 
         verify(resourceReferenceUtil, atLeast(1))
             .extractChildReferencesFromCompoundStatement(any(), any());
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @Test
@@ -490,8 +475,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         var ehrExtract = unmarshallEhrExtractElement(FULL_VALID_FLAT_ENCOUNTER_WITH_RESOURCES_XML);
 
@@ -518,7 +501,7 @@ public class EncounterMapperTest {
 
         verify(resourceReferenceUtil, atLeast(1))
             .extractChildReferencesFromEhrComposition(any(), any());
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @ParameterizedTest
@@ -528,8 +511,6 @@ public class EncounterMapperTest {
             .thenReturn(getList());
         when(consultationListMapper.mapToTopic(any(ListResource.class), isNull()))
             .thenReturn(getList());
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(any(), any(Optional.class)))
-            .thenReturn(META);
 
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractElement(inputXML);
 
@@ -542,7 +523,7 @@ public class EncounterMapperTest {
 
         var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
         assertEncounter(encounter, "5EB5D070-8FE1-11EC-B1E5-0800200C9A66", false, startDate, endDate);
-        verifyCreateMetaAndAddSecurityCalled(Optional.empty());
+        verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
     }
 
     @ParameterizedTest
@@ -637,8 +618,8 @@ public class EncounterMapperTest {
     }
 
     @SafeVarargs
-    private void verifyCreateMetaAndAddSecurityCalled(Optional<CV>... cvs) {
-        verify(confidentialityService)
+    private void verifyCreateMetaAndAddSecurityCalled(int expectedCalls, Optional<CV>... cvs) {
+        verify(confidentialityService, times(expectedCalls))
             .createMetaAndAddSecurityIfConfidentialityCodesPresent(META_PROFILE, cvs);
     }
 }

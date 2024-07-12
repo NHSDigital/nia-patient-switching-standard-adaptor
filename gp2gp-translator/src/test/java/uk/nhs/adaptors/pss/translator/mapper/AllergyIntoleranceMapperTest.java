@@ -576,8 +576,8 @@ class AllergyIntoleranceMapperTest {
     }
 
     @SafeVarargs
-    private void verifyCreateMetaAndAddSecurityCalled(int times, Optional<CV>... cvs) {
-        verify(confidentialityService, times(times))
+    private void verifyCreateMetaAndAddSecurityCalled(int expectedCalls, Optional<CV>... cvs) {
+        verify(confidentialityService, times(expectedCalls))
             .createMetaAndAddSecurityIfConfidentialityCodesPresent(META_PROFILE, cvs);
     }
 }
