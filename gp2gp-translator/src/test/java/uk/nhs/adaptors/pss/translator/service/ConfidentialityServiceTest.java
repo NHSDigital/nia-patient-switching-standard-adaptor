@@ -41,7 +41,7 @@ class ConfidentialityServiceTest {
     }
 
     @Test
-    void Given_EhrCompositionWithNopatConfidentialityCodePresent_Expect_AddSecurityToMeta() {
+    void When_EhrCompositionWithNopatConfidentialityCodePresent_Expect_AddSecurityToMeta() {
         final RCMRMT030101UKEhrComposition ehrComposition = new RCMRMT030101UKEhrComposition();
         ehrComposition.setConfidentialityCode(NOPAT_CV);
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
@@ -57,7 +57,7 @@ class ConfidentialityServiceTest {
     }
 
     @Test
-    void Given_EhrCompositionWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
+    void When_EhrCompositionWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
         final RCMRMT030101UKEhrComposition ehrComposition = new RCMRMT030101UKEhrComposition();
         ehrComposition.setConfidentialityCode(ALTERNATIVE_CV);
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
@@ -70,7 +70,7 @@ class ConfidentialityServiceTest {
     }
 
     @Test
-    void Given_EhrCompositionWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
+    void When_EhrCompositionWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
         final RCMRMT030101UKEhrComposition ehrComposition = new RCMRMT030101UKEhrComposition();
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             DUMMY_PROFILE,
@@ -82,7 +82,7 @@ class ConfidentialityServiceTest {
     }
 
     @Test
-    void Given_ObservationStatementWithNopatConfidentialityCodePresent_Expect_SecurityAddedToMeta() {
+    void When_ObservationStatementWithNopatConfidentialityCodePresent_Expect_SecurityAddedToMeta() {
         final RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
         observationStatement.setConfidentialityCode(NOPAT_CV);
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
@@ -98,7 +98,7 @@ class ConfidentialityServiceTest {
     }
 
     @Test
-    void Given_ObservationStatementWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
+    void When_ObservationStatementWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
         final RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
         observationStatement.setConfidentialityCode(ALTERNATIVE_CV);
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
@@ -111,7 +111,7 @@ class ConfidentialityServiceTest {
     }
 
     @Test
-    void Given_ObservationStatementWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
+    void When_ObservationStatementWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
         final RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             DUMMY_PROFILE,
