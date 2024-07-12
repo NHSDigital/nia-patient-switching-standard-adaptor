@@ -27,6 +27,7 @@ import org.hl7.v3.CV;
 import org.hl7.v3.IVLTS;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKPart;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.hl7.v3.RCMRMT030101UKResponsibleParty3;
 import org.hl7.v3.TS;
@@ -40,10 +41,12 @@ import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
 @Service
 @AllArgsConstructor
 public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
+
     private static final String META_PROFILE = "ReferralRequest-1";
     private static final String PRIORITY_PREFIX = "Priority: ";
     private static final String ACTION_DATE_PREFIX = "Action Date: ";
     private static final String PRACTITIONER_REFERENCE = "Practitioner/%s";
+    private static final String ORGANIZATION_REFERENCE = "Organization/%s";
     private static final String RESP_PARTY_TYPE_CODE = "RESP";
     private static final String SELF_REFERRAL = "SelfReferral";
     private static final Map<String, String> PRIORITY_CODES = Map.of(
@@ -64,19 +67,23 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             extractAllRequestStatements(component)
                 .filter(Objects::nonNull)
                 .filter(this::isNotSelfReferral)
-                .map(requestStatement -> mapToReferralRequest(composition, requestStatement, patient, encounters, practiseCode)))
+                .map(requestStatement -> mapToReferralRequest(ehrExtract, composition, requestStatement, patient, encounters, practiseCode)))
             .toList();
     }
 
-    public ReferralRequest mapToReferralRequest(RCMRMT030101UKEhrComposition ehrComposition,
+    public ReferralRequest mapToReferralRequest(RCMRMT030101UKEhrExtract ehrExtract,
+                                                RCMRMT030101UKEhrComposition ehrComposition,
                                                 RCMRMT030101UKRequestStatement requestStatement,
                                                 Patient patient,
                                                 List<Encounter> encounters,
                                                 String practiseCode) {
+
         var referralRequest = new ReferralRequest();
         var id = requestStatement.getId().get(0).getRoot();
         var identifier = buildIdentifier(id, practiseCode);
         var agent = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition);
+        var isOrganization = isAgentOrganization(ehrExtract, requestStatement);
+
         var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
         var referralPriority = getReferralPriority(requestStatement);
 
@@ -92,10 +99,35 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         referralRequest.setPriority(referralPriority);
 
         setReferralRequestContext(referralRequest, ehrComposition, encounters);
-        setReferralRequestRecipient(referralRequest, requestStatement.getResponsibleParty());
+        setReferralRequestRecipient(isOrganization, referralRequest, requestStatement.getResponsibleParty());
         setReferralRequestReasonCode(referralRequest, requestStatement.getCode());
 
         return referralRequest;
+    }
+
+    private boolean isAgentOrganization(RCMRMT030101UKEhrExtract ehrExtract,
+                                        RCMRMT030101UKRequestStatement requestStatement) {
+
+        if (requestStatement.getResponsibleParty() == null) {
+            return false;
+        }
+
+        var requestAgentRoot = requestStatement.getResponsibleParty()
+            .getAgentRef()
+            .getId()
+            .getRoot();
+
+        return ehrExtract.getComponent()
+            .stream()
+            .map(component -> component.getEhrFolder().getResponsibleParty())
+            .filter(Objects::nonNull)
+            .flatMap(respParty -> respParty.getAgentDirectory().getPart().stream())
+            .anyMatch(part -> isMatchingAgent(part, requestAgentRoot));
+    }
+
+    private boolean isMatchingAgent(RCMRMT030101UKPart part, String requestAgentRoot) {
+        return part.getAgent().getId().get(0).getRoot().equals(requestAgentRoot)
+               && part.getAgent().getAgentPerson() == null;
     }
 
     private void setReferralRequestContext(ReferralRequest referralRequest,
@@ -109,14 +141,15 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                 .map(Reference::new)
                 .ifPresent(referralRequest::setContext);
     }
-    private void setReferralRequestRecipient(ReferralRequest referralRequest,
+    private void setReferralRequestRecipient(boolean isOrganization, ReferralRequest referralRequest,
                                              RCMRMT030101UKResponsibleParty3 responsibleParty) {
         if (!hasIdValue(responsibleParty)) {
             return;
         }
 
         var agentRefRoot = responsibleParty.getAgentRef().getId().getRoot();
-        var recipient = new Reference(PRACTITIONER_REFERENCE.formatted(agentRefRoot));
+        var recipient = isOrganization ? new Reference(ORGANIZATION_REFERENCE.formatted(agentRefRoot))
+                                       : new Reference(PRACTITIONER_REFERENCE.formatted(agentRefRoot));
         referralRequest.getRecipient().add(recipient);
     }
 
