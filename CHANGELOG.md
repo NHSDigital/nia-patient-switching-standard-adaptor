@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 * The AllergyIntoleranceMapper has been enhanced to support the redaction fix. If an Allergy Intolerance record includes a confidentialityCode, the meta.security field of the corresponding FHIR resource will now be appropriately populated.
+* Added support for Organization reference types in ReferralRequest. 
 
 ## [3.0.0] - 2024-07-02
 
