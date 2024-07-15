@@ -1,4 +1,4 @@
-FROM gradle:8.8-jdk17 AS build
+FROM gradle:8.8-jdk21 AS build
 COPY --chown=gradle:gradle settings.gradle /home/gradle/service/
 COPY --chown=gradle:gradle ./gp2gp-translator /home/gradle/service/gp2gp-translator
 COPY --chown=gradle:gradle ./common /home/gradle/service/common
@@ -9,7 +9,7 @@ COPY --chown=gradle:gradle ./config /home/gradle/service/config
 WORKDIR /home/gradle/service/gp2gp-translator
 RUN gradle --build-cache bootJar
 
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:21-jre-jammy
 
 EXPOSE 8085
 

@@ -10,4 +10,8 @@ public interface ImmunizationSnomedCTDao {
     @SqlQuery("select_immunization_concept_id")
     @UseClasspathSqlLocator
     ImmunizationSnomedCT getImmunizationSnomednUsingConceptId(@Bind("conceptId") String conceptId);
+
+    @SqlQuery("verify_immunizations_loaded")
+    @UseClasspathSqlLocator
+    boolean areImmunizationCodesLoaded();
 }
