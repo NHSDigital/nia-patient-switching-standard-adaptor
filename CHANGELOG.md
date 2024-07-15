@@ -5,7 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Added
+## Added
+* The EncounterMapper has been enhanced to support the redaction fix. If an Encounter record includes a confidentialityCode, 
+  the meta.security field of the corresponding FHIR resource will now be [appropriately populated][nopat-docs].
 * Added support for Organization reference types in ReferralRequest.
 
 ## [3.0.1] - 2024-07-12

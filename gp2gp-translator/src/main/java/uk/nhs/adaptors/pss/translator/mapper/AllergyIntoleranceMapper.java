@@ -10,7 +10,6 @@ import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTime
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.fetchRecorderAndAsserter;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,9 +38,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
-import uk.nhs.adaptors.pss.translator.util.builder.MetaBuilder;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -59,6 +58,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     public static final String RECORDER = "recorder";
 
     private final CodeableConceptMapper codeableConceptMapper;
+    private final ConfidentialityService confidentialityService;
 
     @Override
     public List<AllergyIntolerance> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
@@ -90,12 +90,11 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 .getId()
                 .getRoot();
 
-        final Meta meta = new MetaBuilder()
-            .withInitialMeta(() -> generateMeta(META_PROFILE))
-            .withSecurityIfConfidentialityCodesPresent(
-                ehrComposition.getConfidentialityCode(),
-                observationStatement.getConfidentialityCode()
-            ).build();
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode()
+        );
 
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
