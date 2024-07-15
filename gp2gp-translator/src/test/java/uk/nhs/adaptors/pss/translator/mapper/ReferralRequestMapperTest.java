@@ -104,7 +104,7 @@ public class ReferralRequestMapperTest {
                 () -> assertEquals(EXAMPLE_ID, referralRequest.getId()),
                 () -> assertEquals("Priority: Routine", referralRequest.getNote().get(0).getText()),
                 () -> assertEquals("Action Date: 2005-04-06", referralRequest.getNote().get(1).getText()),
-                () -> assertEquals("Test request statement text\nNew line", referralRequest.getNote().get(2).getText()),
+                () -> assertEquals("Test request statement text New line", referralRequest.getNote().get(2).getText()),
                 () -> assertThat(referralRequest.getAuthoredOn()).isEqualTo("2010-01-01T12:30:00+00:00"),
                 () -> assertEquals(PRACTITIONER_ID, referralRequest.getRequester().getAgent().getReference()),
                 () -> assertEquals("Practitioner/B8CA3710-4D1C-11E3-9E6B-010000001205",
