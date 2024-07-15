@@ -15,9 +15,10 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -25,14 +26,12 @@ import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -54,6 +53,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 
+import uk.nhs.adaptors.pss.translator.MetaFactory;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
@@ -87,22 +87,6 @@ class AllergyIntoleranceMapperTest {
     private static final String MULTILEX_COCONUT_OIL = "01142009";
     private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
     private static final String SNOMED_COCONUT_OIL = "14613911000001107";
-    private static final Coding NOPAT_CODING = new Coding()
-        .setSystem("http://hl7.org/fhir/v3/ActCode")
-        .setCode("NOPAT")
-        .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization");
-
-    private static final Meta META = new Meta().setProfile(
-        Collections.singletonList(
-            new UriType(META_PROFILE)
-        )
-    );
-
-    private static final Meta META_WITH_SECURITY = new Meta().setProfile(
-        Collections.singletonList(
-            new UriType(META_PROFILE)
-        )
-    ).addSecurity(NOPAT_CODING);
 
     public static final Function<RCMRMT030101UKEhrExtract, RCMRMT030101UKEhrComposition> getEhrComposition = extract -> extract
         .getComponent().get(0)
@@ -137,7 +121,7 @@ class AllergyIntoleranceMapperTest {
         Mockito.lenient()
             .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 any(String.class), any(Optional.class), any(Optional.class)
-            )).thenReturn(META);
+            )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     @Test
@@ -389,6 +373,7 @@ class AllergyIntoleranceMapperTest {
 
     @Test
     void testGivenAllergyIntoleranceWithNopatConfidentialityCodePresentWithinEhrCompositionExpectMetaSecurityAdded() {
+        final Meta stubbedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtract("allergy-structure-with-ehr-composition-nopat-confidentiality-code.xml");
 
@@ -396,7 +381,7 @@ class AllergyIntoleranceMapperTest {
             .lenient()
             .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 any(String.class), any(Optional.class), any(Optional.class)
-            )).thenReturn(META_WITH_SECURITY);
+            )).thenReturn(stubbedMeta);
 
         final RCMRMT030101UKEhrComposition ehrComposition = getEhrComposition.apply(ehrExtract);
         final List<AllergyIntolerance> allergyIntolerance = allergyIntoleranceMapper
@@ -410,6 +395,7 @@ class AllergyIntoleranceMapperTest {
 
     @Test
     void testGivenAllergyIntoleranceWithNopatConfidentialityCodePresentWithinObservationStatementExpectMetaSecurityAdded() {
+        final Meta stubbedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtract("allergy-structure-with-observation-statement-nopat-confidentiality-code.xml");
 
@@ -417,7 +403,7 @@ class AllergyIntoleranceMapperTest {
             .lenient()
             .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 any(String.class), any(Optional.class), any(Optional.class)
-            )).thenReturn(META_WITH_SECURITY);
+            )).thenReturn(stubbedMeta);
 
         final RCMRMT030101UKObservationStatement observationStatement = getObservationStatement.apply(ehrExtract);
         final List<AllergyIntolerance> allergyIntolerance = allergyIntoleranceMapper
@@ -628,9 +614,9 @@ class AllergyIntoleranceMapperTest {
     private void assertMetaSecurityPresent(Meta meta) {
         assertAll(
             () -> assertThat(meta.getSecurity()).hasSize(1),
-            () -> assertThat(meta.getSecurity().get(0).getCode()).isEqualTo(NOPAT_CODING.getCode()),
-            () -> assertThat(meta.getSecurity().get(0).getSystem()).isEqualTo(NOPAT_CODING.getSystem()),
-            () -> assertThat(meta.getSecurity().get(0).getDisplay()).isEqualTo(NOPAT_CODING.getDisplay())
+            () -> assertThat(meta.getSecurity().get(0).getCode()).isEqualTo("NOPAT"),
+            () -> assertThat(meta.getSecurity().get(0).getSystem()).isEqualTo("http://hl7.org/fhir/v3/ActCode"),
+            () -> assertThat(meta.getSecurity().get(0).getDisplay()).isEqualTo("no disclosure to patient, family or caregivers without attending provider's authorization")
         );
     }
 
