@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +21,7 @@ import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.ListResource.ListEntryComponent;
 import org.hl7.fhir.dstu3.model.Location;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
@@ -46,9 +46,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceReferenceUtil;
+
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
@@ -78,6 +80,7 @@ public class EncounterMapper {
     private final CodeableConceptMapper codeableConceptMapper;
     private final ConsultationListMapper consultationListMapper;
     private final ResourceReferenceUtil resourceReferenceUtil;
+    private final ConfidentialityService confidentialityService;
 
     public Map<String, List<? extends DomainResource>> mapEncounters(
             RCMRMT030101UKEhrExtract ehrExtract,
@@ -287,6 +290,12 @@ public class EncounterMapper {
         var id = ehrComposition.getId().getRoot();
 
         var encounter = new Encounter();
+
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            ENCOUNTER_META_PROFILE,
+            ehrComposition.getConfidentialityCode()
+        );
+
         encounter
             .setParticipant(getParticipants(ehrComposition.getAuthor(), ehrComposition.getParticipant2()))
             .setStatus(EncounterStatus.FINISHED)
@@ -294,7 +303,7 @@ public class EncounterMapper {
             .setType(getType(ehrComposition.getCode()))
             .setPeriod(getPeriod(ehrComposition))
             .addIdentifier(buildIdentifier(id, practiseCode))
-            .setMeta(generateMeta(ENCOUNTER_META_PROFILE))
+            .setMeta(meta)
             .setId(id);
 
         setEncounterLocation(encounter, ehrComposition, entryLocations);
