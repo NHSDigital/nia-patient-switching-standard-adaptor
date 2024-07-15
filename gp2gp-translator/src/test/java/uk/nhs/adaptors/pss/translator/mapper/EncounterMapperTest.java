@@ -270,7 +270,7 @@ public class EncounterMapperTest {
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtractElement(ENCOUNTER_WITH_NOPAT_CONFIDENTIALITY_CODE_WITHIN_EHR_COMPOSITION);
         final RCMRMT030101UKEhrComposition ehrComposition =
-            TestUtility.getEhrComposition.apply(ehrExtract);
+            TestUtility.GET_EHR_COMPOSITION.apply(ehrExtract);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
             ehrExtract, patient, PRACTISE_CODE, entryLocations
@@ -310,7 +310,7 @@ public class EncounterMapperTest {
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtractElement(ENCOUNTER_WITH_NOSCRUB_CONFIDENTIALITY_CODE_WITHIN_EHR_COMPOSITION);
         final RCMRMT030101UKEhrComposition ehrComposition =
-            TestUtility.getEhrComposition.apply(ehrExtract);
+            TestUtility.GET_EHR_COMPOSITION.apply(ehrExtract);
 
         Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
             ehrExtract, patient, PRACTISE_CODE, entryLocations
@@ -680,9 +680,12 @@ public class EncounterMapperTest {
     private void assertMetaSecurityPresent(Meta meta) {
         assertAll(
             () -> assertThat(meta.getSecurity()).hasSize(1),
-            () -> assertThat(meta.getSecurity().get(0).getCode()).isEqualTo("NOPAT"),
-            () -> assertThat(meta.getSecurity().get(0).getSystem()).isEqualTo("http://hl7.org/fhir/v3/ActCode"),
-            () -> assertThat(meta.getSecurity().get(0).getDisplay()).isEqualTo("no disclosure to patient, family or caregivers without attending provider's authorization")
+            () -> assertThat(meta.getSecurity().get(0).getCode())
+                .isEqualTo("NOPAT"),
+            () -> assertThat(meta.getSecurity().get(0).getSystem())
+                .isEqualTo("http://hl7.org/fhir/v3/ActCode"),
+            () -> assertThat(meta.getSecurity().get(0).getDisplay())
+                .isEqualTo("no disclosure to patient, family or caregivers without attending provider's authorization")
         );
     }
 

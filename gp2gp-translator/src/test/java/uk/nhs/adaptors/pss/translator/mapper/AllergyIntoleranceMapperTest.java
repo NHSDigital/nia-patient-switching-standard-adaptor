@@ -89,15 +89,16 @@ class AllergyIntoleranceMapperTest {
     private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
     private static final String SNOMED_COCONUT_OIL = "14613911000001107";
 
-    public static final Function<RCMRMT030101UKEhrExtract, RCMRMT030101UKObservationStatement> getObservationStatement = extract -> extract
-        .getComponent().get(0)
-        .getEhrFolder()
-        .getComponent().get(0)
-        .getEhrComposition()
-        .getComponent().get(0)
-        .getCompoundStatement()
-        .getComponent().get(0)
-        .getObservationStatement();
+    public static final Function<RCMRMT030101UKEhrExtract, RCMRMT030101UKObservationStatement> GET_OBSERVATION_STATEMENT =
+        extract -> extract
+            .getComponent().get(0)
+            .getEhrFolder()
+            .getComponent().get(0)
+            .getEhrComposition()
+            .getComponent().get(0)
+            .getCompoundStatement()
+            .getComponent().get(0)
+            .getObservationStatement();
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -378,7 +379,7 @@ class AllergyIntoleranceMapperTest {
                 any(String.class), any(Optional.class), any(Optional.class)
             )).thenReturn(stubbedMeta);
 
-        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition.apply(ehrExtract);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.GET_EHR_COMPOSITION.apply(ehrExtract);
         final List<AllergyIntolerance> allergyIntolerance = allergyIntoleranceMapper
             .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
@@ -400,7 +401,7 @@ class AllergyIntoleranceMapperTest {
                 any(String.class), any(Optional.class), any(Optional.class)
             )).thenReturn(stubbedMeta);
 
-        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition.apply(ehrExtract);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.GET_EHR_COMPOSITION.apply(ehrExtract);
         final List<AllergyIntolerance> allergyIntolerance = allergyIntoleranceMapper
             .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
@@ -422,7 +423,7 @@ class AllergyIntoleranceMapperTest {
                 any(String.class), any(Optional.class), any(Optional.class)
             )).thenReturn(stubbedMeta);
 
-        final RCMRMT030101UKObservationStatement observationStatement = getObservationStatement.apply(ehrExtract);
+        final RCMRMT030101UKObservationStatement observationStatement = GET_OBSERVATION_STATEMENT.apply(ehrExtract);
         final List<AllergyIntolerance> allergyIntolerance = allergyIntoleranceMapper
             .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
@@ -437,7 +438,7 @@ class AllergyIntoleranceMapperTest {
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtract("allergy-structure-with-observation-statement-noscrub-confidentiality-code.xml");
 
-        final RCMRMT030101UKObservationStatement observationStatement = getObservationStatement.apply(ehrExtract);
+        final RCMRMT030101UKObservationStatement observationStatement = GET_OBSERVATION_STATEMENT.apply(ehrExtract);
         final List<AllergyIntolerance> allergyIntolerance = allergyIntoleranceMapper
             .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
@@ -631,9 +632,12 @@ class AllergyIntoleranceMapperTest {
     private void assertMetaSecurityPresent(Meta meta) {
         assertAll(
             () -> assertThat(meta.getSecurity()).hasSize(1),
-            () -> assertThat(meta.getSecurity().get(0).getCode()).isEqualTo("NOPAT"),
-            () -> assertThat(meta.getSecurity().get(0).getSystem()).isEqualTo("http://hl7.org/fhir/v3/ActCode"),
-            () -> assertThat(meta.getSecurity().get(0).getDisplay()).isEqualTo("no disclosure to patient, family or caregivers without attending provider's authorization")
+            () -> assertThat(meta.getSecurity().get(0).getCode())
+                .isEqualTo("NOPAT"),
+            () -> assertThat(meta.getSecurity().get(0).getSystem())
+                .isEqualTo("http://hl7.org/fhir/v3/ActCode"),
+            () -> assertThat(meta.getSecurity().get(0).getDisplay())
+                .isEqualTo("no disclosure to patient, family or caregivers without attending provider's authorization")
         );
     }
 
