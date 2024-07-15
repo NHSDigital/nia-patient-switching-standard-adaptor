@@ -109,6 +109,10 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     private boolean isAgentOrganization(RCMRMT030101UKEhrExtract ehrExtract,
                                         RCMRMT030101UKRequestStatement requestStatement) {
 
+        if (requestStatement.getResponsibleParty() == null) {
+            return false;
+        }
+
         var requestAgentRoot = requestStatement.getResponsibleParty()
             .getAgentRef()
             .getId()
