@@ -20,25 +20,9 @@ public class ConfidentialityService {
 
     @SafeVarargs
     public final Meta createMetaAndAddSecurityIfConfidentialityCodesPresent(String metaProfile, Optional<CV>... cvs) {
-        final Meta meta = generateMeta(metaProfile);
-        final boolean isCodePresent = Arrays.stream(cvs)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .anyMatch(this::isNopat);
-
-        if (isCodePresent) {
-            return addConfidentialityToMeta(meta);
-        }
-
-        return meta;
-    }
-
-    private Meta addConfidentialityToMeta(final Meta meta) {
-        return meta.setSecurity(
-            Collections.singletonList(
-                CONFIDENTIALITY_CODING
-            )
-        );
+        return Arrays.stream(cvs).flatMap(Optional::stream).anyMatch(this::isNopat)
+            ? generateMeta(metaProfile).setSecurity(Collections.singletonList(CONFIDENTIALITY_CODING))
+            : generateMeta(metaProfile);
     }
 
     private boolean isNopat(CV coding) {
