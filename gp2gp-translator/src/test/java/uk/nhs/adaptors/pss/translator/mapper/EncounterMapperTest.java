@@ -106,6 +106,8 @@ public class EncounterMapperTest {
     private static final String RELATED_PROBLEM_TARGET_URL = "target";
     private static final String ENCOUNTER_WITH_NOPAT_CONFIDENTIALITY_CODE_WITHIN_EHR_COMPOSITION
         = "encounter_with_nopat_confidentiality_code_within_ehr_composition.xml";
+    private static final String ENCOUNTER_WITH_NOSCRUB_CONFIDENTIALITY_CODE_WITHIN_EHR_COMPOSITION
+        = "encounter_with_noscrub_confidentiality_code_within_ehr_composition.xml";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -278,6 +280,46 @@ public class EncounterMapperTest {
 
         assertThat(encounter.getType().get(0).getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
         assertMetaSecurityPresent(encounter.getMeta());
+        verifyCreateMetaAndAddSecurityCalled(1,  ehrComposition.getConfidentialityCode());
+    }
+
+    @Test
+    public void testMapValidEncounterWithNoscrubConfidentialityCodeWithinEhrCompositionExpectMetaSecurityNotAdded() {
+        final Meta stubbedMeta = MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
+        final CodeableConcept codeableConcept = createCodeableConcept(null, "1.2.3.4.5", CODING_DISPLAY);
+
+        when(codeableConceptMapper.mapToCodeableConcept(
+            any(CD.class))
+        ).thenReturn(codeableConcept);
+        when(consultationListMapper.mapToConsultation(
+            any(RCMRMT030101UKEhrComposition.class), any(Encounter.class))
+        ).thenReturn(getList());
+        when(consultationListMapper.mapToTopic(
+            any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class))
+        ).thenReturn(getList());
+        when(consultationListMapper.mapToCategory(
+            any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class))
+        ).thenReturn(getList());
+
+        Mockito
+            .lenient()
+            .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                any(String.class), any(Optional.class)
+            )).thenReturn(stubbedMeta);
+
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtractElement(ENCOUNTER_WITH_NOSCRUB_CONFIDENTIALITY_CODE_WITHIN_EHR_COMPOSITION);
+        final RCMRMT030101UKEhrComposition ehrComposition =
+            TestUtility.getEhrComposition.apply(ehrExtract);
+
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+            ehrExtract, patient, PRACTISE_CODE, entryLocations
+        );
+
+        var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
+
+        assertThat(encounter.getType().get(0).getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(encounter.getMeta().getSecurity()).isEmpty();
         verifyCreateMetaAndAddSecurityCalled(1,  ehrComposition.getConfidentialityCode());
     }
 

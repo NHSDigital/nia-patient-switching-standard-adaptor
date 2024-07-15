@@ -389,6 +389,28 @@ class AllergyIntoleranceMapperTest {
     }
 
     @Test
+    void testGivenAllergyIntoleranceWithNoscrubConfidentialityCodePresentWithinEhrCompositionExpectMetaSecurityAdded() {
+        final Meta stubbedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtract("allergy-structure-with-ehr-composition-nopat-confidentiality-code.xml");
+
+        Mockito
+            .lenient()
+            .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                any(String.class), any(Optional.class), any(Optional.class)
+            )).thenReturn(stubbedMeta);
+
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition.apply(ehrExtract);
+        final List<AllergyIntolerance> allergyIntolerance = allergyIntoleranceMapper
+            .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
+
+        final Meta meta = allergyIntolerance.get(0).getMeta();
+
+        assertMetaSecurityPresent(meta);
+        verifyConfidentialityServiceCalled(1, ehrComposition.getConfidentialityCode(), Optional.empty());
+    }
+
+    @Test
     void testGivenAllergyIntoleranceWithNopatConfidentialityCodePresentWithinObservationStatementExpectMetaSecurityAdded() {
         final Meta stubbedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
