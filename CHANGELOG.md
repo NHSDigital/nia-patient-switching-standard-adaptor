@@ -16,8 +16,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   ```
   FATAL: Expected Immunization codes not found in snomedct.immunization_codes view.
   SNOMED CT Database not set up correctly.
-  Please update / reload the SNOMED DB.
-  ``` 
+  Please update / reload the SNOMED DB.  
+
+* Added support for Organization reference types in ReferralRequest. 
 
 [nopat-docs]: https://simplifier.net/guide/gpconnect-data-model/Home/Build/FHIR-resources?version=current#Resources-not-to-be-disclosed-to-a-patient
 
