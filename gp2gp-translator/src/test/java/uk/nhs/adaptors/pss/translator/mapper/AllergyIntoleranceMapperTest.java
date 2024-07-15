@@ -54,6 +54,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 
 import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
@@ -87,12 +88,6 @@ class AllergyIntoleranceMapperTest {
     private static final String MULTILEX_COCONUT_OIL = "01142009";
     private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
     private static final String SNOMED_COCONUT_OIL = "14613911000001107";
-
-    public static final Function<RCMRMT030101UKEhrExtract, RCMRMT030101UKEhrComposition> getEhrComposition = extract -> extract
-        .getComponent().get(0)
-        .getEhrFolder()
-        .getComponent().get(0)
-        .getEhrComposition();
 
     public static final Function<RCMRMT030101UKEhrExtract, RCMRMT030101UKObservationStatement> getObservationStatement = extract -> extract
         .getComponent().get(0)
@@ -383,7 +378,7 @@ class AllergyIntoleranceMapperTest {
                 any(String.class), any(Optional.class), any(Optional.class)
             )).thenReturn(stubbedMeta);
 
-        final RCMRMT030101UKEhrComposition ehrComposition = getEhrComposition.apply(ehrExtract);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition.apply(ehrExtract);
         final List<AllergyIntolerance> allergyIntolerance = allergyIntoleranceMapper
             .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 

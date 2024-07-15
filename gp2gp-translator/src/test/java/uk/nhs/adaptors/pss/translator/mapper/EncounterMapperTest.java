@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isNull;
 
@@ -12,32 +13,34 @@ import static org.mockito.Mockito.when;
 
 import static org.springframework.util.ResourceUtils.getFile;
 
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterStatus;
+
 import org.hl7.fhir.dstu3.model.ListResource;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.UriType;
 
+import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
-
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,6 +56,8 @@ import org.mockito.stubbing.Answer;
 
 import lombok.SneakyThrows;
 
+import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
@@ -99,6 +104,8 @@ public class EncounterMapperTest {
     private static final String LINKSET_REFERENCE = "Condition/DCC26FC9-4D1C-11E3-A2DD-010000000161";
     private static final String RELATED_PROBLEM_EXT_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect-RelatedProblemHeader-1";
     private static final String RELATED_PROBLEM_TARGET_URL = "target";
+    private static final String ENCOUNTER_WITH_NOPAT_CONFIDENTIALITY_CODE_WITHIN_EHR_COMPOSITION
+        = "encounter_with_nopat_confidentiality_code_within_ehr_composition.xml";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -126,12 +133,6 @@ public class EncounterMapperTest {
 
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
 
-    private static final Meta META = new Meta().setProfile(
-        Collections.singletonList(
-            new UriType(META_PROFILE)
-        )
-    );
-
     @BeforeEach
     public void setup() {
         patient = new Patient();
@@ -155,7 +156,7 @@ public class EncounterMapperTest {
         Mockito.lenient()
             .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 any(String.class), any(Optional.class)
-            )).thenReturn(META);
+            )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     @Test
@@ -238,6 +239,46 @@ public class EncounterMapperTest {
         assertThat(encounter.getType().get(0).getCodingFirstRep())
             .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
         verifyCreateMetaAndAddSecurityCalled(1, Optional.empty());
+    }
+
+    @Test
+    public void testMapValidEncounterWithNopatConfidentialityCodeWithinEhrCompositionExpectMetaSecurityAdded() {
+        final Meta stubbedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final CodeableConcept codeableConcept = createCodeableConcept(null, "1.2.3.4.5", CODING_DISPLAY);
+
+        when(codeableConceptMapper.mapToCodeableConcept(
+            any(CD.class))
+        ).thenReturn(codeableConcept);
+        when(consultationListMapper.mapToConsultation(
+            any(RCMRMT030101UKEhrComposition.class), any(Encounter.class))
+        ).thenReturn(getList());
+        when(consultationListMapper.mapToTopic(
+            any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class))
+        ).thenReturn(getList());
+        when(consultationListMapper.mapToCategory(
+            any(ListResource.class), any(RCMRMT030101UKCompoundStatement.class))
+        ).thenReturn(getList());
+
+        Mockito
+            .lenient()
+            .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                any(String.class), any(Optional.class)
+            )).thenReturn(stubbedMeta);
+
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtractElement(ENCOUNTER_WITH_NOPAT_CONFIDENTIALITY_CODE_WITHIN_EHR_COMPOSITION);
+        final RCMRMT030101UKEhrComposition ehrComposition =
+            TestUtility.getEhrComposition.apply(ehrExtract);
+
+        Map<String, List<? extends DomainResource>> mappedResources = encounterMapper.mapEncounters(
+            ehrExtract, patient, PRACTISE_CODE, entryLocations
+        );
+
+        var encounter = (Encounter) mappedResources.get(ENCOUNTER_KEY).get(0);
+
+        assertThat(encounter.getType().get(0).getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertMetaSecurityPresent(encounter.getMeta());
+        verifyCreateMetaAndAddSecurityCalled(1,  ehrComposition.getConfidentialityCode());
     }
 
     @Test
@@ -592,6 +633,15 @@ public class EncounterMapperTest {
         } else {
             assertThat(encounter.getLocation()).isEmpty();
         }
+    }
+
+    private void assertMetaSecurityPresent(Meta meta) {
+        assertAll(
+            () -> assertThat(meta.getSecurity()).hasSize(1),
+            () -> assertThat(meta.getSecurity().get(0).getCode()).isEqualTo("NOPAT"),
+            () -> assertThat(meta.getSecurity().get(0).getSystem()).isEqualTo("http://hl7.org/fhir/v3/ActCode"),
+            () -> assertThat(meta.getSecurity().get(0).getDisplay()).isEqualTo("no disclosure to patient, family or caregivers without attending provider's authorization")
+        );
     }
 
     private void assertPeriod(Period period, String startDate, String endDate) {
