@@ -1,4 +1,4 @@
-FROM gradle:7.2.0-jdk17 AS build
+FROM gradle:8.8-jdk21 AS build
 COPY --chown=gradle:gradle settings.gradle /home/gradle/service/
 COPY --chown=gradle:gradle ./gpc-api-facade /home/gradle/service/gpc-api-facade
 COPY --chown=gradle:gradle ./common /home/gradle/service/common
@@ -8,7 +8,7 @@ COPY --chown=gradle:gradle ./config /home/gradle/service/config
 WORKDIR /home/gradle/service/gpc-api-facade
 RUN gradle --build-cache bootJar
 
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:21-jre-jammy
 
 EXPOSE 8081
 
@@ -16,4 +16,4 @@ RUN mkdir /app
 
 COPY --from=build /home/gradle/service/gpc-api-facade/build/libs/gpc-api-facade.jar /app/gpc-api-facade.jar
 
-ENTRYPOINT ["java", "-cp", "/app/gpc-api-facade.jar", "-Dloader.main=uk.nhs.adaptors.pss.gpc.GpcFacadeApplication", "org.springframework.boot.loader.PropertiesLauncher"]
+ENTRYPOINT ["java", "-cp", "/app/gpc-api-facade.jar", "-Dloader.main=uk.nhs.adaptors.pss.gpc.GpcFacadeApplication", "org.springframework.boot.loader.launch.PropertiesLauncher"]

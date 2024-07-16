@@ -21,8 +21,8 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
 import org.hl7.v3.CsNullFlavor;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.TS;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -271,7 +271,7 @@ public class ConsultationListMapperTest {
         assertThat(category.getEncounter().getResource()).isEqualTo(encounter);
         assertThat(category.getDateElement().getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType(date).getValueAsString());
         assertThat(category.getTitle()).isEqualTo(title);
-        assertThat(category.getEntry().size()).isZero();
+        assertThat(category.getEntry()).isEmpty();
         assertCoding(category.getCode().getCodingFirstRep(), LIST_CODE_SYSTEM, CATEGORY_CODE_CODE, CATEGORY_CODE_DISPLAY);
         assertCoding(category.getOrderedBy().getCodingFirstRep(), LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE,
             LIST_ORDERED_BY_DISPLAY);
@@ -286,7 +286,7 @@ public class ConsultationListMapperTest {
         assertThat(topic.getEncounter().getResource()).isEqualTo(encounter);
         assertThat(topic.getDateElement().getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType(date).getValueAsString());
         assertThat(topic.getTitle()).isEqualTo(title);
-        assertThat(topic.getEntry().size()).isZero();
+        assertThat(topic.getEntry()).isEmpty();
         assertCoding(topic.getCode().getCodingFirstRep(), LIST_CODE_SYSTEM, TOPIC_CODE_CODE, TOPIC_CODE_DISPLAY);
         assertCoding(topic.getOrderedBy().getCodingFirstRep(), LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE,
             LIST_ORDERED_BY_DISPLAY);
@@ -300,7 +300,7 @@ public class ConsultationListMapperTest {
         assertThat(consultation.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(consultation.getEncounter().getResource()).isEqualTo(encounter);
         assertThat(consultation.getTitle()).isEqualTo(title);
-        assertThat(consultation.getEntry().size()).isZero();
+        assertThat(consultation.getEntry()).isEmpty();
         assertCoding(consultation.getCode().getCodingFirstRep(), LIST_CODE_SYSTEM, CONSULTATION_CODE_CODE, CONSULTATION_CODE_DISPLAY);
         assertCoding(consultation.getOrderedBy().getCodingFirstRep(), LIST_ORDERED_BY_SYSTEM, LIST_ORDERED_BY_CODE,
             LIST_ORDERED_BY_DISPLAY);
@@ -364,9 +364,9 @@ public class ConsultationListMapperTest {
         return consultation;
     }
 
-    private RCMRMT030101UK04CompoundStatement setUpCompoundStatement(String originalText, String display,
-        String availabilityTime, boolean nullFlavorCode) {
-        RCMRMT030101UK04CompoundStatement compoundStatement = new RCMRMT030101UK04CompoundStatement();
+    private RCMRMT030101UKCompoundStatement setUpCompoundStatement(String originalText, String display,
+                                                                   String availabilityTime, boolean nullFlavorCode) {
+        RCMRMT030101UKCompoundStatement compoundStatement = new RCMRMT030101UKCompoundStatement();
         II id = new II();
         id.setRoot(COMPOUND_STATEMENT_ID);
 
@@ -401,8 +401,8 @@ public class ConsultationListMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
 }

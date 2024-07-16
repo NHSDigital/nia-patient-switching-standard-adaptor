@@ -14,8 +14,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.ValidationException;
 
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;
@@ -40,7 +40,7 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ExternalAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
-import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
+import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
@@ -49,7 +49,7 @@ import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
-import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPrepInterface;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.util.InboundMessageUtil;
@@ -65,7 +65,7 @@ public class COPCMessageHandler {
 
     private final MigrationStatusLogService migrationStatusLogService;
     private final PatientMigrationRequestDao migrationRequestDao;
-    private final NackAckPreparationService nackAckPreparationService;
+    private final NackAckPrepInterface nackAckPreparationService;
     private final PatientAttachmentLogService patientAttachmentLogService;
     private final AttachmentHandlerService attachmentHandlerService;
     private final InboundMessageMergingService inboundMessageMergingService;
@@ -133,15 +133,14 @@ public class COPCMessageHandler {
                 inboundMessageMergingService.mergeAndBundleMessage(conversationId);
             }
 
-        } catch (WebClientRequestException | ConnectionException e) {
+        } catch (WebClientRequestException | ConnectionException | MhsServerErrorException e) {
             throw e;
-
         } catch (ParseException | ValidationException | SAXException e) {
             LOGGER.error("COPC_IN000001UK01 validation / parsing  error", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
             failMigration(conversationId, UNEXPECTED_CONDITION);
 
-        } catch (InlineAttachmentProcessingException | UnsupportedFileTypeException e) {
+        } catch (InlineAttachmentProcessingException e) {
             LOGGER.error("Large messaging attachment processing error", e);
             nackAckPreparationService.sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, payload, conversationId);
 
@@ -170,7 +169,7 @@ public class COPCMessageHandler {
 
     public void checkAndMergeFileParts(InboundMessage inboundMessage, String conversationId)
         throws SAXException, AttachmentLogException, ValidationException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+        InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         Document ebXmlDocument = xPathService.parseDocumentFromXml(inboundMessage.getEbXML());
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, MESSAGE_ID_PATH);
@@ -291,8 +290,7 @@ public class COPCMessageHandler {
     }
 
     private void addLogForEarlyFragmentAndStore(InboundMessage inboundMessage, String conversationId, COPCIN000001UK01Message payload,
-        Document ebXmlDocument, int patientId) throws ValidationException, InlineAttachmentProcessingException,
-        UnsupportedFileTypeException {
+        Document ebXmlDocument, int patientId) throws ValidationException, InlineAttachmentProcessingException {
         String fragmentMid = getFragmentMidId(ebXmlDocument);
         String fileName = getFileNameForFragment(inboundMessage, payload);
         var attachment = inboundMessage.getAttachments().get(0);
@@ -308,7 +306,7 @@ public class COPCMessageHandler {
 
     private void storeCOPCAttachment(PatientAttachmentLog fragmentAttachmentLog, InboundMessage inboundMessage,
         String conversationId)
-        throws ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
+        throws ValidationException, InlineAttachmentProcessingException {
 
         if (inboundMessage.getAttachments().isEmpty()) {
             throw new InlineAttachmentProcessingException("COPC message does not contain an inline attachment");

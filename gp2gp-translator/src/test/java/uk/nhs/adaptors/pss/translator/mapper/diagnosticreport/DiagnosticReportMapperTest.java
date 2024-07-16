@@ -1,13 +1,13 @@
 package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-
+import java.io.IOException;
+import java.nio.file.Files;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
-
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,6 +27,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.when;
 import lombok.SneakyThrows;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.UNKNOWN;
@@ -75,6 +77,7 @@ public class DiagnosticReportMapperTest {
                     </component>
                 </EhrExtract>
                 """;
+
     @Mock
     private IdGeneratorService idGeneratorService;
 
@@ -292,6 +295,28 @@ public class DiagnosticReportMapperTest {
                 () -> assertThat(observationComments.get(0).getComment())
                         .isEqualTo(NARRATIVE_STATEMENT_2_TEXT)
         );
+    }
+
+    @Test
+    public void When_DiagnosticReportWithSomeNarativeStatements_Expect_DiagnosticReportResultsCorrectlyOrdered()
+        throws IOException {
+
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
+                                        readFileAsString("xml/DiagnosticReport/diagnostic_report_with_observation_statements.xml"));
+        var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+
+        var diagnosticReports = diagnosticReportMapper.mapResources(
+            ehrExtract,
+            PATIENT,
+            createEncounterList(),
+            PRACTICE_CODE);
+        var diagnosticReport = diagnosticReports.get(0);
+
+        assertThat(diagnosticReport.getResult()).map(r -> r.getReference())
+                .isEqualTo(List.of("Observation/3E1A4EA2-661B-4467-8843-6A6B21DEF14F",
+                                   "Observation/E8746411-9D21-4A5C-B70B-9D1FF00D3AE4",
+                                   "Observation/21B95C86-121F-4BC5-A2CD-3E2955F4D604",
+                                   "Observation/B141FC3E-4DD2-4412-9655-DF43BBCE290B"));
     }
 
     @Test
@@ -541,8 +566,13 @@ TEST COMMENT
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractFromXmlString(String xmlString) {
-        return unmarshallString(xmlString, RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractFromXmlString(String xmlString) {
+        return unmarshallString(xmlString, RCMRMT030101UKEhrExtract.class);
+    }
+
+    private static String readFileAsString(String path) throws IOException {
+        Resource resource = new ClassPathResource(path);
+        return Files.readString(Paths.get(resource.getURI()));
     }
 
     private static String buildEhrExtractStringFromDiagnosticReportXml(String diagnosticReportXml) {

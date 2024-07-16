@@ -12,7 +12,7 @@ import org.hl7.fhir.dstu3.model.HumanName.NameUse;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.PractitionerRole;
-import org.hl7.v3.RCMRMT030101UK04AgentDirectory;
+import org.hl7.v3.RCMRMT030101UKAgentDirectory;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -445,12 +445,12 @@ public class AgentDirectoryMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04AgentDirectory unmarshallAgentDirectoryElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04AgentDirectory.class);
+    private RCMRMT030101UKAgentDirectory unmarshallAgentDirectoryElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKAgentDirectory.class);
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04AgentDirectory unmarshallAgentDirectoryFromXmlString(String inputXml) {
-        return unmarshallString(inputXml, RCMRMT030101UK04AgentDirectory.class);
+    private RCMRMT030101UKAgentDirectory unmarshallAgentDirectoryFromXmlString(String inputXml) {
+        return unmarshallString(inputXml, RCMRMT030101UKAgentDirectory.class);
     }
 }

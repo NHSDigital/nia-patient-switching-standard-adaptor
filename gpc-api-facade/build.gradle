@@ -1,10 +1,10 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.18'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '3.3.1'
+    id 'io.spring.dependency-management' version '1.1.6'
     id 'java'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '6.0.6'
-    id 'io.freefair.lombok' version '6.2.0'
+    id 'com.github.spotbugs' version '6.0.19'
+    id 'io.freefair.lombok' version '8.6'
 }
 
 apply plugin: 'java'
@@ -28,13 +28,13 @@ dependencies {
     implementation project(':db-connector')
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
-    testImplementation 'org.assertj:assertj-core:3.25.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.3'
+    testImplementation 'org.assertj:assertj-core:3.26.3'
     testImplementation 'org.projectlombok:lombok'
     testImplementation 'org.mockito:mockito-inline:5.2.0'
-    testImplementation 'io.rest-assured:rest-assured:4.4.0'
+    testImplementation 'io.rest-assured:rest-assured:5.5.0'
 }
 
 test {

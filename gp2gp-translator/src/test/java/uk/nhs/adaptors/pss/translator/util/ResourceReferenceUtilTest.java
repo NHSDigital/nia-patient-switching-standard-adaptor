@@ -12,10 +12,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04EhrComposition;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,24 +44,24 @@ public class ResourceReferenceUtilTest {
 
     @Test
     public void testMedicationResourcesReferencedAtEhrCompositionLevel() {
-        final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_medication.xml");
+        final RCMRMT030101UKEhrComposition ehrComposition = unmarshallEhrCompositionElement("ehr_composition_medication.xml");
 
         List<Reference> references = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromEhrComposition(ehrComposition, references);
 
-        assertThat(references.size()).isEqualTo(TWO);
+        assertThat(references).hasSize(TWO);
         assertThat(references.get(0).getReference()).isEqualTo("MedicationRequest/A0A70B62-2649-4C8F-B3AB-618B8257C942");
         assertThat(references.get(1).getReference()).isEqualTo("MedicationRequest/9B4B797A-D674-4362-B666-2ADC8551EEDA");
     }
 
     @Test
     public void testMedicationResourcesReferencedAtCompoundStatementLevel() {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement("compound_statement_medication.xml");
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement("compound_statement_medication.xml");
 
         List<Reference> references = new ArrayList<>();
         resourceReferenceUtil.extractChildReferencesFromCompoundStatement(compoundStatement, references);
 
-        assertThat(references.size()).isEqualTo(TWO);
+        assertThat(references).hasSize(TWO);
         assertThat(references.get(0).getReference()).isEqualTo("MedicationRequest/A0A70B62-2649-4C8F-B3AB-618B8257C942");
         assertThat(references.get(1).getReference()).isEqualTo("MedicationRequest/9B4B797A-D674-4362-B666-2ADC8551EEDA");
     }
@@ -105,7 +104,7 @@ public class ResourceReferenceUtilTest {
         resourceReferenceUtil.extractChildReferencesFromTemplate(
             ehrComposition.getComponent().get(0).getCompoundStatement(), references);
 
-        assertThat(references.size()).isEqualTo(2);
+        assertThat(references).hasSize(2);
         assertThat(references.get(0).getReference()).isEqualTo("Observation/3DCC9FC9-1873-4004-9789-C4E5C52B02B9");
         assertThat(references.get(1).getReference()).isEqualTo("Observation/278ADD5F-2AC7-48DC-966A-0BA7C029C793");
     }
@@ -113,11 +112,11 @@ public class ResourceReferenceUtilTest {
     @ParameterizedTest
     @MethodSource("ehrCompositionResourceFiles")
     public void testResourcesReferencedAtEhrCompositionLevel(String inputXML, String referenceString) {
-        final RCMRMT030101UK04EhrComposition ehrComposition = unmarshallEhrCompositionElement(inputXML);
+        final RCMRMT030101UKEhrComposition ehrComposition = unmarshallEhrCompositionElement(inputXML);
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
-                RCMRMT030101UK04ObservationStatement statement = (RCMRMT030101UK04ObservationStatement) invocation.getArgument(0);
+                RCMRMT030101UKObservationStatement statement = (RCMRMT030101UKObservationStatement) invocation.getArgument(0);
                 return statement.getCode().getCode().equals("1664081000000114");
             }
         });
@@ -145,11 +144,11 @@ public class ResourceReferenceUtilTest {
     @ParameterizedTest
     @MethodSource("compoundStatementResourceFiles")
     public void testResourcesReferencedAtCompoundStatementLevel(String inputXML, String referenceString) {
-        final RCMRMT030101UK04CompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
+        final RCMRMT030101UKCompoundStatement compoundStatement = unmarshallCompoundStatementElement(inputXML);
         lenient().when(immunizationChecker.isImmunization(any())).thenAnswer(new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
-                RCMRMT030101UK04ObservationStatement statement = (RCMRMT030101UK04ObservationStatement) invocation.getArgument(0);
+                RCMRMT030101UKObservationStatement statement = (RCMRMT030101UKObservationStatement) invocation.getArgument(0);
                 return statement.getCode().getCode().equals("1664081000000114");
             }
         });
@@ -175,13 +174,13 @@ public class ResourceReferenceUtilTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04CompoundStatement unmarshallCompoundStatementElement(String fileName) {
+    private RCMRMT030101UKCompoundStatement unmarshallCompoundStatementElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_COMPOUND + fileName),
-            RCMRMT030101UK04CompoundStatement.class);
+            RCMRMT030101UKCompoundStatement.class);
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrComposition unmarshallEhrCompositionElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_COMPOSITION + fileName), RCMRMT030101UK04EhrComposition.class);
+    private RCMRMT030101UKEhrComposition unmarshallEhrCompositionElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_COMPOSITION + fileName), RCMRMT030101UKEhrComposition.class);
     }
 }

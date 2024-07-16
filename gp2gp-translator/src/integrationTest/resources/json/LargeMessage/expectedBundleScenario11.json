@@ -1221,7 +1221,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "317378005",
-          "display": "Loperamide 2mg capsules"
+          "display": "Loperamide hydrochloride 2 mg oral capsule"
         } ],
         "text": "Loperamide 2mg capsules"
       }
@@ -2121,7 +2121,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "235197007",
-          "display": "Dilatation of oesophageal stricture"
+          "display": "Dilation of oesophageal stricture"
         } ],
         "text": "Fibreoptic dilation of oesophagus"
       },
@@ -2347,7 +2347,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "426431003",
-          "display": "Fibreoptic endoscopic pressure-controlled balloon dilatation of lower oesophageal sphincter"
+          "display": "Fibreoptic endoscopic pressure-controlled balloon dilation of lower oesophageal sphincter"
         } ],
         "text": "Fib end pressure-controlled balloon dilat low oesoph sphinc"
       },
@@ -3292,7 +3292,7 @@
           } ],
           "system": "http://snomed.info/sct",
           "code": "173828000",
-          "display": "Intubation of stomach for ph manometry"
+          "display": "Intubation of stomach for pH manometry"
         } ],
         "text": "Intubation of stomach for ph manometry"
       },
@@ -3970,6 +3970,9 @@
           "extension": [ {
             "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-coding-sctdescid",
             "extension": [ {
+              "url": "descriptionId",
+              "valueId": "5287072016"
+            }, {
               "url": "descriptionDisplay",
               "valueString": "Removal of gastric bubble"
             } ]

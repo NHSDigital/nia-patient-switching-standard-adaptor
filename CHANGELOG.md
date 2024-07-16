@@ -6,8 +6,58 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Fixed
-
 * Prevent duplicate `Laboratory` observation categories being added when mapping a `SpecimenCompound`.
+
+## Added
+* The EncounterMapper has been enhanced to support the redaction fix. If an Encounter record includes a confidentialityCode, 
+  the meta.security field of the corresponding FHIR resource will now be [appropriately populated][nopat-docs].
+* Added support for Organization reference types in ReferralRequest.
+
+## [3.0.1] - 2024-07-12
+
+### Added
+* The AllergyIntoleranceMapper has been enhanced to support the redaction fix. If an Allergy Intolerance record includes a confidentialityCode,
+  the `meta.security` field of the corresponding FHIR resource will now be [appropriately populated][nopat-docs].
+* When the SNOMED DB ingest script has not completed successfully, The GP2GP Translator Service will now exit and throw a
+  RuntimeException with the following message:
+  
+  ```
+  FATAL: Expected Immunization codes not found in snomedct.immunization_codes view.
+  SNOMED CT Database not set up correctly.
+  Please update / reload the SNOMED DB.  
+  ```
+
+[nopat-docs]: https://simplifier.net/guide/gpconnect-data-model/Home/Build/FHIR-resources?version=current#Resources-not-to-be-disclosed-to-a-patient
+
+### Fixed
+* `DiagnosticReport.result`s now preserve original ordering provided in the HL7.
+
+## [3.0.0] - 2024-07-02
+
+### Removed
+* The adaptor no longer checks incoming attachment content types aginst the `SUPPORTED_FILE_TYPES` list.
+  This functionality can be implemented outside the adaptor if still desired.
+
+## [2.1.2] - 2024-06-28
+
+### Changed
+* The `/$gpc.ack` endpoint is now case insensitive and supports uppercase and lowercase values for the `conversationId` header values.
+
+### Added
+* Retry mechanism has been added for when the MHS outbound returns a 500 server response when acknowledging COPC messages.
+
+### Fixed
+* Mapping of `issued` for Test Group Headers, Test Results, Filing Comment and has been updated to use time value from
+  the GP2GP `ObservationStatement / availabilityTime` field and use `EhrComposition / author / time` if not available.
+
+## [2.1.1] - 2024-06-19
+
+### Changed
+* Cron time schedule has been changed from 6h to 2h so that the timeouts can be identified earlier
+
+### Fixed
+* When mapping a `MedicationRequest (PLAN)`, if the text in the original text is duplicated by a pertinent information
+  text, then the original text is disregarded to avoid the unnecessary duplication.
 
 ## [2.1.0] - 2024-04-17
 

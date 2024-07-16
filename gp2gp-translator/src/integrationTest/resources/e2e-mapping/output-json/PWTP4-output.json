@@ -2085,7 +2085,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "319773006",
-          "display": "Aspirin 75mg dispersible tablets"
+          "display": "Aspirin 75 mg orodispersible tablet"
         } ],
         "text": "Aspirin 75mg dispersible tablets"
       }
@@ -2242,7 +2242,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "322225002",
-          "display": "Aspirin 300mg gastro-resistant tablets"
+          "display": "Aspirin 300 mg gastro-resistant oral tablet"
         } ],
         "text": "Aspirin 300mg gastro-resistant tablets"
       }
@@ -2785,7 +2785,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "321745007",
-          "display": "Amitriptyline 10mg tablets"
+          "display": "Amitriptyline hydrochloride 10 mg oral tablet"
         } ],
         "text": "Amitriptyline 10mg tablets"
       }
@@ -2903,7 +2903,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "317971007",
-          "display": "Furosemide 20mg tablets"
+          "display": "Furosemide 20 mg oral tablet"
         } ],
         "text": "Furosemide 20mg tablets"
       }
@@ -3133,7 +3133,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "318421004",
-          "display": "Atenolol 100mg tablets"
+          "display": "Atenolol 100 mg oral tablet"
         } ],
         "text": "Atenolol 100mg tablets"
       }
@@ -3613,7 +3613,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "318906001",
-          "display": "Ramipril 10mg capsules"
+          "display": "Ramipril 10 mg oral capsule"
         } ],
         "text": "Ramipril 10mg capsules"
       }
@@ -4109,7 +4109,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "327550006",
-          "display": "Folic acid 5mg tablets"
+          "display": "Folic acid 5 mg oral tablet"
         } ],
         "text": "Folic acid 5mg tablets"
       }
@@ -4232,7 +4232,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "321989000",
-          "display": "Citalopram 10mg tablets"
+          "display": "Citalopram (as citalopram hydrobromide) 10 mg oral tablet"
         } ],
         "text": "Citalopram 10mg tablets"
       }
@@ -4367,7 +4367,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "545211000001106",
-          "display": "E45 cream (Karo Pharma UK Ltd)"
+          "display": "E45 cream (Karo Healthcare UK Ltd)"
         } ],
         "text": "E45 cream (Forum Health Products Ltd)"
       }
@@ -7538,7 +7538,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "317161009",
-          "display": "Mebeverine 135mg tablets"
+          "display": "Mebeverine hydrochloride 135 mg oral tablet"
         } ],
         "text": "Mebeverine 135mg tablets"
       }
@@ -8018,7 +8018,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "374667004",
-          "display": "Perindopril erbumine 8mg tablets"
+          "display": "Perindopril erbumine 8 mg oral tablet"
         } ],
         "text": "Perindopril erbumine 8mg tablets"
       }
@@ -8810,7 +8810,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "321949006",
-          "display": "Fluoxetine 20mg capsules"
+          "display": "Fluoxetine (as fluoxetine hydrochloride) 20 mg oral capsule"
         } ],
         "text": "Fluoxetine 20mg capsules"
       }
@@ -9529,7 +9529,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "317291008",
-          "display": "Omeprazole 20mg gastro-resistant capsules"
+          "display": "Omeprazole 20 mg oral capsule"
         } ],
         "text": "Omeprazole 20mg gastro-resistant capsules"
       }
@@ -9644,7 +9644,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "317249006",
-          "display": "Ranitidine 150mg tablets"
+          "display": "Ranitidine (as ranitidine hydrochloride) 150 mg oral tablet"
         } ],
         "text": "Ranitidine 150mg tablets"
       }
@@ -10331,7 +10331,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "318859000",
-          "display": "Lisinopril 10mg tablets"
+          "display": "Lisinopril 10 mg oral tablet"
         } ],
         "text": "Lisinopril 10mg tablets"
       }
@@ -10446,7 +10446,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "318136009",
-          "display": "Co-amilofruse 5mg/40mg tablets"
+          "display": "Amiloride hydrochloride 5 mg and furosemide 40 mg oral tablet"
         } ],
         "text": "Co-amilofruse 5mg/40mg tablets"
       }
@@ -10653,7 +10653,7 @@
         }, {
           "system": "http://snomed.info/sct",
           "code": "320006003",
-          "display": "Simvastatin 80mg tablets"
+          "display": "Simvastatin 80 mg oral tablet"
         } ],
         "text": "Simvastatin 80mg tablets"
       }
@@ -18820,7 +18820,7 @@
         "reference": "Encounter/825B1B60-525E-4D0A-B813-F3AE3E18EB5D"
       },
       "effectiveDateTime": "2010-03-23T15:42:00+00:00",
-      "issued": "2010-03-23T16:07:49.000+00:00",
+      "issued": "2010-03-23T15:42:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
       } ],
@@ -18852,7 +18852,7 @@
         "reference": "Encounter/18ADB528-260B-41D8-ACA5-77529A4A4F59"
       },
       "effectiveDateTime": "2010-08-10T12:17:00+00:00",
-      "issued": "2010-08-10T12:22:33.000+00:00",
+      "issued": "2010-08-10T12:17:00.000+00:00",
       "performer": [ {
         "reference": "Practitioner/C5DEFBF3-0174-BC6F-182C-B777B9C6FF43"
       } ],

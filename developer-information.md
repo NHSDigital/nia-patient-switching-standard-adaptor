@@ -2,8 +2,11 @@
 
 ## Requirements:
 
-* JDK 17 - We develop the adaptor in Java with Spring Boot
+* JDK 21 - We develop the adaptor in Java with Spring Boot
 * Docker
+* Version 38.2 of the SNOMED CT UK Edition monolith zip file.
+  See [First Installation](./OPERATING.md#populating-the-snomed-database) for instructions on how to download.
+* Windows users have followed the [prerequisite setup steps](./getting-started-with-windows.md)
 
 ## Project structure
 
@@ -16,35 +19,36 @@
     ├── gpc-api-facade              # GPC API Facade
     └── mhs-adaptor-mock            # Dockerfile and required files for mock of MHS Adaptor
 
-## Snomed CT Database
-Please make sure to load the latest release of Snomed CT UK Edition. See [Configuring the SNOMED Database](./OPERATING.md#populating-the-snomed-database) and [snomed-database-loader](/snomed-database-loader/README.md) for more information.
-
 ## Local development
 ### How to start local environment
 1. Go to `docker` directory
 2. Create a copy of `example.vars.sh`, name it `vars.sh`
-3. Fill in the passwords inside `vars.sh` file:
-    - POSTGRES_PASSWORD: Password to be set for the user used to run migrations. It will also be the password for the default postgres user.
-    - GPC_FACADE_USER_DB_PASSWORD: Password for the user connecting to the database in the GPC API Facade module.
-    - GP2GP_TRANSLATOR_USER_DB_PASSWORD: Password for the user connecting to the database in the GP2GP Translator module.
-
-    For the description and purpose of other environment variables, refer to the [end user OPERATING guidance](OPERATING.md#environment-variables).
-
-
+3. Fill in the `SNOMED_CT_TERMINOLOGY_FILE` variable inside `vars.sh` file with the path to where your SNOMED ZIP file
+   is downloaded to. For the description and purpose of other environment variables, refer to the
+   [end user OPERATING guidance](OPERATING.md#environment-variables).
 3. Run `start-local-environment.sh` script:
    ```shell script
     ./start-local-environment.sh
    ```
-   It will execute following steps:
+   It will execute following steps, and take up to 30 minutes:
     - create a default postgres database and patient_switching database,
     - start MHS Adaptor mock,
     - start ActiveMQ,
     - run migrations,
+    - populate SNOMED data into postgres, 
     - build and start GPC Api Facade service,
     - build and start GP2GP Translator application.
       All components will run in Docker.
 
-4. Follow the `README` in `snomed-database-loader` directory to load Snomed CT into database
+4. To run the integration tests you will need to stop the translator and facade containers running in Docker from step 3
+   as otherwise they will steal the messages off of AMQP.
+   To stop the translator and facade, hit Ctrl-C in the terminal where you ran `./start-local-environment.sh`.
+   You will want ActiveMQ, Postgres and MHS Adaptor Mock to continue running in the background. 
+
+   - For the translator: `cd ../gp2gp-translator/ && ./gradlew check`
+   - For the facade: `cd ../gpc-api-facade/ && ./gradlew check`
+   - For common code: `cd ../ && ./gradlew common:check`
+   - For DB connector code: `cd ../ && ./gradlew db-connector:check`
 
 ## Releasing a new version to Docker Hub
 
@@ -108,5 +112,3 @@ To clean all containers run
 ```shell script
  ./clear-docker.sh
 ```
-## Getting started for Windows Users
-A setup guide is provided for Windows users [here](./getting-started-with-windows.md)

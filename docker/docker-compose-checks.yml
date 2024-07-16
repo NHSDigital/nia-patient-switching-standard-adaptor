@@ -30,7 +30,6 @@ services:
       - MHS_AMQP_USERNAME
       - MHS_AMQP_PASSWORD
       - MHS_AMQP_MAX_REDELIVERIES
-      - SUPPORTED_FILE_TYPES
 
   common_modules:
     container_name: common_modules_checks

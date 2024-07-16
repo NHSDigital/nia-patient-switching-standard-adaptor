@@ -6,19 +6,17 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Period;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
+
 
 import lombok.SneakyThrows;
 
@@ -43,21 +41,18 @@ public class ObservationUtilTest {
     private static final Double REFERENCE_RANGE_LOW_VALUE_DECIMAL = 10.5;
     private static final Double REFERENCE_RANGE_HIGH_VALUE_DECIMAL = 12.2;
 
-    private static final Map<String, String> STUB_MEASUREMENT_UNIT_MAP = Map.of(
-        "ml", "milliliter"
-    );
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtractElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
-    private RCMRMT030101UKObservationStatement getObservationStatementFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKObservationStatement getObservationStatementFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition().getComponent().get(0)
             .getObservationStatement();
     }
 
-    private RCMRMT030101UKEhrComposition getEhrCompositionFromEhrExtract(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKEhrComposition getEhrCompositionFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
     }
 
@@ -71,47 +66,29 @@ public class ObservationUtilTest {
     @Test
     public void mapValueQuantityUsingPqQuantity() {
 
-        MockedStatic<MeasurementUnitsUtil> mockedMeasurementUnitUtil = Mockito.mockStatic(MeasurementUnitsUtil.class);
+        var ehrExtract = unmarshallEhrExtractElement("pq_value_quantity_observation_example.xml");
+        var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
 
-        try {
+        var quantity = ObservationUtil.getValueQuantity(
+            observationStatement.getValue(),
+            observationStatement.getUncertaintyCode()
+        );
 
-            mockedMeasurementUnitUtil.when(MeasurementUnitsUtil::getMeasurementUnitsMap).thenReturn(STUB_MEASUREMENT_UNIT_MAP);
-
-            var ehrExtract = unmarshallEhrExtractElement(
-                "pq_value_quantity_observation_example.xml");
-            var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
-
-            var quantity = ObservationUtil.getValueQuantity(observationStatement.getValue(),
-                observationStatement.getUncertaintyCode());
-
-            assertThat(quantity.getValue()).isEqualTo(PQ_QUANTITY_VALUE);
-            assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
-        } finally {
-            mockedMeasurementUnitUtil.close();
-        }
+        assertThat(quantity.getValue()).isEqualTo(PQ_QUANTITY_VALUE);
+        assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
     }
 
     @Test
     public void mapValueQuantityUsingIvlPqQuantity() {
 
-        MockedStatic<MeasurementUnitsUtil> mockedMeasurementUnitUtil = Mockito.mockStatic(MeasurementUnitsUtil.class);
+        var ehrExtract = unmarshallEhrExtractElement("ivl_pq_value_quantity_observation_example.xml");
+        var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
 
-        try {
+        var quantity = ObservationUtil.getValueQuantity(observationStatement.getValue(),
+            observationStatement.getUncertaintyCode());
 
-            mockedMeasurementUnitUtil.when(MeasurementUnitsUtil::getMeasurementUnitsMap).thenReturn(STUB_MEASUREMENT_UNIT_MAP);
-
-            var ehrExtract = unmarshallEhrExtractElement(
-                "ivl_pq_value_quantity_observation_example.xml");
-            var observationStatement = getObservationStatementFromEhrExtract(ehrExtract);
-
-            var quantity = ObservationUtil.getValueQuantity(observationStatement.getValue(),
-                observationStatement.getUncertaintyCode());
-
-            assertThat(quantity.getValue()).isEqualTo(IVL_PQ_QUANTITY_VALUE);
-            assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
-        } finally {
-            mockedMeasurementUnitUtil.close();
-        }
+        assertThat(quantity.getValue()).isEqualTo(IVL_PQ_QUANTITY_VALUE);
+        assertThat(quantity.getUnit()).isEqualTo(QUANTITY_UNIT);
     }
 
     @Test

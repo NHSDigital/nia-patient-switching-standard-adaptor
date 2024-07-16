@@ -23,7 +23,7 @@ import static uk.nhs.adaptors.pss.translator.model.NACKReason.EHR_EXTRACT_CANNOT
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_REASSEMBLY_FAILURE;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 
 import org.hl7.v3.COPCIN000001UK01Message;
 import org.hl7.v3.RCMRIN030000UK06Message;

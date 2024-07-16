@@ -30,7 +30,7 @@ import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
@@ -49,6 +49,7 @@ import uk.nhs.adaptors.pss.translator.mapper.CodeableConceptMapper;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.TextUtil;
+
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @Service
@@ -67,6 +68,7 @@ public class SpecimenBatteryMapper {
 
     public Observation mapBatteryObservation(SpecimenBatteryParameters batteryParameters) {
         final var batteryCompoundStatement = batteryParameters.getBatteryCompoundStatement();
+        final var diagnosticReport = batteryParameters.getDiagnosticReport();
         final var ehrComposition = batteryParameters.getEhrComposition();
 
         final Observation observation = new Observation();
@@ -83,7 +85,7 @@ public class SpecimenBatteryMapper {
             batteryParameters.getBatteryCompoundStatement(), batteryParameters.getObservationComments()));
         getContext(batteryParameters.getEncounters(), ehrComposition).ifPresent(observation::setContext);
         addEffective(batteryCompoundStatement, observation);
-        getIssued(ehrComposition).ifPresent(observation::setIssuedElement);
+        getIssued(batteryCompoundStatement, diagnosticReport, ehrComposition).ifPresent(observation::setIssuedElement);
         getPerformer(batteryCompoundStatement, ehrComposition).ifPresent(observation::addPerformer);
         getRelated(batteryCompoundStatement).forEach(observation::addRelated);
         handleDirectChildNarrativeStatementUserComments(batteryCompoundStatement, observation, batteryParameters.getObservationComments());
@@ -209,7 +211,19 @@ public class SpecimenBatteryMapper {
         return new Reference(new IdType(Specimen.name(), specimenCompoundStatement.getId().get(0).getRoot()));
     }
 
-    private Optional<InstantType> getIssued(RCMRMT030101UKEhrComposition ehrComposition) {
+    private Optional<InstantType> getIssued(
+        RCMRMT030101UKCompoundStatement batteryCompoundStatement,
+        DiagnosticReport diagnosticReport,
+        RCMRMT030101UKEhrComposition ehrComposition) {
+
+        if (batteryCompoundStatement != null
+            && availabilityTimeHasValue(batteryCompoundStatement.getAvailabilityTime())) {
+            return Optional.of(parseToInstantType(batteryCompoundStatement.getAvailabilityTime().getValue()));
+        }
+
+        if (diagnosticReport != null && diagnosticReport.hasIssued()) {
+            return Optional.of(diagnosticReport.getIssuedElement());
+        }
 
         if (hasValidTimeValue(ehrComposition.getAuthor())) {
             return Optional.of(parseToInstantType(ehrComposition.getAuthor().getTime().getValue()));
@@ -261,7 +275,7 @@ public class SpecimenBatteryMapper {
         return extractResourcesFromCompound(batteryCompoundStatement, RCMRMT030101UKComponent02::hasObservationStatement,
             RCMRMT030101UKComponent02::getObservationStatement)
             .stream()
-            .map(RCMRMT030101UK04ObservationStatement.class::cast)
+            .map(RCMRMT030101UKObservationStatement.class::cast)
             .map(observationStatement -> new Reference(new IdType(ResourceType.Observation.name(), observationStatement.getId().getRoot())))
             .map(reference -> new ObservationRelatedComponent().setTarget(reference)
                 .setType(ObservationRelationshipType.HASMEMBER));

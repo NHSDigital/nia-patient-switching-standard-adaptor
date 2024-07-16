@@ -2,9 +2,9 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.v3.RCMRMT030101UK04Authorise;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UKAuthorise;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,7 +65,7 @@ public class MedicationMapperUtilsTest {
         var supplyAuth = unmarshallSupplyAuthorise("buildNotesForAuthMultiple.xml");
         var notes = MedicationMapperUtils.buildNotes(supplyAuth.getPertinentInformation());
 
-        assertThat(notes.size()).isEqualTo(EXPECTED_SIZE_NOTES);
+        assertThat(notes).hasSize(EXPECTED_SIZE_NOTES);
     }
 
     @Test
@@ -131,18 +131,18 @@ public class MedicationMapperUtilsTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04Authorise unmarshallSupplyAuthorise(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_SUPPLY_AUTHORISE + fileName), RCMRMT030101UK04Authorise.class);
+    private RCMRMT030101UKAuthorise unmarshallSupplyAuthorise(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_SUPPLY_AUTHORISE + fileName), RCMRMT030101UKAuthorise.class);
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04MedicationStatement unmarshallMedicationStatement(String fileName) {
+    private RCMRMT030101UKMedicationStatement unmarshallMedicationStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName),
-            RCMRMT030101UK04MedicationStatement.class);
+            RCMRMT030101UKMedicationStatement.class);
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName), RCMRMT030101UKEhrExtract.class);
     }
 }

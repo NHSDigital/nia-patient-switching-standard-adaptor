@@ -1,31 +1,41 @@
 package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.AdditionalAnswers.answer;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
+import static uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper.SpecimenBatteryParameters;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
+import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import org.mockito.stubbing.Answer1;
 
 @ExtendWith(MockitoExtension.class)
+@RunWith(MockitoJUnitRunner.class)
 public class SpecimenCompoundsMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/SpecimenComponents/";
@@ -64,12 +74,13 @@ public class SpecimenCompoundsMapperTest {
 
     @Test
     public void testHandlingFirstLevelObservationStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_observation_statement.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_observation_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2010-02-25T15:41:00.000+00:00");
         assertThat(diagnosticReports.get(0).getResult()).isNotEmpty();
 
         final Reference result = diagnosticReports.get(0).getResult().get(0);
@@ -95,7 +106,7 @@ public class SpecimenCompoundsMapperTest {
 
     @Test
     public void testHandlingSpecimenChildClusterCompoundStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_cluster_compound_statement.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_cluster_compound_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
@@ -105,9 +116,10 @@ public class SpecimenCompoundsMapperTest {
         final Observation observationComment = observationComments.get(0);
 
         assertParentSpecimenIsReferenced(observation);
+        assertThat(observation.getIssuedElement().asStringValue()).isEqualTo("2010-02-25T15:41:00.000+00:00");
 
         assertThat(observation.getRelated()).isEmpty();
-        assertThat(observationComments.size()).isEqualTo(2);
+        assertThat(observationComments).hasSize(2);
         assertThat(observationComment.getComment()).isEqualTo(TEST_COMMENT_LINE_1);
         assertThat(observationComment.getRelated()).isNotEmpty();
         assertThat(observationComment.getRelated().get(0).getTarget().getResource()).isNotNull();
@@ -118,29 +130,32 @@ public class SpecimenCompoundsMapperTest {
 
     @Test
     public void testHandlingSpecimenChildBatteryCompoundStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2010-02-25T15:41:00.000+00:00");
         assertParentSpecimenIsReferenced(observations.get(1));
-        assertThat(observationComments.size()).isEqualTo(2);
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2010-02-25T15:41:00.000+00:00");
+        assertThat(observationComments).hasSize(2);
         assertThat(observationComments.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE_1);
 
-        assertThat(diagnosticReports.get(0).getResult().isEmpty()).isTrue();
+        assertThat(diagnosticReports.get(0).getResult()).isEmpty();
         verify(specimenBatteryMapper, times(1)).mapBatteryObservation(any());
     }
 
     @Test
     public void testHandlingUserNarrativeStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_user_narrative_statement.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_user_narrative_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
-        assertThat(observationComments.size()).isEqualTo(2);
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2022-03-14T18:24:45.000+00:00");
+        assertThat(observationComments).hasSize(2);
         assertThat(observationComments.get(0).getRelated()).isNotEmpty();
         assertThat(observationComments.get(0).getRelated()).isNotEmpty();
         assertThat(observationComments.get(0).getRelated().get(0).getTarget().getResource()).isNotNull();
@@ -151,14 +166,75 @@ public class SpecimenCompoundsMapperTest {
 
     @Test
     public void testHandlingNonUserNarrativeStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_non_user_narrative_statement.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_non_user_narrative_statement.xml");
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
 
         assertParentSpecimenIsReferenced(observations.get(0));
+        assertThat(observations.get(0).getIssuedElement().asStringValue()).isEqualTo("2022-03-14T18:24:45.000+00:00");
         assertThat(observationComments.size()).isOne();
         assertThat(observations.get(0).getComment()).isEqualTo(TEST_COMMENT_LINE + "\n" + TEST_COMMENT_LINE_1);
+    }
+
+    @Test public void testHandlingObservationStatementWithUnkAvailabilityTime() {
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_cluster_compound_statement_availability_time_unk.xml");
+
+        specimenCompoundsMapper.handleSpecimenChildComponents(
+            ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
+        );
+
+        final Observation observation = observations.get(0);
+
+        assertThat(observation.getIssuedElement().asStringValue()).isNull();
+    }
+
+    @Test public void testOrderingIsPreservedForDiagnosticReportResults() {
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtract("specimen_with_three_test_group_headers.xml");
+
+        final var testObservations = List.of(
+            (Observation) new Observation().setId("TEST-GROUP-HEADER-1"),
+            (Observation) new Observation().setId("OBSERVATION-STATEMENT-ID-1"),
+            (Observation) new Observation().setId("TEST-GROUP-HEADER-2"),
+            (Observation) new Observation().setId("OBSERVATION-STATEMENT-ID-2"),
+            (Observation) new Observation().setId("TEST-GROUP-HEADER-3"),
+            (Observation) new Observation().setId("OBSERVATION-STATEMENT-ID-3")
+        );
+
+        doAnswer(
+            answer(
+                (Answer1<Observation, SpecimenBatteryParameters>) batteryParameters -> {
+                    var id = batteryParameters.getBatteryCompoundStatement().getId().get(0).getRoot();
+                    var observation = new Observation();
+                    observation.setId(id);
+
+                    batteryParameters.getDiagnosticReport().addResult(
+                        new Reference(new IdType(ResourceType.Observation.name(), id)));
+                    return observation;
+                })
+        ).when(specimenBatteryMapper).mapBatteryObservation(any(SpecimenBatteryMapper.SpecimenBatteryParameters.class));
+
+        specimenCompoundsMapper.handleSpecimenChildComponents(
+            ehrExtract,
+            testObservations,
+            observationComments,
+            diagnosticReports,
+            PATIENT,
+            List.of(),
+            TEST_PRACTISE_CODE
+        );
+
+        var diagnosticReport = diagnosticReports.get(0);
+
+        assertAll(
+            () -> assertThat(getReferenceId(diagnosticReport.getResult().get(0)))
+                .isEqualTo("Observation/TEST-GROUP-HEADER-1"),
+            () -> assertThat(getReferenceId(diagnosticReport.getResult().get(1)))
+                .isEqualTo("OBSERVATION-STATEMENT-ID-2"),
+            () -> assertThat(getReferenceId(diagnosticReport.getResult().get(2)))
+                .isEqualTo("OBSERVATION-STATEMENT-ID-3")
+        );
     }
 
     private void assertParentSpecimenIsReferenced(Observation observation) {
@@ -205,9 +281,16 @@ public class SpecimenCompoundsMapperTest {
         return observationComments;
     }
 
+    private String getReferenceId(Reference reference) {
+        return reference.hasReference()
+            ? reference.getReference()
+            : reference.getResource().getIdElement().getValue();
+    }
+
+
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
 }

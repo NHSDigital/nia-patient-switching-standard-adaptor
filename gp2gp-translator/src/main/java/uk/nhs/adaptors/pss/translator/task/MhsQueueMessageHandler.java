@@ -2,9 +2,9 @@ package uk.nhs.adaptors.pss.translator.task;
 
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_GENERAL_PROCESSING_ERROR;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.xml.bind.JAXBException;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
 import org.hl7.v3.RCMRIN030000UK06Message;
@@ -29,7 +29,6 @@ import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ConversationIdNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
-import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
@@ -119,12 +118,9 @@ public class MhsQueueMessageHandler {
         } catch (TransformerException e) {
             LOGGER.error("Unable to process skeleton section of message", e);
             return false;
-        } catch (UnsupportedFileTypeException e) {
-            LOGGER.error("Unable to process inline attachments, one or more inline messages has an unsupported file type", e);
-            return false;
         } catch (MhsServerErrorException e) {
             LOGGER.error("Unable to sent message to MHS due to MHS Outbound server error");
-            return false;
+            throw e;
         }
     }
 

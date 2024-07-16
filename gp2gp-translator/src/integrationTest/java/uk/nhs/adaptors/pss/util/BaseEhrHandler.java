@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.util;
 
 import static org.assertj.core.api.Assertions.fail;
 
-import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_REQUEST_ACCEPTED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.EHR_EXTRACT_TRANSLATED;
 import static uk.nhs.adaptors.common.enums.MigrationStatus.MIGRATION_COMPLETED;
@@ -20,15 +19,14 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+
 import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.skyscreamer.jsonassert.comparator.CustomComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
 import org.springframework.jms.core.JmsTemplate;
 
 import lombok.Getter;
@@ -38,7 +36,6 @@ import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
-import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 
 @Getter
 public abstract class BaseEhrHandler {
@@ -62,9 +59,6 @@ public abstract class BaseEhrHandler {
     @Getter @Setter
     private String conversationId;
 
-    @MockBean
-    private IdGeneratorService idGeneratorService;
-
     @Autowired
     private PatientMigrationRequestDao patientMigrationRequestDao;
 
@@ -81,19 +75,6 @@ public abstract class BaseEhrHandler {
     @Qualifier("jmsTemplatePssQueue")
     @Autowired
     private JmsTemplate pssJmsTemplate;
-
-    @BeforeEach
-    public void setUpDeterministicRandomIds() {
-        when(idGeneratorService.generateUuid()).thenAnswer(
-                new Answer<String>() {
-                    private int invocationCount = 0;
-                    @Override
-                    public String answer(InvocationOnMock invocation) {
-                        return String.format("00000000-0000-0000-0000-%012d", invocationCount++);
-                    }
-                }
-        );
-    }
 
     @BeforeEach
     public void setUp() {

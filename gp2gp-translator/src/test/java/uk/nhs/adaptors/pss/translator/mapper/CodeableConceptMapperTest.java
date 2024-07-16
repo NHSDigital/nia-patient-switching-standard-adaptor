@@ -360,8 +360,7 @@ public class CodeableConceptMapperTest {
             .isEqualTo(DESCRIPTION_ID);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(0).getValue())
             .isEqualTo(new IdType(SNOMED_PREFERRED.getId()));
-        assertThat(codeableConcept.getText())
-            .isEqualTo(null);
+        assertThat(codeableConcept.getText()).isNull();
     }
 
     @Test
@@ -447,8 +446,7 @@ public class CodeableConceptMapperTest {
             .isEqualTo(DESCRIPTION_DISPLAY);
         assertThat(codeableConcept.getCoding().get(0).getExtension().get(0).getExtension().get(1).getValue().toString())
             .isEqualTo(SNOMED_DESCRIPTION.getTerm());
-        assertThat(codeableConcept.getText())
-            .isEqualTo(null);
+        assertThat(codeableConcept.getText()).isNull();
     }
 
     @Test

@@ -10,8 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.ValidationException;
 import javax.xml.transform.TransformerException;
 
 import org.hl7.v3.RCMRIN030000UK06Message;
@@ -49,7 +49,7 @@ public class InboundMessageMergingService {
     private final FhirParser fhirParser;
     private final BundleMapperService bundleMapperService;
     private final PatientMigrationRequestDao migrationRequestDao;
-    private final NackAckPreparationService nackAckPreparationService;
+    private final NackAckPrepInterface nackAckPreparationService;
     private final SkeletonProcessingService skeletonProcessingService;
 
     private static final String CONVERSATION_ID_HAS_NOT_BEEN_GIVEN = "Conversation Id has not been given";
@@ -94,7 +94,7 @@ public class InboundMessageMergingService {
                     Arrays.asList(bypassPayloadLoadingArray),
                     conversationId
             );
-            var newPayloadStr = attachmentReferenceUpdaterService.updateReferenceToAttachment(
+            var newPayloadStr = attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
                     messageAttachments,
                     conversationId,
                     inboundMessage.getPayload()

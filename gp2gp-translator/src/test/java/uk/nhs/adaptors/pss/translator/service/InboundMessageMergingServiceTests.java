@@ -21,8 +21,8 @@ import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTA
 
 import java.util.ArrayList;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.ValidationException;
 import javax.xml.transform.TransformerException;
 
 import org.hl7.v3.RCMRIN030000UK06Message;
@@ -85,7 +85,7 @@ public class InboundMessageMergingServiceTests {
     @Mock
     private Document document;
     @Mock
-    private NackAckPreparationService nackAckPreparationService;
+    private NackAckPrepInterface nackAckPreparationService;
     @Mock
     private AttachmentHandlerService attachmentHandlerService;
     @Mock
@@ -117,7 +117,8 @@ public class InboundMessageMergingServiceTests {
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
-        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn(inboundMessage.getPayload());
+        when(attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(any(), any(), any()))
+            .thenReturn(inboundMessage.getPayload());
 
     }
 
@@ -231,7 +232,8 @@ public class InboundMessageMergingServiceTests {
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
         when(skeletonProcessingService.updateInboundMessageWithSkeleton(any(), any(), any())).thenReturn(inboundMessage);
 
-        doThrow(ValidationException.class).when(attachmentReferenceUpdaterService).updateReferenceToAttachment(any(), any(), any());
+        doThrow(ValidationException.class).when(attachmentReferenceUpdaterService)
+            .replaceOriginalFilenameWithStorageFilenameInEhrExtract(any(), any(), any());
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
@@ -260,7 +262,7 @@ public class InboundMessageMergingServiceTests {
 
         doThrow(InlineAttachmentProcessingException.class)
                 .when(attachmentReferenceUpdaterService)
-                .updateReferenceToAttachment(any(), any(), any());
+                .replaceOriginalFilenameWithStorageFilenameInEhrExtract(any(), any(), any());
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
@@ -288,7 +290,8 @@ public class InboundMessageMergingServiceTests {
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
         when(skeletonProcessingService.updateInboundMessageWithSkeleton(any(), any(), any())).thenReturn(inboundMessage);
 
-        doThrow(AttachmentNotFoundException.class).when(attachmentReferenceUpdaterService).updateReferenceToAttachment(any(), any(), any());
+        doThrow(AttachmentNotFoundException.class).when(attachmentReferenceUpdaterService)
+            .replaceOriginalFilenameWithStorageFilenameInEhrExtract(any(), any(), any());
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
@@ -343,7 +346,7 @@ public class InboundMessageMergingServiceTests {
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
-        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn("");
+        when(attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(any(), any(), any())).thenReturn("");
         when(skeletonProcessingService.updateInboundMessageWithSkeleton(any(), any(), any())).thenReturn(inboundMessage);
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
@@ -370,7 +373,8 @@ public class InboundMessageMergingServiceTests {
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
-        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn(inboundMessage.getPayload());
+        when(attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(any(), any(), any()))
+            .thenReturn(inboundMessage.getPayload());
         when(skeletonProcessingService.updateInboundMessageWithSkeleton(any(), any(), any())).thenReturn(inboundMessage);
 
         doThrow(BundleMappingException.class).when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), anyList());
@@ -399,7 +403,8 @@ public class InboundMessageMergingServiceTests {
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID)).thenReturn(attachments);
         when(migrationRequestDao.getMigrationRequest(any())).thenReturn(patientMigrationRequest);
         when(objectMapper.readValue(inboundMessageAsString, InboundMessage.class)).thenReturn(inboundMessage);
-        when(attachmentReferenceUpdaterService.updateReferenceToAttachment(any(), any(), any())).thenReturn(inboundMessage.getPayload());
+        when(attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(any(), any(), any()))
+            .thenReturn(inboundMessage.getPayload());
         when(skeletonProcessingService.updateInboundMessageWithSkeleton(any(), any(), any())).thenReturn(inboundMessage);
 
         doThrow(JsonProcessingException.class).when(objectMapper).writeValueAsString(any(InboundMessage.class));
@@ -459,7 +464,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
-        verify(attachmentReferenceUpdaterService).updateReferenceToAttachment(any(), any(), any());
+        verify(attachmentReferenceUpdaterService).replaceOriginalFilenameWithStorageFilenameInEhrExtract(any(), any(), any());
         verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
     }
 

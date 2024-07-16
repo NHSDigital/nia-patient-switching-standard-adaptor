@@ -2,14 +2,14 @@ package uk.nhs.adaptors.pss.gpc.controller.validation;
 
 import static java.util.Objects.nonNull;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Parameters;
 import org.springframework.stereotype.Component;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.common.exception.FhirValidationException;
 

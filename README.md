@@ -23,7 +23,6 @@ Both are Java Spring Boot applications, released as separate docker images.
 1. [Guidance for operating the adaptor as a New Market Entrant](/OPERATING.md)
 1. [Guidance on integrating with the adaptors APIs](#endpoints)
 1. [Guidance for developing the adaptor](/developer-information.md)
-1. [Guidance for developing the adaptor on Windows](/getting-started-with-windows.md)
 1. [Documentation on how this adaptor maps GP2GP concepts to GPConnect concepts](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation)
 
 ## Endpoints
@@ -42,7 +41,12 @@ The following is required to call this endpoint...
 - FROM_ASID : The ASID identifier of the winning New Market Entrant (NME)
 - TO_ODS : The ODS identifier of the losing incumbent
 - FROM_ODS : the ODS identifier of the winning New Market Entrant (NME)
-- ConversationId : A unique GUID for each request; if you do not provide one, the adaptor will create one and return it in the response headers. It must be used for all further calls for the patient's NHS number.
+- ConversationId : A unique GUID for each request; if you do not provide one, the adaptor will create one and return it
+  in the response headers. It must be used for all further calls for the patient's NHS number.
+
+For more details on how to query the losing practice details, see the [requesting site requirements].
+
+[requesting site requirements]: https://nhse-dsic.atlassian.net/wiki/spaces/DCSDCS/pages/12512034968/GP2GP+Requesting+Adaptor#Registration-Process-&-EHR-Request
 
 The endpoint also requires a JSON body that includes the needed patient NHS number. The format of the body should look like the following...
 
@@ -73,9 +77,12 @@ The endpoint also requires a JSON body that includes the needed patient NHS numb
 Responds with one of:
 
 1. Initial request: If you successfully configure the endpoint described above and call it, you should receive a 202-accepted response. This means the adaptor has received the request and is making the relevant requests.
-2. Polling the request: after receiving a 202 response, we recommend polling the endpoint at regular intervals using an increasing call gap strategy. Each poll can return the following responses:-
+2. Polling the request: after receiving a 202 response, we recommend polling the endpoint at regular intervals using an
+   increasing call gap strategy until you get a 200 response.
+   Each poll can return one of the following responses:
     - 204 No content: this response indicates that we are still processing the requests / waiting for the EHR message response.
     - 200 Success: this response indicates we have successfully received and converted the EHR to JSON; you will also receive the FHIR bundle in the response's body.
+      An example of this response can be found within [expectedBundle.json](gp2gp-translator/src/integrationTest/resources/json/expectedBundle.json).
     - 400,404,500,501: The endpoint can return all these possible error codes. These will all provide a detailed error with an operationOutcome JSON model response in the body. This looks like...
 
       ```json
@@ -124,11 +131,9 @@ The following is required to call this endpoint:-
 Endpoint calling:
 
 This endpoint is a fire-and-forget endpoint.
-If your request is successful, you will get a 200: Success response.
-If your request is unsuccessful, you will get a 500: Server error response.
-If you receive a 500 response, you can retry again at any point, however, it should be noted that you must receive a 200: Success response from the migratestructuredrecord for the given conversation ID to receive a 200: Success from this endpoint.
-
-Note: To improve reliability on this endpoint we are currently looking at a polling change, the documentation will be updated once this has been updated.
+- If your request is successful, you will get a 200: Success response.
+- If your request is unsuccessful, you will get a 500: Server error response.
+- If you receive a 500 response, you can retry again at any point, however, it should be noted that you must receive a 200: Success response from the migratestructuredrecord for the given conversation ID to receive a 200: Success from this endpoint.
 
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).

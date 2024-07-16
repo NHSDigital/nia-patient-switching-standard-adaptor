@@ -14,7 +14,7 @@ import uk.nhs.adaptors.common.model.AcknowledgeRecordMessage;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.NACKReason;
 
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import java.util.Map;
 
 import static uk.nhs.adaptors.common.enums.ConfirmationResponse.ABA_INCORRECT_PATIENT;
@@ -33,7 +33,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallSt
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AcknowledgeRecordService {
 
-    private final NackAckPreparationService preparationService;
+    private final NackAckPrepInterface nackAckPrepInterface;
     private final ObjectMapper objectMapper;
 
     private static final Map<ConfirmationResponse, NACKReason> REASONS = Map.of(
@@ -60,11 +60,11 @@ public class AcknowledgeRecordService {
         }
 
         if (confirmationResponse == ACCEPTED) {
-            return preparationService.sendAckMessage(message, conversationId);
+            return nackAckPrepInterface.sendAckMessage(message, conversationId);
         }
 
         var nackReason = REASONS.get(confirmationResponse);
-        return preparationService.sendNackMessage(nackReason, message, conversationId);
+        return nackAckPrepInterface.sendNackMessage(nackReason, message, conversationId);
     }
 
     private RCMRIN030000UK06Message parseOriginalMessage(AcknowledgeRecordMessage message)

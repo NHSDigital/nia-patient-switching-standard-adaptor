@@ -1,7 +1,7 @@
 
 package org.hl7.v3;
 
-import javax.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 

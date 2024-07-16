@@ -10,8 +10,10 @@ import uk.nhs.adaptors.connector.dao.PatientMigrationRequestDao;
 import uk.nhs.adaptors.common.enums.MigrationStatus;
 import uk.nhs.adaptors.pss.gpc.amqp.PssQueuePublisher;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.Locale;
 
 import static org.apache.commons.lang3.EnumUtils.getEnumIgnoreCase;
 import static uk.nhs.adaptors.common.enums.QueueMessageType.ACKNOWLEDGE_RECORD;
@@ -26,7 +28,9 @@ public class AcknowledgeRecordService {
     public Boolean handleAcknowledgeRecord(
             @NotNull @NotEmpty String conversationId,
             @NotNull @NotEmpty String confirmationResponseString) {
-        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(conversationId);
+        var patientMigrationRequest = patientMigrationRequestDao.getMigrationRequest(
+            conversationId.toUpperCase(Locale.ROOT)
+        );
         if (patientMigrationRequest == null) {
             return false;
         }

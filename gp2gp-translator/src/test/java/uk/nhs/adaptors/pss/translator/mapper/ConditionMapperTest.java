@@ -25,11 +25,11 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.II;
-import org.hl7.v3.RCMRMT030101UK04Authorise;
-import org.hl7.v3.RCMRMT030101UK04Component2;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04Prescribe;
+import org.hl7.v3.RCMRMT030101UKAuthorise;
+import org.hl7.v3.RCMRMT030101UKComponent2;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -92,7 +92,7 @@ public class ConditionMapperTest {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
 
         final List<Encounter> emptyEncounterList = List.of();
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, emptyEncounterList, PRACTISE_CODE);
 
         assertThat(conditions).isNotEmpty();
@@ -126,7 +126,7 @@ public class ConditionMapperTest {
         var codeableConcept = new CodeableConcept().addCoding(new Coding().setDisplay(CODING_DISPLAY));
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
@@ -138,7 +138,7 @@ public class ConditionMapperTest {
     public void testConditionIsMappedCorrectlyWithActualProblemReference() {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
@@ -152,7 +152,7 @@ public class ConditionMapperTest {
     public void testConditionIsMappedCorrectlyWithRelatedClinicalContentReference() {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
         conditionMapper.addReferences(buildBundleWithStatementRefObservations(), conditions, ehrExtract);
@@ -168,7 +168,7 @@ public class ConditionMapperTest {
 
         final List<Encounter> encounters = List.of((Encounter) new Encounter().setId(ENCOUNTER_ID));
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, PRACTISE_CODE);
 
         assertThat(conditions).isNotEmpty();
@@ -177,7 +177,7 @@ public class ConditionMapperTest {
 
     @Test
     public void testLinkSetWithNoDatesIsMappedWithNullOnsetDateTime() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_no_dates.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_no_dates.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
         assertGeneratedComponentsAreCorrect(conditions.get(0));
@@ -192,7 +192,7 @@ public class ConditionMapperTest {
     @Test
     public void testLinkSetWithEffectiveTimeLowNullFlavorUnkIsMappedWithNullOnsetDateTime() {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_null_flavor_unk.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_null_flavor_unk.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
         assertGeneratedComponentsAreCorrect(conditions.get(0));
@@ -204,7 +204,7 @@ public class ConditionMapperTest {
     @Test
     public void testLinkSetWithEffectiveTimeCenterNullFlavorUnkIsMappedCorrectly() {
         //when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_center_null_flavor_unk.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_center_null_flavor_unk.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
         assertGeneratedComponentsAreCorrect(conditions.get(0));
@@ -215,7 +215,7 @@ public class ConditionMapperTest {
 
     @Test
     public void testConditionWithMedicationRequestsIsMappedCorrectly() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_medication_refs.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_medication_refs.xml");
 
         MockedStatic<MedicationMapperUtils> mockedMedicationMapperUtils = Mockito.mockStatic(MedicationMapperUtils.class);
 
@@ -263,7 +263,7 @@ public class ConditionMapperTest {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
@@ -281,7 +281,7 @@ public class ConditionMapperTest {
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid_with_reference.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
@@ -297,28 +297,28 @@ public class ConditionMapperTest {
         bundle.addEntry(new BundleEntryComponent().setResource(orderMedicationRequest));
     }
 
-    private List<RCMRMT030101UK04MedicationStatement> getMedicationStatements() {
+    private List<RCMRMT030101UKMedicationStatement> getMedicationStatements() {
 
-        var planMedicationStatement = new RCMRMT030101UK04MedicationStatement();
+        var planMedicationStatement = new RCMRMT030101UKMedicationStatement();
         planMedicationStatement.setId(createIdWithRoot(MEDICATION_STATEMENT_PLAN_ID));
         planMedicationStatement.getMoodCode().add("INT");
 
-        var authorise = new RCMRMT030101UK04Authorise();
+        var authorise = new RCMRMT030101UKAuthorise();
         authorise.setId(createIdWithRoot(AUTHORISE_ID));
 
-        var planComponent = new RCMRMT030101UK04Component2();
+        var planComponent = new RCMRMT030101UKComponent2();
         planComponent.setEhrSupplyAuthorise(authorise);
 
         planMedicationStatement.getComponent().add(planComponent);
 
-        var orderMedicationStatement = new RCMRMT030101UK04MedicationStatement();
+        var orderMedicationStatement = new RCMRMT030101UKMedicationStatement();
         orderMedicationStatement.setId(createIdWithRoot(MEDICATION_STATEMENT_ORDER_ID));
         orderMedicationStatement.getMoodCode().add("ORD");
 
-        var prescribe = new RCMRMT030101UK04Prescribe();
+        var prescribe = new RCMRMT030101UKPrescribe();
         prescribe.setId(createIdWithRoot(PRESCRIBE_ID));
 
-        var orderComponent = new RCMRMT030101UK04Component2();
+        var orderComponent = new RCMRMT030101UKComponent2();
         orderComponent.setEhrSupplyPrescribe(prescribe);
 
         orderMedicationStatement.getComponent().add(orderComponent);
@@ -368,7 +368,7 @@ public class ConditionMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String filename) {
-        return unmarshallFile(getFile("classpath:" + CONDITION_RESOURCES_BASE + filename), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String filename) {
+        return unmarshallFile(getFile("classpath:" + CONDITION_RESOURCES_BASE + filename), RCMRMT030101UKEhrExtract.class);
     }
 }

@@ -2,8 +2,8 @@ package uk.nhs.adaptors.pss.translator.amqp;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.qpid.jms.message.JmsBytesMessage;

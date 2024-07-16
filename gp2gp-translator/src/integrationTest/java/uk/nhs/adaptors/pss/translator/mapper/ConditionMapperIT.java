@@ -13,7 +13,7 @@ import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -63,7 +63,7 @@ public class ConditionMapperIT {
     @MethodSource("ehrExtractsWithObservationActualProblemCode")
     public void When_AddReferences_With_ObservationAsProblem_Expect_CodeAddedToCondition(String filename) {
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract(filename);
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract(filename);
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
@@ -88,7 +88,7 @@ public class ConditionMapperIT {
     @MethodSource("ehrExtractsWithAllergyIntoleranceActualProblemCode")
     public void When_AddReferences_With_AllergyIntoleranceAsProblem_Expect_CodeAddedToCondition(String filename) {
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract(filename);
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract(filename);
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
         conditionMapper.addReferences(buildBundleWithNamedStatementAllergy(), conditions, ehrExtract);
@@ -101,8 +101,8 @@ public class ConditionMapperIT {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String filename) {
-        return unmarshallFile(getFile("classpath:" + CONDITION_RESOURCES_BASE + filename), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String filename) {
+        return unmarshallFile(getFile("classpath:" + CONDITION_RESOURCES_BASE + filename), RCMRMT030101UKEhrExtract.class);
     }
 
     private Bundle buildBundleWithNamedStatementObservation() {

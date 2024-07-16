@@ -26,22 +26,21 @@ import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
-import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.ContinueRequestData;
 import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.AttachmentReferenceUpdaterService;
 import uk.nhs.adaptors.pss.translator.service.BundleMapperService;
 import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
-import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPrepInterface;
 import uk.nhs.adaptors.pss.translator.service.SkeletonProcessingService;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.XmlParseUtilService;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.ValidationException;
 import javax.xml.transform.TransformerException;
 
 import java.text.ParseException;
@@ -70,7 +69,7 @@ public class EhrExtractMessageHandler {
     private final AttachmentReferenceUpdaterService attachmentReferenceUpdaterService;
     private final PatientAttachmentLogService patientAttachmentLogService;
     private final XPathService xPathService;
-    private final NackAckPreparationService nackAckPreparationService;
+    private final NackAckPrepInterface nackAckPreparationService;
     private final SkeletonProcessingService skeletonProcessingService;
     private final FailedProcessHandlingService failedProcessHandlingService;
 
@@ -84,7 +83,7 @@ public class EhrExtractMessageHandler {
         BundleMappingException,
         AttachmentNotFoundException,
         ParseException,
-        SAXException, TransformerException, UnsupportedFileTypeException {
+        SAXException, TransformerException {
 
         RCMRIN030000UKMessage payload = unmarshallString(inboundMessage.getPayload(), destinationClass);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
@@ -126,8 +125,7 @@ public class EhrExtractMessageHandler {
                     | SAXException
                     | StorageException
                     | TransformerException
-                    | ParseException
-                    | UnsupportedFileTypeException ex
+                    | ParseException ex
         ) {
             if (ex instanceof StorageException || ex.getCause() instanceof StorageException) {
                 nackAckPreparationService.sendNackMessage(UNEXPECTED_CONDITION, payload, conversationId);
@@ -143,7 +141,7 @@ public class EhrExtractMessageHandler {
 
     private PatientAttachmentLog processInternalAttachmentsAndReturnSkeletonLog(InboundMessage inboundMessage,
         PatientMigrationRequest migrationRequest, String conversationId, String messageId)
-        throws ParseException, ValidationException, InlineAttachmentProcessingException, UnsupportedFileTypeException {
+        throws ParseException, ValidationException, InlineAttachmentProcessingException {
 
         PatientAttachmentLog skeletonCIDAttachmentLog = null;
 
@@ -181,7 +179,7 @@ public class EhrExtractMessageHandler {
         }
 
         // upload all references to files in the inbound message
-        var fileUpdatedPayload = attachmentReferenceUpdaterService.updateReferenceToAttachment(
+        var fileUpdatedPayload = attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
             inboundMessage.getAttachments(),
             conversationId,
             inboundMessage.getPayload()

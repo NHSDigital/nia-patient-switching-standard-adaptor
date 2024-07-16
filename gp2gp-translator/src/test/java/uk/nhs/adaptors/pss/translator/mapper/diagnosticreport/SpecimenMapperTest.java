@@ -18,7 +18,7 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Specimen;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -57,7 +57,7 @@ public class SpecimenMapperTest {
     @Test
     public void testSpecimenIsMapped() {
         when(dateTimeMapper.mapDateTime(any())).thenCallRealMethod();
-        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid.xml");
+        RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid.xml");
         List<Specimen> specimenList = specimenMapper.mapSpecimen(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE
         );
@@ -74,7 +74,7 @@ public class SpecimenMapperTest {
 
     @Test
     public void testSpecimenIsMappedWithNoOptionalFields() {
-        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_no_optional_fields.xml");
+        RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_no_optional_fields.xml");
         List<Specimen> specimenList = specimenMapper.mapSpecimen(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE
         );
@@ -96,7 +96,7 @@ public class SpecimenMapperTest {
 
     @Test
     public void testInvalidSpecimenIsNotMapped() {
-        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_invalid.xml");
+        RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_invalid.xml");
         List<Specimen> specimenList = specimenMapper.mapSpecimen(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITHOUT_SPECIMEN), PATIENT, PRACTICE_CODE
         );
@@ -106,23 +106,23 @@ public class SpecimenMapperTest {
 
     @Test
     public void When_RemoveSurplusObservationComments_With_ChildNarrativeStatements_Expect_CommentsRemoved() {
-        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid.xml");
+        RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid.xml");
 
         var outputList = specimenMapper
             .removeSurplusObservationComments(ehrExtract, getObservationComments());
 
-        assertThat(outputList.size()).isEqualTo(2);
+        assertThat(outputList).hasSize(2);
 
         List<String> ids = outputList.stream()
             .map(Observation::getId)
             .toList();
 
-        assertThat(ids.contains(NARRATIVE_STATEMENT_ID)).isFalse();
+        assertThat(ids).doesNotContain(NARRATIVE_STATEMENT_ID);
     }
 
     @Test
     public void When_RemoveSurplusObservationComments_Without_NoChildNarrativeStatements_Expect_CommentsUnchanged() {
-        RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid_without_comment.xml");
+        RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid_without_comment.xml");
 
         var observationComments = getObservationComments();
 
@@ -163,7 +163,7 @@ public class SpecimenMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 }

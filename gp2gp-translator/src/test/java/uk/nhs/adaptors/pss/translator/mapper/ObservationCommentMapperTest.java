@@ -11,7 +11,7 @@ import java.util.List;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,7 +65,7 @@ public class ObservationCommentMapperTest {
         assertThat(observation.getEffective().toString()).isEqualTo(
             DateFormatUtil.parseToDateTimeType(narrativeStatement.getAvailabilityTime().getValue()).toString());
 
-        assertThat(observation.getIssuedElement().asStringValue()).isEqualTo("2010-01-14T00:00:00.000+00:00");
+        assertThat(observation.getIssuedElement().asStringValue()).isEqualTo("2020-10-12T13:33:44.000+00:00");
 
         var identifier = observation.getIdentifier().get(0);
         assertThat(identifier.getValue()).isEqualTo(narrativeStatementId);
@@ -89,8 +89,7 @@ public class ObservationCommentMapperTest {
                 Collections.singletonList(encounter),
                 PRACTISE_CODE);
 
-        assertThat(observations)
-                .hasSize(0);
+        assertThat(observations).isEmpty();
     }
 
     @Test
@@ -100,7 +99,7 @@ public class ObservationCommentMapperTest {
         List<Observation> observations =
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
-        assertThat(observations.size()).isEqualTo(EXPECTED_OBSERVATION_COUNT);
+        assertThat(observations).hasSize(EXPECTED_OBSERVATION_COUNT);
     }
 
     @Test
@@ -124,8 +123,8 @@ public class ObservationCommentMapperTest {
     }
 
     @Test
-    public void mapObservationsCompositionHasNoAuthorTime() {
-        var ehrExtract = unmarshallEhrExtract("nullflavour_composition_author_time.xml");
+    public void mapObservationsCompositionHasNoAvailabilityTime() {
+        var ehrExtract = unmarshallEhrExtract("nullflavour_availability_time.xml");
 
         List<Observation> observations =
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
@@ -141,7 +140,7 @@ public class ObservationCommentMapperTest {
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
         // Calling `getContext` auto creates a Reference object so asserting the reference is null
-        assertThat(observations.get(0).getContext().getReference()).isEqualTo(null);
+        assertThat(observations.get(0).getContext().getReference()).isNull();
     }
 
     @Test
@@ -151,10 +150,10 @@ public class ObservationCommentMapperTest {
         List<Observation> observations =
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
-        assertThat(observations.get(0).getComment()).isEqualTo(null);
+        assertThat(observations.get(0).getComment()).isNull();
     }
 
-    private RCMRMT030101UKNarrativeStatement getNarrativeStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKNarrativeStatement getNarrativeStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0)
             .getEhrFolder().getComponent().get(0)
             .getEhrComposition().getComponent().get(0)
@@ -162,7 +161,7 @@ public class ObservationCommentMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 }

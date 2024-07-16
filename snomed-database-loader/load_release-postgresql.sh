@@ -9,7 +9,7 @@ isMonolith=false
 
 if [ -z ${releasePath} ]
 then
-  echo "Please set the path to zipped SnomedCT RF2 release as the first argument, e.g. ./load_release-postgresql.sh uk_sct2cl_32.0.0_20210512000001Z.zip"
+  echo "Please set the path to zipped SnomedCT RF2 release as the first argument, e.g. ./load_release-postgresql.sh uk_sct2mo_38.2.0_20240605000001Z.zip"
 	exit -1
 fi
 
@@ -98,9 +98,12 @@ EOF
 #load data
 ./${generatedLoadScript}
 
-#refresh materialized view
-psql "${databaseUri}" -c "REFRESH MATERIALIZED VIEW ${snomedCtSchema}.immunization_codes"
-psql "${databaseUri}" -c "REFRESH MATERIALIZED VIEW ${snomedCtSchema}.preferred_terms"
+#refresh materialized view - this is intentionally completed last as there isn't an transactional safety in this script,
+#however the GP2GP Translator service will terminate if the immunization codes have not loaded successfully.
+psql "${databaseUri}" << SQL
+REFRESH MATERIALIZED VIEW ${snomedCtSchema}.immunization_codes;
+REFRESH MATERIALIZED VIEW ${snomedCtSchema}.preferred_terms
+SQL
 
 #cleanup
 rm -rf $localExtract

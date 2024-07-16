@@ -3,7 +3,7 @@ package uk.nhs.adaptors.pss.translator.util;
 import org.hl7.v3.RCMRIN030000UK06Message;
 import org.hl7.v3.RCMRIN030000UK06ControlActEvent;
 import org.hl7.v3.RCMRIN030000UK06Subject;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UKPatient;
 import org.hl7.v3.RCMRMT030101UKPatientSubject;
@@ -37,7 +37,7 @@ public class XmlParseUtilTest {
     @Mock
     private RCMRIN030000UK06Subject rcmrin030000UK06Subject;
     @Mock
-    private RCMRMT030101UK04EhrExtract rcmrmt030101UK04EhrExtract;
+    private RCMRMT030101UKEhrExtract rcmrmt030101UKEhrExtract;
     @Mock
     private RCMRMT030101UKPatientSubject rcmrmt030101UK04PatientSubject;
     @Mock
@@ -52,7 +52,7 @@ public class XmlParseUtilTest {
 
         when(rcmrin030000UK06Message.getControlActEvent().getSubject()).thenReturn(rcmrin030000UK06Subject);
 
-        when(rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract()).thenReturn(rcmrmt030101UK04EhrExtract);
+        when(rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract()).thenReturn(rcmrmt030101UKEhrExtract);
 
         when(
                 rcmrin030000UK06Message

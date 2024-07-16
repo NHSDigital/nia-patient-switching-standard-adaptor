@@ -8,15 +8,6 @@ import java.util.stream.Stream;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.hl7.v3.RCMRMT030101UK04CompoundStatement;
-import org.hl7.v3.RCMRMT030101UK04LinkSet;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
-import org.hl7.v3.RCMRMT030101UK04NarrativeStatement;
-import org.hl7.v3.RCMRMT030101UK04ObservationStatement;
-import org.hl7.v3.RCMRMT030101UK04PlanStatement;
-import org.hl7.v3.RCMRMT030101UK04RequestStatement;
-import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UKComponent4;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKLinkSet;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
@@ -24,6 +15,8 @@ import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPlanStatement;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKComponent4;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompoundStatementResourceExtractors {
@@ -36,7 +29,7 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasCompoundStatement, RCMRMT030101UKComponent02::getCompoundStatement)
                 .stream()
-                .map(RCMRMT030101UK04CompoundStatement.class::cast)
+                .map(RCMRMT030101UKCompoundStatement.class::cast)
                 : Stream.empty()
         );
     }
@@ -48,7 +41,7 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractCompoundsFromCompound(component02.getCompoundStatement())
                     .stream()
                     .filter(Objects::nonNull)
-                    .map(RCMRMT030101UK04CompoundStatement.class::cast)
+                    .map(RCMRMT030101UKCompoundStatement.class::cast)
                 : Stream.empty()
         );
     }
@@ -61,7 +54,7 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasLinkSet, RCMRMT030101UKComponent02::getLinkSet)
                 .stream()
-                .map(RCMRMT030101UK04LinkSet.class::cast)
+                .map(RCMRMT030101UKLinkSet.class::cast)
                 : Stream.empty()
         );
     }
@@ -73,7 +66,7 @@ public class CompoundStatementResourceExtractors {
             component4.hasCompoundStatement() ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasObservationStatement, RCMRMT030101UKComponent02::getObservationStatement)
                 .stream()
-                .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                .map(RCMRMT030101UKObservationStatement.class::cast)
                 : Stream.empty()
         );
     }
@@ -103,7 +96,7 @@ public class CompoundStatementResourceExtractors {
                         RCMRMT030101UKComponent02::getObservationStatement,
                         CompoundStatementResourceExtractors::isNotAllergy
                     ).stream()
-                    .map(RCMRMT030101UK04ObservationStatement.class::cast)
+                    .map(RCMRMT030101UKObservationStatement.class::cast)
                 : Stream.empty()
         );
     }
@@ -116,7 +109,7 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasPlanStatement, RCMRMT030101UKComponent02::getPlanStatement)
                 .stream()
-                .map(RCMRMT030101UK04PlanStatement.class::cast)
+                .map(RCMRMT030101UKPlanStatement.class::cast)
                 : Stream.empty()
         );
     }
@@ -129,7 +122,7 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasRequestStatement, RCMRMT030101UKComponent02::getRequestStatement)
                 .stream()
-                .map(RCMRMT030101UK04RequestStatement.class::cast)
+                .map(RCMRMT030101UKRequestStatement.class::cast)
                 : Stream.empty()
         );
     }
@@ -142,14 +135,14 @@ public class CompoundStatementResourceExtractors {
             provided component contains a blood pressure triple.
             See PR #367 AKA NIAD-2843 for details.
          */
-        Stream<RCMRMT030101UK04NarrativeStatement> childNarrativeStatements =
+        Stream<RCMRMT030101UKNarrativeStatement> childNarrativeStatements =
                 hasCompoundStatementAndIsNotBloodPressure(component4)
                         ? CompoundStatementUtil.extractResourcesFromCompound(
                                 component4.getCompoundStatement(),
                                 RCMRMT030101UKComponent02::hasNarrativeStatement,
                                 RCMRMT030101UKComponent02::getNarrativeStatement)
                             .stream()
-                            .map(RCMRMT030101UK04NarrativeStatement.class::cast)
+                            .map(RCMRMT030101UKNarrativeStatement.class::cast)
                         : Stream.empty();
 
         return Stream.concat(Stream.of(component4.getNarrativeStatement()), childNarrativeStatements);
@@ -163,7 +156,7 @@ public class CompoundStatementResourceExtractors {
                 ? CompoundStatementUtil.extractResourcesFromCompound(component4.getCompoundStatement(),
                     RCMRMT030101UKComponent02::hasMedicationStatement, RCMRMT030101UKComponent02::getMedicationStatement)
                 .stream()
-                .map(RCMRMT030101UK04MedicationStatement.class::cast)
+                .map(RCMRMT030101UKMedicationStatement.class::cast)
                 : Stream.empty()
         );
     }

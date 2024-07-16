@@ -4,6 +4,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.timeout;
@@ -24,7 +26,10 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import java.time.Duration;
 import java.util.List;
 
+import ca.uhn.fhir.parser.DataFormatException;
+import org.apache.qpid.jms.message.JmsTextMessage;
 import org.jdbi.v3.core.ConnectionException;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,10 +37,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpHeaders;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
@@ -53,6 +60,9 @@ import uk.nhs.adaptors.pss.translator.task.SendACKMessageHandler;
 import uk.nhs.adaptors.pss.translator.task.SendContinueRequestHandler;
 import uk.nhs.adaptors.pss.translator.task.SendNACKMessageHandler;
 import uk.nhs.adaptors.pss.util.BaseEhrHandler;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
@@ -65,18 +75,29 @@ public class ServiceFailureIT extends BaseEhrHandler {
     private static final String STUB_BODY = "test Body";
     private static final int THIRTY_SECONDS = 30000;
     private static final long TWO_MINUTES_LONG = 2L;
+    private static final int FIVE_WANTED_NUMBER_OF_INVOCATIONS = 5;
+    public static final String JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON = "/json/LargeMessage/Scenario_3/uk06.json";
+    public static final String JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON = "/json/LargeMessage/Scenario_3/copc.json";
+    public static final String JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON = "/json/LargeMessage/expectedBundleScenario3.json";
+    public static final int RECEIVE_TIMEOUT_LIMIT = 50;
 
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
     private PssQueueProperties pssQueueProperties;
 
+    @Autowired
+    @Qualifier("jmsTemplateMhsDLQ")
+    private JmsTemplate dlqJmsTemplate;
+
     @Mock
     private HttpHeaders httpHeaders;
+
     @SpyBean
     private MhsClientService mhsClientService;
     @SpyBean
     private SendContinueRequestHandler sendContinueRequestHandler;
+
     @SpyBean
     private SendACKMessageHandler sendACKMessageHandler;
     @SpyBean
@@ -124,7 +145,7 @@ public class ServiceFailureIT extends BaseEhrHandler {
         doThrow(MhsServerErrorException.class)
             .when(sendContinueRequestHandler).prepareAndSendRequest(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(() -> hasMigrationStatus(EHR_GENERAL_PROCESSING_ERROR, getConversationId()));
 
@@ -136,18 +157,18 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     @Test
-    public void When_ReceivingCOPC_WithMhsOutboundServerError_Expect_MessageSentToDLQ() {
-        doThrow(MhsServerErrorException.class)
+    public void When_ReceivingCOPC_WithDataFormatExceptionError_Expect_MessageSentToDLQ() {
+        doThrow(DataFormatException.class)
             .when(sendACKMessageHandler).prepareAndSendMessage(any());
 
-        doThrow(MhsServerErrorException.class)
+        doThrow(DataFormatException.class)
             .when(sendNACKMessageHandler).prepareAndSendMessage(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().until(() -> hasMigrationStatus(ERROR_LRG_MSG_GENERAL_FAILURE, getConversationId()));
 
@@ -155,6 +176,28 @@ public class ServiceFailureIT extends BaseEhrHandler {
 
         assertThat(getCurrentMigrationStatus(getConversationId()))
             .isEqualTo(ERROR_LRG_MSG_GENERAL_FAILURE);
+    }
+
+    @Test
+    public void When_ReceivingCOPC_WithMhsServerErrorException_Expect_MessageSentToDLQ() throws JMSException {
+
+        dlqCleanUp();
+
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
+
+        await().until(this::hasContinueMessageBeenReceived);
+
+        doThrow(MhsServerErrorException.class).when(mhsClientService).send(any());
+
+        var copcMessageInJsonFormat = fetchMessageInJsonFormat(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
+
+        dlqJmsTemplate.setReceiveTimeout(THIRTY_SECONDS);
+        Message messageSentToDlq = dlqJmsTemplate.receive();
+
+        assertNotNull(messageSentToDlq);
+        assertEquals(copcMessageInJsonFormat, ((JmsTextMessage) messageSentToDlq).getText());
+        verify(mhsClientService, times(FIVE_WANTED_NUMBER_OF_INVOCATIONS)).send(any());
     }
 
     @Test
@@ -176,15 +219,15 @@ public class ServiceFailureIT extends BaseEhrHandler {
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(() -> hasMigrationStatus(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId));
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
@@ -197,39 +240,62 @@ public class ServiceFailureIT extends BaseEhrHandler {
             .doCallRealMethod()
             .when(mhsClientService).send(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
     public void When_ReceivingCopc_WithMhsWebClientRequestException_Expect_MigrationCompletesWhenMhsRecovers() throws JSONException {
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(this::hasContinueMessageBeenReceived);
 
         doThrow(WebClientRequestException.class)
-            .doThrow(WebClientRequestException.class)
-            .doThrow(WebClientRequestException.class)
-            .doThrow(WebClientRequestException.class)
-            .doThrow(WebClientRequestException.class)
-            .doCallRealMethod()
-            .when(mhsClientService).send(any());
+        .doThrow(WebClientRequestException.class)
+        .doThrow(WebClientRequestException.class)
+        .doThrow(WebClientRequestException.class)
+        .doThrow(WebClientRequestException.class)
+        .doCallRealMethod()
+        .when(mhsClientService).send(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
+    }
+
+    @Test
+    public void When_ReceivingCopc_WithMhsWebClientResponseException_Expect_MigrationCompletesWhenMhsRecovers() throws JSONException {
+
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
+
+        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG)).until(this::hasContinueMessageBeenReceived);
+
+        var webClientResponseException = getInternalServerErrorException();
+
+        doThrow(webClientResponseException)
+            .doThrow(webClientResponseException)
+            .doThrow(webClientResponseException)
+        .doCallRealMethod()
+        .when(mhsClientService).send(any());
+
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
+
+        await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
+            .until(this::isEhrMigrationCompleted);
+
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
@@ -250,15 +316,15 @@ public class ServiceFailureIT extends BaseEhrHandler {
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(() -> hasMigrationStatus(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId));
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
@@ -271,22 +337,22 @@ public class ServiceFailureIT extends BaseEhrHandler {
             .doCallRealMethod()
             .when(mhsClientService).send(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(this::hasContinueMessageBeenReceived);
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
     }
 
     @Test
     public void When_ReceivingCopc_WithDbConnectionException_Expect_MigrationCompletesWhenMhsRecovers() throws JSONException {
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/uk06.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_UK_06_JSON);
 
         await().until(this::hasContinueMessageBeenReceived);
 
@@ -298,12 +364,20 @@ public class ServiceFailureIT extends BaseEhrHandler {
             .doCallRealMethod()
             .when(mhsClientService).send(any());
 
-        sendInboundMessageToQueue("/json/LargeMessage/Scenario_3/copc.json");
+        sendInboundMessageToQueue(JSON_LARGE_MESSAGE_SCENARIO_3_COPC_JSON);
 
         await().atMost(Duration.ofMinutes(TWO_MINUTES_LONG))
             .until(this::isEhrMigrationCompleted);
 
-        verifyBundle("/json/LargeMessage/expectedBundleScenario3.json");
+        verifyBundle(JSON_LARGE_MESSAGE_EXPECTED_BUNDLE_SCENARIO_3_JSON);
+    }
+
+    private void dlqCleanUp() {
+        dlqJmsTemplate.setReceiveTimeout(RECEIVE_TIMEOUT_LIMIT);
+        long timeToLive;
+        while (dlqJmsTemplate.receive() != null) {
+            timeToLive = dlqJmsTemplate.getTimeToLive();
+        }
     }
 
     private boolean hasMigrationStatus(MigrationStatus migrationStatus, String conversationId) {
@@ -346,10 +420,14 @@ public class ServiceFailureIT extends BaseEhrHandler {
     }
 
     private void sendInboundMessageToQueue(String json) {
-        var jsonMessage = readResourceAsString(json)
+        var jsonMessage = fetchMessageInJsonFormat(json);
+        getMhsJmsTemplate().send(session -> session.createTextMessage(jsonMessage));
+    }
+
+    private @NotNull String fetchMessageInJsonFormat(String json) {
+        return readResourceAsString(json)
             .replace(NHS_NUMBER_PLACEHOLDER, getPatientNhsNumber())
             .replace(CONVERSATION_ID_PLACEHOLDER, getConversationId());
-        getMhsJmsTemplate().send(session -> session.createTextMessage(jsonMessage));
     }
 
     private boolean hasContinueMessageBeenReceived() {

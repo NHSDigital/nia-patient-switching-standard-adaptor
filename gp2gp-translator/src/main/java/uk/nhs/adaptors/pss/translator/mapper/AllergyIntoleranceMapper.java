@@ -10,7 +10,6 @@ import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTime
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.fetchRecorderAndAsserter;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +23,7 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.CD;
@@ -38,6 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
 
@@ -57,6 +58,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
     public static final String RECORDER = "recorder";
 
     private final CodeableConceptMapper codeableConceptMapper;
+    private final ConfidentialityService confidentialityService;
 
     @Override
     public List<AllergyIntolerance> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
@@ -67,8 +69,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                         .filter(Objects::nonNull)
                         .filter(ResourceFilterUtil::isAllergyIntolerance)
                         .map(compoundStatement -> mapAllergyIntolerance(
-                                ehrExtract,
-                                composition,
+                            composition,
                                 compoundStatement,
                                 practiseCode,
                                 encounters,
@@ -76,8 +77,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         ).toList();
     }
 
-    private AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UKEhrExtract ehrExtract,
-                                                     RCMRMT030101UKEhrComposition ehrComposition,
+    private AllergyIntolerance mapAllergyIntolerance(RCMRMT030101UKEhrComposition ehrComposition,
                                                      RCMRMT030101UKCompoundStatement compoundStatement,
                                                      String practiseCode,
                                                      List<Encounter> encounters,
@@ -90,6 +90,12 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
                 .getId()
                 .getRoot();
 
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode()
+        );
+
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
             .setAssertedDateElement(getAssertedDateElement(compoundStatement.getAvailabilityTime(), ehrComposition))
@@ -97,7 +103,7 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
             .setClinicalStatus(ACTIVE)
             .setVerificationStatus(UNCONFIRMED)
             .addIdentifier(buildIdentifier(id, practiseCode))
-            .setMeta(generateMeta(META_PROFILE))
+            .setMeta(meta)
             .setId(id);
 
         buildOnset(compoundStatement, allergyIntolerance);

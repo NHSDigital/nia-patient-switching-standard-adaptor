@@ -1,53 +1,486 @@
+
 package org.hl7.v3;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public interface RCMRMT030101UKDiscontinue {
-    II getId();
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-    void setId(II value);
 
-    CD getCode();
+/**
+ * &lt;p&gt;Java class for RCMR_MT030101UK.Discontinue complex type.
+ * 
+ * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
+ * 
+ * &lt;pre&gt;
+ * &amp;lt;complexType name="RCMR_MT030101UK.Discontinue"&amp;gt;
+ *   &amp;lt;complexContent&amp;gt;
+ *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
+ *       &amp;lt;sequence&amp;gt;
+ *         &amp;lt;element name="id" type="{urn:hl7-org:v3}II"/&amp;gt;
+ *         &amp;lt;element name="code" type="{urn:hl7-org:v3}CD"/&amp;gt;
+ *         &amp;lt;element name="statusCode" type="{urn:hl7-org:v3}CS"/&amp;gt;
+ *         &amp;lt;element name="availabilityTime" type="{urn:hl7-org:v3}TS"/&amp;gt;
+ *         &amp;lt;element name="reversalOf" type="{urn:hl7-org:v3}RCMR_MT030101UK.ReversalOf" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="performer" type="{urn:hl7-org:v3}RCMR_MT030101UK.Performer" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="consumable" type="{urn:hl7-org:v3}RCMR_MT030101UK.Product" minOccurs="0"/&amp;gt;
+ *         &amp;lt;element name="pertinentInformation" type="{urn:hl7-org:v3}RCMR_MT030101UK.PertinentInformation2" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *       &amp;lt;/sequence&amp;gt;
+ *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="Supply" /&amp;gt;
+ *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="SPLY" /&amp;gt;
+ *       &amp;lt;attribute name="moodCode" type="{urn:hl7-org:v3}ActMood" default="RQO" /&amp;gt;
+ *       &amp;lt;attribute name="typeID"&amp;gt;
+ *         &amp;lt;simpleType&amp;gt;
+ *           &amp;lt;list itemType="{urn:hl7-org:v3}oid" /&amp;gt;
+ *         &amp;lt;/simpleType&amp;gt;
+ *       &amp;lt;/attribute&amp;gt;
+ *       &amp;lt;attribute name="realmCode"&amp;gt;
+ *         &amp;lt;simpleType&amp;gt;
+ *           &amp;lt;list itemType="{urn:hl7-org:v3}cs" /&amp;gt;
+ *         &amp;lt;/simpleType&amp;gt;
+ *       &amp;lt;/attribute&amp;gt;
+ *       &amp;lt;attribute name="nullFlavor" type="{urn:hl7-org:v3}cs" /&amp;gt;
+ *     &amp;lt;/restriction&amp;gt;
+ *   &amp;lt;/complexContent&amp;gt;
+ * &amp;lt;/complexType&amp;gt;
+ * &lt;/pre&gt;
+ * 
+ * 
+ */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RCMR_MT030101UK.Discontinue", propOrder = {
+    "id",
+    "code",
+    "statusCode",
+    "availabilityTime",
+    "reversalOf",
+    "performer",
+    "consumable",
+    "pertinentInformation"
+})
+public class RCMRMT030101UKDiscontinue {
 
-    void setCode(CD value);
+    @XmlElement(required = true)
+    protected II id;
 
-    boolean hasCode();
+    @XmlElement(required = true)
+    protected CD code;
 
-    CS getStatusCode();
+    @XmlElement(required = true)
+    protected CS statusCode;
 
-    void setStatusCode(CS value);
+    @XmlElement(required = true)
+    protected TS availabilityTime;
 
-    TS getAvailabilityTime();
+    @XmlElement(type = RCMRMT030101UKReversalOf.class)
+    protected List<RCMRMT030101UKReversalOf> reversalOf;
 
-    void setAvailabilityTime(TS value);
+    @XmlElement(type = RCMRMT030101UKPerformer.class)
+    protected RCMRMT030101UKPerformer performer;
 
-    boolean hasAvailabilityTime();
+    @XmlElement(type = RCMRMT030101UKProduct.class)
+    protected RCMRMT030101UKProduct consumable;
 
-    List<RCMRMT030101UKReversalOf> getReversalOf();
+    @XmlElement(type = RCMRMT030101UKPertinentInformation2.class)
+    protected List<RCMRMT030101UKPertinentInformation2> pertinentInformation;
 
-    RCMRMT030101UKPerformer getPerformer();
+    @XmlAttribute(name = "type")
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    protected String type;
 
-    void setPerformer(RCMRMT030101UKPerformer value);
+    @XmlAttribute(name = "classCode")
+    protected List<String> classCode;
+    @XmlAttribute(name = "moodCode")
+    protected List<String> moodCode;
+    @XmlAttribute(name = "typeID")
+    protected List<String> typeID;
+    @XmlAttribute(name = "realmCode")
+    protected List<String> realmCode;
+    @XmlAttribute(name = "nullFlavor")
+    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+    protected String nullFlavor;
 
-    RCMRMT030101UKProduct getConsumable();
+    /**
+     * Gets the value of the id property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link II }
+     *     
+     */
+    public II getId() {
+        return id;
+    }
 
-    void setConsumable(RCMRMT030101UKProduct value);
+    /**
+     * Sets the value of the id property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link II }
+     *     
+     */
+    public void setId(II value) {
+        this.id = value;
+    }
 
-    List<RCMRMT030101UKPertinentInformation2> getPertinentInformation();
+    /**
+     * Gets the value of the code property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CD }
+     *     
+     */
+    public CD getCode() {
+        return code;
+    }
 
-    String getType();
+    /**
+     * Sets the value of the code property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CD }
+     *     
+     */
+    public void setCode(CD value) {
+        this.code = value;
+    }
 
-    void setType(String value);
+    public boolean hasCode() {
+        return code != null;
+    }
 
-    List<String> getClassCode();
+    /**
+     * Gets the value of the statusCode property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CS }
+     *     
+     */
+    public CS getStatusCode() {
+        return statusCode;
+    }
 
-    List<String> getMoodCode();
+    /**
+     * Sets the value of the statusCode property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CS }
+     *     
+     */
+    public void setStatusCode(CS value) {
+        this.statusCode = value;
+    }
 
-    List<String> getTypeID();
+    /**
+     * Gets the value of the availabilityTime property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TS }
+     *     
+     */
+    public TS getAvailabilityTime() {
+        return availabilityTime;
+    }
 
-    List<String> getRealmCode();
+    /**
+     * Sets the value of the availabilityTime property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TS }
+     *     
+     */
+    public void setAvailabilityTime(TS value) {
+        this.availabilityTime = value;
+    }
 
-    String getNullFlavor();
+    public boolean hasAvailabilityTime() {
+        return availabilityTime != null;
+    }
 
-    void setNullFlavor(String value);
+    /**
+     * Gets the value of the reversalOf property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the reversalOf property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getReversalOf().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link RCMRMT030101UKReversalOf }
+     * 
+     * 
+     */
+    public List<RCMRMT030101UKReversalOf> getReversalOf() {
+        if (reversalOf == null) {
+            reversalOf = new ArrayList<>();
+        }
+        return this.reversalOf;
+    }
+
+    /**
+     * Gets the value of the performer property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link RCMRMT030101UKPerformer }
+     *     
+     */
+    public RCMRMT030101UKPerformer getPerformer() {
+        return performer;
+    }
+
+    /**
+     * Sets the value of the performer property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link RCMRMT030101UKPerformer }
+     *     
+     */
+    public void setPerformer(RCMRMT030101UKPerformer value) {
+        this.performer = value;
+    }
+
+    /**
+     * Gets the value of the consumable property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link RCMRMT030101UKProduct }
+     *     
+     */
+    public RCMRMT030101UKProduct getConsumable() {
+        return consumable;
+    }
+
+    /**
+     * Sets the value of the consumable property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link RCMRMT030101UKProduct }
+     *     
+     */
+    public void setConsumable(RCMRMT030101UKProduct value) {
+        this.consumable = value;
+    }
+
+    /**
+     * Gets the value of the pertinentInformation property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the pertinentInformation property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getPertinentInformation().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link RCMRMT030101UKPertinentInformation2 }
+     * 
+     * 
+     */
+    public List<RCMRMT030101UKPertinentInformation2> getPertinentInformation() {
+        if (pertinentInformation == null) {
+            pertinentInformation = new ArrayList<>();
+        }
+        return this.pertinentInformation;
+    }
+
+    /**
+     * Gets the value of the type property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getType() {
+        return Objects.requireNonNullElse(type, "Supply");
+    }
+
+    /**
+     * Sets the value of the type property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setType(String value) {
+        this.type = value;
+    }
+
+    /**
+     * Gets the value of the classCode property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the classCode property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getClassCode().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getClassCode() {
+        if (classCode == null) {
+            classCode = new ArrayList<>();
+        }
+        return this.classCode;
+    }
+
+    /**
+     * Gets the value of the moodCode property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the moodCode property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getMoodCode().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getMoodCode() {
+        if (moodCode == null) {
+            moodCode = new ArrayList<>();
+        }
+        return this.moodCode;
+    }
+
+    /**
+     * Gets the value of the typeID property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the typeID property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getTypeID().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getTypeID() {
+        if (typeID == null) {
+            typeID = new ArrayList<>();
+        }
+        return this.typeID;
+    }
+
+    /**
+     * Gets the value of the realmCode property.
+     * 
+     * &lt;p&gt;
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the realmCode property.
+     * 
+     * &lt;p&gt;
+     * For example, to add a new item, do as follows:
+     * &lt;pre&gt;
+     *    getRealmCode().add(newItem);
+     * &lt;/pre&gt;
+     * 
+     * 
+     * &lt;p&gt;
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getRealmCode() {
+        if (realmCode == null) {
+            realmCode = new ArrayList<>();
+        }
+        return this.realmCode;
+    }
+
+    /**
+     * Gets the value of the nullFlavor property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getNullFlavor() {
+        return nullFlavor;
+    }
+
+    /**
+     * Sets the value of the nullFlavor property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setNullFlavor(String value) {
+        this.nullFlavor = value;
+    }
+
 }

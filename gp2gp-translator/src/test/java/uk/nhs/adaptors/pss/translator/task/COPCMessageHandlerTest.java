@@ -23,15 +23,14 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_GENERAL_FAILURE;
 import static uk.nhs.adaptors.pss.translator.model.NACKReason.UNEXPECTED_CONDITION;
-import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.ValidationException;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.ValidationException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.v3.COPCIN000001UK01Message;
@@ -46,6 +45,7 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -58,14 +58,12 @@ import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.connector.model.PatientMigrationRequest;
 import uk.nhs.adaptors.connector.service.MigrationStatusLogService;
 import uk.nhs.adaptors.connector.service.PatientAttachmentLogService;
-import uk.nhs.adaptors.pss.translator.config.SupportedFileTypes;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentLogException;
 import uk.nhs.adaptors.pss.translator.exception.AttachmentNotFoundException;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 import uk.nhs.adaptors.pss.translator.exception.ExternalAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.InlineAttachmentProcessingException;
 import uk.nhs.adaptors.pss.translator.exception.MhsServerErrorException;
-import uk.nhs.adaptors.pss.translator.exception.UnsupportedFileTypeException;
 import uk.nhs.adaptors.pss.translator.mhs.model.InboundMessage;
 import uk.nhs.adaptors.pss.translator.model.EbxmlReference;
 import uk.nhs.adaptors.pss.translator.model.NACKMessageData;
@@ -73,7 +71,7 @@ import uk.nhs.adaptors.pss.translator.service.AttachmentHandlerService;
 import uk.nhs.adaptors.pss.translator.service.FailedProcessHandlingService;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.service.InboundMessageMergingService;
-import uk.nhs.adaptors.pss.translator.service.NackAckPreparationService;
+import uk.nhs.adaptors.pss.translator.service.NackAckPrepInterface;
 import uk.nhs.adaptors.pss.translator.service.XPathService;
 import uk.nhs.adaptors.pss.translator.storage.StorageException;
 import uk.nhs.adaptors.pss.translator.util.InboundMessageUtil;
@@ -115,8 +113,7 @@ class COPCMessageHandlerTest {
     private InboundMessageMergingService inboundMessageMergingService;
     @Mock
     private XmlParseUtilService xmlParseUtilService;
-    @Mock
-    private SupportedFileTypes supportedFileTypesMock;
+
     @Mock
     private FailedProcessHandlingService failedProcessHandlingService;
 
@@ -145,7 +142,7 @@ class COPCMessageHandlerTest {
     private ArgumentCaptor<String> contentTypeCaptor;
 
     @Mock
-    private NackAckPreparationService nackAckPreparationServiceMock;
+    private NackAckPrepInterface nackAckPreparationServiceMock;
 
     @Captor
     private ArgumentCaptor<NACKMessageData> nackMessageDataCaptor;
@@ -160,7 +157,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_PartialLogToBeCreated()
         throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
-        AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+               AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         // ARRANGE
         var messageId = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
@@ -190,8 +187,8 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_CIDFragmentPartIsReceivedBeforeFragmentIndex_Expect_StoreAttachmentOnly()
-            throws JAXBException, InlineAttachmentProcessingException, SAXException,
-                AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+        throws JAXBException, InlineAttachmentProcessingException, SAXException,
+               AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         InboundMessage message = new InboundMessage();
         prepareFragmentMocks(message);
@@ -211,8 +208,8 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_MIDFragmentRecordHasAnAttachmentLog_Expect_AttachmentLogToBeUpdated()
-            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
-                AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+        throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
+               AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         var parentMid = "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1";
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
@@ -252,8 +249,8 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_MIDFragmentRecordDoesNotHaveAnAttachmentLog_Expect_AttachmentLogToBeCreated()
-            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
-            AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+        throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
+               AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         InboundMessage message = new InboundMessage();
@@ -293,8 +290,12 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_FragmentIndexIsRecievedWithCIDAndMIDParts_Expect_CIDMessageToBeProcessed() throws JAXBException,
-            InlineAttachmentProcessingException, SAXException,
-            AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+                                                                                                       InlineAttachmentProcessingException,
+                                                                                                       SAXException,
+                                                                                                       AttachmentLogException,
+                                                                                                       AttachmentNotFoundException,
+                                                                                                       BundleMappingException,
+                                                                                                       JsonProcessingException {
 
         var childMid = "28B31-4245-4AFC-8DA2-8A40623A5101";
         var generatedCid = "ADAPTOR_GENERATED_TEST-ID";
@@ -325,7 +326,7 @@ class COPCMessageHandlerTest {
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
         verify(attachmentHandlerService)
             .storeAttachmentWithoutProcessing(TEST_ID + "_CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1_0.messageattachment",
-                "ABC Not Required", CONVERSATION_ID, "text/plain");
+                                              "ABC Not Required", CONVERSATION_ID, "text/plain");
         verify(patientAttachmentLogService, times(2)).addAttachmentLog(patientLogCaptor.capture());
 
         PatientAttachmentLog actualCidAttachmentLog = patientLogCaptor.getAllValues().get(0);
@@ -337,20 +338,20 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_CIDFragmentPartIsReceivedInOrder_Expect_ShouldUploadFile()
-            throws JAXBException, InlineAttachmentProcessingException, SAXException,
-                AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+        throws JAXBException, InlineAttachmentProcessingException, SAXException,
+               AttachmentLogException, AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
 
         InboundMessage message = new InboundMessage();
         prepareExpectedFragmentMocks(message);
 
         when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
             .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
-                "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
+                                                  "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", true));
 
         copcMessageHandler.handleMessage(message, CONVERSATION_ID);
 
         verify(attachmentHandlerService).storeAttachmentWithoutProcessing(filenameCaptor.capture(), payloadCaptor.capture(),
-            conversationIdCaptor.capture(), contentTypeCaptor.capture());
+                                                                          conversationIdCaptor.capture(), contentTypeCaptor.capture());
 
         assertEquals("E39E79A2-FA96-48FF-9373-7BBCB9D036E7.txt", filenameCaptor.getValue());
         assertEquals("This is a payload", payloadCaptor.getValue());
@@ -360,8 +361,8 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_CIDMessageFileIsProcessed_Expect_AttachmentLogUploadedColumnIsSetToTrue()
-            throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
-                AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
+        throws JAXBException, InlineAttachmentProcessingException, SAXException, AttachmentLogException,
+               AttachmentNotFoundException, BundleMappingException, JsonProcessingException {
         InboundMessage message = new InboundMessage();
         prepareExpectedFragmentMocks(message);
 
@@ -379,8 +380,8 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_CanMergeCompleteBundle_Expect_MergeAndBundle()
-            throws AttachmentNotFoundException, JAXBException, BundleMappingException, JsonProcessingException,
-                InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+        throws AttachmentNotFoundException, JAXBException, BundleMappingException, JsonProcessingException,
+               InlineAttachmentProcessingException, SAXException, AttachmentLogException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readCopcInboundMessageFromFile());
@@ -397,15 +398,15 @@ class COPCMessageHandlerTest {
 
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(PatientAttachmentLog.builder()
-                        .filename("test_main.txt")
-                        .mid("1")
-                        .parentMid("0")
-                        .patientMigrationReqId(1)
-                        .build());
+            .thenReturn(PatientAttachmentLog.builder()
+                            .filename("test_main.txt")
+                            .mid("1")
+                            .parentMid("0")
+                            .patientMigrationReqId(1)
+                            .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
+            .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
 
         when(inboundMessageMergingService.canMergeCompleteBundle(CONVERSATION_ID)).thenReturn(true);
 
@@ -415,8 +416,8 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_CanMergeCompleteBundle_ReturnsFalse_Expect_MergeAndBundleNotCalled()
-            throws AttachmentNotFoundException, JAXBException, BundleMappingException, JsonProcessingException,
-                InlineAttachmentProcessingException, SAXException, AttachmentLogException {
+        throws AttachmentNotFoundException, JAXBException, BundleMappingException, JsonProcessingException,
+               InlineAttachmentProcessingException, SAXException, AttachmentLogException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readCopcInboundMessageFromFile());
@@ -432,15 +433,15 @@ class COPCMessageHandlerTest {
         inboundMessage.setAttachments(Arrays.asList(InboundMessage.Attachment.builder().build()));
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(PatientAttachmentLog.builder()
-                        .filename("test_main.txt")
-                        .mid("1")
-                        .parentMid("0")
-                        .patientMigrationReqId(1)
-                        .build());
+            .thenReturn(PatientAttachmentLog.builder()
+                            .filename("test_main.txt")
+                            .mid("1")
+                            .parentMid("0")
+                            .patientMigrationReqId(1)
+                            .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
+            .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
 
         when(inboundMessageMergingService.canMergeCompleteBundle(CONVERSATION_ID)).thenReturn(false);
 
@@ -451,7 +452,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_HappyPath_Expect_ThrowNoErrors()
         throws SAXException, ValidationException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -460,10 +461,10 @@ class COPCMessageHandlerTest {
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
             .thenReturn(PatientAttachmentLog.builder()
-                .filename("test_frag_1.txt")
-                .mid("2").parentMid("1")
-                .patientMigrationReqId(1)
-                .build());
+                            .filename("test_frag_1.txt")
+                            .mid("2").parentMid("1")
+                            .patientMigrationReqId(1)
+                            .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
             .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
@@ -474,51 +475,13 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void shouldSendNackWhenFileTypeIsNotSupported() throws AttachmentNotFoundException, JAXBException,
-        BundleMappingException, JsonProcessingException, InlineAttachmentProcessingException, SAXException,
-        AttachmentLogException, UnsupportedFileTypeException {
-
-        MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
-
-        try {
-
-            InboundMessage message = new InboundMessage();
-            setUpInboundMessageAndMocks(message);
-            prepareFailProcessMocks(mockedXmlUnmarshall);
-
-            when(patientAttachmentLogService.findAttachmentLog(MESSAGE_ID, CONVERSATION_ID))
-                .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB",
-                    "CBBAE92D-C7E8-4A9C-8887-F5AEBA1F8CE1", false));
-
-            doThrow(UnsupportedFileTypeException.class)
-                .when(attachmentHandlerService)
-                .storeAttachments(any(), any());
-
-            COPCIN000001UK01Message mockedPayload = unmarshallString(message.getPayload(), COPCIN000001UK01Message.class);
-            mockedXmlUnmarshall.when(
-                () -> XmlUnmarshallUtil.unmarshallString(any(), eq(COPCIN000001UK01Message.class))
-            ).thenReturn(mockedPayload);
-
-            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
-            verify(nackAckPreparationServiceMock, times(1))
-                .sendNackMessage(LARGE_MESSAGE_GENERAL_FAILURE, mockedPayload, CONVERSATION_ID);
-
-            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
-            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED.getCode());
-        } finally {
-            mockedXmlUnmarshall.close();
-        }
-
-    }
-
-    @Test
     public void When_CurrentAttachmentLogIsNull_Expect_ThrowError() {
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
         inboundMessage.setEbXML(readLargeInboundMessageEbXmlFromFile());
 
         when(patientAttachmentLogService.findAttachmentLog(any(), any()))
-                .thenReturn(null);
+            .thenReturn(null);
 
         assertThrows(AttachmentLogException.class, () -> copcMessageHandler.checkAndMergeFileParts(inboundMessage, any()));
     }
@@ -526,7 +489,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_CurrentAttachmentLogExists_Expect_ThrowNoError()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -534,14 +497,14 @@ class COPCMessageHandlerTest {
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(PatientAttachmentLog.builder()
-                        .filename("test_frag_1.txt")
-                        .mid("2")
-                        .parentMid("1")
-                        .patientMigrationReqId(1)
-                        .build());
+            .thenReturn(PatientAttachmentLog.builder()
+                            .filename("test_frag_1.txt")
+                            .mid("2")
+                            .parentMid("1")
+                            .patientMigrationReqId(1)
+                            .build());
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
+            .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
     }
@@ -549,7 +512,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_FragmentsAreMissingOrUploaded_Expect_NotDeleteFragments()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -557,11 +520,11 @@ class COPCMessageHandlerTest {
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(PatientAttachmentLog.builder()
-                        .filename("test_frag_1.txt")
-                        .mid("2").parentMid("1")
-                        .patientMigrationReqId(1)
-                        .build());
+            .thenReturn(PatientAttachmentLog.builder()
+                            .filename("test_frag_1.txt")
+                            .mid("2").parentMid("1")
+                            .patientMigrationReqId(1)
+                            .build());
 
         var invalidFragment = PatientAttachmentLog.builder()
             .filename("test_frag_3.txt")
@@ -591,7 +554,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_CheckByteCompilationCreatesFileAsExpected_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -599,15 +562,15 @@ class COPCMessageHandlerTest {
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(PatientAttachmentLog.builder()
-                        .filename("test_frag_1.txt")
-                        .mid("2")
-                        .parentMid("1")
-                        .patientMigrationReqId(1)
-                        .build());
+            .thenReturn(PatientAttachmentLog.builder()
+                            .filename("test_frag_1.txt")
+                            .mid("2")
+                            .parentMid("1")
+                            .patientMigrationReqId(1)
+                            .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
+            .thenReturn(createPatientAttachmentList(false, true, DATA_AMOUNT));
 
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
@@ -619,7 +582,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_EnsureStoreAttachmentsIsCalled_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -627,55 +590,55 @@ class COPCMessageHandlerTest {
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(PatientAttachmentLog.builder()
-                        .filename("test_frag_1.txt")
-                        .mid("2")
-                        .parentMid("1")
-                        .patientMigrationReqId(1)
-                        .build());
+            .thenReturn(PatientAttachmentLog.builder()
+                            .filename("test_frag_1.txt")
+                            .mid("2")
+                            .parentMid("1")
+                            .patientMigrationReqId(1)
+                            .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<>(
-                        Arrays.asList(
-                                PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
-                                        .orderNum(0)
-                                        .parentMid("0")
-                                        .uploaded(false)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .skeleton(false)
-                                        .isBase64(true)
-                                        .patientMigrationReqId(1).build(),
-                                PatientAttachmentLog.builder().filename("test_frag_1.txt")
-                                        .mid("2")
-                                        .orderNum(0)
-                                        .parentMid("1")
-                                        .uploaded(true)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .skeleton(false)
-                                        .isBase64(true)
-                                        .patientMigrationReqId(1).build(),
-                                PatientAttachmentLog.builder().filename("test_frag_2.txt")
-                                        .mid("3")
-                                        .orderNum(1)
-                                        .parentMid("1")
-                                        .uploaded(true)
-                                        .patientMigrationReqId(1)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .isBase64(true)
-                                        .skeleton(false).build()
-                        )));
+            .thenReturn(new ArrayList<>(
+                Arrays.asList(
+                    PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
+                        .orderNum(0)
+                        .parentMid("0")
+                        .uploaded(false)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .skeleton(false)
+                        .isBase64(true)
+                        .patientMigrationReqId(1).build(),
+                    PatientAttachmentLog.builder().filename("test_frag_1.txt")
+                        .mid("2")
+                        .orderNum(0)
+                        .parentMid("1")
+                        .uploaded(true)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .skeleton(false)
+                        .isBase64(true)
+                        .patientMigrationReqId(1).build(),
+                    PatientAttachmentLog.builder().filename("test_frag_2.txt")
+                        .mid("3")
+                        .orderNum(1)
+                        .parentMid("1")
+                        .uploaded(true)
+                        .patientMigrationReqId(1)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .isBase64(true)
+                        .skeleton(false).build()
+                             )));
 
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
@@ -685,7 +648,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_UpdateAttachmentLogDoesAsExpected_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -693,56 +656,56 @@ class COPCMessageHandlerTest {
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(
-                    PatientAttachmentLog.builder()
-                        .filename("test_frag_1.txt")
-                        .mid("2")
-                        .parentMid("1")
-                        .patientMigrationReqId(1)
-                        .build());
+            .thenReturn(
+                PatientAttachmentLog.builder()
+                    .filename("test_frag_1.txt")
+                    .mid("2")
+                    .parentMid("1")
+                    .patientMigrationReqId(1)
+                    .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<>(
-                        Arrays.asList(
-                                PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
-                                        .orderNum(0)
-                                        .parentMid("0")
-                                        .uploaded(false)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .skeleton(false)
-                                        .isBase64(true)
-                                        .patientMigrationReqId(1).build(),
-                                PatientAttachmentLog.builder().filename("test_frag_1.txt")
-                                        .mid("2")
-                                        .orderNum(0)
-                                        .parentMid("1")
-                                        .uploaded(true)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .skeleton(false)
-                                        .isBase64(true)
-                                        .patientMigrationReqId(1).build(),
-                                PatientAttachmentLog.builder().filename("test_frag_2.txt")
-                                        .mid("3")
-                                        .orderNum(1)
-                                        .parentMid("1")
-                                        .uploaded(true)
-                                        .patientMigrationReqId(1)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .isBase64(true)
-                                        .skeleton(false).build()
-                        )));
+            .thenReturn(new ArrayList<>(
+                Arrays.asList(
+                    PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
+                        .orderNum(0)
+                        .parentMid("0")
+                        .uploaded(false)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .skeleton(false)
+                        .isBase64(true)
+                        .patientMigrationReqId(1).build(),
+                    PatientAttachmentLog.builder().filename("test_frag_1.txt")
+                        .mid("2")
+                        .orderNum(0)
+                        .parentMid("1")
+                        .uploaded(true)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .skeleton(false)
+                        .isBase64(true)
+                        .patientMigrationReqId(1).build(),
+                    PatientAttachmentLog.builder().filename("test_frag_2.txt")
+                        .mid("3")
+                        .orderNum(1)
+                        .parentMid("1")
+                        .uploaded(true)
+                        .patientMigrationReqId(1)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .isBase64(true)
+                        .skeleton(false).build()
+                             )));
 
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
@@ -753,7 +716,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_DeleteAttachmentCalledForEachAttachmentLogFragment_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -761,55 +724,55 @@ class COPCMessageHandlerTest {
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(PatientAttachmentLog.builder()
-                        .filename("test_frag_1.txt")
-                        .mid("2")
-                        .parentMid("1")
-                        .patientMigrationReqId(1)
-                        .build());
+            .thenReturn(PatientAttachmentLog.builder()
+                            .filename("test_frag_1.txt")
+                            .mid("2")
+                            .parentMid("1")
+                            .patientMigrationReqId(1)
+                            .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<>(
-                        Arrays.asList(
-                                PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
-                                        .orderNum(0)
-                                        .parentMid("0")
-                                        .uploaded(false)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .skeleton(false)
-                                        .isBase64(true)
-                                        .patientMigrationReqId(1).build(),
-                                PatientAttachmentLog.builder().filename("test_frag_1.txt")
-                                        .mid("2")
-                                        .orderNum(0)
-                                        .parentMid("1")
-                                        .uploaded(true)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .skeleton(false)
-                                        .isBase64(true)
-                                        .patientMigrationReqId(1).build(),
-                                PatientAttachmentLog.builder().filename("test_frag_2.txt")
-                                        .mid("3")
-                                        .orderNum(1)
-                                        .parentMid("1")
-                                        .uploaded(true)
-                                        .patientMigrationReqId(1)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .isBase64(true)
-                                        .skeleton(false).build()
-                        )));
+            .thenReturn(new ArrayList<>(
+                Arrays.asList(
+                    PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
+                        .orderNum(0)
+                        .parentMid("0")
+                        .uploaded(false)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .skeleton(false)
+                        .isBase64(true)
+                        .patientMigrationReqId(1).build(),
+                    PatientAttachmentLog.builder().filename("test_frag_1.txt")
+                        .mid("2")
+                        .orderNum(0)
+                        .parentMid("1")
+                        .uploaded(true)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .skeleton(false)
+                        .isBase64(true)
+                        .patientMigrationReqId(1).build(),
+                    PatientAttachmentLog.builder().filename("test_frag_2.txt")
+                        .mid("3")
+                        .orderNum(1)
+                        .parentMid("1")
+                        .uploaded(true)
+                        .patientMigrationReqId(1)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .isBase64(true)
+                        .skeleton(false).build()
+                             )));
 
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
@@ -820,7 +783,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_RemoveAttachmentCalledForEachAttachmentLogFragment_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -828,56 +791,56 @@ class COPCMessageHandlerTest {
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(PatientAttachmentLog.builder()
-                        .filename("test_frag_1.txt")
-                        .mid("2")
-                        .parentMid("1")
-                        .patientMigrationReqId(1)
-                        .build());
+            .thenReturn(PatientAttachmentLog.builder()
+                            .filename("test_frag_1.txt")
+                            .mid("2")
+                            .parentMid("1")
+                            .patientMigrationReqId(1)
+                            .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(new ArrayList<>(
-                        Arrays.asList(
-                                PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
-                                        .orderNum(0)
-                                        .parentMid("0")
-                                        .uploaded(false)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .skeleton(false)
-                                        .isBase64(true)
-                                        .patientMigrationReqId(1).build(),
-                                PatientAttachmentLog.builder().filename("test_frag_1.txt")
-                                        .mid("2")
-                                        .orderNum(0)
-                                        .parentMid("1")
-                                        .uploaded(true)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .skeleton(false)
-                                        .isBase64(true)
-                                        .patientMigrationReqId(1).build(),
-                                PatientAttachmentLog.builder().filename("test_frag_2.txt")
-                                        .mid("3")
-                                        .orderNum(1)
-                                        .parentMid("1")
-                                        .uploaded(true)
-                                        .patientMigrationReqId(1)
-                                        .largeAttachment(true)
-                                        .originalBase64(true)
-                                        .compressed(false)
-                                        .contentType("text/plain")
-                                        .lengthNum(0)
-                                        .skeleton(false)
-                                    .isBase64(true)
-                                    .build()
-                        )));
+            .thenReturn(new ArrayList<>(
+                Arrays.asList(
+                    PatientAttachmentLog.builder().filename("test_main.txt").mid("1")
+                        .orderNum(0)
+                        .parentMid("0")
+                        .uploaded(false)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .skeleton(false)
+                        .isBase64(true)
+                        .patientMigrationReqId(1).build(),
+                    PatientAttachmentLog.builder().filename("test_frag_1.txt")
+                        .mid("2")
+                        .orderNum(0)
+                        .parentMid("1")
+                        .uploaded(true)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .skeleton(false)
+                        .isBase64(true)
+                        .patientMigrationReqId(1).build(),
+                    PatientAttachmentLog.builder().filename("test_frag_2.txt")
+                        .mid("3")
+                        .orderNum(1)
+                        .parentMid("1")
+                        .uploaded(true)
+                        .patientMigrationReqId(1)
+                        .largeAttachment(true)
+                        .originalBase64(true)
+                        .compressed(false)
+                        .contentType("text/plain")
+                        .lengthNum(0)
+                        .skeleton(false)
+                        .isBase64(true)
+                        .build()
+                             )));
 
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
@@ -888,7 +851,7 @@ class COPCMessageHandlerTest {
     @Test
     public void When_ParentCOPCMessageIncomingAfterFragments_Expect_RunWithNoErrors()
         throws ValidationException, SAXException, AttachmentLogException,
-        InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -896,15 +859,15 @@ class COPCMessageHandlerTest {
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(PatientAttachmentLog.builder()
-                    .filename("test_main.txt")
-                    .mid("1")
-                    .parentMid("0")
-                    .patientMigrationReqId(1)
-                    .build());
+            .thenReturn(PatientAttachmentLog.builder()
+                            .filename("test_main.txt")
+                            .mid("1")
+                            .parentMid("0")
+                            .patientMigrationReqId(1)
+                            .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
+            .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
 
 
         copcMessageHandler.checkAndMergeFileParts(inboundMessage, CONVERSATION_ID);
@@ -914,8 +877,8 @@ class COPCMessageHandlerTest {
 
     @Test
     public void When_ParentCOPCMessageIncomingAfterFragments_Expect_CorrectPostProcessedLength()
-            throws ValidationException, SAXException, AttachmentLogException,
-            InlineAttachmentProcessingException, ExternalAttachmentProcessingException, UnsupportedFileTypeException {
+        throws ValidationException, SAXException, AttachmentLogException,
+               InlineAttachmentProcessingException, ExternalAttachmentProcessingException {
 
         var inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessageFromFile());
@@ -923,15 +886,15 @@ class COPCMessageHandlerTest {
         var inboundMessageId = xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId");
 
         when(patientAttachmentLogService.findAttachmentLog(inboundMessageId, CONVERSATION_ID))
-                .thenReturn(PatientAttachmentLog.builder()
-                        .filename("test_main.txt")
-                        .mid("1")
-                        .parentMid("0")
-                        .patientMigrationReqId(1)
-                        .build());
+            .thenReturn(PatientAttachmentLog.builder()
+                            .filename("test_main.txt")
+                            .mid("1")
+                            .parentMid("0")
+                            .patientMigrationReqId(1)
+                            .build());
 
         when(patientAttachmentLogService.findAttachmentLogs(CONVERSATION_ID))
-                .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
+            .thenReturn(createPatientAttachmentList(true, true, DATA_AMOUNT));
 
         when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(any(), any())).thenReturn(ATTACH);
 
@@ -1005,7 +968,7 @@ class COPCMessageHandlerTest {
                         .skeleton(false)
                         .isBase64(true)
                         .build()
-                )));
+                             )));
 
         when(attachmentHandlerService.buildSingleFileStringFromPatientAttachmentLogs(anyList(), anyString())).thenReturn(ATTACH);
 
@@ -1047,8 +1010,9 @@ class COPCMessageHandlerTest {
     }
 
     @Test
-    public void When_HandleMessage_WithMhsServerErrorException_Expect_NackIsAttempted() throws SAXException, AttachmentNotFoundException,
-        JAXBException, BundleMappingException, JsonProcessingException, InlineAttachmentProcessingException, AttachmentLogException {
+    public void When_HandleMessage_WithMhsServerErrorException_Expect_ExceptionIsBubbledUpSoMessageIsRetriedByJMS()
+        throws SAXException, AttachmentNotFoundException, JAXBException, BundleMappingException, JsonProcessingException,
+               InlineAttachmentProcessingException, AttachmentLogException {
 
         MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall = Mockito.mockStatic(XmlUnmarshallUtil.class);
 
@@ -1065,18 +1029,12 @@ class COPCMessageHandlerTest {
                 .thenReturn(null)
                 .thenReturn(buildPatientAttachmentLog("047C22B4-613F-47D3-9A72-44A1758464FB", null, true));
 
-            prepareFailProcessMocks(mockedXmlUnmarshall);
-
             doThrow(MhsServerErrorException.class)
                 .when(nackAckPreparationServiceMock).sendAckMessage(any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID), anyString());
 
-            copcMessageHandler.handleMessage(message, CONVERSATION_ID);
-
-            verify(nackAckPreparationServiceMock, times(1))
-                .sendNackMessage(eq(LARGE_MESSAGE_GENERAL_FAILURE), any(COPCIN000001UK01Message.class), eq(CONVERSATION_ID));
-
-            verify(sendNACKMessageHandler).prepareAndSendMessage(nackMessageDataCaptor.capture());
-            assertThat(nackMessageDataCaptor.getValue().getNackCode()).isEqualTo(UNEXPECTED_CONDITION.getCode());
+            assertThrows(
+                MhsServerErrorException.class,
+                () -> copcMessageHandler.handleMessage(message, CONVERSATION_ID));
 
         } finally {
             mockedXmlUnmarshall.close();

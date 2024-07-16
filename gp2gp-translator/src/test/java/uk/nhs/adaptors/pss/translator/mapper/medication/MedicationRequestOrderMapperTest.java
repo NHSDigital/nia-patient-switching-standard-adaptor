@@ -19,8 +19,8 @@ import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UKComponent2;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
-import org.hl7.v3.RCMRMT030101UK04MedicationStatement;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -62,14 +62,14 @@ public class MedicationRequestOrderMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         assertThat(prescribe.isPresent()).isTrue();
-        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UK04EhrExtract(),
+        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UKEhrExtract(),
             medicationStatement, prescribe.get(), PRACTISE_CODE);
         assertCommonValues(medicationRequest);
         medicationRequest
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1")
             .forEach(extension -> assertPrescriptionType(extension, "Repeat"));
         assertThat(medicationRequest.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
-        assertThat(medicationRequest.getNote().size()).isEqualTo(THREE);
+        assertThat(medicationRequest.getNote()).hasSize(THREE);
         assertThat(medicationRequest.getDosageInstructionFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
         assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue().intValue()).isEqualTo(SEVEN);
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().getStartElement().getValue())
@@ -89,7 +89,7 @@ public class MedicationRequestOrderMapperTest {
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
         assertThat(prescribe.isPresent()).isTrue();
-        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UK04EhrExtract(),
+        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UKEhrExtract(),
             medicationStatement, prescribe.get(), PRACTISE_CODE);
         assertCommonValues(medicationRequest);
 
@@ -97,7 +97,7 @@ public class MedicationRequestOrderMapperTest {
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1")
             .forEach(extension -> assertPrescriptionType(extension, "Repeat"));
         assertThat(medicationRequest.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
-        assertThat(medicationRequest.getNote().size()).isEqualTo(1);
+        assertThat(medicationRequest.getNote()).hasSize(1);
         assertThat(medicationRequest.getDosageInstructionFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
         assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue()).isNull();
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().getStartElement().getValue())
@@ -105,7 +105,7 @@ public class MedicationRequestOrderMapperTest {
     }
 
     public void assertCommonValues(MedicationRequest medicationRequest) {
-        assertThat(medicationRequest.getIdentifier().size()).isEqualTo(1);
+        assertThat(medicationRequest.getIdentifier()).hasSize(1);
         assertThat(medicationRequest.getIntent()).isEqualTo(ORDER);
         assertThat(medicationRequest.getStatus()).isEqualTo(COMPLETED);
         assertThat(medicationRequest.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
@@ -117,8 +117,8 @@ public class MedicationRequestOrderMapperTest {
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04MedicationStatement unmarshallMedicationStatement(String fileName) {
+    private RCMRMT030101UKMedicationStatement unmarshallMedicationStatement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName),
-            RCMRMT030101UK04MedicationStatement.class);
+            RCMRMT030101UKMedicationStatement.class);
     }
 }

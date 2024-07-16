@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -13,15 +14,12 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFi
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Encounter;
-import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationRelationshipType;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.RCMRMT030101UK04EhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -37,31 +35,22 @@ import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMap
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 @ExtendWith(MockitoExtension.class)
 public class SpecimenBatteryMapperTest {
 
-    private static final String RESOURCES_BASE = "xml/SpecimenBattery/";
-
-    private static final String BATTERY_CLASSCODE = "BATTERY";
-    private static final String PRACTISE_CODE = "TEST_PRACTISE_CODE";
-    private static final String OBSERVATION_ID = "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1";
-    private static final String OBSERVATION_STATEMENT_ID_1 = "BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT";
-    private static final String OBSERVATION_STATEMENT_ID_2 = "OBSERVATION_STATEMENT_ID";
-    private static final String DIAGNOSTIC_REPORT_ID = "DIAGNOSTIC_REPORT_ID";
-    private static final String ENCOUNTER_ID = "ENCOUNTER_ID";
-    private static final String PATIENT_ID = "TEST_PATIENT_ID";
-    private static final String SPECIMEN_ID = "TEST_SPECIMEN_ID_1";
-    private static final String META_PROFILE_SUFFIX = "Observation-1";
-    private static final String EXPECTED_COMMENT = "Looks like Covid";
-    private static final Patient PATIENT = (Patient) new Patient().setId(PATIENT_ID);
-    private static final DiagnosticReport DIAGNOSTIC_REPORT = (DiagnosticReport) new DiagnosticReport().setId(DIAGNOSTIC_REPORT_ID);
-    private static final InstantType OBSERVATION_ISSUED = parseToInstantType("202203021160700");
-    private static final DateTimeType OBSERVATION_EFFECTIVE = parseToDateTimeType("20100223000000");
-    private static final String CODING_DISPLAY_MOCK = "Test Display";
-    private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
-    private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConcept(null, SNOMED_SYSTEM, CODING_DISPLAY_MOCK);
-    private final List<Encounter> encounters = generateEncounters();
+    public static final String EHR_EXTRACT_WRAPPER = """
+        <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+            <component>
+                <ehrFolder>
+                    <component>
+                        {{ehrComposition}}
+                    </component>
+                </ehrFolder>
+            </component>
+        </EhrExtract>
+        """;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -70,111 +59,338 @@ public class SpecimenBatteryMapperTest {
     private SpecimenBatteryMapper specimenBatteryMapper;
 
     @Test
-    public void testMappingObservationFromBatteryCompoundStatement() {
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
-        var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+    void When_MappingObservationWithAvailabilityTimeInDiagnosticReport_Expect_MoreThanOneCompoundStatement() {
+        final var ehrCompositionXml = """
+            <ehrComposition>
+                <id root="ENCOUNTER_ID"/>
+                <component>
+                    <CompoundStatement classCode="CLUSTER">
+                        <id root="DR_TEST_ID1"/>
+                        <availabilityTime value="20100225154201"/>
+                        <component>
+                            <CompoundStatement classCode="CLUSTER">
+                                <id root="TEST_SPECIMEN_ID_1"/>
+                                <component typeCode="COMP" contextConductionInd="true">
+                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                        <id root="SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1"/>
+                                    </CompoundStatement>
+                                </component>
+                            </CompoundStatement>
+                        </component>
+                    </CompoundStatement>
+                </component>
+                <component>
+                    <CompoundStatement classCode="CLUSTER">
+                        <id root="DR_TEST_ID2"/>
+                        <availabilityTime value="20100225154202"/>
+                        <component>
+                            <CompoundStatement classCode="CLUSTER">
+                                <id root="TEST_SPECIMEN_ID_2"/>
+                                <component typeCode="COMP" contextConductionInd="true">
+                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                        <id root="SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_2"/>
+                                    </CompoundStatement>
+                                </component>
+                            </CompoundStatement>
+                        </component>
+                    </CompoundStatement>
+                </component>
+                <component>
+                    <CompoundStatement classCode="CLUSTER">
+                        <id root="DR_TEST_ID3"/>
+                        <availabilityTime value="20100225154203"/>
+                        <component>
+                            <CompoundStatement classCode="CLUSTER">
+                                <id root="TEST_SPECIMEN_ID_3"/>
+                                <component typeCode="COMP" contextConductionInd="true">
+                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                        <id root="SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_3"/>
+                                    </CompoundStatement>
+                                </component>
+                            </CompoundStatement>
+                        </component>
+                    </CompoundStatement>
+                </component>
+            </ehrComposition>
+            """;
 
-        final List<Observation> observations = getObservations();
-        final List<Observation> observationComments = getObservationComments();
+        final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
+        final var batteryCompoundStatements = getBatteryCompoundStatements(ehrExtract);
 
-        var batteryParameters = SpecimenBatteryParameters.builder()
-            .ehrExtract(ehrExtract)
-            .batteryCompoundStatement(batteryCompoundStatement)
-            .specimenCompoundStatement(getSpecimenCompoundStatement(ehrExtract))
-            .ehrComposition(getEhrComposition(ehrExtract))
-            .diagnosticReport(DIAGNOSTIC_REPORT)
-            .patient(PATIENT)
-            .encounters(encounters)
-            .practiseCode(PRACTISE_CODE)
-            .observations(observations)
-            .observationComments(observationComments)
-            .build();
+        assertThat(batteryCompoundStatements).map(r -> r.getId().get(0).getRoot())
+                    .isEqualTo(List.of("SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1",
+                                       "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_2",
+                                       "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_3"));
+    }
+
+    @Test void When_MappingObservationWithAvailabilityTimeInBatteryCompoundStatement_Expect_IssuedUsesThisValue() {
+        final var ehrCompositionXml = """
+            <ehrComposition>
+                <id root="ENCOUNTER_ID"/>
+                <component>
+                    <CompoundStatement classCode="CLUSTER">
+                        <id root="DR_TEST_ID"/>
+                        <component>
+                            <CompoundStatement classCode="CLUSTER">
+                                <id root="TEST_SPECIMEN_ID_1"/>
+                                <component typeCode="COMP" contextConductionInd="true">
+                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                        <id root="SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1"/>
+                                        <availabilityTime value="20100225154300"/>
+                                    </CompoundStatement>
+                                </component>
+                            </CompoundStatement>
+                        </component>
+                    </CompoundStatement>
+                </component>
+            </ehrComposition>
+            """;
+
+        final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
+        final var batteryParameters = getSpecimenBatteryParameters(
+            ehrExtract,
+            batteryCompoundStatement,
+            getObservations(),
+            getObservationComments()
+        );
 
         final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
 
-        assertThat(observation.getId()).isEqualTo(OBSERVATION_ID);
-        assertThat(observation.getIdentifierFirstRep().getSystem()).contains(PRACTISE_CODE);
-        assertThat(observation.getEffectiveDateTimeType().getValueAsString()).isEqualTo(OBSERVATION_EFFECTIVE.getValueAsString());
-        assertThat(observation.getIssuedElement().getValueAsString()).isEqualTo(OBSERVATION_ISSUED.getValueAsString());
-        assertThat(observation.getSpecimen().hasReference()).isTrue();
-        assertThat(observation.getSpecimen().getReference()).contains(SPECIMEN_ID);
-        assertThat(observation.getStatus()).isEqualTo(ObservationStatus.FINAL);
-        assertThat(observation.getMeta().getProfile().get(0).getValue()).contains(META_PROFILE_SUFFIX);
-        assertThat(observation.getComment()).isEqualTo(EXPECTED_COMMENT);
-        assertThat(observation.getContext().hasReference()).isTrue();
-        assertThat(observation.getContext().getReference()).contains(ENCOUNTER_ID);
+        assertThat(observation.getIssuedElement().asStringValue())
+            .isEqualTo(parseToInstantType("20100225154300").asStringValue());
+    }
 
-        assertThat(observations.get(0).getRelated()).isNotEmpty();
-        assertThat(observations.get(0).getRelatedFirstRep().getType()).isEqualTo(ObservationRelationshipType.DERIVEDFROM);
+    @Test void When_MappingObservationWithAvailabilityTimeInDiagnosticReport_Expect_IssuedUsesThisValue() {
+        final var ehrCompositionXml = """
+            <ehrComposition>
+                <id root="ENCOUNTER_ID"/>
+                <component>
+                    <CompoundStatement classCode="CLUSTER">
+                        <id root="DR_TEST_ID"/>
+                        <availabilityTime value="20100225154200"/>
+                        <component>
+                            <CompoundStatement classCode="CLUSTER">
+                                <id root="TEST_SPECIMEN_ID_1"/>
+                                <component typeCode="COMP" contextConductionInd="true">
+                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                        <id root="SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1"/>
+                                    </CompoundStatement>
+                                </component>
+                            </CompoundStatement>
+                        </component>
+                    </CompoundStatement>
+                </component>
+            </ehrComposition>
+            """;
 
-        assertSubject(observation);
-        assertRelated(observation);
+        final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
+        final var batteryParameters = getSpecimenBatteryParameters(
+            ehrExtract,
+            batteryCompoundStatement,
+            getObservations(),
+            getObservationComments()
+        );
 
-        assertThat(observationComments.size()).isEqualTo(2);
+        final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
 
-        var observationCommentIds = observationComments.stream()
-            .map(Observation::getId)
-            .toList();
+        assertThat(observation.getIssuedElement().asStringValue())
+            .isEqualTo(parseToInstantType("20100225154200").asStringValue());
+    }
 
-        assertThat(observationCommentIds.contains("BATTERY_DIRECT_CHILD_NARRATIVE_STATEMENT_ID")).isFalse();
+    @Test void When_MappingObservationOnlyEhrCompositionAuthorTime_Expect_IssuedUsesThisValue() {
+        final var ehrCompositionXml = """
+            <ehrComposition>
+                <id root="ENCOUNTER_ID"/>
+                <author typeCode="AUT" contextControlCode="OP">
+                    <time value="20220302105070"/>
+                    <agentRef classCode="AGNT">
+                        <id root="749107A2-4975-441F-8EDF-ADFF451FD12D"/>
+                    </agentRef>
+                </author>
+                <component>
+                    <CompoundStatement classCode="CLUSTER">
+                        <id root="DR_TEST_ID"/>
+                        <component>
+                            <CompoundStatement classCode="CLUSTER">
+                                <id root="TEST_SPECIMEN_ID_1"/>
+                                <component typeCode="COMP" contextConductionInd="true">
+                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                        <id root="SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1"/>
+                                    </CompoundStatement>
+                                </component>
+                            </CompoundStatement>
+                        </component>
+                    </CompoundStatement>
+                </component>
+            </ehrComposition>
+            """;
+
+        final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
+        final var batteryParameters = getSpecimenBatteryParameters(
+            ehrExtract,
+            batteryCompoundStatement,
+            getObservations(),
+            getObservationComments()
+        );
+
+        final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
+
+        assertThat(observation.getIssuedElement().asStringValue())
+            .isEqualTo(parseToInstantType("20220302105070").asStringValue());
+    }
+
+    @Test
+    public void When_MappingObservation_Expect_ObservationFieldsAreCorrectlyMapped() {
+        final var ehrCompositionXml =
+            """
+            <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                <id root="ENCOUNTER_ID" />
+                <component typeCode="COMP">
+                    <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                        <id root="DR_TEST_ID" />
+                        <component typeCode="COMP" contextConductionInd="true">
+                            <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                                <id root="TEST_SPECIMEN_ID_1" />
+                                <component typeCode="COMP" contextConductionInd="true">
+                                    <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                                        <id root="SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1" />
+                                        <effectiveTime>
+                                            <center value="20100223000000" />
+                                        </effectiveTime>
+                                        <component typeCode="COMP" contextConductionInd="true">
+                                            <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                                    <id root="BATTERY_DIRECT_CHILD_NARRATIVE_STATEMENT_ID"/>
+                                                    <text mediaType="text/x-h7uk-pmip">Looks like Covid</text>
+                                            </NarrativeStatement>
+                                        </component>
+                                    </CompoundStatement>
+                                </component>
+                            </CompoundStatement>
+                        </component>
+                    </CompoundStatement>
+                </component>
+            </ehrComposition>
+            """;
+
+        final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
+        final var batteryParameters = getSpecimenBatteryParameters(
+            ehrExtract,
+            batteryCompoundStatement,
+            getObservations(),
+            getObservationComments()
+        );
+
+        final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
+
+        assertAll(
+            () -> assertThat(observation.getId())
+                .isEqualTo("SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1"),
+            () -> assertThat(observation.getIdentifierFirstRep().getSystem())
+                .contains("TEST_PRACTISE_CODE"),
+            () -> assertThat(observation.getEffectiveDateTimeType().getValueAsString())
+                .isEqualTo(parseToDateTimeType("20100223000000").getValueAsString()),
+            () -> assertThat(observation.getSpecimen().getReference())
+                .contains("TEST_SPECIMEN_ID_1"),
+            () -> assertThat(observation.getStatus())
+                .isEqualTo(ObservationStatus.FINAL),
+            () -> assertThat(observation.getMeta().getProfile().get(0).getValue())
+                .contains("Observation-1"),
+            () -> assertThat(observation.getComment())
+                .isEqualTo("Looks like Covid"),
+            () -> assertThat(observation.getContext().getReference())
+                .contains("ENCOUNTER_ID"),
+            () -> assertThat(observation.getSubject().getResource().getIdElement().getValue())
+                .isEqualTo("TEST_PATIENT_ID")
+        );
+    }
+
+    @Test
+    public void When_MappingObservation_Expect_ObservationRelationshipsSet() {
+        final var ehrExtract = getSpecimenBatteryEhrExtract();
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
+        final var observations = getObservations();
+        final var batteryParameters = getSpecimenBatteryParameters(
+            ehrExtract,
+            batteryCompoundStatement,
+            observations,
+            getObservationComments());
+
+        final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
+
+        assertAll(
+            () -> assertThat(observations.get(0).getRelatedFirstRep().getType())
+                .isEqualTo(ObservationRelationshipType.DERIVEDFROM),
+            () -> assertThat(observation.getRelatedFirstRep().getTarget().getReference())
+                .contains("BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT"),
+            () -> assertThat(observation.getRelated().get(1).getTarget().getReference())
+                .contains("OBSERVATION_STATEMENT_ID")
+        );
+    }
+
+    @Test
+    public void When_MappingObservation_Expect_ObservationCommentsDoNotContainBatteryDirectChildNarrativeStatement() {
+        final var ehrExtract = getSpecimenBatteryEhrExtract();
+        final var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
+        final var observationComments = getObservationComments();
+        final var batteryParameters = getSpecimenBatteryParameters(
+            ehrExtract,
+            batteryCompoundStatement,
+            getObservations(),
+            observationComments);
+
+        specimenBatteryMapper.mapBatteryObservation(batteryParameters);
+
+        final var observationCommentIds = observationComments.stream().map(Observation::getId).toList();
+
+        assertAll(
+            () -> assertThat(observationComments)
+                .hasSize(2),
+            () -> assertThat(observationCommentIds)
+                .doesNotContain("BATTERY_DIRECT_CHILD_NARRATIVE_STATEMENT_ID")
+        );
     }
 
     @Test
     public void When_MappingObservationFromBatteryCompoundStatementWithSnomedCode_Expect_CorrectlyMapped() {
-        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+        final var codeableConcept = createCodeableConcept("1.2.3.4.5", "http://snomed.info/sct", "Test Display");
+        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
-        var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+        final RCMRMT030101UKEhrExtract ehrExtract = getSpecimenBatteryEhrExtract();
+        var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
 
-        final List<Observation> observations = getObservations();
-        final List<Observation> observationComments = getObservationComments();
-
-        var batteryParameters = SpecimenBatteryParameters.builder()
-            .ehrExtract(ehrExtract)
-            .batteryCompoundStatement(batteryCompoundStatement)
-            .specimenCompoundStatement(getSpecimenCompoundStatement(ehrExtract))
-            .ehrComposition(getEhrComposition(ehrExtract))
-            .diagnosticReport(DIAGNOSTIC_REPORT)
-            .patient(PATIENT)
-            .encounters(encounters)
-            .practiseCode(PRACTISE_CODE)
-            .observations(observations)
-            .observationComments(observationComments)
-            .build();
+        var batteryParameters = getSpecimenBatteryParameters(
+            ehrExtract,
+            batteryCompoundStatement,
+            getObservations(),
+            getObservationComments());
 
         final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
 
-        assertThat(observation.getCode()).isEqualTo(CODEABLE_CONCEPT);
+        assertThat(observation.getCode())
+            .isEqualTo(codeableConcept);
     }
 
     @Test
     public void When_MappingObservationFromBatteryCompoundStatementWithoutSnomedCode_Expect_DegradedCode() {
-
-        var codeableConcept = createCodeableConcept("1.2.3.4.5", null, CODING_DISPLAY_MOCK);
+        var codeableConcept = createCodeableConcept("1.2.3.4.5", null, "Test Display");
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
 
-        final RCMRMT030101UK04EhrExtract ehrExtract = unmarshallEhrExtract("specimen_battery_compound_statement.xml");
-        var batteryCompoundStatement = getBatteryCompoundStatements(ehrExtract);
+        final RCMRMT030101UKEhrExtract ehrExtract = getSpecimenBatteryEhrExtract();
+        var batteryCompoundStatement = getBatteryCompoundStatement(ehrExtract);
 
         final List<Observation> observations = getObservations();
         final List<Observation> observationComments = getObservationComments();
 
-        var batteryParameters = SpecimenBatteryParameters.builder()
-            .ehrExtract(ehrExtract)
-            .batteryCompoundStatement(batteryCompoundStatement)
-            .specimenCompoundStatement(getSpecimenCompoundStatement(ehrExtract))
-            .ehrComposition(getEhrComposition(ehrExtract))
-            .diagnosticReport(DIAGNOSTIC_REPORT)
-            .patient(PATIENT)
-            .encounters(encounters)
-            .practiseCode(PRACTISE_CODE)
-            .observations(observations)
-            .observationComments(observationComments)
-            .build();
+        var batteryParameters = getSpecimenBatteryParameters(ehrExtract, batteryCompoundStatement, observations, observationComments);
 
         final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
 
-        assertThat(observation.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(observation.getCode().getCodingFirstRep())
+            .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
     }
 
     private List<Observation> getObservationComments() {
@@ -216,52 +432,85 @@ public class SpecimenBatteryMapperTest {
         return observationComments;
     }
 
-    private void assertRelated(Observation observation) {
-        assertThat(observation.getRelated()).isNotEmpty();
-        assertThat(observation.getRelatedFirstRep().hasTarget()).isTrue();
-        assertThat(observation.getRelatedFirstRep().getTarget().getReference()).contains(OBSERVATION_STATEMENT_ID_1);
-        assertThat(observation.getRelated().get(1).getTarget().getReference()).contains(OBSERVATION_STATEMENT_ID_2);
+    private SpecimenBatteryParameters getSpecimenBatteryParameters(
+        RCMRMT030101UKEhrExtract ehrExtract,
+        RCMRMT030101UKCompoundStatement batteryCompoundStatement,
+        List<Observation> observations,
+        List<Observation> observationComments) {
+
+        return SpecimenBatteryParameters.builder()
+            .ehrExtract(ehrExtract)
+            .batteryCompoundStatement(batteryCompoundStatement)
+            .specimenCompoundStatement(getSpecimenCompoundStatement(ehrExtract))
+            .ehrComposition(getEhrComposition(ehrExtract))
+            .diagnosticReport(getDiagnosticReport(ehrExtract))
+            .patient((Patient) new Patient().setId("TEST_PATIENT_ID"))
+            .encounters(List.of((Encounter) new Encounter().setId("ENCOUNTER_ID")))
+            .practiseCode("TEST_PRACTISE_CODE")
+            .observations(observations)
+            .observationComments(observationComments)
+            .build();
     }
 
-    private void assertSubject(Observation observation) {
-        assertThat(observation.getSubject()).isNotNull();
-        assertThat(observation.getSubject().getResource()).isNotNull();
-        assertThat(observation.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
-    }
-
-    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UK04EhrExtract ehrExtract) {
+    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
     }
 
-    private RCMRMT030101UKCompoundStatement getSpecimenCompoundStatement(RCMRMT030101UK04EhrExtract ehrExtract) {
-
+    private RCMRMT030101UKCompoundStatement getSpecimenCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return getEhrComposition(ehrExtract).getComponent().get(0).getCompoundStatement()
             .getComponent().get(0).getCompoundStatement();
     }
 
+    private DiagnosticReport getDiagnosticReport(RCMRMT030101UKEhrExtract ehrExtract) {
+        var compoundStatement = getEhrComposition(ehrExtract).getComponent().get(0).getCompoundStatement();
+        var diagnosticReport = new DiagnosticReport();
+        diagnosticReport.setId(compoundStatement.getId().get(0).getRoot());
+
+        if (compoundStatement.getAvailabilityTime() != null) {
+            diagnosticReport.setIssued(
+                parseToDateTimeType(compoundStatement.getAvailabilityTime().getValue()).getValue()
+            );
+        }
+
+        return diagnosticReport;
+    }
+
     private List<Observation> getObservations() {
         return List.of(
-            (Observation) new Observation().setId(OBSERVATION_STATEMENT_ID_1),
-            (Observation) new Observation().setId(OBSERVATION_STATEMENT_ID_2)
+            (Observation) new Observation().setId("BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT"),
+            (Observation) new Observation().setId("OBSERVATION_STATEMENT_ID")
         );
     }
 
-    private RCMRMT030101UKCompoundStatement getBatteryCompoundStatements(RCMRMT030101UK04EhrExtract ehrExtract) {
-
+    private RCMRMT030101UKCompoundStatement getBatteryCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return getEhrComposition(ehrExtract).getComponent()
             .stream()
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
-            .filter(compoundStatement -> BATTERY_CLASSCODE.equals(compoundStatement.getClassCode().get(0)))
-            .findFirst().get();
+            .filter(compoundStatement -> "BATTERY".equals(compoundStatement.getClassCode().get(0)))
+            .findFirst()
+            .orElseThrow();
     }
 
-    private List<Encounter> generateEncounters() {
-        return List.of((Encounter) new Encounter().setId(ENCOUNTER_ID));
+    private List<RCMRMT030101UKCompoundStatement> getBatteryCompoundStatements(RCMRMT030101UKEhrExtract ehrExtract) {
+        return getEhrComposition(ehrExtract).getComponent()
+            .stream()
+            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
+            .filter(compoundStatement -> "BATTERY".equals(compoundStatement.getClassCode().get(0)))
+            .toList();
     }
 
     @SneakyThrows
-    private RCMRMT030101UK04EhrExtract unmarshallEhrExtract(String filename) {
-        return unmarshallFile(getFile("classpath:" + RESOURCES_BASE + filename), RCMRMT030101UK04EhrExtract.class);
+    private RCMRMT030101UKEhrExtract getSpecimenBatteryEhrExtract() {
+        return unmarshallFile(
+            getFile("classpath:xml/SpecimenBattery/specimen_battery_compound_statement.xml"),
+            RCMRMT030101UKEhrExtract.class
+        );
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractFromEhrCompositionXml(String ehrCompositionXml) {
+        var ehrExtractXml = EHR_EXTRACT_WRAPPER.replace("{{ehrComposition}}", ehrCompositionXml);
+        return unmarshallString(ehrExtractXml, RCMRMT030101UKEhrExtract.class);
     }
 }
 

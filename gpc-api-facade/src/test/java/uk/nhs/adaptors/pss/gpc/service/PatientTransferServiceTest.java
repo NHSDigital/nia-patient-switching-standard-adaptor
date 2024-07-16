@@ -225,7 +225,7 @@ public class PatientTransferServiceTest {
     @MethodSource("generateCompletedStatuses")
     public void checkExistingPatientMigrationRequestInProgressWhenPreviousMigrationCompleted(MigrationStatus status) {
 
-        final String newConversationId = UUID.randomUUID().toString();
+        final String newConversationId = UUID.randomUUID().toString().toUpperCase();
         final PatientMigrationRequest patientMigrationRequest = createPatientMigrationRequest();
         final MigrationStatusLog migrationStatusLog = createMigrationStatusLog(status);
 

@@ -18,7 +18,7 @@
           }
         ]
       },
-      "diagnostics": "Request method '{{requestMethod}}' not supported"
+      "diagnostics": "Request method '{{requestMethod}}' is not supported"
     }
   ]
 }
