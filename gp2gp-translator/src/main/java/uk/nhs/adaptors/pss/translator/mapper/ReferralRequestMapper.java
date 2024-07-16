@@ -146,9 +146,11 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         }
 
         var agentRefRoot = requestStatement.getResponsibleParty().getAgentRef().getId().getRoot();
+
         var recipient = isAgentOrganization(ehrExtract, requestStatement, agentRefRoot)
                         ? new Reference(ORGANIZATION_REFERENCE.formatted(agentRefRoot))
                         : new Reference(PRACTITIONER_REFERENCE.formatted(agentRefRoot));
+
         referralRequest.getRecipient().add(recipient);
     }
 
