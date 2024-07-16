@@ -2,6 +2,8 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -22,6 +24,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -60,37 +63,54 @@ public class ReferralRequestMapperTest {
     private static ReferralRequestMapper referralRequestMapper;
 
     @Test
+    public void mapReferralRequestWithReferralRequestAsOrganization() {
+
+        var codeableConcept = createCodeableConcept(REASON_CODE_1, SNOMED_SYSTEM, CODING_DISPLAY);
+        when(codeableConceptMapper.mapToCodeableConcept(any()))
+            .thenReturn(codeableConcept);
+
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_data_with_referral_request.xml");
+
+        var referralRequest = mapReferralRequest(ehrExtract,
+                                                 ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition(),
+                                                 composition -> composition.getComponent().get(0).getRequestStatement());
+
+        assertAll(
+            () -> assertFixedValues(referralRequest),
+            () -> assertEquals(EXAMPLE_ID, referralRequest.getId()),
+            () -> assertThat(referralRequest.getAuthoredOn()).isEqualTo("2020-11-17T13:30:32:00"),
+            () -> assertEquals(PRACTITIONER_ID, referralRequest.getRequester().getAgent().getReference()),
+            () -> assertEquals("Organization/9C3AB881-FCDE-48EC-8028-37B20E0AE893",
+                               referralRequest.getRecipient().get(0).getReference()),
+            () -> assertEquals("Reason Code 1", referralRequest.getReasonCodeFirstRep().getCoding().get(0).getDisplay())
+        );
+    }
+
+    @Test
     public void mapReferralRequestWithValidData() {
 
         var codeableConcept = createCodeableConcept(REASON_CODE_1, SNOMED_SYSTEM, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any()))
                 .thenReturn(codeableConcept);
 
-        var ehrComposition = unmarshallEhrCompositionElement("full_valid_data_example.xml");
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_data_example.xml");
 
-        var referralRequest = mapReferralRequest(ehrComposition,
-            composition -> composition.getComponent().get(0).getRequestStatement());
+        var referralRequest = mapReferralRequest(ehrExtract,
+                                                 ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition(),
+                                                 composition -> composition.getComponent().get(0).getRequestStatement());
 
         assertAll(
                 () -> assertFixedValues(referralRequest),
-                () -> assertThat(referralRequest.getId())
-                        .isEqualTo(EXAMPLE_ID),
-                () -> assertThat(referralRequest.getNote().get(0).getText())
-                        .isEqualTo("Priority: Routine"),
-                () -> assertThat(referralRequest.getNote().get(1).getText())
-                        .isEqualTo("Action Date: 2005-04-06"),
-                () -> assertThat(referralRequest.getNote().get(2).getText())
-                        .isEqualTo("Test request statement text\nNew line"),
-                () -> assertThat(referralRequest.getAuthoredOn())
-                        .isEqualTo("2010-01-01T12:30:00+00:00"),
-                () -> assertThat(referralRequest.getRequester().getAgent().getReference())
-                        .isEqualTo(PRACTITIONER_ID),
-                () -> assertThat(referralRequest.getRecipient().get(0).getReference())
-                        .isEqualTo("Practitioner/B8CA3710-4D1C-11E3-9E6B-010000001205"),
-                () -> assertThat(referralRequest.getReasonCodeFirstRep().getCoding().get(0).getDisplay())
-                        .isEqualTo("Reason Code 1"),
-                () -> assertThat(referralRequest.getContext().getResource().getIdElement().getValue())
-                        .isEqualTo(ENCOUNTER_ID)
+                () -> assertEquals(EXAMPLE_ID, referralRequest.getId()),
+                () -> assertEquals("Priority: Routine", referralRequest.getNote().get(0).getText()),
+                () -> assertEquals("Action Date: 2005-04-06", referralRequest.getNote().get(1).getText()),
+                () -> assertEquals("Test request statement text New line", referralRequest.getNote().get(2).getText()),
+                () -> assertThat(referralRequest.getAuthoredOn()).isEqualTo("2010-01-01T12:30:00+00:00"),
+                () -> assertEquals(PRACTITIONER_ID, referralRequest.getRequester().getAgent().getReference()),
+                () -> assertEquals("Practitioner/B8CA3710-4D1C-11E3-9E6B-010000001205",
+                                   referralRequest.getRecipient().get(0).getReference()),
+                () -> assertEquals("Reason Code 1", referralRequest.getReasonCodeFirstRep().getCoding().get(0).getDisplay()),
+                () -> assertEquals(ENCOUNTER_ID, referralRequest.getContext().getResource().getIdElement().getValue())
         );
     }
 
@@ -110,17 +130,14 @@ public class ReferralRequestMapperTest {
                 """;
         var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
 
-        var referralRequest = mapReferralRequest(ehrComposition,
+        var referralRequest = mapReferralRequest(null, ehrComposition,
             composition -> composition.getComponent().get(0).getRequestStatement());
 
         assertAll(
-                () -> assertThat(referralRequest.getId())
-                        .isEqualTo(EXAMPLE_ID),
+                () -> assertEquals(EXAMPLE_ID, referralRequest.getId()),
                 () -> assertThat(referralRequest.getNote()).isEmpty(),
-                () -> assertThat(referralRequest.getAuthoredOn()).
-                        isNull(),
-                () -> assertThat(referralRequest.getRequester().getAgent().getReference())
-                        .isNull(),
+                () -> assertNull(referralRequest.getAuthoredOn()),
+                () -> assertNull(referralRequest.getRequester().getAgent().getReference()),
                 () -> assertThat(referralRequest.getRecipient()).isEmpty(),
                 () -> assertThat(referralRequest.getReasonCode()).isEmpty()
         );
@@ -142,11 +159,10 @@ public class ReferralRequestMapperTest {
                 """;
         var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
 
-        ReferralRequest referralRequest = mapReferralRequest(ehrComposition,
+        ReferralRequest referralRequest = mapReferralRequest(null, ehrComposition,
             composition -> composition.getComponent().get(0).getRequestStatement());
 
-        assertThat(referralRequest.getContext().getResource())
-                .isNull();
+        assertNull(referralRequest.getContext().getResource());
     }
 
     @Test
@@ -175,17 +191,14 @@ public class ReferralRequestMapperTest {
                 """;
         var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
 
-        ReferralRequest referralRequest = mapReferralRequest(ehrComposition,
+        ReferralRequest referralRequest = mapReferralRequest(null, ehrComposition,
             composition -> composition.getComponent().get(0).getRequestStatement());
 
         assertAll(
-                () -> assertThat(referralRequest.getId())
-                        .isEqualTo(EXAMPLE_ID),
+                () -> assertEquals(EXAMPLE_ID, referralRequest.getId()),
                 () -> assertThat(referralRequest.getNote()).isEmpty(),
-                () -> assertThat(referralRequest.getAuthoredOn())
-                        .isNull(),
-                () -> assertThat(referralRequest.getRequester().getAgent().getReference())
-                        .isEqualTo(PRACTITIONER_ID),
+                () -> assertNull(referralRequest.getAuthoredOn()),
+                () -> assertEquals(PRACTITIONER_ID, referralRequest.getRequester().getAgent().getReference()),
                 () -> assertThat(referralRequest.getRecipient()).isEmpty(),
                 () -> assertThat(referralRequest.getReasonCode()).isEmpty()
         );
@@ -217,17 +230,14 @@ public class ReferralRequestMapperTest {
                 """;
         var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
 
-        ReferralRequest referralRequest = mapReferralRequest(ehrComposition,
+        ReferralRequest referralRequest = mapReferralRequest(null, ehrComposition,
             composition -> composition.getComponent().get(0).getRequestStatement());
 
         assertAll(
-                () -> assertThat(referralRequest.getId())
-                        .isEqualTo(EXAMPLE_ID),
+                () -> assertEquals(EXAMPLE_ID, referralRequest.getId()),
                 () -> assertThat(referralRequest.getNote()).isEmpty(),
-                () -> assertThat(referralRequest.getAuthoredOn())
-                        .isNull(),
-                () -> assertThat(referralRequest.getRequester().getAgent().getReference())
-                        .isEqualTo(EHR_COMPOSITION_PRACTITIONER2_ID),
+                () -> assertNull(referralRequest.getAuthoredOn()),
+                () -> assertEquals(EHR_COMPOSITION_PRACTITIONER2_ID, referralRequest.getRequester().getAgent().getReference()),
                 () -> assertThat(referralRequest.getRecipient()).isEmpty(),
                 () -> assertThat(referralRequest.getReasonCode()).isEmpty()
         );
@@ -236,35 +246,42 @@ public class ReferralRequestMapperTest {
     @Test
     public void mapReferralRequestWithRecipientResponsiblePartyNoValidTypeCode() {
         var inputXml = """
-                <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
-                    <id root="72A39454-299F-432E-993E-5A6232B4E099" />
-                    <availabilityTime value="20190708143500"/>
-                    <component typeCode="COMP" >
-                        <RequestStatement classCode="OBS" moodCode="RQO">
-                            <id root="B4303C92-4D1C-11E3-A2DD-010000000161"/>
-                            <statusCode code="COMPLETE"/>
-                            <responsibleParty typeCode="TEST">
-                                <agentRef classCode="AGNT">
-                                    <id root="B8CA3710-4D1C-11E3-9E6B-010000001205"/>
-                                </agentRef>
-                            </responsibleParty>
-                        </RequestStatement>
-                    </component>
-                </ehrComposition>
+            <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+                <component typeCode="COMP">
+                    <ehrFolder classCode="FOLDER" moodCode="EVN">
+                        <component typeCode="COMP">
+                            <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
+                                 <id root="72A39454-299F-432E-993E-5A6232B4E099" />
+                                 <availabilityTime value="20190708143500"/>
+                                 <component typeCode="COMP" >
+                                     <RequestStatement classCode="OBS" moodCode="RQO">
+                                         <id root="B4303C92-4D1C-11E3-A2DD-010000000161"/>
+                                         <statusCode code="COMPLETE"/>
+                                         <responsibleParty typeCode="TEST">
+                                             <agentRef classCode="AGNT">
+                                                 <id root="B8CA3710-4D1C-11E3-9E6B-010000001205"/>
+                                             </agentRef>
+                                         </responsibleParty>
+                                     </RequestStatement>
+                                 </component>
+                             </ehrComposition>
+                        </component>
+                    </ehrFolder>
+                </component>
+            </EhrExtract>
                 """;
-        var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
 
-        ReferralRequest referralRequest = mapReferralRequest(ehrComposition,
-            composition -> composition.getComponent().get(0).getRequestStatement());
+        var ehrExtract = unmarshallStringToEhrExtractElement(inputXml);
+
+        var referralRequest = mapReferralRequest(ehrExtract,
+                                                 ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition(),
+                                                 composition -> composition.getComponent().get(0).getRequestStatement());
 
         assertAll(
-                () -> assertThat(referralRequest.getId())
-                        .isEqualTo(EXAMPLE_ID),
+                () -> assertEquals(EXAMPLE_ID, referralRequest.getId()),
                 () -> assertThat(referralRequest.getNote()).isEmpty(),
-                () -> assertThat(referralRequest.getAuthoredOn())
-                        .isNull(),
-                () -> assertThat(referralRequest.getRequester().getAgent().getReference())
-                        .isNull(),
+                () -> assertNull(referralRequest.getAuthoredOn()),
+                () -> assertNull(referralRequest.getRequester().getAgent().getReference()),
                 () -> assertThat(referralRequest.getRecipient()).isEmpty(),
                 () -> assertThat(referralRequest.getReasonCode()).isEmpty()
         );
@@ -289,18 +306,14 @@ public class ReferralRequestMapperTest {
                 """;
         var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
 
-        ReferralRequest referralRequest = mapReferralRequest(ehrComposition,
+        ReferralRequest referralRequest = mapReferralRequest(null, ehrComposition,
             composition -> composition.getComponent().get(0).getRequestStatement());
 
         assertAll(
-                () -> assertThat(referralRequest.getId())
-                        .isEqualTo(EXAMPLE_ID),
-                () -> assertThat(referralRequest.getNote().get(0).getText())
-                        .isEqualTo("Priority: Normal"),
-                () -> assertThat(referralRequest.getAuthoredOn())
-                        .isNull(),
-                () -> assertThat(referralRequest.getRequester().getAgent().getReference())
-                        .isNull(),
+                () -> assertEquals(EXAMPLE_ID, referralRequest.getId()),
+                () -> assertEquals("Priority: Normal", referralRequest.getNote().get(0).getText()),
+                () -> assertNull(referralRequest.getAuthoredOn()),
+                () -> assertNull(referralRequest.getRequester().getAgent().getReference()),
                 () -> assertThat(referralRequest.getRecipient()).isEmpty(),
                 () -> assertThat(referralRequest.getReasonCode()).isEmpty()
         );
@@ -326,11 +339,10 @@ public class ReferralRequestMapperTest {
                 """;
         var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
 
-        var referralRequest = mapReferralRequest(ehrComposition,
+        var referralRequest = mapReferralRequest(null, ehrComposition,
             composition -> composition.getComponent().get(0).getRequestStatement());
 
-        assertThat(referralRequest.getReasonCode().get(0).getCoding().get(0))
-                .isEqualTo(DegradedCodeableConcepts.DEGRADED_REFERRAL);
+        assertEquals(DegradedCodeableConcepts.DEGRADED_REFERRAL, referralRequest.getReasonCode().get(0).getCoding().get(0));
     }
 
     @ParameterizedTest
@@ -356,11 +368,10 @@ public class ReferralRequestMapperTest {
 
         var ehrComposition = unmarshallStringToEhrCompositionElement(inputXml);
 
-        var referralRequest = mapReferralRequest(ehrComposition,
+        var referralRequest = mapReferralRequest(null, ehrComposition,
             composition -> composition.getComponent().get(0).getRequestStatement());
 
-        assertThat(referralRequest.getPriority().getDisplay())
-                .isEqualTo(expectedDisplay);
+        assertThat(referralRequest.getPriority().getDisplay()).isEqualTo(expectedDisplay);
     }
 
     private static Stream<Arguments> priorityCodes() {
@@ -374,56 +385,61 @@ public class ReferralRequestMapperTest {
     public void When_MapToReferralRequest_With_NestedRequestStatement_Expect_PriorityCodeMapped() {
         var ehrComposition =  unmarshallEhrCompositionElement("nested_request_statement.xml");
 
-        var referralRequest = mapReferralRequest(ehrComposition, this::getNestedRequestStatement);
+        var referralRequest = mapReferralRequest(null, ehrComposition, this::getNestedRequestStatement);
 
-        assertThat(referralRequest.getPriority()).isEqualTo(ReferralRequest.ReferralPriority.ROUTINE);
+        assertEquals(ReferralRequest.ReferralPriority.ROUTINE, referralRequest.getPriority());
     }
 
     @Test
     public void When_MapToReferralRequest_With_MissingPriorityCode_Expect_PriorityCodeNotMapped() {
-        var ehrComposition = unmarshallEhrCompositionElement("request_statement_missing_priority_code.xml");
 
-        var referralRequest = mapReferralRequest(ehrComposition,
-            composition -> composition.getComponent().get(0).getRequestStatement());
+        var ehrExtract = unmarshallEhrExtractElement("request_statement_missing_priority_code.xml");
 
-        assertThat(referralRequest.getPriority()).isNull();
+        var referralRequest = mapReferralRequest(ehrExtract,
+                                                 ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition(),
+                                                 composition -> composition.getComponent().get(0).getRequestStatement());
+
+        assertNull(referralRequest.getPriority());
     }
 
     @Test
     public void When_MapToReferralRequest_With_TwoNestedRequestStatements_Expect_CorrectPriorityCodeMapped() {
         var ehrComposition = unmarshallEhrCompositionElement("two_nested_request_statements.xml");
 
-        var referralRequest = mapReferralRequest(ehrComposition, this::getNestedRequestStatement);
+        var referralRequest = mapReferralRequest(null, ehrComposition, this::getNestedRequestStatement);
 
-        assertThat(referralRequest.getPriority())
-            .isEqualTo(ReferralRequest.ReferralPriority.ASAP);
+        assertEquals(ReferralRequest.ReferralPriority.ASAP, referralRequest.getPriority());
     }
 
     @Test
     public void When_MapToReferralRequest_With_UnexpectedPriorityCode_Expect_PriorityFieldNotPopulated() {
-        var ehrComposition = unmarshallEhrCompositionElement("request_statement_unexpected_priority_code.xml");
 
-        var referralRequest = mapReferralRequest(ehrComposition,
-            composition -> composition.getComponent().get(0).getRequestStatement());
+        var ehrExtract = unmarshallEhrExtractElement("request_statement_unexpected_priority_code.xml");
 
-        assertThat(referralRequest.getPriority()).isNull();
+        var referralRequest = mapReferralRequest(ehrExtract,
+                                                 ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition(),
+                                                 composition -> composition.getComponent().get(0).getRequestStatement());
+
+        assertNull(referralRequest.getPriority());
     }
 
     @Test
     public void When_MapToReferralRequest_With_UnexpectedPriorityCode_Expect_PriorityAddedToNotes() {
-        var ehrComposition = unmarshallEhrCompositionElement("request_statement_unexpected_priority_code.xml");
 
-        var referralRequest = mapReferralRequest(ehrComposition,
-            composition -> composition.getComponent().get(0).getRequestStatement());
+        var ehrExtract = unmarshallEhrExtractElement("request_statement_unexpected_priority_code.xml");
+
+        var referralRequest = mapReferralRequest(ehrExtract,
+                                                 ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition(),
+                                                 composition -> composition.getComponent().get(0).getRequestStatement());
 
         var priorityNotes = referralRequest.getNote()
             .stream()
             .filter(note -> note.hasText() && note.getText().contains(PRIORITY_NOTE_PREPENDAGE + UNEXPECTED_PRIORITY_DISPLAY))
             .toList();
 
-        assertThat(priorityNotes.size())
+        assertThat(priorityNotes)
             .withFailMessage("Expected priority to have one entry in notes")
-            .isEqualTo(1);
+            .hasSize(1);
     }
 
     private RCMRMT030101UKRequestStatement getNestedRequestStatement(RCMRMT030101UKEhrComposition ehrComposition) {
@@ -457,7 +473,8 @@ public class ReferralRequestMapperTest {
         );
     }
 
-    private static ReferralRequest mapReferralRequest(RCMRMT030101UKEhrComposition ehrComposition,
+    private static ReferralRequest mapReferralRequest(RCMRMT030101UKEhrExtract ehrExtract,
+                                                      RCMRMT030101UKEhrComposition ehrComposition,
                                                       Function<RCMRMT030101UKEhrComposition,
                                                       RCMRMT030101UKRequestStatement> extractRequestStatement) {
 
@@ -470,6 +487,7 @@ public class ReferralRequestMapperTest {
         encounter.setId(ENCOUNTER_ID);
 
         return referralRequestMapper.mapToReferralRequest(
+                ehrExtract,
                 ehrComposition,
                 requestStatement,
                 patient,
@@ -482,10 +500,19 @@ public class ReferralRequestMapperTest {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrComposition.class);
     }
 
-
     @SneakyThrows
     private RCMRMT030101UKEhrComposition unmarshallStringToEhrCompositionElement(String inputXml) {
         return unmarshallString(inputXml, RCMRMT030101UKEhrComposition.class);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UKEhrExtract unmarshallStringToEhrExtractElement(String inputXml) {
+        return unmarshallString(inputXml, RCMRMT030101UKEhrExtract.class);
     }
 
 }

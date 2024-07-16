@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Added
 * The EncounterMapper has been enhanced to support the redaction fix. If an Encounter record includes a confidentialityCode, 
   the meta.security field of the corresponding FHIR resource will now be [appropriately populated][nopat-docs].
+* Added support for Organization reference types in ReferralRequest.
 
 ## [3.0.1] - 2024-07-12
 
@@ -16,11 +17,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   the `meta.security` field of the corresponding FHIR resource will now be [appropriately populated][nopat-docs].
 * When the SNOMED DB ingest script has not completed successfully, The GP2GP Translator Service will now exit and throw a
   RuntimeException with the following message:
+  
   ```
   FATAL: Expected Immunization codes not found in snomedct.immunization_codes view.
   SNOMED CT Database not set up correctly.
-  Please update / reload the SNOMED DB.
-  ``` 
+  Please update / reload the SNOMED DB.  
+  ```
 
 [nopat-docs]: https://simplifier.net/guide/gpconnect-data-model/Home/Build/FHIR-resources?version=current#Resources-not-to-be-disclosed-to-a-patient
 
