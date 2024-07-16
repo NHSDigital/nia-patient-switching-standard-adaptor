@@ -83,7 +83,6 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         var id = requestStatement.getId().get(0).getRoot();
         var identifier = buildIdentifier(id, practiseCode);
         var agent = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition);
-        var isOrganization = isAgentOrganization(ehrExtract, requestStatement);
 
         var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
         var referralPriority = getReferralPriority(requestStatement);
@@ -100,7 +99,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         referralRequest.setPriority(referralPriority);
 
         setReferralRequestContext(referralRequest, ehrComposition, encounters);
-        setReferralRequestRecipient(isOrganization, referralRequest, requestStatement.getResponsibleParty());
+        setReferralRequestRecipient(ehrExtract, requestStatement, referralRequest);
         setReferralRequestReasonCode(referralRequest, requestStatement.getCode());
 
         return referralRequest;
@@ -142,15 +141,17 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                 .map(Reference::new)
                 .ifPresent(referralRequest::setContext);
     }
-    private void setReferralRequestRecipient(boolean isOrganization, ReferralRequest referralRequest,
-                                             RCMRMT030101UKResponsibleParty3 responsibleParty) {
-        if (!hasIdValue(responsibleParty)) {
+    private void setReferralRequestRecipient(RCMRMT030101UKEhrExtract ehrExtract,
+                                             RCMRMT030101UKRequestStatement requestStatement,
+                                             ReferralRequest referralRequest) {
+
+        if (!hasIdValue(requestStatement.getResponsibleParty())) {
             return;
         }
 
-        var agentRefRoot = responsibleParty.getAgentRef().getId().getRoot();
-        var recipient = isOrganization ? new Reference(ORGANIZATION_REFERENCE.formatted(agentRefRoot))
-                                       : new Reference(PRACTITIONER_REFERENCE.formatted(agentRefRoot));
+        var agentRefRoot = requestStatement.getResponsibleParty().getAgentRef().getId().getRoot();
+        var recipient = isAgentOrganization(ehrExtract, requestStatement) ? new Reference(ORGANIZATION_REFERENCE.formatted(agentRefRoot))
+                                                                          : new Reference(PRACTITIONER_REFERENCE.formatted(agentRefRoot));
         referralRequest.getRecipient().add(recipient);
     }
 
