@@ -106,23 +106,19 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     }
 
     private boolean isAgentOrganization(RCMRMT030101UKEhrExtract ehrExtract,
-                                        RCMRMT030101UKRequestStatement requestStatement) {
+                                        RCMRMT030101UKRequestStatement requestStatement,
+                                        String agentRefRoot) {
 
         if (requestStatement.getResponsibleParty() == null) {
             return false;
         }
-
-        var requestAgentRoot = requestStatement.getResponsibleParty()
-            .getAgentRef()
-            .getId()
-            .getRoot();
 
         return ehrExtract.getComponent()
             .stream()
             .map(component -> component.getEhrFolder().getResponsibleParty())
             .filter(Objects::nonNull)
             .flatMap(respParty -> respParty.getAgentDirectory().getPart().stream())
-            .anyMatch(part -> isMatchingAgent(part, requestAgentRoot));
+            .anyMatch(part -> isMatchingAgent(part, agentRefRoot));
     }
 
     private boolean isMatchingAgent(RCMRMT030101UKPart part, String requestAgentRoot) {
@@ -150,8 +146,9 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         }
 
         var agentRefRoot = requestStatement.getResponsibleParty().getAgentRef().getId().getRoot();
-        var recipient = isAgentOrganization(ehrExtract, requestStatement) ? new Reference(ORGANIZATION_REFERENCE.formatted(agentRefRoot))
-                                                                          : new Reference(PRACTITIONER_REFERENCE.formatted(agentRefRoot));
+        var recipient = isAgentOrganization(ehrExtract, requestStatement, agentRefRoot)
+                        ? new Reference(ORGANIZATION_REFERENCE.formatted(agentRefRoot))
+                        : new Reference(PRACTITIONER_REFERENCE.formatted(agentRefRoot));
         referralRequest.getRecipient().add(recipient);
     }
 
