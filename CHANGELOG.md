@@ -3,17 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
-## [Unreleased]
+## [3.0.2] - 2024-07-18
 
 ## Added
-* The EncounterMapper has been enhanced to support the redaction fix. If an Encounter record includes a confidentialityCode, 
-  the meta.security field of the corresponding FHIR resource will now be [appropriately populated][nopat-docs].
-* Added support for Organization reference types in ReferralRequest.
+* If a `ehrComposition` record includes a `confidentialityCode`, the `meta.security` field of the corresponding
+  `Encounter` FHIR resource will now be [appropriately populated][nopat-docs].
+* Add support for an Organization being referenced within the `ReferralRequest.recipient` field.
 
 ## [3.0.1] - 2024-07-12
 
 ### Added
-* The AllergyIntoleranceMapper has been enhanced to support the redaction fix. If an Allergy Intolerance record includes a confidentialityCode,
+* The AllergyIntoleranceMapper has been enhanced to support the redaction fix. If an Allergy Intolerance record includes a `confidentialityCode`,
   the `meta.security` field of the corresponding FHIR resource will now be [appropriately populated][nopat-docs].
 * When the SNOMED DB ingest script has not completed successfully, The GP2GP Translator Service will now exit and throw a
   RuntimeException with the following message:
