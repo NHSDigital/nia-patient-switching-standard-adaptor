@@ -13,23 +13,20 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * &lt;p&gt;Java class for RCMR_IN030000UK06.ControlActEvent complex type.
+ * &lt;p&gt;Java class for RCMR_IN030000UK06.Subject complex type.
  * 
  * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
  * 
  * &lt;pre&gt;
- * &amp;lt;complexType name="RCMR_IN030000UK06.ControlActEvent"&amp;gt;
+ * &amp;lt;complexType name="RCMR_IN030000UK06.Subject"&amp;gt;
  *   &amp;lt;complexContent&amp;gt;
  *     &amp;lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&amp;gt;
  *       &amp;lt;sequence&amp;gt;
- *         &amp;lt;element name="author" type="{urn:hl7-org:v3}MCAI_MT040101UK03.Author" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="author1" type="{urn:hl7-org:v3}MCAI_MT040101UK03.Author2" maxOccurs="2"/&amp;gt;
- *         &amp;lt;element name="reason" type="{urn:hl7-org:v3}MCAI_MT040101UK03.Reason" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
- *         &amp;lt;element name="subject" type="{urn:hl7-org:v3}RCMR_IN030000UK06.Subject"/&amp;gt;
+ *         &amp;lt;element name="EhrExtract" type="{urn:hl7-org:v3}RCMR_MT030101UK04.EhrExtract"/&amp;gt;
  *       &amp;lt;/sequence&amp;gt;
- *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ControlAct" /&amp;gt;
- *       &amp;lt;attribute name="classCode" type="{urn:hl7-org:v3}ActClass" default="CACT" /&amp;gt;
- *       &amp;lt;attribute name="moodCode" type="{urn:hl7-org:v3}ActMood" default="EVN" /&amp;gt;
+ *       &amp;lt;attribute name="type" type="{urn:hl7-org:v3}Classes" default="ActRelationship" /&amp;gt;
+ *       &amp;lt;attribute name="typeCode" type="{urn:hl7-org:v3}ActRelationshipType" default="SUBJ" /&amp;gt;
+ *       &amp;lt;attribute name="contextConductionInd" type="{urn:hl7-org:v3}bl" default="false" /&amp;gt;
  *       &amp;lt;attribute name="typeID"&amp;gt;
  *         &amp;lt;simpleType&amp;gt;
  *           &amp;lt;list itemType="{urn:hl7-org:v3}oid" /&amp;gt;
@@ -49,27 +46,20 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RCMR_IN030000UK07.ControlActEvent", propOrder = {
-    "author",
-    "author1",
-    "reason",
-    "subject"
+@XmlType(name = "RCMR_IN030000UK06.Subject", propOrder = {
+    "ehrExtract"
 })
-public class RCMRIN030000UK07ControlActEvent {
+public class RCMRIN030000UKSubject {
 
-    protected MCAIMT040101UK03Author author;
-    @XmlElement(required = true)
-    protected List<MCAIMT040101UK03Author2> author1;
-    protected List<MCAIMT040101UK03Reason> reason;
-    @XmlElement(required = true)
-    protected RCMRIN030000UK07Subject subject;
+    @XmlElement(name = "EhrExtract", required = true)
+    protected RCMRMT030101UKEhrExtract ehrExtract;
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String type;
-    @XmlAttribute(name = "classCode")
-    protected List<String> classCode;
-    @XmlAttribute(name = "moodCode")
-    protected List<String> moodCode;
+    @XmlAttribute(name = "typeCode")
+    protected List<String> typeCode;
+    @XmlAttribute(name = "contextConductionInd")
+    protected Boolean contextConductionInd;
     @XmlAttribute(name = "typeID")
     protected List<String> typeID;
     @XmlAttribute(name = "realmCode")
@@ -79,109 +69,27 @@ public class RCMRIN030000UK07ControlActEvent {
     protected String nullFlavor;
 
     /**
-     * Gets the value of the author property.
+     * Gets the value of the ehrExtract property.
      * 
      * @return
      *     possible object is
-     *     {@link MCAIMT040101UK03Author }
+     *     {@link RCMRMT030101UKEhrExtract }
      *     
      */
-    public MCAIMT040101UK03Author getAuthor() {
-        return author;
+    public RCMRMT030101UKEhrExtract getEhrExtract() {
+        return ehrExtract;
     }
 
     /**
-     * Sets the value of the author property.
+     * Sets the value of the ehrExtract property.
      * 
      * @param value
      *     allowed object is
-     *     {@link MCAIMT040101UK03Author }
+     *     {@link RCMRMT030101UKEhrExtract }
      *     
      */
-    public void setAuthor(MCAIMT040101UK03Author value) {
-        this.author = value;
-    }
-
-    /**
-     * Gets the value of the author1 property.
-     * 
-     * &lt;p&gt;
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the author1 property.
-     * 
-     * &lt;p&gt;
-     * For example, to add a new item, do as follows:
-     * &lt;pre&gt;
-     *    getAuthor1().add(newItem);
-     * &lt;/pre&gt;
-     * 
-     * 
-     * &lt;p&gt;
-     * Objects of the following type(s) are allowed in the list
-     * {@link MCAIMT040101UK03Author2 }
-     * 
-     * 
-     */
-    public List<MCAIMT040101UK03Author2> getAuthor1() {
-        if (author1 == null) {
-            author1 = new ArrayList<>();
-        }
-        return this.author1;
-    }
-
-    /**
-     * Gets the value of the reason property.
-     * 
-     * &lt;p&gt;
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the reason property.
-     * 
-     * &lt;p&gt;
-     * For example, to add a new item, do as follows:
-     * &lt;pre&gt;
-     *    getReason().add(newItem);
-     * &lt;/pre&gt;
-     * 
-     * 
-     * &lt;p&gt;
-     * Objects of the following type(s) are allowed in the list
-     * {@link MCAIMT040101UK03Reason }
-     * 
-     * 
-     */
-    public List<MCAIMT040101UK03Reason> getReason() {
-        if (reason == null) {
-            reason = new ArrayList<>();
-        }
-        return this.reason;
-    }
-
-    /**
-     * Gets the value of the subject property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link RCMRIN030000UK07Subject }
-     *     
-     */
-    public RCMRIN030000UK07Subject getSubject() {
-        return subject;
-    }
-
-    /**
-     * Sets the value of the subject property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link RCMRIN030000UK07Subject }
-     *     
-     */
-    public void setSubject(RCMRIN030000UK07Subject value) {
-        this.subject = value;
+    public void setEhrExtract(RCMRMT030101UKEhrExtract value) {
+        this.ehrExtract = value;
     }
 
     /**
@@ -194,7 +102,7 @@ public class RCMRIN030000UK07ControlActEvent {
      */
     public String getType() {
         if (type == null) {
-            return "ControlAct";
+            return "ActRelationship";
         } else {
             return type;
         }
@@ -213,18 +121,18 @@ public class RCMRIN030000UK07ControlActEvent {
     }
 
     /**
-     * Gets the value of the classCode property.
+     * Gets the value of the typeCode property.
      * 
      * &lt;p&gt;
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the classCode property.
+     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the typeCode property.
      * 
      * &lt;p&gt;
      * For example, to add a new item, do as follows:
      * &lt;pre&gt;
-     *    getClassCode().add(newItem);
+     *    getTypeCode().add(newItem);
      * &lt;/pre&gt;
      * 
      * 
@@ -234,40 +142,39 @@ public class RCMRIN030000UK07ControlActEvent {
      * 
      * 
      */
-    public List<String> getClassCode() {
-        if (classCode == null) {
-            classCode = new ArrayList<>();
+    public List<String> getTypeCode() {
+        if (typeCode == null) {
+            typeCode = new ArrayList<>();
         }
-        return this.classCode;
+        return this.typeCode;
     }
 
     /**
-     * Gets the value of the moodCode property.
+     * Gets the value of the contextConductionInd property.
      * 
-     * &lt;p&gt;
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the moodCode property.
-     * 
-     * &lt;p&gt;
-     * For example, to add a new item, do as follows:
-     * &lt;pre&gt;
-     *    getMoodCode().add(newItem);
-     * &lt;/pre&gt;
-     * 
-     * 
-     * &lt;p&gt;
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
      */
-    public List<String> getMoodCode() {
-        if (moodCode == null) {
-            moodCode = new ArrayList<>();
+    public boolean isContextConductionInd() {
+        if (contextConductionInd == null) {
+            return false;
+        } else {
+            return contextConductionInd;
         }
-        return this.moodCode;
+    }
+
+    /**
+     * Sets the value of the contextConductionInd property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setContextConductionInd(Boolean value) {
+        this.contextConductionInd = value;
     }
 
     /**

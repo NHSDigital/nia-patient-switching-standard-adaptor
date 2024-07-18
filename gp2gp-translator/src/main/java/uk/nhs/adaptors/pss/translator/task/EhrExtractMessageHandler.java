@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.v3.RCMRIN030000UK06Message;
-import org.hl7.v3.RCMRIN030000UK07Message;
 import org.hl7.v3.RCMRIN030000UKMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -75,7 +73,7 @@ public class EhrExtractMessageHandler {
 
     private static final String MESSAGE_ID_PATH = "/Envelope/Header/MessageHeader/MessageData/MessageId";
 
-    public void handleMessage(InboundMessage inboundMessage, String conversationId, Class<? extends RCMRIN030000UKMessage> destinationClass)
+    public void handleMessage(InboundMessage inboundMessage, String conversationId)
         throws
         JAXBException,
         JsonProcessingException,
@@ -85,7 +83,7 @@ public class EhrExtractMessageHandler {
         ParseException,
         SAXException, TransformerException {
 
-        RCMRIN030000UKMessage payload = unmarshallString(inboundMessage.getPayload(), destinationClass);
+        RCMRIN030000UKMessage payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UKMessage.class);
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         MigrationStatusLog migrationStatusLog = migrationStatusLogService.getLatestMigrationStatusLog(conversationId);
 
@@ -110,7 +108,7 @@ public class EhrExtractMessageHandler {
             if (!hasExternalAttachment) {
                 // If there are no external attachments, process the entire message now
                 processAndCompleteEHRMessage(inboundMessage, conversationId, skeletonCIDAttachmentLog,
-                                             migrationRequest, messageId, destinationClass);
+                                             migrationRequest, messageId);
             } else {
                 //process MID messages and send continue message if external messages exist
                 processExternalAttachmentsAndSendContinueMessage(inboundMessage,
@@ -167,7 +165,7 @@ public class EhrExtractMessageHandler {
 
     private void processAndCompleteEHRMessage(InboundMessage inboundMessage,
         String conversationId, PatientAttachmentLog skeletonCIDAttachmentLog,
-        PatientMigrationRequest migrationRequest, String messageId, Class<? extends RCMRIN030000UKMessage> destinationClass)
+        PatientMigrationRequest migrationRequest, String messageId)
         throws JAXBException, TransformerException,
         SAXException, AttachmentNotFoundException, InlineAttachmentProcessingException,
         BundleMappingException, JsonProcessingException {
@@ -192,12 +190,7 @@ public class EhrExtractMessageHandler {
 
         // now we have the transformed payload, lets create our bundle
         Bundle bundle = null;
-        RCMRIN030000UKMessage payload = null;
-        if (destinationClass.getCanonicalName().contains("RCMRIN030000UK07Message")) {
-            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK07Message.class);
-        } else {
-            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
-        }
+        RCMRIN030000UKMessage payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UKMessage.class);
         bundle = bundleMapperService.mapToBundle(payload, migrationRequest.getLosingPracticeOdsCode(), attachments);
 
         // update the db migration request

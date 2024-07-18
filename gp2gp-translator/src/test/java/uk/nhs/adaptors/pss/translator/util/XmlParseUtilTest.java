@@ -1,8 +1,8 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import org.hl7.v3.RCMRIN030000UK06Message;
-import org.hl7.v3.RCMRIN030000UK06ControlActEvent;
-import org.hl7.v3.RCMRIN030000UK06Subject;
+import org.hl7.v3.RCMRIN030000UKMessage;
+import org.hl7.v3.RCMRIN030000UKControlActEvent;
+import org.hl7.v3.RCMRIN030000UKSubject;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UKPatient;
@@ -31,11 +31,11 @@ public class XmlParseUtilTest {
             + "DomainData=\"X-GP2GP-Skeleton: Yes\" Compressed=No LargeAttachment=No OriginalBase64=Yes Length=4718592";
 
     @Mock
-    private RCMRIN030000UK06Message rcmrin030000UK06Message;
+    private RCMRIN030000UKMessage rcmrin030000UKMessage;
     @Mock
-    private RCMRIN030000UK06ControlActEvent rcmrin030000UK06ControlActEvent;
+    private RCMRIN030000UKControlActEvent rcmrin030000UKControlActEvent;
     @Mock
-    private RCMRIN030000UK06Subject rcmrin030000UK06Subject;
+    private RCMRIN030000UKSubject rcmrin030000UK06Subject;
     @Mock
     private RCMRMT030101UKEhrExtract rcmrmt030101UKEhrExtract;
     @Mock
@@ -48,14 +48,14 @@ public class XmlParseUtilTest {
     @Test
     public void shouldParsePatientNhsNumberValue() {
 
-        when(rcmrin030000UK06Message.getControlActEvent()).thenReturn(rcmrin030000UK06ControlActEvent);
+        when(rcmrin030000UKMessage.getControlActEvent()).thenReturn(rcmrin030000UKControlActEvent);
 
-        when(rcmrin030000UK06Message.getControlActEvent().getSubject()).thenReturn(rcmrin030000UK06Subject);
+        when(rcmrin030000UKMessage.getControlActEvent().getSubject()).thenReturn(rcmrin030000UK06Subject);
 
-        when(rcmrin030000UK06Message.getControlActEvent().getSubject().getEhrExtract()).thenReturn(rcmrmt030101UKEhrExtract);
+        when(rcmrin030000UKMessage.getControlActEvent().getSubject().getEhrExtract()).thenReturn(rcmrmt030101UKEhrExtract);
 
         when(
-                rcmrin030000UK06Message
+                rcmrin030000UKMessage
                     .getControlActEvent()
                     .getSubject()
                     .getEhrExtract()
@@ -63,7 +63,7 @@ public class XmlParseUtilTest {
         ).thenReturn(rcmrmt030101UK04PatientSubject);
 
         when(
-                rcmrin030000UK06Message
+                rcmrin030000UKMessage
                     .getControlActEvent()
                     .getSubject()
                     .getEhrExtract()
@@ -72,7 +72,7 @@ public class XmlParseUtilTest {
         ).thenReturn(rcmrmt030101UK04Patient);
 
         when(
-                rcmrin030000UK06Message
+                rcmrin030000UKMessage
                         .getControlActEvent()
                         .getSubject()
                         .getEhrExtract()
@@ -81,7 +81,7 @@ public class XmlParseUtilTest {
                         .getId()
         ).thenReturn(id);
 
-        when(rcmrin030000UK06Message.getControlActEvent()
+        when(rcmrin030000UKMessage.getControlActEvent()
                 .getSubject()
                 .getEhrExtract()
                 .getRecordTarget()
@@ -89,7 +89,7 @@ public class XmlParseUtilTest {
                 .getId()
                 .getExtension()).thenReturn("123456");
 
-        String actual = XmlParseUtilService.parseNhsNumber(rcmrin030000UK06Message);
+        String actual = XmlParseUtilService.parseNhsNumber(rcmrin030000UKMessage);
         String expected = "123456";
 
         assertEquals(expected, actual);

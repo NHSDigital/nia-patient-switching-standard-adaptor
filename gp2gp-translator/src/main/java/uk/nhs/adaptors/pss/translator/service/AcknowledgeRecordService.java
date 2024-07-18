@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,7 +44,7 @@ public class AcknowledgeRecordService {
     );
 
     public boolean prepareAndSendAcknowledgementMessage(AcknowledgeRecordMessage acknowledgeRecordMessage) {
-        RCMRIN030000UK06Message message;
+        RCMRIN030000UKMessage message;
 
         try {
             message = parseOriginalMessage(acknowledgeRecordMessage);
@@ -67,12 +67,12 @@ public class AcknowledgeRecordService {
         return nackAckPrepInterface.sendNackMessage(nackReason, message, conversationId);
     }
 
-    private RCMRIN030000UK06Message parseOriginalMessage(AcknowledgeRecordMessage message)
+    private RCMRIN030000UKMessage parseOriginalMessage(AcknowledgeRecordMessage message)
         throws JAXBException, JsonProcessingException {
         var payload = objectMapper.readValue(message.getOriginalMessage(), InboundMessage.class)
                 .getPayload();
 
-        return unmarshallString(payload, RCMRIN030000UK06Message.class);
+        return unmarshallString(payload, RCMRIN030000UKMessage.class);
     }
 
 }

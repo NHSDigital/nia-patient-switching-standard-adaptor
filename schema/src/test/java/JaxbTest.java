@@ -8,8 +8,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 
 import org.hl7.v3.CV;
-import org.hl7.v3.RCMRIN030000UK06Message;
-import org.hl7.v3.RCMRIN030000UK07Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.hl7.v3.RCMRMT030101UKEhrFolder;
 
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ class JaxbTest {
     void When_RCMRIN030000UK06MessageIsUnmarshalled_Expect_FieldsToBeParsable() throws JAXBException {
         // given
         final File file = FileFactory.getFileFor(RCMR_IN030000UK06_TEST_FILE_NAME);
-        JAXBElement<RCMRIN030000UK06Message> unmarshalledMessage = unmarshallFromFile(file, RCMRIN030000UK06Message.class);
+        JAXBElement<RCMRIN030000UKMessage> unmarshalledMessage = unmarshallFromFile(file, RCMRIN030000UKMessage.class);
 
         // when
         var ehrFolder = unmarshalledMessage
@@ -51,7 +50,7 @@ class JaxbTest {
     void When_RCMRIN030000UK07MessageUnmarshalled_Expect_ConfidentialityCodePresent() throws JAXBException {
         // given
         final File file = FileFactory.getFileFor(RCMR_IN030000UK07_TEST_FILE_NAME);
-        final JAXBElement<RCMRIN030000UK07Message> unmarshalledMessage = unmarshallFromFile(file, RCMRIN030000UK07Message.class);
+        final JAXBElement<RCMRIN030000UKMessage> unmarshalledMessage = unmarshallFromFile(file, RCMRIN030000UKMessage.class);
         final String code = "NOPAT";
         final String codeSystem = "2.16.840.1.113883.4.642.3.47";
         final String displayName = "no disclosure to patient, family or caregivers without attending provider's authorization";

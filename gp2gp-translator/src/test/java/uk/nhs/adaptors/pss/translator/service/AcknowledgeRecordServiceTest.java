@@ -2,7 +2,7 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -121,7 +121,7 @@ public class AcknowledgeRecordServiceTest {
         var payload = FileUtil.readResourceAsString(STRUCTURED_RECORD_PAYLOAD_XML_PATH);
 
         setupMocks(payload);
-        when(preparationService.sendAckMessage(any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE)))
+        when(preparationService.sendAckMessage(any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID_VALUE)))
                 .thenReturn(expectedResponse);
 
         var acknowledgeRecordMessage = AcknowledgeRecordMessage.builder()
@@ -135,7 +135,7 @@ public class AcknowledgeRecordServiceTest {
 
         assertEquals(expectedResponse, result);
         verify(preparationService, times(1))
-                .sendAckMessage(any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE));
+                .sendAckMessage(any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID_VALUE));
     }
 
     @ParameterizedTest
@@ -147,7 +147,7 @@ public class AcknowledgeRecordServiceTest {
         var expectedNackReason = REASONS.get(SUPPRESSED);
         setupMocks(payload);
         when(preparationService.sendNackMessage(
-                eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE)))
+                eq(expectedNackReason), any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID_VALUE)))
                 .thenReturn(expectedResponse);
 
         var acknowledgeRecordMessage = AcknowledgeRecordMessage.builder()
@@ -161,7 +161,7 @@ public class AcknowledgeRecordServiceTest {
 
         assertEquals(expectedResponse, result);
         verify(preparationService, times(1))
-                .sendNackMessage(eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE));
+                .sendNackMessage(eq(expectedNackReason), any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID_VALUE));
     }
 
     @ParameterizedTest
@@ -173,7 +173,7 @@ public class AcknowledgeRecordServiceTest {
         var expectedNackReason = REASONS.get(ABA_INCORRECT_PATIENT);
         setupMocks(payload);
         when(preparationService.sendNackMessage(
-                eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE)))
+                eq(expectedNackReason), any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID_VALUE)))
                 .thenReturn(expectedResponse);
 
         var acknowledgeRecordMessage = AcknowledgeRecordMessage.builder()
@@ -187,7 +187,7 @@ public class AcknowledgeRecordServiceTest {
 
         assertEquals(expectedResponse, result);
         verify(preparationService, times(1))
-                .sendNackMessage(eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE));
+                .sendNackMessage(eq(expectedNackReason), any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID_VALUE));
     }
 
     @ParameterizedTest
@@ -199,7 +199,7 @@ public class AcknowledgeRecordServiceTest {
         var expectedNackReason = REASONS.get(NON_ABA_INCORRECT_PATIENT);
         setupMocks(payload);
         when(preparationService.sendNackMessage(
-                eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE)))
+                eq(expectedNackReason), any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID_VALUE)))
                 .thenReturn(expectedResponse);
 
         var acknowledgeRecordMessage = AcknowledgeRecordMessage.builder()
@@ -213,7 +213,7 @@ public class AcknowledgeRecordServiceTest {
 
         assertEquals(expectedResponse, result);
         verify(preparationService, times(1))
-                .sendNackMessage(eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE));
+                .sendNackMessage(eq(expectedNackReason), any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID_VALUE));
     }
 
     @ParameterizedTest
@@ -225,7 +225,7 @@ public class AcknowledgeRecordServiceTest {
         var expectedNackReason = REASONS.get(FAILED_TO_INTEGRATE);
         setupMocks(payload);
         when(preparationService.sendNackMessage(
-                eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE)))
+                eq(expectedNackReason), any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID_VALUE)))
                 .thenReturn(expectedResponse);
 
         var acknowledgeRecordMessage = AcknowledgeRecordMessage.builder()
@@ -239,7 +239,7 @@ public class AcknowledgeRecordServiceTest {
 
         assertEquals(expectedResponse, result);
         verify(preparationService, times(1))
-                .sendNackMessage(eq(expectedNackReason), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID_VALUE));
+                .sendNackMessage(eq(expectedNackReason), any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID_VALUE));
     }
 
     @SneakyThrows

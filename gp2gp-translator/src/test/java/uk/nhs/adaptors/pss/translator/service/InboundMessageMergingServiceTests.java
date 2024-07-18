@@ -25,7 +25,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.ValidationException;
 import javax.xml.transform.TransformerException;
 
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -137,7 +137,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
-        verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+        verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UKMessage.class), any());
         verify(migrationStatusLogService,
                 times(1)).updatePatientMigrationRequestAndAddMigrationStatusLog(any(), any(), any(), any(), isNull());
     }
@@ -177,7 +177,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
-        verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+        verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UKMessage.class), any());
         verify(attachmentHandlerService, never()).getAttachment(any(), any());
         verify(skeletonProcessingService, times(0)).updateInboundMessageWithSkeleton(any(), any(), any());
         verify(migrationStatusLogService,
@@ -207,7 +207,7 @@ public class InboundMessageMergingServiceTests {
 
         doThrow(SAXException.class).when(skeletonProcessingService).updateInboundMessageWithSkeleton(any(), any(), any());
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
-        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UKMessage.class), any());
     }
 
 
@@ -236,7 +236,7 @@ public class InboundMessageMergingServiceTests {
             .replaceOriginalFilenameWithStorageFilenameInEhrExtract(any(), any(), any());
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
-        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UKMessage.class), any());
     }
 
     @Test
@@ -266,7 +266,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
-                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UK06Message.class), any());
+                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UKMessage.class), any());
     }
 
     @Test
@@ -295,7 +295,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
-                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UK06Message.class), any());
+                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UKMessage.class), any());
     }
 
     @Test
@@ -324,7 +324,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
-                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UK06Message.class), any());
+                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UKMessage.class), any());
     }
 
     @Test
@@ -351,7 +351,7 @@ public class InboundMessageMergingServiceTests {
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
-                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UK06Message.class), any());
+                .sendNackMessage(eq(LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED), any(RCMRIN030000UKMessage.class), any());
     }
 
     @Test
@@ -377,11 +377,11 @@ public class InboundMessageMergingServiceTests {
             .thenReturn(inboundMessage.getPayload());
         when(skeletonProcessingService.updateInboundMessageWithSkeleton(any(), any(), any())).thenReturn(inboundMessage);
 
-        doThrow(BundleMappingException.class).when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), anyList());
+        doThrow(BundleMappingException.class).when(bundleMapperService).mapToBundle(any(RCMRIN030000UKMessage.class), any(), anyList());
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
         verify(nackAckPreparationService, times(1))
-                .sendNackMessage(eq(EHR_EXTRACT_CANNOT_BE_PROCESSED), any(RCMRIN030000UK06Message.class), any());
+                .sendNackMessage(eq(EHR_EXTRACT_CANNOT_BE_PROCESSED), any(RCMRIN030000UKMessage.class), any());
     }
 
     @Test
@@ -410,7 +410,7 @@ public class InboundMessageMergingServiceTests {
         doThrow(JsonProcessingException.class).when(objectMapper).writeValueAsString(any(InboundMessage.class));
 
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
-        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+        verify(nackAckPreparationService, times(1)).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UKMessage.class), any());
     }
 
     @Test
@@ -465,7 +465,7 @@ public class InboundMessageMergingServiceTests {
         inboundMessageMergingService.mergeAndBundleMessage(CONVERSATION_ID);
 
         verify(attachmentReferenceUpdaterService).replaceOriginalFilenameWithStorageFilenameInEhrExtract(any(), any(), any());
-        verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UK06Message.class), any());
+        verify(nackAckPreparationService, never()).sendNackMessage(any(NACKReason.class), any(RCMRIN030000UKMessage.class), any());
     }
 
 

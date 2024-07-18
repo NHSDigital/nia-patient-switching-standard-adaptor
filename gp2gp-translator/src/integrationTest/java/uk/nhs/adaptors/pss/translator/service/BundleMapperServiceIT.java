@@ -15,7 +15,7 @@ import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.PractitionerRole;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -160,8 +160,8 @@ public class BundleMapperServiceIT {
     }
 
     @SneakyThrows
-    private RCMRIN030000UK06Message unmarshallEhrExtractFromFile(String filename) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + filename), RCMRIN030000UK06Message.class);
+    private RCMRIN030000UKMessage unmarshallEhrExtractFromFile(String filename) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + filename), RCMRIN030000UKMessage.class);
     }
 
     private List<Organization> extractOrganisationsFromBundle(Bundle bundle) {

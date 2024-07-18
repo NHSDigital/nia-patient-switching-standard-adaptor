@@ -7,8 +7,6 @@ import jakarta.jms.Message;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
-import org.hl7.v3.RCMRIN030000UK06Message;
-import org.hl7.v3.RCMRIN030000UK07Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -78,10 +76,8 @@ public class MhsQueueMessageHandler {
 
             if (ACKNOWLEDGEMENT_INTERACTION_ID.equals(interactionId)) {
                 acknowledgmentMessageHandler.handleMessage(inboundMessage, conversationId);
-            } else if (EHR_EXTRACT_INTERACTION_ID06.equals(interactionId)) {
-                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId, RCMRIN030000UK06Message.class);
-            } else if (EHR_EXTRACT_INTERACTION_ID07.equals(interactionId)) {
-                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId, RCMRIN030000UK07Message.class);
+            } else if (EHR_EXTRACT_INTERACTION_ID06.equals(interactionId) || EHR_EXTRACT_INTERACTION_ID07.equals(interactionId)) {
+                ehrExtractMessageHandler.handleMessage(inboundMessage, conversationId);
             } else if (CONTINUE_ATTACHMENT_INTERACTION_ID.equals(interactionId)) {
                 continueMessageHandler.handleMessage(inboundMessage, conversationId);
             } else {

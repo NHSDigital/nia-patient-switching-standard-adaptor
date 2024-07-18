@@ -18,7 +18,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.ValidationException;
 
 import org.hl7.v3.COPCIN000001UK01Message;
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.jdbi.v3.core.ConnectionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -485,7 +485,7 @@ public class COPCMessageHandler {
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
 
         InboundMessage inboundMessage = inboundMessageUtil.readMessage(migrationRequest.getInboundMessage());
-        RCMRIN030000UK06Message ehrExtract = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage ehrExtract = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UKMessage.class);
         String ehrExtractMessageId = outboundMessageUtil.parseMessageRef(ehrExtract);
 
         NACKMessageData messageData = NACKMessageData

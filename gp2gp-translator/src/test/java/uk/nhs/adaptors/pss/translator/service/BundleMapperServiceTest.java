@@ -21,7 +21,7 @@ import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Location;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.hl7.v3.RCMRMT030101UKAgentDirectory;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKLocation;
@@ -149,7 +149,7 @@ public class BundleMapperServiceTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testAllMappersHaveBeenUsed() throws BundleMappingException {
-        final RCMRIN030000UK06Message xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
+        final RCMRIN030000UKMessage xml = unmarshallCodeElement(STRUCTURED_RECORD_XML);
         Bundle bundle = bundleMapperService.mapToBundle(xml, LOSING_ODS_CODE, new ArrayList<>());
 
         verify(patientMapper).mapToPatient(any(RCMRMT030101UKPatient.class), any(Organization.class));
@@ -196,7 +196,7 @@ public class BundleMapperServiceTest {
     }
 
     @SneakyThrows
-    private RCMRIN030000UK06Message unmarshallCodeElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRIN030000UK06Message.class);
+    private RCMRIN030000UKMessage unmarshallCodeElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRIN030000UKMessage.class);
     }
 }
