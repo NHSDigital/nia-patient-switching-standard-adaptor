@@ -159,11 +159,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRIN030000UK06Message }
+     * Create an instance of {@link RCMRIN030000UKMessage }
      * 
      */
-    public RCMRIN030000UK06Message createRCMRIN030000UK06Message() {
-        return new RCMRIN030000UK06Message();
+    public RCMRIN030000UKMessage createRCMRIN030000UK06Message() {
+        return new RCMRIN030000UKMessage();
     }
 
     /**
@@ -1559,11 +1559,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRIN030000UK06ControlActEvent }
+     * Create an instance of {@link RCMRIN030000UKControlActEvent }
      * 
      */
-    public RCMRIN030000UK06ControlActEvent createRCMRIN030000UK06ControlActEvent() {
-        return new RCMRIN030000UK06ControlActEvent();
+    public RCMRIN030000UKControlActEvent createRCMRIN030000UK06ControlActEvent() {
+        return new RCMRIN030000UKControlActEvent();
     }
 
     /**
@@ -1575,7 +1575,7 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RCMRIN030000UK06Subject }
+     * Create an instance of {@link RCMRIN030000UKSubject }
      *
      */
     public COPCIN000001UK01Subject createRCMRIN030000UK06Subject() {
@@ -1831,21 +1831,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RCMRIN030000UK06Message }{@code >}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RCMRIN030000UKMessage }{@code >}
      * 
      * @param value
      *     Java instance representing xml element's value.
      * @return
-     *     the new instance of {@link JAXBElement }{@code <}{@link RCMRIN030000UK06Message }{@code >}
+     *     the new instance of {@link JAXBElement }{@code <}{@link RCMRIN030000UKMessage }{@code >}
      */
     @XmlElementDecl(namespace = NAMESPACEURI, name = "RCMR_IN030000UK06")
-    public JAXBElement<RCMRIN030000UK06Message> createRCMRIN030000UK06(RCMRIN030000UK06Message value) {
-        return new JAXBElement<>(_RCMRIN030000UK06_QNAME, RCMRIN030000UK06Message.class, null, value);
+    public JAXBElement<RCMRIN030000UKMessage> createRCMRIN030000UK06(RCMRIN030000UKMessage value) {
+        return new JAXBElement<>(_RCMRIN030000UK06_QNAME, RCMRIN030000UKMessage.class, null, value);
     }
 
     @XmlElementDecl(namespace = NAMESPACEURI, name = "RCMR_IN030000UK07")
-    public JAXBElement<RCMRIN030000UK07Message> createRCMRIN030000UK07(RCMRIN030000UK07Message value) {
-        return new JAXBElement<>(_RCMRIN030000UK07_QNAME, RCMRIN030000UK07Message.class, null, value);
+    public JAXBElement<RCMRIN030000UKMessage> createRCMRIN030000UK07(RCMRIN030000UKMessage value) {
+        return new JAXBElement<>(_RCMRIN030000UK07_QNAME, RCMRIN030000UKMessage.class, null, value);
     }
 
     /**

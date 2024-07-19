@@ -26,7 +26,7 @@ import static uk.nhs.adaptors.pss.translator.model.NACKReason.LARGE_MESSAGE_ATTA
 import jakarta.xml.bind.JAXBException;
 
 import org.hl7.v3.COPCIN000001UK01Message;
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -70,8 +70,8 @@ class NackAckPreparationServiceTest {
 
     @Test
     public void When_SendNackMessageRCMR_WithNoErrors_Expect_ShouldUpdateLog() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(true);
 
@@ -82,8 +82,8 @@ class NackAckPreparationServiceTest {
 
     @Test
     public void When_SendNackMessageRCMR_WithErrors_Expect_ShouldUpdateLog() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         when(sendNACKMessageHandler.prepareAndSendMessage(any(NACKMessageData.class))).thenReturn(false);
 
@@ -104,8 +104,8 @@ class NackAckPreparationServiceTest {
                 .messageRef(TEST_MESSAGE_REF)
                 .build();
 
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         nackAckPreparationService.sendNackMessage(
                 NACKReason.LARGE_MESSAGE_GENERAL_FAILURE,
@@ -118,8 +118,8 @@ class NackAckPreparationServiceTest {
 
     @Test
     public void When_SendNackMessageRCMR_WithReAssemblyFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         nackAckPreparationService.sendNackMessage(
                 NACKReason.LARGE_MESSAGE_REASSEMBLY_FAILURE,
@@ -132,8 +132,8 @@ class NackAckPreparationServiceTest {
 
     @Test
     public void When_SendNackMessageRCMR_WithAttachmentsNotReceived_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         nackAckPreparationService.sendNackMessage(
                 NACKReason.LARGE_MESSAGE_ATTACHMENTS_NOT_RECEIVED,
@@ -146,8 +146,8 @@ class NackAckPreparationServiceTest {
 
     @Test
     public void When_SendNackMessageRCMR_WithGeneralFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         nackAckPreparationService.sendNackMessage(
                 NACKReason.LARGE_MESSAGE_GENERAL_FAILURE,
@@ -160,8 +160,8 @@ class NackAckPreparationServiceTest {
 
     @Test
     public void When_SendNackMessageRCMR_WithTimeoutFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         nackAckPreparationService.sendNackMessage(
                 NACKReason.LARGE_MESSAGE_TIMEOUT,
@@ -174,8 +174,8 @@ class NackAckPreparationServiceTest {
 
     @Test
     public void When_SendNackMessageRCMR_WithClinicalSysIntegrationFailure_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         nackAckPreparationService.sendNackMessage(
                 NACKReason.CLINICAL_SYSTEM_INTEGRATION_FAILURE,
@@ -188,8 +188,8 @@ class NackAckPreparationServiceTest {
 
     @Test
     public void When_SendNackMessageRCMR_WithEHRExtractCannotBeProcessed_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         nackAckPreparationService.sendNackMessage(
                 NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED,
@@ -202,8 +202,8 @@ class NackAckPreparationServiceTest {
 
     @Test
     public void When_SendNackMessageRCMR_WithUnexpectedCondition_Expect_ShouldHaveCorrectNackCode() throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         nackAckPreparationService.sendNackMessage(
                 NACKReason.UNEXPECTED_CONDITION,
@@ -217,8 +217,8 @@ class NackAckPreparationServiceTest {
     @Test
     public void When_SendNackMessageRCMR_WithEHRExtractCannotBeProcessed_Expect_AddMigrationStatusLogCalledWithGeneralProcessingError()
             throws JAXBException {
-        RCMRIN030000UK06Message payload = unmarshallString(
-                readInboundMessagePayloadFromFile(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(
+                readInboundMessagePayloadFromFile(), RCMRIN030000UKMessage.class);
 
         nackAckPreparationService.sendNackMessage(
                 NACKReason.EHR_EXTRACT_CANNOT_BE_PROCESSED,

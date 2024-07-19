@@ -22,7 +22,6 @@ import jakarta.jms.Message;
 import jakarta.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 
-import org.hl7.v3.RCMRIN030000UK06Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -117,7 +116,7 @@ public class MhsQueueMessageHandlerTest {
 
         assertTrue(result);
         verify(mdcService).applyConversationId(CONVERSATION_ID_UPPER);
-        verify(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER, RCMRIN030000UK06Message.class);
+        verify(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER);
         verifyNoInteractions(acknowledgmentMessageHandler);
     }
 
@@ -136,7 +135,7 @@ public class MhsQueueMessageHandlerTest {
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
         when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
-            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER, RCMRIN030000UK06Message.class);
+            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 
@@ -160,7 +159,7 @@ public class MhsQueueMessageHandlerTest {
         prepareMocks(EHR_EXTRACT_INTERACTION_ID);
         when(migrationRequestService.hasMigrationRequest(any())).thenReturn(true);
         doThrow(new JAXBException("Nobody expects the spanish inquisition!"))
-            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER, RCMRIN030000UK06Message.class);
+            .when(ehrExtractMessageHandler).handleMessage(inboundMessage, CONVERSATION_ID_UPPER);
 
         boolean result = mhsQueueMessageHandler.handleMessage(message);
 

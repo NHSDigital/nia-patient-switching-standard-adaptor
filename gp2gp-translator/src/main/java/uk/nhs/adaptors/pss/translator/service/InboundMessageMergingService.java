@@ -14,7 +14,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.ValidationException;
 import javax.xml.transform.TransformerException;
 
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -72,7 +72,7 @@ public class InboundMessageMergingService {
 
         PatientMigrationRequest migrationRequest = migrationRequestDao.getMigrationRequest(conversationId);
         var inboundMessage = objectMapper.readValue(migrationRequest.getInboundMessage(), InboundMessage.class);
-        RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UKMessage.class);
 
         try {
             var attachmentLogs = getUndeletedLogsForConversation(conversationId);
@@ -102,7 +102,7 @@ public class InboundMessageMergingService {
 
             // process bundle
             inboundMessage.setPayload(newPayloadStr);
-            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+            payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UKMessage.class);
 
             var attachments = patientAttachmentLogService.findAttachmentLogs(conversationId);
 

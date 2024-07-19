@@ -21,8 +21,6 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ResourceType;
-import org.hl7.v3.RCMRIN030000UK06Message;
-import org.hl7.v3.RCMRIN030000UK07Message;
 import org.hl7.v3.RCMRIN030000UKMessage;
 import org.hl7.v3.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
@@ -249,30 +247,11 @@ public class BundleMapperService {
     }
 
     private RCMRMT030101UKEhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
-        if (xmlMessage instanceof RCMRIN030000UK07Message rcmrin030000uk07message) {
-
-            return rcmrin030000uk07message.getControlActEvent()
-                                                         .getSubject()
-                                                         .getEhrExtract()
-                                                         .getComponent()
-                                                         .get(0)
-                                                         .getEhrFolder();
-        } else {
-            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent()
-                                                         .getSubject()
-                                                         .getEhrExtract()
-                                                         .getComponent()
-                                                         .get(0)
-                                                         .getEhrFolder();
-        }
+        return getEhrExtract(xmlMessage).getComponent().get(0).getEhrFolder();
     }
 
     private RCMRMT030101UKEhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {
-        if (xmlMessage instanceof RCMRIN030000UK07Message rcmrin030000uk07message) {
-            return rcmrin030000uk07message.getControlActEvent().getSubject().getEhrExtract();
-        } else {
-            return ((RCMRIN030000UK06Message) xmlMessage).getControlActEvent().getSubject().getEhrExtract();
-        }
+        return xmlMessage.getControlActEvent().getSubject().getEhrExtract();
     }
 
     private <T extends DomainResource> void addEntries(Bundle bundle, Collection<T> resources) {

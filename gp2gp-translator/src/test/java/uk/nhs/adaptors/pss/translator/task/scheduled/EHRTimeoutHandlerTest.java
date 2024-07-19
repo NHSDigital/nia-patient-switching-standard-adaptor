@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -121,7 +121,7 @@ public class EHRTimeoutHandlerTest {
     @Mock(name = "mockInboundMessage2")
     private InboundMessage mockInboundMessage2;
     @Mock
-    private RCMRIN030000UK06Message mockedPayload;
+    private RCMRIN030000UKMessage mockedPayload;
     @Mock(name = "mockRequest")
     private PatientMigrationRequest mockRequest;
     @Mock(name = "mockRequest2")
@@ -440,7 +440,7 @@ public class EHRTimeoutHandlerTest {
 
             // mock static method
             mockedXmlUnmarshall.when(
-                () -> XmlUnmarshallUtil.unmarshallString(any(), eq(RCMRIN030000UK06Message.class))
+                () -> XmlUnmarshallUtil.unmarshallString(any(), eq(RCMRIN030000UKMessage.class))
             ).thenReturn(mockedPayload);
 
             // request
@@ -481,7 +481,7 @@ public class EHRTimeoutHandlerTest {
 
             // mock static method
             mockedXmlUnmarshall.when(
-                () -> XmlUnmarshallUtil.unmarshallString(any(), eq(RCMRIN030000UK06Message.class))
+                () -> XmlUnmarshallUtil.unmarshallString(any(), eq(RCMRIN030000UKMessage.class))
             ).thenReturn(mockedPayload);
 
             // requests

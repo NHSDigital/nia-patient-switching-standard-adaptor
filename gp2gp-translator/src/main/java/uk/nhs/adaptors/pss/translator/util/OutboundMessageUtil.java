@@ -1,11 +1,11 @@
 package uk.nhs.adaptors.pss.translator.util;
 
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OutboundMessageUtil {
-    public String parseFromAsid(RCMRIN030000UK06Message payload) {
+    public String parseFromAsid(RCMRIN030000UKMessage payload) {
         return payload.getCommunicationFunctionRcv()
             .get(0)
             .getDevice()
@@ -14,7 +14,7 @@ public class OutboundMessageUtil {
             .getExtension();
     }
 
-    public String parseToAsid(RCMRIN030000UK06Message payload) {
+    public String parseToAsid(RCMRIN030000UKMessage payload) {
         return payload.getCommunicationFunctionSnd()
             .getDevice()
             .getId()
@@ -22,7 +22,7 @@ public class OutboundMessageUtil {
             .getExtension();
     }
 
-    public String parseToOdsCode(RCMRIN030000UK06Message payload) {
+    public String parseToOdsCode(RCMRIN030000UKMessage payload) {
         return payload.getControlActEvent()
             .getSubject()
             .getEhrExtract()
@@ -33,7 +33,7 @@ public class OutboundMessageUtil {
             .getExtension();
     }
 
-    public String parseMessageRef(RCMRIN030000UK06Message payload) {
+    public String parseMessageRef(RCMRIN030000UKMessage payload) {
         return payload.getId().getRoot();
     }
 }

@@ -34,7 +34,7 @@ import jakarta.xml.bind.ValidationException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.v3.COPCIN000001UK01Message;
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.jdbi.v3.core.ConnectionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -150,7 +150,7 @@ class COPCMessageHandlerTest {
     @Mock
     private COPCIN000001UK01Message mockCOPCMessage;
     @Mock
-    private RCMRIN030000UK06Message mockEhrExtract;
+    private RCMRIN030000UKMessage mockEhrExtract;
     @Mock
     private InboundMessage mockInboundMessage;
 
@@ -1474,7 +1474,7 @@ class COPCMessageHandlerTest {
     private void prepareFailProcessMocks(MockedStatic<XmlUnmarshallUtil> mockedXmlUnmarshall) throws JsonProcessingException {
 
         mockedXmlUnmarshall.when(
-            () -> XmlUnmarshallUtil.unmarshallString(anyString(), eq(RCMRIN030000UK06Message.class))
+            () -> XmlUnmarshallUtil.unmarshallString(anyString(), eq(RCMRIN030000UKMessage.class))
         ).thenReturn(mockEhrExtract);
 
         when(outboundMessageUtil.parseFromAsid(any())).thenReturn(StringUtils.EMPTY);

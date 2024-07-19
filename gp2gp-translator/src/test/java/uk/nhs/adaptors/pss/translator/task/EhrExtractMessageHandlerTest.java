@@ -33,7 +33,7 @@ import jakarta.xml.bind.ValidationException;
 import javax.xml.transform.TransformerException;
 
 import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.jdbi.v3.core.ConnectionException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -154,7 +154,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
                 .thenReturn(MESSAGE_ID);
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID, null, null);
 
@@ -185,10 +185,10 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
                 .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         // mapped item is private to the class, so we cannot test an exact object
-        verify(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), any());
+        verify(bundleMapperService).mapToBundle(any(RCMRIN030000UKMessage.class), any(), any());
     }
 
     @Test
@@ -209,7 +209,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
                 .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(attachmentHandlerService).storeAttachments(inboundMessage.getAttachments(), CONVERSATION_ID);
     }
@@ -232,7 +232,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
                 .thenReturn("6E242658-3D8E-11E3-A7DC-172BDA00FA67");
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(attachmentReferenceUpdaterService).replaceOriginalFilenameWithStorageFilenameInEhrExtract(
                 inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload());
@@ -272,10 +272,10 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(any(), eq(MESSAGE_ID_PATH))).thenReturn(MESSAGE_ID);
 
         EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
-        ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(ehrExtractMessageHandlerSpy).sendContinueRequest(
-            any(RCMRIN030000UK06Message.class),
+            any(RCMRIN030000UKMessage.class),
             anyString(),
             anyString(),
             anyString(),
@@ -303,7 +303,7 @@ public class EhrExtractMessageHandlerTest {
         when(xPathService.getNodeValue(ebXmlDocument, "/Envelope/Header/MessageHeader/MessageData/MessageId"))
                 .thenReturn(MESSAGE_ID);
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(migrationStatusLogService).updatePatientMigrationRequestAndAddMigrationStatusLog(
             CONVERSATION_ID, BUNDLE_STRING, INBOUND_MESSAGE_STRING, EHR_EXTRACT_TRANSLATED, MESSAGE_ID);
@@ -331,7 +331,7 @@ public class EhrExtractMessageHandlerTest {
             .when(attachmentHandlerService).storeAttachments(any(), any());
 
         assertThrows(InlineAttachmentProcessingException.class, () ->
-                        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class));
+                        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
     }
 
     @Test
@@ -356,10 +356,10 @@ public class EhrExtractMessageHandlerTest {
             .when(attachmentHandlerService).storeAttachments(any(), any());
 
         assertThrows(InlineAttachmentProcessingException.class, () ->
-            ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class));
+            ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
 
         verify(nackAckPreparationServiceMock, times(1))
-            .sendNackMessage(eq(UNEXPECTED_CONDITION), any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID));
+            .sendNackMessage(eq(UNEXPECTED_CONDITION), any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID));
     }
 
     @Test
@@ -382,10 +382,10 @@ public class EhrExtractMessageHandlerTest {
         )).thenReturn(inboundMessage.getPayload());
 
         doThrow(new BundleMappingException("Test Exception"))
-            .when(bundleMapperService).mapToBundle(any(RCMRIN030000UK06Message.class), any(), any());
+            .when(bundleMapperService).mapToBundle(any(RCMRIN030000UKMessage.class), any(), any());
 
         assertThrows(BundleMappingException.class,
-                     () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class));
+                     () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
     }
 
     @Test
@@ -404,7 +404,7 @@ public class EhrExtractMessageHandlerTest {
                 .winningPracticeOdsCode(WINNING_ODE_CODE)
                 .build();
 
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE), any())).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UKMessage.class), eq(LOSING_ODE_CODE), any())).thenReturn(bundle);
         when(migrationRequestDao.getMigrationRequest(CONVERSATION_ID)).thenReturn(migrationRequest);
         when(attachmentReferenceUpdaterService.replaceOriginalFilenameWithStorageFilenameInEhrExtract(
             inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
@@ -413,7 +413,7 @@ public class EhrExtractMessageHandlerTest {
         doThrow(new DataFormatException()).when(fhirParser).encodeToJson(bundle);
 
         assertThrows(DataFormatException.class,
-                     () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class));
+                     () -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID));
     }
 
     @Test
@@ -444,10 +444,10 @@ public class EhrExtractMessageHandlerTest {
                 )).thenReturn(inboundMessage.getPayload());
 
         EhrExtractMessageHandler ehrExtractMessageHandlerSpy = Mockito.spy(ehrExtractMessageHandler);
-        ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandlerSpy.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(ehrExtractMessageHandlerSpy, times(0)).sendContinueRequest(
-                any(RCMRIN030000UK06Message.class),
+                any(RCMRIN030000UKMessage.class),
                 anyString(),
                 anyString(),
                 anyString(),
@@ -492,7 +492,7 @@ public class EhrExtractMessageHandlerTest {
                 inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
             )).thenReturn(inboundMessage.getPayload());
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
         verify(skeletonProcessingService, times(1)).updateInboundMessageWithSkeleton(any(), any(), any());
     }
 
@@ -524,7 +524,7 @@ public class EhrExtractMessageHandlerTest {
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()
                 )).thenReturn(inboundMessage.getPayload());
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(patientAttachmentLogService, times(1)).addAttachmentLog(patientAttachmentLogCaptor.capture());
         PatientAttachmentLog log = patientAttachmentLogCaptor.getValue();
@@ -569,7 +569,7 @@ public class EhrExtractMessageHandlerTest {
 
         prepareMigrationRequestAndMigrationStatusMocks();
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
         verify(bundleMapperService, times(0)).mapToBundle(any(), any(), any());
     }
 
@@ -631,7 +631,7 @@ public class EhrExtractMessageHandlerTest {
 
         prepareMigrationRequestAndMigrationStatusMocks();
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
         verify(patientAttachmentLogService, times(externalAttachmentsTestList.size())).addAttachmentLog(any());
     }
 
@@ -661,7 +661,7 @@ public class EhrExtractMessageHandlerTest {
         doThrow(WebClientRequestException.class)
             .when(sendContinueRequestHandler).prepareAndSendRequest(any());
 
-        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class))
+        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID))
             .isInstanceOf(WebClientRequestException.class);
     }
     @Test
@@ -690,7 +690,7 @@ public class EhrExtractMessageHandlerTest {
         doThrow(ConnectionException.class)
             .when(sendContinueRequestHandler).prepareAndSendRequest(any());
 
-        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class))
+        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID))
             .isInstanceOf(ConnectionException.class);
     }
 
@@ -721,10 +721,10 @@ public class EhrExtractMessageHandlerTest {
         doThrow(MhsServerErrorException.class)
             .when(sendContinueRequestHandler).prepareAndSendRequest(any());
 
-        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class))
+        assertThatThrownBy(() -> ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID))
             .isInstanceOf(MhsServerErrorException.class);
 
-        verify(nackAckPreparationServiceMock).sendNackMessage(eq(UNEXPECTED_CONDITION), any(RCMRIN030000UK06Message.class), anyString());
+        verify(nackAckPreparationServiceMock).sendNackMessage(eq(UNEXPECTED_CONDITION), any(RCMRIN030000UKMessage.class), anyString());
     }
 
     @Test
@@ -757,8 +757,8 @@ public class EhrExtractMessageHandlerTest {
             .thenReturn(null)
                 .thenReturn(patientAttachmentLog);
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(patientAttachmentLogService, times(1)).addAttachmentLog(any());
     }
@@ -775,10 +775,10 @@ public class EhrExtractMessageHandlerTest {
         InboundMessage inboundMessage = new InboundMessage();
         inboundMessage.setPayload(readInboundMessagePayloadFromFile());
 
-        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID, RCMRIN030000UK06Message.class);
+        ehrExtractMessageHandler.handleMessage(inboundMessage, CONVERSATION_ID);
 
         verify(failedProcessHandlingService, times(1))
-            .handleFailedProcess(any(RCMRIN030000UK06Message.class), eq(CONVERSATION_ID));
+            .handleFailedProcess(any(RCMRIN030000UKMessage.class), eq(CONVERSATION_ID));
 
         verify(migrationStatusLogService, times(0))
             .addMigrationStatusLog(EHR_EXTRACT_RECEIVED, CONVERSATION_ID, null, null);
@@ -800,7 +800,7 @@ public class EhrExtractMessageHandlerTest {
         // imported from main on merge
         when(fhirParser.encodeToJson(bundle)).thenReturn(BUNDLE_STRING);
         when(objectMapper.writeValueAsString(inboundMessage)).thenReturn(INBOUND_MESSAGE_STRING);
-        when(bundleMapperService.mapToBundle(any(RCMRIN030000UK06Message.class), eq(LOSING_ODE_CODE), any())).thenReturn(bundle);
+        when(bundleMapperService.mapToBundle(any(RCMRIN030000UKMessage.class), eq(LOSING_ODE_CODE), any())).thenReturn(bundle);
         when(attachmentReferenceUpdaterService
                 .replaceOriginalFilenameWithStorageFilenameInEhrExtract(
                         inboundMessage.getAttachments(), CONVERSATION_ID, inboundMessage.getPayload()

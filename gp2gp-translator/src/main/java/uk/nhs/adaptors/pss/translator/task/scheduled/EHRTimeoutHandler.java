@@ -25,7 +25,7 @@ import java.util.List;
 
 import jakarta.xml.bind.JAXBException;
 
-import org.hl7.v3.RCMRIN030000UK06Message;
+import org.hl7.v3.RCMRIN030000UKMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -180,7 +180,7 @@ public class EHRTimeoutHandler {
 
     private void sendNackMessage(InboundMessage inboundMessage, String conversationId, NACKReason reason) throws JAXBException {
 
-        RCMRIN030000UK06Message payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UK06Message.class);
+        RCMRIN030000UKMessage payload = unmarshallString(inboundMessage.getPayload(), RCMRIN030000UKMessage.class);
 
         NACKMessageData messageData = NACKMessageData
             .builder()
