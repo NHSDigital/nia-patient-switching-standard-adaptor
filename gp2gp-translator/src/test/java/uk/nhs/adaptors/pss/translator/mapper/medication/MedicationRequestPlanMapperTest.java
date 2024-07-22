@@ -424,6 +424,10 @@ public class MedicationRequestPlanMapperTest {
         final String medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <confidentialityCode
+                    code="NOPAT"
+                    codeSystem="2.16.840.1.113883.4.642.3.47"
+                    displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
                 <component typeCode="COMP">
                     <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
                         <id root="TEST_ID"/>
@@ -448,6 +452,10 @@ public class MedicationRequestPlanMapperTest {
         final String medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <confidentialityCode
+                    code="NOSCRUB"
+                    codeSystem="2.16.840.1.113883.4.642.3.47"
+                    displayName="no scrubbing of the patient, family or caregivers without attending provider's authorization" />
                 <component typeCode="COMP">
                     <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
                         <id root="TEST_ID"/>
