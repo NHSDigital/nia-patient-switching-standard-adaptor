@@ -6,9 +6,9 @@
     </effectiveTime>
     <availabilityTime value="20060426"/>
     <confidentialityCode
-        code="NOPAT"
+        code="NOSCRUB"
         codeSystem="2.16.840.1.113883.4.642.3.47"
-        displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
+        displayName="no scrubbing of the patient, family or caregivers without attending provider's authorization" />
     <component typeCode="COMP">
         <ehrSupplyAuthorise xmlns="urn:hl7-org:v3" classCode="SPLY" moodCode="INT">
             <id root="9B4B797A-D674-4362-B666-2ADC8551EEDA" />
