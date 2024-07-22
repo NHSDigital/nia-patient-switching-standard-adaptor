@@ -51,7 +51,7 @@ import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @ExtendWith(MockitoExtension.class)
-public class MedicationRequestPlanMapperTest {
+class MedicationRequestPlanMapperTest {
 
     private static final String EHR_EXTRACT_WRAPPER = """
         <EhrExtract xmlns="urn:hl7-org:v3">
@@ -89,7 +89,7 @@ public class MedicationRequestPlanMapperTest {
     private static final int TWO = 2;
     private static final int SIX = 6;
     private static final int TWENTY_EIGHT = 28;
-    public static final String STATUS_REASON = "statusReason";
+    static final String STATUS_REASON = "statusReason";
 
     @Mock
     private MedicationMapper medicationMapper;
@@ -99,13 +99,13 @@ public class MedicationRequestPlanMapperTest {
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         when(medicationMapper.extractMedicationReference(any()))
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
     }
 
     @Test
-    public void When_MappingAuthoriseResourceWithAllOptionals_Expect_AllFieldsToBeMappedCorrectly() {
+    void When_MappingAuthoriseResourceWithAllOptionals_Expect_AllFieldsToBeMappedCorrectly() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -198,7 +198,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResourceWithNoEffectiveTime_Expect_NoExpiryDateExtensionAdded() {
+    void When_MappingAuthoriseResourceWithNoEffectiveTime_Expect_NoExpiryDateExtensionAdded() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -217,7 +217,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResourceEffectiveTimeWithNullHighValue_Expect_NoExpiryDateExtensionAdded() {
+    void When_MappingAuthoriseResourceEffectiveTimeWithNullHighValue_Expect_NoExpiryDateExtensionAdded() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -239,7 +239,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingDiscontinueWithPertinentInformation_Expect_StatusReasonAdded() {
+    void When_MappingDiscontinueWithPertinentInformation_Expect_StatusReasonAdded() {
         var ehrSupplyDiscontinue = """
             <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
                 <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
@@ -262,7 +262,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingDiscontinueWithCodeDisplayAndMissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
+    void When_MappingDiscontinueWithCodeDisplayAndMissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
         var ehrSupplyDiscontinue = """
             <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
                 <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
@@ -284,7 +284,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingDiscontinue_With_NoPertinentInformationAndHasCodeOriginalText_Expect_OriginalTextAndDefaultText() {
+    void When_MappingDiscontinue_With_NoPertinentInformationAndHasCodeOriginalText_Expect_OriginalTextAndDefaultText() {
         var ehrSupplyDiscontinue = """
             <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
                 <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
@@ -305,7 +305,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingDiscontinue_With_MissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
+    void When_MappingDiscontinue_With_MissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
         var ehrSupplyDiscontinue = """
             <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
                 <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
@@ -365,7 +365,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResource_WithActiveStatusAndNoDiscontinue_Expect_ActiveStatus() {
+    void When_MappingAuthoriseResource_WithActiveStatusAndNoDiscontinue_Expect_ActiveStatus() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -383,7 +383,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResource_WithCompleteStatusAndNoDiscontinue_Expect_CompletedStatus() {
+    void When_MappingAuthoriseResource_WithCompleteStatusAndNoDiscontinue_Expect_CompletedStatus() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -401,7 +401,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResource_With_NoDiscontinue_Expect_NoStatusReasonExtension() {
+    void When_MappingAuthoriseResource_With_NoDiscontinue_Expect_NoStatusReasonExtension() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -420,7 +420,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResource_With_NopatConfidentialityCode_Expect_MetaSecurityToBeAdded() {
+    void When_MappingAuthoriseResource_With_NopatConfidentialityCode_Expect_MetaSecurityToBeAdded() {
         final String medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -448,7 +448,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResource_With_NoscrubConfidentialityCode_Expect_MetaSecurityNotToBeAdded() {
+    void When_MappingAuthoriseResource_With_NoscrubConfidentialityCode_Expect_MetaSecurityNotToBeAdded() {
         final String medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -476,7 +476,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingDiscontinue_With_UnknownDate_Expect_DiscontinueIgnored() {
+    void When_MappingDiscontinue_With_UnknownDate_Expect_DiscontinueIgnored() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
