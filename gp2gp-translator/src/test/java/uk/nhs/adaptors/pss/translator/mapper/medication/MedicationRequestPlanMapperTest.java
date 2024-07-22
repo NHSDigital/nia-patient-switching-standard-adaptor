@@ -420,7 +420,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResourceWithNopatConfidentialityCode_Expect_MetaSecurityToBeAdded() {
+    public void When_MappingAuthoriseResource_With_NopatConfidentialityCode_Expect_MetaSecurityToBeAdded() {
         final String medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -448,7 +448,7 @@ public class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    public void When_MappingAuthoriseResourceWithNoscrubConfidentialityCode_Expect_MetaSecurityNotToBeAdded() {
+    public void When_MappingAuthoriseResource_With_NoscrubConfidentialityCode_Expect_MetaSecurityNotToBeAdded() {
         final String medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
