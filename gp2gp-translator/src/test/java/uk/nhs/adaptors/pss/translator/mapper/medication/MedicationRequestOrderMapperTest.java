@@ -1,8 +1,10 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.springframework.util.ResourceUtils.getFile;
 
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
@@ -128,26 +130,46 @@ public class MedicationRequestOrderMapperTest {
             any(Optional.class)
         )).thenReturn(MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE));
 
-        assertThat(prescribe.isPresent()).isTrue();
-        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UKEhrExtract(),
-            medicationStatement, prescribe.get(), PRACTISE_CODE);
-        assertCommonValues(medicationRequest);
+        final MedicationRequest medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(
+            new RCMRMT030101UKEhrExtract(),
+            medicationStatement,
+            prescribe.orElseThrow(),
+            PRACTISE_CODE
+        );
 
-        medicationRequest
-            .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1")
-            .forEach(extension -> assertPrescriptionType(extension, "Repeat"));
-        assertThat(medicationRequest.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
-        assertThat(medicationRequest.getNote()).hasSize(1);
-        assertThat(medicationRequest.getDosageInstructionFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
-        assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue()).isNull();
-        assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().getStartElement().getValue())
-            .isEqualTo(DateFormatUtil.parseToDateTimeType(AVAILABILITY_TIME).getValue());
+        verify(confidentialityService)
+            .createMetaAndAddSecurityIfConfidentialityCodesPresent(META_PROFILE, medicationStatement.getConfidentialityCode());
         assertThat(medicationRequest.getMeta().getSecurity()).hasSize(1);
     }
 
     @Test
     public void When_MappingPrescribeResourceWithNoscrubConfidentialityCode_Expect_MetaSecurityNotToBeAdded() {
+        final RCMRMT030101UKMedicationStatement medicationStatement =
+            unmarshallMedicationStatement("medicationStatementPrescribeNoOptionalsWithNoscrubConfidentialityCode.xml");
+        final Optional<RCMRMT030101UKPrescribe> prescribe = medicationStatement.getComponent()
+            .stream()
+            .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
+            .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
+            .findFirst();
 
+        when(medicationMapper.extractMedicationReference(any()))
+            .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            any(String.class),
+            any(Optional.class)
+        )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+
+        final MedicationRequest medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(
+            new RCMRMT030101UKEhrExtract(),
+            medicationStatement,
+            prescribe.orElseThrow(),
+            PRACTISE_CODE
+        );
+
+        verify(confidentialityService)
+            .createMetaAndAddSecurityIfConfidentialityCodesPresent(META_PROFILE, medicationStatement.getConfidentialityCode());
+        assertThat(medicationRequest.getMeta().getSecurity()).hasSize(0);
     }
 
     public void assertCommonValues(MedicationRequest medicationRequest) {
