@@ -1,6 +1,8 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -16,19 +18,23 @@ import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus
 import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPrescribe;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
@@ -57,6 +63,14 @@ public class MedicationRequestOrderMapperTest {
     @InjectMocks
     private MedicationRequestOrderMapper medicationRequestOrderMapper;
 
+    @BeforeEach
+    void beforeEach() {
+        Mockito.lenient().when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            any(Optional.class)
+        )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+    }
+
     @Test
     public void When_MappingPrescribeResourceWithAllOptionals_Expect_AllFieldsToBeMappedCorrectly() {
         var medicationStatement = unmarshallMedicationStatement("medicationStatementPrescribeAllOptionals.xml");
@@ -82,6 +96,8 @@ public class MedicationRequestOrderMapperTest {
         assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue().intValue()).isEqualTo(SEVEN);
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().getStartElement().getValue())
             .isEqualTo(DateFormatUtil.parseToDateTimeType(AVAILABILITY_TIME).getValue());
+
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
@@ -110,12 +126,16 @@ public class MedicationRequestOrderMapperTest {
         assertThat(medicationRequest.getDispenseRequest().getQuantity().getValue()).isNull();
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().getStartElement().getValue())
             .isEqualTo(DateFormatUtil.parseToDateTimeType(AVAILABILITY_TIME).getValue());
+
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
     public void When_MappingPrescribeResourceWithNopatConfidentialityCode_Expect_MetaSecurityToBeAdded() {
-        final RCMRMT030101UKMedicationStatement medicationStatement =
-            unmarshallMedicationStatement("medicationStatementPrescribeNoOptionalsWithNopatConfidentialityCode.xml");
+        final RCMRMT030101UKMedicationStatement medicationStatement = unmarshallMedicationStatement(
+            "medicationStatementPrescribeNoOptionalsWithNopatConfidentialityCode.xml"
+        );
+
         final Optional<RCMRMT030101UKPrescribe> prescribe = medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
@@ -139,7 +159,10 @@ public class MedicationRequestOrderMapperTest {
 
         verify(confidentialityService)
             .createMetaAndAddSecurityIfConfidentialityCodesPresent(META_PROFILE, medicationStatement.getConfidentialityCode());
+
         assertThat(medicationRequest.getMeta().getSecurity()).hasSize(1);
+
+        assertMetaSecurityPresent(medicationRequest);
     }
 
     @Test
@@ -155,11 +178,6 @@ public class MedicationRequestOrderMapperTest {
         when(medicationMapper.extractMedicationReference(any()))
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
-        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            any(String.class),
-            any(Optional.class)
-        )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
-
         final MedicationRequest medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(
             new RCMRMT030101UKEhrExtract(),
             medicationStatement,
@@ -167,9 +185,34 @@ public class MedicationRequestOrderMapperTest {
             PRACTISE_CODE
         );
 
+        assertThat(medicationRequest.getMeta().getSecurity()).hasSize(0);
         verify(confidentialityService)
             .createMetaAndAddSecurityIfConfidentialityCodesPresent(META_PROFILE, medicationStatement.getConfidentialityCode());
-        assertThat(medicationRequest.getMeta().getSecurity()).hasSize(0);
+    }
+
+    private void assertMetaSecurityPresent(MedicationRequest request) {
+        final Coding expectedNopatCoding = MetaFactory.getNopatCoding();
+        final Coding actualSecurityCoding = request.getMeta().getSecurity().get(0);
+        final int securitySize = request.getMeta().getSecurity().size();
+
+        assertAll(
+            () -> assertThat(securitySize).isEqualTo(1),
+            () -> assertThat(expectedNopatCoding).isEqualTo(actualSecurityCoding)
+        );
+    }
+
+    private void assertMetaSecurityNotPresent(MedicationRequest request) {
+        final Meta meta = request.getMeta();
+
+        assertAll(
+            () -> assertThat(meta.getSecurity()).hasSize(0),
+            () -> assertThat(meta.getProfile().get(0).getValue()).isEqualTo(META_PROFILE)
+        );
+
+        verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            eq(Optional.empty())
+        );
     }
 
     public void assertCommonValues(MedicationRequest medicationRequest) {
