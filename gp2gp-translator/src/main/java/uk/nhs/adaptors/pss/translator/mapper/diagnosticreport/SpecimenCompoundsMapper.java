@@ -230,19 +230,6 @@ public class SpecimenCompoundsMapper {
             );
         }
 
-        batteryCompoundStatement.getComponent().stream()
-            .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
-            .map(RCMRMT030101UKComponent02::getCompoundStatement)
-            .forEach(compoundStatement -> compoundStatement.getComponent().stream()
-                .filter(RCMRMT030101UKComponent02::hasObservationStatement)
-                .map(RCMRMT030101UKComponent02::getObservationStatement)
-                .findFirst()
-                .ifPresent(
-                    observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()).ifPresent(
-                        observation -> handleObservationStatement(specimenCompoundStatement, observationStatement, observation)
-                    )
-                ));
-
         var observationStatements = batteryCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UKComponent02::hasObservationStatement)
             .map(RCMRMT030101UKComponent02::getObservationStatement)
