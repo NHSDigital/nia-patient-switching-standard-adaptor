@@ -68,6 +68,7 @@ public class MedicationRequestPlanMapperTest {
         </EhrExtract>
         """;
 
+    private static final String META_PROFILE = "MedicationRequest-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String MEDICATION_ID = "MEDICATION_ID";
     private static final String TEST_ID = "TEST_ID";
@@ -434,7 +435,7 @@ public class MedicationRequestPlanMapperTest {
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             any(String.class),
             any(Optional.class)
-        )).thenReturn(MetaFactory.getMetaFor(META_WITH_SECURITY, "MedicationRequest-1"));
+        )).thenReturn(MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE));
 
         final MedicationRequest medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
 
