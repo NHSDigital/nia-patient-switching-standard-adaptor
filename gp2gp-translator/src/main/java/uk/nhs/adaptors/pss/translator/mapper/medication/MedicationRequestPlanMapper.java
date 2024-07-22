@@ -54,6 +54,7 @@ public class MedicationRequestPlanMapper {
     private static final String STATUS_CHANGE_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1";
 
+    private static final String META_PROFILE = "MedicationRequest-1";
     private static final String REPEATS_ISSUED_URL = "numberOfRepeatPrescriptionsIssued";
     private static final String REPEATS_ALLOWED_URL = "numberOfRepeatPrescriptionsAllowed";
     private static final String REPEATS_EXPIRY_DATE_URL = "authorisationExpiryDate";
@@ -80,11 +81,11 @@ public class MedicationRequestPlanMapper {
             var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, ehrExtract);
 
             final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-                "MedicationRequest-1",
+                META_PROFILE,
                 medicationStatement.getConfidentialityCode()
             );
 
-            MedicationRequest medicationRequest = (MedicationRequest) new MedicationRequest()
+            final MedicationRequest medicationRequest = (MedicationRequest) new MedicationRequest()
                 .setMeta(meta)
                 .setId(ehrSupplyAuthoriseId);
 
