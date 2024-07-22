@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
 import java.util.List;
@@ -44,6 +45,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @ExtendWith(MockitoExtension.class)
@@ -88,7 +91,8 @@ public class MedicationRequestPlanMapperTest {
 
     @Mock
     private MedicationMapper medicationMapper;
-
+    @Mock
+    private ConfidentialityService confidentialityService;
     @InjectMocks
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
 
@@ -411,6 +415,30 @@ public class MedicationRequestPlanMapperTest {
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
 
         assertThat(statusExt).isEmpty();
+    }
+
+    @Test
+    public void When_MappingAuthoriseResourceWithNopatConfidentialityCode_Expect_MetaSecurityToBeAdded() {
+        final String medicationStatementXml = """
+            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
+                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <component typeCode="COMP">
+                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+                        <id root="TEST_ID"/>
+                        <statusCode code="ACTIVE"/>
+                    </ehrSupplyAuthorise>
+                </component>
+            </MedicationStatement>
+            """;
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            any(String.class),
+            any(Optional.class)
+        )).thenReturn(MetaFactory.getMetaFor(META_WITH_SECURITY, "MedicationRequest-1"));
+
+        final MedicationRequest medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
+
+        assertThat(medicationRequest.getMeta().getSecurity()).hasSize(1);
     }
 
     @Test
