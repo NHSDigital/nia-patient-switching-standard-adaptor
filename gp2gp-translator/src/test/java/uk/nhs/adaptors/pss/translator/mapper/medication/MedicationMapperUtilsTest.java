@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
@@ -27,14 +26,6 @@ public class MedicationMapperUtilsTest {
 
     private static final String AUTHORISE_ID = "8866381C-E5B8-4A6E-ADBC-964F9A77D407";
     private static final String MEDICATION_REQUEST_ID = "a9edfd5e-bd52-461f-8b96-9c5b181af5bf";
-
-    @Test
-    public void When_CreatingMedicationRequest_Expect_ContextAndSubjectMappedAppropriately() {
-        MedicationRequest medicationRequest = MedicationMapperUtils.createMedicationRequestSkeleton(
-            MEDICATION_REQUEST_ID
-        );
-        assertThat(medicationRequest.getId()).isEqualTo(MEDICATION_REQUEST_ID);
-    }
 
     @Test
     public void When_CreatingPrescriptionTypeExtension_Expect_AcuteValues() {

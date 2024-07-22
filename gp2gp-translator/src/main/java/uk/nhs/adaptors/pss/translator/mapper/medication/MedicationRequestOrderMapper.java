@@ -34,8 +34,6 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 @Service
 @AllArgsConstructor
 public class MedicationRequestOrderMapper {
-
-    private static final String META_PROFILE = "MedicationRequest-1";
     private static final String NHS_PRESCRIPTION = "NHS prescription";
     private static final String PRESCRIPTION_TYPE = "Prescription type: ";
 
@@ -54,7 +52,7 @@ public class MedicationRequestOrderMapper {
             var ehrSupplyPrescribeId = ehrSupplyPrescribeIdExtract.get();
 
             final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-                META_PROFILE,
+                MedicationMapperUtils.META_PROFILE,
                 medicationStatement.getConfidentialityCode()
             );
 

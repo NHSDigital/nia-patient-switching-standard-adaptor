@@ -1,7 +1,5 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -16,7 +14,6 @@ import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Dosage;
 import org.hl7.fhir.dstu3.model.Extension;
-import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.SimpleQuantity;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -48,7 +45,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MedicationMapperUtils {
 
-    private static final String META_PROFILE = "MedicationRequest-1";
+    public static final String META_PROFILE = "MedicationRequest-1";
     private static final String ACUTE = "Acute";
     private static final String REPEAT = "Repeat";
     private static final String NO_INFORMATION_AVAILABLE = "No Information available";
@@ -56,12 +53,6 @@ public class MedicationMapperUtils {
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1";
     private static final String PRESCRIPTION_TYPE_CODING_SYSTEM
         = "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1";
-
-    public static MedicationRequest createMedicationRequestSkeleton(String id) {
-        return (MedicationRequest) new MedicationRequest()
-            .setMeta(generateMeta(META_PROFILE))
-            .setId(id);
-    }
 
     public static Optional<Extension> buildPrescriptionTypeExtension(RCMRMT030101UKAuthorise supplyAuthorise) {
         if (supplyAuthorise != null && supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() == 0) {
