@@ -7,6 +7,7 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -23,6 +24,7 @@ import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation2;
 import org.hl7.v3.RCMRMT030101UKSupplyAnnotation;
 import org.springframework.stereotype.Service;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 import java.util.ArrayList;
@@ -40,7 +42,6 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildPrescriptionTypeExtension;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.createMedicationRequestSkeleton;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractMatchingDiscontinue;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -65,6 +66,7 @@ public class MedicationRequestPlanMapper {
     private static final String MISSING_REASON_STRING = "No information available";
 
     private final MedicationMapper medicationMapper;
+    private final ConfidentialityService confidentialityService;
 
     public MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UKEhrExtract ehrExtract,
                                                         RCMRMT030101UKMedicationStatement medicationStatement,
@@ -76,7 +78,15 @@ public class MedicationRequestPlanMapper {
         if (ehrSupplyAuthoriseIdExtract.isPresent()) {
             var ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
             var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, ehrExtract);
-            MedicationRequest medicationRequest = createMedicationRequestSkeleton(ehrSupplyAuthoriseId);
+
+            final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                "MedicationRequest-1",
+                medicationStatement.getConfidentialityCode()
+            );
+
+            MedicationRequest medicationRequest = (MedicationRequest) new MedicationRequest()
+                .setMeta(meta)
+                .setId(ehrSupplyAuthoriseId);
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, practiseCode));
             medicationRequest.setIntent(PLAN);
