@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
@@ -440,6 +441,30 @@ public class MedicationRequestPlanMapperTest {
         final MedicationRequest medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
 
         assertThat(medicationRequest.getMeta().getSecurity()).hasSize(1);
+    }
+
+    @Test
+    public void When_MappingAuthoriseResourceWithNoscrubConfidentialityCode_Expect_MetaSecurityNotToBeAdded() {
+        final String medicationStatementXml = """
+            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
+                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <component typeCode="COMP">
+                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+                        <id root="TEST_ID"/>
+                        <statusCode code="ACTIVE"/>
+                    </ehrSupplyAuthorise>
+                </component>
+            </MedicationStatement>
+            """;
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            any(String.class),
+            any(Optional.class)
+        )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+
+        final MedicationRequest medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
+
+        assertThat(medicationRequest.getMeta().getSecurity()).hasSize(0);
     }
 
     @Test
