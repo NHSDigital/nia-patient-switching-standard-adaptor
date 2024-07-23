@@ -3,7 +3,9 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.COMPLETED;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.STOPPED;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,7 +54,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.MetaFactory;
-import uk.nhs.adaptors.pss.translator.NopatMatcher;
+import uk.nhs.adaptors.pss.translator.matcher.OptionalCVCodeMatcher;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -441,6 +443,37 @@ class MedicationRequestPlanMapperTest {
     }
 
     @Test
+    void When_MappingAuthoriseResource_With_NoDiscontinueAndNopatConfidentialityCode_Expect_NoStatusReasonExtensionAndMetaSecurityAdded() {
+        var medicationStatementXml = """
+            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
+                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <confidentialityCode
+                    code="NOPAT"
+                    codeSystem="2.16.840.1.113883.4.642.3.47"
+                    displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
+                <component typeCode="COMP">
+                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+                        <id root="TEST_ID"/>
+                        <statusCode code="COMPLETE"/>
+                    </ehrSupplyAuthorise>
+                </component>
+            </MedicationStatement>
+            """;
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            any(Optional.class)
+        )).thenReturn(MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE));
+
+        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
+        var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+
+        assertThat(statusExt).isEmpty();
+
+        assertMetaSecurityPresent(medicationRequest);
+    }
+
+    @Test
     void When_MappingDiscontinue_With_UnknownDate_Expect_DiscontinueIgnored() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
@@ -517,7 +550,7 @@ class MedicationRequestPlanMapperTest {
     }
 
     @Test
-    void When_MappingDiscontinue_With_NoscrubConfidentialityCodeAndUnknownDate_Expect_DiscontinueIgnoredAndMetaSecurityAdded() {
+    void When_MappingDiscontinue_With_NoscrubConfidentialityCodeAndUnknownDate_Expect_DiscontinueIgnoredAndMetaSecurityNotAdded() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -553,7 +586,7 @@ class MedicationRequestPlanMapperTest {
 
         verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
-            any(Optional.class)
+            argThat(new OptionalCVCodeMatcher("NOSCRUB"))
         );
     }
 
@@ -596,7 +629,7 @@ class MedicationRequestPlanMapperTest {
 
         verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
-            argThat(new NopatMatcher())
+            argThat(new OptionalCVCodeMatcher("NOPAT"))
         );
     }
 
