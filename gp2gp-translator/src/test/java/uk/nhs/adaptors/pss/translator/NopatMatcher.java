@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator;
 import org.hl7.v3.CV;
 import org.mockito.ArgumentMatcher;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
