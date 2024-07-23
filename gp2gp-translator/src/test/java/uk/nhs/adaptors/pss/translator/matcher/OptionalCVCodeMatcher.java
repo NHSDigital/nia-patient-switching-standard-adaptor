@@ -6,8 +6,12 @@ import org.mockito.ArgumentMatcher;
 import java.util.Objects;
 import java.util.Optional;
 
-public class NopatMatcher implements ArgumentMatcher<Optional<CV>> {
-    private static final String NOPAT = "NOPAT";
+public class OptionalCVCodeMatcher implements ArgumentMatcher<Optional<CV>> {
+    private final String expectedCode;
+
+    public OptionalCVCodeMatcher(String expectedCode) {
+        this.expectedCode = expectedCode;
+    }
 
     @Override
     public boolean matches(Optional<CV> argument) {
@@ -15,10 +19,6 @@ public class NopatMatcher implements ArgumentMatcher<Optional<CV>> {
             return false;
         }
 
-        return isNopatPresent(argument.get());
-    }
-
-    private boolean isNopatPresent(CV cv) {
-        return cv.getCode().equals(NOPAT);
+        return argument.get().getCode().equals(expectedCode);
     }
 }
