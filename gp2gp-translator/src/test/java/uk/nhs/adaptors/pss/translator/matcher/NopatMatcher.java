@@ -1,4 +1,4 @@
-package uk.nhs.adaptors.pss.translator;
+package uk.nhs.adaptors.pss.translator.matcher;
 
 import org.hl7.v3.CV;
 import org.mockito.ArgumentMatcher;
