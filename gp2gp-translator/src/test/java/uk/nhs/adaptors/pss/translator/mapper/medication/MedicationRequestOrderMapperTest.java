@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -39,6 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.matcher.OptionalCVCodeMatcher;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -157,9 +159,6 @@ public class MedicationRequestOrderMapperTest {
             PRACTISE_CODE
         );
 
-        verify(confidentialityService)
-            .createMetaAndAddSecurityIfConfidentialityCodesPresent(META_PROFILE, medicationStatement.getConfidentialityCode());
-
         assertThat(medicationRequest.getMeta().getSecurity()).hasSize(1);
 
         assertMetaSecurityPresent(medicationRequest);
@@ -186,8 +185,10 @@ public class MedicationRequestOrderMapperTest {
         );
 
         assertThat(medicationRequest.getMeta().getSecurity()).hasSize(0);
-        verify(confidentialityService)
-            .createMetaAndAddSecurityIfConfidentialityCodesPresent(META_PROFILE, medicationStatement.getConfidentialityCode());
+        verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            medicationStatement.getConfidentialityCode()
+        );
     }
 
     private void assertMetaSecurityPresent(MedicationRequest request) {
@@ -198,6 +199,11 @@ public class MedicationRequestOrderMapperTest {
         assertAll(
             () -> assertThat(securitySize).isEqualTo(1),
             () -> assertThat(expectedNopatCoding).isEqualTo(actualSecurityCoding)
+        );
+
+        verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            argThat(new OptionalCVCodeMatcher("NOPAT"))
         );
     }
 
