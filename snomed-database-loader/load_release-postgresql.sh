@@ -42,7 +42,6 @@ if [[ $1 == *uk_sct2mo* ]]; then
 fi
 
 stringencoder() {
-    # urlencode <string>
     local length="${#1}"
     for (( i = 0; i < length; i++ )); do
         local c="${1:i:1}"
