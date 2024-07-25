@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator;
 
+import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 
@@ -14,4 +15,16 @@ public final class TestUtility {
             .getEhrFolder()
             .getComponent().get(0)
             .getEhrComposition();
+
+    public static CV createCv(String code, String codeSystem, String displayName) {
+        final CV cv = new CV();
+        cv.setCode(code);
+        cv.setCodeSystem(codeSystem);
+        cv.setDisplayName(displayName);
+        return cv;
+    }
+
+    public static CV createCv(String code) {
+        return createCv(code, "", "");
+    }
 }

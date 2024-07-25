@@ -24,6 +24,7 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKComponent2;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPrescribe;
@@ -38,6 +39,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -70,6 +72,7 @@ class MedicationRequestOrderMapperTest {
     void beforeEach() {
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
+            confidentialityCodeArgumentCaptor.capture(),
             confidentialityCodeArgumentCaptor.capture()
         )).thenReturn(META);
 
@@ -84,8 +87,13 @@ class MedicationRequestOrderMapperTest {
         var prescribe = getPrescribeFromMedicationStatement(medicationStatement);
 
         assertThat(prescribe.isPresent()).isTrue();
-        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UKEhrExtract(),
-            medicationStatement, prescribe.get(), PRACTISE_CODE);
+        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(
+            new RCMRMT030101UKEhrExtract(),
+            new RCMRMT030101UKEhrComposition(),
+            medicationStatement,
+            prescribe.get(),
+            PRACTISE_CODE
+        );
         assertCommonValues(medicationRequest);
         medicationRequest
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1")
@@ -104,8 +112,13 @@ class MedicationRequestOrderMapperTest {
         var prescribe = getPrescribeFromMedicationStatement(medicationStatement);
 
         assertThat(prescribe.isPresent()).isTrue();
-        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UKEhrExtract(),
-            medicationStatement, prescribe.get(), PRACTISE_CODE);
+        var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(
+            new RCMRMT030101UKEhrExtract(),
+            new RCMRMT030101UKEhrComposition(),
+            medicationStatement,
+            prescribe.get(),
+            PRACTISE_CODE
+        );
         assertCommonValues(medicationRequest);
 
         medicationRequest
@@ -126,9 +139,13 @@ class MedicationRequestOrderMapperTest {
         );
 
         final Optional<RCMRMT030101UKPrescribe> prescribe = getPrescribeFromMedicationStatement(medicationStatement);
+        final CV compositionConfidentialityCode = TestUtility.createCv("MEDIUM");
 
+        RCMRMT030101UKEhrComposition rcmrmt030101UKEhrComposition = new RCMRMT030101UKEhrComposition();
+        rcmrmt030101UKEhrComposition.setConfidentialityCode(compositionConfidentialityCode);
         final MedicationRequest medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(
             new RCMRMT030101UKEhrExtract(),
+            rcmrmt030101UKEhrComposition,
             medicationStatement,
             prescribe.orElseThrow(),
             PRACTISE_CODE
@@ -137,10 +154,11 @@ class MedicationRequestOrderMapperTest {
         assertAll(
             () -> assertThat(medicationRequest.getMeta()).usingRecursiveComparison().isEqualTo(META),
             () -> assertThat(confidentialityCodeArgumentCaptor
-                .getValue()
+                .getAllValues().get(1)
                 .orElseThrow()
-                .getCode()
-            ).isEqualTo("NOPAT")
+                .getCode()).isEqualTo("NOPAT"),
+            () -> assertThat(confidentialityCodeArgumentCaptor.getAllValues().get(0).orElseThrow()).usingRecursiveComparison()
+                    .isEqualTo(compositionConfidentialityCode)
         );
     }
 
@@ -154,6 +172,7 @@ class MedicationRequestOrderMapperTest {
 
         final MedicationRequest medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(
             new RCMRMT030101UKEhrExtract(),
+            new RCMRMT030101UKEhrComposition(),
             medicationStatement,
             prescribe.orElseThrow(),
             PRACTISE_CODE
@@ -162,10 +181,11 @@ class MedicationRequestOrderMapperTest {
         assertAll(
             () -> assertThat(medicationRequest.getMeta()).usingRecursiveComparison().isEqualTo(META),
             () -> assertThat(confidentialityCodeArgumentCaptor
-                .getValue()
+                .getAllValues().get(1)
                 .orElseThrow()
                 .getCode()
-            ).isEqualTo("NOSCRUB")
+            ).isEqualTo("NOSCRUB"),
+            () -> assertThat(confidentialityCodeArgumentCaptor.getAllValues().get(0)).isEmpty()
         );
     }
 

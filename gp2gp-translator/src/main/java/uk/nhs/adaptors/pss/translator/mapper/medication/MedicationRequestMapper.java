@@ -68,7 +68,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
         List<Medication> medications = mapMedications(medicationStatement);
 
-        List<MedicationRequest> medicationRequestsOrder = mapMedicationRequestsOrder(ehrExtract, medicationStatement, practiseCode);
+        List<MedicationRequest> medicationRequestsOrder = mapMedicationRequestsOrder(ehrExtract, ehrComposition, medicationStatement, practiseCode);
 
         List<MedicationRequest> medicationRequestsPlan = mapMedicationRequestsPlan(ehrExtract, medicationStatement, practiseCode);
 
@@ -136,6 +136,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
     }
 
     private List<MedicationRequest> mapMedicationRequestsOrder(RCMRMT030101UKEhrExtract ehrExtract,
+                                                               RCMRMT030101UKEhrComposition ehrComposition,
                                                                RCMRMT030101UKMedicationStatement medicationStatement,
                                                                String practiseCode) {
 
@@ -143,9 +144,13 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .stream()
             .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
             .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
-            .map(supplyPrescribe -> medicationRequestOrderMapper.mapToOrderMedicationRequest(ehrExtract, medicationStatement,
-                supplyPrescribe, practiseCode))
-            .filter(Objects::nonNull)
+            .map(supplyPrescribe -> medicationRequestOrderMapper.mapToOrderMedicationRequest(
+                ehrExtract,
+                ehrComposition,
+                medicationStatement,
+                supplyPrescribe,
+                practiseCode)
+            ).filter(Objects::nonNull)
             .toList();
     }
 

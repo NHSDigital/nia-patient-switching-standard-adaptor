@@ -10,6 +10,7 @@ import org.hl7.v3.RCMRMT030101UKObservationStatement;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import uk.nhs.adaptors.pss.translator.TestUtility;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -18,13 +19,13 @@ class ConfidentialityServiceTest {
     private static final String DUMMY_PROFILE = "MyProfile-1";
     private static final String DUMMY_PROFILE_URI = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-%s".formatted(DUMMY_PROFILE);
 
-    private static final CV ALTERNATIVE_CV = createCv(
+    private static final CV ALTERNATIVE_CV = TestUtility.createCv(
         "NOSCRUB",
         "http://hl7.org/fhir/v3/FakeCode",
         "no scrubbing of the patient, family or caregivers without attending provider's authorization"
     );
 
-    private static final CV NOPAT_CV = createCv(
+    private static final CV NOPAT_CV = TestUtility.createCv(
         "NOPAT",
         "http://hl7.org/fhir/v3/ActCode",
         "no disclosure to patient, family or caregivers without attending provider's authorization"
@@ -172,11 +173,4 @@ class ConfidentialityServiceTest {
         );
     }
 
-    private static CV createCv(String code, String codeSystem, String displayName) {
-        final CV cv = new CV();
-        cv.setCode(code);
-        cv.setCodeSystem(codeSystem);
-        cv.setDisplayName(displayName);
-        return cv;
-    }
 }
