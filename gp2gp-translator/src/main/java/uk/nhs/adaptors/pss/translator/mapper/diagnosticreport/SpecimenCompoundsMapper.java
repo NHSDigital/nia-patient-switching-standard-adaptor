@@ -225,8 +225,12 @@ public class SpecimenCompoundsMapper {
             .filter(compoundStatement -> CLUSTER_CLASSCODE.equals(compoundStatement.getClassCode().get(0)))
             .forEach(compoundStatement ->
                          handleClusterCompoundStatement(
-                             specimenCompoundStatement, compoundStatement, observations, observationComments, diagnosticReport, true
-                                                       ));
+                             specimenCompoundStatement,
+                             compoundStatement,
+                             observations,
+                             observationComments,
+                             diagnosticReport,
+                             true));
 
         batteryCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UKComponent02::hasObservationStatement)
