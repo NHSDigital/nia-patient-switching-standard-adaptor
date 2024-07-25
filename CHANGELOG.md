@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
+## [Unreleased]
+
+## Added
+* Password percent-encoding has been added to help handle the caeses when password includes special '%' characters
+
 ## [3.0.2] - 2024-07-18
 
 ## Added
