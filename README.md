@@ -27,28 +27,27 @@ Both are Java Spring Boot applications, released as separate docker images.
 
 ## Endpoints
 
-The Patient Switching adaptors facade exposes two endpoints.
+The Patient Switching Adaptor's facade provides two main endpoints for interacting with patient records.
 
-- POST /Patient/$gpc.migratestructuredrecord
-- POST /$gpc.ack
+### POST /Patient/$gpc.migratestructuredrecord
 
-### /Patient/$gpc.migratestructuredrecord
+The migratestructuredrecord endpoint is the primary endpoint for the adaptor.
+This endpoint initiates the electronic health record (EHR) transfer process. 
+To use this endpoint, you need to provide the following headers:
 
-The migratestructuredrecord endpoint is the primary endpoint for the adaptor and is used to start an electronic health record transfer.
-The following is required to call this endpoint...
-
-- TO_ASID : The ASID identifier of the losing incumbent
-- FROM_ASID : The ASID identifier of the winning New Market Entrant (NME)
-- TO_ODS : The ODS identifier of the losing incumbent
-- FROM_ODS : the ODS identifier of the winning New Market Entrant (NME)
-- ConversationId : A unique GUID for each request; if you do not provide one, the adaptor will create one and return it
-  in the response headers. It must be used for all further calls for the patient's NHS number.
+- TO-ASID : ASID identifier of the losing incumbent
+- FROM-ASID : ASID identifier of the winning New Market Entrant (NME)
+- TO-ODS : ODS identifier of the losing incumbent
+- FROM-ODS : ODS identifier of the winning New Market Entrant (NME)
+- ConversationId : A unique GUID for the request. If not provided, the adaptor will generate one and include it in the response headers.
+  It must be used for all further calls for the patient's NHS number.
 
 For more details on how to query the losing practice details, see the [requesting site requirements].
 
 [requesting site requirements]: https://nhse-dsic.atlassian.net/wiki/spaces/DCSDCS/pages/12512034968/GP2GP+Requesting+Adaptor#Registration-Process-&-EHR-Request
 
-The endpoint also requires a JSON body that includes the needed patient NHS number. The format of the body should look like the following...
+The endpoint also requires a JSON body that includes the needed patient NHS number.
+Request Body Example:
 
    ```json
    {
@@ -116,17 +115,17 @@ Responds with one of:
       }
       ```
 
-### /$gpc.ack
+### POST /$gpc.ack
 
-The ack endpoint is the final endpoint to call once you are happy that the EHR record you have received is acceptable.
+This endpoint finalizes the EHR transfer process.
 If you do not call this endpoint after receiving an EHR from the migratestructuredrecord enpoint, then you risk the losing practise triggering off the manual postal transfer.
 
-The following is required to call this endpoint:-
+To use this endpoint, you need to provide the following headers:
 
-- CONVERSATION_ID: The id associated with the patient transfer request.
-- CONFIRMATION_RESPONSE: you can provide the following status:-
-    - ACCEPTED: This will tell the sending incumbent that you are happy with the received EHR.
-    - FAILED_TO_INTEGRATE: You have encountered a problem integrating the record into your system. This will alert the sender to an error and trigger off the postal process.
+- CONVERSATIONID: ID from the initial request.
+- CONFIRMATIONRESPONSE: Status of the EHR integration.
+    - ACCEPTED: EHR integration successful.
+    - FAILED_TO_INTEGRATE: Error encountered; triggers postal process.
 
 Endpoint calling:
 
