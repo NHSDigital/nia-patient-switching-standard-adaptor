@@ -61,7 +61,7 @@ public class MedicationRequestOrderMapperTest {
         when(medicationMapper.extractMedicationReference(any()))
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
-        assertThat(prescribe.isPresent()).isTrue();
+        assertThat(prescribe).isPresent();
         var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UKEhrExtract(),
             medicationStatement, prescribe.get(), PRACTISE_CODE);
         assertCommonValues(medicationRequest);
@@ -88,7 +88,7 @@ public class MedicationRequestOrderMapperTest {
         when(medicationMapper.extractMedicationReference(any()))
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
-        assertThat(prescribe.isPresent()).isTrue();
+        assertThat(prescribe).isPresent();
         var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(new RCMRMT030101UKEhrExtract(),
             medicationStatement, prescribe.get(), PRACTISE_CODE);
         assertCommonValues(medicationRequest);
