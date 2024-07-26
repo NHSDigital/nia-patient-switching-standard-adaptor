@@ -229,7 +229,7 @@ public class MedicationRequestPlanMapperTest {
         final var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
         assertThat(repeatInformation).hasSize(1);
 
-        assertThat(repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL)).hasSize(0);
+        assertThat(repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL)).isEmpty();
     }
 
     @Test
