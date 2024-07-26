@@ -22958,12 +22958,6 @@
           "code": "laboratory",
           "display": "Laboratory"
         } ]
-      }, {
-        "coding": [ {
-          "system": "http://hl7.org/fhir/observation-category",
-          "code": "laboratory",
-          "display": "Laboratory"
-        } ]
       } ],
       "code": {
         "coding": [ {

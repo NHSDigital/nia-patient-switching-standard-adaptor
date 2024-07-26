@@ -41,7 +41,19 @@ if [[ $1 == *uk_sct2mo* ]]; then
 	isMonolith=true
 fi
 
-databaseUri="postgresql://${PS_DB_OWNER_NAME}:${POSTGRES_PASSWORD}@${PS_DB_HOST}:${PS_DB_PORT}/${dbName}"
+percentEncoder() {
+    local length="${#1}"
+    for (( i = 0; i < length; i++ )); do
+        local character="${1:i:1}"
+        case $character in
+            [a-zA-Z0-9.~_-]) printf "$character" ;;
+            *) printf '%%%02X' "'$character" ;;
+        esac
+    done
+}
+
+ENCODED_POSTGRES_PASSWORD="$(percentEncoder ${POSTGRES_PASSWORD})"
+databaseUri="postgresql://${PS_DB_OWNER_NAME}:${ENCODED_POSTGRES_PASSWORD}@${PS_DB_HOST}:${PS_DB_PORT}/${dbName}"
 
 #Unzip the files here, junking the structure
 localExtract="tmp_extracted"

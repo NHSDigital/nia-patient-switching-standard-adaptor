@@ -214,45 +214,31 @@ public class SpecimenCompoundsMapper {
     }
 
     private void handleBatteryCompoundStatement(RCMRMT030101UKCompoundStatement specimenCompoundStatement,
-        RCMRMT030101UKCompoundStatement batteryCompoundStatement,
-
-        List<Observation> observations, List<Observation> observationComments, DiagnosticReport diagnosticReport) {
-
-        var compoundStatements = batteryCompoundStatement.getComponent().stream()
-            .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
-            .map(RCMRMT030101UKComponent02::getCompoundStatement)
-            .filter(compoundStatement -> CLUSTER_CLASSCODE.equals(compoundStatement.getClassCode().get(0)))
-            .toList();
-
-        for (var compoundStatement : compoundStatements) {
-            handleClusterCompoundStatement(
-                specimenCompoundStatement, compoundStatement, observations, observationComments, diagnosticReport, true
-            );
-        }
+                                                RCMRMT030101UKCompoundStatement batteryCompoundStatement,
+                                                List<Observation> observations,
+                                                List<Observation> observationComments,
+                                                DiagnosticReport diagnosticReport) {
 
         batteryCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
             .map(RCMRMT030101UKComponent02::getCompoundStatement)
-            .forEach(compoundStatement -> compoundStatement.getComponent().stream()
-                .filter(RCMRMT030101UKComponent02::hasObservationStatement)
-                .map(RCMRMT030101UKComponent02::getObservationStatement)
-                .findFirst()
-                .ifPresent(
-                    observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()).ifPresent(
-                        observation -> handleObservationStatement(specimenCompoundStatement, observationStatement, observation)
-                    )
-                ));
+            .filter(compoundStatement -> CLUSTER_CLASSCODE.equals(compoundStatement.getClassCode().get(0)))
+            .forEach(compoundStatement ->
+                         handleClusterCompoundStatement(
+                             specimenCompoundStatement,
+                             compoundStatement,
+                             observations,
+                             observationComments,
+                             diagnosticReport,
+                             true));
 
-        var observationStatements = batteryCompoundStatement.getComponent().stream()
+        batteryCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UKComponent02::hasObservationStatement)
             .map(RCMRMT030101UKComponent02::getObservationStatement)
-            .toList();
+            .forEach(
+                observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()).ifPresent(
+                    observation -> handleObservationStatement(specimenCompoundStatement, observationStatement, observation)));
 
-        observationStatements.forEach(
-            observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()).ifPresent(
-                observation -> handleObservationStatement(specimenCompoundStatement, observationStatement, observation)
-            )
-        );
     }
 
     private Optional<RCMRMT030101UKCompoundStatement> getCompoundStatementByDRId(RCMRMT030101UKEhrExtract ehrExtract, String id) {
