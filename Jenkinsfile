@@ -3,6 +3,8 @@ String tfComponent           = "pss"
 Boolean publishGPC_FacadeImage  = true // true: to publish gpc_facade image to AWS ECR gpc_facade
 Boolean publishGP2GP_TranslatorImage  = true // true: to publish gp2gp_translator image to AWS ECR gp2gp-translator
 Boolean publishMhsMockImage  = true // true: to publish mhs mock image to AWS ECR pss-mock-mhs
+Boolean publishSnomedSchemaImage = true // true: to publish SNOMED schema image to AWS ECR pss_snomed_schema
+Boolean publishDbMigrationImage = true // true: to publish DB migration image to AWS ECR pss_db_migration
 
 
 pipeline {
@@ -21,10 +23,14 @@ pipeline {
 
         GPC_FACADE_ECR_REPO_DIR = "pss_gpc_facade"
         GP2GP_TRANSLATOR_ECR_REPO_DIR = "pss_gp2gp-translator"
+        SNOMED_SCHEMA_ECR_REPO_DIR = "pss_snomed_schema"
+        DB_MIGRATION_ECR_REPO_DIR = "pss_db_migration"
         MHS_MOCK_ECR_REPO_DIR = "pss-mock-mhs"
 
         GPC_FACADE_DOCKER_IMAGE = "${DOCKER_REGISTRY}/${GPC_FACADE_ECR_REPO_DIR}:${BUILD_TAG}"
         GP2GP_TRANSLATOR_DOCKER_IMAGE = "${DOCKER_REGISTRY}/${GP2GP_TRANSLATOR_ECR_REPO_DIR}:${BUILD_TAG}"
+        SNOMED_SCHEMA_DOCKER_IMAGE = "${DOCKER_REGISTRY}/${SNOMED_SCHEMA_ECR_REPO_DIR}:${BUILD_TAG}"
+        DB_MIGRATION_DOCKER_IMAGE = "${DOCKER_REGISTRY}/${DB_MIGRATION_ECR_REPO_DIR}:${BUILD_TAG}"
         MHS_MOCK_DOCKER_IMAGE  = "${DOCKER_REGISTRY}/${MHS_MOCK_ECR_REPO_DIR}:${BUILD_TAG}"
     }
 
@@ -148,6 +154,12 @@ pipeline {
                             if (publishGP2GP_TranslatorImage) {
                                 if (sh(label: "Running ${GP2GP_TRANSLATOR_ECR_REPO_DIR} docker build", script: 'docker build -f docker/gp2gp-translator/Dockerfile -t ${GP2GP_TRANSLATOR_DOCKER_IMAGE} .', returnStatus: true) != 0) {error("Failed to build ${GP2GP_TRANSLATOR_ECR_REPO_DIR} Docker image")}
                             }
+                            if (publishSnomedSchemaImage) {
+                                if (sh(label: "Running ${GP2GP_TRANSLATOR_ECR_REPO_DIR} docker build", script: 'docker build -f docker/snomed-schema/Dockerfile -t ${SNOMED_SCHEMA_DOCKER_IMAGE} .', returnStatus: true) != 0) {error("Failed to build ${SNOMED_SCHEMA_ECR_REPO_DIR} Docker image")}
+                            }
+                            if (publishDbMigrationImage) {
+                                if (sh(label: "Running ${DB_MIGRATION_ECR_REPO_DIR} docker build", script: 'docker build -f docker/db-migration/Dockerfile -t ${DB_MIGRATION_DOCKER_IMAGE} .', returnStatus: true) != 0) {error("Failed to build ${DB_MIGRATION_ECR_REPO_DIR} Docker image")}
+                            }
                             if (publishMhsMockImage) {
                                 if (sh(label: "Running ${MHS_MOCK_ECR_REPO_DIR} docker build", script: 'docker build -f docker/mhs-adaptor-mock/Dockerfile -t ${MHS_MOCK_DOCKER_IMAGE} docker/mhs-adaptor-mock', returnStatus: true) != 0) {error("Failed to build ${MHS_MOCK_ECR_REPO_DIR} Docker image")}
                             }
@@ -174,6 +186,14 @@ pipeline {
 
                             if (publishGP2GP_TranslatorImage) {
                                 if (sh(label: "Pushing GP2GP_Translator image", script: "docker push ${GP2GP_TRANSLATOR_DOCKER_IMAGE}", returnStatus: true) != 0) {error("Docker push ${GP2GP_TRANSLATOR_ECR_REPO_DIR} image failed") }
+                            }
+
+                            if (publishSnomedSchemaImage) {
+                                if (sh(label: "Pushing SNOMED Schema image", script: "docker push ${SNOMED_SCHEMA_DOCKER_IMAGE}", returnStatus: true) != 0) {error("Docker push ${SNOMED_SCHEMA_ECR_REPO_DIR} image failed") }
+                            }
+
+                            if (publishDbMigrationImage) {
+                                if (sh(label: "Pushing DB migration image", script: "docker push ${DB_MIGRATION_DOCKER_IMAGE}", returnStatus: true) != 0) {error("Docker push ${DB_MIGRATION_ECR_REPO_DIR} image failed") }
                             }
 
                         }
