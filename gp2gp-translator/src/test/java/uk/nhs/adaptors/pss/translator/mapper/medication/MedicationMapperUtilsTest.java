@@ -31,7 +31,7 @@ public class MedicationMapperUtilsTest {
     public void When_CreatingPrescriptionTypeExtension_Expect_AcuteValues() {
         var supplyAuth = unmarshallSupplyAuthorise("buildPrescriptionAcute.xml");
         var extension = MedicationMapperUtils.buildPrescriptionTypeExtension(supplyAuth);
-        assertThat(extension.isPresent()).isTrue();
+        assertThat(extension).isPresent();
         extension.ifPresent(extension1 -> {
             assertThat(extension1.getValue()).isInstanceOf(CodeableConcept.class);
             var codeableConcept = (CodeableConcept) extension1.getValue();
@@ -43,7 +43,7 @@ public class MedicationMapperUtilsTest {
     public void When_CreatingPrescriptionTypeExtension_Expect_RepeatValues() {
         var supplyAuth = unmarshallSupplyAuthorise("buildPrescriptionRepeat.xml");
         var extension = MedicationMapperUtils.buildPrescriptionTypeExtension(supplyAuth);
-        assertThat(extension.isPresent()).isTrue();
+        assertThat(extension).isPresent();
         extension.ifPresent(extension1 -> {
             assertThat(extension1.getValue()).isInstanceOf(CodeableConcept.class);
             var codeableConcept = (CodeableConcept) extension1.getValue();
@@ -80,7 +80,7 @@ public class MedicationMapperUtilsTest {
         var supplyAuth = unmarshallSupplyAuthorise("supplyWithQuantity.xml");
         var quantity = MedicationMapperUtils.buildDosageQuantity(supplyAuth.getQuantity());
 
-        assertThat(quantity.isPresent()).isTrue();
+        assertThat(quantity).isPresent();
         quantity.ifPresent(value -> {
             assertThat(value.getValue().intValue()).isEqualTo(EXPECTED_QUANTITY_SIZE);
             assertThat(value.getUnit()).isEqualTo("capsule");
@@ -99,7 +99,7 @@ public class MedicationMapperUtilsTest {
         var supplyAuth = unmarshallSupplyAuthorise("supplyWithInvalidQuantity.xml");
         var authoriseId = MedicationMapperUtils.extractEhrSupplyAuthoriseId(supplyAuth);
 
-        assertThat(authoriseId.isPresent()).isTrue();
+        assertThat(authoriseId).isPresent();
         authoriseId.ifPresent(
             id -> {
                 assertThat(id).isEqualTo(AUTHORISE_ID);

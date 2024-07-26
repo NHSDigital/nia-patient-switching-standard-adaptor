@@ -86,7 +86,7 @@ class MedicationRequestOrderMapperTest {
         var medicationStatement = unmarshallMedicationStatement("medicationStatementPrescribeAllOptionals.xml");
         var prescribe = getPrescribeFromMedicationStatement(medicationStatement);
 
-        assertThat(prescribe.isPresent()).isTrue();
+        assertThat(prescribe).isPresent();
         var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(
             new RCMRMT030101UKEhrExtract(),
             new RCMRMT030101UKEhrComposition(),
@@ -94,6 +94,7 @@ class MedicationRequestOrderMapperTest {
             prescribe.get(),
             PRACTISE_CODE
         );
+
         assertCommonValues(medicationRequest);
         medicationRequest
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1")
@@ -111,7 +112,7 @@ class MedicationRequestOrderMapperTest {
         var medicationStatement = unmarshallMedicationStatement("medicationStatementPrescribeNoOptionals.xml");
         var prescribe = getPrescribeFromMedicationStatement(medicationStatement);
 
-        assertThat(prescribe.isPresent()).isTrue();
+        assertThat(prescribe).isPresent();
         var medicationRequest = medicationRequestOrderMapper.mapToOrderMedicationRequest(
             new RCMRMT030101UKEhrExtract(),
             new RCMRMT030101UKEhrComposition(),
@@ -119,6 +120,7 @@ class MedicationRequestOrderMapperTest {
             prescribe.get(),
             PRACTISE_CODE
         );
+
         assertCommonValues(medicationRequest);
 
         medicationRequest

@@ -26,6 +26,6 @@ public class ConfidentialityService {
     }
 
     private boolean isNopat(CV coding) {
-        return coding.getCode().equals("NOPAT");
+        return "NOPAT".equals(coding.getCode());
     }
 }

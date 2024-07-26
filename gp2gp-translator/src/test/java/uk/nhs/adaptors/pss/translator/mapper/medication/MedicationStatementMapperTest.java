@@ -88,7 +88,7 @@ class MedicationStatementMapperTest {
         when(medicationMapper.extractMedicationReference(any()))
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
-        assertThat(authorise.isPresent()).isTrue();
+        assertThat(authorise).isPresent();
         var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(
             ehrExtract, medicationStatement, authorise.get(), PRACTISE_CODE, new DateTimeType());
 
@@ -122,7 +122,7 @@ class MedicationStatementMapperTest {
         when(medicationMapper.extractMedicationReference(any()))
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
 
-        assertThat(authorise.isPresent()).isTrue();
+        assertThat(authorise).isPresent();
         var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(
             new RCMRMT030101UKEhrExtract(), medicationStatement, authorise.get(), PRACTISE_CODE, new DateTimeType());
 
@@ -299,10 +299,10 @@ class MedicationStatementMapperTest {
     private MedicationStatement mapMedicationStatementFromEhrFile(String filename, DateTimeType authoredOn) {
         var ehrExtract = unmarshallEhrExtract(filename);
         var medicationStatement = extractMedicationStatement(ehrExtract);
-        assertThat(medicationStatement.isPresent()).isTrue();
+        assertThat(medicationStatement).isPresent();
 
         var authorise = extractAuthorise(medicationStatement.orElseThrow());
-        assertThat(authorise.isPresent()).isTrue();
+        assertThat(authorise).isPresent();
 
         when(medicationMapper.extractMedicationReference(any()))
             .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
