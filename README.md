@@ -33,12 +33,12 @@ The Patient Switching Adaptor's facade provides two main endpoints for interacti
 
 The migratestructuredrecord endpoint is the primary endpoint for the adaptor.
 This endpoint initiates the electronic health record (EHR) transfer process. 
-To use this endpoint, you need to provide:
+To use this endpoint, you need to provide the following headers:
 
-- TO_ASID : ASID identifier of the losing incumbent
-- FROM_ASID : ASID identifier of the winning New Market Entrant (NME)
-- TO_ODS : ODS identifier of the losing incumbent
-- FROM_ODS : ODS identifier of the winning New Market Entrant (NME)
+- TO-ASID : ASID identifier of the losing incumbent
+- FROM-ASID : ASID identifier of the winning New Market Entrant (NME)
+- TO-ODS : ODS identifier of the losing incumbent
+- FROM-ODS : ODS identifier of the winning New Market Entrant (NME)
 - ConversationId : A unique GUID for the request. If not provided, the adaptor will generate one and include it in the response headers.
   It must be used for all further calls for the patient's NHS number.
 
@@ -120,10 +120,10 @@ Responds with one of:
 This endpoint finalizes the EHR transfer process.
 If you do not call this endpoint after receiving an EHR from the migratestructuredrecord enpoint, then you risk the losing practise triggering off the manual postal transfer.
 
-Required fields:
+To use this endpoint, you need to provide the following headers:
 
-- CONVERSATION_ID: ID from the initial request.
-- CONFIRMATION_RESPONSE: Status of the EHR integration.
+- CONVERSATIONID: ID from the initial request.
+- CONFIRMATIONRESPONSE: Status of the EHR integration.
     - ACCEPTED: EHR integration successful.
     - FAILED_TO_INTEGRATE: Error encountered; triggers postal process.
 
