@@ -3,6 +3,8 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static java.util.UUID.randomUUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
@@ -31,6 +33,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
@@ -63,6 +66,9 @@ public class ProcedureRequestMapperTest {
                 Arguments.of(STATUS_SEEN, ProcedureRequestStatus.COMPLETED)
         );
     }
+
+    @Mock
+    private ConfidentialityService confidentialityService;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -113,7 +119,7 @@ public class ProcedureRequestMapperTest {
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
                 planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
-        assertThat(procedureRequest.getCode().getCodingFirstRep()).isNotNull();
+        assertNotNull(procedureRequest.getCode().getCodingFirstRep());
         assertThat(procedureRequest.getCode().getCodingFirstRep())
                 .isEqualTo(DegradedCodeableConcepts.DEGRADED_PLAN);
     }
@@ -127,9 +133,9 @@ public class ProcedureRequestMapperTest {
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
-        assertThat(procedureRequest.getOccurrence()).isNull();
-        assertThat(procedureRequest.getAuthoredOn()).isNull();
-        assertThat(procedureRequest.getNoteFirstRep()).isNull();
+        assertNull(procedureRequest.getOccurrence());
+        assertNull(procedureRequest.getAuthoredOn());
+        assertNull(procedureRequest.getNoteFirstRep());
     }
 
     @Test
@@ -140,7 +146,7 @@ public class ProcedureRequestMapperTest {
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
-        assertThat(procedureRequest.getContext().getResource()).isNull();
+        assertNull(procedureRequest.getContext().getResource());
     }
 
     @Test
