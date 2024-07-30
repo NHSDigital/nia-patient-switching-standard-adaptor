@@ -116,8 +116,8 @@ class MedicationRequestPlanMapperTest {
     @BeforeEach
     void setup() {
         when(medicationMapper.extractMedicationReference(
-            any()
-        )).thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
+            any(RCMRMT030101UKMedicationStatement.class)
+        )).thenReturn(getReference());
 
         Mockito.lenient().when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
@@ -717,5 +717,12 @@ class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
+    }
+
+    private Optional<Reference> getReference() {
+        final IdType idType = new IdType(ResourceType.Medication.name(), MEDICATION_ID);
+        final Reference reference = new Reference(idType);
+
+        return Optional.of(reference);
     }
 }
