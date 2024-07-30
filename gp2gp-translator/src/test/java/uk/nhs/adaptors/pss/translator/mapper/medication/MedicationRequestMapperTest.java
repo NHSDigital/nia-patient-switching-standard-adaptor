@@ -6,6 +6,7 @@ import org.hl7.fhir.dstu3.model.Medication;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
@@ -381,7 +382,8 @@ public class MedicationRequestMapperTest {
         resources.stream()
             .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
             .map(MedicationRequest.class::cast)
-            .forEach(this::assertMedicationRequestIdIsPatientId);
+            .map(MedicationRequest::getSubject)
+            .forEach(this::assertReferenceIdIsPatientId);
     }
 
     private void assertMedicationStatements(List<? extends DomainResource> resources) {
@@ -393,24 +395,14 @@ public class MedicationRequestMapperTest {
 
     private void assertMedicationStatementDateAndIdIsPatient(MedicationStatement statement) {
         final Date date = statement.getDateAssertedElement().getValue();
+        final Reference reference = statement.getSubject();
 
-        assertMedicationStatementIdIsPatientId(statement);
+        assertReferenceIdIsPatientId(reference);
         assertThat(date).isEqualTo(EXPECTED_DATE_TIME_TYPE.getValue());
     }
 
-    private void assertMedicationStatementIdIsPatientId(MedicationStatement medicationStatement) {
-        final String medicationStatementId = medicationStatement
-            .getSubject()
-            .getResource()
-            .getIdElement()
-            .getIdPart();
-
-        assertThat(medicationStatementId).isEqualTo(PATIENT_ID);
-    }
-
-    private void assertMedicationRequestIdIsPatientId(MedicationRequest medicationRequest) {
-        final String medicationRequestId = medicationRequest
-            .getSubject()
+    private void assertReferenceIdIsPatientId(Reference reference) {
+        final String medicationRequestId = reference
             .getResource()
             .getIdElement()
             .getIdPart();
