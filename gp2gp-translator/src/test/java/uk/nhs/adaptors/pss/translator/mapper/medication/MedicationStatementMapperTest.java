@@ -101,7 +101,7 @@ class MedicationStatementMapperTest {
 
         assertThat(authorise).isPresent();
 
-        var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(
+        final MedicationStatement result = medicationStatementMapper.mapToMedicationStatement(
             ehrExtract,
             ehrComposition,
             medicationStatement,
@@ -110,21 +110,21 @@ class MedicationStatementMapperTest {
             new DateTimeType()
         );
 
-        var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
+        var lastIssuedDate = result.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
         assertThat(lastIssuedDate).hasSize(1);
         var dateTime = (DateTimeType) lastIssuedDate.get(0).getValue();
         assertThat(dateTime.getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("20060428").getValue());
 
-        var prescribingAgency = medicationStatement1
+        var prescribingAgency = result
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
 
         assertAll(
             () -> assertThat(prescribingAgency).hasSize(1),
-            () -> assertThat(medicationStatement1.getTaken()).isEqualTo(UNK),
-            () -> assertThat(medicationStatement1.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY),
-            () -> assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID),
-            () -> assertThat(medicationStatement1.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID)
+            () -> assertThat(result.getTaken()).isEqualTo(UNK),
+            () -> assertThat(result.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY),
+            () -> assertThat(result.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID),
+            () -> assertThat(result.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID)
         );
     }
 
