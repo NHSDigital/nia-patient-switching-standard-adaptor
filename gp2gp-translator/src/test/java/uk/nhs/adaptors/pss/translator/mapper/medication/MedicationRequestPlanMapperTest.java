@@ -494,7 +494,10 @@ class MedicationRequestPlanMapperTest {
     void When_MappingAuthoriseResource_With_ConfidentialityCodeInEhrComposition_Expect_MetaPopulatedFromConfidentialityServiceWithSecurity()
         throws JAXBException {
         final Meta meta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
-        final File file = FileFactory.getXmlFileFor("MedicationStatement", "ehrExtract_nopatConfidentialityCodePresentWithinEhrComposition.xml");
+        final File file = FileFactory.getXmlFileFor(
+            "MedicationStatement",
+            "ehrExtract_nopatConfidentialityCodePresentWithinEhrComposition.xml"
+        );
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallFile(file, RCMRMT030101UKEhrExtract.class);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
