@@ -12,6 +12,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -153,16 +155,17 @@ class ConfidentialityServiceTest {
     }
 
     private void assertMetaSecurityIsPresent(final Meta meta) {
-        final int metaSecuritySize = meta.getSecurity().size();
-        final Coding metaSecurity = meta.getSecurity().get(0);
+        final List<Coding> metaSecurity = meta.getSecurity();
+        final int metaSecuritySize = metaSecurity.size();
+        final Coding metaSecurityCoding = metaSecurity.get(0);
         final UriType metaProfile = meta.getProfile().get(0);
 
         assertAll(
             () -> assertThat(metaSecuritySize).isEqualTo(1),
             () -> assertThat(metaProfile.getValue()).isEqualTo(DUMMY_PROFILE_URI),
-            () -> assertThat(metaSecurity.getCode()).isEqualTo(NOPAT_CV.getCode()),
-            () -> assertThat(metaSecurity.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
-            () -> assertThat(metaSecurity.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem())
+            () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
+            () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
+            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem())
         );
     }
 
