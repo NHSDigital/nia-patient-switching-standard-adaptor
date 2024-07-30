@@ -78,7 +78,7 @@ public class MedicationStatementMapper {
                 extractMatchingDiscontinue(ehrSupplyAuthoriseIdExtract.orElseThrow(), ehrExtract);
 
             String ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
-            MedicationStatement medicationStatement1 = new MedicationStatement();
+            MedicationStatement mappedMedicationStatement = new MedicationStatement();
 
             final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 MEDICATION_STATEMENT_URL,
@@ -86,24 +86,24 @@ public class MedicationStatementMapper {
                 ehrComposition.getConfidentialityCode()
             );
 
-            medicationStatement1.setId(ehrSupplyAuthoriseId + MS_SUFFIX);
-            medicationStatement1.setMeta(meta);
-            medicationStatement1.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId + MS_SUFFIX, practiseCode));
-            medicationStatement1.setTaken(UNK);
+            mappedMedicationStatement.setId(ehrSupplyAuthoriseId + MS_SUFFIX);
+            mappedMedicationStatement.setMeta(meta);
+            mappedMedicationStatement.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId + MS_SUFFIX, practiseCode));
+            mappedMedicationStatement.setTaken(UNK);
 
-            medicationStatement1.addBasedOn(new Reference(
+            mappedMedicationStatement.addBasedOn(new Reference(
                 new IdType(ResourceType.MedicationRequest.name(), ehrSupplyAuthoriseId)
             ));
-            medicationStatement1.addExtension(generatePrescribingAgencyExtension());
+            mappedMedicationStatement.addExtension(generatePrescribingAgencyExtension());
 
-            medicationStatement1.addDosage(buildDosage(medicationStatement.getPertinentInformation()));
+            mappedMedicationStatement.addDosage(buildDosage(medicationStatement.getPertinentInformation()));
 
             extractHighestSupplyPrescribeTime(ehrExtract, ehrSupplyAuthoriseId)
                 .map(dateTime -> new Extension(MS_LAST_ISSUE_DATE, dateTime))
-                .ifPresent(medicationStatement1::addExtension);
+                .ifPresent(mappedMedicationStatement::addExtension);
 
             medicationMapper.extractMedicationReference(medicationStatement)
-                .ifPresent(medicationStatement1::setMedication);
+                .ifPresent(mappedMedicationStatement::setMedication);
 
             var status = discontinue
                 .map(this::buildMedicationStatementStatus)
@@ -117,10 +117,10 @@ public class MedicationStatementMapper {
                 effectivePeriod.setEndElement(effectivePeriod.getStartElement());
             }
 
-            medicationStatement1.setEffective(effectivePeriod);
-            medicationStatement1.setStatus(status);
+            mappedMedicationStatement.setEffective(effectivePeriod);
+            mappedMedicationStatement.setStatus(status);
 
-            return medicationStatement1;
+            return mappedMedicationStatement;
         }
         return null;
     }
