@@ -616,7 +616,7 @@ class MedicationRequestPlanMapperTest {
         final Meta meta = request.getMeta();
 
         assertAll(
-            () -> assertThat(meta.getSecurity()).hasSize(0),
+            () -> assertThat(meta.getSecurity()).isEmpty(),
             () -> assertThat(meta.getProfile().get(0).getValue()).isEqualTo(META_PROFILE)
         );
 
