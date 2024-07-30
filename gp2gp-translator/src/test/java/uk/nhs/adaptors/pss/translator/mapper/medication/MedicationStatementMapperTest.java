@@ -7,26 +7,27 @@ import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementSt
 import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementTaken.UNK;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.TestUtility.GET_EHR_COMPOSITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import org.hl7.fhir.dstu3.model.Coding;
+import jakarta.xml.bind.JAXBException;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UKComponent;
 import org.hl7.v3.RCMRMT030101UKComponent2;
@@ -39,14 +40,16 @@ import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.FileFactory;
 import uk.nhs.adaptors.pss.translator.MetaFactory;
-import uk.nhs.adaptors.pss.translator.matcher.OptionalCVCodeMatcher;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -54,11 +57,12 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 class MedicationStatementMapperTest {
 
     private static final String META_PROFILE = "MedicationStatement-1";
-    private static final String XML_RESOURCES_MEDICATION_STATEMENT = "xml/MedicationStatement/";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String TEST_ID = "TEST_ID";
     private static final String MEDICATION_ID = "MEDICATION_ID";
     private static final String TAKE_ONE_DAILY = "TAKE ONE DAILY";
+    private static final String NOPAT = "NOPAT";
+    private static final String TEST_FILE_DIRECTORY = "MedicationStatement";
 
     @Mock
     private MedicationMapper medicationMapper;
@@ -66,31 +70,45 @@ class MedicationStatementMapperTest {
     private ConfidentialityService confidentialityService;
     @InjectMocks
     private MedicationStatementMapper medicationStatementMapper;
+    @Captor
+    private ArgumentCaptor<Optional<CV>> confidentialityCodeCaptor;
 
     @BeforeEach
     void beforeEach() {
         Mockito.lenient().when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
-            any(Optional.class)
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
         )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     @Test
-    void When_MappingPrescribeResourceWithNoOptionals_Expect_AllFieldsToBeMappedCorrectly() {
-        var ehrExtract = unmarshallEhrExtract("ehrExtract3.xml");
-        var medicationStatement = unmarshallMedicationStatement("medicationStatementAuthoriseAllOptionals_MedicationStatement.xml");
-        var authorise = medicationStatement.getComponent()
+    void When_MappingPrescribeResourceWithNoOptionals_Expect_AllFieldsToBeMappedCorrectly() throws JAXBException {
+        final File file = FileFactory.getXmlFileFor("MedicationStatement", "ehrExtract3.xml");
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallFile(file, RCMRMT030101UKEhrExtract.class);
+        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
+        final RCMRMT030101UKMedicationStatement medicationStatement =
+            unmarshallMedicationStatement("medicationStatementAuthoriseAllOptionals_MedicationStatement.xml");
+        final Optional<RCMRMT030101UKAuthorise> authorise = medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
             .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
             .findFirst();
 
-        when(medicationMapper.extractMedicationReference(any()))
-            .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
+        when(medicationMapper.extractMedicationReference(
+            any(RCMRMT030101UKMedicationStatement.class)
+        )).thenReturn(getMedicationReference());
 
         assertThat(authorise).isPresent();
+
         var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(
-            ehrExtract, medicationStatement, authorise.get(), PRACTISE_CODE, new DateTimeType());
+            ehrExtract,
+            ehrComposition,
+            medicationStatement,
+            authorise.get(),
+            PRACTISE_CODE,
+            new DateTimeType()
+        );
 
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
@@ -101,13 +119,13 @@ class MedicationStatementMapperTest {
         var prescribingAgency = medicationStatement1
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
 
-        assertThat(prescribingAgency).hasSize(1);
-        assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
-        assertThat(medicationStatement1.getStatus()).isEqualTo(ACTIVE);
-        assertThat(medicationStatement1.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
-        assertThat(medicationStatement1.getTaken()).isEqualTo(UNK);
-        assertThat(medicationStatement1.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
-        assertMetaSecurityNotPresent(medicationStatement1);
+        assertAll(
+            () -> assertThat(prescribingAgency).hasSize(1),
+            () -> assertThat(medicationStatement1.getTaken()).isEqualTo(UNK),
+            () -> assertThat(medicationStatement1.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY),
+            () -> assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID),
+            () -> assertThat(medicationStatement1.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID)
+        );
     }
 
     @Test
@@ -119,12 +137,18 @@ class MedicationStatementMapperTest {
             .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
             .findFirst();
 
-        when(medicationMapper.extractMedicationReference(any()))
-            .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
+        when(medicationMapper.extractMedicationReference(any(RCMRMT030101UKMedicationStatement.class)))
+            .thenReturn(getMedicationReference());
 
         assertThat(authorise).isPresent();
         var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(
-            new RCMRMT030101UKEhrExtract(), medicationStatement, authorise.get(), PRACTISE_CODE, new DateTimeType());
+            new RCMRMT030101UKEhrExtract(),
+            new RCMRMT030101UKEhrComposition(),
+            medicationStatement,
+            authorise.get(),
+            PRACTISE_CODE,
+            new DateTimeType()
+        );
 
         var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
@@ -132,13 +156,15 @@ class MedicationStatementMapperTest {
 
         var prescribingAgency = medicationStatement1
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
-        assertThat(prescribingAgency).hasSize(1);
-        assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
-        assertThat(medicationStatement1.getStatus()).isEqualTo(ACTIVE);
-        assertThat(medicationStatement1.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID);
-        assertThat(medicationStatement1.getTaken()).isEqualTo(UNK);
-        assertThat(medicationStatement1.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY);
-        assertMetaSecurityNotPresent(medicationStatement1);
+
+        assertAll(
+            () -> assertThat(prescribingAgency).hasSize(1),
+            () -> assertThat(medicationStatement1.getTaken()).isEqualTo(UNK),
+            () -> assertThat(medicationStatement1.getStatus()).isEqualTo(ACTIVE),
+            () -> assertThat(medicationStatement1.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY),
+            () -> assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID),
+            () -> assertThat(medicationStatement1.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID)
+        );
     }
 
     @Test
@@ -153,7 +179,6 @@ class MedicationStatementMapperTest {
         assertThat(effectivePeriod.getStartElement().toHumanDisplay()).isEqualTo(expectedStartDate);
         assertThat(effectivePeriod.getEndElement().toHumanDisplay()).isEqualTo(expectedEndDate);
         assertThat(result.getStatus()).isEqualTo(STOPPED);
-        assertMetaSecurityNotPresent(result);
     }
 
     @Test
@@ -167,7 +192,6 @@ class MedicationStatementMapperTest {
         assertThat(effectivePeriod.getStartElement().toHumanDisplay()).isEqualTo(expectedStartDate);
         assertThat(effectivePeriod.getEndElement().toHumanDisplay()).isEqualTo(expectedStartDate);
         assertThat(result.getStatus()).isEqualTo(COMPLETED);
-        assertMetaSecurityNotPresent(result);
     }
 
     @Test
@@ -182,7 +206,6 @@ class MedicationStatementMapperTest {
         assertThat(effectivePeriod.getStartElement().toHumanDisplay()).isEqualTo(expectedStartDate);
         assertThat(effectivePeriod.getEndElement().toHumanDisplay()).isEqualTo(expectedEndDate);
         assertThat(result.getStatus()).isEqualTo(COMPLETED);
-        assertMetaSecurityNotPresent(result);
     }
 
     @Test
@@ -196,7 +219,6 @@ class MedicationStatementMapperTest {
         assertThat(effectivePeriod.getStartElement().toHumanDisplay()).isEqualTo(expectedStartDate);
         assertThat(effectivePeriod.getEndElement().toHumanDisplay()).isEqualTo(expectedEndDate);
         assertThat(result.getStatus()).isEqualTo(COMPLETED);
-        assertMetaSecurityNotPresent(result);
     }
 
     @Test
@@ -209,7 +231,6 @@ class MedicationStatementMapperTest {
         assertThat(effectivePeriod.getStartElement()).isEqualTo(authoredOn);
         assertThat(effectivePeriod.getEndElement()).isEqualTo(authoredOn);
         assertThat(result.getStatus()).isEqualTo(COMPLETED);
-        assertMetaSecurityNotPresent(result);
     }
 
     @Test
@@ -223,7 +244,6 @@ class MedicationStatementMapperTest {
         assertThat(effectivePeriod.getStartElement()).isEqualTo(authoredOn);
         assertThat(effectivePeriod.getEndElement()).isEqualTo(authoredOn);
         assertThat(result.getStatus()).isEqualTo(COMPLETED);
-        assertMetaSecurityNotPresent(result);
     }
 
     @Test
@@ -237,78 +257,84 @@ class MedicationStatementMapperTest {
         assertThat(result.getStatus()).isEqualTo(ACTIVE);
         assertThat(effectivePeriod.getStartElement().toHumanDisplay()).isEqualTo(expectedStartDate);
         assertThat(effectivePeriod.hasEndElement()).isFalse();
-        assertMetaSecurityNotPresent(result);
     }
 
     @Test
-    void When_MapToMedicationStatement_With_NopatConfidentialityCode_Expect_MetaSecurityIsAdded() {
-        final String filename = "ehrExtract_NopatConfidentialityCodePresent.xml";
+    void When_MapToMedicationStatement_Expect_MetaPresentFromConfidentialityServiceWithSecurity() {
+        final String fileName = "ehrExtract_nopatConfidentialityCodePresentWithinMedicationStatement.xml";
+        final Meta expectedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
-            any(Optional.class)
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
         )).thenReturn(MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE));
 
-        final MedicationStatement result = mapMedicationStatementFromEhrFile(filename, new DateTimeType());
-
-        assertMetaSecurityPresent(result);
-    }
-
-    private void assertMetaSecurityNotPresent(MedicationStatement statement) {
-        final Meta meta = statement.getMeta();
+        final MedicationStatement result = mapMedicationStatementFromEhrFile(fileName, new DateTimeType());
+        final Optional<CV> medicationStatementConfidentialityCode = getMedicationStatementConfidentialityCode();
+        final Optional<CV> ehrCompositionConfidentialityCode = getEhrCompositionConfidentialityCode();
 
         assertAll(
-            () -> assertThat(meta.getSecurity()).hasSize(0),
-            () -> assertThat(meta.getProfile().get(0).getValue()).isEqualTo(META_PROFILE)
-        );
-
-        verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            eq(META_PROFILE),
-            eq(Optional.empty())
+            () -> assertThat(ehrCompositionConfidentialityCode).isNotPresent(),
+            () -> assertThat(result.getMeta()).usingRecursiveComparison().isEqualTo(expectedMeta),
+            () -> {
+                assert Objects.requireNonNull(medicationStatementConfidentialityCode).isPresent();
+                assertThat(medicationStatementConfidentialityCode.orElseThrow().getCode()).isEqualTo(NOPAT);
+            }
         );
     }
 
-    private void assertMetaSecurityPresent(MedicationStatement statement) {
-        final Coding nopatCoding = MetaFactory.getNopatCoding();
-        final Meta meta = statement.getMeta();
-        final Coding security = meta.getSecurity().get(0);
+    @Test
+    void When_MapToMedicationStatement_With_ConfidentialityCodeInEhrComposition_Expect_MetaPresentFromConfidentialityServiceWithSecurity() {
+        final String fileName = "ehrExtract_nopatConfidentialityCodePresentWithinEhrComposition.xml";
+        final Meta expectedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE));
+
+        final MedicationStatement result = mapMedicationStatementFromEhrFile(fileName, new DateTimeType());
+        final Optional<CV> medicationStatementConfidentialityCode = getMedicationStatementConfidentialityCode();
+        final Optional<CV> ehrCompositionConfidentialityCode = getEhrCompositionConfidentialityCode();
 
         assertAll(
-            () -> assertThat(meta.getSecurity()).hasSize(1),
-            () -> assertThat(meta.getProfile().get(0).getValue()).isEqualTo(META_PROFILE),
-            () -> assertThat(security).isEqualTo(nopatCoding)
-        );
-
-        verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            eq(META_PROFILE),
-            argThat(new OptionalCVCodeMatcher("NOPAT"))
+            () -> assertThat(medicationStatementConfidentialityCode).isNotPresent(),
+            () -> assertThat(result.getMeta()).usingRecursiveComparison().isEqualTo(expectedMeta),
+            () -> {
+                assert Objects.requireNonNull(ehrCompositionConfidentialityCode).isPresent();
+                assertThat(ehrCompositionConfidentialityCode.orElseThrow().getCode()).isEqualTo(NOPAT);
+            }
         );
     }
 
     @SneakyThrows
     private RCMRMT030101UKMedicationStatement unmarshallMedicationStatement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName),
-            RCMRMT030101UKMedicationStatement.class);
+        final File file = FileFactory.getXmlFileFor(TEST_FILE_DIRECTORY, fileName);
+        return unmarshallFile(file, RCMRMT030101UKMedicationStatement.class);
     }
 
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_MEDICATION_STATEMENT + fileName), RCMRMT030101UKEhrExtract.class);
+        final File file = FileFactory.getXmlFileFor("MedicationStatement", fileName);
+        return unmarshallFile(file, RCMRMT030101UKEhrExtract.class);
     }
 
-    private MedicationStatement mapMedicationStatementFromEhrFile(String filename, DateTimeType authoredOn) {
-        var ehrExtract = unmarshallEhrExtract(filename);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
+    private MedicationStatement mapMedicationStatementFromEhrFile(String fileName, DateTimeType authoredOn) {
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract(fileName);
+        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
+        final Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         assertThat(medicationStatement).isPresent();
 
         var authorise = extractAuthorise(medicationStatement.orElseThrow());
         assertThat(authorise).isPresent();
 
-        when(medicationMapper.extractMedicationReference(any()))
-            .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
+        when(medicationMapper.extractMedicationReference(any(RCMRMT030101UKMedicationStatement.class)))
+            .thenReturn(getMedicationReference());
 
         return medicationStatementMapper.mapToMedicationStatement(
-            ehrExtract, medicationStatement.orElseThrow(), authorise.orElseThrow(), PRACTISE_CODE, authoredOn);
+            ehrExtract, ehrComposition, medicationStatement.orElseThrow(), authorise.orElseThrow(), PRACTISE_CODE, authoredOn);
     }
 
     private Optional<RCMRMT030101UKMedicationStatement> extractMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract) {
@@ -332,5 +358,19 @@ class MedicationStatementMapperTest {
             .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
             .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
             .findFirst();
+    }
+
+    private Optional<Reference> getMedicationReference() {
+        final IdType idType = new IdType(ResourceType.Medication.name(), MEDICATION_ID);
+        final Reference reference = new Reference(idType);
+        return Optional.of(reference);
+    }
+
+    private Optional<CV> getMedicationStatementConfidentialityCode() {
+        return confidentialityCodeCaptor.getAllValues().get(0);
+    }
+
+    private Optional<CV> getEhrCompositionConfidentialityCode() {
+        return confidentialityCodeCaptor.getAllValues().get(1);
     }
 }

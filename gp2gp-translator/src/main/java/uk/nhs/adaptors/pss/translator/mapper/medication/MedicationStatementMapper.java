@@ -66,6 +66,7 @@ public class MedicationStatementMapper {
     private final ConfidentialityService confidentialityService;
 
     public MedicationStatement mapToMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract,
+                                                        RCMRMT030101UKEhrComposition ehrComposition,
                                                         RCMRMT030101UKMedicationStatement medicationStatement,
                                                         RCMRMT030101UKAuthorise supplyAuthorise,
                                                         String practiseCode,
@@ -81,7 +82,8 @@ public class MedicationStatementMapper {
 
             final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 MEDICATION_STATEMENT_URL,
-                medicationStatement.getConfidentialityCode()
+                medicationStatement.getConfidentialityCode(),
+                ehrComposition.getConfidentialityCode()
             );
 
             medicationStatement1.setId(ehrSupplyAuthoriseId + MS_SUFFIX);
