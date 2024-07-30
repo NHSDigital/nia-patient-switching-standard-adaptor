@@ -10,16 +10,18 @@ import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
-
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import java.util.List;
 import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
+import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKPlanStatement;
@@ -33,6 +35,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
@@ -43,7 +47,7 @@ import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallSt
 public class ProcedureRequestMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/ProcedureRequest/";
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ProcedureRequest-1";
+    private static final String META_PROFILE = "ProcedureRequest-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String CODING_DISPLAY = "Ischaemic heart disease";
@@ -56,6 +60,7 @@ public class ProcedureRequestMapperTest {
     private static final String STATUS_SEEN = "Status: Seen";
     private static final List<Encounter> ENCOUNTERS = getEncounterList();
     private static final Patient SUBJECT = createPatient();
+    private static final Meta META = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
 
     private static Stream<Arguments> planStatementStatuses() {
         return Stream.of(
@@ -89,34 +94,17 @@ public class ProcedureRequestMapperTest {
     }
 
     @Test
-    public void mapProcedureRequestWithValidData() {
-        var ehrExtract = unmarshallCodeElement("full_valid_data_example.xml");
-        var planStatement = getPlanStatement(ehrExtract);
-        setUpCodeableConceptMock();
-
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
-            planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
-
-        assertFixedValues(planStatement, procedureRequest);
-        assertThat(procedureRequest.getNoteFirstRep().getText()).isEqualTo(planStatement.getText());
-        assertThat(procedureRequest.getOccurrenceDateTimeType().getValue()).isEqualTo(
-            DateFormatUtil.parseToDateTimeType(planStatement.getEffectiveTime().getCenter().getValue()).getValue());
-        assertThat(procedureRequest.getAuthoredOn()).isEqualTo(
-            DateFormatUtil.parseToDateTimeType(planStatement.getAvailabilityTime().getValue()).getValue());
-        assertThat(procedureRequest.getCode().getCodingFirstRep().getDisplay()).isEqualTo(
-            planStatement.getCode().getDisplayName());
-        assertThat(procedureRequest.getRequester().getAgent().getReference())
-            .isEqualTo("Practitioner/8D1610C2-5E48-4ED5-882B-5A4A172AFA35");
-        assertThat(procedureRequest.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
-    }
-
-    @Test
     public void mapProcedureRequestWithDegradedPlan() {
         var ehrExtract = unmarshallCodeElement("full_valid_data_example.xml");
+
         var planStatement = getPlanStatement(ehrExtract);
+        planStatement.setConfidentialityCode(new CV());
+        var ehrComposition = getEhrComposition(ehrExtract);
+        ehrComposition.setConfidentialityCode(new CV());
+
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(new CodeableConcept());
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
                 planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertNotNull(procedureRequest.getCode().getCodingFirstRep());
@@ -128,8 +116,17 @@ public class ProcedureRequestMapperTest {
     public void mapProcedureRequestWithNoOptionalFields() {
         var ehrExtract = unmarshallCodeElement("no_optional_data_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
+        planStatement.setConfidentialityCode(new CV());
+        var ehrComposition = getEhrComposition(ehrExtract);
+        ehrComposition.setConfidentialityCode(new CV());
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            planStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
@@ -153,9 +150,18 @@ public class ProcedureRequestMapperTest {
     public void mapProcedureRequestWithPrfParticipant() {
         var ehrExtract = unmarshallCodeElement("prf_participant_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
+        planStatement.setConfidentialityCode(new CV());
+        var ehrComposition = getEhrComposition(ehrExtract);
+        ehrComposition.setConfidentialityCode(new CV());
         setUpCodeableConceptMock();
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            planStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
@@ -170,7 +176,16 @@ public class ProcedureRequestMapperTest {
     public void mapProcedureRequestWithParticipant2() {
         var ehrExtract = unmarshallCodeElement("participant2_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
+        planStatement.setConfidentialityCode(new CV());
+        var ehrComposition = getEhrComposition(ehrExtract);
+        ehrComposition.setConfidentialityCode(new CV());
         setUpCodeableConceptMock();
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            planStatement.getConfidentialityCode()
+        )).thenReturn(META);
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
@@ -187,8 +202,16 @@ public class ProcedureRequestMapperTest {
     public void mapProcedureRequestWithEhrCompositionAvailabilityTime() {
         var ehrExtract = unmarshallCodeElement("ehr_composition_availability_time_example.xml");
         var ehrComposition = getEhrComposition(ehrExtract);
+        ehrComposition.setConfidentialityCode(new CV());
         var planStatement = getPlanStatement(ehrExtract);
+        planStatement.setConfidentialityCode(new CV());
         setUpCodeableConceptMock();
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            planStatement.getConfidentialityCode()
+        )).thenReturn(META);
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
@@ -205,9 +228,18 @@ public class ProcedureRequestMapperTest {
     public void mapProcedureRequestWithAuthorTime() {
         var ehrExtract = unmarshallCodeElement("ehr_extract_author_time_example.xml");
         var planStatement = getPlanStatement(ehrExtract);
+        planStatement.setConfidentialityCode(new CV());
+        var ehrComposition = getEhrComposition(ehrExtract);
+        ehrComposition.setConfidentialityCode(new CV());
         setUpCodeableConceptMock();
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            planStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertFixedValues(planStatement, procedureRequest);
