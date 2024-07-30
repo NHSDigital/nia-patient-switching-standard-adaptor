@@ -141,7 +141,8 @@ class MedicationStatementMapperTest {
             .thenReturn(getMedicationReference());
 
         assertThat(authorise).isPresent();
-        var medicationStatement1 = medicationStatementMapper.mapToMedicationStatement(
+
+        final MedicationStatement result = medicationStatementMapper.mapToMedicationStatement(
             new RCMRMT030101UKEhrExtract(),
             new RCMRMT030101UKEhrComposition(),
             medicationStatement,
@@ -150,20 +151,20 @@ class MedicationStatementMapperTest {
             new DateTimeType()
         );
 
-        var lastIssuedDate = medicationStatement1.getExtensionsByUrl(
+        var lastIssuedDate = result.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
         assertThat(lastIssuedDate).isEmpty();
 
-        var prescribingAgency = medicationStatement1
+        var prescribingAgency = result
             .getExtensionsByUrl("https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescribingAgency-1");
 
         assertAll(
             () -> assertThat(prescribingAgency).hasSize(1),
-            () -> assertThat(medicationStatement1.getTaken()).isEqualTo(UNK),
-            () -> assertThat(medicationStatement1.getStatus()).isEqualTo(ACTIVE),
-            () -> assertThat(medicationStatement1.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY),
-            () -> assertThat(medicationStatement1.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID),
-            () -> assertThat(medicationStatement1.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID)
+            () -> assertThat(result.getTaken()).isEqualTo(UNK),
+            () -> assertThat(result.getStatus()).isEqualTo(ACTIVE),
+            () -> assertThat(result.getDosageFirstRep().getText()).isEqualTo(TAKE_ONE_DAILY),
+            () -> assertThat(result.getBasedOnFirstRep().getReferenceElement().getIdPart()).isEqualTo(TEST_ID),
+            () -> assertThat(result.getMedicationReference().getReferenceElement().getIdPart()).isEqualTo(MEDICATION_ID)
         );
     }
 
