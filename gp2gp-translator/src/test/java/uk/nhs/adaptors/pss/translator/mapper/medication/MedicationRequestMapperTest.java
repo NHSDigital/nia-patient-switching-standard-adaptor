@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
+import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Medication;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
@@ -26,6 +27,7 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.SneakyThrows;
@@ -106,22 +108,9 @@ public class MedicationRequestMapperTest {
                 .createMedication(any());
 
         assertThat(resources).hasSize(EXPECTED_RESOURCES_MAPPED);
-        resources
-            .stream()
-            .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
-            .map(MedicationRequest.class::cast)
-            .forEach(medicationRequest ->
-                assertThat(medicationRequest.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID));
 
-        resources
-            .stream()
-            .filter(resource -> ResourceType.MedicationStatement.equals(resource.getResourceType()))
-            .map(MedicationStatement.class::cast)
-            .forEach(it -> {
-                assertThat(it.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID);
-                assertThat(it.getDateAssertedElement().getValue())
-                    .isEqualTo(EXPECTED_DATE_TIME_TYPE.getValue());
-            });
+        assertMedicationRequests(resources);
+        assertMedicationStatements(resources);
     }
 
     @Test
@@ -386,5 +375,46 @@ public class MedicationRequestMapperTest {
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
+    }
+
+    private void assertMedicationRequests(List<? extends DomainResource> resources) {
+        resources.stream()
+            .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
+            .map(MedicationRequest.class::cast)
+            .forEach(this::assertMedicationRequestIdIsPatientId);
+    }
+
+    private void assertMedicationStatements(List<? extends DomainResource> resources) {
+        resources.stream()
+            .filter(resource -> ResourceType.MedicationStatement.equals(resource.getResourceType()))
+            .map(MedicationStatement.class::cast)
+            .forEach(this::assertMedicationStatementDateAndIdIsPatient);
+    }
+
+    private void assertMedicationStatementDateAndIdIsPatient(MedicationStatement statement) {
+        final Date date = statement.getDateAssertedElement().getValue();
+
+        assertMedicationStatementIdIsPatientId(statement);
+        assertThat(date).isEqualTo(EXPECTED_DATE_TIME_TYPE.getValue());
+    }
+
+    private void assertMedicationStatementIdIsPatientId(MedicationStatement medicationStatement) {
+        final String medicationStatementId = medicationStatement
+            .getSubject()
+            .getResource()
+            .getIdElement()
+            .getIdPart();
+
+        assertThat(medicationStatementId).isEqualTo(PATIENT_ID);
+    }
+
+    private void assertMedicationRequestIdIsPatientId(MedicationRequest medicationRequest) {
+        final String medicationRequestId = medicationRequest
+            .getSubject()
+            .getResource()
+            .getIdElement()
+            .getIdPart();
+
+        assertThat(medicationRequestId).isEqualTo(PATIENT_ID);
     }
 }
