@@ -68,6 +68,7 @@ public class MedicationRequestPlanMapper {
     private final ConfidentialityService confidentialityService;
 
     public MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UKEhrExtract ehrExtract,
+                                                        RCMRMT030101UKEhrComposition ehrComposition,
                                                         RCMRMT030101UKMedicationStatement medicationStatement,
                                                         RCMRMT030101UKAuthorise supplyAuthorise,
                                                         String practiseCode) {
@@ -80,7 +81,8 @@ public class MedicationRequestPlanMapper {
 
             final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 MedicationMapperUtils.META_PROFILE,
-                medicationStatement.getConfidentialityCode()
+                medicationStatement.getConfidentialityCode(),
+                ehrComposition.getConfidentialityCode()
             );
 
             final MedicationRequest medicationRequest = (MedicationRequest) new MedicationRequest()
