@@ -77,8 +77,7 @@ public class ProcedureRequestMapperTest {
     private static final CV ALTERNATIVE_CV = TestUtility.createCv(
         "NOSCRUB",
         "http://hl7.org/fhir/v3/FakeCode",
-        "no scrubbing of the patient, family or caregivers without attending provider's authorization"
-                                                                 );
+        "no scrubbing of the patient, family or caregivers without attending provider's authorization");
 
     private static Stream<Arguments> planStatementStatuses() {
         return Stream.of(
