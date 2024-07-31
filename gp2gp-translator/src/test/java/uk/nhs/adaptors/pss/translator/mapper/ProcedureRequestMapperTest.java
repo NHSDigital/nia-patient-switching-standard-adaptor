@@ -169,7 +169,6 @@ public class ProcedureRequestMapperTest {
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
                                                                                          planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
-        assertNotNull(procedureRequest);
         assertMetaSecurityIsPresent(procedureRequest.getMeta());
     }
 
@@ -189,7 +188,6 @@ public class ProcedureRequestMapperTest {
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
                                                                                          planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
-        assertNotNull(procedureRequest);
         assertMetaSecurityIsPresent(procedureRequest.getMeta());
     }
 
@@ -213,7 +211,6 @@ public class ProcedureRequestMapperTest {
             ENCOUNTERS,
             PRACTISE_CODE);
 
-        assertNotNull(procedureRequest);
         assertMetaSecurityNotPresent(procedureRequest);
     }
 
