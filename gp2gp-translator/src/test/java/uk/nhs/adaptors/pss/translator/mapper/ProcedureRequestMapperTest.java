@@ -71,8 +71,7 @@ public class ProcedureRequestMapperTest {
     private static final CV NOPAT_CV = TestUtility.createCv(
         "NOPAT",
         "http://hl7.org/fhir/v3/ActCode",
-        "no disclosure to patient, family or caregivers without attending provider's authorization"
-    );
+        "no disclosure to patient, family or caregivers without attending provider's authorization");
 
     private static final CV ALTERNATIVE_CV = TestUtility.createCv(
         "NOSCRUB",
@@ -207,8 +206,12 @@ public class ProcedureRequestMapperTest {
             Optional.empty()
         )).thenReturn(ALTERNATIVE_META);
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
-                                                                                         planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
+        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(
+            ehrComposition,
+            planStatement,
+            SUBJECT,
+            ENCOUNTERS,
+            PRACTISE_CODE);
 
         assertNotNull(procedureRequest);
         assertMetaSecurityNotPresent(procedureRequest);
