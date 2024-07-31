@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.TestUtility.GET_EHR_COMPOSITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
@@ -483,6 +484,34 @@ class ReferralRequestMapperTest {
             () -> assertThat(result.getMeta()).usingRecursiveComparison().isEqualTo(metaWithSecurity),
             () -> assertThat(confidentialityCode.getCode()).isEqualTo(NOPAT),
             () -> assertThat(confidentialityCodeCaptor.getAllValues().get(1)).isNotPresent()
+        );
+    }
+
+    @Test
+    void When_MapToReferralRequest_With_NopatConfidentialityCodeWithinEhrComposition_Expect_MetaFromConfidentialityServiceWithSecurity() {
+        final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtractElement("full_valid_data_example_with_nopat_confidentiality_code_in_ehr_composition.xml");
+        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(metaWithSecurity);
+
+        final ReferralRequest result = mapReferralRequest(ehrExtract, ehrComposition,
+            composition -> composition.getComponent().get(0).getRequestStatement());
+
+        final CV confidentialityCode = confidentialityCodeCaptor
+            .getAllValues()
+            .get(1) // Second value (i.e. ehrComposition.getConfidentialityCode())
+            .orElseThrow();
+
+        assertAll(
+            () -> assertThat(result.getMeta()).usingRecursiveComparison().isEqualTo(metaWithSecurity),
+            () -> assertThat(confidentialityCode.getCode()).isEqualTo(NOPAT),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(0)).isNotPresent()
         );
     }
 
