@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllPlanStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
 import java.util.Objects;
@@ -100,7 +99,9 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
         procedureRequest.getIdentifier().add(buildIdentifier(id, practiceCode));
         procedureRequest.getNote().add(getNote(planStatement.getText()));
         procedureRequest.setCode(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode()));
-        procedureRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(), ehrComposition));
+        procedureRequest
+            .getRequester()
+            .setAgent(ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(), ehrComposition));
         setProcedureRequestContext(procedureRequest, ehrComposition, encounters);
     }
 
