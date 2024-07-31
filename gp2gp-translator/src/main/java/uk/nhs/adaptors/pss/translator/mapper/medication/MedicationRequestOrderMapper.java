@@ -7,7 +7,6 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildPrescriptionTypeExtension;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.createMedicationRequestSkeleton;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractSupplyAuthorise;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
@@ -17,10 +16,12 @@ import java.util.Optional;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPrescribe;
@@ -28,18 +29,20 @@ import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
 @AllArgsConstructor
 public class MedicationRequestOrderMapper {
-
     private static final String NHS_PRESCRIPTION = "NHS prescription";
     private static final String PRESCRIPTION_TYPE = "Prescription type: ";
 
     private final MedicationMapper medicationMapper;
+    private final ConfidentialityService confidentialityService;
 
     public MedicationRequest mapToOrderMedicationRequest(RCMRMT030101UKEhrExtract ehrExtract,
+                                                         RCMRMT030101UKEhrComposition ehrComposition,
                                                          RCMRMT030101UKMedicationStatement medicationStatement,
                                                          RCMRMT030101UKPrescribe supplyPrescribe,
                                                          String practiseCode) {
@@ -49,7 +52,16 @@ public class MedicationRequestOrderMapper {
 
         if (ehrSupplyPrescribeIdExtract.isPresent()) {
             var ehrSupplyPrescribeId = ehrSupplyPrescribeIdExtract.get();
-            MedicationRequest medicationRequest = createMedicationRequestSkeleton(ehrSupplyPrescribeId);
+
+            final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                MedicationMapperUtils.META_PROFILE,
+                ehrComposition.getConfidentialityCode(),
+                medicationStatement.getConfidentialityCode()
+            );
+
+            final MedicationRequest medicationRequest = (MedicationRequest) new MedicationRequest()
+                .setMeta(meta)
+                .setId(ehrSupplyPrescribeId);
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, practiseCode));
             medicationRequest.setStatus(COMPLETED);

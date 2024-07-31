@@ -7,6 +7,7 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -23,6 +24,7 @@ import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation2;
 import org.hl7.v3.RCMRMT030101UKSupplyAnnotation;
 import org.springframework.stereotype.Service;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 import java.util.ArrayList;
@@ -40,7 +42,6 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildDosageQuantity;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildNotes;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildPrescriptionTypeExtension;
-import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.createMedicationRequestSkeleton;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractMatchingDiscontinue;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
@@ -52,7 +53,6 @@ public class MedicationRequestPlanMapper {
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationRepeatInformation-1";
     private static final String STATUS_CHANGE_URL
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatusReason-1";
-
     private static final String REPEATS_ISSUED_URL = "numberOfRepeatPrescriptionsIssued";
     private static final String REPEATS_ALLOWED_URL = "numberOfRepeatPrescriptionsAllowed";
     private static final String REPEATS_EXPIRY_DATE_URL = "authorisationExpiryDate";
@@ -65,8 +65,10 @@ public class MedicationRequestPlanMapper {
     private static final String MISSING_REASON_STRING = "No information available";
 
     private final MedicationMapper medicationMapper;
+    private final ConfidentialityService confidentialityService;
 
     public MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UKEhrExtract ehrExtract,
+                                                        RCMRMT030101UKEhrComposition ehrComposition,
                                                         RCMRMT030101UKMedicationStatement medicationStatement,
                                                         RCMRMT030101UKAuthorise supplyAuthorise,
                                                         String practiseCode) {
@@ -76,7 +78,16 @@ public class MedicationRequestPlanMapper {
         if (ehrSupplyAuthoriseIdExtract.isPresent()) {
             var ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
             var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, ehrExtract);
-            MedicationRequest medicationRequest = createMedicationRequestSkeleton(ehrSupplyAuthoriseId);
+
+            final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                MedicationMapperUtils.META_PROFILE,
+                medicationStatement.getConfidentialityCode(),
+                ehrComposition.getConfidentialityCode()
+            );
+
+            final MedicationRequest medicationRequest = (MedicationRequest) new MedicationRequest()
+                .setMeta(meta)
+                .setId(ehrSupplyAuthoriseId);
 
             medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, practiseCode));
             medicationRequest.setIntent(PLAN);

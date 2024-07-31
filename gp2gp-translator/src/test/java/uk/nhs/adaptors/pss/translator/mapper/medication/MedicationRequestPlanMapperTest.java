@@ -2,35 +2,46 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.COMPLETED;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.STOPPED;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.TestUtility.GET_EHR_COMPOSITION;
+import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import jakarta.xml.bind.JAXBException;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
-import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.RCMRMT030101UKComponent2;
+import org.hl7.v3.CV;
+import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UKComponent4;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
-import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Named;
@@ -39,15 +50,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.FileFactory;
+import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @ExtendWith(MockitoExtension.class)
-public class MedicationRequestPlanMapperTest {
+class MedicationRequestPlanMapperTest {
 
     private static final String EHR_EXTRACT_WRAPPER = """
         <EhrExtract xmlns="urn:hl7-org:v3">
@@ -65,6 +82,7 @@ public class MedicationRequestPlanMapperTest {
         </EhrExtract>
         """;
 
+    private static final String META_PROFILE = "MedicationRequest-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String MEDICATION_ID = "MEDICATION_ID";
     private static final String TEST_ID = "TEST_ID";
@@ -80,26 +98,36 @@ public class MedicationRequestPlanMapperTest {
     private static final String PRESCRIPTION_TYPE_URL =
         "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1";
     private static final String DEFAULT_STATUS_REASON = "No information available";
+    private static final String STATUS_REASON = "statusReason";
 
     private static final int TWO = 2;
     private static final int SIX = 6;
     private static final int TWENTY_EIGHT = 28;
-    public static final String STATUS_REASON = "statusReason";
 
     @Mock
     private MedicationMapper medicationMapper;
-
+    @Mock
+    private ConfidentialityService confidentialityService;
     @InjectMocks
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
+    @Captor
+    private ArgumentCaptor<Optional<CV>> confidentialityCodeCaptor;
 
     @BeforeEach
-    public void setup() {
-        when(medicationMapper.extractMedicationReference(any()))
-            .thenReturn(Optional.of(new Reference(new IdType(ResourceType.Medication.name(), MEDICATION_ID))));
+    void setup() {
+        when(medicationMapper.extractMedicationReference(
+            any(RCMRMT030101UKMedicationStatement.class)
+        )).thenReturn(getReference());
+
+        Mockito.lenient().when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     @Test
-    public void When_MappingAuthoriseResourceWithAllOptionals_Expect_AllFieldsToBeMappedCorrectly() {
+    void When_MappingAuthoriseResourceWithAllOptionals_Expect_AllFieldsToBeMappedCorrectly() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -163,7 +191,7 @@ public class MedicationRequestPlanMapperTest {
                 </pertinentInformation>
             </MedicationStatement>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
 
         var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
         assertThat(repeatInformation).hasSize(1);
@@ -189,10 +217,12 @@ public class MedicationRequestPlanMapperTest {
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().hasStart()).isTrue();
         assertThat(medicationRequest.getDispenseRequest().getValidityPeriod().hasEnd()).isTrue();
         assertThat(medicationRequest.getPriorPrescription().getReferenceElement().getIdPart()).isEqualTo(TEST_ID);
+
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
-    public void When_MappingAuthoriseResourceWithNoEffectiveTime_Expect_NoExpiryDateExtensionAdded() {
+    void When_MappingAuthoriseResourceWithNoEffectiveTime_Expect_NoExpiryDateExtensionAdded() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -203,15 +233,18 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
-        var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
-        assertThat(repeatInformation).hasSize(1);
 
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
+        var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
+
+        assertThat(repeatInformation).hasSize(1);
         assertThat(repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL)).isEmpty();
+
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
-    public void When_MappingAuthoriseResourceEffectiveTimeWithNullHighValue_Expect_NoExpiryDateExtensionAdded() {
+    void When_MappingAuthoriseResourceEffectiveTimeWithNullHighValue_Expect_NoExpiryDateExtensionAdded() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -225,15 +258,18 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
-        final var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
-        assertThat(repeatInformation).hasSize(1);
 
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
+        final var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
+
+        assertThat(repeatInformation).hasSize(1);
         assertThat(repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL)).isEmpty();
+
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
-    public void When_MappingDiscontinueWithPertinentInformation_Expect_StatusReasonAdded() {
+    void When_MappingDiscontinueWithPertinentInformation_Expect_StatusReasonAdded() {
         var ehrSupplyDiscontinue = """
             <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
                 <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
@@ -250,13 +286,16 @@ public class MedicationRequestPlanMapperTest {
                 </pertinentInformation>
             </ehrSupplyDiscontinue>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
+
+        final String medicationStatementXml = medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue);
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
 
         assertStatusReasonIsEqualTo(medicationRequest, "Patient no longer requires these");
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
-    public void When_MappingDiscontinueWithCodeDisplayAndMissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
+    void When_MappingDiscontinueWithCodeDisplayAndMissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
         var ehrSupplyDiscontinue = """
             <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
                 <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
@@ -272,13 +311,16 @@ public class MedicationRequestPlanMapperTest {
                 </reversalOf>
             </ehrSupplyDiscontinue>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
+
+        final String medicationStatementXml = medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue);
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
 
         assertStatusReasonIsEqualTo(medicationRequest, DEFAULT_STATUS_REASON);
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
-    public void When_MappingDiscontinue_With_NoPertinentInformationAndHasCodeOriginalText_Expect_OriginalTextAndDefaultText() {
+    void When_MappingDiscontinue_With_NoPertinentInformationAndHasCodeOriginalText_Expect_OriginalTextAndDefaultText() {
         var ehrSupplyDiscontinue = """
             <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
                 <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
@@ -293,13 +335,16 @@ public class MedicationRequestPlanMapperTest {
                 </reversalOf>
             </ehrSupplyDiscontinue>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
+
+        final String medicationStatementXml = medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue);
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
 
         assertStatusReasonIsEqualTo(medicationRequest, "(Ended) " + DEFAULT_STATUS_REASON);
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
-    public void When_MappingDiscontinue_With_MissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
+    void When_MappingDiscontinue_With_MissingPertinentInformation_Expect_DefaultTextAddedAsReason() {
         var ehrSupplyDiscontinue = """
             <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
                 <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
@@ -311,24 +356,12 @@ public class MedicationRequestPlanMapperTest {
                 </reversalOf>
             </ehrSupplyDiscontinue>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
+
+        final String medicationStatementXml = medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue);
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
 
         assertStatusReasonIsEqualTo(medicationRequest, DEFAULT_STATUS_REASON);
-    }
-
-    private static Stream<Arguments> When_MappingDiscontinue_WithPertinentInformationAndOriginalText_Expect_StatusReasonIs() {
-        return Stream.of(
-            Arguments.of(Named.of("Different pertinent information and original text",
-                "Patient no longer requires these"), "Ended", "(Ended) Patient no longer requires these"),
-            Arguments.of(Named.of("Same pertinent information and original text doesn't duplicate",
-                "Ended"), "Ended", "Ended"),
-            Arguments.of(Named.of("Original text is a prefix of pertinent information doesn't duplicate",
-                "Prescribing error, incorrect dosage"), "Prescribing error", "Prescribing error, incorrect dosage"),
-            Arguments.of(Named.of("Different cases for pertinent information and original text",
-                "PRESCRIBING ERROR, incorrect dosage"), "Prescribing error", "(Prescribing error) PRESCRIBING ERROR, incorrect dosage"),
-            Arguments.of(Named.of("Original text is in middle of pertinent information",
-                "A, Prescribing error, B"), "Prescribing error", "(Prescribing error) A, Prescribing error, B")
-        );
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @ParameterizedTest @MethodSource void When_MappingDiscontinue_WithPertinentInformationAndOriginalText_Expect_StatusReasonIs(
@@ -353,13 +386,16 @@ public class MedicationRequestPlanMapperTest {
                 </pertinentInformation>
             </ehrSupplyDiscontinue>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue));
+
+        final String medicationStatementXml = medicationStatementFromEhrSupplyDiscontinue(ehrSupplyDiscontinue);
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
 
         assertStatusReasonIsEqualTo(medicationRequest, expectedReason);
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
-    public void When_MappingAuthoriseResource_WithActiveStatusAndNoDiscontinue_Expect_ActiveStatus() {
+    void When_MappingAuthoriseResource_WithActiveStatusAndNoDiscontinue_Expect_ActiveStatus() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -371,13 +407,16 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
+
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
 
         assertThat(medicationRequest.getStatus()).isEqualTo(ACTIVE);
+
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
-    public void When_MappingAuthoriseResource_WithCompleteStatusAndNoDiscontinue_Expect_CompletedStatus() {
+    void When_MappingAuthoriseResource_WithCompleteStatusAndNoDiscontinue_Expect_CompletedStatus() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -389,13 +428,16 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
+
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
 
         assertThat(medicationRequest.getStatus()).isEqualTo(COMPLETED);
+
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
-    public void When_MappingAuthoriseResource_With_NoDiscontinue_Expect_NoStatusReasonExtension() {
+    void When_MappingAuthoriseResource_With_NoDiscontinue_Expect_NoStatusReasonExtension() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -407,14 +449,16 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
 
         assertThat(statusExt).isEmpty();
+
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
     @Test
-    public void When_MappingDiscontinue_With_UnknownDate_Expect_DiscontinueIgnored() {
+    void When_MappingDiscontinue_With_UnknownDate_Expect_DiscontinueIgnored() {
         var medicationStatementXml = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -437,23 +481,164 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
-        var medicationRequest = mapPlanMedicationRequest(medicationStatementXml);
+        var medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatementXml);
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
 
         assertThat(medicationRequest.getStatus()).isEqualTo(COMPLETED);
         assertThat(statusExt).isEmpty();
+
+        assertMetaSecurityNotPresent(medicationRequest);
     }
 
-    private MedicationRequest mapPlanMedicationRequest(String medicationStatementXml) {
-        var ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        var medicationStatement = extractMedicationStatement(ehrExtract);
-        var supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+    @Test
+    void When_MappingAuthoriseResource_With_ConfidentialityCodeInEhrComposition_Expect_MetaPopulatedFromConfidentialityServiceWithSecurity()
+        throws JAXBException {
+        final Meta meta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final File file = FileFactory.getXmlFileFor(
+            "MedicationStatement",
+            "ehrExtract_nopatConfidentialityCodePresentWithinEhrComposition.xml"
+        );
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallFile(file, RCMRMT030101UKEhrExtract.class);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(meta);
+
+        final MedicationRequest medicationRequest = getMedicationRequestFromEhrExtract(ehrExtract);
+        final List<Extension> extensions = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+
+        assertAll(
+            () -> assertThat(extensions).isEmpty(),
+            () -> assertThat(medicationRequest.getMeta()).usingRecursiveComparison().isEqualTo(meta),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(0)).isEmpty(),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(1).orElseThrow().getCode()).isEqualTo("NOPAT")
+        );
+    }
+
+    @Test
+    void When_MappingAuthoriseResource_Expect_MetaPopulatedFromConfidentialityServiceWithSecurity() {
+        final Meta meta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final String medicationStatement = """
+            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
+                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <confidentialityCode
+                    code="NOPAT"
+                    codeSystem="2.16.840.1.113883.4.642.3.47"
+                    displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
+                <component typeCode="COMP">
+                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+                        <id root="TEST_ID"/>
+                        <statusCode code="COMPLETE"/>
+                    </ehrSupplyAuthorise>
+                </component>
+            </MedicationStatement>
+            """;
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(meta);
+
+        final MedicationRequest medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatement);
+        final List<Extension> extensions = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+
+        assertAll(
+            () -> assertThat(extensions).isEmpty(),
+            () -> assertThat(medicationRequest.getMeta()).usingRecursiveComparison().isEqualTo(meta),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(0).orElseThrow().getCode()).isEqualTo("NOPAT"),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(1)).isEmpty()
+        );
+    }
+
+    @Test
+    void When_MappingAuthoriseResource_Expect_MetaPopulatedFromConfidentialityServiceWithNoSecurity() {
+        final Meta meta = MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
+        final String medicationStatement = """
+            <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
+                <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
+                <confidentialityCode
+                    code="NOSCRUB"
+                    codeSystem="2.16.840.1.113883.4.642.3.47"
+                    displayName="no scrubbing of the patient, family or caregivers without attending provider's authorization" />
+                <component typeCode="COMP">
+                    <ehrSupplyAuthorise classCode="SPLY" moodCode="INT">
+                        <id root="TEST_ID"/>
+                        <statusCode code="COMPLETE"/>
+                    </ehrSupplyAuthorise>
+                </component>
+                <component typeCode="COMP">
+                    <ehrSupplyDiscontinue classCode="SPLY" moodCode="RQO">
+                        <id root="D0BF39CA-E656-4322-879F-83EE6E688053"/>
+                        <availabilityTime nullFlavor="UNK"/>
+                        <reversalOf typeCode="REV">
+                            <priorMedicationRef classCode="SBADM" moodCode="ORD">
+                                <id root="TEST_ID"/>
+                            </priorMedicationRef>
+                        </reversalOf>
+                    </ehrSupplyDiscontinue>
+                </component>
+            </MedicationStatement>
+            """;
+
+        final MedicationRequest medicationRequest = mapPlanMedicationRequestFromMedicationStatement(medicationStatement);
+        final List<Extension> extensions = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
+
+        assertAll(
+            () -> assertThat(medicationRequest.getStatus()).isEqualTo(COMPLETED),
+            () -> assertThat(extensions).isEmpty(),
+            () -> assertThat(medicationRequest.getMeta()).usingRecursiveComparison().isEqualTo(meta)
+        );
+    }
+
+    private MedicationRequest mapPlanMedicationRequestFromMedicationStatement(String medicationStatementXml) {
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
+        return getMedicationRequestFromEhrExtract(ehrExtract);
+    }
+
+    private MedicationRequest getMedicationRequestFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
+        final RCMRMT030101UKMedicationStatement medicationStatement = extractMedicationStatement(ehrExtract);
+        final RCMRMT030101UKAuthorise supplyAuthorise = extractSupplyAuthorise(medicationStatement);
+        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
 
         return medicationRequestPlanMapper.mapToPlanMedicationRequest(
             ehrExtract,
+            ehrComposition,
             medicationStatement,
             supplyAuthorise,
             PRACTISE_CODE
+        );
+    }
+
+    private void assertMetaSecurityNotPresent(MedicationRequest request) {
+        final Meta meta = request.getMeta();
+
+        assertAll(
+            () -> assertThat(meta.getSecurity()).isEmpty(),
+            () -> assertThat(meta.getProfile().get(0).getValue()).isEqualTo(META_PROFILE)
+        );
+
+        verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            eq(Optional.empty()),
+            eq(Optional.empty())
+        );
+    }
+
+    private static Stream<Arguments> When_MappingDiscontinue_WithPertinentInformationAndOriginalText_Expect_StatusReasonIs() {
+        return Stream.of(
+            Arguments.of(Named.of("Different pertinent information and original text",
+                "Patient no longer requires these"), "Ended", "(Ended) Patient no longer requires these"),
+            Arguments.of(Named.of("Same pertinent information and original text doesn't duplicate",
+                "Ended"), "Ended", "Ended"),
+            Arguments.of(Named.of("Original text is a prefix of pertinent information doesn't duplicate",
+                "Prescribing error, incorrect dosage"), "Prescribing error", "Prescribing error, incorrect dosage"),
+            Arguments.of(Named.of("Different cases for pertinent information and original text",
+                "PRESCRIBING ERROR, incorrect dosage"), "Prescribing error", "(Prescribing error) PRESCRIBING ERROR, incorrect dosage"),
+            Arguments.of(Named.of("Original text is in middle of pertinent information",
+                "A, Prescribing error, B"), "Prescribing error", "(Prescribing error) A, Prescribing error, B")
         );
     }
 
@@ -532,5 +717,12 @@ public class MedicationRequestPlanMapperTest {
                 </component>
             </MedicationStatement>
             """;
+    }
+
+    private Optional<Reference> getReference() {
+        final IdType idType = new IdType(ResourceType.Medication.name(), MEDICATION_ID);
+        final Reference reference = new Reference(idType);
+
+        return Optional.of(reference);
     }
 }
