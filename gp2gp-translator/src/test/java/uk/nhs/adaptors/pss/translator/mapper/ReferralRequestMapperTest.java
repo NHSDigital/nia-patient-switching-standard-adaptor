@@ -69,6 +69,7 @@ class ReferralRequestMapperTest {
     private static final String UNEXPECTED_PRIORITY_DISPLAY = "Delayed priority";
     private static final String PRIORITY_NOTE_PREPENDAGE = "Priority: ";
     private static final String NOPAT = "NOPAT";
+    private static final String NOSCRUB = "NOSCRUB";
     private static final String TEST_DIRECTORY_NAME = "RequestStatement";
 
     @Mock
@@ -464,6 +465,7 @@ class ReferralRequestMapperTest {
         final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtractElement("full_valid_data_example_with_nopat_confidentiality_code.xml");
+        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
@@ -471,8 +473,7 @@ class ReferralRequestMapperTest {
             confidentialityCodeCaptor.capture()
         )).thenReturn(metaWithSecurity);
 
-        final ReferralRequest result = mapReferralRequest(ehrExtract,
-            ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition(),
+        final ReferralRequest result = mapReferralRequest(ehrExtract, ehrComposition,
             composition -> composition.getComponent().get(0).getRequestStatement());
 
         final CV confidentialityCode = confidentialityCodeCaptor
@@ -512,6 +513,27 @@ class ReferralRequestMapperTest {
             () -> assertThat(result.getMeta()).usingRecursiveComparison().isEqualTo(metaWithSecurity),
             () -> assertThat(confidentialityCode.getCode()).isEqualTo(NOPAT),
             () -> assertThat(confidentialityCodeCaptor.getAllValues().get(0)).isNotPresent()
+        );
+    }
+
+    @Test
+    void When_MapToReferralRequest_With_NoscrubConfidentialityCode_Expect_MetaFromConfidentialityServiceWithoutSecurity() {
+        final Meta metaWithoutSecurity = MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtractElement("full_valid_data_example_with_noscrub_confidentiality_code.xml");
+        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
+
+        final ReferralRequest result = mapReferralRequest(ehrExtract, ehrComposition,
+            composition -> composition.getComponent().get(0).getRequestStatement());
+
+        final CV confidentialityCode = confidentialityCodeCaptor
+            .getAllValues()
+            .get(0) // First value
+            .orElseThrow();
+
+        assertAll(
+            () -> assertThat(result.getMeta()).usingRecursiveComparison().isEqualTo(metaWithoutSecurity),
+            () -> assertThat(confidentialityCode.getCode()).isEqualTo(NOSCRUB)
         );
     }
 
@@ -598,8 +620,8 @@ class ReferralRequestMapperTest {
     private void configureCommonStubs() {
         Mockito.lenient().when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
-            any(Optional.class),
-            any(Optional.class)
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
         )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 }
