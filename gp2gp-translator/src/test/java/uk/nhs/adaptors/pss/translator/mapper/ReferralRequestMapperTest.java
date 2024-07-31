@@ -54,7 +54,7 @@ import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 @ExtendWith(MockitoExtension.class)
 class ReferralRequestMapperTest {
 
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ReferralRequest-1";
+    private static final String META_PROFILE = "ReferralRequest-1";
     private static final String PRACTISE_CODE = "TEST_PRACTISE_CODE";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TEST_PRACTISE_CODE";
     private static final String EXAMPLE_ID = "B4303C92-4D1C-11E3-A2DD-010000000161";
