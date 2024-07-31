@@ -62,18 +62,14 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
             String practiseCode) {
 
         var id = planStatement.getId().getRoot();
-        Meta meta = createMeta(ehrComposition, planStatement);
+        Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            planStatement.getConfidentialityCode());
         var procedureRequest = buildBaseProcedureRequest(ehrComposition, planStatement, patient, id, meta);
         addAdditionalInformationToProcedureRequest(procedureRequest, planStatement, id, practiseCode, ehrComposition, encounters);
 
         return handleDegradedCode(procedureRequest);
-    }
-
-    private Meta createMeta(RCMRMT030101UKEhrComposition ehrComposition, RCMRMT030101UKPlanStatement planStatement) {
-        return confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            META_PROFILE,
-            ehrComposition.getConfidentialityCode(),
-            planStatement.getConfidentialityCode());
     }
 
     private ProcedureRequest handleDegradedCode(ProcedureRequest procedureRequest) {
