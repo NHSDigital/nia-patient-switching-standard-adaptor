@@ -18,12 +18,14 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
+import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -40,6 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
@@ -64,7 +67,18 @@ public class ProcedureRequestMapperTest {
     private static final List<Encounter> ENCOUNTERS = getEncounterList();
     private static final Patient SUBJECT = createPatient();
     private static final Meta META = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
-    private static final Meta NOSEC_META = MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
+    private static final Meta ALTERNATIVE_META = MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
+    private static final CV NOPAT_CV = TestUtility.createCv(
+        "NOPAT",
+        "http://hl7.org/fhir/v3/ActCode",
+        "no disclosure to patient, family or caregivers without attending provider's authorization"
+    );
+
+    private static final CV ALTERNATIVE_CV = TestUtility.createCv(
+        "NOSCRUB",
+        "http://hl7.org/fhir/v3/FakeCode",
+        "no scrubbing of the patient, family or caregivers without attending provider's authorization"
+                                                                 );
 
     private static Stream<Arguments> planStatementStatuses() {
         return Stream.of(
@@ -143,15 +157,10 @@ public class ProcedureRequestMapperTest {
     public void mapProcedureRequestMetaSecurityWithNoPatWhenConfidentialityCodeIsPresentForPlanStatementAndEhrComposition() {
         var ehrExtract = unmarshallCodeElement("no_optional_data_example.xml");
 
-        final CV cv = new CV();
-        cv.setCode("NOPAT");
-        cv.setCodeSystem("http://hl7.org/fhir/v3/FakeCode");
-        cv.setDisplayName("no scrubbing of the patient, family or caregivers without attending provider's authorization");
-
         var planStatement = getPlanStatement(ehrExtract);
-        planStatement.setConfidentialityCode(cv);
+        planStatement.setConfidentialityCode(NOPAT_CV);
         var ehrComposition = getEhrComposition(ehrExtract);
-        ehrComposition.setConfidentialityCode(cv);
+        ehrComposition.setConfidentialityCode(NOPAT_CV);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
@@ -163,26 +172,15 @@ public class ProcedureRequestMapperTest {
                                                                                          planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertNotNull(procedureRequest);
-        assertThat(procedureRequest.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
-        assertEquals("NOPAT", procedureRequest.getMeta().getSecurity().get(0).getCode());
-        assertEquals("http://hl7.org/fhir/v3/ActCode",
-                     procedureRequest.getMeta().getSecurity().get(0).getSystem());
-        assertEquals("no disclosure to patient, family or caregivers without attending provider's authorization",
-                     procedureRequest.getMeta().getSecurity().get(0).getDisplay());
+        assertMetaSecurityIsPresent(procedureRequest.getMeta());
     }
 
     @Test
     public void mapProcedureRequestMetaSecurityWithNoPatWhenConfidentialityCodeIsPresentOnlyForEhrComposition() {
         var ehrExtract = unmarshallCodeElement("no_optional_data_example.xml");
-
-        final CV cv = new CV();
-        cv.setCode("NOPAT");
-        cv.setCodeSystem("http://hl7.org/fhir/v3/FakeCode");
-        cv.setDisplayName("no scrubbing of the patient, family or caregivers without attending provider's authorization");
-
         var planStatement = getPlanStatement(ehrExtract);
         var ehrComposition = getEhrComposition(ehrExtract);
-        ehrComposition.setConfidentialityCode(cv);
+        ehrComposition.setConfidentialityCode(NOPAT_CV);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
@@ -194,38 +192,26 @@ public class ProcedureRequestMapperTest {
                                                                                          planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertNotNull(procedureRequest);
-        assertEquals(META_PROFILE, procedureRequest.getMeta().getProfile().get(0).getValue());
-        assertEquals("NOPAT", procedureRequest.getMeta().getSecurity().get(0).getCode());
-        assertEquals("http://hl7.org/fhir/v3/ActCode",
-                     procedureRequest.getMeta().getSecurity().get(0).getSystem());
-        assertEquals("no disclosure to patient, family or caregivers without attending provider's authorization",
-                     procedureRequest.getMeta().getSecurity().get(0).getDisplay());
+        assertMetaSecurityIsPresent(procedureRequest.getMeta());
     }
 
     @Test
     public void mapProcedureRequestMetaSecurityWithNoScrubWhenConfidentialityCodeIsNotPresent() {
         var ehrExtract = unmarshallCodeElement("no_optional_data_example.xml");
-
-        final CV cv = new CV();
-        cv.setCode("NOSCRUB");
-        cv.setCodeSystem("http://hl7.org/fhir/v3/FakeCode");
-        cv.setDisplayName("no scrubbing of the patient, family or caregivers without attending provider's authorization");
-
         var planStatement = getPlanStatement(ehrExtract);
         var ehrComposition = getEhrComposition(ehrExtract);
-        ehrComposition.setConfidentialityCode(cv);
+        ehrComposition.setConfidentialityCode(ALTERNATIVE_CV);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             Optional.empty()
-        )).thenReturn(NOSEC_META);
+        )).thenReturn(ALTERNATIVE_META);
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
                                                                                          planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertNotNull(procedureRequest);
-        assertEquals(META_PROFILE, procedureRequest.getMeta().getProfile().get(0).getValue());
         assertMetaSecurityNotPresent(procedureRequest);
     }
 
@@ -418,6 +404,21 @@ public class ProcedureRequestMapperTest {
         assertThat(procedureRequest.getStatus()).isEqualTo(ProcedureRequestStatus.UNKNOWN);
     }
 
+    private void assertMetaSecurityIsPresent(final Meta meta) {
+        final List<Coding> metaSecurity = meta.getSecurity();
+        final int metaSecuritySize = metaSecurity.size();
+        final Coding metaSecurityCoding = metaSecurity.get(0);
+        final UriType metaProfile = meta.getProfile().get(0);
+
+        assertAll(
+            () -> assertThat(metaSecuritySize).isEqualTo(1),
+            () -> assertThat(metaProfile.getValue()).isEqualTo(META_PROFILE),
+            () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
+            () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
+            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem())
+        );
+    }
+
     private void assertMetaSecurityNotPresent(ProcedureRequest request) {
         final Meta meta = request.getMeta();
 
@@ -425,7 +426,6 @@ public class ProcedureRequestMapperTest {
             () -> assertThat(meta.getSecurity()).isEmpty(),
             () -> assertEquals(META_PROFILE, meta.getProfile().get(0).getValue())
         );
-
     }
 
     private void assertFixedValues(RCMRMT030101UKPlanStatement planStatement, ProcedureRequest procedureRequest) {
