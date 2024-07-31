@@ -20,6 +20,10 @@ public final class MetaFactory {
         };
     }
 
+    public static Coding getNopatCoding() {
+        return NOPAT_CODING;
+    }
+
     private static Meta getBaseMeta(final String profile) {
         return new Meta().setProfile(
             Collections.singletonList(

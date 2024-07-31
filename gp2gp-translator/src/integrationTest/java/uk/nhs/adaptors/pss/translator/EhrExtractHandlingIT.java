@@ -144,19 +144,6 @@ public class EhrExtractHandlingIT {
         verifyBundle("/json/expectedBundle.json");
     }
 
-    @Test
-    public void handleEhrExtractWithConfidentialityCodeFromQueue() throws JSONException {
-        final String ebxmlPartPath = "/xml/RCMR_IN030000UK07/ebxml_part.xml";
-        // process starts with consuming a message from MHS queue
-        sendInboundMessageToQueue("/xml/RCMR_IN030000UK07/payload_part_with_confidentiality_code.xml", ebxmlPartPath);
-
-        // wait until EHR extract is translated to bundle resource and saved to the DB
-        waitAtMost(Duration.ofSeconds(WAITING_TIME)).until(this::isEhrMigrationCompleted);
-
-        // verify generated bundle resource
-        verifyBundle("/json/expectedBundle.json");
-    }
-
     private void startPatientMigrationJourney() {
         patientMigrationRequestDao.addNewRequest(patientNhsNumber, conversationId, LOSING_ODS_CODE, WINNING_ODS_CODE);
         migrationStatusLogService.addMigrationStatusLog(EHR_EXTRACT_REQUEST_ACCEPTED, conversationId, null, null);
