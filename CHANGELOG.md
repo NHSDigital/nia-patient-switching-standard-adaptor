@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Added
 * If a `medicationStatement` or `medicationRequest` record includes a `confidentialityCode`, the `meta.security` field of the
 corresponding FHIR resource will now be [appropriately populated][nopat-docs].
+* If a `procedureRequest` record includes a `confidentialityCode`, the `meta.security` field of the
+    corresponding FHIR resource will now be [appropriately populated][nopat-docs].
 
 ### Fixed
 * Resolved issue where the SNOMED import script would reject a password containing a '%' character.
