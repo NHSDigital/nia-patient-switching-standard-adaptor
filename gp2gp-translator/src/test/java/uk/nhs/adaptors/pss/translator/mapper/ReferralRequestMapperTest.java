@@ -63,7 +63,7 @@ class ReferralRequestMapperTest {
     private static final String CODING_DISPLAY = "Reason Code 1";
     private static final String ENCOUNTER_ID = "72A39454-299F-432E-993E-5A6232B4E099";
     private static final String PATIENT_ID = "AD99032E-F103-46C0-BA6D-659C7947ECAF";
-    private static final String SNOMED_SYSTEM = "https://snomed.info/sct";
+    private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
     private static final String REASON_CODE_1 = "183885007";
     private static final String UNEXPECTED_PRIORITY_DISPLAY = "Delayed priority";
     private static final String PRIORITY_NOTE_PREPENDAGE = "Priority: ";
