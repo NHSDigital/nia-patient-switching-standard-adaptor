@@ -41,7 +41,6 @@ import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
@@ -441,11 +440,9 @@ class ConditionMapperTest {
     }
 
     private void assertAllConditionsHaveMeta(List<Condition> conditions, Meta expectedMeta) {
-        final Executable[] executables = conditions.stream()
-            .map(condition -> (Executable) (() -> assertThat(condition.getMeta()).usingRecursiveComparison().isEqualTo(expectedMeta)))
-            .toArray(Executable[]::new);
-
-        assertAll(executables);
+        assertAll(conditions.stream().map(condition ->
+            () -> assertThat(condition.getMeta()).usingRecursiveComparison().isEqualTo(expectedMeta)
+        ));
     }
 
     @SneakyThrows
