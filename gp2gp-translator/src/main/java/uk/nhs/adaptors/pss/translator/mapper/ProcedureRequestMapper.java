@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllPlanStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
@@ -40,6 +41,7 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
     private static final String STATUS_SEEN = "status: seen";
 
     private final CodeableConceptMapper codeableConceptMapper;
+    private final ConfidentialityService confidentialityService;
 
     public List<ProcedureRequest> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                                String practiseCode) {
@@ -57,35 +59,63 @@ public class ProcedureRequestMapper extends AbstractMapper<ProcedureRequest> {
             RCMRMT030101UKPlanStatement planStatement,
             Patient patient,
             List<Encounter> encounters,
-            String practiseCode
-    ) {
+            String practiseCode) {
 
         var id = planStatement.getId().getRoot();
-        var procedureRequest = new ProcedureRequest();
-        procedureRequest
-            .setStatus(getStatus(planStatement.getText()))
-            .setIntent(ProcedureRequestIntent.PLAN)
-            .setAuthoredOnElement(getAuthoredOn(planStatement.getAvailabilityTime(), ehrComposition))
-            .setOccurrence(getOccurrenceDate(planStatement.getEffectiveTime()))
-            .setSubject(new Reference(patient))
-            .setMeta(generateMeta(META_PROFILE))
-            .setId(id);
-        procedureRequest.getIdentifier().add(buildIdentifier(id, practiseCode));
-        procedureRequest.getNote().add(getNote(planStatement.getText()));
-        procedureRequest.setCode(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode()));
-        procedureRequest.getRequester().setAgent(ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(),
-            ehrComposition));
+        Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            planStatement.getConfidentialityCode());
+        var procedureRequest = buildBaseProcedureRequest(ehrComposition, planStatement, patient, id, meta);
+        addAdditionalInformationToProcedureRequest(procedureRequest, planStatement, id, practiseCode, ehrComposition, encounters);
 
-        setProcedureRequestContext(procedureRequest, ehrComposition, encounters);
+        return handleDegradedCode(procedureRequest);
+    }
 
+    private ProcedureRequest handleDegradedCode(ProcedureRequest procedureRequest) {
         if (procedureRequest.getCode() == null) {
             return procedureRequest;
         }
 
         DegradedCodeableConcepts.addDegradedEntryIfRequired(
-                procedureRequest.getCode(),
-                DegradedCodeableConcepts.DEGRADED_PLAN);
+            procedureRequest.getCode(),
+            DegradedCodeableConcepts.DEGRADED_PLAN);
 
+        return procedureRequest;
+    }
+
+    private void addAdditionalInformationToProcedureRequest(
+        ProcedureRequest procedureRequest,
+        RCMRMT030101UKPlanStatement planStatement,
+        String id,
+        String practiceCode,
+        RCMRMT030101UKEhrComposition ehrComposition,
+        List<Encounter> encounters) {
+
+        procedureRequest.getIdentifier().add(buildIdentifier(id, practiceCode));
+        procedureRequest.getNote().add(getNote(planStatement.getText()));
+        procedureRequest.setCode(codeableConceptMapper.mapToCodeableConcept(planStatement.getCode()));
+        procedureRequest
+            .getRequester()
+            .setAgent(ParticipantReferenceUtil.getParticipantReference(planStatement.getParticipant(), ehrComposition));
+        setProcedureRequestContext(procedureRequest, ehrComposition, encounters);
+    }
+
+    private ProcedureRequest buildBaseProcedureRequest(
+        RCMRMT030101UKEhrComposition ehrComposition,
+        RCMRMT030101UKPlanStatement planStatement,
+        Patient patient,
+        String id,
+        Meta meta) {
+
+        var procedureRequest = new ProcedureRequest();
+        procedureRequest.setStatus(getStatus(planStatement.getText()))
+                        .setIntent(ProcedureRequestIntent.PLAN)
+                        .setAuthoredOnElement(getAuthoredOn(planStatement.getAvailabilityTime(), ehrComposition))
+                        .setOccurrence(getOccurrenceDate(planStatement.getEffectiveTime()))
+                        .setSubject(new Reference(patient))
+                        .setMeta(meta)
+                        .setId(id);
         return procedureRequest;
     }
 
