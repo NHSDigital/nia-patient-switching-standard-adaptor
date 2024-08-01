@@ -1,31 +1,43 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
@@ -44,6 +56,10 @@ public class ImmunizationMapperTest {
     private static final int THREE = 3;
     private static final String PATIENT_ID = "9A5D5A78-1F63-434C-9637-1D7E7843341B";
     private static final String ENCOUNTER_ID = "62A39454-299F-432E-993E-5A6232B4E099";
+    public static final String NOPAT_DISPLAY = "no disclosure to patient, family or caregivers without attending provider's authorization";
+    public static final String NOPAT_OID_CODESYSTEM = "2.16.840.1.113883.4.642.3.47";
+    public static final String NOPAT_CODE = "NOPAT";
+    public static final String NOPAT_URL_CODESYSTEM = "http://hl7.org/fhir/v3/ActCode";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -54,9 +70,15 @@ public class ImmunizationMapperTest {
     @InjectMocks
     private ImmunizationMapper immunizationMapper;
 
+    @Mock
+    private ConfidentialityService confidentialityService;
+
+    @Captor
+    private ArgumentCaptor<Optional<CV>> confidentialityCodeCaptor;
+
     @BeforeEach
     public void setup() {
-        setUpCodeableConceptMock();
+        configureDefaultStubs();
     }
 
     @Test
@@ -93,13 +115,13 @@ public class ImmunizationMapperTest {
 
         var immunization = (Immunization) immunizationList.get(0);
         assertEquals("Practitioner/E7E7B550-09EF-BE85-C20F-34598014166C",
-                                    immunization.getPractitioner().get(0).getActor().getReference());
+            immunization.getPractitioner().get(0).getActor().getReference());
         assertEquals("EP",
-                     immunization.getPractitioner().get(0).getRole().getCoding().get(0).getCode());
+            immunization.getPractitioner().get(0).getRole().getCoding().get(0).getCode());
         assertEquals("http://hl7.org/fhir/stu3/valueset-immunization-role.html",
-                     immunization.getPractitioner().get(0).getRole().getCoding().get(0).getSystem());
+            immunization.getPractitioner().get(0).getRole().getCoding().get(0).getSystem());
         assertEquals("Practitioner/9A5D5A78-1F63-434C-9637-1D7E7843341B",
-                                    immunization.getPractitioner().get(1).getActor().getReference());
+            immunization.getPractitioner().get(1).getActor().getReference());
         assertNull(immunization.getPractitioner().get(1).getRole().getText());
     }
 
@@ -111,7 +133,7 @@ public class ImmunizationMapperTest {
         var immunization = (Immunization) immunizationList.get(0);
         assertEquals(1, immunization.getPractitioner().size());
         assertEquals("Practitioner/9A5D5A78-1F63-434C-9637-1D7E7843341B",
-                     immunization.getPractitioner().get(0).getActor().getReference());
+            immunization.getPractitioner().get(0).getActor().getReference());
         assertNull(immunization.getPractitioner().get(0).getRole().getText());
     }
 
@@ -183,6 +205,90 @@ public class ImmunizationMapperTest {
         assertImmunizationWithDefaultVaccineCode(immunization);
     }
 
+    @Test
+    public void When_EhrCompositionWithNoPatConfidentialityCode_Expect_MetaFromConfidentialityServiceWithSecurity() {
+        final var metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        when(
+            confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                eq("Immunization-1"),
+                confidentialityCodeCaptor.capture(),
+                confidentialityCodeCaptor.capture()
+            )
+        ).thenReturn(metaWithSecurity);
+        final var ehrExtract = unmarshallEhrExtract("immunization_with_ehrComposition_nopat_confidentiality_code.xml");
+
+        List<Immunization> immunizations = immunizationMapper.mapResources(
+            ehrExtract, getPatient(),
+            getEncounterList(), PRACTISE_CODE
+        );
+        var securityMeta = immunizations
+            .get(0)
+            .getMeta()
+            .getSecurity(NOPAT_URL_CODESYSTEM, NOPAT_CODE);
+
+        assertAll(
+            () -> {
+                assertThat(confidentialityCodeCaptor.getAllValues().get(0).isPresent())
+                    .isTrue();
+                assertThat(confidentialityCodeCaptor.getAllValues().get(0).get())
+                    .usingRecursiveComparison()
+                    .isEqualTo(getNoPatCV());
+            },
+            () -> {
+                assertThat(securityMeta).
+                    isNotNull();
+                assertThat(securityMeta.getDisplay())
+                    .isEqualTo(NOPAT_DISPLAY);
+            }
+        );
+    }
+
+    @Test
+    public void When_ObservationWithNoPatConfidentialityCode_Expect_MetaFromConfidentialityServiceWithSecurity() {
+        final var metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        when(
+            confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                eq("Immunization-1"),
+                confidentialityCodeCaptor.capture(),
+                confidentialityCodeCaptor.capture()
+            )
+        ).thenReturn(metaWithSecurity);
+        final var ehrExtract = unmarshallEhrExtract("immunization_with_observation_nopat_confidentiality_code.xml");
+
+        List<Immunization> immunizations = immunizationMapper.mapResources(
+            ehrExtract, getPatient(),
+            getEncounterList(), PRACTISE_CODE
+        );
+        var securityMeta = immunizations
+            .get(0)
+            .getMeta()
+            .getSecurity(NOPAT_URL_CODESYSTEM, NOPAT_CODE);
+
+        assertAll(
+            () -> {
+                assertThat(confidentialityCodeCaptor.getAllValues().get(1).isPresent())
+                    .isTrue();
+                assertThat(confidentialityCodeCaptor.getAllValues().get(1).get())
+                    .usingRecursiveComparison()
+                    .isEqualTo(getNoPatCV());
+            },
+            () -> {
+                assertThat(securityMeta).
+                    isNotNull();
+                assertThat(securityMeta.getDisplay())
+                    .isEqualTo(NOPAT_DISPLAY);
+            }
+        );
+    }
+
+    private static @NotNull CV getNoPatCV() {
+        final var cv = new CV();
+        cv.setCode(ImmunizationMapperTest.NOPAT_CODE);
+        cv.setCodeSystem(ImmunizationMapperTest.NOPAT_OID_CODESYSTEM);
+        cv.setDisplayName(ImmunizationMapperTest.NOPAT_DISPLAY);
+        return cv;
+    }
+
     private void assertImmunizationWithHighAndLowEffectiveTime(Immunization immunization) {
 
         assertEquals(DateFormatUtil.parseToDateTimeType("20110118114100000").getValue(), immunization.getDateElement().getValue());
@@ -245,11 +351,19 @@ public class ImmunizationMapperTest {
         assertEquals(id, identifier.getValue());
     }
 
-    private void setUpCodeableConceptMock() {
+    private void configureDefaultStubs() {
 
-        var codeableConcept = createCodeableConcept(null, null, CODING_DISPLAY);
-        when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
-        when(immunizationChecker.isImmunization(any())).thenReturn(true);
+        when(codeableConceptMapper.mapToCodeableConcept(any()))
+            .thenReturn(createCodeableConcept(null, null, CODING_DISPLAY));
+        when(immunizationChecker.isImmunization(any()))
+            .thenReturn(true);
+        lenient()
+            .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                eq("Immunization-1"),
+                eq(Optional.empty()),
+                eq(Optional.empty())
+            ))
+            .thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     private Patient getPatient() {
