@@ -188,7 +188,7 @@ public class BundleMapperServiceTest {
         verify(allergyIntoleranceMapper).mapResources(any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(), anyString());
         verify(diagnosticReportMapper).mapResources(
             any(RCMRMT030101UKEhrExtract.class), any(Patient.class), anyList(), any(String.class), any(ArrayList.class));
-        verify(specimenMapper).mapSpecimen(any(RCMRMT030101UKEhrExtract.class), anyList(), any(Patient.class), anyString());
+        verify(specimenMapper).mapSpecimens(any(RCMRMT030101UKEhrExtract.class), anyList(), any(Patient.class), anyString());
         verify(diagnosticReportMapper).handleChildObservationComments(any(RCMRMT030101UKEhrExtract.class), anyList());
         verify(specimenCompoundsMapper).handleSpecimenChildComponents(
             any(RCMRMT030101UKEhrExtract.class), anyList(), anyList(), anyList(), any(Patient.class), anyList(), anyString()

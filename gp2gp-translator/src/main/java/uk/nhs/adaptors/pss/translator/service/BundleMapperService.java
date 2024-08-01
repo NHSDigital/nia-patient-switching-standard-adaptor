@@ -170,9 +170,9 @@ public class BundleMapperService {
 
         diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);
 
-        var specimen = specimenMapper.mapSpecimen(ehrExtract, diagnosticReports, patient, practiceCode);
+        var specimens = specimenMapper.mapSpecimens(ehrExtract, diagnosticReports, patient, practiceCode);
         addEntries(bundle, diagnosticReports);
-        addEntries(bundle, specimen);
+        addEntries(bundle, specimens);
 
         observationComments = specimenMapper.removeSurplusObservationComments(ehrExtract, observationComments);
 
