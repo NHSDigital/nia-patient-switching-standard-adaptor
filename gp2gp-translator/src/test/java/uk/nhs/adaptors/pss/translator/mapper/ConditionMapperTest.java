@@ -41,6 +41,7 @@ import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
@@ -81,10 +82,10 @@ class ConditionMapperTest {
     private static final String AUTHORISE_ID = "AUTHORISE_ID";
     private static final String MEDICATION_STATEMENT_ORDER_ID = "ORDER_REF_ID";
     private static final String PRESCRIBE_ID = "PRESCRIBE_ID";
-    static final String NAMED_STATEMENT_REF_ID = "NAMED_STATEMENT_REF_ID";
-    static final String STATEMENT_REF_ID = "STATEMENT_REF_ID";
-    static final String STATEMENT_REF_ID_1 = "STATEMENT_REF_ID_1";
-    static final int EXPECTED_NUMBER_OF_EXTENSIONS = 4;
+    private static final String NAMED_STATEMENT_REF_ID = "NAMED_STATEMENT_REF_ID";
+    private static final String STATEMENT_REF_ID = "STATEMENT_REF_ID";
+    private static final String STATEMENT_REF_ID_1 = "STATEMENT_REF_ID_1";
+    private static final int EXPECTED_NUMBER_OF_EXTENSIONS = 4;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
@@ -440,7 +441,11 @@ class ConditionMapperTest {
     }
 
     private void assertAllConditionsHaveMeta(List<Condition> conditions, Meta expectedMeta) {
-        conditions.forEach(condition -> assertThat(condition.getMeta()).usingRecursiveComparison().isEqualTo(expectedMeta));
+        final Executable[] executables = conditions.stream()
+            .map(condition -> (Executable) (() -> assertThat(condition.getMeta()).usingRecursiveComparison().isEqualTo(expectedMeta)))
+            .toArray(Executable[]::new);
+
+        assertAll(executables);
     }
 
     @SneakyThrows
