@@ -327,7 +327,7 @@ class ConditionMapperTest {
             .get(0) // linkSet.getConfidentialityCode()
             .orElseThrow();
 
-        assertConditionsMetaIsExpected(conditions, metaWithSecurity);
+        assertAllConditionsHaveMeta(conditions, metaWithSecurity);
         assertAll(
             () -> assertThat(linksetConfidentialityCode.getCode()).isEqualTo(NOPAT),
             () -> assertThat(confidentialityCodeCaptor.getAllValues().get(1)).isNotPresent()
@@ -354,7 +354,7 @@ class ConditionMapperTest {
             .get(1) // ehrComposition.getConfidentialityCode()
             .orElseThrow();
 
-        assertConditionsMetaIsExpected(conditions, metaWithSecurity);
+        assertAllConditionsHaveMeta(conditions, metaWithSecurity);
         assertAll(
             () -> assertThat(ehrCompositionConfidentialityCode.getCode()).isEqualTo(NOPAT),
             () -> assertThat(confidentialityCodeCaptor.getAllValues().get(0)).isNotPresent()
@@ -439,7 +439,7 @@ class ConditionMapperTest {
                 .setResource(new Observation().setId(STATEMENT_REF_ID_1)));
     }
 
-    private void assertConditionsMetaIsExpected(List<Condition> conditions, Meta expectedMeta) {
+    private void assertAllConditionsHaveMeta(List<Condition> conditions, Meta expectedMeta) {
         conditions.forEach(condition -> assertThat(condition.getMeta()).usingRecursiveComparison().isEqualTo(expectedMeta));
     }
 
