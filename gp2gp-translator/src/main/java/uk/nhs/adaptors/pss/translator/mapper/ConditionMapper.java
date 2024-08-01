@@ -7,7 +7,6 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllLinkSets;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildReferenceExtension;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +29,7 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -55,6 +55,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
@@ -84,8 +85,10 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     public static final String CARE_CONNECT_URL = "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1";
     public static final String PROBLEM_LIST_ITEM_CODE = "problem-list-item";
     public static final String PROBLEM_LIST_ITEM_DISPLAY = "Problem List Item";
+
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
+    private final ConfidentialityService confidentialityService;
 
     public List<Condition> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                         String practiseCode) {
@@ -107,11 +110,18 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                                    RCMRMT030101UKLinkSet linkSet, String practiseCode) {
 
         String id = linkSet.getId().getRoot();
+
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            linkSet.getConfidentialityCode(),
+            composition.getConfidentialityCode()
+        );
+
         Condition condition = (Condition) new Condition()
             .addIdentifier(buildIdentifier(id, practiseCode))
             .addCategory(generateCategory())
             .setId(id)
-            .setMeta(generateMeta(META_PROFILE));
+            .setMeta(meta);
 
         buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
             condition::setClinicalStatus,

@@ -3,11 +3,13 @@ package uk.nhs.adaptors.pss.translator.service;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.UriType;
+
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
-
+import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import uk.nhs.adaptors.pss.translator.TestUtility;
@@ -152,6 +154,82 @@ class ConfidentialityServiceTest {
         );
 
         assertMetaSecurityIsNotPresent(result);
+    }
+
+    @Test
+    void When_LinksetWithNopatConfidentialityCodePresent_Expect_SecurityAddedToMeta() {
+        final RCMRMT030101UKLinkSet linkSet = new RCMRMT030101UKLinkSet();
+        linkSet.setConfidentialityCode(NOPAT_CV);
+
+        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DUMMY_PROFILE,
+            linkSet.getConfidentialityCode()
+        );
+
+        assertMetaSecurityIsPresent(result);
+    }
+
+    @Test
+    void When_LinksetWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
+        final RCMRMT030101UKLinkSet linkSet = new RCMRMT030101UKLinkSet();
+        linkSet.setConfidentialityCode(ALTERNATIVE_CV);
+
+        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DUMMY_PROFILE,
+            linkSet.getConfidentialityCode()
+        );
+
+        assertMetaSecurityIsNotPresent(result);
+    }
+
+    @Test
+    void When_LinksetWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
+        final RCMRMT030101UKLinkSet linkSet = new RCMRMT030101UKLinkSet();
+
+        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DUMMY_PROFILE,
+            linkSet.getConfidentialityCode()
+        );
+
+        assertMetaSecurityIsNotPresent(result);
+    }
+
+    @Test
+    void When_RequestStatementWithNopatConfidentialityCodePresent_Expect_SecurityAddedToMeta() {
+        final RCMRMT030101UKRequestStatement requestStatement = new RCMRMT030101UKRequestStatement();
+        requestStatement.setConfidentialityCode(NOPAT_CV);
+
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DUMMY_PROFILE,
+            requestStatement.getConfidentialityCode()
+        );
+
+        assertMetaSecurityIsPresent(meta);
+    }
+
+    @Test
+    void When_RequestStatementWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
+        final RCMRMT030101UKRequestStatement requestStatement = new RCMRMT030101UKRequestStatement();
+        requestStatement.setConfidentialityCode(ALTERNATIVE_CV);
+
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DUMMY_PROFILE,
+            requestStatement.getConfidentialityCode()
+        );
+
+        assertMetaSecurityIsNotPresent(meta);
+    }
+
+    @Test
+    void When_RequestStatementWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
+        final RCMRMT030101UKRequestStatement requestStatement = new RCMRMT030101UKRequestStatement();
+
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DUMMY_PROFILE,
+            requestStatement.getConfidentialityCode()
+        );
+
+        assertMetaSecurityIsNotPresent(meta);
     }
 
     private void assertMetaSecurityIsPresent(final Meta meta) {
