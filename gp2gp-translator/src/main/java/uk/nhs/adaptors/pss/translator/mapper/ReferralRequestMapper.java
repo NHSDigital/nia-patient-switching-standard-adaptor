@@ -5,7 +5,6 @@ import static org.hl7.fhir.dstu3.model.ReferralRequest.ReferralPriorityEnumFacto
 
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
@@ -34,6 +34,7 @@ import org.hl7.v3.TS;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
@@ -57,6 +58,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
 
     private CodeableConceptMapper codeableConceptMapper;
+    private ConfidentialityService confidentialityService;
 
     public List<ReferralRequest> mapResources(RCMRMT030101UKEhrExtract ehrExtract,
                                               Patient patient,
@@ -87,8 +89,14 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
         var referralPriority = getReferralPriority(requestStatement);
 
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            requestStatement.getConfidentialityCode(),
+            ehrComposition.getConfidentialityCode()
+        );
+
         referralRequest.setId(id);
-        referralRequest.setMeta(generateMeta(META_PROFILE));
+        referralRequest.setMeta(meta);
         referralRequest.getIdentifier().add(identifier);
         referralRequest.setStatus(ReferralRequestStatus.UNKNOWN);
         referralRequest.setIntent(ReferralCategory.ORDER);

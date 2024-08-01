@@ -6,43 +6,56 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.TestUtility.GET_EHR_COMPOSITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
+import java.io.File;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
+import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.FileFactory;
+import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @ExtendWith(MockitoExtension.class)
-public class ReferralRequestMapperTest {
+class ReferralRequestMapperTest {
 
-    private static final String XML_RESOURCES_BASE = "xml/RequestStatement/";
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-ReferralRequest-1";
+    private static final String META_PROFILE = "ReferralRequest-1";
     private static final String PRACTISE_CODE = "TEST_PRACTISE_CODE";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TEST_PRACTISE_CODE";
     private static final String EXAMPLE_ID = "B4303C92-4D1C-11E3-A2DD-010000000161";
@@ -55,15 +68,25 @@ public class ReferralRequestMapperTest {
     private static final String REASON_CODE_1 = "183885007";
     private static final String UNEXPECTED_PRIORITY_DISPLAY = "Delayed priority";
     private static final String PRIORITY_NOTE_PREPENDAGE = "Priority: ";
+    private static final String NOPAT = "NOPAT";
+    private static final String TEST_DIRECTORY_NAME = "RequestStatement";
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
-
+    @Mock
+    private ConfidentialityService confidentialityService;
     @InjectMocks
     private static ReferralRequestMapper referralRequestMapper;
+    @Captor
+    private ArgumentCaptor<Optional<CV>> confidentialityCodeCaptor;
+
+    @BeforeEach
+    void beforeEach() {
+        configureCommonStubs();
+    }
 
     @Test
-    public void mapReferralRequestWithReferralRequestAsOrganization() {
+    void mapReferralRequestWithReferralRequestAsOrganization() {
 
         var codeableConcept = createCodeableConcept(REASON_CODE_1, SNOMED_SYSTEM, CODING_DISPLAY);
         when(codeableConceptMapper.mapToCodeableConcept(any()))
@@ -87,9 +110,10 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapReferralRequestWithValidData() {
+    void mapReferralRequestWithValidData() {
 
         var codeableConcept = createCodeableConcept(REASON_CODE_1, SNOMED_SYSTEM, CODING_DISPLAY);
+
         when(codeableConceptMapper.mapToCodeableConcept(any()))
                 .thenReturn(codeableConcept);
 
@@ -115,7 +139,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapReferralRequestWithNoOptionalData() {
+    void mapReferralRequestWithNoOptionalData() {
         var inputXml = """
                 <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
                     <id root="72A39454-299F-432E-993E-5A6232B4E099" />
@@ -144,7 +168,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapReferralRequestWithNoReferencedEncounter() {
+    void mapReferralRequestWithNoReferencedEncounter() {
         var inputXml = """
                 <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
                     <id root="83A39454-299F-432E-993E-5A6232B4E099" />
@@ -166,7 +190,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapReferralRequestWithRequesterPrfParticipant() {
+    void mapReferralRequestWithRequesterPrfParticipant() {
         var inputXml = """
                 <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
                     <id root="72A39454-299F-432E-993E-5A6232B4E099" />
@@ -205,7 +229,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapReferralRequestWithRequesterEhrCompositionParticipant2() {
+    void mapReferralRequestWithRequesterEhrCompositionParticipant2() {
         var inputXml = """
                 <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
                     <id root="72A39454-299F-432E-993E-5A6232B4E099" />
@@ -244,7 +268,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapReferralRequestWithRecipientResponsiblePartyNoValidTypeCode() {
+    void mapReferralRequestWithRecipientResponsiblePartyNoValidTypeCode() {
         var inputXml = """
             <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
                 <component typeCode="COMP">
@@ -269,7 +293,7 @@ public class ReferralRequestMapperTest {
                     </ehrFolder>
                 </component>
             </EhrExtract>
-                """;
+            """;
 
         var ehrExtract = unmarshallStringToEhrExtractElement(inputXml);
 
@@ -288,7 +312,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapReferralRequestWithPriorityNoteWithUsingDisplayName() {
+    void mapReferralRequestWithPriorityNoteWithUsingDisplayName() {
         var inputXml = """
                 <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
                     <id root="72A39454-299F-432E-993E-5A6232B4E099" />
@@ -320,7 +344,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void mapDegradedReferralRequest() {
+    void mapDegradedReferralRequest() {
         when(codeableConceptMapper.mapToCodeableConcept(any()))
                 .thenReturn(new CodeableConcept().addCoding(new Coding()));
 
@@ -347,7 +371,7 @@ public class ReferralRequestMapperTest {
 
     @ParameterizedTest
     @MethodSource("priorityCodes")
-    public void mapReferralRequestPriority(String code, String display, String expectedDisplay) {
+    void mapReferralRequestPriority(String code, String display, String expectedDisplay) {
         var inputXml = """
                 <ehrComposition xmlns="urn:hl7-org:v3" classCode="COMPOSITION" moodCode="EVN">
                     <id root="72A39454-299F-432E-993E-5A6232B4E099" />
@@ -374,15 +398,8 @@ public class ReferralRequestMapperTest {
         assertThat(referralRequest.getPriority().getDisplay()).isEqualTo(expectedDisplay);
     }
 
-    private static Stream<Arguments> priorityCodes() {
-        return Stream.of(
-                arguments("394848005", "routine", "Routine"),
-                arguments("394849002", "urgent", "Urgent"),
-                arguments("88694003", "asap", "ASAP"));
-    }
-
     @Test
-    public void When_MapToReferralRequest_With_NestedRequestStatement_Expect_PriorityCodeMapped() {
+    void When_MapToReferralRequest_With_NestedRequestStatement_Expect_PriorityCodeMapped() {
         var ehrComposition =  unmarshallEhrCompositionElement("nested_request_statement.xml");
 
         var referralRequest = mapReferralRequest(null, ehrComposition, this::getNestedRequestStatement);
@@ -391,7 +408,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void When_MapToReferralRequest_With_MissingPriorityCode_Expect_PriorityCodeNotMapped() {
+    void When_MapToReferralRequest_With_MissingPriorityCode_Expect_PriorityCodeNotMapped() {
 
         var ehrExtract = unmarshallEhrExtractElement("request_statement_missing_priority_code.xml");
 
@@ -403,7 +420,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void When_MapToReferralRequest_With_TwoNestedRequestStatements_Expect_CorrectPriorityCodeMapped() {
+    void When_MapToReferralRequest_With_TwoNestedRequestStatements_Expect_CorrectPriorityCodeMapped() {
         var ehrComposition = unmarshallEhrCompositionElement("two_nested_request_statements.xml");
 
         var referralRequest = mapReferralRequest(null, ehrComposition, this::getNestedRequestStatement);
@@ -412,7 +429,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void When_MapToReferralRequest_With_UnexpectedPriorityCode_Expect_PriorityFieldNotPopulated() {
+    void When_MapToReferralRequest_With_UnexpectedPriorityCode_Expect_PriorityFieldNotPopulated() {
 
         var ehrExtract = unmarshallEhrExtractElement("request_statement_unexpected_priority_code.xml");
 
@@ -424,7 +441,7 @@ public class ReferralRequestMapperTest {
     }
 
     @Test
-    public void When_MapToReferralRequest_With_UnexpectedPriorityCode_Expect_PriorityAddedToNotes() {
+    void When_MapToReferralRequest_With_UnexpectedPriorityCode_Expect_PriorityAddedToNotes() {
 
         var ehrExtract = unmarshallEhrExtractElement("request_statement_unexpected_priority_code.xml");
 
@@ -442,6 +459,62 @@ public class ReferralRequestMapperTest {
             .hasSize(1);
     }
 
+    @Test
+    void When_MapToReferralRequest_With_NopatConfidentialityCode_Expect_MetaFromConfidentialityServiceWithSecurity() {
+        final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtractElement("full_valid_data_example_with_nopat_confidentiality_code.xml");
+        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(metaWithSecurity);
+
+        final ReferralRequest result = mapReferralRequest(ehrExtract, ehrComposition,
+            composition -> composition.getComponent().get(0).getRequestStatement());
+
+        final CV confidentialityCode = confidentialityCodeCaptor
+            .getAllValues()
+            .get(0) // requestStatement.getConfidentialityCode()
+            .orElseThrow();
+
+        assertAll(
+            () -> assertThat(result.getMeta()).usingRecursiveComparison().isEqualTo(metaWithSecurity),
+            () -> assertThat(confidentialityCode.getCode()).isEqualTo(NOPAT),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(1)).isNotPresent()
+        );
+    }
+
+    @Test
+    void When_MapToReferralRequest_With_NopatConfidentialityCodeWithinEhrComposition_Expect_MetaFromConfidentialityServiceWithSecurity() {
+        final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtractElement("full_valid_data_example_with_nopat_confidentiality_code_in_ehr_composition.xml");
+        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(metaWithSecurity);
+
+        final ReferralRequest result = mapReferralRequest(ehrExtract, ehrComposition,
+            composition -> composition.getComponent().get(0).getRequestStatement());
+
+        final CV confidentialityCode = confidentialityCodeCaptor
+            .getAllValues()
+            .get(1) // ehrComposition.getConfidentialityCode()
+            .orElseThrow();
+
+        assertAll(
+            () -> assertThat(result.getMeta()).usingRecursiveComparison().isEqualTo(metaWithSecurity),
+            () -> assertThat(confidentialityCode.getCode()).isEqualTo(NOPAT),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(0)).isNotPresent()
+        );
+    }
+
     private RCMRMT030101UKRequestStatement getNestedRequestStatement(RCMRMT030101UKEhrComposition ehrComposition) {
         return ehrComposition.getComponent()
             .get(0)
@@ -453,8 +526,6 @@ public class ReferralRequestMapperTest {
             .get(0)
             .getRequestStatement();
     }
-
-
 
     private void assertFixedValues(ReferralRequest referralRequest) {
         assertAll(
@@ -495,9 +566,17 @@ public class ReferralRequestMapperTest {
                 PRACTISE_CODE);
     }
 
+    private static Stream<Arguments> priorityCodes() {
+        return Stream.of(
+            arguments("394848005", "routine", "Routine"),
+            arguments("394849002", "urgent", "Urgent"),
+            arguments("88694003", "asap", "ASAP"));
+    }
+
     @SneakyThrows
     private RCMRMT030101UKEhrComposition unmarshallEhrCompositionElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrComposition.class);
+        final File file = FileFactory.getXmlFileFor(TEST_DIRECTORY_NAME, fileName);
+        return unmarshallFile(file, RCMRMT030101UKEhrComposition.class);
     }
 
     @SneakyThrows
@@ -507,7 +586,8 @@ public class ReferralRequestMapperTest {
 
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
-        return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
+        final File file = FileFactory.getXmlFileFor(TEST_DIRECTORY_NAME, fileName);
+        return unmarshallFile(file, RCMRMT030101UKEhrExtract.class);
     }
 
     @SneakyThrows
@@ -515,4 +595,11 @@ public class ReferralRequestMapperTest {
         return unmarshallString(inputXml, RCMRMT030101UKEhrExtract.class);
     }
 
+    private void configureCommonStubs() {
+        Mockito.lenient().when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+    }
 }
