@@ -41,8 +41,8 @@ public class SpecimenMapper {
 
     private final DateTimeMapper dateTimeMapper;
 
-    public List<Specimen> mapSpecimen(RCMRMT030101UKEhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports,
-                                      Patient patient, String practiceCode) {
+    public List<Specimen> mapSpecimens(RCMRMT030101UKEhrExtract ehrExtract, List<DiagnosticReport> diagnosticReports,
+                                       Patient patient, String practiceCode) {
 
         return diagnosticReports.stream()
             .flatMap(diagnosticReport -> diagnosticReport.getSpecimen().stream())
