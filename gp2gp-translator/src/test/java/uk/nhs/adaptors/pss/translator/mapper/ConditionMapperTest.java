@@ -326,8 +326,6 @@ class ConditionMapperTest {
         final List<Condition> conditions = conditionMapper
             .mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
-        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
-
         final CV linksetConfidentialityCode = confidentialityCodeCaptor
             .getAllValues()
             .get(0) // linkSet.getConfidentialityCode()
@@ -358,8 +356,6 @@ class ConditionMapperTest {
 
         final List<Condition> conditions = conditionMapper
             .mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
-
-        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
         final CV ehrCompositionConfidentialityCode = confidentialityCodeCaptor
             .getAllValues()
