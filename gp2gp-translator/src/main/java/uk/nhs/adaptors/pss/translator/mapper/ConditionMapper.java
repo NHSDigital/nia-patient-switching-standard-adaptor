@@ -85,6 +85,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     public static final String CARE_CONNECT_URL = "https://fhir.hl7.org.uk/STU3/CodeSystem/CareConnect-ConditionCategory-1";
     public static final String PROBLEM_LIST_ITEM_CODE = "problem-list-item";
     public static final String PROBLEM_LIST_ITEM_DISPLAY = "Problem List Item";
+
     private final CodeableConceptMapper codeableConceptMapper;
     private final DateTimeMapper dateTimeMapper;
     private final ConfidentialityService confidentialityService;

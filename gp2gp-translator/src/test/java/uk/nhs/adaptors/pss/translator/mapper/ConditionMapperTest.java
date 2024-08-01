@@ -340,6 +340,39 @@ class ConditionMapperTest {
         );
     }
 
+    @Test
+    void When_Condition_With_NopatConfidentialityCodeInEhrComposition_Expect_MetaFromConfidentialityServiceWithSecurity() {
+        final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtract("linkset_valid_ehr_composition_nopat_confidentiality_code.xml");
+
+        when(dateTimeMapper.mapDateTime(
+            any(String.class)
+        )).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE));
+
+        final List<Condition> conditions = conditionMapper
+            .mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
+
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+
+        final CV ehrCompositionConfidentialityCode = confidentialityCodeCaptor
+            .getAllValues()
+            .get(1) // ehrComposition.getConfidentialityCode()
+            .orElseThrow();
+
+        assertConditionsMetaIsExpected(conditions, metaWithSecurity);
+        assertAll(
+            () -> assertThat(ehrCompositionConfidentialityCode.getCode()).isEqualTo(NOPAT),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(0)).isNotPresent()
+        );
+    }
+
     private void addMedicationRequestsToBundle(Bundle bundle) {
         var planMedicationRequest = new MedicationRequest().setId(AUTHORISE_ID);
         var orderMedicationRequest = new MedicationRequest().setId(PRESCRIBE_ID);
