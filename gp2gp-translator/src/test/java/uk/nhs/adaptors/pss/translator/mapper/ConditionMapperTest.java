@@ -313,10 +313,6 @@ class ConditionMapperTest {
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtract("linkset_valid_nopat_confidentiality_code.xml");
 
-        when(dateTimeMapper.mapDateTime(
-            any(String.class)
-        )).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
-
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
             confidentialityCodeCaptor.capture(),
@@ -343,10 +339,6 @@ class ConditionMapperTest {
         final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtract("linkset_valid_ehr_composition_nopat_confidentiality_code.xml");
-
-        when(dateTimeMapper.mapDateTime(
-            any(String.class)
-        )).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
@@ -458,6 +450,10 @@ class ConditionMapperTest {
     }
 
     private void configureCommonStubs() {
+        Mockito.lenient().when(dateTimeMapper.mapDateTime(
+            any(String.class)
+        )).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
+
         Mockito.lenient().when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
             confidentialityCodeCaptor.capture(),
