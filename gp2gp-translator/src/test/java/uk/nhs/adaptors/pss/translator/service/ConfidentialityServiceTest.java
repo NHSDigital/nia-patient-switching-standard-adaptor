@@ -5,22 +5,18 @@ import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.UriType;
 
 import org.hl7.v3.CV;
-import org.hl7.v3.RCMRMT030101UKEhrComposition;
-import org.hl7.v3.RCMRMT030101UKLinkSet;
-import org.hl7.v3.RCMRMT030101UKMedicationStatement;
-import org.hl7.v3.RCMRMT030101UKObservationStatement;
-import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ConfidentialityServiceTest {
-    private static final String DUMMY_PROFILE = "MyProfile-1";
+    private static final String DUMMY_PROFILE = "Test-MyProfile-1";
     private static final String DUMMY_PROFILE_URI = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-%s".formatted(DUMMY_PROFILE);
 
     private static final CV ALTERNATIVE_CV = TestUtility.createCv(
@@ -43,193 +39,34 @@ class ConfidentialityServiceTest {
     }
 
     @Test
-    void When_EhrCompositionWithNopatConfidentialityCodePresent_Expect_AddSecurityToMeta() {
-        final RCMRMT030101UKEhrComposition ehrComposition = new RCMRMT030101UKEhrComposition();
-        ehrComposition.setConfidentialityCode(NOPAT_CV);
-
+    void When_CreateMetaAndAddSecurityIfConfidentialityCodesPresent_With_ValidMetaProfileAndNopatCv_Expect_MetaWithSecurity() {
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             DUMMY_PROFILE,
-            ehrComposition.getConfidentialityCode()
+            Optional.of(NOPAT_CV)
         );
 
         assertMetaSecurityIsPresent(result);
     }
 
     @Test
-    void When_EhrCompositionWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
-        final RCMRMT030101UKEhrComposition ehrComposition = new RCMRMT030101UKEhrComposition();
-        ehrComposition.setConfidentialityCode(ALTERNATIVE_CV);
-
+    void When_CreateMetaAndAddSecurityIfConfidentialityCodesPresent_With_ValidMetaProfileAndAlternativeCv_Expect_MetaWithoutSecurity() {
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             DUMMY_PROFILE,
-            ehrComposition.getConfidentialityCode()
+            Optional.of(ALTERNATIVE_CV)
         );
 
         assertMetaSecurityIsNotPresent(result);
     }
 
     @Test
-    void When_EhrCompositionWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
-        final RCMRMT030101UKEhrComposition ehrComposition = new RCMRMT030101UKEhrComposition();
-
+    void When_CreateMetaAndAddSecurityIfConfidentialityCodesPresent_With_ValidMetaProfileAndNoCv_Expect_MetaWithoutSecurity() {
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             DUMMY_PROFILE,
-            ehrComposition.getConfidentialityCode()
+            Optional.empty(),
+            Optional.empty()
         );
 
         assertMetaSecurityIsNotPresent(result);
-    }
-
-    @Test
-    void When_ObservationStatementWithNopatConfidentialityCodePresent_Expect_SecurityAddedToMeta() {
-        final RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
-        observationStatement.setConfidentialityCode(NOPAT_CV);
-
-        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            observationStatement.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsPresent(result);
-    }
-
-    @Test
-    void When_ObservationStatementWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
-        final RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
-        observationStatement.setConfidentialityCode(ALTERNATIVE_CV);
-
-        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            observationStatement.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsNotPresent(result);
-    }
-
-    @Test
-    void When_ObservationStatementWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
-        final RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
-
-        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            observationStatement.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsNotPresent(result);
-    }
-
-    @Test
-    void When_MedicationStatementWithNopatConfidentialityCodePresent_Expect_SecurityAddedToMeta() {
-        final RCMRMT030101UKMedicationStatement medicationStatement = new RCMRMT030101UKMedicationStatement();
-        medicationStatement.setConfidentialityCode(NOPAT_CV);
-
-        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            medicationStatement.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsPresent(result);
-    }
-
-    @Test
-    void When_MedicationStatementWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
-        final RCMRMT030101UKMedicationStatement medicationStatement = new RCMRMT030101UKMedicationStatement();
-        medicationStatement.setConfidentialityCode(ALTERNATIVE_CV);
-
-        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            medicationStatement.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsNotPresent(result);
-    }
-
-    @Test
-    void When_MedicationStatementWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
-        final RCMRMT030101UKMedicationStatement medicationStatement = new RCMRMT030101UKMedicationStatement();
-
-        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            medicationStatement.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsNotPresent(result);
-    }
-
-    @Test
-    void When_LinksetWithNopatConfidentialityCodePresent_Expect_SecurityAddedToMeta() {
-        final RCMRMT030101UKLinkSet linkSet = new RCMRMT030101UKLinkSet();
-        linkSet.setConfidentialityCode(NOPAT_CV);
-
-        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            linkSet.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsPresent(result);
-    }
-
-    @Test
-    void When_LinksetWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
-        final RCMRMT030101UKLinkSet linkSet = new RCMRMT030101UKLinkSet();
-        linkSet.setConfidentialityCode(ALTERNATIVE_CV);
-
-        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            linkSet.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsNotPresent(result);
-    }
-
-    @Test
-    void When_LinksetWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
-        final RCMRMT030101UKLinkSet linkSet = new RCMRMT030101UKLinkSet();
-
-        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            linkSet.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsNotPresent(result);
-    }
-
-    @Test
-    void When_RequestStatementWithNopatConfidentialityCodePresent_Expect_SecurityAddedToMeta() {
-        final RCMRMT030101UKRequestStatement requestStatement = new RCMRMT030101UKRequestStatement();
-        requestStatement.setConfidentialityCode(NOPAT_CV);
-
-        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            requestStatement.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsPresent(meta);
-    }
-
-    @Test
-    void When_RequestStatementWithConfidentialityCodeOtherThanNopatPresent_Expect_SecurityNotAddedToMeta() {
-        final RCMRMT030101UKRequestStatement requestStatement = new RCMRMT030101UKRequestStatement();
-        requestStatement.setConfidentialityCode(ALTERNATIVE_CV);
-
-        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            requestStatement.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsNotPresent(meta);
-    }
-
-    @Test
-    void When_RequestStatementWithoutConfidentialityCodePresent_Expect_SecurityNotAddedToMeta() {
-        final RCMRMT030101UKRequestStatement requestStatement = new RCMRMT030101UKRequestStatement();
-
-        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            DUMMY_PROFILE,
-            requestStatement.getConfidentialityCode()
-        );
-
-        assertMetaSecurityIsNotPresent(meta);
     }
 
     private void assertMetaSecurityIsPresent(final Meta meta) {
@@ -253,5 +90,4 @@ class ConfidentialityServiceTest {
             () -> assertThat(meta.getProfile().get(0).getValue()).isEqualTo(DUMMY_PROFILE_URI)
         );
     }
-
 }
