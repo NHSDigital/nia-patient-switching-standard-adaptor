@@ -1,16 +1,22 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.util.ResourceUtils.getFile;
 
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.io.File;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
@@ -21,9 +27,11 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.v3.CV;
 import org.hl7.v3.II;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UKComponent2;
@@ -33,6 +41,8 @@ import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
@@ -40,14 +50,18 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.FileFactory;
+import uk.nhs.adaptors.pss.translator.MetaFactory;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
 @ExtendWith(MockitoExtension.class)
-public class ConditionMapperTest {
+class ConditionMapperTest {
 
-    private static final String CONDITION_RESOURCES_BASE = "xml/Condition/";
+    private static final String META_PROFILE = "ProblemHeader-Condition-1";
+    private static final String TEST_FILES_DIRECTORY = "Condition";
     private static final String PATIENT_ID = "PATIENT_ID";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String ENCOUNTER_ID = "EHR_COMPOSITION_ENCOUNTER_ID";
@@ -55,6 +69,7 @@ public class ConditionMapperTest {
     private static final String LINKSET_ID = "LINKSET_ID";
     private static final String CODING_DISPLAY = "THIS IS A TEST";
     private static final DateTimeType EHR_EXTRACT_AVAILABILITY_DATETIME = parseToDateTimeType("20101209114846.00");
+    private static final String NOPAT = "NOPAT";
 
     private static final String ACTUAL_PROBLEM_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-ActualProblem-1";
@@ -66,29 +81,32 @@ public class ConditionMapperTest {
     private static final String AUTHORISE_ID = "AUTHORISE_ID";
     private static final String MEDICATION_STATEMENT_ORDER_ID = "ORDER_REF_ID";
     private static final String PRESCRIBE_ID = "PRESCRIBE_ID";
-    public static final String NAMED_STATEMENT_REF_ID = "NAMED_STATEMENT_REF_ID";
-    public static final String STATEMENT_REF_ID = "STATEMENT_REF_ID";
-    public static final String STATEMENT_REF_ID_1 = "STATEMENT_REF_ID_1";
-    public static final int EXPECTED_NUMBER_OF_EXTENSIONS = 4;
+    static final String NAMED_STATEMENT_REF_ID = "NAMED_STATEMENT_REF_ID";
+    static final String STATEMENT_REF_ID = "STATEMENT_REF_ID";
+    static final String STATEMENT_REF_ID_1 = "STATEMENT_REF_ID_1";
+    static final int EXPECTED_NUMBER_OF_EXTENSIONS = 4;
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
-
     @Mock
     private DateTimeMapper dateTimeMapper;
-
+    @Mock
+    private ConfidentialityService confidentialityService;
     @InjectMocks
     private ConditionMapper conditionMapper;
+    @Captor
+    private ArgumentCaptor<Optional<CV>> confidentialityCodeCaptor;
 
     private Patient patient;
 
     @BeforeEach
-    public void setUp() {
+    void beforeEach() {
+        configureCommonStubs();
         patient = (Patient) new Patient().setId(PATIENT_ID);
     }
 
     @Test
-    public void testConditionIsMappedCorrectlyNoReferences() {
+    void testConditionIsMappedCorrectlyNoReferences() {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
 
         final List<Encounter> emptyEncounterList = List.of();
@@ -121,7 +139,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void testConditionIsMappedCorrectlyWithNamedStatementRef() {
+    void testConditionIsMappedCorrectlyWithNamedStatementRef() {
         when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
         var codeableConcept = new CodeableConcept().addCoding(new Coding().setDisplay(CODING_DISPLAY));
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
@@ -135,7 +153,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void testConditionIsMappedCorrectlyWithActualProblemReference() {
+    void testConditionIsMappedCorrectlyWithActualProblemReference() {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
 
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
@@ -149,7 +167,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void testConditionIsMappedCorrectlyWithRelatedClinicalContentReference() {
+    void testConditionIsMappedCorrectlyWithRelatedClinicalContentReference() {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
 
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_valid.xml");
@@ -163,7 +181,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void testConditionIsMappedCorrectlyWithContext() {
+    void testConditionIsMappedCorrectlyWithContext() {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
 
         final List<Encounter> encounters = List.of((Encounter) new Encounter().setId(ENCOUNTER_ID));
@@ -176,7 +194,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void testLinkSetWithNoDatesIsMappedWithNullOnsetDateTime() {
+    void testLinkSetWithNoDatesIsMappedWithNullOnsetDateTime() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_no_dates.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
@@ -190,7 +208,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void testLinkSetWithEffectiveTimeLowNullFlavorUnkIsMappedWithNullOnsetDateTime() {
+    void testLinkSetWithEffectiveTimeLowNullFlavorUnkIsMappedWithNullOnsetDateTime() {
         when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_null_flavor_unk.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
@@ -202,7 +220,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void testLinkSetWithEffectiveTimeCenterNullFlavorUnkIsMappedCorrectly() {
+    void testLinkSetWithEffectiveTimeCenterNullFlavorUnkIsMappedCorrectly() {
         //when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_center_null_flavor_unk.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
@@ -214,7 +232,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void testConditionWithMedicationRequestsIsMappedCorrectly() {
+    void testConditionWithMedicationRequestsIsMappedCorrectly() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_medication_refs.xml");
 
         MockedStatic<MedicationMapperUtils> mockedMedicationMapperUtils = Mockito.mockStatic(MedicationMapperUtils.class);
@@ -258,7 +276,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void mapConditionWithoutSnomedCodeInCoding() {
+    void mapConditionWithoutSnomedCodeInCoding() {
         var codeableConcept = new CodeableConcept().addCoding(new Coding().setDisplay(CODING_DISPLAY));
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
         when(dateTimeMapper.mapDateTime(any(String.class))).thenCallRealMethod();
@@ -275,7 +293,7 @@ public class ConditionMapperTest {
     }
 
     @Test
-    public void mapConditionWithSnomedCodeInCoding() {
+    void mapConditionWithSnomedCodeInCoding() {
 
         var codeableConcept = createCodeableConcept("123456", "http://snomed.info/sct", "Display");
         when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(codeableConcept);
@@ -287,6 +305,39 @@ public class ConditionMapperTest {
 
         assertThat(conditions).isNotEmpty();
         assertEquals(codeableConcept, conditions.get(0).getCode());
+    }
+
+    @Test
+    void When_Condition_With_NopatConfidentialityCode_Expect_MetaFromConfidentialityServiceWithSecurity() {
+        final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtract("linkset_valid_nopat_confidentiality_code.xml");
+
+        when(dateTimeMapper.mapDateTime(
+            any(String.class)
+        )).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE));
+
+        final List<Condition> conditions = conditionMapper
+            .mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
+
+        conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
+
+        final CV linksetConfidentialityCode = confidentialityCodeCaptor
+            .getAllValues()
+            .get(0) // linkSet.getConfidentialityCode()
+            .orElseThrow();
+
+        assertConditionsMetaIsExpected(conditions, metaWithSecurity);
+        assertAll(
+            () -> assertThat(linksetConfidentialityCode.getCode()).isEqualTo(NOPAT),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(1)).isNotPresent()
+        );
     }
 
     private void addMedicationRequestsToBundle(Bundle bundle) {
@@ -367,8 +418,21 @@ public class ConditionMapperTest {
                 .setResource(new Observation().setId(STATEMENT_REF_ID_1)));
     }
 
+    private void assertConditionsMetaIsExpected(List<Condition> conditions, Meta expectedMeta) {
+        conditions.forEach(condition -> assertThat(condition.getMeta()).usingRecursiveComparison().isEqualTo(expectedMeta));
+    }
+
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String filename) {
-        return unmarshallFile(getFile("classpath:" + CONDITION_RESOURCES_BASE + filename), RCMRMT030101UKEhrExtract.class);
+        final File file = FileFactory.getXmlFileFor(TEST_FILES_DIRECTORY, filename);
+        return unmarshallFile(file, RCMRMT030101UKEhrExtract.class);
+    }
+
+    private void configureCommonStubs() {
+        Mockito.lenient().when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture(),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 }
