@@ -26,7 +26,6 @@ import org.hl7.fhir.dstu3.model.Immunization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +36,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
@@ -217,29 +217,29 @@ public class ImmunizationMapperTest {
         ).thenReturn(metaWithSecurity);
         final var ehrExtract = unmarshallEhrExtract("immunization_with_ehrComposition_nopat_confidentiality_code.xml");
 
-        List<Immunization> immunizations = immunizationMapper.mapResources(
+        final var immunizations = immunizationMapper.mapResources(
             ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE
         );
-        var securityMeta = immunizations
+        final var securityMeta = immunizations
             .get(0)
             .getMeta()
             .getSecurity(NOPAT_URL_CODESYSTEM, NOPAT_CODE);
 
+        final var ehrCompositionConfidentialityCode = confidentialityCodeCaptor.getAllValues().get(0);
+
         assertAll(
             () -> {
-                assertThat(confidentialityCodeCaptor.getAllValues().get(0).isPresent())
-                    .isTrue();
-                assertThat(confidentialityCodeCaptor.getAllValues().get(0).get())
+                assertThat(ehrCompositionConfidentialityCode)
+                    .isPresent();
+                assertThat(ehrCompositionConfidentialityCode.get())
                     .usingRecursiveComparison()
-                    .isEqualTo(getNoPatCV());
+                    .isEqualTo(
+                        TestUtility.createCv(NOPAT_CODE, NOPAT_OID_CODESYSTEM, NOPAT_DISPLAY)
+                    );
             },
-            () -> {
-                assertThat(securityMeta).
-                    isNotNull();
-                assertThat(securityMeta.getDisplay())
-                    .isEqualTo(NOPAT_DISPLAY);
-            }
+            () -> assertThat(securityMeta.getDisplay())
+                .isEqualTo(NOPAT_DISPLAY)
         );
     }
 
@@ -255,38 +255,29 @@ public class ImmunizationMapperTest {
         ).thenReturn(metaWithSecurity);
         final var ehrExtract = unmarshallEhrExtract("immunization_with_observation_nopat_confidentiality_code.xml");
 
-        List<Immunization> immunizations = immunizationMapper.mapResources(
+        final var immunizations = immunizationMapper.mapResources(
             ehrExtract, getPatient(),
             getEncounterList(), PRACTISE_CODE
         );
-        var securityMeta = immunizations
+        final var securityMeta = immunizations
             .get(0)
             .getMeta()
             .getSecurity(NOPAT_URL_CODESYSTEM, NOPAT_CODE);
 
+        final var observationStatementConfidentialityCode = confidentialityCodeCaptor.getAllValues().get(1);
+
         assertAll(
             () -> {
-                assertThat(confidentialityCodeCaptor.getAllValues().get(1).isPresent())
-                    .isTrue();
-                assertThat(confidentialityCodeCaptor.getAllValues().get(1).get())
-                    .usingRecursiveComparison()
-                    .isEqualTo(getNoPatCV());
-            },
-            () -> {
-                assertThat(securityMeta).
-                    isNotNull();
-                assertThat(securityMeta.getDisplay())
-                    .isEqualTo(NOPAT_DISPLAY);
-            }
-        );
-    }
 
-    private static @NotNull CV getNoPatCV() {
-        final var cv = new CV();
-        cv.setCode(ImmunizationMapperTest.NOPAT_CODE);
-        cv.setCodeSystem(ImmunizationMapperTest.NOPAT_OID_CODESYSTEM);
-        cv.setDisplayName(ImmunizationMapperTest.NOPAT_DISPLAY);
-        return cv;
+                assertThat(observationStatementConfidentialityCode).isPresent();
+                assertThat(observationStatementConfidentialityCode.get())
+                    .usingRecursiveComparison()
+                    .isEqualTo(
+                        TestUtility.createCv(NOPAT_CODE, NOPAT_OID_CODESYSTEM, NOPAT_DISPLAY)
+                    );
+            },
+            () -> assertThat(securityMeta.getDisplay()).isEqualTo(NOPAT_DISPLAY)
+        );
     }
 
     private void assertImmunizationWithHighAndLowEffectiveTime(Immunization immunization) {
