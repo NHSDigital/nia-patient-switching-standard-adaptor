@@ -58,7 +58,7 @@ public class SpecimenMapperTest {
     public void testSpecimenIsMapped() {
         when(dateTimeMapper.mapDateTime(any())).thenCallRealMethod();
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid.xml");
-        List<Specimen> specimenList = specimenMapper.mapSpecimen(
+        List<Specimen> specimenList = specimenMapper.mapSpecimens(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE
         );
 
@@ -75,7 +75,7 @@ public class SpecimenMapperTest {
     @Test
     public void testSpecimenIsMappedWithNoOptionalFields() {
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_no_optional_fields.xml");
-        List<Specimen> specimenList = specimenMapper.mapSpecimen(
+        List<Specimen> specimenList = specimenMapper.mapSpecimens(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE
         );
 
@@ -97,7 +97,7 @@ public class SpecimenMapperTest {
     @Test
     public void testInvalidSpecimenIsNotMapped() {
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_invalid.xml");
-        List<Specimen> specimenList = specimenMapper.mapSpecimen(
+        List<Specimen> specimenList = specimenMapper.mapSpecimens(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITHOUT_SPECIMEN), PATIENT, PRACTICE_CODE
         );
 
