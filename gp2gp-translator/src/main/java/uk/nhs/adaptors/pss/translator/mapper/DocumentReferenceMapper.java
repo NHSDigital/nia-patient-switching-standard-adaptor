@@ -18,6 +18,7 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
@@ -40,12 +42,13 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     // TODO: Add file Size using the uncompressed/un-encoded size of the document (NIAD-2030)
 
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1";
+    private static final String META_PROFILE = "DocumentReference-1";
     private static final String ABSENT_ATTACHMENT = "AbsentAttachment";
     private static final String PLACEHOLDER_VALUE = "GP2GP generated placeholder. Original document not available. See notes for details";
     private static final String INVALID_CONTENT_TYPE = "Content type was not a valid MIME type";
 
     private CodeableConceptMapper codeableConceptMapper;
+    private ConfidentialityService confidentialityService;
 
     public List<DocumentReference> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient,
                                                 List<Encounter> encounterList, Organization organization,
@@ -82,9 +85,14 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         // narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot()
         var id = narrativeStatement.getId().getRoot();
 
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            narrativeStatement.getConfidentialityCode()
+        );
+
         documentReference.addIdentifier(buildIdentifier(id, organization.getIdentifierFirstRep().getValue()));
         documentReference.setId(id);
-        documentReference.getMeta().addProfile(META_PROFILE);
+        documentReference.setMeta(meta);
         documentReference.setStatus(DocumentReferenceStatus.CURRENT);
         documentReference.setType(getType(narrativeStatement));
         documentReference.setSubject(new Reference(patient));
