@@ -85,16 +85,27 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
 
         var allergyIntolerance = new AllergyIntolerance();
         var observationStatement = extractObservationStatement(compoundStatement);
-
-        var id = observationStatement
-                .getId()
-                .getRoot();
+        var id = observationStatement.getId().getRoot();
 
         final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
-            observationStatement.getConfidentialityCode()
-        );
+            observationStatement.getConfidentialityCode());
+
+        initializeAllergyIntolerance(allergyIntolerance, compoundStatement, ehrComposition, patient, practiseCode, id, meta);
+        buildAdditionalFields(allergyIntolerance, compoundStatement, ehrComposition, encounters, observationStatement);
+
+        return allergyIntolerance;
+    }
+
+    private void initializeAllergyIntolerance(
+        AllergyIntolerance allergyIntolerance,
+        RCMRMT030101UKCompoundStatement compoundStatement,
+        RCMRMT030101UKEhrComposition ehrComposition,
+        Patient patient,
+        String practiseCode,
+        String id,
+        Meta meta) {
 
         allergyIntolerance
             .addCategory(getCategory(compoundStatement))
@@ -105,6 +116,14 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
             .addIdentifier(buildIdentifier(id, practiseCode))
             .setMeta(meta)
             .setId(id);
+    }
+
+    private void buildAdditionalFields(
+        AllergyIntolerance allergyIntolerance,
+        RCMRMT030101UKCompoundStatement compoundStatement,
+        RCMRMT030101UKEhrComposition ehrComposition,
+        List<Encounter> encounters,
+        RCMRMT030101UKObservationStatement observationStatement) {
 
         buildOnset(compoundStatement, allergyIntolerance);
         buildParticipantReferences(ehrComposition, compoundStatement, allergyIntolerance);
@@ -114,19 +133,8 @@ public class AllergyIntoleranceMapper extends AbstractMapper<AllergyIntolerance>
         var codeableConceptFromValue = getCodeableConceptFromNonEgtonCodeValue(observationStatement);
         var compoundCode = compoundStatement.getCode().getCode();
 
-        buildCode(allergyIntolerance,
-                observationStatement,
-                compoundCode,
-                codeableConceptFromCode,
-                codeableConceptFromValue);
-
-        buildNote(allergyIntolerance,
-                observationStatement,
-                compoundCode,
-                codeableConceptFromCode,
-                codeableConceptFromValue);
-
-        return allergyIntolerance;
+        buildCode(allergyIntolerance, observationStatement, compoundCode, codeableConceptFromCode, codeableConceptFromValue);
+        buildNote(allergyIntolerance, observationStatement, compoundCode, codeableConceptFromCode, codeableConceptFromValue);
     }
 
     private void buildParticipantReferences(RCMRMT030101UKEhrComposition ehrComposition,

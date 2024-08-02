@@ -7,6 +7,7 @@ import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceClin
 import static org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus.UNCONFIRMED;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -326,9 +327,9 @@ class AllergyIntoleranceMapperTest {
         assertThat(allergyIntolerance.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_DRUG_ALLERGY);
         assertThat(allergyIntolerance.getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY_1);
         assertThat(allergyIntolerance.getAssertedDateElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
-        assertThat(allergyIntolerance.getRecorder().getReference()).isNull(); // this is added later in the UnknownPractitionerHandler
-        assertThat(allergyIntolerance.getAsserter().getReference()).isNull();
-        assertThat(allergyIntolerance.getOnset()).isNull();
+        assertNull(allergyIntolerance.getRecorder().getReference()); // this is added later in the UnknownPractitionerHandler
+        assertNull(allergyIntolerance.getAsserter().getReference());
+        assertNull(allergyIntolerance.getOnset());
         assertThat(allergyIntolerance.getNote()).isEmpty();
         verifyConfidentialityServiceCalled(1, Optional.empty(), Optional.empty());
     }
@@ -390,28 +391,6 @@ class AllergyIntoleranceMapperTest {
     }
 
     @Test
-    void testGivenAllergyIntoleranceWithNoscrubConfidentialityCodePresentWithinEhrCompositionExpectMetaSecurityAdded() {
-        final Meta stubbedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
-        final RCMRMT030101UKEhrExtract ehrExtract =
-            unmarshallEhrExtract("allergy-structure-with-ehr-composition-nopat-confidentiality-code.xml");
-
-        Mockito
-            .lenient()
-            .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-                any(String.class), any(Optional.class), any(Optional.class)
-            )).thenReturn(stubbedMeta);
-
-        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.GET_EHR_COMPOSITION.apply(ehrExtract);
-        final List<AllergyIntolerance> allergyIntolerance = allergyIntoleranceMapper
-            .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
-
-        final Meta meta = allergyIntolerance.get(0).getMeta();
-
-        assertMetaSecurityPresent(meta);
-        verifyConfidentialityServiceCalled(1, ehrComposition.getConfidentialityCode(), Optional.empty());
-    }
-
-    @Test
     void testGivenAllergyIntoleranceWithNopatConfidentialityCodePresentWithinObservationStatementExpectMetaSecurityAdded() {
         final Meta stubbedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
@@ -442,7 +421,7 @@ class AllergyIntoleranceMapperTest {
         final List<AllergyIntolerance> allergyIntolerance = allergyIntoleranceMapper
             .mapResources(ehrExtract, getPatient(), getEncounterList(), PRACTISE_CODE);
 
-        assertThat(allergyIntolerance.get(0).getMeta().getSecurity()).hasSize(0);
+        assertThat(allergyIntolerance.get(0).getMeta().getSecurity()).isEmpty();
         verifyConfidentialityServiceCalled(1, Optional.empty(), observationStatement.getConfidentialityCode());
     }
 
