@@ -18,7 +18,9 @@ import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtra
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -30,19 +32,20 @@ import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
+import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKAnnotation;
 import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
@@ -55,6 +58,8 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
     private static final String BP_NOTE = "BP Note: ";
 
     private CodeableConceptMapper codeableConceptMapper;
+
+    private ConfidentialityService confidentialityService;
 
     public List<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                           String practiseCode) {
@@ -74,6 +79,23 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
         var id = compoundStatement.getId().get(0);
 
+        @SuppressWarnings("unchecked")
+        final Optional<CV>[] confidentialityCodes = Stream.of(
+                Stream.of(ehrComposition.getConfidentialityCode()),
+                Stream.of(compoundStatement.getConfidentialityCode()),
+                observationStatements
+                    .stream()
+                    .map(RCMRMT030101UKObservationStatement::getConfidentialityCode)
+            )
+            .flatMap(cv -> cv)
+            .filter(Optional::isPresent)
+            .toArray(Optional[]::new);
+
+        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            confidentialityCodes
+        );
+
         Observation observation = new Observation()
             .addIdentifier(buildIdentifier(id.getRoot(), practiseCode))
             .setStatus(ObservationStatus.FINAL)
@@ -89,7 +111,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                 ehrComposition));
 
         observation.setId(id.getRoot());
-        observation.getMeta().getProfile().add(new UriType(META_PROFILE));
+        observation.setMeta(meta);
 
         addEffective(observation, getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime()));
         addContextToObservation(observation, encounters, ehrComposition);
