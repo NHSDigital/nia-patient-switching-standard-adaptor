@@ -80,24 +80,15 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
                                                    Organization organization, List<PatientAttachmentLog> attachments) {
 
         final DocumentReference documentReference = new DocumentReference();
-        final RCMRMT030101UKExternalDocument externalDocument = narrativeStatement
-            .getReference()
-            .get(0)
-            .getReferredToExternalDocument();
 
         // document references actually use the narrative statement id rather than the referenceDocument root id in EMIS data
         // if EMIS is incorrect, replace the id below with the following...
         // narrativeStatement.getReference().get(0).getReferredToExternalDocument().getId().getRoot()
         var id = narrativeStatement.getId().getRoot();
 
-        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            META_PROFILE,
-            externalDocument.getConfidentialityCode()
-        );
-
         documentReference.addIdentifier(buildIdentifier(id, organization.getIdentifierFirstRep().getValue()));
         documentReference.setId(id);
-        documentReference.setMeta(meta);
+        documentReference.setMeta(generateMeta(narrativeStatement));
         documentReference.setStatus(DocumentReferenceStatus.CURRENT);
         documentReference.setType(getType(narrativeStatement));
         documentReference.setSubject(new Reference(patient));
@@ -122,6 +113,18 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         setContentAttachments(documentReference, narrativeStatement, attachments);
 
         return documentReference;
+    }
+
+    private Meta generateMeta(RCMRMT030101UKNarrativeStatement narrativeStatement) {
+        final RCMRMT030101UKExternalDocument externalDocument = narrativeStatement
+            .getReference()
+            .getFirst()
+            .getReferredToExternalDocument();
+
+        return confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            externalDocument.getConfidentialityCode()
+        );
     }
 
     private DateTimeType getCreatedTime(RCMRMT030101UKEhrComposition ehrComposition) {
