@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationComponentComponent;
 import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
@@ -79,17 +80,6 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
         var id = compoundStatement.getId().get(0);
 
-        @SuppressWarnings("unchecked")
-        final Optional<CV>[] confidentialityCodes = Stream.concat(
-            Stream.of(ehrComposition.getConfidentialityCode(), compoundStatement.getConfidentialityCode()),
-            observationStatements.stream().map(RCMRMT030101UKObservationStatement::getConfidentialityCode)
-        ).toArray(Optional[]::new);
-
-        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            META_PROFILE,
-            confidentialityCodes
-        );
-
         Observation observation = new Observation()
             .addIdentifier(buildIdentifier(id.getRoot(), practiseCode))
             .setStatus(ObservationStatus.FINAL)
@@ -105,12 +95,27 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                 ehrComposition));
 
         observation.setId(id.getRoot());
-        observation.setMeta(meta);
+        observation.setMeta(generateMeta(ehrComposition, compoundStatement, observationStatements));
 
         addEffective(observation, getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime()));
         addContextToObservation(observation, encounters, ehrComposition);
 
         return observation;
+    }
+
+    private Meta generateMeta(RCMRMT030101UKEhrComposition ehrComposition,
+                              RCMRMT030101UKCompoundStatement compoundStatement,
+                              List<RCMRMT030101UKObservationStatement> observationStatements) {
+        @SuppressWarnings("unchecked")
+        final Optional<CV>[] confidentialityCodes = Stream.concat(
+            Stream.of(ehrComposition.getConfidentialityCode(), compoundStatement.getConfidentialityCode()),
+            observationStatements.stream().map(RCMRMT030101UKObservationStatement::getConfidentialityCode)
+        ).toArray(Optional[]::new);
+
+        return confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            confidentialityCodes
+        );
     }
 
     private CodeableConcept getCode(CD code) {
