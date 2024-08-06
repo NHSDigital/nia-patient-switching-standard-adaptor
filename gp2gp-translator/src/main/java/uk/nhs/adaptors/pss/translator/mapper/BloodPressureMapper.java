@@ -53,7 +53,7 @@ import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 @Service
 @AllArgsConstructor
 public class BloodPressureMapper extends AbstractMapper<Observation> {
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
+    private static final String META_PROFILE = "Observation-1";
     private static final String SYSTOLIC_NOTE = "Systolic Note: ";
     private static final String DIASTOLIC_NOTE = "Diastolic Note: ";
     private static final String BP_NOTE = "BP Note: ";

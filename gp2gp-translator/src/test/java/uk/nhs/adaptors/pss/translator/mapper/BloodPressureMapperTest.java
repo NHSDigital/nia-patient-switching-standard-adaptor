@@ -55,7 +55,7 @@ public class BloodPressureMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/BloodPressure/";
     private static final String EXAMPLE_ID = "FE739904-2AAB-4B3F-9718-84BE019FD483";
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
+    private static final String META_PROFILE = "Observation-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String CODING_DISPLAY_MOCK = "Test Display";
