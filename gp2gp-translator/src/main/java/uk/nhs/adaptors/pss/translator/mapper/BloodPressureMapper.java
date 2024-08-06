@@ -18,43 +18,49 @@ import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtra
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationComponentComponent;
 import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CD;
+import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKAnnotation;
 import org.hl7.v3.RCMRMT030101UKComponent02;
-import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
+import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.BloodPressureValidatorUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
 @Service
 @AllArgsConstructor
 public class BloodPressureMapper extends AbstractMapper<Observation> {
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
+    private static final String META_PROFILE = "Observation-1";
     private static final String SYSTOLIC_NOTE = "Systolic Note: ";
     private static final String DIASTOLIC_NOTE = "Diastolic Note: ";
     private static final String BP_NOTE = "BP Note: ";
 
     private CodeableConceptMapper codeableConceptMapper;
+
+    private ConfidentialityService confidentialityService;
 
     public List<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                           String practiseCode) {
@@ -89,12 +95,27 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                 ehrComposition));
 
         observation.setId(id.getRoot());
-        observation.getMeta().getProfile().add(new UriType(META_PROFILE));
+        observation.setMeta(generateMeta(ehrComposition, compoundStatement, observationStatements));
 
         addEffective(observation, getEffective(compoundStatement.getEffectiveTime(), compoundStatement.getAvailabilityTime()));
         addContextToObservation(observation, encounters, ehrComposition);
 
         return observation;
+    }
+
+    private Meta generateMeta(RCMRMT030101UKEhrComposition ehrComposition,
+                              RCMRMT030101UKCompoundStatement compoundStatement,
+                              List<RCMRMT030101UKObservationStatement> observationStatements) {
+        @SuppressWarnings("unchecked")
+        final Optional<CV>[] confidentialityCodes = Stream.concat(
+            Stream.of(ehrComposition.getConfidentialityCode(), compoundStatement.getConfidentialityCode()),
+            observationStatements.stream().map(RCMRMT030101UKObservationStatement::getConfidentialityCode)
+        ).toArray(Optional[]::new);
+
+        return confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            confidentialityCodes
+        );
     }
 
     private CodeableConcept getCode(CD code) {
