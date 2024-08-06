@@ -80,16 +80,10 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
         var id = compoundStatement.getId().get(0);
 
         @SuppressWarnings("unchecked")
-        final Optional<CV>[] confidentialityCodes = Stream.of(
-                Stream.of(ehrComposition.getConfidentialityCode()),
-                Stream.of(compoundStatement.getConfidentialityCode()),
-                observationStatements
-                    .stream()
-                    .map(RCMRMT030101UKObservationStatement::getConfidentialityCode)
-            )
-            .flatMap(cv -> cv)
-            .filter(Optional::isPresent)
-            .toArray(Optional[]::new);
+        final Optional<CV>[] confidentialityCodes = Stream.concat(
+            Stream.of(ehrComposition.getConfidentialityCode(), compoundStatement.getConfidentialityCode()),
+            observationStatements.stream().map(RCMRMT030101UKObservationStatement::getConfidentialityCode)
+        ).toArray(Optional[]::new);
 
         var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,

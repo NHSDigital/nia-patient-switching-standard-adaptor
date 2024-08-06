@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
@@ -194,34 +195,48 @@ public class BloodPressureMapperTest {
     public void When_MappingBloodPressureWithConfidentialityCodes_Expect_BloodPressureObservationContainsSecurityMeta(
         String inputXml
     ) {
-        final var metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final var metaFromConfidentialityService = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         when(
             confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-                eq("https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1"),
+                eq(META_PROFILE),
+                confidentialityCodesCaptor.capture(),
+                confidentialityCodesCaptor.capture(),
+                confidentialityCodesCaptor.capture(),
                 confidentialityCodesCaptor.capture()
             )
-        ).thenReturn(metaWithSecurity);
+        ).thenReturn(metaFromConfidentialityService);
         final var ehrExtract = unmarshallEhrExtractElement(inputXml + ".xml");
 
         final var bloodPressure = bloodPressureMapper
             .mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE)
             .get(0);
-        final var confidentialityCode = confidentialityCodesCaptor
-            .getAllValues()
-            .get(0);
-        final var securityMeta = bloodPressure
-            .getMeta()
-            .getSecurity(NOPAT_URL_CODESYSTEM, NOPAT_CODE);
 
-        assertThat(confidentialityCode).isPresent();
         assertAll(
-            () -> assertThat(confidentialityCode.get())
-                .usingRecursiveComparison()
-                .isEqualTo(
-                    TestUtility.createCv(NOPAT_CODE, NOPAT_OID_CODESYSTEM, NOPAT_DISPLAY)
-                ),
-            () -> assertThat(securityMeta.getDisplay())
-                .isEqualTo(NOPAT_DISPLAY)
+            () -> assertThat(confidentialityCodesCaptor.getAllValues())
+                    .usingRecursiveFieldByFieldElementComparator()
+                    .containsExactlyInAnyOrder(
+                        Optional.of(TestUtility.createCv(NOPAT_CODE, NOPAT_OID_CODESYSTEM, NOPAT_DISPLAY)),
+                        Optional.empty(),
+                        Optional.empty(),
+                        Optional.empty()
+                    ),
+            () -> assertThat(bloodPressure.getMeta()).usingRecursiveComparison()
+                    .isEqualTo(metaFromConfidentialityService)
+        );
+    }
+
+    @Test
+    public void When_MappingBloodPressureWithoutConfidentialityCodes_Expect_ConfidentialityServiceCalledWithEmpty() {
+        var ehrExtract = unmarshallEhrExtractElement("no_optional_data_bp_example.xml");
+
+        bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
+
+        verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty(),
+            Optional.empty()
         );
     }
 
