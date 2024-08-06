@@ -24,6 +24,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKExternalDocument;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +79,11 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
                                                    List<Encounter> encounterList,
                                                    Organization organization, List<PatientAttachmentLog> attachments) {
 
-        DocumentReference documentReference = new DocumentReference();
+        final DocumentReference documentReference = new DocumentReference();
+        final RCMRMT030101UKExternalDocument externalDocument = narrativeStatement
+            .getReference()
+            .get(0)
+            .getReferredToExternalDocument();
 
         // document references actually use the narrative statement id rather than the referenceDocument root id in EMIS data
         // if EMIS is incorrect, replace the id below with the following...
@@ -87,7 +92,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
         final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
-            narrativeStatement.getConfidentialityCode()
+            externalDocument.getConfidentialityCode()
         );
 
         documentReference.addIdentifier(buildIdentifier(id, organization.getIdentifierFirstRep().getValue()));
