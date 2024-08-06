@@ -90,7 +90,7 @@ class DocumentReferenceMapperTest {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
-        var documentReference = documentReferences.get(0);
+        var documentReference = documentReferences.getFirst();
 
         assertFullValidData(documentReference);
     }
@@ -100,7 +100,7 @@ class DocumentReferenceMapperTest {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document_with_optional_data.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
-        var documentReference = documentReferences.get(0);
+        var documentReference = documentReferences.getFirst();
 
         assertOptionalValidData(documentReference);
     }
@@ -119,7 +119,7 @@ class DocumentReferenceMapperTest {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
-        var documentReference = documentReferences.get(0);
+        var documentReference = documentReferences.getFirst();
 
         assertAttachmentData(documentReference);
     }
@@ -129,7 +129,7 @@ class DocumentReferenceMapperTest {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_has_referred_to_external_document_with_absent_attachment.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, new ArrayList<>());
-        var documentReference = documentReferences.get(0);
+        var documentReference = documentReferences.getFirst();
 
         assertDocumentReferenceWithAbsentAttachment(documentReference);
     }
@@ -139,7 +139,7 @@ class DocumentReferenceMapperTest {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_with_invalid_encounter.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
-        var documentReference = documentReferences.get(0);
+        var documentReference = documentReferences.getFirst();
 
         assertDocumentReferenceWithInvalidEncounter(documentReference);
     }
@@ -150,7 +150,7 @@ class DocumentReferenceMapperTest {
 
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
-        var documentReference = documentReferences.get(0);
+        var documentReference = documentReferences.getFirst();
 
         assertDocumentReferenceMappedFromNestedNarrativeStatement(documentReference);
     }
@@ -160,7 +160,7 @@ class DocumentReferenceMapperTest {
         var ehrExtract = unmarshallEhrExtract("narrative_statement_null_flavors.xml");
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
-        var documentReference = documentReferences.get(0);
+        var documentReference = documentReferences.getFirst();
 
         assertThat(documentReference.getCreatedElement().asStringValue()).isNull();
     }
@@ -174,7 +174,7 @@ class DocumentReferenceMapperTest {
 
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
-        var documentReference = documentReferences.get(0);
+        var documentReference = documentReferences.getFirst();
 
         assertEquals(codeableConcept, documentReference.getType());
     }
@@ -188,7 +188,7 @@ class DocumentReferenceMapperTest {
 
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
-        var documentReference = documentReferences.get(0);
+        var documentReference = documentReferences.getFirst();
 
         assertThat(documentReference.getType().getCodingFirstRep())
             .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
@@ -251,11 +251,11 @@ class DocumentReferenceMapperTest {
 
     private void assertDocumentReferenceMappedFromNestedNarrativeStatement(DocumentReference documentReference) {
         assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
-        assertThat(documentReference.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(documentReference.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(documentReference.getStatus()).isEqualTo(DocumentReferenceStatus.CURRENT);
         assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
-        assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(documentReference.getAuthor().getFirst().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(documentReference.getDescription()).isEqualTo("Some example text");
         assertThat(documentReference.getIndexedElement().getValue()).isEqualTo("2010-01-14");
         assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
@@ -267,11 +267,11 @@ class DocumentReferenceMapperTest {
 
     private void assertFullValidData(DocumentReference documentReference) {
         assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
-        assertThat(documentReference.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(documentReference.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(documentReference.getStatus()).isEqualTo(DocumentReferenceStatus.CURRENT);
         assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
-        assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(documentReference.getAuthor().getFirst().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(documentReference.getDescription()).isEqualTo("Some example text");
         assertThat(documentReference.getIndexedElement().getValue()).isEqualTo("2010-01-14");
         assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
@@ -283,34 +283,34 @@ class DocumentReferenceMapperTest {
 
     private void assertOptionalValidData(DocumentReference documentReference) {
         assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
-        assertThat(documentReference.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(documentReference.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(documentReference.getStatus()).isEqualTo(DocumentReferenceStatus.CURRENT);
         assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
-        assertThat(documentReference.getAuthor().get(0).getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
+        assertThat(documentReference.getAuthor().getFirst().getReference()).isEqualTo("Practitioner/2D70F602-6BB1-47E0-B2EC-39912A59787D");
         assertThat(documentReference.getDescription()).isEqualTo("31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt");
         assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
         assertAttachmentData(documentReference);
     }
 
     private void assertAttachmentData(DocumentReference documentReference) {
-        assertThat(documentReference.getContent().get(0).getAttachment().getTitle()).isNull();
-        assertThat(documentReference.getContent().get(0).getAttachment().getUrl()).isEqualTo(URL);
-        assertThat(documentReference.getContent().get(0).getAttachment().getContentType()).isEqualTo(CONTENT_TYPE);
-        assertThat(documentReference.getContent().get(0).getAttachment().getSize()).isEqualTo(ATTACHMENT_SIZE);
+        assertThat(documentReference.getContent().getFirst().getAttachment().getTitle()).isNull();
+        assertThat(documentReference.getContent().getFirst().getAttachment().getUrl()).isEqualTo(URL);
+        assertThat(documentReference.getContent().getFirst().getAttachment().getContentType()).isEqualTo(CONTENT_TYPE);
+        assertThat(documentReference.getContent().getFirst().getAttachment().getSize()).isEqualTo(ATTACHMENT_SIZE);
     }
 
     private void assertDocumentReferenceWithAbsentAttachment(DocumentReference documentReference) {
         assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
-        assertThat(documentReference.getContent().get(0).getAttachment().getTitle()).isEqualTo(PLACEHOLDER);
-        assertThat(documentReference.getContent().get(0).getAttachment().getUrl()).isNotNull();
-        assertThat(documentReference.getContent().get(0).getAttachment().hasSize()).isFalse();
-        assertThat(documentReference.getContent().get(0).getAttachment().getContentType()).isEqualTo(CONTENT_TYPE);
+        assertThat(documentReference.getContent().getFirst().getAttachment().getTitle()).isEqualTo(PLACEHOLDER);
+        assertThat(documentReference.getContent().getFirst().getAttachment().getUrl()).isNotNull();
+        assertThat(documentReference.getContent().getFirst().getAttachment().hasSize()).isFalse();
+        assertThat(documentReference.getContent().getFirst().getAttachment().getContentType()).isEqualTo(CONTENT_TYPE);
     }
 
     private void assertDocumentReferenceWithInvalidEncounter(DocumentReference documentReference) {
         assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
-        assertThat(documentReference.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(documentReference.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(documentReference.getStatus()).isEqualTo(DocumentReferenceStatus.CURRENT);
         assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
