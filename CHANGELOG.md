@@ -14,6 +14,8 @@ corresponding FHIR resource will now be [appropriately populated][nopat-docs].
     corresponding FHIR resource will now be [appropriately populated][nopat-docs].
 * If a `linkset` record includes a `confidentialityCode`, the `meta.security` field of the
   corresponding FHIR resource will now be [appropriately populated][nopat-docs].
+* If a `documentReference` record includes a `confidentialityCode`, the `meta.security` field of the
+  corresponding FHIR resource will now be [appropriately populated][nopat-docs].
 * If an `immunization` record includes a `confidentialityCode`, the `meta.security` field of the
     corresponding FHIR resource will now be [appropriately populated][nopat-docs].
 

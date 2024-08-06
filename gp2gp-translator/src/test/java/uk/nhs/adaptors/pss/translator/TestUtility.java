@@ -27,4 +27,12 @@ public final class TestUtility {
     public static CV createCv(String code) {
         return createCv(code, "", "");
     }
+
+    public static class NoConfidentialityCodePresentException extends RuntimeException {
+        private static final String EXCEPTION_MESSAGE = "No confidentiality code is present within the test file.";
+
+        public NoConfidentialityCodePresentException() {
+            super(EXCEPTION_MESSAGE);
+        }
+    }
 }
