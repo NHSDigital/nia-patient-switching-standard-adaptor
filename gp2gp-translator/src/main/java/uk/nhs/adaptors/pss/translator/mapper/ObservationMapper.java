@@ -170,7 +170,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 .setComponent(createComponentList(requestStatement));
 
         observation.setId(id);
-        observation.setMeta(generateMeta(META_PROFILE));
+        observation.setMeta(meta);
 
         addContextToObservation(observation, encounters, ehrComposition);
         addEffective(observation,
