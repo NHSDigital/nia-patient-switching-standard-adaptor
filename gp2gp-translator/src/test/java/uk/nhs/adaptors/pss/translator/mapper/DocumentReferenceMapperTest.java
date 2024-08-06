@@ -194,9 +194,9 @@ class DocumentReferenceMapperTest {
     }
 
     @Test
-    void When_NarrativeStatement_With_NopatConfidentialityCode_Expect_MetaFromConfidentialityServiceWithSecurity() {
+    void When_NarrativeStatement_With_ExternalDocumentAndNopatConfidentialityCode_Expect_MetaFromConfidentialityServiceWithSecurity() {
         final RCMRMT030101UKEhrExtract ehrExtract =
-            unmarshallEhrExtract("nested_narrative_statements_nopat_confidentiality_code.xml");
+            unmarshallEhrExtract("narrative_statement_has_referred_to_external_document_with_nopat.xml");
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
@@ -206,13 +206,13 @@ class DocumentReferenceMapperTest {
         final List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
 
-        final CV narrativeStatementConfidentialityCode = confidentialityCodeCaptor
+        final CV externalDocumentConfidentialityCode = confidentialityCodeCaptor
             .getValue()
             .orElseThrow(TestUtility.NoConfidentialityCodePresentException::new);
 
         assertAll(
             () -> documentReferences.forEach(this::assertMetaHasSecurity),
-            () -> assertThat(narrativeStatementConfidentialityCode.getCode()).isEqualTo(NOPAT)
+            () -> assertThat(externalDocumentConfidentialityCode.getCode()).isEqualTo(NOPAT)
         );
     }
 

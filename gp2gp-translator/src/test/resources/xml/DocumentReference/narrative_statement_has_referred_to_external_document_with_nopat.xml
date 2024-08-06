@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+    <author typeCode="AUT" contextControlCode="OP">
+        <time value="20100114" />
+    </author>
+    <availabilityTime value="20200101010101" />
+    <component typeCode="COMP">
+        <ehrFolder classCode="FOLDER" moodCode="EVN">
+            <component typeCode="COMP">
+                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                    <id root="62A39454-299F-432E-993E-5A6232B4E099"/>
+                    <availabilityTime value="20190708143500"/>
+                    <author typeCode="AUT" contextControlCode="OP">
+                        <time value="20100114" />
+                        <agentRef classCode="AGNT">
+                            <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D" />
+                        </agentRef>
+                    </author>
+                    <Participant2 typeCode="PRF" contextControlCode="OP">
+                        <agentRef classCode="AGNT">
+                            <id root="2D70F602-6BB1-47E0-B2EC-39912A59787D"/>
+                        </agentRef>
+                    </Participant2>
+                    <component typeCode="COMP">
+                        <NarrativeStatement classCode="OBS" moodCode="EVN">
+                            <id root="5E496953-065B-41F2-9577-BE8F2FBD0757"/>
+                            <text mediaType="text/x-h7uk-pmip">Some example text</text>
+                            <statusCode code="COMPLETE"/>
+                            <availabilityTime value="20201012143344"/>
+                            <reference typeCode="REFR">
+                                <referredToExternalDocument classCode="DOC" moodCode="EVN">
+                                    <id root="31B75ED0-6E88-11EA-9384-E83935108FD5" />
+                                    <code code="25821000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Original Text document">
+                                        <originalText>Record Attachment</originalText>
+                                    </code>
+                                    <text mediaType="text/plain">
+                                        <reference value="file://localhost/31B75ED0-6E88-11EA-9384-E83935108FD5_patient-attachment.txt" />
+                                    </text>
+                                    <confidentialityCode
+                                            code="NOPAT"
+                                            codeSystem="2.16.840.1.113883.4.642.3.47"
+                                            displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
+                                </referredToExternalDocument>
+                            </reference>
+                        </NarrativeStatement>
+                    </component>
+                </ehrComposition>
+            </component>
+        </ehrFolder>
+    </component>
+</EhrExtract>
