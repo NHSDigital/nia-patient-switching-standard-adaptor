@@ -66,6 +66,7 @@ class DocumentReferenceMapperTest {
     private static final Integer EXPECTED_DOCUMENT_REFERENCE_COUNT = 3;
     private static final String TEST_FILES_DIRECTORY = "DocumentReference";
     private static final Meta META_WITH_SECURITY_ADDED = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+    private static final Meta META_WITHOUT_SECURITY_ADDED = MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
     private static final String NOPAT = "NOPAT";
 
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
@@ -216,9 +217,36 @@ class DocumentReferenceMapperTest {
         );
     }
 
+    @Test
+    void When_NarrativeStatement_With_ExternalDocumentAndNoConfidentialityCode_Expect_MetaFromConfidentialityWithoutSecurity() {
+        final RCMRMT030101UKEhrExtract ehrExtract =
+            unmarshallEhrExtract("narrative_statement_has_referred_to_external_document.xml");
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            eq(META_PROFILE),
+            confidentialityCodeCaptor.capture()
+        )).thenReturn(META_WITHOUT_SECURITY_ADDED);
+
+        final List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
+            getEncounterList(), AUTHOR_ORG, createAttachmentList());
+
+        final Optional<CV> externalDocumentConfidentialityCode = confidentialityCodeCaptor
+            .getValue();
+
+        assertAll(
+            () -> documentReferences.forEach(this::assertMetaHasNoSecurity),
+            () -> assertThat(externalDocumentConfidentialityCode).isEmpty()
+        );
+    }
+
     private void assertMetaHasSecurity(DocumentReference documentReference) {
         final Meta meta = documentReference.getMeta();
         assertThat(meta).usingRecursiveComparison().isEqualTo(META_WITH_SECURITY_ADDED);
+    }
+
+    private void assertMetaHasNoSecurity(DocumentReference documentReference) {
+        final Meta meta = documentReference.getMeta();
+        assertThat(meta).usingRecursiveComparison().isEqualTo(META_WITHOUT_SECURITY_ADDED);
     }
 
     private void assertDocumentReferenceMappedFromNestedNarrativeStatement(DocumentReference documentReference) {

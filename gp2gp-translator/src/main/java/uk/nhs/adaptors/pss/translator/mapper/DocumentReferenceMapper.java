@@ -144,7 +144,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     private CodeableConcept getType(RCMRMT030101UKNarrativeStatement narrativeStatement) {
 
-        var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
+        var referenceToExternalDocument = narrativeStatement.getReference().getFirst().getReferredToExternalDocument();
         CodeableConcept codeableConcept = null;
         if (referenceToExternalDocument != null && referenceToExternalDocument.hasCode()) {
             if (!referenceToExternalDocument.getCode().hasOriginalText() && referenceToExternalDocument.getCode().hasDisplayName()) {
@@ -179,21 +179,21 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         if (isAbsentAttachment(narrativeStatement)) {
             return PLACEHOLDER_VALUE;
         } else {
-            return buildFileName(narrativeStatement.getReference().get(0)
+            return buildFileName(narrativeStatement.getReference().getFirst()
                 .getReferredToExternalDocument().getText().getReference().getValue());
         }
     }
 
     private boolean isAbsentAttachment(RCMRMT030101UKNarrativeStatement narrativeStatement) {
 
-        return narrativeStatement.getReference().get(0)
+        return narrativeStatement.getReference().getFirst()
             .getReferredToExternalDocument().getText().getReference().getValue().contains(ABSENT_ATTACHMENT);
     }
 
     private void setContentAttachments(DocumentReference documentReference, RCMRMT030101UKNarrativeStatement narrativeStatement,
                                        List<PatientAttachmentLog> patientAttachmentLogs) {
 
-        var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
+        var referenceToExternalDocument = narrativeStatement.getReference().getFirst().getReferredToExternalDocument();
         var attachment = new Attachment();
         if (referenceToExternalDocument.hasText()) {
             var mediaType = referenceToExternalDocument.getText().getMediaType();
