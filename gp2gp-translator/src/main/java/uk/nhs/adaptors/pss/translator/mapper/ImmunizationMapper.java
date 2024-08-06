@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatements;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +34,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.common.util.CodeableConceptUtils;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil;
@@ -49,11 +49,11 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
     private static final String RECORDED_DATE_EXTENSION_URL = "https://fhir.hl7.org.uk/STU3/StructureDefinition/Extension-CareConnect"
         + "-DateRecorded-1";
     private static final String IMMUNIZATION_ROLE_URL = "http://hl7.org/fhir/stu3/valueset-immunization-role.html";
-    public static final String ASSERTER = "asserter";
     public static final String RECORDER = "recorder";
 
     private CodeableConceptMapper codeableConceptMapper;
     private DatabaseImmunizationChecker immunizationChecker;
+    private final ConfidentialityService confidentialityService;
 
     public List<Immunization> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patientResource,
                                            List<Encounter> encounterList, String practiseCode) {
@@ -81,6 +81,7 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         Immunization immunization = new Immunization();
 
         var id = observationStatement.getId().getRoot();
+
         var recorderAndAsserter = ParticipantReferenceUtil.fetchRecorderAndAsserter(ehrComposition);
         ImmunizationPractitionerComponent recorder = null;
         ImmunizationPractitionerComponent asserter = null;
@@ -98,7 +99,13 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
 
         var encounter = getEncounterReference(encounterList, ehrComposition.getId());
 
-        immunization.setMeta(generateMeta(META_PROFILE));
+        final var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode()
+        );
+
+        immunization.setMeta(meta);
         immunization.addIdentifier(buildIdentifier(id, practiseCode));
         immunization.addExtension(createVaccineProcedureExtension(observationStatement));
         immunization.addExtension(createRecordedTimeExtension(ehrComposition));

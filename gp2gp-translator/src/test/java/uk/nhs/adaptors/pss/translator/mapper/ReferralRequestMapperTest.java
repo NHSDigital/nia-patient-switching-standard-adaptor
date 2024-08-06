@@ -69,6 +69,9 @@ class ReferralRequestMapperTest {
     private static final String UNEXPECTED_PRIORITY_DISPLAY = "Delayed priority";
     private static final String PRIORITY_NOTE_PREPENDAGE = "Priority: ";
     private static final String NOPAT = "NOPAT";
+
+    private static final String NOSCRUB = "NOSCRUB";
+
     private static final String TEST_DIRECTORY_NAME = "RequestStatement";
 
     @Mock
@@ -477,7 +480,7 @@ class ReferralRequestMapperTest {
 
         final CV confidentialityCode = confidentialityCodeCaptor
             .getAllValues()
-            .get(0) // requestStatement.getConfidentialityCode()
+            .get(0) // ehrComposition.getConfidentialityCode()
             .orElseThrow();
 
         assertAll(
