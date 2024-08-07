@@ -53,7 +53,6 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRa
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 
 @Service

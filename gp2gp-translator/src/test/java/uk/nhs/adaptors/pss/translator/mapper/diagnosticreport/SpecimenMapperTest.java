@@ -1,23 +1,32 @@
 package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Specimen;
+import org.hl7.fhir.dstu3.model.UriType;
+import org.hl7.v3.CV;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,13 +35,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.mapper.DateTimeMapper;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 
 @ExtendWith(MockitoExtension.class)
 public class SpecimenMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/Specimen/";
-    private static final String SPECIMEN_META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Specimen-1";
     private static final String SPECIMEN_PREFIX = "Specimen/";
     private static final String TEST_SPECIMEN_ID = "COMPOUND_STATEMENT_CHILD_ID_1";
     private static final String PRACTICE_CODE = "TEST_PRACTICE_CODE";
@@ -45,19 +56,80 @@ public class SpecimenMapperTest {
     private static final String DR_ID = "DIAGNOSTIC_REPORT_ID";
     private static final DiagnosticReport DIAGNOSTIC_REPORT_WITH_SPECIMEN = generateDiagnosticReportWithSpecimenReference();
     private static final DiagnosticReport DIAGNOSTIC_REPORT_WITHOUT_SPECIMEN = generateDiagnosticReportWithNoSpecimenReference();
+    private static final String SPECIMEN_META_PROFILE = "Specimen-1";
+    private static final Meta META = MetaFactory.getMetaFor(META_WITH_SECURITY, SPECIMEN_META_PROFILE);
+    private static final CV NOPAT_CV = TestUtility.createCv(
+        "NOPAT",
+        "http://hl7.org/fhir/v3/ActCode",
+        "no disclosure to patient, family or caregivers without attending provider's authorization");
 
     private static final String NARRATIVE_STATEMENT_ID = "9326C01E-488B-4EDF-B9C9-529E69EE0361";
 
     @Mock
     private DateTimeMapper dateTimeMapper;
 
+    @Mock
+    private ConfidentialityService confidentialityService;
+
     @InjectMocks
     private SpecimenMapper specimenMapper;
+
+    @Test
+    public void testHandlingSpecimenNoPatCompoundStatement() {
+        when(dateTimeMapper.mapDateTime(any())).thenCallRealMethod();
+        RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid_with_nopat_compound_statement.xml");
+        final var compoundStatement = getCompoundStatement(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            SPECIMEN_META_PROFILE,
+            Optional.empty(),
+            compoundStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
+        List<Specimen> specimenList = specimenMapper.mapSpecimens(
+            ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE);
+
+        assertThat(specimenList).isNotEmpty();
+
+        final Specimen specimen = specimenList.get(0);
+        checkFixedValues(specimen);
+        assertMetaSecurityIsPresent(specimen.getMeta());
+    }
+
+    @Test
+    public void testHandlingSpecimenNoPatEhrComposition() {
+        when(dateTimeMapper.mapDateTime(any())).thenCallRealMethod();
+        RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid_with_nopat_ehr_composition.xml");
+        final var ehrComposition = getEhrComposition(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            SPECIMEN_META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            Optional.empty()
+        )).thenReturn(META);
+
+        List<Specimen> specimenList = specimenMapper.mapSpecimens(
+            ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE);
+
+        assertThat(specimenList).isNotEmpty();
+
+        final Specimen specimen = specimenList.get(0);
+        checkFixedValues(specimen);
+        assertMetaSecurityIsPresent(specimen.getMeta());
+    }
 
     @Test
     public void testSpecimenIsMapped() {
         when(dateTimeMapper.mapDateTime(any())).thenCallRealMethod();
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid.xml");
+        final var compoundStatement = getCompoundStatement(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            SPECIMEN_META_PROFILE,
+            Optional.empty(),
+            compoundStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
         List<Specimen> specimenList = specimenMapper.mapSpecimens(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE
         );
@@ -75,6 +147,14 @@ public class SpecimenMapperTest {
     @Test
     public void testSpecimenIsMappedWithNoOptionalFields() {
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_no_optional_fields.xml");
+        final var compoundStatement = getCompoundStatement(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            SPECIMEN_META_PROFILE,
+            Optional.empty(),
+            compoundStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
         List<Specimen> specimenList = specimenMapper.mapSpecimens(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE
         );
@@ -160,6 +240,35 @@ public class SpecimenMapperTest {
 
     private static DiagnosticReport generateDiagnosticReportWithNoSpecimenReference() {
         return (DiagnosticReport) new DiagnosticReport().setId(DR_ID);
+    }
+
+    private void assertMetaSecurityIsPresent(final Meta meta) {
+        final List<Coding> metaSecurity = meta.getSecurity();
+        final int metaSecuritySize = metaSecurity.size();
+        final Coding metaSecurityCoding = metaSecurity.get(0);
+        final UriType metaProfile = meta.getProfile().get(0);
+
+        assertAll(
+            () -> assertThat(metaSecuritySize).isEqualTo(1),
+            () -> assertThat(metaProfile.getValue()).isEqualTo(SPECIMEN_META_PROFILE),
+            () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
+            () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
+            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem()));
+    }
+
+    private RCMRMT030101UKCompoundStatement getCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
+        return ehrExtract.getComponent().get(0)
+            .getEhrFolder().getComponent().get(0)
+            .getEhrComposition().getComponent().get(0)
+            .getCompoundStatement().getComponent().get(0)
+            .getCompoundStatement();
+    }
+
+    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
+
+        return ehrExtract.getComponent().get(0)
+            .getEhrFolder().getComponent().get(0)
+            .getEhrComposition();
     }
 
     @SneakyThrows

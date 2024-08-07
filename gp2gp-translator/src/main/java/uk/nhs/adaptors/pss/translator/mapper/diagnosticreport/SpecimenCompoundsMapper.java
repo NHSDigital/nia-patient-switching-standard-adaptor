@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper.SpecimenBatteryParameters;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -49,8 +50,10 @@ public class SpecimenCompoundsMapper {
     public static final String CODING_CODE = "laboratory";
     public static final String CODING_SYSTEM = "http://hl7.org/fhir/observation-category";
     public static final String CODING_DISPLAY = "Laboratory";
+    private static final String META_PROFILE = "SpecimenCompounds-1";
 
     private final SpecimenBatteryMapper batteryMapper;
+    private final ConfidentialityService confidentialityService;
 
     public List<Observation> handleSpecimenChildComponents(
         RCMRMT030101UKEhrExtract ehrExtract,
@@ -59,8 +62,8 @@ public class SpecimenCompoundsMapper {
         List<DiagnosticReport> diagnosticReports,
         Patient patient,
         List<Encounter> encounters,
-        String practiseCode
-    ) {
+        String practiseCode) {
+
         final List<Observation> batteryObservations = new ArrayList<>();
 
         for (var diagnosticReport : diagnosticReports) {
@@ -69,14 +72,17 @@ public class SpecimenCompoundsMapper {
                 continue;
             }
 
+            var currentEhrComposition = getCurrentEhrComposition(ehrExtract, diagnosticReportCompoundStatement.orElseThrow());
+
             for (var specimenCompoundStatement : getSpecimenCompoundStatements(diagnosticReportCompoundStatement.get())) {
-                handleSpecimenObservationStatement(observations, diagnosticReport, specimenCompoundStatement);
+                handleSpecimenObservationStatement(currentEhrComposition, observations, diagnosticReport, specimenCompoundStatement);
 
                 var nestedSpecimenCompoundStatements = getNestedSpecimenCompoundStatements(specimenCompoundStatement);
 
                 for (var nestedSpecimenCompoundStatement : nestedSpecimenCompoundStatements) {
                     if (CLUSTER_CLASSCODE.equals(nestedSpecimenCompoundStatement.getClassCode().get(0))) {
                         handleClusterCompoundStatement(
+                            currentEhrComposition,
                             specimenCompoundStatement,
                             nestedSpecimenCompoundStatement,
                             observations,
@@ -88,6 +94,7 @@ public class SpecimenCompoundsMapper {
 
                     if (BATTERY_CLASSCODE.equals(nestedSpecimenCompoundStatement.getClassCode().get(0))) {
                         handleBatteryCompoundStatement(
+                            currentEhrComposition,
                             specimenCompoundStatement,
                             nestedSpecimenCompoundStatement,
                             observations,
@@ -99,7 +106,7 @@ public class SpecimenCompoundsMapper {
                             .ehrExtract(ehrExtract)
                             .batteryCompoundStatement(nestedSpecimenCompoundStatement)
                             .specimenCompoundStatement(specimenCompoundStatement)
-                            .ehrComposition(getCurrentEhrComposition(ehrExtract, diagnosticReportCompoundStatement.orElseThrow()))
+                            .ehrComposition(currentEhrComposition)
                             .diagnosticReport(diagnosticReport)
                             .patient(patient)
                             .encounters(encounters)
@@ -118,8 +125,8 @@ public class SpecimenCompoundsMapper {
     }
 
     private static @NotNull List<RCMRMT030101UKCompoundStatement> getNestedSpecimenCompoundStatements(
-        RCMRMT030101UKCompoundStatement specimenCompoundStatement
-    ) {
+        RCMRMT030101UKCompoundStatement specimenCompoundStatement) {
+
         return specimenCompoundStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent02::hasCompoundStatement)
@@ -129,20 +136,29 @@ public class SpecimenCompoundsMapper {
     }
 
     private void handleSpecimenObservationStatement(
+        RCMRMT030101UKEhrComposition ehrComposition,
         List<Observation> observations,
         DiagnosticReport diagnosticReport,
-        RCMRMT030101UKCompoundStatement specimenCompoundStatement
-    ) {
+        RCMRMT030101UKCompoundStatement specimenCompoundStatement) {
+
         getObservationStatementsInCompound(specimenCompoundStatement).forEach(specimenObservationStatement ->
             getObservationById(observations, specimenObservationStatement.getId().getRoot())
             .ifPresent(observation -> {
-                handleObservationStatement(specimenCompoundStatement, specimenObservationStatement, observation);
+                handleObservationStatement(ehrComposition, specimenCompoundStatement, specimenObservationStatement, observation);
                 DiagnosticReportMapper.addResultToDiagnosticReport(observation, diagnosticReport);
             }));
     }
 
-    private void handleObservationStatement(RCMRMT030101UKCompoundStatement specimenCompoundStatement,
-        RCMRMT030101UKObservationStatement observationStatement, Observation observation) {
+    private void handleObservationStatement(RCMRMT030101UKEhrComposition ehrComposition,
+                                              RCMRMT030101UKCompoundStatement specimenCompoundStatement,
+                                              RCMRMT030101UKObservationStatement observationStatement,
+                                              Observation observation) {
+
+        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            specimenCompoundStatement.getConfidentialityCode());
+
         final Reference specimenReference = new Reference(new IdType(
             Specimen.name(),
             specimenCompoundStatement.getId().get(0).getRoot()
@@ -156,6 +172,7 @@ public class SpecimenCompoundsMapper {
         }
         observation.setSpecimen(specimenReference);
         observation.addCategory(createCategory());
+        observation.setMeta(meta);
     }
 
     private void handleNarrativeStatements(RCMRMT030101UKCompoundStatement compoundStatement,
@@ -165,11 +182,17 @@ public class SpecimenCompoundsMapper {
 
         getNarrativeStatementsInCompound(compoundStatement).forEach(childNarrativeStatement -> {
 
+            var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+                META_PROFILE,
+                compoundStatement.getConfidentialityCode(),
+                childNarrativeStatement.getConfidentialityCode());
+
             if (childNarrativeStatement.getText().contains(USER_COMMENT_HEADER)) {
                 getObservationById(observationComments, childNarrativeStatement.getId().getRoot())
                     .ifPresent(observationComment -> {
                         observationComment.setEffective(null);
                         observationComment.setComment(extractPmipComment(observationComment.getComment()));
+                        observationComment.setMeta(meta);
                         createRelationship(observation, observationComment);
                     });
             } else if (observation != null) {
@@ -190,9 +213,11 @@ public class SpecimenCompoundsMapper {
         }
     }
 
-    private void handleClusterCompoundStatement(RCMRMT030101UKCompoundStatement specimenCompoundStatement,
-        RCMRMT030101UKCompoundStatement clusterCompoundStatement,
-        List<Observation> observations, List<Observation> observationComments, DiagnosticReport diagnosticReport, boolean isNestedCluster) {
+    private void handleClusterCompoundStatement(RCMRMT030101UKEhrComposition ehrComposition,
+                                                RCMRMT030101UKCompoundStatement specimenCompoundStatement,
+                                                RCMRMT030101UKCompoundStatement clusterCompoundStatement,
+                                                List<Observation> observations, List<Observation> observationComments,
+                                                DiagnosticReport diagnosticReport, boolean isNestedCluster) {
 
         var nestedObservationStatements = clusterCompoundStatement.getComponent().stream()
             .filter(RCMRMT030101UKComponent02::hasObservationStatement)
@@ -206,14 +231,15 @@ public class SpecimenCompoundsMapper {
                 if (!isNestedCluster) {
                     DiagnosticReportMapper.addResultToDiagnosticReport(observation, diagnosticReport);
                 }
-                handleObservationStatement(specimenCompoundStatement, observationStatement, observation);
+                handleObservationStatement(ehrComposition, specimenCompoundStatement, observationStatement, observation);
             });
 
             handleNarrativeStatements(clusterCompoundStatement, observationComments, observationOpt.orElse(null));
         }
     }
 
-    private void handleBatteryCompoundStatement(RCMRMT030101UKCompoundStatement specimenCompoundStatement,
+    private void handleBatteryCompoundStatement(RCMRMT030101UKEhrComposition ehrComposition,
+                                                RCMRMT030101UKCompoundStatement specimenCompoundStatement,
                                                 RCMRMT030101UKCompoundStatement batteryCompoundStatement,
                                                 List<Observation> observations,
                                                 List<Observation> observationComments,
@@ -225,6 +251,7 @@ public class SpecimenCompoundsMapper {
             .filter(compoundStatement -> CLUSTER_CLASSCODE.equals(compoundStatement.getClassCode().get(0)))
             .forEach(compoundStatement ->
                          handleClusterCompoundStatement(
+                             ehrComposition,
                              specimenCompoundStatement,
                              compoundStatement,
                              observations,
@@ -237,8 +264,8 @@ public class SpecimenCompoundsMapper {
             .map(RCMRMT030101UKComponent02::getObservationStatement)
             .forEach(
                 observationStatement -> getObservationById(observations, observationStatement.getId().getRoot()).ifPresent(
-                    observation -> handleObservationStatement(specimenCompoundStatement, observationStatement, observation)));
-
+                    observation -> handleObservationStatement(ehrComposition, specimenCompoundStatement,
+                                                              observationStatement, observation)));
     }
 
     private Optional<RCMRMT030101UKCompoundStatement> getCompoundStatementByDRId(RCMRMT030101UKEhrExtract ehrExtract, String id) {
