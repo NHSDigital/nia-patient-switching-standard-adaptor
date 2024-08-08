@@ -185,8 +185,8 @@ public class BundleMapperService {
 
     private List<Encounter> handleMappedEncounterResources(
             Map<String, List<? extends DomainResource>> mappedEncounterEhrCompositions,
-            Bundle bundle
-    ) {
+            Bundle bundle) {
+
         var encounters = (List<Encounter>) mappedEncounterEhrCompositions.get(ENCOUNTER_KEY);
         var consultations = (List<ListResource>) mappedEncounterEhrCompositions.get(CONSULTATION_KEY);
         var topics = (List<ListResource>) mappedEncounterEhrCompositions.get(TOPIC_KEY);
@@ -220,8 +220,7 @@ public class BundleMapperService {
                 .map(
                         ehrComposition -> locationMapper.mapToLocation(
                                 ehrComposition.getLocation(),
-                                losingPracticeOdsCode
-                        )
+                                losingPracticeOdsCode)
                 )
                 .collect(
                         Collectors.collectingAndThen(
