@@ -6,26 +6,39 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.connector.dao.ImmunizationSnomedCTDao;
-import uk.nhs.adaptors.connector.model.ImmunizationSnomedCT;
 
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DatabaseImmunizationChecker implements ImmunizationChecker {
     private final ImmunizationSnomedCTDao immunizationSnomedDao;
 
     @Override
     public boolean isImmunization(RCMRMT030101UKObservationStatement observationStatement) {
-        ImmunizationSnomedCT immunizationCode = null;
+        final boolean translationIsPresent = !observationStatement.getCode().getTranslation().isEmpty();
 
-        if (!observationStatement.getCode().getTranslation().isEmpty()) {
-            immunizationCode = immunizationSnomedDao
-                    .getImmunizationSnomednUsingConceptId(observationStatement.getCode().getTranslation().get(0).getCode());
+        if (translationIsPresent) {
+            final boolean isImmunization = isTranslationCodeImmunization(observationStatement);
+
+            if (isImmunization) {
+                return true;
+            }
         }
 
-        if (immunizationCode == null) {
-            immunizationCode = immunizationSnomedDao.getImmunizationSnomednUsingConceptId(observationStatement.getCode().getCode());
-        }
+        return isCodeImmunization(observationStatement);
+    }
 
-        return immunizationCode != null;
+    private boolean isTranslationCodeImmunization(RCMRMT030101UKObservationStatement observationStatement) {
+        final String code = observationStatement.getCode()
+            .getTranslation()
+            .getFirst()
+            .getCode();
+
+        return immunizationSnomedDao.getImmunizationSnomednUsingConceptId(code) != null;
+    }
+
+    private boolean isCodeImmunization(RCMRMT030101UKObservationStatement observationStatement) {
+        final String code = observationStatement.getCode().getCode();
+
+        return immunizationSnomedDao.getImmunizationSnomednUsingConceptId(code) != null;
     }
 }
