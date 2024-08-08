@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator;
 
+import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -29,6 +30,14 @@ public final class TestUtility {
 
     public static CV createCv(String code) {
         return createCv(code, "", "");
+    }
+
+    public static CD createCd(String code, String codeSystem, String displayName) {
+        final CD cd = new CD();
+        cd.setCode(code);
+        cd.setCodeSystem(codeSystem);
+        cd.setDisplayName(displayName);
+        return cd;
     }
 
     /**
