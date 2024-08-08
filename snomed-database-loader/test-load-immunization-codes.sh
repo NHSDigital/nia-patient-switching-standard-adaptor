@@ -38,7 +38,7 @@ databaseUri="postgresql://${PS_DB_OWNER_NAME}:${POSTGRES_PASSWORD}@${PS_DB_HOST}
 function checkImmunizationCodesAreLoaded() {
   for immunizationCode;
   do
-    count=$(psql "${databaseUri}" -t -A -c "SELECT COUNT(conceptId) FROM ${snomedCtSchema}.immunization_codes WHERE conceptId ='${immunizationCode}'")
+    count=$(psql "${databaseUri}" -t -A -c "SELECT COUNT(DISTINCT conceptId) FROM ${snomedCtSchema}.immunization_codes WHERE conceptId ='${immunizationCode}'")
     if [ "${count}" != 1 ]
     then
       echo "immunization code not loaded: ${immunizationCode}"
