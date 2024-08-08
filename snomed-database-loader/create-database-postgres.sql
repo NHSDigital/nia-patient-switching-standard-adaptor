@@ -70,8 +70,9 @@ WITH RECURSIVE immunization_heirarchy AS (
              JOIN immunization_heirarchy i ON r.destinationId = i.conceptId
     WHERE r.typeId = '116680003' -- relationshipType (typeId) is 'IsA' (child of)
 )
-SELECT conceptId
-FROM immunization_heirarchy;
+SELECT ih.conceptId, ds.id as descriptionid
+FROM immunization_heirarchy ih
+JOIN snomedct.description_s ds on ih.conceptId = ds.conceptid;
 
 CREATE INDEX immunization_codes_conceptid_idx ON immunization_codes
     USING btree (conceptid);
