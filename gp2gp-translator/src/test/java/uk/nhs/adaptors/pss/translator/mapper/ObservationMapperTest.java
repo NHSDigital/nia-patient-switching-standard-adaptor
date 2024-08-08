@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.math.BigDecimal;
@@ -30,6 +31,7 @@ import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CV;
+import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 
@@ -103,6 +105,42 @@ public class ObservationMapperTest {
     private ObservationMapper observationMapper;
 
     @Test
+    public void mapTwoObservationsWrappedInCompoundStatementMetaSecurityWithNoPapExpectObservationsWithNoPat() {
+        var ehrExtract = unmarshallEhrExtractElement("nopat_compound_statement_with_observation.xml");
+
+        var ehrComposition = getEhrComposition(ehrExtract);
+        var observationStatements = getObservationStatementIncludedIntoCompoundStatement(ehrExtract);
+        var compoundStatement = ehrComposition
+            .getComponent()
+            .stream()
+            .flatMap(component4 -> extractAllCompoundStatements(component4))
+            .findFirst().get();
+
+        observationStatements.get(0).setConfidentialityCode(NOPAT_CV);
+        ehrComposition.setConfidentialityCode(NOPAT_CV);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatements.get(0).getConfidentialityCode(),
+            compoundStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatements.get(1).getConfidentialityCode(),
+            compoundStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
+        var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
+
+        assertThat(observations).hasSize(2);
+        assertMetaSecurityIsPresent(observations.get(0).getMeta());
+        assertMetaSecurityIsPresent(observations.get(1).getMeta());
+    }
+
+    @Test
     public void mapObservationMetaSecurityWithNoPatWhenConfidentialityCodeIsPresentForObservationStatementAndEhrComposition() {
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
 
@@ -115,7 +153,8 @@ public class ObservationMapperTest {
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
-            observationStatement.getConfidentialityCode()
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
         )).thenReturn(META);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
@@ -133,6 +172,7 @@ public class ObservationMapperTest {
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
+            Optional.empty(),
             Optional.empty()
         )).thenReturn(META);
 
@@ -150,7 +190,8 @@ public class ObservationMapperTest {
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
-            observationStatement.getConfidentialityCode()
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
         )).thenReturn(META);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
@@ -184,7 +225,8 @@ public class ObservationMapperTest {
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
-            observationStatement.getConfidentialityCode()
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
         )).thenReturn(META);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
@@ -205,7 +247,8 @@ public class ObservationMapperTest {
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
-            observationStatement.getConfidentialityCode()
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
         )).thenReturn(META);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
@@ -222,7 +265,8 @@ public class ObservationMapperTest {
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
-            observationStatement.getConfidentialityCode()
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
         )).thenReturn(META);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
@@ -258,7 +302,8 @@ public class ObservationMapperTest {
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
-            observationStatement.getConfidentialityCode()
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
         )).thenReturn(META);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
@@ -496,6 +541,17 @@ public class ObservationMapperTest {
             .getEhrFolder().getComponent().get(0)
             .getEhrComposition().getComponent().get(0)
             .getObservationStatement();
+    }
+
+    private List<RCMRMT030101UKObservationStatement> getObservationStatementIncludedIntoCompoundStatement(
+        RCMRMT030101UKEhrExtract ehrExtract) {
+
+        return ehrExtract.getComponent().get(0)
+            .getEhrFolder().getComponent().get(0)
+            .getEhrComposition().getComponent().get(0).getCompoundStatement().getComponent().stream()
+            .filter(RCMRMT030101UKComponent02::hasObservationStatement)
+            .map(RCMRMT030101UKComponent02::getObservationStatement)
+            .toList();
     }
 
     @SneakyThrows

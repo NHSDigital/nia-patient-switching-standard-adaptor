@@ -97,22 +97,23 @@ public class DiagnosticReportMapperTest {
                 """;
 
     private static final String EHR_EXTRACT_TEMPLATE_WITH_EHR_COMPOSITION = """
-                <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+        <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+            <component typeCode="COMP">
+                <ehrFolder classCode="FOLDER" moodCode="EVN">
                     <component typeCode="COMP">
-                        <ehrFolder classCode="FOLDER" moodCode="EVN">
+                        <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                            <id root="EHR_COMPOSITION_ID_1" />
+                            <confidentialityCode code="NOPAT" codeSystem="2.16.840.1.113883.4.642.3.47" displayName="no disclosure \n
+                            to patient, family or caregivers without attending provider's authorization" />
                             <component typeCode="COMP">
-                                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
-                                    <id root="EHR_COMPOSITION_ID_1" />
-                                    <confidentialityCode code="NOPAT" codeSystem="2.16.840.1.113883.4.642.3.47" displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
-                                    <component typeCode="COMP">
-                                        {DiagnosticReportCompoundStatement}
-                                    </component>
-                                </ehrComposition>
+                                {DiagnosticReportCompoundStatement}
                             </component>
-                        </ehrFolder>
+                        </ehrComposition>
                     </component>
-                </EhrExtract>
-                """;
+                </ehrFolder>
+            </component>
+        </EhrExtract>
+        """;
 
     @Mock
     private IdGeneratorService idGeneratorService;
@@ -131,7 +132,8 @@ public class DiagnosticReportMapperTest {
                 <id root="DIAGNOSTIC_REPORT_ID"/>
                 <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
                 <availabilityTime value="20100225154100"/>
-                <confidentialityCode code="NOPAT" codeSystem="2.16.840.1.113883.4.642.3.47" displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
+                <confidentialityCode code="NOPAT" codeSystem="2.16.840.1.113883.4.642.3.47" displayName="no disclosure to patient, \n
+                family or caregivers without attending provider's authorization" />
             </CompoundStatement>
             """);
 
@@ -157,7 +159,7 @@ public class DiagnosticReportMapperTest {
             <CompoundStatement classCode="CLUSTER" moodCode="EVN">
                 <id root="DIAGNOSTIC_REPORT_ID"/>
                 <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                <availabilityTime value="20100225154100"/>                
+                <availabilityTime value="20100225154100"/>
             </CompoundStatement>
             """);
 

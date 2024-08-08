@@ -19,6 +19,7 @@ import org.hl7.v3.CD;
 import org.hl7.v3.CR;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKAnnotation;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
@@ -44,6 +45,7 @@ import java.util.stream.Stream;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
 
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergiesAndBloodPressures;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
@@ -101,11 +103,19 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                                        List<Encounter> encounters,
                                        String practiseCode) {
 
+        var compoundStatement = ehrComposition
+            .getComponent()
+            .stream()
+            .flatMap(component4 -> extractAllCompoundStatements(component4))
+            .filter(Objects::nonNull)
+            .findFirst().orElseGet(RCMRMT030101UKCompoundStatement::new);
+
         var id = observationStatement.getId().getRoot();
         var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
-            observationStatement.getConfidentialityCode());
+            observationStatement.getConfidentialityCode(),
+            compoundStatement.getConfidentialityCode());
 
         var observation = buildBaseObservation(ehrComposition, observationStatement, patient, practiseCode, id, meta);
 

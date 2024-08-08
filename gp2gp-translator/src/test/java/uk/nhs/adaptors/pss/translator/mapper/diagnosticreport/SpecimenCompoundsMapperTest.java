@@ -61,7 +61,7 @@ public class SpecimenCompoundsMapperTest {
     private static final String SPECIMEN_ID = "TEST_SPECIMEN_ID";
     private static final String TEST_COMMENT_LINE = "First comment Line";
     private static final String TEST_COMMENT_LINE_1 = "Test Comment";
-    private static final String META_PROFILE = "SpecimenCompounds-1";
+    private static final String META_PROFILE = "Observation-1";
     private static final Meta META = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
     private static final CV NOPAT_CV = TestUtility.createCv(
         "NOPAT",
