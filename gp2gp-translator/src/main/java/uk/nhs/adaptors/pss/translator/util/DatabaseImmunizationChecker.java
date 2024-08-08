@@ -33,12 +33,12 @@ public class DatabaseImmunizationChecker implements ImmunizationChecker {
             .getFirst()
             .getCode();
 
-        return immunizationSnomedDao.getImmunizationSnomednUsingConceptId(code) != null;
+        return immunizationSnomedDao.getImmunizationSnomedUsingConceptOrDescriptionId(code) != null;
     }
 
     private boolean isCodeImmunization(RCMRMT030101UKObservationStatement observationStatement) {
         final String code = observationStatement.getCode().getCode();
 
-        return immunizationSnomedDao.getImmunizationSnomednUsingConceptId(code) != null;
+        return immunizationSnomedDao.getImmunizationSnomedUsingConceptOrDescriptionId(code) != null;
     }
 }

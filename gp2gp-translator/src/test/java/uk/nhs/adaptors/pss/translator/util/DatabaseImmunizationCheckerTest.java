@@ -46,7 +46,7 @@ class DatabaseImmunizationCheckerTest {
             .conceptId(expectedCode)
             .build();
 
-        when(immunizationSnomedCTDao.getImmunizationSnomednUsingConceptId(
+        when(immunizationSnomedCTDao.getImmunizationSnomedUsingConceptOrDescriptionId(
             snomedCtIdCaptor.capture()
         )).thenReturn(immunizationSnomedCT);
 
@@ -70,7 +70,7 @@ class DatabaseImmunizationCheckerTest {
             .conceptId(snomedCode)
             .build();
 
-        when(immunizationSnomedCTDao.getImmunizationSnomednUsingConceptId(
+        when(immunizationSnomedCTDao.getImmunizationSnomedUsingConceptOrDescriptionId(
             snomedCtIdCaptor.capture()
         )).thenReturn(null, immunizationSnomedCT);
 

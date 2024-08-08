@@ -9,7 +9,7 @@ import uk.nhs.adaptors.connector.model.ImmunizationSnomedCT;
 public interface ImmunizationSnomedCTDao {
     @SqlQuery("select_immunization_concept_id")
     @UseClasspathSqlLocator
-    ImmunizationSnomedCT getImmunizationSnomednUsingConceptId(@Bind("conceptId") String conceptId);
+    ImmunizationSnomedCT getImmunizationSnomedUsingConceptOrDescriptionId(@Bind("sctid") String sctId);
 
     @SqlQuery("verify_immunizations_loaded")
     @UseClasspathSqlLocator
