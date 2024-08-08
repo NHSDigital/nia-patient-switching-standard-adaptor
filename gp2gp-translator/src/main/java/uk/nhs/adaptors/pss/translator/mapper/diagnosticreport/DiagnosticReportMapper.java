@@ -41,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
@@ -61,6 +62,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     public static final String USER_COMMENT_COMMENT_TYPE = "CommentType:USER COMMENT";
 
     private final IdGeneratorService idGeneratorService;
+    private final ConfidentialityService confidentialityService;
 
     public static void addResultToDiagnosticReport(Observation observation, DiagnosticReport diagnosticReport) {
         if (!containsReference(diagnosticReport.getResult(), observation.getId())) {
@@ -126,7 +128,12 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         final DiagnosticReport diagnosticReport = new DiagnosticReport();
         final String id = compoundStatement.getId().get(0).getRoot();
 
-        diagnosticReport.setMeta(generateMeta(META_PROFILE_URL_SUFFIX));
+        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE_URL_SUFFIX,
+            composition.getConfidentialityCode(),
+            compoundStatement.getConfidentialityCode());
+
+        diagnosticReport.setMeta(meta);
         diagnosticReport.setId(id);
         diagnosticReport.addIdentifier(buildIdentifier(id, practiceCode));
         diagnosticReport.setCode(createCode());

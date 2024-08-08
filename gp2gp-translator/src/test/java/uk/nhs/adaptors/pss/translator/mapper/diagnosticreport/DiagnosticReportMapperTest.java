@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.io.IOException;
 import java.nio.file.Files;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 import java.nio.file.Paths;
@@ -12,13 +15,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.InstantType;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.UriType;
+import org.hl7.v3.CV;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +39,9 @@ import static org.mockito.Mockito.when;
 import lombok.SneakyThrows;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.UNKNOWN;
@@ -49,6 +62,11 @@ public class DiagnosticReportMapperTest {
     private static final Patient PATIENT = (Patient) new Patient().setId("PATIENT_TEST_ID");
     private static final String CONCLUSION_FIELD_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_1\n"
         + "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_2";
+    private static final Meta META = MetaFactory.getMetaFor(META_WITH_SECURITY, DIAGNOSTIC_REPORT_META_SUFFIX);
+    private static final CV NOPAT_CV = TestUtility.createCv(
+        "NOPAT",
+        "http://hl7.org/fhir/v3/ActCode",
+        "no disclosure to patient, family or caregivers without attending provider's authorization");
 
     private static final String NARRATIVE_STATEMENT_COMMENT_BLOCK = """
         CommentType:LABORATORY RESULT COMMENT(E141)
@@ -78,12 +96,85 @@ public class DiagnosticReportMapperTest {
                 </EhrExtract>
                 """;
 
+    private static final String EHR_EXTRACT_TEMPLATE_WITH_EHR_COMPOSITION = """
+                <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+                    <component typeCode="COMP">
+                        <ehrFolder classCode="FOLDER" moodCode="EVN">
+                            <component typeCode="COMP">
+                                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                                    <id root="EHR_COMPOSITION_ID_1" />
+                                    <confidentialityCode code="NOPAT" codeSystem="2.16.840.1.113883.4.642.3.47" displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
+                                    <component typeCode="COMP">
+                                        {DiagnosticReportCompoundStatement}
+                                    </component>
+                                </ehrComposition>
+                            </component>
+                        </ehrFolder>
+                    </component>
+                </EhrExtract>
+                """;
+
     @Mock
     private IdGeneratorService idGeneratorService;
+
+    @Mock
+    private ConfidentialityService confidentialityService;
 
     @InjectMocks
     private DiagnosticReportMapper diagnosticReportMapper;
 
+    @Test
+    public void When_DiagnosticReportWithNoPatIsMapped_Expect_DiagnosticReportWithNoPatMeta() {
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
+            """
+            <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                <id root="DIAGNOSTIC_REPORT_ID"/>
+                <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                <availabilityTime value="20100225154100"/>
+                <confidentialityCode code="NOPAT" codeSystem="2.16.840.1.113883.4.642.3.47" displayName="no disclosure to patient, family or caregivers without attending provider's authorization" />
+            </CompoundStatement>
+            """);
+
+        var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+        final var compoundStatement = getCompoundStatement(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DIAGNOSTIC_REPORT_META_SUFFIX,
+            Optional.empty(),
+            compoundStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
+        var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
+        var diagnosticReport = diagnosticReports.get(0);
+
+        assertMetaSecurityIsPresent(diagnosticReport.getMeta());
+    }
+
+    @Test
+    public void When_DiagnosticReportWithNoPatEhrCompositionIsMapped_Expect_DiagnosticReportWithNoPatMeta() {
+        var inputXml = buildEhrExtractStringWithNoPatEhrCompositionFromDiagnosticReportXml(
+            """
+            <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                <id root="DIAGNOSTIC_REPORT_ID"/>
+                <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+                <availabilityTime value="20100225154100"/>                
+            </CompoundStatement>
+            """);
+
+        var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+        final var ehrComposition = getEhrComposition(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DIAGNOSTIC_REPORT_META_SUFFIX,
+            ehrComposition.getConfidentialityCode(),
+            Optional.empty()
+        )).thenReturn(META);
+
+        var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
+        var diagnosticReport = diagnosticReports.get(0);
+
+        assertMetaSecurityIsPresent(diagnosticReport.getMeta());
+    }
 
     @Test
     public void When_DiagnosticReportWithNoReferenceIsMapped_Expect_DiagnosticReportIsCorrectlyMapped() {
@@ -97,6 +188,13 @@ public class DiagnosticReportMapperTest {
                 """);
 
         var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+        final var compoundStatement = getCompoundStatement(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DIAGNOSTIC_REPORT_META_SUFFIX,
+            Optional.empty(),
+            compoundStatement.getConfidentialityCode()
+        )).thenReturn(META);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
         var diagnosticReport = diagnosticReports.get(0);
@@ -114,8 +212,7 @@ public class DiagnosticReportMapperTest {
                         .isEqualTo(PATIENT.getId()),
                 () -> assertThat(diagnosticReport.getIssuedElement().getValueAsString())
                         .isEqualTo(ISSUED_ELEMENT.getValueAsString()),
-                () -> assertThat(diagnosticReport.hasContext())
-                        .isFalse(),
+                () -> assertFalse(diagnosticReport.hasContext()),
                 () -> assertThat(diagnosticReport.getSpecimen())
                         .isEmpty(),
                 () -> assertThat(diagnosticReport.getResult())
@@ -561,13 +658,40 @@ TEST COMMENT
                         .setId("C515E722-2473-11EE-808B-AC162D1F16F0");
     }
 
+    private RCMRMT030101UKCompoundStatement getCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
+        return ehrExtract.getComponent().get(0)
+            .getEhrFolder().getComponent().get(0)
+            .getEhrComposition().getComponent().get(0)
+            .getCompoundStatement();
+    }
+
     private List<Encounter> createEncounterList() {
         return List.of((Encounter) new Encounter().setId(ENCOUNTER_ID));
+    }
+
+    private void assertMetaSecurityIsPresent(final Meta meta) {
+        final List<Coding> metaSecurity = meta.getSecurity();
+        final int metaSecuritySize = metaSecurity.size();
+        final Coding metaSecurityCoding = metaSecurity.get(0);
+        final UriType metaProfile = meta.getProfile().get(0);
+
+        assertAll(
+            () -> assertThat(metaSecuritySize).isEqualTo(1),
+            () -> assertThat(metaProfile.getValue()).isEqualTo(DIAGNOSTIC_REPORT_META_SUFFIX),
+            () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
+            () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
+            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem()));
     }
 
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallEhrExtractFromXmlString(String xmlString) {
         return unmarshallString(xmlString, RCMRMT030101UKEhrExtract.class);
+    }
+
+    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
+        return ehrExtract.getComponent().get(0)
+            .getEhrFolder().getComponent().get(0)
+            .getEhrComposition();
     }
 
     private static String readFileAsString(String path) throws IOException {
@@ -577,5 +701,9 @@ TEST COMMENT
 
     private static String buildEhrExtractStringFromDiagnosticReportXml(String diagnosticReportXml) {
         return EHR_EXTRACT_TEMPLATE.replace("{DiagnosticReportCompoundStatement}", diagnosticReportXml);
+    }
+
+    private static String buildEhrExtractStringWithNoPatEhrCompositionFromDiagnosticReportXml(String diagnosticReportXml) {
+        return EHR_EXTRACT_TEMPLATE_WITH_EHR_COMPOSITION.replace("{DiagnosticReportCompoundStatement}", diagnosticReportXml);
     }
 }

@@ -50,7 +50,7 @@ public class SpecimenCompoundsMapper {
     public static final String CODING_CODE = "laboratory";
     public static final String CODING_SYSTEM = "http://hl7.org/fhir/observation-category";
     public static final String CODING_DISPLAY = "Laboratory";
-    private static final String META_PROFILE = "SpecimenCompounds-1";
+    private static final String META_PROFILE = "Observation-1";
 
     private final SpecimenBatteryMapper batteryMapper;
     private final ConfidentialityService confidentialityService;
