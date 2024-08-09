@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 
@@ -13,6 +14,7 @@ import static uk.nhs.adaptors.pss.translator.TestUtility.createCd;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@DirtiesContext
 class DatabaseImmunizationCheckerIT {
     private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
     private static final String DISPLAY_NAME = "Administration of yellow fever vaccine";
