@@ -48,8 +48,8 @@ public final class TestUtility {
      * @param extractComponentIndex The index of the RCMRMT030101UKComponent which houses the EHR Folder.
      * @return A list of RCMRMT030101UKComponent3.
      */
-    public static List<RCMRMT030101UKComponent3> getEhrFolderComponent(RCMRMT030101UKEhrExtract extract,
-                                                                       int extractComponentIndex) {
+    public static List<RCMRMT030101UKComponent3> getEhrFolderComponents(RCMRMT030101UKEhrExtract extract,
+                                                                        int extractComponentIndex) {
         final RCMRMT030101UKEhrFolder targetFolder = extract
             .getComponent()
             .get(extractComponentIndex)

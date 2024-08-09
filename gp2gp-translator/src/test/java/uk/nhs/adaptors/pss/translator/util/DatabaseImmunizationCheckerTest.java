@@ -21,7 +21,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.Mockito.when;
-import static uk.nhs.adaptors.pss.translator.TestUtility.getEhrFolderComponent;
+import static uk.nhs.adaptors.pss.translator.TestUtility.getEhrFolderComponents;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 @ExtendWith(MockitoExtension.class)
@@ -85,7 +85,7 @@ class DatabaseImmunizationCheckerTest {
 
     private RCMRMT030101UKObservationStatement getObservationStatementFromExtract(String filename) throws JAXBException {
         final RCMRMT030101UKEhrExtract ehrExtract = getEhrExtractFromFile(filename);
-        final List<RCMRMT030101UKComponent3> components = getEhrFolderComponent(ehrExtract, 0);
+        final List<RCMRMT030101UKComponent3> components = getEhrFolderComponents(ehrExtract, 0);
 
         return components.getFirst()
             .getEhrComposition()
