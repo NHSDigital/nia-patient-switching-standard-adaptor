@@ -20,6 +20,9 @@ corresponding FHIR resource will now be [appropriately populated][nopat-docs].
     corresponding FHIR resource will now be [appropriately populated][nopat-docs].
 * If a `bloodPressure` record includes a `confidentialityCode`, the `meta.security` field of the
     corresponding FHIR resource will now be [appropriately populated][nopat-docs].
+* Fixed bug where the PS adaptor would incorrectly map an immunization to observation,
+the adaptor now checks if the Snomed CT ID against the Concept ID and the Description ID 
+if a match is found, it is an immunization.
 
 ### Fixed
 * Resolved issue where the SNOMED import script would reject a password containing a '%' character.
