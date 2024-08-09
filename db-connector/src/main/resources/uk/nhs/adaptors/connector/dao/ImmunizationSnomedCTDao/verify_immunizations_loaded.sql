@@ -1,7 +1,7 @@
 -- the conceptIds being checked for below represent the immunization root codes and those immunization codes outside
 -- of the root code hierarchy, as described in the snomed-database-loader README.md file
 
-SELECT COUNT(i.conceptid) = 16 -- total number of codes
+SELECT COUNT(DISTINCT i.conceptid) = 16 -- total number of codes
 FROM "snomedct".immunization_codes i
 WHERE i.conceptid IN (
                       '787859002', '127785005', '304250009', '90351000119108','713404003','2997511000001102',
