@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ImmunizationSnomedCT {
-    private String conceptId;
+    private String snomedId;
 }

@@ -1,1 +1,1 @@
-SELECT i.conceptid FROM "snomedct".immunization_codes i WHERE conceptid = :conceptId;
+SELECT i.concept_or_description_id FROM "snomedct".immunization_codes i WHERE i.concept_or_description_id = :snomedId;
