@@ -11,10 +11,13 @@ import uk.nhs.adaptors.connector.model.ImmunizationSnomedCT;
 
 @Component
 public class ImmunizationSnomedCTMapper implements RowMapper<ImmunizationSnomedCT> {
+    private static final String COLUMN_NAME = "concept_or_description_id";
+
     @Override
     public ImmunizationSnomedCT map(ResultSet rs, StatementContext ctx) throws SQLException {
+        final String conceptOrDescriptionId = rs.getString(COLUMN_NAME);
         return ImmunizationSnomedCT.builder()
-            .conceptId(rs.getString("conceptId"))
+            .snomedId(conceptOrDescriptionId)
             .build();
     }
 }
