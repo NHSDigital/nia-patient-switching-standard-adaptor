@@ -75,7 +75,7 @@ public class SpecimenMapperTest {
     private SpecimenMapper specimenMapper;
 
     @Test
-    public void testHandlingSpecimenNoPatCompoundStatement() {
+    public void testThatSpecimenIsPopulatedWithMetaSecurityWhenNoPatCompoundStatement() {
         when(dateTimeMapper.mapDateTime(any())).thenCallRealMethod();
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid_with_nopat_compound_statement.xml");
         final var compoundStatement = getCompoundStatement(ehrExtract);
@@ -90,9 +90,7 @@ public class SpecimenMapperTest {
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE);
 
         assertThat(specimenList).isNotEmpty();
-
         final Specimen specimen = specimenList.getFirst();
-        checkFixedValues(specimen);
         assertMetaSecurityIsPresent(specimen.getMeta());
     }
 

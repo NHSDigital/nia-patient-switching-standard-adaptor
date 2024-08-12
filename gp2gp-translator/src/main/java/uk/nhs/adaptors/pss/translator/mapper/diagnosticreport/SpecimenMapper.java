@@ -205,10 +205,10 @@ public class SpecimenMapper {
             .stream()
             .filter(RCMRMT030101UKComponent3::hasEhrComposition)
             .map(RCMRMT030101UKComponent3::getEhrComposition)
-            .filter(e -> e.getComponent()
-                        .stream()
-                        .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
-                        .anyMatch(parentCompoundStatement::equals)
-                   ).findFirst().get();
+            .filter(ehrComposition -> ehrComposition.getComponent()
+                                                    .stream()
+                                                    .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
+                                                    .anyMatch(parentCompoundStatement::equals))
+            .findFirst().get();
     }
 }

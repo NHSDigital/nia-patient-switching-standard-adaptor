@@ -51,7 +51,7 @@ import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableCon
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private static final String PMIP_EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
-    private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
+    private static final String META_PROFILE = "DiagnosticReport-1";
     public static final String CODING_CODE = "721981007";
     public static final String CODING_SYSTEM = "http://snomed.info/sct";
     public static final String CODING_DISPLAY = "Diagnostic studies report";
@@ -128,7 +128,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         final String id = compoundStatement.getId().get(0).getRoot();
 
         var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-            META_PROFILE_URL_SUFFIX,
+            META_PROFILE,
             composition.getConfidentialityCode(),
             compoundStatement.getConfidentialityCode());
 
