@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
@@ -44,8 +45,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
-
-import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergiesAndBloodPressures;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
@@ -106,7 +105,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         var compoundStatement = ehrComposition
             .getComponent()
             .stream()
-            .flatMap(component4 -> extractAllCompoundStatements(component4))
+            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
             .filter(Objects::nonNull)
             .findFirst().orElseGet(RCMRMT030101UKCompoundStatement::new);
 
