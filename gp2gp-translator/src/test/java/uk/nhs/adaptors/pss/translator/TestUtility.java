@@ -1,9 +1,13 @@
 package uk.nhs.adaptors.pss.translator;
 
+import org.hl7.v3.CD;
 import org.hl7.v3.CV;
+import org.hl7.v3.RCMRMT030101UKComponent3;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKEhrFolder;
 
+import java.util.List;
 import java.util.function.Function;
 
 public final class TestUtility {
@@ -11,9 +15,9 @@ public final class TestUtility {
 
     public static final Function<RCMRMT030101UKEhrExtract, RCMRMT030101UKEhrComposition> GET_EHR_COMPOSITION =
         extract -> extract
-            .getComponent().get(0)
+            .getComponent().getFirst()
             .getEhrFolder()
-            .getComponent().get(0)
+            .getComponent().getFirst()
             .getEhrComposition();
 
     public static CV createCv(String code, String codeSystem, String displayName) {
@@ -26,6 +30,32 @@ public final class TestUtility {
 
     public static CV createCv(String code) {
         return createCv(code, "", "");
+    }
+
+    public static CD createCd(String code, String codeSystem, String displayName) {
+        final CD cd = new CD();
+        cd.setCode(code);
+        cd.setCodeSystem(codeSystem);
+        cd.setDisplayName(displayName);
+        return cd;
+    }
+
+    /**
+     * An EHR Extract has a cardinality of one to many components, each component (based
+     * of the UK05 schema) can contain one and only one EHR Folder. This utility method provides
+     * a means of extracting ALL components from within a target EHR Folder.
+     * @param extract The EHR Extract.
+     * @param extractComponentIndex The index of the RCMRMT030101UKComponent which houses the EHR Folder.
+     * @return A list of RCMRMT030101UKComponent3.
+     */
+    public static List<RCMRMT030101UKComponent3> getEhrFolderComponents(RCMRMT030101UKEhrExtract extract,
+                                                                        int extractComponentIndex) {
+        final RCMRMT030101UKEhrFolder targetFolder = extract
+            .getComponent()
+            .get(extractComponentIndex)
+            .getEhrFolder();
+
+        return targetFolder.getComponent();
     }
 
     public static class NoConfidentialityCodePresentException extends RuntimeException {
