@@ -299,8 +299,7 @@ Map<String,String> collectTfOutputs(String component) {
 }
 
 int ecrLogin(String aws_region) {
-    String ecrCommand = "aws ecr get-login --region ${aws_region}"
-    String dockerLogin = sh (label: "Getting Docker login from ECR", script: ecrCommand, returnStdout: true).replace("-e none","") // some parameters that AWS provides and docker does not recognize
+    String dockerLogin = "aws ecr get-login-password --region ${aws_region} | docker login -u AWS --password-stdin \"https://\$(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${aws_region}.amazonaws.com\""
     return sh(label: "Logging in with Docker", script: dockerLogin, returnStatus: true)
 }
 
