@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
@@ -147,7 +150,7 @@ public class DiagnosticReportMapperTest {
         )).thenReturn(META);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
-        var diagnosticReport = diagnosticReports.get(0);
+        var diagnosticReport = diagnosticReports.getFirst();
 
         assertMetaSecurityIsPresent(diagnosticReport.getMeta());
     }
@@ -173,7 +176,7 @@ public class DiagnosticReportMapperTest {
         )).thenReturn(META);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
-        var diagnosticReport = diagnosticReports.get(0);
+        var diagnosticReport = diagnosticReports.getFirst();
 
         assertMetaSecurityIsPresent(diagnosticReport.getMeta());
     }
@@ -199,26 +202,18 @@ public class DiagnosticReportMapperTest {
         )).thenReturn(META);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
-        var diagnosticReport = diagnosticReports.get(0);
+        var diagnosticReport = diagnosticReports.getFirst();
 
         assertAll(
-                () -> assertThat(diagnosticReport.getId())
-                        .isEqualTo(DIAGNOSTIC_REPORT_ID),
-                () -> assertThat(diagnosticReport.getMeta().getProfile().get(0).getValue())
-                        .contains(DIAGNOSTIC_REPORT_META_SUFFIX),
-                () -> assertThat(diagnosticReport.getIdentifierFirstRep().getSystem())
-                        .contains(PRACTICE_CODE),
-                () -> assertThat(diagnosticReport.getIdentifierFirstRep().getValue())
-                        .isEqualTo(DIAGNOSTIC_REPORT_ID),
-                () -> assertThat(diagnosticReport.getSubject().getResource().getIdElement().getValue())
-                        .isEqualTo(PATIENT.getId()),
-                () -> assertThat(diagnosticReport.getIssuedElement().getValueAsString())
-                        .isEqualTo(ISSUED_ELEMENT.getValueAsString()),
-                () -> assertFalse(diagnosticReport.hasContext()),
-                () -> assertThat(diagnosticReport.getSpecimen())
-                        .isEmpty(),
-                () -> assertThat(diagnosticReport.getResult())
-                        .isEmpty()
+            () -> assertThat(diagnosticReport.getId()).isEqualTo(DIAGNOSTIC_REPORT_ID),
+            () -> assertThat(diagnosticReport.getMeta().getProfile().getFirst().getValue()).contains(DIAGNOSTIC_REPORT_META_SUFFIX),
+            () -> assertThat(diagnosticReport.getIdentifierFirstRep().getSystem()).contains(PRACTICE_CODE),
+            () -> assertThat(diagnosticReport.getIdentifierFirstRep().getValue()).isEqualTo(DIAGNOSTIC_REPORT_ID),
+            () -> assertThat(diagnosticReport.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT.getId()),
+            () -> assertThat(diagnosticReport.getIssuedElement().getValueAsString()).isEqualTo(ISSUED_ELEMENT.getValueAsString()),
+            () -> assertFalse(diagnosticReport.hasContext()),
+            () -> assertThat(diagnosticReport.getSpecimen()).isEmpty(),
+            () -> assertThat(diagnosticReport.getResult()).isEmpty()
         );
     }
 
@@ -236,13 +231,11 @@ public class DiagnosticReportMapperTest {
         var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
-        var actualPMIPExtension = diagnosticReports.get(0).getIdentifier().get(1);
+        var actualPMIPExtension = diagnosticReports.getFirst().getIdentifier().get(1);
 
         assertAll(
-                () -> assertThat(actualPMIPExtension.getSystem())
-                        .isEqualTo("urn:oid:2.16.840.1.113883.2.1.4.5.5"),
-                () -> assertThat(actualPMIPExtension.getValue())
-                        .isEqualTo("TEST_PMIP_EXTENSION_VALUE")
+            () -> assertThat(actualPMIPExtension.getSystem()).isEqualTo("urn:oid:2.16.840.1.113883.2.1.4.5.5"),
+            () -> assertThat(actualPMIPExtension.getValue()).isEqualTo("TEST_PMIP_EXTENSION_VALUE")
         );
     }
 
@@ -265,13 +258,11 @@ public class DiagnosticReportMapperTest {
         var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
-        var diagnosticReport = diagnosticReports.get(0);
+        var diagnosticReport = diagnosticReports.getFirst();
 
         assertAll(
-                () -> assertThat(diagnosticReport.getSpecimen())
-                        .isNotEmpty(),
-                () -> assertThat(diagnosticReport.getSpecimenFirstRep().getReference())
-                        .contains(COMPOUND_STATEMENT_CHILD_ID)
+            () -> assertThat(diagnosticReport.getSpecimen()).isNotEmpty(),
+            () -> assertThat(diagnosticReport.getSpecimenFirstRep().getReference()).contains(COMPOUND_STATEMENT_CHILD_ID)
         );
     }
 
@@ -303,13 +294,11 @@ public class DiagnosticReportMapperTest {
         var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
-        var diagnosticReport = diagnosticReports.get(0);
+        var diagnosticReport = diagnosticReports.getFirst();
 
         assertAll(
-                () -> assertThat(diagnosticReport.getResult())
-                        .hasSize(1),
-                () -> assertThat(diagnosticReport.getResultFirstRep().getReference())
-                        .contains(NARRATIVE_STATEMENT_ID_2)
+            () -> assertThat(diagnosticReport.getResult()).hasSize(1),
+            () -> assertThat(diagnosticReport.getResultFirstRep().getReference()).contains(NARRATIVE_STATEMENT_ID_2)
         );
     }
 
@@ -341,13 +330,11 @@ public class DiagnosticReportMapperTest {
         var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
-        var diagnosticReport = diagnosticReports.get(0);
+        var diagnosticReport = diagnosticReports.getFirst();
 
         assertAll(
-                () -> assertThat(diagnosticReport.getResult())
-                        .hasSize(1),
-                () -> assertThat(diagnosticReport.getResultFirstRep().getReference())
-                        .contains(NARRATIVE_STATEMENT_ID_2)
+            () -> assertThat(diagnosticReport.getResult()).hasSize(1),
+            () -> assertThat(diagnosticReport.getResultFirstRep().getReference()).contains(NARRATIVE_STATEMENT_ID_2)
         );
     }
 
@@ -387,12 +374,9 @@ public class DiagnosticReportMapperTest {
         diagnosticReportMapper.handleChildObservationComments(ehrExtract, observationComments);
 
         assertAll(
-                () -> assertThat(observationComments)
-                        .hasSize(1),
-                () -> assertThat(observationComments.get(0).hasEffective())
-                        .isFalse(),
-                () -> assertThat(observationComments.get(0).getComment())
-                        .isEqualTo(NARRATIVE_STATEMENT_2_TEXT)
+            () -> assertThat(observationComments).hasSize(1),
+            () -> assertFalse(observationComments.getFirst().hasEffective()),
+            () -> assertThat(observationComments.getFirst().getComment()).isEqualTo(NARRATIVE_STATEMENT_2_TEXT)
         );
     }
 
@@ -409,7 +393,7 @@ public class DiagnosticReportMapperTest {
             PATIENT,
             createEncounterList(),
             PRACTICE_CODE);
-        var diagnosticReport = diagnosticReports.get(0);
+        var diagnosticReport = diagnosticReports.getFirst();
 
         assertThat(diagnosticReport.getResult()).map(r -> r.getReference())
                 .isEqualTo(List.of("Observation/3E1A4EA2-661B-4467-8843-6A6B21DEF14F",
@@ -440,15 +424,12 @@ public class DiagnosticReportMapperTest {
                 PATIENT,
                 createEncounterList(),
                 PRACTICE_CODE);
-        var diagnosticReport = diagnosticReports.get(0);
+        var diagnosticReport = diagnosticReports.getFirst();
 
         assertAll(
-                () -> assertThat(diagnosticReport.hasContext())
-                        .isTrue(),
-                () -> assertThat(diagnosticReport.getContext().getResource())
-                        .isNotNull(),
-                () -> assertThat(diagnosticReport.getContext().getResource().getIdElement().getValue())
-                        .isEqualTo(ENCOUNTER_ID)
+            () -> assertTrue(diagnosticReport.hasContext()),
+            () -> assertNotNull(diagnosticReport.getContext().getResource()),
+            () -> assertThat(diagnosticReport.getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID)
         );
     }
 
@@ -495,13 +476,11 @@ TEST COMMENT
                 PATIENT,
                 createEncounterList(),
                 PRACTICE_CODE);
-        var diagnosticReport = diagnosticReports.get(0);
+        var diagnosticReport = diagnosticReports.getFirst();
 
         assertAll(
-                () -> assertThat(diagnosticReport.hasConclusion())
-                        .isTrue(),
-                () -> assertThat(diagnosticReport.getConclusion())
-                        .isEqualTo(CONCLUSION_FIELD_TEXT)
+            () -> assertTrue(diagnosticReport.hasConclusion()),
+            () -> assertThat(diagnosticReport.getConclusion()).isEqualTo(CONCLUSION_FIELD_TEXT)
         );
     }
 
@@ -559,13 +538,11 @@ TEST COMMENT
                 PRACTICE_CODE,
                 new ArrayList<>(Collections.singleton(batteryLevelFilingComment)));
 
-        final var diagnosticReport = diagnosticReports.get(0);
+        final var diagnosticReport = diagnosticReports.getFirst();
 
         assertAll(
-                () -> assertThat(diagnosticReport.getResult())
-                        .hasSize(1),
-                () -> assertThat(diagnosticReport.getResult().get(0).getReference())
-                        .isEqualTo(expectedReference)
+            () -> assertThat(diagnosticReport.getResult()).hasSize(1),
+            () -> assertThat(diagnosticReport.getResult().getFirst().getReference()).isEqualTo(expectedReference)
         );
     }
 
@@ -623,16 +600,14 @@ TEST COMMENT
                 observationComments);
 
         assertAll(
-                () -> assertThat(observationComments)
-                        .hasSize(2),
-                () -> assertThat(observationComments.get(1).getId())
-                        .isEqualTo(NEW_OBSERVATION_ID),
-                () -> assertThat(observationComments.get(1).getIdentifierFirstRep().getValue())
-                        .isEqualTo(NEW_OBSERVATION_ID),
-                () -> assertThat(observationComments.get(1).getEffectiveDateTimeType().getValueAsString())
-                        .isEqualTo("2024-01-01"),
-                () -> assertThat(observationComments.get(1).getComment()).isNull(),
-                () -> assertThat(observationComments.get(1).getStatus()).isEqualTo(UNKNOWN)
+            () -> assertThat(observationComments).hasSize(2),
+            () -> assertThat(observationComments.get(1).getId()).isEqualTo(NEW_OBSERVATION_ID),
+            () -> assertThat(observationComments.get(1).getIdentifierFirstRep().getValue())
+                .isEqualTo(NEW_OBSERVATION_ID),
+            () -> assertThat(observationComments.get(1).getEffectiveDateTimeType().getValueAsString())
+                .isEqualTo("2024-01-01"),
+            () -> assertNull(observationComments.get(1).getComment()),
+            () -> assertThat(observationComments.get(1).getStatus()).isEqualTo(UNKNOWN)
         );
     }
 
@@ -661,9 +636,9 @@ TEST COMMENT
     }
 
     private RCMRMT030101UKCompoundStatement getCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
-        return ehrExtract.getComponent().get(0)
-            .getEhrFolder().getComponent().get(0)
-            .getEhrComposition().getComponent().get(0)
+        return ehrExtract.getComponent().getFirst()
+            .getEhrFolder().getComponent().getFirst()
+            .getEhrComposition().getComponent().getFirst()
             .getCompoundStatement();
     }
 
@@ -674,8 +649,8 @@ TEST COMMENT
     private void assertMetaSecurityIsPresent(final Meta meta) {
         final List<Coding> metaSecurity = meta.getSecurity();
         final int metaSecuritySize = metaSecurity.size();
-        final Coding metaSecurityCoding = metaSecurity.get(0);
-        final UriType metaProfile = meta.getProfile().get(0);
+        final Coding metaSecurityCoding = metaSecurity.getFirst();
+        final UriType metaProfile = meta.getProfile().getFirst();
 
         assertAll(
             () -> assertThat(metaSecuritySize).isEqualTo(1),
@@ -691,8 +666,8 @@ TEST COMMENT
     }
 
     private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
-        return ehrExtract.getComponent().get(0)
-            .getEhrFolder().getComponent().get(0)
+        return ehrExtract.getComponent().getFirst()
+            .getEhrFolder().getComponent().getFirst()
             .getEhrComposition();
     }
 

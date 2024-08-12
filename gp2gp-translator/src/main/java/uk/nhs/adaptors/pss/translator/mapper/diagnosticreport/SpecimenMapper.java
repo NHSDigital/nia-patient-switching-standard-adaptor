@@ -57,8 +57,8 @@ public class SpecimenMapper {
             .filter(Objects::nonNull)
             .distinct()
             .map(childCompoundStatement -> {
-                var currentEhrComposition = getEhrComposition(ehrExtract, childCompoundStatement);
-                return createSpecimen(currentEhrComposition, childCompoundStatement, patient, practiceCode);
+                var ehrComposition = getEhrComposition(ehrExtract, childCompoundStatement);
+                return createSpecimen(ehrComposition, childCompoundStatement, patient, practiceCode);
             })
             .toList();
     }
@@ -94,7 +94,7 @@ public class SpecimenMapper {
             specimenCompoundStatement.getConfidentialityCode());
 
         Specimen specimen = new Specimen();
-        final String id = specimenCompoundStatement.getId().get(0).getRoot();
+        final String id = specimenCompoundStatement.getId().getFirst().getRoot();
 
         specimen.addIdentifier(buildIdentifier(id, practiceCode))
                 .setSubject(new Reference(patient))
@@ -162,14 +162,14 @@ public class SpecimenMapper {
     private Optional<RCMRMT030101UKSpecimenRole> getSpecimenRole(RCMRMT030101UKCompoundStatement specimenCompoundStatement) {
 
         return !specimenCompoundStatement.getSpecimen().isEmpty()
-            ? Optional.ofNullable(specimenCompoundStatement.getSpecimen().get(0).getSpecimenRole())
+            ? Optional.ofNullable(specimenCompoundStatement.getSpecimen().getFirst().getSpecimenRole())
             : Optional.empty();
     }
 
     private Optional<RCMRMT030101UKCompoundStatement> getParentCompoundStatementByChildId(
         RCMRMT030101UKEhrExtract ehrExtract, String id) {
 
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
+        return ehrExtract.getComponent().getFirst().getEhrFolder().getComponent().stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
             .filter(Objects::nonNull)
@@ -177,13 +177,13 @@ public class SpecimenMapper {
                 .stream()
                 .map(RCMRMT030101UKComponent02::getCompoundStatement)
                 .filter(Objects::nonNull)
-                .anyMatch(e -> id.equals(e.getId().get(0).getRoot()))
+                .anyMatch(e -> id.equals(e.getId().getFirst().getRoot()))
             ).findFirst();
     }
 
     private List<RCMRMT030101UKCompoundStatement> findAllSpecimenCompoundStatements(RCMRMT030101UKEhrExtract ehrExtract) {
 
-        var topLevelComponents = ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
+        var topLevelComponents = ehrExtract.getComponent().getFirst().getEhrFolder().getComponent().stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
             .toList();
 
@@ -201,7 +201,7 @@ public class SpecimenMapper {
     private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract,
                                                            RCMRMT030101UKCompoundStatement parentCompoundStatement) {
 
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
+        return ehrExtract.getComponent().getFirst().getEhrFolder().getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent3::hasEhrComposition)
             .map(RCMRMT030101UKComponent3::getEhrComposition)

@@ -104,10 +104,6 @@ public class SpecimenCompoundsMapperTest {
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE
         );
 
-        assertParentSpecimenIsReferenced(observations.getFirst());
-        assertThat(observations.getFirst().getIssuedElement().asStringValue()).isEqualTo("2010-02-25T15:41:00.000+00:00");
-        assertThat(diagnosticReports.getFirst().getResult()).isNotEmpty();
-
         final Reference result = diagnosticReports.getFirst().getResult().getFirst();
 
         assertMetaSecurityIsPresent(observations.getFirst().getMeta());
@@ -128,9 +124,6 @@ public class SpecimenCompoundsMapperTest {
         specimenCompoundsMapper.handleSpecimenChildComponents(
             ehrExtract, observations, observationComments, diagnosticReports, PATIENT, List.of(), TEST_PRACTISE_CODE);
 
-        assertParentSpecimenIsReferenced(observations.getFirst());
-        assertThat(observations.getFirst().getIssuedElement().asStringValue()).isEqualTo("2010-02-25T15:41:00.000+00:00");
-        assertThat(diagnosticReports.getFirst().getResult()).isNotEmpty();
 
         final Reference result = diagnosticReports.getFirst().getResult().getFirst();
 

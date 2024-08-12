@@ -72,17 +72,17 @@ public class SpecimenCompoundsMapper {
                 continue;
             }
 
-            var currentEhrComposition = getCurrentEhrComposition(ehrExtract, diagnosticReportCompoundStatement.orElseThrow());
+            var ehrComposition = getCurrentEhrComposition(ehrExtract, diagnosticReportCompoundStatement.orElseThrow());
 
             for (var specimenCompoundStatement : getSpecimenCompoundStatements(diagnosticReportCompoundStatement.get())) {
-                handleSpecimenObservationStatement(currentEhrComposition, observations, diagnosticReport, specimenCompoundStatement);
+                handleSpecimenObservationStatement(ehrComposition, observations, diagnosticReport, specimenCompoundStatement);
 
                 var nestedSpecimenCompoundStatements = getNestedSpecimenCompoundStatements(specimenCompoundStatement);
 
                 for (var nestedSpecimenCompoundStatement : nestedSpecimenCompoundStatements) {
-                    if (CLUSTER_CLASSCODE.equals(nestedSpecimenCompoundStatement.getClassCode().get(0))) {
+                    if (CLUSTER_CLASSCODE.equals(nestedSpecimenCompoundStatement.getClassCode().getFirst())) {
                         handleClusterCompoundStatement(
-                            currentEhrComposition,
+                            ehrComposition,
                             specimenCompoundStatement,
                             nestedSpecimenCompoundStatement,
                             observations,
@@ -92,9 +92,9 @@ public class SpecimenCompoundsMapper {
                         );
                     }
 
-                    if (BATTERY_CLASSCODE.equals(nestedSpecimenCompoundStatement.getClassCode().get(0))) {
+                    if (BATTERY_CLASSCODE.equals(nestedSpecimenCompoundStatement.getClassCode().getFirst())) {
                         handleBatteryCompoundStatement(
-                            currentEhrComposition,
+                            ehrComposition,
                             specimenCompoundStatement,
                             nestedSpecimenCompoundStatement,
                             observations,
@@ -106,7 +106,7 @@ public class SpecimenCompoundsMapper {
                             .ehrExtract(ehrExtract)
                             .batteryCompoundStatement(nestedSpecimenCompoundStatement)
                             .specimenCompoundStatement(specimenCompoundStatement)
-                            .ehrComposition(currentEhrComposition)
+                            .ehrComposition(ehrComposition)
                             .diagnosticReport(diagnosticReport)
                             .patient(patient)
                             .encounters(encounters)

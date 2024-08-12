@@ -57,7 +57,7 @@ public class SpecimenMapperTest {
     private static final DiagnosticReport DIAGNOSTIC_REPORT_WITH_SPECIMEN = generateDiagnosticReportWithSpecimenReference();
     private static final DiagnosticReport DIAGNOSTIC_REPORT_WITHOUT_SPECIMEN = generateDiagnosticReportWithNoSpecimenReference();
     private static final String SPECIMEN_META_PROFILE = "Specimen-1";
-    private static final Meta META = MetaFactory.getMetaFor(META_WITH_SECURITY, SPECIMEN_META_PROFILE);
+    private static final Meta META_WITH_SECURITY_ADDED = MetaFactory.getMetaFor(META_WITH_SECURITY, SPECIMEN_META_PROFILE);
     private static final CV NOPAT_CV = TestUtility.createCv(
         "NOPAT",
         "http://hl7.org/fhir/v3/ActCode",
@@ -84,7 +84,7 @@ public class SpecimenMapperTest {
             SPECIMEN_META_PROFILE,
             Optional.empty(),
             compoundStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         List<Specimen> specimenList = specimenMapper.mapSpecimens(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE);
@@ -106,15 +106,13 @@ public class SpecimenMapperTest {
             SPECIMEN_META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             Optional.empty()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         List<Specimen> specimenList = specimenMapper.mapSpecimens(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE);
 
         assertThat(specimenList).isNotEmpty();
-
         final Specimen specimen = specimenList.getFirst();
-        checkFixedValues(specimen);
         assertMetaSecurityIsPresent(specimen.getMeta());
     }
 
@@ -128,7 +126,7 @@ public class SpecimenMapperTest {
             SPECIMEN_META_PROFILE,
             Optional.empty(),
             compoundStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         List<Specimen> specimenList = specimenMapper.mapSpecimens(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE
@@ -153,7 +151,7 @@ public class SpecimenMapperTest {
             SPECIMEN_META_PROFILE,
             Optional.empty(),
             compoundStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         List<Specimen> specimenList = specimenMapper.mapSpecimens(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE

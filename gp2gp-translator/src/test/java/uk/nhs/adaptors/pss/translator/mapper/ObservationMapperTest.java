@@ -116,7 +116,7 @@ public class ObservationMapperTest {
             .flatMap(component4 -> extractAllCompoundStatements(component4))
             .findFirst().get();
 
-        observationStatements.get(0).setConfidentialityCode(NOPAT_CV);
+        observationStatements.getFirst().setConfidentialityCode(NOPAT_CV);
         ehrComposition.setConfidentialityCode(NOPAT_CV);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
@@ -145,10 +145,10 @@ public class ObservationMapperTest {
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
 
         var ehrComposition = getEhrComposition(ehrExtract);
-        var observationStatement = getObservationStatement(ehrExtract);
-
-        observationStatement.setConfidentialityCode(NOPAT_CV);
         ehrComposition.setConfidentialityCode(NOPAT_CV);
+
+        var observationStatement = getObservationStatement(ehrExtract);
+        observationStatement.setConfidentialityCode(NOPAT_CV);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
@@ -157,7 +157,7 @@ public class ObservationMapperTest {
             Optional.empty()
         )).thenReturn(META);
 
-        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).getFirst();
 
         assertMetaSecurityIsPresent(observation.getMeta());
     }
@@ -359,7 +359,7 @@ public class ObservationMapperTest {
             "effective_date_time_type_using_effective_time_center.xml");
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(observation.getEffective() instanceof DateTimeType);
+        assertTrue(observation.getEffective() instanceof DateTimeType);
         assertThat(observation.getEffectiveDateTimeType().getValueAsString()).isEqualTo("2010-05-21");
     }
 
@@ -369,7 +369,7 @@ public class ObservationMapperTest {
             "effective_period_start_end_using_effective_time_observation_example.xml");
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(observation.getEffective() instanceof Period);
+        assertTrue(observation.getEffective() instanceof Period);
         assertThat(observation.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo("2010-05-21");
         assertThat(observation.getEffectivePeriod().getEndElement().getValueAsString()).isEqualTo("2010-05-22");
     }
