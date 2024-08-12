@@ -70,7 +70,7 @@ WITH RECURSIVE immunization_heirarchy AS (
              JOIN immunization_heirarchy i ON r.destinationId = i.conceptId
     WHERE r.typeId = '116680003' -- relationshipType (typeId) is 'IsA' (child of)
 )
-SELECT ih.conceptId as concept_and_description_ids
+SELECT ih.conceptId as concept_or_description_id
 FROM immunization_heirarchy ih
 UNION ALL
 SELECT ds.id
@@ -78,7 +78,7 @@ FROM immunization_heirarchy ih
 JOIN snomedct.description_s ds on ih.conceptId = ds.conceptid;
 
 CREATE INDEX immunization_codes_conceptid_idx ON immunization_codes
-    USING btree (concept_and_description_ids);
+    USING btree (concept_or_description_id);
 
 CREATE MATERIALIZED VIEW preferred_terms AS
 SELECT d.id, d.conceptid, d.term, d.active
