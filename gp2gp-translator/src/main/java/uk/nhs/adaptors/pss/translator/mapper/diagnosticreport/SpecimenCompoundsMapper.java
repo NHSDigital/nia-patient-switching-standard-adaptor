@@ -197,6 +197,7 @@ public class SpecimenCompoundsMapper {
                     });
             } else if (observation != null) {
                 observation.setComment(addLine(observation.getComment(), extractPmipComment(childNarrativeStatement.getText())));
+                observation.setMeta(meta);
 
                 getObservationById(observationComments, childNarrativeStatement.getId().getRoot())
                     .ifPresent(surplusObservationComments::add);
@@ -319,7 +320,7 @@ public class SpecimenCompoundsMapper {
             .toList();
     }
 
-    private List<RCMRMT030101UKNarrativeStatement> getNarrativeStatementsInCompound(
+    protected List<RCMRMT030101UKNarrativeStatement> getNarrativeStatementsInCompound(
         RCMRMT030101UKCompoundStatement compoundStatement) {
 
         return compoundStatement.getComponent()

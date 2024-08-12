@@ -91,7 +91,7 @@ public class SpecimenMapperTest {
 
         assertThat(specimenList).isNotEmpty();
 
-        final Specimen specimen = specimenList.get(0);
+        final Specimen specimen = specimenList.getFirst();
         checkFixedValues(specimen);
         assertMetaSecurityIsPresent(specimen.getMeta());
     }
@@ -113,13 +113,13 @@ public class SpecimenMapperTest {
 
         assertThat(specimenList).isNotEmpty();
 
-        final Specimen specimen = specimenList.get(0);
+        final Specimen specimen = specimenList.getFirst();
         checkFixedValues(specimen);
         assertMetaSecurityIsPresent(specimen.getMeta());
     }
 
     @Test
-    public void testSpecimenIsMapped() {
+    void testSpecimenIsMapped() {
         when(dateTimeMapper.mapDateTime(any())).thenCallRealMethod();
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid.xml");
         final var compoundStatement = getCompoundStatement(ehrExtract);
@@ -136,16 +136,16 @@ public class SpecimenMapperTest {
 
         assertThat(specimenList).isNotEmpty();
 
-        final Specimen specimen = specimenList.get(0);
+        final Specimen specimen = specimenList.getFirst();
         checkFixedValues(specimen);
-        assertThat(specimen.getNote().get(0).getText()).isEqualTo(NOTE_TEXT);
+        assertThat(specimen.getNote().getFirst().getText()).isEqualTo(NOTE_TEXT);
         assertThat(specimen.getAccessionIdentifier().getValue()).isEqualTo(ACCESSION_IDENTIFIER_VALUE);
         assertThat(specimen.getType().getText()).isEqualTo(SPECIMEN_TYPE_TEXT);
         assertThat(specimen.getCollection().getCollected().toString()).isEqualTo(SPECIMEN_COLLECTED_DATETIME.toString());
     }
 
     @Test
-    public void testSpecimenIsMappedWithNoOptionalFields() {
+    void testSpecimenIsMappedWithNoOptionalFields() {
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_no_optional_fields.xml");
         final var compoundStatement = getCompoundStatement(ehrExtract);
 
@@ -159,23 +159,23 @@ public class SpecimenMapperTest {
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITH_SPECIMEN), PATIENT, PRACTICE_CODE
         );
 
-        Specimen specimen = specimenList.get(0);
+        Specimen specimen = specimenList.getFirst();
         assertThat(specimen.getCollection().getCollected()).isNull();
         assertThat(specimen.hasAccessionIdentifier()).isFalse();
         assertThat(specimen.getType().getText()).isNullOrEmpty();
         checkFixedValues(specimen);
     }
 
-    private void checkFixedValues(Specimen specimen) {
+    void checkFixedValues(Specimen specimen) {
         assertThat(specimen.getId()).isEqualTo(TEST_SPECIMEN_ID);
-        assertThat(specimen.getMeta().getProfile().get(0).getValue()).isEqualTo(SPECIMEN_META_PROFILE);
+        assertThat(specimen.getMeta().getProfile().getFirst().getValue()).isEqualTo(SPECIMEN_META_PROFILE);
         assertThat(specimen.getIdentifierFirstRep().getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
         assertThat(specimen.getIdentifierFirstRep().getValue()).isEqualTo(TEST_SPECIMEN_ID);
         assertThat(specimen.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT.getId());
     }
 
     @Test
-    public void testInvalidSpecimenIsNotMapped() {
+    void testInvalidSpecimenIsNotMapped() {
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_invalid.xml");
         List<Specimen> specimenList = specimenMapper.mapSpecimens(
             ehrExtract, List.of(DIAGNOSTIC_REPORT_WITHOUT_SPECIMEN), PATIENT, PRACTICE_CODE
@@ -185,7 +185,7 @@ public class SpecimenMapperTest {
     }
 
     @Test
-    public void When_RemoveSurplusObservationComments_With_ChildNarrativeStatements_Expect_CommentsRemoved() {
+    void When_RemoveSurplusObservationComments_With_ChildNarrativeStatements_Expect_CommentsRemoved() {
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid.xml");
 
         var outputList = specimenMapper
@@ -201,7 +201,7 @@ public class SpecimenMapperTest {
     }
 
     @Test
-    public void When_RemoveSurplusObservationComments_Without_NoChildNarrativeStatements_Expect_CommentsUnchanged() {
+    void When_RemoveSurplusObservationComments_Without_NoChildNarrativeStatements_Expect_CommentsUnchanged() {
         RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("specimen_valid_without_comment.xml");
 
         var observationComments = getObservationComments();
@@ -245,8 +245,8 @@ public class SpecimenMapperTest {
     private void assertMetaSecurityIsPresent(final Meta meta) {
         final List<Coding> metaSecurity = meta.getSecurity();
         final int metaSecuritySize = metaSecurity.size();
-        final Coding metaSecurityCoding = metaSecurity.get(0);
-        final UriType metaProfile = meta.getProfile().get(0);
+        final Coding metaSecurityCoding = metaSecurity.getFirst();
+        final UriType metaProfile = meta.getProfile().getFirst();
 
         assertAll(
             () -> assertThat(metaSecuritySize).isEqualTo(1),
@@ -257,17 +257,17 @@ public class SpecimenMapperTest {
     }
 
     private RCMRMT030101UKCompoundStatement getCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
-        return ehrExtract.getComponent().get(0)
-            .getEhrFolder().getComponent().get(0)
-            .getEhrComposition().getComponent().get(0)
-            .getCompoundStatement().getComponent().get(0)
+        return ehrExtract.getComponent().getFirst()
+            .getEhrFolder().getComponent().getFirst()
+            .getEhrComposition().getComponent().getFirst()
+            .getCompoundStatement().getComponent().getFirst()
             .getCompoundStatement();
     }
 
     private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
 
-        return ehrExtract.getComponent().get(0)
-            .getEhrFolder().getComponent().get(0)
+        return ehrExtract.getComponent().getFirst()
+            .getEhrFolder().getComponent().getFirst()
             .getEhrComposition();
     }
 
