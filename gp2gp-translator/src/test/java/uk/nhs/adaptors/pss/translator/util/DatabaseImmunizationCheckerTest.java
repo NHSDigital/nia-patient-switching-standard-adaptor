@@ -43,7 +43,7 @@ class DatabaseImmunizationCheckerTest {
         final RCMRMT030101UKObservationStatement observationStatement = getObservationStatementFromExtract(
             "full_valid_immunization_with_no_translation.xml");
         final ImmunizationSnomedCT immunizationSnomedCT = ImmunizationSnomedCT.builder()
-            .conceptId(expectedCode)
+            .snomedId(expectedCode)
             .build();
 
         when(immunizationSnomedCTDao.getImmunizationSnomedUsingConceptOrDescriptionId(
@@ -67,7 +67,7 @@ class DatabaseImmunizationCheckerTest {
         );
 
         final ImmunizationSnomedCT immunizationSnomedCT = ImmunizationSnomedCT.builder()
-            .conceptId(snomedCode)
+            .snomedId(snomedCode)
             .build();
 
         when(immunizationSnomedCTDao.getImmunizationSnomedUsingConceptOrDescriptionId(

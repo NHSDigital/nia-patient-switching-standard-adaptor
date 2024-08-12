@@ -56,12 +56,12 @@ WITH RECURSIVE immunization_heirarchy AS (
     SELECT DISTINCT sourceId AS conceptId
     FROM snomedct.relationship_s
     WHERE typeId = '116680003' -- relationshipType (typeId) = 'IsA' (meaning child of)
-    AND (
-            -- these are the root conceptIds
-            destinationId IN ('787859002','127785005','304250009','90351000119108','713404003')
+      AND (
+        -- these are the root conceptIds
+        destinationId IN ('787859002','127785005','304250009','90351000119108','713404003')
             OR
             -- ensure the original root conceptIds are also included
-            sourceId IN ('787859002','127785005','304250009','90351000119108','713404003'))
+        sourceId IN ('787859002','127785005','304250009','90351000119108','713404003'))
     UNION
     -- Recursively find child records
     -- if no records are found then the maximum depth for this recursion has been reached
@@ -70,12 +70,15 @@ WITH RECURSIVE immunization_heirarchy AS (
              JOIN immunization_heirarchy i ON r.destinationId = i.conceptId
     WHERE r.typeId = '116680003' -- relationshipType (typeId) is 'IsA' (child of)
 )
-SELECT ih.conceptId, ds.id as descriptionid
+SELECT ih.conceptId as concept_and_description_ids
+FROM immunization_heirarchy ih
+UNION ALL
+SELECT ds.id
 FROM immunization_heirarchy ih
 JOIN snomedct.description_s ds on ih.conceptId = ds.conceptid;
 
 CREATE INDEX immunization_codes_conceptid_idx ON immunization_codes
-    USING btree (conceptid);
+    USING btree (concept_and_description_ids);
 
 CREATE MATERIALIZED VIEW preferred_terms AS
 SELECT d.id, d.conceptid, d.term, d.active
