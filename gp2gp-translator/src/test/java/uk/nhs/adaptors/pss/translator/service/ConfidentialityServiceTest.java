@@ -2,14 +2,13 @@ package uk.nhs.adaptors.pss.translator.service;
 
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Meta;
-import org.hl7.fhir.dstu3.model.UriType;
 
 import org.hl7.v3.CV;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 
-import java.util.List;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,6 +38,15 @@ class ConfidentialityServiceTest {
     }
 
     @Test
+    void When_CreateMetaAndAddSecurityIfConfidentialityCodesPresent_With_ValidMetaProfile_Expect_MetaWithoutSecurity() {
+        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DUMMY_PROFILE
+        );
+
+        assertMetaSecurityIsNotPresent(result);
+    }
+
+    @Test
     void When_CreateMetaAndAddSecurityIfConfidentialityCodesPresent_With_ValidMetaProfileAndNopatCv_Expect_MetaWithSecurity() {
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             DUMMY_PROFILE,
@@ -62,32 +70,41 @@ class ConfidentialityServiceTest {
     void When_CreateMetaAndAddSecurityIfConfidentialityCodesPresent_With_ValidMetaProfileAndNoCv_Expect_MetaWithoutSecurity() {
         final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             DUMMY_PROFILE,
-            Optional.empty(),
             Optional.empty()
         );
 
         assertMetaSecurityIsNotPresent(result);
     }
 
-    private void assertMetaSecurityIsPresent(final Meta meta) {
-        final List<Coding> metaSecurity = meta.getSecurity();
-        final int metaSecuritySize = metaSecurity.size();
-        final Coding metaSecurityCoding = metaSecurity.get(0);
-        final UriType metaProfile = meta.getProfile().get(0);
+    @Test
+    void When_CreateMetaAndAddSecurityIfConfidentialityCodesPresent_With_ValidMetaProfileAndSecondCvIsNoPat_Expect_MetaWithSecurity() {
+        final Meta result = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            DUMMY_PROFILE,
+            Optional.empty(),
+            Optional.of(NOPAT_CV)
+        );
 
+        assertMetaSecurityIsPresent(result);
+    }
+
+    private void assertMetaSecurityIsPresent(final Meta meta) {
         assertAll(
-            () -> assertThat(metaSecuritySize).isEqualTo(1),
-            () -> assertThat(metaProfile.getValue()).isEqualTo(DUMMY_PROFILE_URI),
-            () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
-            () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
-            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem())
+            () -> assertThat(meta.getSecurity()).usingRecursiveComparison().isEqualTo(
+                Collections.singletonList(
+                    new Coding()
+                        .setSystem("http://hl7.org/fhir/v3/ActCode")
+                        .setCode("NOPAT")
+                        .setDisplay("no disclosure to patient, family or caregivers without attending provider's authorization")
+                )
+            ),
+            () -> assertThat(meta.getProfile().getFirst().getValue()).isEqualTo(DUMMY_PROFILE_URI)
         );
     }
 
     private void assertMetaSecurityIsNotPresent(final Meta meta) {
         assertAll(
             () -> assertThat(meta.getSecurity().size()).isEqualTo(0),
-            () -> assertThat(meta.getProfile().get(0).getValue()).isEqualTo(DUMMY_PROFILE_URI)
+            () -> assertThat(meta.getProfile().getFirst().getValue()).isEqualTo(DUMMY_PROFILE_URI)
         );
     }
 }

@@ -18,17 +18,20 @@ import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DocumentReference;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.InstantType;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKExternalDocument;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
@@ -40,12 +43,13 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     // TODO: Add file Size using the uncompressed/un-encoded size of the document (NIAD-2030)
 
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-DocumentReference-1";
+    private static final String META_PROFILE = "DocumentReference-1";
     private static final String ABSENT_ATTACHMENT = "AbsentAttachment";
     private static final String PLACEHOLDER_VALUE = "GP2GP generated placeholder. Original document not available. See notes for details";
     private static final String INVALID_CONTENT_TYPE = "Content type was not a valid MIME type";
 
     private CodeableConceptMapper codeableConceptMapper;
+    private ConfidentialityService confidentialityService;
 
     public List<DocumentReference> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient,
                                                 List<Encounter> encounterList, Organization organization,
@@ -75,7 +79,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
                                                    List<Encounter> encounterList,
                                                    Organization organization, List<PatientAttachmentLog> attachments) {
 
-        DocumentReference documentReference = new DocumentReference();
+        final DocumentReference documentReference = new DocumentReference();
 
         // document references actually use the narrative statement id rather than the referenceDocument root id in EMIS data
         // if EMIS is incorrect, replace the id below with the following...
@@ -84,7 +88,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
         documentReference.addIdentifier(buildIdentifier(id, organization.getIdentifierFirstRep().getValue()));
         documentReference.setId(id);
-        documentReference.getMeta().addProfile(META_PROFILE);
+        documentReference.setMeta(generateMeta(narrativeStatement));
         documentReference.setStatus(DocumentReferenceStatus.CURRENT);
         documentReference.setType(getType(narrativeStatement));
         documentReference.setSubject(new Reference(patient));
@@ -111,6 +115,18 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         return documentReference;
     }
 
+    private Meta generateMeta(RCMRMT030101UKNarrativeStatement narrativeStatement) {
+        final RCMRMT030101UKExternalDocument externalDocument = narrativeStatement
+            .getReference()
+            .getFirst()
+            .getReferredToExternalDocument();
+
+        return confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            externalDocument.getConfidentialityCode()
+        );
+    }
+
     private DateTimeType getCreatedTime(RCMRMT030101UKEhrComposition ehrComposition) {
         if (ehrComposition.hasAvailabilityTime() && ehrComposition.getAvailabilityTime().hasValue()) {
             return DateFormatUtil.parseToDateTimeType(ehrComposition.getAvailabilityTime().getValue());
@@ -128,7 +144,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     private CodeableConcept getType(RCMRMT030101UKNarrativeStatement narrativeStatement) {
 
-        var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
+        var referenceToExternalDocument = narrativeStatement.getReference().getFirst().getReferredToExternalDocument();
         CodeableConcept codeableConcept = null;
         if (referenceToExternalDocument != null && referenceToExternalDocument.hasCode()) {
             if (!referenceToExternalDocument.getCode().hasOriginalText() && referenceToExternalDocument.getCode().hasDisplayName()) {
@@ -163,21 +179,21 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
         if (isAbsentAttachment(narrativeStatement)) {
             return PLACEHOLDER_VALUE;
         } else {
-            return buildFileName(narrativeStatement.getReference().get(0)
+            return buildFileName(narrativeStatement.getReference().getFirst()
                 .getReferredToExternalDocument().getText().getReference().getValue());
         }
     }
 
     private boolean isAbsentAttachment(RCMRMT030101UKNarrativeStatement narrativeStatement) {
 
-        return narrativeStatement.getReference().get(0)
+        return narrativeStatement.getReference().getFirst()
             .getReferredToExternalDocument().getText().getReference().getValue().contains(ABSENT_ATTACHMENT);
     }
 
     private void setContentAttachments(DocumentReference documentReference, RCMRMT030101UKNarrativeStatement narrativeStatement,
                                        List<PatientAttachmentLog> patientAttachmentLogs) {
 
-        var referenceToExternalDocument = narrativeStatement.getReference().get(0).getReferredToExternalDocument();
+        var referenceToExternalDocument = narrativeStatement.getReference().getFirst().getReferredToExternalDocument();
         var attachment = new Attachment();
         if (referenceToExternalDocument.hasText()) {
             var mediaType = referenceToExternalDocument.getText().getMediaType();
