@@ -253,7 +253,8 @@ public class SpecimenMapperTest {
             () -> assertThat(metaProfile.getValue()).isEqualTo(SPECIMEN_META_PROFILE),
             () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
             () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
-            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem()));
+            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem())
+        );
     }
 
     private RCMRMT030101UKCompoundStatement getCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
