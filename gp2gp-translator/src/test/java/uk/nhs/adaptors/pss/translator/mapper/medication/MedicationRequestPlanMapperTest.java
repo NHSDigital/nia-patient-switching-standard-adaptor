@@ -13,7 +13,6 @@ import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
-import static uk.nhs.adaptors.pss.translator.TestUtility.GET_EHR_COMPOSITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
@@ -60,6 +59,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.FileFactory;
 import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -601,7 +601,7 @@ class MedicationRequestPlanMapperTest {
     private MedicationRequest getMedicationRequestFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
         final RCMRMT030101UKMedicationStatement medicationStatement = extractMedicationStatement(ehrExtract);
         final RCMRMT030101UKAuthorise supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract, 0, 0);
 
         return medicationRequestPlanMapper.mapToPlanMedicationRequest(
             ehrExtract,

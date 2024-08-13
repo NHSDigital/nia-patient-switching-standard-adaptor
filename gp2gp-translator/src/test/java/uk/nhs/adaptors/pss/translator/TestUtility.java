@@ -8,17 +8,10 @@ import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrFolder;
 
 import java.util.List;
-import java.util.function.Function;
+import java.util.Objects;
 
 public final class TestUtility {
     private TestUtility() { }
-
-    public static final Function<RCMRMT030101UKEhrExtract, RCMRMT030101UKEhrComposition> GET_EHR_COMPOSITION =
-        extract -> extract
-            .getComponent().getFirst()
-            .getEhrFolder()
-            .getComponent().getFirst()
-            .getEhrComposition();
 
     public static CV createCv(String code, String codeSystem, String displayName) {
         final CV cv = new CV();
@@ -56,6 +49,20 @@ public final class TestUtility {
             .getEhrFolder();
 
         return targetFolder.getComponent();
+    }
+
+    public static RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract extract,
+                                                                 int ehrExtractComponentIndex,
+                                                                 int ehrFolderComponentIndex) {
+        if (ehrExtractComponentIndex < 0 || ehrFolderComponentIndex < 0) {
+            throw new IllegalArgumentException("Indexes must be >= 0");
+        }
+
+        return Objects.requireNonNull(extract)
+            .getComponent().get(ehrExtractComponentIndex)
+            .getEhrFolder()
+            .getComponent().get(ehrFolderComponentIndex)
+            .getEhrComposition();
     }
 
     public static class NoConfidentialityCodePresentException extends RuntimeException {
