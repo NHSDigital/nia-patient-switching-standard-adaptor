@@ -6,7 +6,6 @@ import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.UNKNOWN;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 
 import java.util.ArrayList;
@@ -41,6 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.ResourceFilterUtil;
@@ -51,7 +51,7 @@ import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableCon
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     private static final String PMIP_EXTENSION_IDENTIFIER_ROOT = "2.16.840.1.113883.2.1.4.5.5";
-    private static final String META_PROFILE_URL_SUFFIX = "DiagnosticReport-1";
+    private static final String META_PROFILE = "DiagnosticReport-1";
     public static final String CODING_CODE = "721981007";
     public static final String CODING_SYSTEM = "http://snomed.info/sct";
     public static final String CODING_DISPLAY = "Diagnostic studies report";
@@ -61,6 +61,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
     public static final String USER_COMMENT_COMMENT_TYPE = "CommentType:USER COMMENT";
 
     private final IdGeneratorService idGeneratorService;
+    private final ConfidentialityService confidentialityService;
 
     public static void addResultToDiagnosticReport(Observation observation, DiagnosticReport diagnosticReport) {
         if (!containsReference(diagnosticReport.getResult(), observation.getId())) {
@@ -126,7 +127,12 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
         final DiagnosticReport diagnosticReport = new DiagnosticReport();
         final String id = compoundStatement.getId().get(0).getRoot();
 
-        diagnosticReport.setMeta(generateMeta(META_PROFILE_URL_SUFFIX));
+        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            composition.getConfidentialityCode(),
+            compoundStatement.getConfidentialityCode());
+
+        diagnosticReport.setMeta(meta);
         diagnosticReport.setId(id);
         diagnosticReport.addIdentifier(buildIdentifier(id, practiceCode));
         diagnosticReport.setCode(createCode());

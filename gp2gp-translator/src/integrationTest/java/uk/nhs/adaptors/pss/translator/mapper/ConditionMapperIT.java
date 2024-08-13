@@ -80,7 +80,6 @@ public class ConditionMapperIT {
             Arguments.of("linkset-problem-allergy-in-category.xml"),
             Arguments.of("linkset-problem-allergy-flat.xml"),
             Arguments.of("linkset-problem-allergy-in-topic.xml")
-
         );
     }
 

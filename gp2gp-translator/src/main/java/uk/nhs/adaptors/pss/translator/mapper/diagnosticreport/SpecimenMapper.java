@@ -2,7 +2,6 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static uk.nhs.adaptors.pss.translator.util.CDUtil.extractSnomedCode;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import static uk.nhs.adaptors.pss.translator.util.TextUtil.extractPmipComment;
 
 import java.util.List;
@@ -21,6 +20,8 @@ import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Specimen;
 import org.hl7.fhir.dstu3.model.Specimen.SpecimenCollectionComponent;
 import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKComponent3;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKSpecimenRole;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.DateTimeMapper;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 
 @Service
@@ -38,6 +40,7 @@ public class SpecimenMapper {
     private static final String SPECIMEN_META_PROFILE_SUFFIX = "Specimen-1";
     private static final String REFERENCE_PREFIX = "Specimen/";
     private static final String SPECIMEN_CODE = "123038009";
+    private final ConfidentialityService confidentialityService;
 
     private final DateTimeMapper dateTimeMapper;
 
@@ -53,7 +56,10 @@ public class SpecimenMapper {
             .map(RCMRMT030101UKComponent02::getCompoundStatement)
             .filter(Objects::nonNull)
             .distinct()
-            .map(childCompoundStatement -> createSpecimen(childCompoundStatement, patient, practiceCode))
+            .map(childCompoundStatement -> {
+                var ehrComposition = getEhrComposition(ehrExtract, childCompoundStatement);
+                return createSpecimen(ehrComposition, childCompoundStatement, patient, practiceCode);
+            })
             .toList();
     }
 
@@ -78,15 +84,24 @@ public class SpecimenMapper {
         return observationComments;
     }
 
-    private Specimen createSpecimen(RCMRMT030101UKCompoundStatement specimenCompoundStatement, Patient patient, String practiceCode) {
+    private Specimen createSpecimen(RCMRMT030101UKEhrComposition ehrComposition,
+                                    RCMRMT030101UKCompoundStatement specimenCompoundStatement,
+                                    Patient patient, String practiceCode) {
+
+        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            SPECIMEN_META_PROFILE_SUFFIX,
+            ehrComposition.getConfidentialityCode(),
+            specimenCompoundStatement.getConfidentialityCode());
 
         Specimen specimen = new Specimen();
-        final String id = specimenCompoundStatement.getId().get(0).getRoot();
-        specimen.setId(id);
-        specimen.setMeta(generateMeta(SPECIMEN_META_PROFILE_SUFFIX));
-        specimen.addIdentifier(buildIdentifier(id, practiceCode));
-        specimen.setSubject(new Reference(patient));
-        specimen.setNote(getNote(specimenCompoundStatement));
+        final String id = specimenCompoundStatement.getId().getFirst().getRoot();
+
+        specimen.addIdentifier(buildIdentifier(id, practiceCode))
+                .setSubject(new Reference(patient))
+                .setNote(getNote(specimenCompoundStatement))
+                .setId(id)
+                .setMeta(meta);
+
         getAccessionIdentifier(specimenCompoundStatement).ifPresent(specimen::setAccessionIdentifier);
         getType(specimenCompoundStatement).ifPresent(specimen::setType);
         getCollectedDateTime(specimenCompoundStatement).ifPresent(specimen::setCollection);
@@ -147,14 +162,14 @@ public class SpecimenMapper {
     private Optional<RCMRMT030101UKSpecimenRole> getSpecimenRole(RCMRMT030101UKCompoundStatement specimenCompoundStatement) {
 
         return !specimenCompoundStatement.getSpecimen().isEmpty()
-            ? Optional.ofNullable(specimenCompoundStatement.getSpecimen().get(0).getSpecimenRole())
+            ? Optional.ofNullable(specimenCompoundStatement.getSpecimen().getFirst().getSpecimenRole())
             : Optional.empty();
     }
 
     private Optional<RCMRMT030101UKCompoundStatement> getParentCompoundStatementByChildId(
         RCMRMT030101UKEhrExtract ehrExtract, String id) {
 
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
+        return ehrExtract.getComponent().getFirst().getEhrFolder().getComponent().stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
             .filter(Objects::nonNull)
@@ -162,13 +177,13 @@ public class SpecimenMapper {
                 .stream()
                 .map(RCMRMT030101UKComponent02::getCompoundStatement)
                 .filter(Objects::nonNull)
-                .anyMatch(e -> id.equals(e.getId().get(0).getRoot()))
+                .anyMatch(e -> id.equals(e.getId().getFirst().getRoot()))
             ).findFirst();
     }
 
     private List<RCMRMT030101UKCompoundStatement> findAllSpecimenCompoundStatements(RCMRMT030101UKEhrExtract ehrExtract) {
 
-        var topLevelComponents = ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
+        var topLevelComponents = ehrExtract.getComponent().getFirst().getEhrFolder().getComponent().stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
             .toList();
 
@@ -181,5 +196,19 @@ public class SpecimenMapper {
                 return code.map(SPECIMEN_CODE::equals).orElse(false);
             })
             .toList();
+    }
+
+    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract,
+                                                           RCMRMT030101UKCompoundStatement parentCompoundStatement) {
+
+        return ehrExtract.getComponent().getFirst().getEhrFolder().getComponent()
+            .stream()
+            .filter(RCMRMT030101UKComponent3::hasEhrComposition)
+            .map(RCMRMT030101UKComponent3::getEhrComposition)
+            .filter(ehrComposition -> ehrComposition.getComponent()
+                                                    .stream()
+                                                    .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
+                                                    .anyMatch(parentCompoundStatement::equals))
+            .findFirst().get();
     }
 }

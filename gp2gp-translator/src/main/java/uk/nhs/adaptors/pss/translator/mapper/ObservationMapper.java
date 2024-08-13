@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
@@ -18,14 +19,18 @@ import org.hl7.v3.CD;
 import org.hl7.v3.CR;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKAnnotation;
+import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation02;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.hl7.v3.RCMRMT030101UKSubject;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
+import uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
@@ -40,7 +45,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hl7.fhir.dstu3.model.Observation.ObservationStatus.FINAL;
-
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllObservationStatementsWithoutAllergiesAndBloodPressures;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllRequestStatements;
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getEffective;
@@ -50,7 +54,6 @@ import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getReferenceRa
 import static uk.nhs.adaptors.pss.translator.util.ObservationUtil.getValueQuantity;
 import static uk.nhs.adaptors.pss.translator.util.ParticipantReferenceUtil.getParticipantReference;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.generateMeta;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.addContextToObservation;
 
 @Service
@@ -66,6 +69,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
 
     private final CodeableConceptMapper codeableConceptMapper;
     private final DatabaseImmunizationChecker immunizationChecker;
+    private final ConfidentialityService confidentialityService;
 
     public List<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
                                           String practiseCode) {
@@ -93,30 +97,26 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     }
 
     private Observation mapObservation(RCMRMT030101UKEhrComposition ehrComposition,
-                                       RCMRMT030101UKObservationStatement observationStatement, Patient patient, List<Encounter> encounters,
+                                       RCMRMT030101UKObservationStatement observationStatement,
+                                       Patient patient,
+                                       List<Encounter> encounters,
                                        String practiseCode) {
 
-        var id = observationStatement.getId().getRoot();
+        var compoundStatement = ehrComposition
+            .getComponent()
+            .stream()
+            .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
+            .filter(Objects::nonNull)
+            .findFirst().orElseGet(RCMRMT030101UKCompoundStatement::new);
 
-        Observation observation = new Observation()
-            .setStatus(FINAL)
-            .addIdentifier(buildIdentifier(id, practiseCode))
-            .setCode(getCode(observationStatement.getCode()))
-            .setIssuedElement(getIssued(ehrComposition))
-            .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
-            .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
-            .setComment(getComment(
-                    observationStatement.getPertinentInformation(),
-                    observationStatement.getSubject(),
-                    observationStatement.getCode(),
-                    Optional.of(Optional.ofNullable(observationStatement.getCode())
-                            .map(CD::getQualifier)
-                            .orElse(Collections.emptyList()))
-            ))
-            .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
-            .setSubject(new Reference(patient));
-        observation.setId(id);
-        observation.setMeta(generateMeta(META_PROFILE));
+        var id = observationStatement.getId().getRoot();
+        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode(),
+            compoundStatement.getConfidentialityCode());
+
+        var observation = buildBaseObservation(ehrComposition, observationStatement, patient, practiseCode, id, meta);
 
         addContextToObservation(observation, encounters, ehrComposition);
         addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
@@ -127,11 +127,49 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
+    private @NotNull Observation buildBaseObservation(RCMRMT030101UKEhrComposition ehrComposition,
+                                                RCMRMT030101UKObservationStatement observationStatement,
+                                                Patient patient,
+                                                String practiseCode,
+                                                String id,
+                                                Meta meta) {
+        var observation = new Observation()
+            .setStatus(FINAL)
+            .addIdentifier(buildIdentifier(id, practiseCode))
+            .setCode(getCode(observationStatement.getCode()))
+            .setIssuedElement(getIssued(ehrComposition))
+            .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
+            .setInterpretation(getInterpretation(observationStatement.getInterpretationCode()))
+            .setComment(getComment(
+                observationStatement.getPertinentInformation(),
+                observationStatement.getSubject(),
+                observationStatement.getCode(),
+                Optional.of(getQualifiers(observationStatement))
+            ))
+            .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
+            .setSubject(new Reference(patient))
+            .setMeta(meta)
+            .setId(id);
+
+        return (Observation) observation;
+    }
+
+    private static @NotNull List<CR> getQualifiers(RCMRMT030101UKObservationStatement observationStatement) {
+        return Optional.ofNullable(observationStatement.getCode())
+            .map(CD::getQualifier)
+            .orElse(Collections.emptyList());
+    }
+
     private Observation mapObservationFromRequestStatement(RCMRMT030101UKEhrComposition ehrComposition,
                                                            RCMRMT030101UKRequestStatement requestStatement, Patient patient,
                                                            List<Encounter> encounters, String practiseCode) {
 
         var id = requestStatement.getId().get(0).getRoot();
+        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            requestStatement.getConfidentialityCode());
+
 
         Observation observation = new Observation()
                 .setStatus(FINAL)
@@ -144,7 +182,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 .setComponent(createComponentList(requestStatement));
 
         observation.setId(id);
-        observation.setMeta(generateMeta(META_PROFILE));
+        observation.setMeta(meta);
 
         addContextToObservation(observation, encounters, ehrComposition);
         addEffective(observation,

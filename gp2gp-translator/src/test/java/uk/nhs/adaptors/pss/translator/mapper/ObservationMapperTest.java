@@ -1,28 +1,41 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
+import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
+import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Observation.ObservationStatus;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.StringType;
+import org.hl7.fhir.dstu3.model.UriType;
+import org.hl7.v3.CV;
+import org.hl7.v3.RCMRMT030101UKComponent02;
+import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 
+import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,6 +43,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
+import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
+import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
@@ -40,7 +56,6 @@ public class ObservationMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/Observation/";
     private static final String EXAMPLE_ID = "263B2A9F-0B1D-4697-943A-328F70E068DE";
-    private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String INTERPRETATION_SYSTEM = "http://hl7.org/fhir/v2/0078";
@@ -67,9 +82,18 @@ public class ObservationMapperTest {
             "{Episodicity : code=255217005, displayName=First}";
     private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_ORIGINAL_TEXT =
             "{Episodicity : code=303350001, displayName=Ongoing, originalText=Review}";
+    private static final String META_PROFILE = "Observation-1";
+    private static final Meta META = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+    private static final CV NOPAT_CV = TestUtility.createCv(
+        "NOPAT",
+        "http://hl7.org/fhir/v3/ActCode",
+        "no disclosure to patient, family or caregivers without attending provider's authorization");
 
     @Mock
     private CodeableConceptMapper codeableConceptMapper;
+
+    @Mock
+    private ConfidentialityService confidentialityService;
 
     @Mock
     private DatabaseImmunizationChecker immunizationChecker;
@@ -81,8 +105,95 @@ public class ObservationMapperTest {
     private ObservationMapper observationMapper;
 
     @Test
+    public void mapTwoObservationsWrappedInCompoundStatementMetaSecurityWithNoPapExpectObservationsWithNoPat() {
+        var ehrExtract = unmarshallEhrExtractElement("nopat_compound_statement_with_observation.xml");
+
+        var ehrComposition = getEhrComposition(ehrExtract);
+        var observationStatements = getObservationStatementIncludedIntoCompoundStatement(ehrExtract);
+        var compoundStatement = ehrComposition
+            .getComponent()
+            .stream()
+            .flatMap(component4 -> extractAllCompoundStatements(component4))
+            .findFirst().get();
+
+        observationStatements.getFirst().setConfidentialityCode(NOPAT_CV);
+        ehrComposition.setConfidentialityCode(NOPAT_CV);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatements.get(0).getConfidentialityCode(),
+            compoundStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatements.get(1).getConfidentialityCode(),
+            compoundStatement.getConfidentialityCode()
+        )).thenReturn(META);
+
+        var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
+
+        assertThat(observations).hasSize(2);
+        assertMetaSecurityIsPresent(observations.get(0).getMeta());
+        assertMetaSecurityIsPresent(observations.get(1).getMeta());
+    }
+
+    @Test
+    public void mapObservationMetaSecurityWithNoPatWhenConfidentialityCodeIsPresentForObservationStatementAndEhrComposition() {
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
+
+        var ehrComposition = getEhrComposition(ehrExtract);
+        ehrComposition.setConfidentialityCode(NOPAT_CV);
+
+        var observationStatement = getObservationStatement(ehrExtract);
+        observationStatement.setConfidentialityCode(NOPAT_CV);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
+        )).thenReturn(META);
+
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).getFirst();
+
+        assertMetaSecurityIsPresent(observation.getMeta());
+    }
+
+    @Test
+    public void mapObservationMetaSecurityWithNoPatWhenConfidentialityCodeIsPresentOnlyForEhrComposition() {
+        var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
+
+        var ehrComposition = getEhrComposition(ehrExtract);
+        ehrComposition.setConfidentialityCode(NOPAT_CV);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            Optional.empty(),
+            Optional.empty()
+        )).thenReturn(META);
+
+        var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
+
+        assertMetaSecurityIsPresent(observation.getMeta());
+    }
+
+    @Test
     public void mapObservationWithValidData() {
         var ehrExtract = unmarshallEhrExtractElement("full_valid_data_observation_example.xml");
+        var ehrComposition = getEhrComposition(ehrExtract);
+        var observationStatement = getObservationStatement(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
+        )).thenReturn(META);
+
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertFixedValues(observation);
@@ -98,7 +209,7 @@ public class ObservationMapperTest {
         assertThat(observation.getReferenceRange().get(0).getText()).isEqualTo("Age and sex based");
         assertQuantity(observation.getReferenceRange().get(0).getLow(), REFERENCE_RANGE_LOW_VALUE, "liter", "L");
         assertQuantity(observation.getReferenceRange().get(0).getHigh(), REFERENCE_RANGE_HIGH_VALUE, "liter", "L");
-        assertThat(observation.hasSubject()).isTrue();
+        assertTrue(observation.hasSubject());
     }
 
     /**
@@ -108,6 +219,16 @@ public class ObservationMapperTest {
     @Test
     public void mapObservationWithEpisodicity() {
         var ehrExtract = unmarshallEhrExtractElement("data_observation_with_episodicity.xml");
+        var ehrComposition = getEhrComposition(ehrExtract);
+        var observationStatement = getObservationStatement(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
+        )).thenReturn(META);
+
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertFixedValues(observation);
@@ -120,6 +241,16 @@ public class ObservationMapperTest {
     @Test
     public void mapObservationWithEpisodicityWithOriginalText() {
         var ehrExtract = unmarshallEhrExtractElement("data_observation_with_episodicity_with_original_text.xml");
+        var ehrComposition = getEhrComposition(ehrExtract);
+        var observationStatement = getObservationStatement(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
+        )).thenReturn(META);
+
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertFixedValues(observation);
@@ -128,6 +259,16 @@ public class ObservationMapperTest {
     @Test
     public void mapObservationWithEpisodicityWithOriginalTextAndExistingComment() {
         var ehrExtract = unmarshallEhrExtractElement("data_observation_with_episodicity_with_existing_comment.xml");
+        var ehrComposition = getEhrComposition(ehrExtract);
+        var observationStatement = getObservationStatement(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
+        )).thenReturn(META);
+
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertFixedValues(observation);
@@ -153,19 +294,28 @@ public class ObservationMapperTest {
 
     @Test
     public void mapObservationWithNoOptionalData() {
-        //when(codeableConceptMapper.mapToCodeableConcept(any())).thenReturn(CODEABLE_CONCEPT);
+
         var ehrExtract = unmarshallEhrExtractElement("no_optional_data_observation_example.xml");
+        var ehrComposition = getEhrComposition(ehrExtract);
+        var observationStatement = getObservationStatement(ehrExtract);
+
+        when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            observationStatement.getConfidentialityCode(),
+            Optional.empty()
+        )).thenReturn(META);
+
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
         assertFixedValues(observation);
         assertThat(observation.getId()).isEqualTo(EXAMPLE_ID);
-        //assertThat(observation.getCode().getCodingFirstRep().getDisplay()).isEqualTo(CODING_DISPLAY_MOCK);
         assertThat(observation.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EHR_COMPOSITION_EXAMPLE);
         assertThat(observation.getPerformer().get(0).getReference()).isEqualTo(PPRF_PARTICIPANT_ID);
-        assertThat(observation.getEffective()).isNull();
-        assertThat(observation.getValue()).isNull();
+        assertNull(observation.getEffective());
+        assertNull(observation.getValue());
         assertThat(observation.getInterpretation().getCoding()).isEmpty();
-        assertThat(observation.getComment()).isNull();
+        assertNull(observation.getComment());
         assertThat(observation.getReferenceRange()).isEmpty();
     }
 
@@ -200,7 +350,7 @@ public class ObservationMapperTest {
         var ehrExtract = unmarshallEhrExtractElement("ehr_composition_id_matching_encounter_observation_example.xml");
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(observation.hasContext()).isTrue();
+        assertTrue(observation.hasContext());
     }
 
     @Test
@@ -209,7 +359,7 @@ public class ObservationMapperTest {
             "effective_date_time_type_using_effective_time_center.xml");
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(observation.getEffective() instanceof DateTimeType);
+        assertTrue(observation.getEffective() instanceof DateTimeType);
         assertThat(observation.getEffectiveDateTimeType().getValueAsString()).isEqualTo("2010-05-21");
     }
 
@@ -219,7 +369,7 @@ public class ObservationMapperTest {
             "effective_period_start_end_using_effective_time_observation_example.xml");
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).get(0);
 
-        assertThat(observation.getEffective() instanceof Period);
+        assertTrue(observation.getEffective() instanceof Period);
         assertThat(observation.getEffectivePeriod().getStartElement().getValueAsString()).isEqualTo("2010-05-21");
         assertThat(observation.getEffectivePeriod().getEndElement().getValueAsString()).isEqualTo("2010-05-22");
     }
@@ -362,6 +512,46 @@ public class ObservationMapperTest {
         assertThat(quantity.getValue()).isEqualTo(value);
         assertThat(quantity.getUnit()).isEqualTo(unit);
         assertThat(quantity.getCode()).isEqualTo(code);
+    }
+
+    private void assertMetaSecurityIsPresent(final Meta meta) {
+        final List<Coding> metaSecurity = meta.getSecurity();
+        final int metaSecuritySize = metaSecurity.size();
+        final Coding metaSecurityCoding = metaSecurity.get(0);
+        final UriType metaProfile = meta.getProfile().get(0);
+
+        assertAll(
+            () -> assertThat(metaSecuritySize).isEqualTo(1),
+            () -> assertThat(metaProfile.getValue()).isEqualTo(META_PROFILE),
+            () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
+            () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
+            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem())
+        );
+    }
+
+    private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
+
+        return ehrExtract.getComponent().get(0)
+            .getEhrFolder().getComponent().get(0)
+            .getEhrComposition();
+    }
+
+    private RCMRMT030101UKObservationStatement getObservationStatement(RCMRMT030101UKEhrExtract ehrExtract) {
+        return ehrExtract.getComponent().get(0)
+            .getEhrFolder().getComponent().get(0)
+            .getEhrComposition().getComponent().get(0)
+            .getObservationStatement();
+    }
+
+    private List<RCMRMT030101UKObservationStatement> getObservationStatementIncludedIntoCompoundStatement(
+        RCMRMT030101UKEhrExtract ehrExtract) {
+
+        return ehrExtract.getComponent().get(0)
+            .getEhrFolder().getComponent().get(0)
+            .getEhrComposition().getComponent().get(0).getCompoundStatement().getComponent().stream()
+            .filter(RCMRMT030101UKComponent02::hasObservationStatement)
+            .map(RCMRMT030101UKComponent02::getObservationStatement)
+            .toList();
     }
 
     @SneakyThrows
