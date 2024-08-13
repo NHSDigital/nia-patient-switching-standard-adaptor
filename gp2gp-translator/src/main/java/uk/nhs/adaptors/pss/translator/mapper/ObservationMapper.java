@@ -144,9 +144,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 observationStatement.getPertinentInformation(),
                 observationStatement.getSubject(),
                 observationStatement.getCode(),
-                Optional.of(Optional.ofNullable(observationStatement.getCode())
-                            .map(CD::getQualifier)
-                            .orElse(Collections.emptyList()))
+                Optional.of(getQualifiers(observationStatement))
             ))
             .setReferenceRange(getReferenceRange(observationStatement.getReferenceRange()))
             .setSubject(new Reference(patient))
@@ -154,6 +152,12 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             .setId(id);
 
         return (Observation) observation;
+    }
+
+    private static @NotNull List<CR> getQualifiers(RCMRMT030101UKObservationStatement observationStatement) {
+        return Optional.ofNullable(observationStatement.getCode())
+            .map(CD::getQualifier)
+            .orElse(Collections.emptyList());
     }
 
     private Observation mapObservationFromRequestStatement(RCMRMT030101UKEhrComposition ehrComposition,

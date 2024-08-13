@@ -23,7 +23,6 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Specimen;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -241,15 +240,10 @@ public class SpecimenMapperTest {
     private void assertMetaSecurityIsPresent(final Meta meta) {
         final List<Coding> metaSecurity = meta.getSecurity();
         final int metaSecuritySize = metaSecurity.size();
-        final Coding metaSecurityCoding = metaSecurity.getFirst();
-        final UriType metaProfile = meta.getProfile().getFirst();
 
         assertAll(
             () -> assertThat(metaSecuritySize).isEqualTo(1),
-            () -> assertThat(metaProfile.getValue()).isEqualTo(SPECIMEN_META_PROFILE),
-            () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
-            () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
-            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem())
+            () -> assertThat(meta).usingRecursiveComparison().isEqualTo(META_WITH_SECURITY_ADDED)
         );
     }
 
