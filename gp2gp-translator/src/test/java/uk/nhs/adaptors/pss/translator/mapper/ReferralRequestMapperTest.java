@@ -467,7 +467,7 @@ class ReferralRequestMapperTest {
         final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtractElement("full_valid_data_example_with_nopat_confidentiality_code.xml");
-        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract, 0, 0);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
@@ -495,7 +495,7 @@ class ReferralRequestMapperTest {
         final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtractElement("full_valid_data_example_with_nopat_confidentiality_code_in_ehr_composition.xml");
-        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract, 0, 0);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),

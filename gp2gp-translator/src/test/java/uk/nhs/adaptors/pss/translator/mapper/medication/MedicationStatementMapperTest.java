@@ -86,7 +86,7 @@ class MedicationStatementMapperTest {
     void When_MappingPrescribeResourceWithNoOptionals_Expect_AllFieldsToBeMappedCorrectly() throws JAXBException {
         final File file = FileFactory.getXmlFileFor("MedicationStatement", "ehrExtract3.xml");
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallFile(file, RCMRMT030101UKEhrExtract.class);
-        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract, 0, 0);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract);
         final RCMRMT030101UKMedicationStatement medicationStatement =
             unmarshallMedicationStatement("medicationStatementAuthoriseAllOptionals_MedicationStatement.xml");
         final Optional<RCMRMT030101UKAuthorise> authorise = medicationStatement.getComponent()
@@ -324,7 +324,7 @@ class MedicationStatementMapperTest {
 
     private MedicationStatement mapMedicationStatementFromEhrFile(String fileName, DateTimeType authoredOn) {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract(fileName);
-        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract, 0, 0);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract);
         final Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         assertThat(medicationStatement).isPresent();
 

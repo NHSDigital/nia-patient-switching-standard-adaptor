@@ -12,6 +12,7 @@ import java.util.Objects;
 
 public final class TestUtility {
     private TestUtility() { }
+    private static final int ZERO = 0;
 
     public static CV createCv(String code, String codeSystem, String displayName) {
         final CV cv = new CV();
@@ -49,6 +50,10 @@ public final class TestUtility {
             .getEhrFolder();
 
         return targetFolder.getComponent();
+    }
+
+    public static RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract extract) {
+        return getEhrComposition(extract, ZERO, ZERO);
     }
 
     public static RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract extract,

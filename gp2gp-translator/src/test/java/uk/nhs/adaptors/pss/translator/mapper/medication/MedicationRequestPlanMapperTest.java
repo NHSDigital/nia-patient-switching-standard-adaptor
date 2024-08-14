@@ -601,7 +601,7 @@ class MedicationRequestPlanMapperTest {
     private MedicationRequest getMedicationRequestFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
         final RCMRMT030101UKMedicationStatement medicationStatement = extractMedicationStatement(ehrExtract);
         final RCMRMT030101UKAuthorise supplyAuthorise = extractSupplyAuthorise(medicationStatement);
-        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract, 0, 0);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract);
 
         return medicationRequestPlanMapper.mapToPlanMedicationRequest(
             ehrExtract,
