@@ -8,7 +8,6 @@ import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
@@ -28,6 +27,7 @@ import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
@@ -82,24 +82,29 @@ public class DiagnosticReportMapperTest {
         TEST COMMENT
         """;
 
-    private static final String EHR_EXTRACT_TEMPLATE = """
-                <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+    private static final String EHR_EXTRACT_TEMPLATE_WITH_AUTHOR_AND_PARTICIPANT = """
+        <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
+            <component typeCode="COMP">
+                <ehrFolder classCode="FOLDER" moodCode="EVN">
                     <component typeCode="COMP">
-                        <ehrFolder classCode="FOLDER" moodCode="EVN">
+                        <ehrComposition classCode="COMPOSITION" moodCode="EVN">
+                            <id root="EHR_COMPOSITION_ID_1" />
+                            <author typeCode="AUT" contextControlCode="OP">
+                                <time value="20240101010101" />
+                                <agentRef classCode="AGNT">
+                                    <id root="DBA7F103-48B2-11EF-9D98-00155D78C707"/>
+                                </agentRef>
+                            </author>
                             <component typeCode="COMP">
-                                <ehrComposition classCode="COMPOSITION" moodCode="EVN">
-                                    <id root="EHR_COMPOSITION_ID_1" />
-                                    <component typeCode="COMP">
-                                        {DiagnosticReportCompoundStatement}
-                                    </component>
-                                </ehrComposition>
+                                {DiagnosticReportCompoundStatement}
                             </component>
-                        </ehrFolder>
+                        </ehrComposition>
                     </component>
-                </EhrExtract>
-                """;
+                </ehrFolder>
+            </component>
+        </EhrExtract>""";
 
-    private static final String EHR_EXTRACT_TEMPLATE_WITH_EHR_COMPOSITION = """
+    private static final String EHR_EXTRACT_TEMPLATE_WITH_EHR_COMPOSITION_CONFIDENTIALITY_CODE = """
         <EhrExtract xmlns="urn:hl7-org:v3" classCode="EXTRACT" moodCode="EVN">
             <component typeCode="COMP">
                 <ehrFolder classCode="FOLDER" moodCode="EVN">
@@ -115,7 +120,45 @@ public class DiagnosticReportMapperTest {
                     </component>
                 </ehrFolder>
             </component>
-        </EhrExtract>
+        </EhrExtract>""";
+
+    public static final String COMPOUND_STATEMENT_WITH_FILING_COMMENT = """
+        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+            <id root="C515E71B-2473-11EE-808B-AC162D1F16F0"/>
+            <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
+            <component typeCode="COMP" contextConductionInd="true">
+                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                    <id root="C515E71C-2473-11EE-808B-AC162D1F16F0"/>
+                    <component typeCode="COMP" contextConductionInd="true">
+                        <CompoundStatement classCode="BATTERY" moodCode="EVN">
+                            <id root="C515E71D-2473-11EE-808B-AC162D1F16F0"/>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
+                                    <id root="C515E71F-2473-11EE-808B-AC162D1F16F0"/>
+                                    <component typeCode="COMP" contextConductionInd="true">
+                                        <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                            <id root="C515E720-2473-11EE-808B-AC162D1F16F0"/>
+                                            <text mediaType="text/x-h7uk-pmip">
+                                                CommentType:AGGREGATE COMMENT SET
+                                            </text>
+                                        </NarrativeStatement>
+                                    </component>
+                                </CompoundStatement>
+                            </component>
+                            <component typeCode="COMP" contextConductionInd="true">
+                                <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                    <id root="C515E722-2473-11EE-808B-AC162D1F16F0"/>
+                                    <effectiveTime value="01012024"/>
+                                    <text mediaType="text/x-h7uk-pmip">
+                                        CommentType:USER COMMENT
+                                    </text>
+                                </NarrativeStatement>
+                            </component>
+                        </CompoundStatement>
+                    </component>
+                </CompoundStatement>
+            </component>
+        </CompoundStatement>
         """;
 
     @Mock
@@ -381,11 +424,11 @@ public class DiagnosticReportMapperTest {
     }
 
     @Test
-    public void When_DiagnosticReportWithSomeNarativeStatements_Expect_DiagnosticReportResultsCorrectlyOrdered()
+    public void When_DiagnosticReportWithSomeNarrativeStatements_Expect_DiagnosticReportResultsCorrectlyOrdered()
         throws IOException {
 
         var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
-                                        readFileAsString("xml/DiagnosticReport/diagnostic_report_with_observation_statements.xml"));
+            readFileAsString("xml/DiagnosticReport/diagnostic_report_with_observation_statements.xml"));
         var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
 
         var diagnosticReports = diagnosticReportMapper.mapResources(
@@ -395,11 +438,14 @@ public class DiagnosticReportMapperTest {
             PRACTICE_CODE);
         var diagnosticReport = diagnosticReports.getFirst();
 
-        assertThat(diagnosticReport.getResult()).map(r -> r.getReference())
-                .isEqualTo(List.of("Observation/3E1A4EA2-661B-4467-8843-6A6B21DEF14F",
-                                   "Observation/E8746411-9D21-4A5C-B70B-9D1FF00D3AE4",
-                                   "Observation/21B95C86-121F-4BC5-A2CD-3E2955F4D604",
-                                   "Observation/B141FC3E-4DD2-4412-9655-DF43BBCE290B"));
+        assertThat(diagnosticReport.getResult().stream()).map(Reference::getReference)
+            .containsExactlyElementsOf(
+                List.of(
+                    "Observation/3E1A4EA2-661B-4467-8843-6A6B21DEF14F",
+                    "Observation/E8746411-9D21-4A5C-B70B-9D1FF00D3AE4",
+                    "Observation/21B95C86-121F-4BC5-A2CD-3E2955F4D604",
+                    "Observation/B141FC3E-4DD2-4412-9655-DF43BBCE290B"
+                ));
     }
 
     @Test
@@ -486,45 +532,7 @@ TEST COMMENT
 
     @Test
     public void When_MappingWithUserCommentInBattery_Expect_DiagnosticReportToReferenceFilingComment() {
-        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
-                """
-                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
-                    <id root="C515E71B-2473-11EE-808B-AC162D1F16F0"/>
-                    <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
-                            <id root="C515E71C-2473-11EE-808B-AC162D1F16F0"/>
-                            <component typeCode="COMP" contextConductionInd="true">
-                                <CompoundStatement classCode="BATTERY" moodCode="EVN">
-                                    <id root="C515E71D-2473-11EE-808B-AC162D1F16F0"/>
-                                    <component typeCode="COMP" contextConductionInd="true">
-                                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
-                                            <id root="C515E71F-2473-11EE-808B-AC162D1F16F0"/>
-                                            <component typeCode="COMP" contextConductionInd="true">
-                                                <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                                    <id root="C515E720-2473-11EE-808B-AC162D1F16F0"/>
-                                                    <text mediaType="text/x-h7uk-pmip">
-                                                        CommentType:AGGREGATE COMMENT SET
-                                                    </text>
-                                                </NarrativeStatement>
-                                            </component>
-                                        </CompoundStatement>
-                                    </component>
-                                    <component typeCode="COMP" contextConductionInd="true">
-                                        <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                            <id root="C515E722-2473-11EE-808B-AC162D1F16F0"/>
-                                            <effectiveTime value="01012024"/>
-                                            <text mediaType="text/x-h7uk-pmip">
-                                                CommentType:USER COMMENT
-                                            </text>
-                                        </NarrativeStatement>
-                                    </component>
-                                </CompoundStatement>
-                            </component>
-                        </CompoundStatement>
-                    </component>
-                </CompoundStatement>
-                """);
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(COMPOUND_STATEMENT_WITH_FILING_COMMENT);
         final var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
         final var batteryLevelFilingComment = createBatteryLevelFilingComment();
         final var expectedReference = "Observation/" + NEW_OBSERVATION_ID;
@@ -541,52 +549,16 @@ TEST COMMENT
         final var diagnosticReport = diagnosticReports.getFirst();
 
         assertAll(
-            () -> assertThat(diagnosticReport.getResult()).hasSize(1),
-            () -> assertThat(diagnosticReport.getResult().getFirst().getReference()).isEqualTo(expectedReference)
+            () -> assertThat(diagnosticReport.getResult())
+                .hasSize(1),
+            () -> assertThat(diagnosticReport.getResult().getFirst().getReference())
+                .isEqualTo(expectedReference)
         );
     }
 
     @Test
-    public void When_MappingWithUserCommentInBattery_Expect_NewFilingCommentObservationCreatedWithCommentField() {
-        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(
-                """
-                <CompoundStatement classCode="CLUSTER" moodCode="EVN">
-                    <id root="C515E71B-2473-11EE-808B-AC162D1F16F0"/>
-                    <code code="16488004" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" />
-                    <component typeCode="COMP" contextConductionInd="true">
-                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
-                            <id root="C515E71C-2473-11EE-808B-AC162D1F16F0"/>
-                            <component typeCode="COMP" contextConductionInd="true">
-                                <CompoundStatement classCode="BATTERY" moodCode="EVN">
-                                    <id root="C515E71D-2473-11EE-808B-AC162D1F16F0"/>
-                                    <component typeCode="COMP" contextConductionInd="true">
-                                        <CompoundStatement classCode="CLUSTER" moodCode="EVN">
-                                            <id root="C515E71F-2473-11EE-808B-AC162D1F16F0"/>
-                                            <component typeCode="COMP" contextConductionInd="true">
-                                                <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                                    <id root="C515E720-2473-11EE-808B-AC162D1F16F0"/>
-                                                    <text mediaType="text/x-h7uk-pmip">
-                                                        CommentType:AGGREGATE COMMENT SET
-                                                    </text>
-                                                </NarrativeStatement>
-                                            </component>
-                                        </CompoundStatement>
-                                    </component>
-                                    <component typeCode="COMP" contextConductionInd="true">
-                                        <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                            <id root="C515E722-2473-11EE-808B-AC162D1F16F0"/>
-                                            <effectiveTime value="01012024"/>
-                                            <text mediaType="text/x-h7uk-pmip">
-                                                CommentType:USER COMMENT
-                                            </text>
-                                        </NarrativeStatement>
-                                    </component>
-                                </CompoundStatement>
-                            </component>
-                        </CompoundStatement>
-                    </component>
-                </CompoundStatement>
-                """);
+    public void When_MappingWithUserCommentInBattery_Expect_NewFilingCommentWithoutCommentField() {
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(COMPOUND_STATEMENT_WITH_FILING_COMMENT);
         final var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
         final var batteryLevelFilingComment = createBatteryLevelFilingComment();
         var observationComments = new ArrayList<>(Collections.singleton(batteryLevelFilingComment));
@@ -598,18 +570,47 @@ TEST COMMENT
                 createEncounterList(),
                 PRACTICE_CODE,
                 observationComments);
+        var filingComment = observationComments.get(1);
 
         assertAll(
-            () -> assertThat(observationComments).hasSize(2),
-            () -> assertThat(observationComments.get(1).getId()).isEqualTo(NEW_OBSERVATION_ID),
-            () -> assertThat(observationComments.get(1).getIdentifierFirstRep().getValue())
+            () -> assertThat(observationComments)
+                .hasSize(2),
+            () -> assertThat(filingComment.getId())
                 .isEqualTo(NEW_OBSERVATION_ID),
-            () -> assertThat(observationComments.get(1).getEffectiveDateTimeType().getValueAsString())
-                .isEqualTo("2024-01-01"),
-            () -> assertNull(observationComments.get(1).getComment()),
-            () -> assertThat(observationComments.get(1).getStatus()).isEqualTo(UNKNOWN)
+            () -> assertThat(filingComment.getIdentifierFirstRep().getValue())
+                .isEqualTo(NEW_OBSERVATION_ID),
+            () -> assertThat(filingComment.getComment())
+                .isNull(),
+            () -> assertThat(filingComment.getStatus())
+                .isEqualTo(UNKNOWN)
         );
     }
+
+    @Test
+    public void When_MappingWithUserCommentInBattery_Expect_NewFilingCommentWithAuthorAndPerformerFromEhrCompositionAuthor() {
+        var inputXml = buildEhrExtractStringFromDiagnosticReportXml(COMPOUND_STATEMENT_WITH_FILING_COMMENT);
+        final var ehrExtract = unmarshallEhrExtractFromXmlString(inputXml);
+        final var batteryLevelFilingComment = createBatteryLevelFilingComment();
+        var observationComments = new ArrayList<>(Collections.singleton(batteryLevelFilingComment));
+
+        when(idGeneratorService.generateUuid()).thenReturn(NEW_OBSERVATION_ID);
+
+        diagnosticReportMapper.mapResources(ehrExtract,
+            PATIENT,
+            createEncounterList(),
+            PRACTICE_CODE,
+            observationComments);
+        var filingComment = observationComments.get(1);
+
+        assertAll(
+            () -> assertThat(filingComment.getEffectiveDateTimeType().getValueAsString())
+                .isEqualTo("2024-01-01T01:01:01+00:00"),
+            () -> assertThat(filingComment.getPerformerFirstRep().getReference())
+                .isEqualTo("Practitioner/DBA7F103-48B2-11EF-9D98-00155D78C707")
+        );
+    }
+
+
 
     private List<Observation> createObservationCommentList() {
         return new ArrayList<>(Arrays.asList(
@@ -677,10 +678,14 @@ TEST COMMENT
     }
 
     private static String buildEhrExtractStringFromDiagnosticReportXml(String diagnosticReportXml) {
-        return EHR_EXTRACT_TEMPLATE.replace("{DiagnosticReportCompoundStatement}", diagnosticReportXml);
+        return EHR_EXTRACT_TEMPLATE_WITH_AUTHOR_AND_PARTICIPANT.replace(
+            "{DiagnosticReportCompoundStatement}", diagnosticReportXml
+        );
     }
 
     private static String buildEhrExtractStringWithNoPatEhrCompositionFromDiagnosticReportXml(String diagnosticReportXml) {
-        return EHR_EXTRACT_TEMPLATE_WITH_EHR_COMPOSITION.replace("{DiagnosticReportCompoundStatement}", diagnosticReportXml);
+        return EHR_EXTRACT_TEMPLATE_WITH_EHR_COMPOSITION_CONFIDENTIALITY_CODE.replace(
+            "{DiagnosticReportCompoundStatement}", diagnosticReportXml
+        );
     }
 }
