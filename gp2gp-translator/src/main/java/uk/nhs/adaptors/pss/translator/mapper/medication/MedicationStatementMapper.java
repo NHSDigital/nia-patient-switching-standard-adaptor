@@ -86,17 +86,14 @@ public class MedicationStatementMapper {
                 ehrComposition.getConfidentialityCode()
             );
 
-            mappedMedicationStatement.setId(ehrSupplyAuthoriseId + MS_SUFFIX);
-            mappedMedicationStatement.setMeta(meta);
-            mappedMedicationStatement.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId + MS_SUFFIX, practiseCode));
-            mappedMedicationStatement.setTaken(UNK);
-
-            mappedMedicationStatement.addBasedOn(new Reference(
-                new IdType(ResourceType.MedicationRequest.name(), ehrSupplyAuthoriseId)
-            ));
-            mappedMedicationStatement.addExtension(generatePrescribingAgencyExtension());
-
-            mappedMedicationStatement.addDosage(buildDosage(medicationStatement.getPertinentInformation()));
+            mappedMedicationStatement.setId(ehrSupplyAuthoriseId + MS_SUFFIX)
+                .setMeta(meta);
+            mappedMedicationStatement.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId + MS_SUFFIX, practiseCode))
+                .setTaken(UNK)
+                .addBasedOn(new Reference(
+                    new IdType(ResourceType.MedicationRequest.name(), ehrSupplyAuthoriseId)))
+                .addDosage(buildDosage(medicationStatement.getPertinentInformation()))
+                .addExtension(generatePrescribingAgencyExtension());
 
             extractHighestSupplyPrescribeTime(ehrExtract, ehrSupplyAuthoriseId)
                 .map(dateTime -> new Extension(MS_LAST_ISSUE_DATE, dateTime))

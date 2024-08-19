@@ -89,10 +89,10 @@ public class MedicationRequestPlanMapper {
                 .setMeta(meta)
                 .setId(ehrSupplyAuthoriseId);
 
-            medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, practiseCode));
-            medicationRequest.setIntent(PLAN);
-            medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));
-            medicationRequest.setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise, medicationStatement));
+            medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, practiseCode))
+                             .setIntent(PLAN)
+                             .addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()))
+                             .setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise, medicationStatement));
 
             List<Extension> repeatInformationExtensions = new ArrayList<>();
             extractSupplyAuthoriseRepeatInformation(supplyAuthorise).ifPresent(repeatInformationExtensions::add);

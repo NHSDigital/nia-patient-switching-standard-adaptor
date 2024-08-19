@@ -73,9 +73,9 @@ public class MedicationRequestMapperTest {
     public void When_MappingMedicationStatement_Expect_CorrectMappersToBeCalled() {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
         final RCMRMT030101UKEhrComposition ehrComposition =
-                ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
+                ehrExtract.getComponent().getFirst().getEhrFolder().getComponent().getFirst().getEhrComposition();
         final RCMRMT030101UKMedicationStatement medicationStatement =
-                ehrComposition.getComponent().get(0).getMedicationStatement();
+                ehrComposition.getComponent().getFirst().getMedicationStatement();
 
         var resources = medicationRequestMapper
                 .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
@@ -84,7 +84,7 @@ public class MedicationRequestMapperTest {
             eq(ehrExtract),
             eq(ehrComposition),
             eq(medicationStatement),
-            eq(medicationStatement.getComponent().get(0).getEhrSupplyAuthorise()),
+            eq(medicationStatement.getComponent().getFirst().getEhrSupplyAuthorise()),
             eq(PRACTISE_CODE)
         );
 
@@ -100,7 +100,7 @@ public class MedicationRequestMapperTest {
             eq(ehrExtract),
             eq(ehrComposition),
             eq(medicationStatement),
-            eq(medicationStatement.getComponent().get(0).getEhrSupplyAuthorise()),
+            eq(medicationStatement.getComponent().getFirst().getEhrSupplyAuthorise()),
             eq(PRACTISE_CODE),
             any(DateTimeType.class)
         );

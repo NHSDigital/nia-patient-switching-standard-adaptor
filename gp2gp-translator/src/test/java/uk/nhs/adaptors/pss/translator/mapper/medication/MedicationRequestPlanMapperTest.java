@@ -195,16 +195,16 @@ class MedicationRequestPlanMapperTest {
 
         var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
         assertThat(repeatInformation).hasSize(1);
-        assertRepeatInformation(repeatInformation.get(0));
+        assertRepeatInformation(repeatInformation.getFirst());
 
         var statusReason = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
         assertThat(statusReason).hasSize(1);
-        assertStatusReasonInformation(statusReason.get(0));
+        assertStatusReasonInformation(statusReason.getFirst());
 
         var prescriptionType = medicationRequest.getExtensionsByUrl(PRESCRIPTION_TYPE_URL);
         assertThat(prescriptionType).hasSize(1);
 
-        var codeableConcept = (CodeableConcept) prescriptionType.get(0).getValue();
+        var codeableConcept = (CodeableConcept) prescriptionType.getFirst().getValue();
         assertThat(codeableConcept.getCodingFirstRep().getDisplay()).isEqualTo("Repeat");
 
         assertThat(medicationRequest.getStatus()).isEqualTo(STOPPED);
@@ -238,7 +238,7 @@ class MedicationRequestPlanMapperTest {
         var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
 
         assertThat(repeatInformation).hasSize(1);
-        assertThat(repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL)).isEmpty();
+        assertThat(repeatInformation.getFirst().getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL)).isEmpty();
 
         assertMetaSecurityNotPresent(medicationRequest);
     }
@@ -263,7 +263,7 @@ class MedicationRequestPlanMapperTest {
         final var repeatInformation = medicationRequest.getExtensionsByUrl(REPEAT_INFO_URL);
 
         assertThat(repeatInformation).hasSize(1);
-        assertThat(repeatInformation.get(0).getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL)).isEmpty();
+        assertThat(repeatInformation.getFirst().getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL)).isEmpty();
 
         assertMetaSecurityNotPresent(medicationRequest);
     }
@@ -512,7 +512,7 @@ class MedicationRequestPlanMapperTest {
         assertAll(
             () -> assertThat(extensions).isEmpty(),
             () -> assertThat(medicationRequest.getMeta()).usingRecursiveComparison().isEqualTo(meta),
-            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(0)).isEmpty(),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().getFirst()).isEmpty(),
             () -> assertThat(confidentialityCodeCaptor.getAllValues().get(1).orElseThrow().getCode()).isEqualTo("NOPAT")
         );
     }
@@ -548,7 +548,7 @@ class MedicationRequestPlanMapperTest {
         assertAll(
             () -> assertThat(extensions).isEmpty(),
             () -> assertThat(medicationRequest.getMeta()).usingRecursiveComparison().isEqualTo(meta),
-            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(0).orElseThrow().getCode()).isEqualTo("NOPAT"),
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().getFirst().orElseThrow().getCode()).isEqualTo("NOPAT"),
             () -> assertThat(confidentialityCodeCaptor.getAllValues().get(1)).isEmpty()
         );
     }
@@ -617,7 +617,7 @@ class MedicationRequestPlanMapperTest {
 
         assertAll(
             () -> assertThat(meta.getSecurity()).isEmpty(),
-            () -> assertThat(meta.getProfile().get(0).getValue()).isEqualTo(META_PROFILE)
+            () -> assertThat(meta.getProfile().getFirst().getValue()).isEqualTo(META_PROFILE)
         );
 
         verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
@@ -651,26 +651,26 @@ class MedicationRequestPlanMapperTest {
     }
 
     private void assertStatusReasonInformation(Extension extension) {
-        var changeDate = extension.getExtensionsByUrl("statusChangeDate").get(0);
+        var changeDate = extension.getExtensionsByUrl("statusChangeDate").getFirst();
         var changeDateValue = (DateTimeType) changeDate.getValue();
         assertThat(changeDateValue.getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType(AVAILABILITY_TIME).getValue());
 
-        var statusReason = extension.getExtensionsByUrl(STATUS_REASON).get(0);
+        var statusReason = extension.getExtensionsByUrl(STATUS_REASON).getFirst();
         assertThat(statusReason.hasValue()).isTrue();
     }
 
     private void assertRepeatInformation(Extension extension) {
         var repeatsAllowed = extension.getExtensionsByUrl(REPEATS_ALLOWED_URL);
         assertThat(repeatsAllowed).hasSize(1);
-        assertThat(((UnsignedIntType) repeatsAllowed.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(SIX).getValue());
+        assertThat(((UnsignedIntType) repeatsAllowed.getFirst().getValue()).getValue()).isEqualTo(new UnsignedIntType(SIX).getValue());
 
         var repeatsIssued = extension.getExtensionsByUrl(REPEATS_ISSUED_URL);
         assertThat(repeatsIssued).hasSize(1);
-        assertThat(((UnsignedIntType) repeatsIssued.get(0).getValue()).getValue()).isEqualTo(new UnsignedIntType(1).getValue());
+        assertThat(((UnsignedIntType) repeatsIssued.getFirst().getValue()).getValue()).isEqualTo(new UnsignedIntType(1).getValue());
 
         var expiryDate = extension.getExtensionsByUrl(REPEATS_EXPIRY_DATE_URL);
         assertThat(expiryDate).hasSize(1);
-        var date = expiryDate.get(0).getValue().toString();
+        var date = expiryDate.getFirst().getValue().toString();
         assertThat(date).isEqualTo(DateFormatUtil.parseToDateTimeType("20060427").toString());
     }
 
@@ -678,7 +678,7 @@ class MedicationRequestPlanMapperTest {
         var statusExt = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
         assertThat(statusExt).hasSize(1);
 
-        assertThat(statusExt.get(0).getExtensionsByUrl(STATUS_REASON)).usingRecursiveComparison().isEqualTo(List.of(
+        assertThat(statusExt.getFirst().getExtensionsByUrl(STATUS_REASON)).usingRecursiveComparison().isEqualTo(List.of(
                 new Extension(STATUS_REASON, new CodeableConcept().setText(expectedReason))
         ));
     }

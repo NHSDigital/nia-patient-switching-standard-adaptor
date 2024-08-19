@@ -95,7 +95,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
 
         List<Observation> conclusionComments = new ArrayList<>();
 
-        ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
+        ehrExtract.getComponent().getFirst().getEhrFolder().getComponent()
                 .stream()
                 .flatMap(e -> e.getEhrComposition().getComponent().stream())
                 .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
@@ -125,20 +125,20 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
                                                     String practiceCode) {
 
         final DiagnosticReport diagnosticReport = new DiagnosticReport();
-        final String id = compoundStatement.getId().get(0).getRoot();
+        final String id = compoundStatement.getId().getFirst().getRoot();
 
         var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             composition.getConfidentialityCode(),
             compoundStatement.getConfidentialityCode());
 
-        diagnosticReport.setMeta(meta);
-        diagnosticReport.setId(id);
-        diagnosticReport.addIdentifier(buildIdentifier(id, practiceCode));
-        diagnosticReport.setCode(createCode());
-        diagnosticReport.setStatus(DiagnosticReportStatus.UNKNOWN);
-        diagnosticReport.setSubject(new Reference(patient));
-        diagnosticReport.setSpecimen(getSpecimenReferences(compoundStatement));
+        diagnosticReport.setMeta(meta)
+                        .setId(id);
+        diagnosticReport.addIdentifier(buildIdentifier(id, practiceCode))
+                        .setCode(createCode())
+                        .setStatus(DiagnosticReportStatus.UNKNOWN)
+                        .setSubject(new Reference(patient))
+                        .setSpecimen(getSpecimenReferences(compoundStatement));
         createIdentifierExtension(compoundStatement.getId()).ifPresent(diagnosticReport::addIdentifier);
         buildContext(composition, encounters).ifPresent(diagnosticReport::setContext);
         setResultReferences(compoundStatement, diagnosticReport, observationComments);
@@ -172,7 +172,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
                 .map(RCMRMT030101UKComponent02::getCompoundStatement)
                 .filter(ResourceFilterUtil::isSpecimen)
                 .map(compoundStatement1 -> new Reference(
-                        new IdType(ResourceType.Specimen.name(), compoundStatement1.getId().get(0).getRoot())))
+                        new IdType(ResourceType.Specimen.name(), compoundStatement1.getId().getFirst().getRoot())))
                 .toList();
     }
 
@@ -248,7 +248,7 @@ public class DiagnosticReportMapper extends AbstractMapper<DiagnosticReport> {
             RCMRMT030101UKComponent02 component,
             String classCode) {
         return Optional.ofNullable(component.getCompoundStatement())
-                .filter(compoundStatement -> classCode.equals(compoundStatement.getClassCode().get(0)))
+                .filter(compoundStatement -> classCode.equals(compoundStatement.getClassCode().getFirst()))
                 .map(compoundStatement -> compoundStatement.getComponent().stream())
                 .orElse(Stream.empty());
     }

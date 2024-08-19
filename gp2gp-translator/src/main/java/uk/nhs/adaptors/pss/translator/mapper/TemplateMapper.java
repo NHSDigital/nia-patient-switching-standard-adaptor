@@ -79,7 +79,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
 
             if (isObservationStatementTemplateParent(parentCompoundStatement)) {
                 Observation parentObservation = parentObservations.stream()
-                    .filter(observation -> observation.getId().equals(parentCompoundStatement.getId().get(0).getRoot()))
+                    .filter(observation -> observation.getId().equals(parentCompoundStatement.getId().getFirst().getRoot()))
                     .findFirst()
                     .orElseThrow();
 
@@ -135,7 +135,7 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
         Optional<Reference> encounter, RCMRMT030101UKEhrComposition ehrComposition) {
 
         var parentObservation = new Observation();
-        var id = compoundStatement.getId().get(0).getRoot();
+        var id = compoundStatement.getId().getFirst().getRoot();
 
         var codeableConcept = codeableConceptMapper.mapToCodeableConcept(compoundStatement.getCode());
         DegradedCodeableConcepts.addDegradedEntryIfRequired(codeableConcept, DegradedCodeableConcepts.DEGRADED_OTHER);
@@ -175,12 +175,12 @@ public class TemplateMapper extends AbstractMapper<DomainResource> {
 
     private List<RCMRMT030101UKCompoundStatement> getCompoundStatementsByIds(RCMRMT030101UKEhrExtract ehrExtract, List<String> ids) {
 
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent()
+        return ehrExtract.getComponent().getFirst().getEhrFolder().getComponent()
             .stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
             .filter(Objects::nonNull)
-            .filter(compoundStatement -> ids.contains(compoundStatement.getId().get(0).getRoot()))
+            .filter(compoundStatement -> ids.contains(compoundStatement.getId().getFirst().getRoot()))
             .toList();
     }
 

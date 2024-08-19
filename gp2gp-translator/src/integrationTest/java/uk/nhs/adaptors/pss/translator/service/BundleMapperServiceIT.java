@@ -53,9 +53,9 @@ public class BundleMapperServiceIT {
         assertThat(practitioners.size()).isOne();
         assertThat(practitionerRoles.size()).isOne();
 
-        var organisationId = organisations.get(0).getId();
-        var practitionerId = practitioners.get(0).getId();
-        var practitionerRole = practitionerRoles.get(0);
+        var organisationId = organisations.getFirst().getId();
+        var practitionerId = practitioners.getFirst().getId();
+        var practitionerRole = practitionerRoles.getFirst();
 
         assertThat(practitionerRole.getPractitioner().getReferenceElement().getIdPart()).isEqualTo(practitionerId);
         assertThat(practitionerRole.getOrganization().getReferenceElement().getIdPart()).isEqualTo(organisationId);
@@ -74,9 +74,9 @@ public class BundleMapperServiceIT {
         assertThat(practitioners.size()).isEqualTo(2);
         assertThat(practitionerRoles.size()).isEqualTo(2);
 
-        var organisationId = organisations.get(0).getId();
+        var organisationId = organisations.getFirst().getId();
 
-        assertThat(practitionerRoles.get(0).getOrganization().getReferenceElement().getIdPart())
+        assertThat(practitionerRoles.getFirst().getOrganization().getReferenceElement().getIdPart())
             .isEqualTo(organisationId);
 
         assertThat(practitionerRoles.get(1).getOrganization().getReferenceElement().getIdPart())
@@ -98,10 +98,10 @@ public class BundleMapperServiceIT {
         assertThat(practitionerRoles.size()).isZero();
         assertThat(documentReferences.size()).isOne();
 
-        var organisationId = organisations.get(0)
+        var organisationId = organisations.getFirst()
             .getId();
 
-        var custodianId = documentReferences.get(0)
+        var custodianId = documentReferences.getFirst()
             .getCustodian()
             .getResource()
             .getIdElement()
@@ -142,10 +142,10 @@ public class BundleMapperServiceIT {
         assertThat(practitionerRoles.size()).isOne();
         assertThat(documentReferences.size()).isOne();
 
-        var organisationId = organisations.get(0)
+        var organisationId = organisations.getFirst()
             .getId();
 
-        var custodianId = documentReferences.get(0)
+        var custodianId = documentReferences.getFirst()
             .getCustodian()
             .getResource()
             .getIdElement()
@@ -153,10 +153,10 @@ public class BundleMapperServiceIT {
 
         assertThat(custodianId).isEqualTo(organisationId);
 
-        assertThat(practitionerRoles.get(0).getOrganization().getReferenceElement().getIdPart())
+        assertThat(practitionerRoles.getFirst().getOrganization().getReferenceElement().getIdPart())
             .isEqualTo(organisationId);
-        assertThat(practitionerRoles.get(0).getPractitioner().getReferenceElement().getIdPart())
-            .isEqualTo(practitioners.get(0).getId());
+        assertThat(practitionerRoles.getFirst().getPractitioner().getReferenceElement().getIdPart())
+            .isEqualTo(practitioners.getFirst().getId());
     }
 
     @SneakyThrows

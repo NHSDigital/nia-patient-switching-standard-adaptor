@@ -63,12 +63,11 @@ public class MedicationRequestOrderMapper {
                 .setMeta(meta)
                 .setId(ehrSupplyPrescribeId);
 
-            medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, practiseCode));
-            medicationRequest.setStatus(COMPLETED);
-            medicationRequest.setIntent(ORDER);
-
-            medicationRequest.addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()));
-            medicationRequest.setDispenseRequest(buildDispenseRequestForPrescribe(supplyPrescribe));
+            medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, practiseCode))
+                             .setStatus(COMPLETED)
+                             .setIntent(ORDER)
+                             .addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()))
+                             .setDispenseRequest(buildDispenseRequestForPrescribe(supplyPrescribe));
 
             buildNotesForPrescribe(supplyPrescribe).forEach(medicationRequest::addNote);
             medicationMapper.extractMedicationReference(medicationStatement).ifPresent(medicationRequest::setMedication);

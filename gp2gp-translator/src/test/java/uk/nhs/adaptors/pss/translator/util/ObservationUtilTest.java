@@ -48,19 +48,19 @@ public class ObservationUtilTest {
     }
 
     private RCMRMT030101UKObservationStatement getObservationStatementFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition().getComponent().get(0)
+        return ehrExtract.getComponent().getFirst().getEhrFolder().getComponent().getFirst().getEhrComposition().getComponent().getFirst()
             .getObservationStatement();
     }
 
     private RCMRMT030101UKEhrComposition getEhrCompositionFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
+        return ehrExtract.getComponent().getFirst().getEhrFolder().getComponent().getFirst().getEhrComposition();
     }
 
     private void assertInterpretation(CodeableConcept interpretation, String text, String code, String display) {
         assertThat(interpretation.getText()).isEqualTo(text);
-        assertThat(interpretation.getCoding().get(0).getCode()).isEqualTo(code);
-        assertThat(interpretation.getCoding().get(0).getDisplay()).isEqualTo(display);
-        assertThat(interpretation.getCoding().get(0).getSystem()).isEqualTo(INTERPRETATION_SYSTEM);
+        assertThat(interpretation.getCoding().getFirst().getCode()).isEqualTo(code);
+        assertThat(interpretation.getCoding().getFirst().getDisplay()).isEqualTo(display);
+        assertThat(interpretation.getCoding().getFirst().getSystem()).isEqualTo(INTERPRETATION_SYSTEM);
     }
 
     @Test
@@ -100,8 +100,8 @@ public class ObservationUtilTest {
         var quantity = ObservationUtil.getValueQuantity(observationStatement.getValue(),
             observationStatement.getUncertaintyCode());
 
-        assertThat(quantity.getExtension().get(0).getUrl()).isEqualTo(QUANTITY_EXTENSION_URL);
-        assertThat(quantity.getExtension().get(0).getValueAsPrimitive().getValue()).isEqualTo(true);
+        assertThat(quantity.getExtension().getFirst().getUrl()).isEqualTo(QUANTITY_EXTENSION_URL);
+        assertThat(quantity.getExtension().getFirst().getValueAsPrimitive().getValue()).isEqualTo(true);
     }
 
     @Test
@@ -259,9 +259,9 @@ public class ObservationUtilTest {
 
         var referenceRanges = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
-        assertThat(referenceRanges.get(0).getText()).isEqualTo("Test Range 1");
-        assertThat(referenceRanges.get(0).getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_1);
-        assertThat(referenceRanges.get(0).getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_1);
+        assertThat(referenceRanges.getFirst().getText()).isEqualTo("Test Range 1");
+        assertThat(referenceRanges.getFirst().getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_1);
+        assertThat(referenceRanges.getFirst().getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_1);
     }
 
     @Test
@@ -271,8 +271,8 @@ public class ObservationUtilTest {
 
         var referenceRanges = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
-        assertThat(referenceRanges.get(0).getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_1);
-        assertThat(referenceRanges.get(0).getHigh().getValue()).isNull();
+        assertThat(referenceRanges.getFirst().getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_1);
+        assertThat(referenceRanges.getFirst().getHigh().getValue()).isNull();
     }
 
     @Test
@@ -282,8 +282,8 @@ public class ObservationUtilTest {
 
         var referenceRanges = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
-        assertThat(referenceRanges.get(0).getLow().getValue()).isNull();
-        assertThat(referenceRanges.get(0).getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_1);
+        assertThat(referenceRanges.getFirst().getLow().getValue()).isNull();
+        assertThat(referenceRanges.getFirst().getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_1);
     }
 
     @Test
@@ -293,7 +293,7 @@ public class ObservationUtilTest {
 
         var referenceRanges = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
-        assertThat(StringUtils.isEmpty(referenceRanges.get(0).getText())).isTrue();
+        assertThat(StringUtils.isEmpty(referenceRanges.getFirst().getText())).isTrue();
     }
 
     @Test
@@ -303,9 +303,9 @@ public class ObservationUtilTest {
 
         var referenceRanges = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
-        assertThat(referenceRanges.get(0).getText()).isEqualTo("Test Range 1");
-        assertThat(referenceRanges.get(0).getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_1);
-        assertThat(referenceRanges.get(0).getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_1);
+        assertThat(referenceRanges.getFirst().getText()).isEqualTo("Test Range 1");
+        assertThat(referenceRanges.getFirst().getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_1);
+        assertThat(referenceRanges.getFirst().getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_1);
         assertThat(referenceRanges.get(1).getText()).isEqualTo("Test Range 2");
         assertThat(referenceRanges.get(1).getLow().getValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_2);
         assertThat(referenceRanges.get(1).getHigh().getValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_2);
@@ -318,8 +318,8 @@ public class ObservationUtilTest {
 
         var referenceRange = ObservationUtil.getReferenceRange(observationStatement.getReferenceRange());
 
-        assertThat(referenceRange.get(0).getText()).isEqualTo("Test Range 1");
-        assertThat(referenceRange.get(0).getLow().getValue().doubleValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_DECIMAL);
-        assertThat(referenceRange.get(0).getHigh().getValue().doubleValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_DECIMAL);
+        assertThat(referenceRange.getFirst().getText()).isEqualTo("Test Range 1");
+        assertThat(referenceRange.getFirst().getLow().getValue().doubleValue()).isEqualTo(REFERENCE_RANGE_LOW_VALUE_DECIMAL);
+        assertThat(referenceRange.getFirst().getHigh().getValue().doubleValue()).isEqualTo(REFERENCE_RANGE_HIGH_VALUE_DECIMAL);
     }
 }

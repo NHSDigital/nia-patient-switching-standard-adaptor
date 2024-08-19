@@ -71,8 +71,8 @@ public class TemplateMapperTest {
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isEqualTo(1);
-        // var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
-        var parentObservation = (Observation) mappedResources.get(0);
+        // var questionnaireResponse = (QuestionnaireResponse) mappedResources.getFirst();
+        var parentObservation = (Observation) mappedResources.getFirst();
 
         // assertQuestionnaireResponse(questionnaireResponse, ENCOUNTER_ID, "original-text", "20100113151332");
         assertParentObservation(parentObservation, ENCOUNTER_ID, "20100113151332", "3707E1F0-9011-11EC-B1E5-0800200C9A66");
@@ -90,8 +90,8 @@ public class TemplateMapperTest {
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isEqualTo(1);
-//      var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
-        var parentObservation = (Observation) mappedResources.get(0);
+//      var questionnaireResponse = (QuestionnaireResponse) mappedResources.getFirst();
+        var parentObservation = (Observation) mappedResources.getFirst();
 
 //      assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
         assertParentObservation(parentObservation, null, null, "9007E1F0-9011-11EC-B1E5-0800200C9A66");
@@ -110,8 +110,8 @@ public class TemplateMapperTest {
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isEqualTo(1);
-        //var questionnaireResponse = (QuestionnaireResponse) mappedResources.get(0);
-        var parentObservation = (Observation) mappedResources.get(0);
+        //var questionnaireResponse = (QuestionnaireResponse) mappedResources.getFirst();
+        var parentObservation = (Observation) mappedResources.getFirst();
 
         //assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
         assertParentObservation(parentObservation, null, null, "9007E1F0-9011-11EC-B1E5-0800200C9A66");
@@ -142,23 +142,23 @@ public class TemplateMapperTest {
 
         templateMapper.addReferences(templates, observations, ehrExtract);
 
-        var parentRelations = ((Observation) templates.get(0)).getRelated();
-        var fistChildRelations = observations.get(0).getRelated();
+        var parentRelations = ((Observation) templates.getFirst()).getRelated();
+        var fistChildRelations = observations.getFirst().getRelated();
         var secondChildRelations = observations.get(1).getRelated();
 
         assertThat(parentRelations.size()).isEqualTo(2);
-        assertThat(parentRelations.get(0).getTarget().getReferenceElement().getIdPart()).isEqualTo("CHILD_OBSERVATION_ID_1");
-        assertThat(parentRelations.get(0).getType()).isEqualTo(HASMEMBER);
+        assertThat(parentRelations.getFirst().getTarget().getReferenceElement().getIdPart()).isEqualTo("CHILD_OBSERVATION_ID_1");
+        assertThat(parentRelations.getFirst().getType()).isEqualTo(HASMEMBER);
         assertThat(parentRelations.get(1).getTarget().getReferenceElement().getIdPart()).isEqualTo("CHILD_OBSERVATION_ID_2");
         assertThat(parentRelations.get(1).getType()).isEqualTo(HASMEMBER);
 
         assertThat(fistChildRelations.size()).isOne();
-        assertThat(fistChildRelations.get(0).getTarget().getReferenceElement().getIdPart()).isEqualTo("PARENT_OBSERVATION_ID");
-        assertThat(fistChildRelations.get(0).getType()).isEqualTo(DERIVEDFROM);
+        assertThat(fistChildRelations.getFirst().getTarget().getReferenceElement().getIdPart()).isEqualTo("PARENT_OBSERVATION_ID");
+        assertThat(fistChildRelations.getFirst().getType()).isEqualTo(DERIVEDFROM);
 
         assertThat(secondChildRelations.size()).isOne();
-        assertThat(secondChildRelations.get(0).getTarget().getReferenceElement().getIdPart()).isEqualTo("PARENT_OBSERVATION_ID");
-        assertThat(secondChildRelations.get(0).getType()).isEqualTo(DERIVEDFROM);
+        assertThat(secondChildRelations.getFirst().getTarget().getReferenceElement().getIdPart()).isEqualTo("PARENT_OBSERVATION_ID");
+        assertThat(secondChildRelations.getFirst().getType()).isEqualTo(DERIVEDFROM);
     }
 
     @Test
@@ -167,7 +167,7 @@ public class TemplateMapperTest {
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_template.xml");
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
-        var parentObservation = (Observation) mappedResources.get(0);
+        var parentObservation = (Observation) mappedResources.getFirst();
 
         assertThat(parentObservation.getCode()).isEqualTo(CODEABLE_CONCEPT);
     }
@@ -179,7 +179,7 @@ public class TemplateMapperTest {
 
         var ehrExtract = unmarshallEhrExtractElement("full_valid_template.xml");
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
-        var parentObservation = (Observation) mappedResources.get(0);
+        var parentObservation = (Observation) mappedResources.getFirst();
 
         assertThat(parentObservation.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
     }
@@ -187,7 +187,7 @@ public class TemplateMapperTest {
     private void assertQuestionnaireResponse(QuestionnaireResponse questionnaireResponse, String encounter, String linkId,
         String authored) {
         assertThat(questionnaireResponse.getId()).isEqualTo(COMPOUND_ID + QUESTIONNAIRE_SUFFIX);
-        assertThat(questionnaireResponse.getMeta().getProfile().get(0).getValue()).isEqualTo(QUESTIONNAIRE_META);
+        assertThat(questionnaireResponse.getMeta().getProfile().getFirst().getValue()).isEqualTo(QUESTIONNAIRE_META);
         assertThat(questionnaireResponse.getIdentifier().getSystem()).isEqualTo(IDENTIFIER);
         assertThat(questionnaireResponse.getIdentifier().getValue()).isEqualTo(COMPOUND_ID);
         assertThat(questionnaireResponse.getParentFirstRep().getResource().getIdElement().getValue()).isEqualTo(COMPOUND_ID);
@@ -206,7 +206,7 @@ public class TemplateMapperTest {
 
     private void assertParentObservation(Observation parentObservation, String encounter, String issued, String performer) {
         assertThat(parentObservation.getId()).isEqualTo(COMPOUND_ID);
-        assertThat(parentObservation.getMeta().getProfile().get(0).getValue()).isEqualTo(OBSERVATION_META);
+        assertThat(parentObservation.getMeta().getProfile().getFirst().getValue()).isEqualTo(OBSERVATION_META);
         assertThat(parentObservation.getIdentifierFirstRep().getSystem()).isEqualTo(IDENTIFIER);
         assertThat(parentObservation.getIdentifierFirstRep().getValue()).isEqualTo(COMPOUND_ID);
         assertThat(parentObservation.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
