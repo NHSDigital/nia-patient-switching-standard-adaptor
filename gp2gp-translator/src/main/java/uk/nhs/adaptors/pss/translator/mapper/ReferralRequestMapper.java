@@ -31,6 +31,7 @@ import org.hl7.v3.RCMRMT030101UKPart;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.hl7.v3.RCMRMT030101UKResponsibleParty3;
 import org.hl7.v3.TS;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -81,9 +82,23 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                                                 List<Encounter> encounters,
                                                 String practiseCode) {
 
+        var referralRequest = initializeReferralRequest(ehrComposition, requestStatement, patient, practiseCode);
+
+        setReferralRequestContext(referralRequest, ehrComposition, encounters);
+        setReferralRequestRecipient(ehrExtract, requestStatement, referralRequest);
+        setReferralRequestReasonCode(referralRequest, requestStatement.getCode());
+
+        return referralRequest;
+    }
+
+    private @NotNull ReferralRequest initializeReferralRequest(RCMRMT030101UKEhrComposition ehrComposition,
+                                                               RCMRMT030101UKRequestStatement requestStatement,
+                                                               Patient patient,
+                                                               String practiceCode) {
         var referralRequest = new ReferralRequest();
-        var id = requestStatement.getId().get(0).getRoot();
-        var identifier = buildIdentifier(id, practiseCode);
+        var id = requestStatement.getId().getFirst().getRoot();
+        var identifier = buildIdentifier(id, practiceCode);
+
         var agent = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition);
 
         var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
@@ -105,10 +120,6 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         referralRequest.setNote(getNotes(requestStatement));
         referralRequest.setSubject(new Reference(patient));
         referralRequest.setPriority(referralPriority);
-
-        setReferralRequestContext(referralRequest, ehrComposition, encounters);
-        setReferralRequestRecipient(ehrExtract, requestStatement, referralRequest);
-        setReferralRequestReasonCode(referralRequest, requestStatement.getCode());
 
         return referralRequest;
     }

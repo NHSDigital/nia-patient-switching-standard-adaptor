@@ -150,9 +150,9 @@ public class SpecimenCompoundsMapper {
     }
 
     private void handleObservationStatement(RCMRMT030101UKEhrComposition ehrComposition,
-                                              RCMRMT030101UKCompoundStatement specimenCompoundStatement,
-                                              RCMRMT030101UKObservationStatement observationStatement,
-                                              Observation observation) {
+                                            RCMRMT030101UKCompoundStatement specimenCompoundStatement,
+                                            RCMRMT030101UKObservationStatement observationStatement,
+                                            Observation observation) {
 
         var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,

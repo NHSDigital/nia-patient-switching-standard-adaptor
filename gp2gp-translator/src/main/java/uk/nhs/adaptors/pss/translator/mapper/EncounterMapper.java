@@ -41,6 +41,7 @@ import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKParticipant2;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -282,20 +283,27 @@ public class EncounterMapper {
     }
 
     private Encounter mapToEncounter(
-            RCMRMT030101UKEhrComposition ehrComposition,
-            Patient patient,
-            String practiseCode,
-            List<Location> entryLocations
-    ) {
+        RCMRMT030101UKEhrComposition ehrComposition,
+        Patient patient,
+        String practiseCode,
+        List<Location> entryLocations) {
+
         var id = ehrComposition.getId().getRoot();
 
-        var encounter = new Encounter();
-
-        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+        final var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             ENCOUNTER_META_PROFILE,
             ehrComposition.getConfidentialityCode()
         );
 
+        var encounter = initializeEncounter(ehrComposition, patient, practiseCode, id, meta);
+        setEncounterLocation(encounter, ehrComposition, entryLocations);
+
+        return encounter;
+    }
+
+    private @NotNull Encounter initializeEncounter(RCMRMT030101UKEhrComposition ehrComposition, Patient patient,
+                                                   String practiseCode, String id, Meta meta) {
+        var encounter = new Encounter();
         encounter
             .setParticipant(getParticipants(ehrComposition.getAuthor(), ehrComposition.getParticipant2()))
             .setStatus(EncounterStatus.FINISHED)
@@ -305,9 +313,6 @@ public class EncounterMapper {
             .addIdentifier(buildIdentifier(id, practiseCode))
             .setMeta(meta)
             .setId(id);
-
-        setEncounterLocation(encounter, ehrComposition, entryLocations);
-
         return encounter;
     }
 
