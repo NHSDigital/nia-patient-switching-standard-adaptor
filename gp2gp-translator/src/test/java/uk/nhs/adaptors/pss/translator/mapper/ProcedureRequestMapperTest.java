@@ -3,7 +3,6 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static java.util.UUID.randomUUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,6 +10,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.MetaSecurityTestUtility.assertMetaSecurityIsPresent;
+import static uk.nhs.adaptors.pss.translator.MetaSecurityTestUtility.assertMetaSecurityNotPresent;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
 import java.util.List;
@@ -18,14 +19,12 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestIntent;
 import org.hl7.fhir.dstu3.model.ProcedureRequest.ProcedureRequestStatus;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -38,7 +37,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.MetaFactory;
@@ -169,7 +167,7 @@ public class ProcedureRequestMapperTest {
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
                                                                                          planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
-        assertMetaSecurityIsPresent(procedureRequest.getMeta());
+        assertMetaSecurityIsPresent(META, procedureRequest.getMeta());
     }
 
     @Test
@@ -185,10 +183,13 @@ public class ProcedureRequestMapperTest {
             Optional.empty()
         )).thenReturn(META);
 
-        ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
-                                                                                         planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
+        var procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
+                                                                            planStatement,
+                                                                            SUBJECT,
+                                                                            ENCOUNTERS,
+                                                                            PRACTISE_CODE);
 
-        assertMetaSecurityIsPresent(procedureRequest.getMeta());
+        assertMetaSecurityIsPresent(META, procedureRequest.getMeta());
     }
 
     @Test
@@ -211,7 +212,7 @@ public class ProcedureRequestMapperTest {
             ENCOUNTERS,
             PRACTISE_CODE);
 
-        assertMetaSecurityNotPresent(procedureRequest);
+        assertMetaSecurityNotPresent(procedureRequest, META_PROFILE);
     }
 
     @Test
@@ -401,30 +402,6 @@ public class ProcedureRequestMapperTest {
                 planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
         assertThat(procedureRequest.getStatus()).isEqualTo(ProcedureRequestStatus.UNKNOWN);
-    }
-
-    private void assertMetaSecurityIsPresent(final Meta meta) {
-        final List<Coding> metaSecurity = meta.getSecurity();
-        final int metaSecuritySize = metaSecurity.size();
-        final Coding metaSecurityCoding = metaSecurity.getFirst();
-        final UriType metaProfile = meta.getProfile().getFirst();
-
-        assertAll(
-            () -> assertThat(metaSecuritySize).isEqualTo(1),
-            () -> assertThat(metaProfile.getValue()).isEqualTo(META_PROFILE),
-            () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
-            () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
-            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem())
-        );
-    }
-
-    private void assertMetaSecurityNotPresent(ProcedureRequest request) {
-        final Meta meta = request.getMeta();
-
-        assertAll(
-            () -> assertThat(meta.getSecurity()).isEmpty(),
-            () -> assertEquals(META_PROFILE, meta.getProfile().getFirst().getValue())
-        );
     }
 
     private void assertFixedValues(RCMRMT030101UKPlanStatement planStatement, ProcedureRequest procedureRequest) {

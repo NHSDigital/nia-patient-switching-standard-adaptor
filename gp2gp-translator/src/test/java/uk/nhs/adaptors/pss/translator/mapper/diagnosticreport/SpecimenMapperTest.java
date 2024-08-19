@@ -1,12 +1,12 @@
 package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.MetaSecurityTestUtility.assertMetaSecurityIsPresent;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Meta;
@@ -83,7 +82,7 @@ public class SpecimenMapperTest {
 
         assertThat(specimenList).isNotEmpty();
         final Specimen specimen = specimenList.getFirst();
-        assertMetaSecurityIsPresent(specimen.getMeta());
+        assertMetaSecurityIsPresent(META_WITH_SECURITY_ADDED, specimen.getMeta());
     }
 
     @Test
@@ -103,7 +102,7 @@ public class SpecimenMapperTest {
 
         assertThat(specimenList).isNotEmpty();
         final Specimen specimen = specimenList.getFirst();
-        assertMetaSecurityIsPresent(specimen.getMeta());
+        assertMetaSecurityIsPresent(META_WITH_SECURITY_ADDED, specimen.getMeta());
     }
 
     @Test
@@ -230,15 +229,7 @@ public class SpecimenMapperTest {
         return (DiagnosticReport) new DiagnosticReport().setId(DR_ID);
     }
 
-    private void assertMetaSecurityIsPresent(final Meta meta) {
-        final List<Coding> metaSecurity = meta.getSecurity();
-        final int metaSecuritySize = metaSecurity.size();
 
-        assertAll(
-            () -> assertThat(metaSecuritySize).isEqualTo(1),
-            () -> assertThat(meta).usingRecursiveComparison().isEqualTo(META_WITH_SECURITY_ADDED)
-        );
-    }
 
     private RCMRMT030101UKCompoundStatement getCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().getFirst()
