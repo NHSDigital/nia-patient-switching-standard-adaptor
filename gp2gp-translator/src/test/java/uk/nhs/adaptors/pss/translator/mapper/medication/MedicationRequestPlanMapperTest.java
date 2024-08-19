@@ -13,6 +13,7 @@ import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.MetaSecurityTestUtility.assertMetaSecurityIsNotPresent;
 import static uk.nhs.adaptors.pss.translator.TestUtility.GET_EHR_COMPOSITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
@@ -613,12 +614,8 @@ class MedicationRequestPlanMapperTest {
     }
 
     private void assertMetaSecurityNotPresent(MedicationRequest request) {
-        final Meta meta = request.getMeta();
 
-        assertAll(
-            () -> assertThat(meta.getSecurity()).isEmpty(),
-            () -> assertThat(meta.getProfile().getFirst().getValue()).isEqualTo(META_PROFILE)
-        );
+        assertMetaSecurityIsNotPresent(request.getMeta(), META_PROFILE);
 
         verify(confidentialityService).createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
