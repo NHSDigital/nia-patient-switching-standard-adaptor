@@ -16,7 +16,6 @@ import java.util.Optional;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -26,6 +25,7 @@ import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.hl7.v3.TS;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -35,6 +35,7 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 @Service
 @AllArgsConstructor
 public class MedicationRequestOrderMapper {
+
     private static final String NHS_PRESCRIPTION = "NHS prescription";
     private static final String PRESCRIPTION_TYPE = "Prescription type: ";
 
@@ -45,7 +46,7 @@ public class MedicationRequestOrderMapper {
                                                          RCMRMT030101UKEhrComposition ehrComposition,
                                                          RCMRMT030101UKMedicationStatement medicationStatement,
                                                          RCMRMT030101UKPrescribe supplyPrescribe,
-                                                         String practiseCode) {
+                                                         String practiceCode) {
 
         var ehrSupplyPrescribeIdExtract = extractEhrSupplyPrescribeId(supplyPrescribe);
         var inFulfillmentOfId = extractInFulfillmentOfId(supplyPrescribe);
@@ -53,21 +54,8 @@ public class MedicationRequestOrderMapper {
         if (ehrSupplyPrescribeIdExtract.isPresent()) {
             var ehrSupplyPrescribeId = ehrSupplyPrescribeIdExtract.get();
 
-            final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-                MedicationMapperUtils.META_PROFILE,
-                ehrComposition.getConfidentialityCode(),
-                medicationStatement.getConfidentialityCode()
-            );
-
-            final MedicationRequest medicationRequest = (MedicationRequest) new MedicationRequest()
-                .setMeta(meta)
-                .setId(ehrSupplyPrescribeId);
-
-            medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, practiseCode))
-                             .setStatus(COMPLETED)
-                             .setIntent(ORDER)
-                             .addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()))
-                             .setDispenseRequest(buildDispenseRequestForPrescribe(supplyPrescribe));
+            final var medicationRequest =
+                initializeMedicationRequest(ehrComposition, medicationStatement, supplyPrescribe, practiceCode, ehrSupplyPrescribeId);
 
             buildNotesForPrescribe(supplyPrescribe).forEach(medicationRequest::addNote);
             medicationMapper.extractMedicationReference(medicationStatement).ifPresent(medicationRequest::setMedication);
@@ -80,6 +68,29 @@ public class MedicationRequestOrderMapper {
             return medicationRequest;
         }
         return null;
+    }
+
+    private @NotNull MedicationRequest initializeMedicationRequest(RCMRMT030101UKEhrComposition ehrComposition,
+                                                            RCMRMT030101UKMedicationStatement medicationStatement,
+                                                            RCMRMT030101UKPrescribe supplyPrescribe, String practiseCode,
+                                                            String ehrSupplyPrescribeId) {
+
+        final var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            MedicationMapperUtils.META_PROFILE,
+            ehrComposition.getConfidentialityCode(),
+            medicationStatement.getConfidentialityCode()
+        );
+
+        final MedicationRequest medicationRequest = new MedicationRequest();
+        medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, practiseCode))
+                         .setStatus(COMPLETED)
+                         .setIntent(ORDER)
+                         .addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()))
+                         .setDispenseRequest(buildDispenseRequestForPrescribe(supplyPrescribe))
+                         .setMeta(meta)
+                         .setId(ehrSupplyPrescribeId);
+
+        return medicationRequest;
     }
 
     private Reference buildMedicationRequestReference(String id) {

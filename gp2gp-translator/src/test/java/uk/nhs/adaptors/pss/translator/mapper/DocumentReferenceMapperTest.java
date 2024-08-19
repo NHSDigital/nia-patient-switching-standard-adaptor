@@ -114,7 +114,7 @@ class DocumentReferenceMapperTest {
         List<DocumentReference> documentReferences = documentReferenceMapper.mapResources(ehrExtract, createPatient(),
             getEncounterList(), AUTHOR_ORG, createAttachmentList());
 
-        assertThat(documentReferences.size()).isEqualTo(EXPECTED_DOCUMENT_REFERENCE_COUNT);
+        assertThat(documentReferences).hasSize(EXPECTED_DOCUMENT_REFERENCE_COUNT);
     }
 
     @Test

@@ -7,7 +7,6 @@ import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -23,6 +22,7 @@ import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation2;
 import org.hl7.v3.RCMRMT030101UKSupplyAnnotation;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -79,20 +79,8 @@ public class MedicationRequestPlanMapper {
             var ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
             var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, ehrExtract);
 
-            final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
-                MedicationMapperUtils.META_PROFILE,
-                medicationStatement.getConfidentialityCode(),
-                ehrComposition.getConfidentialityCode()
-            );
-
-            final MedicationRequest medicationRequest = (MedicationRequest) new MedicationRequest()
-                .setMeta(meta)
-                .setId(ehrSupplyAuthoriseId);
-
-            medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, practiseCode))
-                             .setIntent(PLAN)
-                             .addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()))
-                             .setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise, medicationStatement));
+            final var medicationRequest =
+                initializeMedicationRequest(ehrComposition, medicationStatement, supplyAuthorise, practiseCode, ehrSupplyAuthoriseId);
 
             List<Extension> repeatInformationExtensions = new ArrayList<>();
             extractSupplyAuthoriseRepeatInformation(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
@@ -122,6 +110,28 @@ public class MedicationRequestPlanMapper {
             return medicationRequest;
         }
         return null;
+    }
+
+    private @NotNull MedicationRequest initializeMedicationRequest(RCMRMT030101UKEhrComposition ehrComposition,
+                                                            RCMRMT030101UKMedicationStatement medicationStatement,
+                                                            RCMRMT030101UKAuthorise supplyAuthorise, String practiseCode,
+                                                            String ehrSupplyAuthoriseId) {
+
+        final var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+            MedicationMapperUtils.META_PROFILE,
+            medicationStatement.getConfidentialityCode(),
+            ehrComposition.getConfidentialityCode()
+        );
+
+        final var medicationRequest = new MedicationRequest();
+        medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, practiseCode))
+                         .setIntent(PLAN)
+                         .addDosageInstruction(buildDosage(medicationStatement.getPertinentInformation()))
+                         .setDispenseRequest(buildDispenseRequestForAuthorise(supplyAuthorise, medicationStatement))
+                         .setMeta(meta)
+                         .setId(ehrSupplyAuthoriseId);
+
+        return medicationRequest;
     }
 
     private List<Extension> getStatusChangedExtensions(RCMRMT030101UKDiscontinue discontinue) {
