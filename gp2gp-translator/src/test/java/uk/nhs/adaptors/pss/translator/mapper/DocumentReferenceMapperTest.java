@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hl7.fhir.dstu3.model.Enumerations.DocumentReferenceStatus;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -259,7 +262,7 @@ class DocumentReferenceMapperTest {
         assertThat(documentReference.getDescription()).isEqualTo("Some example text");
         assertThat(documentReference.getIndexedElement().getValue()).isEqualTo("2010-01-14");
         assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
-        assertThat(documentReference.getSubject().getResource()).isNotNull();
+        assertNotNull(documentReference.getSubject().getResource());
         assertThat(documentReference.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(documentReference.getContext().getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
         assertAttachmentData(documentReference);
@@ -275,7 +278,7 @@ class DocumentReferenceMapperTest {
         assertThat(documentReference.getDescription()).isEqualTo("Some example text");
         assertThat(documentReference.getIndexedElement().getValue()).isEqualTo("2010-01-14");
         assertThat(documentReference.getCreatedElement().asStringValue()).isEqualTo("2019-07-08T13:35:00+00:00");
-        assertThat(documentReference.getSubject().getResource()).isNotNull();
+        assertNotNull(documentReference.getSubject().getResource());
         assertThat(documentReference.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
         assertThat(documentReference.getContext().getEncounter().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
         assertAttachmentData(documentReference);
@@ -303,8 +306,8 @@ class DocumentReferenceMapperTest {
     private void assertDocumentReferenceWithAbsentAttachment(DocumentReference documentReference) {
         assertThat(documentReference.getId()).isEqualTo(NARRATIVE_STATEMENT_ROOT_ID);
         assertThat(documentReference.getContent().getFirst().getAttachment().getTitle()).isEqualTo(PLACEHOLDER);
-        assertThat(documentReference.getContent().getFirst().getAttachment().getUrl()).isNotNull();
-        assertThat(documentReference.getContent().getFirst().getAttachment().hasSize()).isFalse();
+        assertNotNull(documentReference.getContent().getFirst().getAttachment().getUrl());
+        assertFalse(documentReference.getContent().getFirst().getAttachment().hasSize());
         assertThat(documentReference.getContent().getFirst().getAttachment().getContentType()).isEqualTo(CONTENT_TYPE);
     }
 
@@ -314,7 +317,7 @@ class DocumentReferenceMapperTest {
         assertThat(documentReference.getStatus()).isEqualTo(DocumentReferenceStatus.CURRENT);
         assertThatIdentifierIsValid(documentReference.getIdentifierFirstRep(), documentReference.getId());
         assertThat(documentReference.getType().getText()).isEqualTo(NARRATIVE_STATEMENT_TYPE);
-        assertThat(documentReference.getContext().getEncounter().getResource()).isNull();
+        assertNull(documentReference.getContext().getEncounter().getResource());
     }
 
     private void assertThatIdentifierIsValid(Identifier identifier, String id) {

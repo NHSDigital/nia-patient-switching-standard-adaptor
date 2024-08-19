@@ -164,7 +164,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                                                            RCMRMT030101UKRequestStatement requestStatement, Patient patient,
                                                            List<Encounter> encounters, String practiseCode) {
 
-        var id = requestStatement.getId().get(0).getRoot();
+        var id = requestStatement.getId().getFirst().getRoot();
         var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),

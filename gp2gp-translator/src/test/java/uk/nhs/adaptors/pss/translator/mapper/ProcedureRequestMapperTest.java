@@ -406,8 +406,8 @@ public class ProcedureRequestMapperTest {
     private void assertMetaSecurityIsPresent(final Meta meta) {
         final List<Coding> metaSecurity = meta.getSecurity();
         final int metaSecuritySize = metaSecurity.size();
-        final Coding metaSecurityCoding = metaSecurity.get(0);
-        final UriType metaProfile = meta.getProfile().get(0);
+        final Coding metaSecurityCoding = metaSecurity.getFirst();
+        final UriType metaProfile = meta.getProfile().getFirst();
 
         assertAll(
             () -> assertThat(metaSecuritySize).isEqualTo(1),
@@ -423,7 +423,7 @@ public class ProcedureRequestMapperTest {
 
         assertAll(
             () -> assertThat(meta.getSecurity()).isEmpty(),
-            () -> assertEquals(META_PROFILE, meta.getProfile().get(0).getValue())
+            () -> assertEquals(META_PROFILE, meta.getProfile().getFirst().getValue())
         );
     }
 
@@ -432,21 +432,21 @@ public class ProcedureRequestMapperTest {
         assertThat(procedureRequest.getIntent()).isEqualTo(ProcedureRequestIntent.PLAN);
         assertThat(procedureRequest.getIdentifierFirstRep().getSystem()).isEqualTo(IDENTIFIER_SYSTEM);
         assertThat(procedureRequest.getIdentifierFirstRep().getValue()).isEqualTo(planStatement.getId().getRoot());
-        assertThat(procedureRequest.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(procedureRequest.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(procedureRequest.getSubject().getResource().getIdElement().getValue()).isEqualTo(SUBJECT.getId());
     }
 
     private RCMRMT030101UKPlanStatement getPlanStatement(RCMRMT030101UKEhrExtract ehrExtract) {
-        return ehrExtract.getComponent().get(0)
-            .getEhrFolder().getComponent().get(0)
-            .getEhrComposition().getComponent().get(0)
+        return ehrExtract.getComponent().getFirst()
+            .getEhrFolder().getComponent().getFirst()
+            .getEhrComposition().getComponent().getFirst()
             .getPlanStatement();
     }
 
     private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
 
-        return ehrExtract.getComponent().get(0)
-            .getEhrFolder().getComponent().get(0)
+        return ehrExtract.getComponent().getFirst()
+            .getEhrFolder().getComponent().getFirst()
             .getEhrComposition();
     }
 

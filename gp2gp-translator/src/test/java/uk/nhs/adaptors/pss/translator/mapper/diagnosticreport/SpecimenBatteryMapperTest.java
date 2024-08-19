@@ -117,7 +117,7 @@ public class SpecimenBatteryMapperTest {
         final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
         final var batteryCompoundStatements = getBatteryCompoundStatements(ehrExtract);
 
-        assertThat(batteryCompoundStatements).map(r -> r.getId().get(0).getRoot())
+        assertThat(batteryCompoundStatements).map(r -> r.getId().getFirst().getRoot())
                     .isEqualTo(List.of("SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1",
                                        "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_2",
                                        "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_3"));
@@ -297,7 +297,7 @@ public class SpecimenBatteryMapperTest {
                 .contains("TEST_SPECIMEN_ID_1"),
             () -> assertThat(observation.getStatus())
                 .isEqualTo(ObservationStatus.FINAL),
-            () -> assertThat(observation.getMeta().getProfile().get(0).getValue())
+            () -> assertThat(observation.getMeta().getProfile().getFirst().getValue())
                 .contains("Observation-1"),
             () -> assertThat(observation.getComment())
                 .isEqualTo("Looks like Covid"),
@@ -322,7 +322,7 @@ public class SpecimenBatteryMapperTest {
         final Observation observation = specimenBatteryMapper.mapBatteryObservation(batteryParameters);
 
         assertAll(
-            () -> assertThat(observations.get(0).getRelatedFirstRep().getType())
+            () -> assertThat(observations.getFirst().getRelatedFirstRep().getType())
                 .isEqualTo(ObservationRelationshipType.DERIVEDFROM),
             () -> assertThat(observation.getRelatedFirstRep().getTarget().getReference())
                 .contains("BATTERY_DIRECT_CHILD_OBSERVATION_STATEMENT"),
@@ -453,18 +453,18 @@ public class SpecimenBatteryMapperTest {
     }
 
     private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().get(0).getEhrComposition();
+        return ehrExtract.getComponent().getFirst().getEhrFolder().getComponent().getFirst().getEhrComposition();
     }
 
     private RCMRMT030101UKCompoundStatement getSpecimenCompoundStatement(RCMRMT030101UKEhrExtract ehrExtract) {
-        return getEhrComposition(ehrExtract).getComponent().get(0).getCompoundStatement()
-            .getComponent().get(0).getCompoundStatement();
+        return getEhrComposition(ehrExtract).getComponent().getFirst().getCompoundStatement()
+            .getComponent().getFirst().getCompoundStatement();
     }
 
     private DiagnosticReport getDiagnosticReport(RCMRMT030101UKEhrExtract ehrExtract) {
-        var compoundStatement = getEhrComposition(ehrExtract).getComponent().get(0).getCompoundStatement();
+        var compoundStatement = getEhrComposition(ehrExtract).getComponent().getFirst().getCompoundStatement();
         var diagnosticReport = new DiagnosticReport();
-        diagnosticReport.setId(compoundStatement.getId().get(0).getRoot());
+        diagnosticReport.setId(compoundStatement.getId().getFirst().getRoot());
 
         if (compoundStatement.getAvailabilityTime() != null) {
             diagnosticReport.setIssued(
@@ -486,7 +486,7 @@ public class SpecimenBatteryMapperTest {
         return getEhrComposition(ehrExtract).getComponent()
             .stream()
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
-            .filter(compoundStatement -> "BATTERY".equals(compoundStatement.getClassCode().get(0)))
+            .filter(compoundStatement -> "BATTERY".equals(compoundStatement.getClassCode().getFirst()))
             .findFirst()
             .orElseThrow();
     }
@@ -495,7 +495,7 @@ public class SpecimenBatteryMapperTest {
         return getEhrComposition(ehrExtract).getComponent()
             .stream()
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
-            .filter(compoundStatement -> "BATTERY".equals(compoundStatement.getClassCode().get(0)))
+            .filter(compoundStatement -> "BATTERY".equals(compoundStatement.getClassCode().getFirst()))
             .toList();
     }
 
