@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.util.ResourceUtils.getFile;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -19,6 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LocationMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/Location/";
     private static final String META_PROFILE = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Location-1";
     private static final String PRACTISE_CODE = "TESTPRACTISECODE";
@@ -149,7 +151,7 @@ public class LocationMapperTest {
         assertThat(location.getName()).isEqualTo(ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName());
         assertThat(location.getAddress().getLine().toString()).hasToString(ehrComposition.getLocation().getLocatedEntity()
                 .getLocatedPlace().getAddr().getStreetAddressLine().toString());
-        assertThat(location.getAddress().getPostalCode()).isNull();
+        assertNull(location.getAddress().getPostalCode());
     }
 
     @Test
@@ -162,7 +164,7 @@ public class LocationMapperTest {
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
         assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(location.getName()).isEqualTo(ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName());
-        assertThat(location.getAddress().isEmpty()).isTrue();
+        assertTrue(location.getAddress().isEmpty());
     }
 
     private void assertThatIdentifierIsValid(Identifier identifier, String id) {

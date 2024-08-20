@@ -3,6 +3,8 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -95,8 +97,7 @@ public class CodeableConceptMapperTest {
             .isEqualTo("22298006");
         assertThat(codeableConcept.getCoding().getFirst().getDisplay())
             .isEqualTo(SNOMED_PREFERRED.getTerm());
-        assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().size() == 2)
-            .isTrue();
+        assertTrue(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().size() == 2);
         assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().getFirst().getUrl())
             .isEqualTo(DESCRIPTION_ID);
         assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().getFirst().getValue())
@@ -127,8 +128,7 @@ public class CodeableConceptMapperTest {
             .isEqualTo(CONCEPT_ID);
         assertThat(codeableConcept.getCoding().getFirst().getDisplay())
             .isEqualTo(DISPLAY_NAME_1);
-        assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().size() == 1)
-            .isTrue();
+        assertTrue(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().size() == 1);
         assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().getFirst().getUrl())
             .isEqualTo(DESCRIPTION_DISPLAY);
         assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().getFirst().getValue().toString())
@@ -153,8 +153,7 @@ public class CodeableConceptMapperTest {
             .isEqualTo(CONCEPT_ID);
         assertThat(codeableConcept.getCoding().getFirst().getDisplay())
             .isEqualTo(DISPLAY_NAME_1);
-        assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().size() == 1)
-            .isTrue();
+        assertTrue(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().size() == 1);
         assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().getFirst().getUrl())
             .isEqualTo(DESCRIPTION_DISPLAY);
         assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().getFirst().getValue().toString())
@@ -180,8 +179,7 @@ public class CodeableConceptMapperTest {
             .isEqualTo(CONCEPT_ID);
         assertThat(codeableConcept.getCoding().getFirst().getDisplay())
             .isEqualTo(DISPLAY_NAME_1);
-        assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().size() == 1)
-            .isTrue();
+        assertTrue(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().size() == 1);
         assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().getFirst().getUrl())
             .isEqualTo(DESCRIPTION_ID);
         assertThat(codeableConcept.getCoding().getFirst().getExtension().getFirst().getExtension().getFirst().getValue())
@@ -206,8 +204,7 @@ public class CodeableConceptMapperTest {
             .isEqualTo(CONCEPT_ID);
         assertThat(codeableConcept.getCoding().get(1).getDisplay())
             .isEqualTo(DISPLAY_NAME_1);
-        assertThat(codeableConcept.getCoding().get(1).getExtension().getFirst().getExtension().size() == 1)
-            .isTrue();
+        assertTrue(codeableConcept.getCoding().get(1).getExtension().getFirst().getExtension().size() == 1);
         assertThat(codeableConcept.getCoding().get(1).getExtension().getFirst().getExtension().getFirst().getUrl())
             .isEqualTo(DESCRIPTION_DISPLAY);
         assertThat(codeableConcept.getCoding().get(1).getExtension().getFirst().getExtension().getFirst().getValue().toString())
@@ -233,8 +230,7 @@ public class CodeableConceptMapperTest {
             .isEqualTo(CONCEPT_ID);
         assertThat(codeableConcept.getCoding().get(1).getDisplay())
             .isEqualTo(DISPLAY_NAME_1);
-        assertThat(codeableConcept.getCoding().get(1).getExtension().getFirst().getExtension().size() == 1)
-            .isTrue();
+        assertTrue(codeableConcept.getCoding().get(1).getExtension().getFirst().getExtension().size() == 1);
         assertThat(codeableConcept.getCoding().get(1).getExtension().getFirst().getExtension().getFirst().getUrl())
             .isEqualTo(DESCRIPTION_DISPLAY);
         assertThat(codeableConcept.getCoding().get(1).getExtension().getFirst().getExtension().getFirst().getValue().toString())
@@ -285,8 +281,7 @@ public class CodeableConceptMapperTest {
             .isEqualTo(DISPLAY_NAME_1);
         assertThat(codeableConcept.getCoding().getFirst().getExtension())
             .isNullOrEmpty();
-        assertThat(codeableConcept.getText())
-            .isNull();
+        assertNull(codeableConcept.getText());
     }
 
     @Test

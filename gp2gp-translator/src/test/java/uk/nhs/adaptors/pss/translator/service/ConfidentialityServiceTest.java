@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static uk.nhs.adaptors.pss.translator.MetaSecurityTestUtility.assertMetaSecurityIsNotPresent;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.assertMetaSecurityIsNotPresent;
 
 class ConfidentialityServiceTest {
 

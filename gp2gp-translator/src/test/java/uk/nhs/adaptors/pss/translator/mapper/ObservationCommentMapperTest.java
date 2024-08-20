@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
@@ -20,6 +21,7 @@ import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 public class ObservationCommentMapperTest {
+
     private static final String XML_RESOURCES_BASE = "xml/ObservationComment/";
     private static final String PATIENT_ID = "123.456";
     private static final String ENCOUNTER_ID = "5E496953-065B-41F2-9577-BE8F2FBD0757";
@@ -129,7 +131,7 @@ public class ObservationCommentMapperTest {
         List<Observation> observations =
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
-        assertThat(observations.getFirst().getIssuedElement().asStringValue()).isNull();
+        assertNull(observations.getFirst().getIssuedElement().asStringValue());
     }
 
     @Test
@@ -140,7 +142,7 @@ public class ObservationCommentMapperTest {
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
         // Calling `getContext` auto creates a Reference object so asserting the reference is null
-        assertThat(observations.getFirst().getContext().getReference()).isNull();
+        assertNull(observations.getFirst().getContext().getReference());
     }
 
     @Test
@@ -150,7 +152,7 @@ public class ObservationCommentMapperTest {
         List<Observation> observations =
             observationCommentMapper.mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
 
-        assertThat(observations.getFirst().getComment()).isNull();
+        assertNull(observations.getFirst().getComment());
     }
 
     private RCMRMT030101UKNarrativeStatement getNarrativeStatement(RCMRMT030101UKEhrExtract ehrExtract) {

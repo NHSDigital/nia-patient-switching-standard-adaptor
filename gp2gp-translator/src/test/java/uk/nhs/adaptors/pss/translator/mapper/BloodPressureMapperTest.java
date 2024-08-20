@@ -4,6 +4,8 @@ import static java.math.RoundingMode.DOWN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
@@ -11,8 +13,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.math.BigDecimal;
@@ -41,7 +43,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -113,7 +115,7 @@ public class BloodPressureMapperTest {
             .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 any(),
                 any(Optional[].class)))
-            .thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+            .thenReturn(MetaFactoryUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     @Test
@@ -128,7 +130,7 @@ public class BloodPressureMapperTest {
             .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
         assertThat(bloodPressure.getComponent().getFirst().getCode().getCoding().get(1).getDisplay())
             .isEqualTo(CODING_DISPLAY_MOCK);
-        assertThat(bloodPressure.hasSubject()).isTrue();
+        assertTrue(bloodPressure.hasSubject());
         assertThat(bloodPressure.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EXAMPLE);
         assertThat(bloodPressure.getEffective().toString()).isEqualTo(DateFormatUtil.parseToDateTimeType(EFFECTIVE_EXAMPLE).toString());
         assertThat(bloodPressure.getPerformer().getFirst().getReference()).isEqualTo(PPRF_PARTICIPANT_ID);
@@ -167,14 +169,14 @@ public class BloodPressureMapperTest {
         assertThat(bloodPressure.getIssuedElement().asStringValue()).isEqualTo(ISSUED_EXAMPLE);
         assertThat(bloodPressure.getPerformer().getFirst().getReference()).isEqualTo(PPRF_PARTICIPANT_ID);
 
-        assertThat(bloodPressure.getEffective()).isNull();
-        assertThat(StringUtils.isEmpty(bloodPressure.getComment())).isTrue();
+        assertNull(bloodPressure.getEffective());
+        assertTrue(StringUtils.isEmpty(bloodPressure.getComment()));
 
         assertThat(bloodPressure.getComponent().getFirst().getCode().getCodingFirstRep())
             .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
         assertThat(bloodPressure.getComponent().getFirst().getCode().getCoding().get(1).getDisplay())
             .isEqualTo(CODING_DISPLAY_MOCK);
-        assertThat(bloodPressure.getComponent().getFirst().getValueQuantity()).isNull();
+        assertNull(bloodPressure.getComponent().getFirst().getValueQuantity());
         assertThat(bloodPressure.getComponent().getFirst().getInterpretation().getCoding()).isEmpty();
         assertThat(bloodPressure.getComponent().getFirst().getReferenceRange()).isEmpty();
 
@@ -182,7 +184,7 @@ public class BloodPressureMapperTest {
             .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
         assertThat(bloodPressure.getComponent().get(1).getCode().getCoding().get(1).getDisplay())
             .isEqualTo(CODING_DISPLAY_MOCK);
-        assertThat(bloodPressure.getComponent().get(1).getValueQuantity()).isNull();
+        assertNull(bloodPressure.getComponent().get(1).getValueQuantity());
         assertThat(bloodPressure.getComponent().get(1).getInterpretation().getCoding()).isEmpty();
         assertThat(bloodPressure.getComponent().get(1).getReferenceRange()).isEmpty();
     }
@@ -195,9 +197,9 @@ public class BloodPressureMapperTest {
         "diastolic_observation_containing_confidentiality_code"
     })
     public void When_MappingBloodPressureWithConfidentialityCodes_Expect_BloodPressureObservationContainsSecurityMeta(
-        String inputXml
-    ) {
-        final var metaFromConfidentialityService = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        String inputXml) {
+
+        final var metaFromConfidentialityService = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         when(
             confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 eq(META_PROFILE),
@@ -248,7 +250,7 @@ public class BloodPressureMapperTest {
 
         var bloodPressure = bloodPressureMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).getFirst();
 
-        assertThat(bloodPressure.hasContext()).isTrue();
+        assertTrue(bloodPressure.hasContext());
     }
 
     @Test
