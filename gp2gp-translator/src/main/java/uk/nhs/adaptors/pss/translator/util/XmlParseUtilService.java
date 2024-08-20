@@ -140,10 +140,10 @@ public class XmlParseUtilService {
 
     public static String parseFromAsid(COPCIN000001UK01Message payload) {
         return payload.getCommunicationFunctionRcv()
-                .get(0)
+                .getFirst()
                 .getDevice()
                 .getId()
-                .get(0)
+                .getFirst()
                 .getExtension();
     }
 
@@ -151,7 +151,7 @@ public class XmlParseUtilService {
         return payload.getCommunicationFunctionSnd()
                 .getDevice()
                 .getId()
-                .get(0)
+                .getFirst()
                 .getExtension();
     }
 
@@ -166,7 +166,7 @@ public class XmlParseUtilService {
                 .getPayloadInformation()
                 .getValue()
                 .getAny()
-                .get(0);
+                .getFirst();
 
         return getFromPractiseValue(gp2gpElement);
     }
@@ -184,10 +184,10 @@ public class XmlParseUtilService {
 
     public static String parseFromAsid(RCMRIN030000UKMessage payload) {
         return payload.getCommunicationFunctionRcv()
-            .get(0)
+            .getFirst()
             .getDevice()
             .getId()
-            .get(0)
+            .getFirst()
             .getExtension();
     }
 
@@ -195,7 +195,7 @@ public class XmlParseUtilService {
         return payload.getCommunicationFunctionSnd()
                 .getDevice()
                 .getId()
-                .get(0)
+                .getFirst()
                 .getExtension();
     }
 

@@ -65,7 +65,7 @@ class DuplicateObservationStatementMapperTest {
         mapper.mergeDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(2);
-        assertThat(firstEhrComposition(ehrExtract).get(0).getObservationStatement().getId().getRoot()).isEqualTo("ID-1");
+        assertThat(firstEhrComposition(ehrExtract).getFirst().getObservationStatement().getId().getRoot()).isEqualTo("ID-1");
     }
 
     @Test
@@ -80,7 +80,7 @@ class DuplicateObservationStatementMapperTest {
         mapper.mergeDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
-        assertThat(firstEhrComposition(ehrExtract).get(0).getObservationStatement().getId().getRoot()).isEqualTo("ID-3");
+        assertThat(firstEhrComposition(ehrExtract).getFirst().getObservationStatement().getId().getRoot()).isEqualTo("ID-3");
     }
 
     @Test
@@ -270,7 +270,7 @@ class DuplicateObservationStatementMapperTest {
 
         mapper.mergeDuplicateObservationStatements(ehrExtract);
 
-        assertThat(firstPertinentInformationText(firstEhrComposition(ehrExtract).get(0).getObservationStatement())).isEqualTo(
+        assertThat(firstPertinentInformationText(firstEhrComposition(ehrExtract).getFirst().getObservationStatement())).isEqualTo(
                 "FIRST PREFIX SECOND PREFIX This is an observation which ends with ellipses removed."
         );
     }
@@ -328,7 +328,7 @@ class DuplicateObservationStatementMapperTest {
 
 
     private static String firstPertinentInformationText(RCMRMT030101UKObservationStatement observationStatement) {
-        return observationStatement.getPertinentInformation().get(0).getPertinentAnnotation().getText();
+        return observationStatement.getPertinentInformation().getFirst().getPertinentAnnotation().getText();
     }
 
     private static List<RCMRMT030101UKComponent4> firstEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {
@@ -336,7 +336,7 @@ class DuplicateObservationStatementMapperTest {
     }
 
     private static RCMRMT030101UKEhrComposition firstEhrComposition(RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder) {
-        return rcmrmt030101UKEhrFolder.getComponent().get(0).getEhrComposition();
+        return rcmrmt030101UKEhrFolder.getComponent().getFirst().getEhrComposition();
     }
 
     private static RCMRMT030101UKEhrComposition secondEhrComposition(RCMRMT030101UKEhrFolder rcmrmt030101UKEhrFolder) {
@@ -344,7 +344,7 @@ class DuplicateObservationStatementMapperTest {
     }
 
     private static RCMRMT030101UKEhrFolder firstEhrFolder(RCMRMT030101UKEhrExtract ehrExtract) {
-        return ehrExtract.getComponent().get(0).getEhrFolder();
+        return ehrExtract.getComponent().getFirst().getEhrFolder();
     }
 
     private static RCMRMT030101UKEhrFolder secondEhrFolder(RCMRMT030101UKEhrExtract ehrExtract) {

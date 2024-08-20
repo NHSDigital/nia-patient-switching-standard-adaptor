@@ -243,7 +243,7 @@ public class EncounterMapper {
     }
 
     private boolean hasValidCategoryCompoundStatement(RCMRMT030101UKCompoundStatement compoundStatement) {
-        return compoundStatement != null && CATEGORY_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
+        return compoundStatement != null && CATEGORY_CLASS_CODE.equals(compoundStatement.getClassCode().getFirst());
     }
 
     private List<RCMRMT030101UKEhrComposition> getEncounterEhrCompositions(RCMRMT030101UKEhrExtract ehrExtract) {
@@ -279,7 +279,7 @@ public class EncounterMapper {
     }
 
     private boolean hasValidTopicCompoundStatement(RCMRMT030101UKCompoundStatement compoundStatement) {
-        return compoundStatement != null && TOPIC_CLASS_CODE.equals(compoundStatement.getClassCode().get(0));
+        return compoundStatement != null && TOPIC_CLASS_CODE.equals(compoundStatement.getClassCode().getFirst());
     }
 
     private Encounter mapToEncounter(

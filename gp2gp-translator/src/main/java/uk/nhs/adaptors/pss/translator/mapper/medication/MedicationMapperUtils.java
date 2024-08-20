@@ -97,8 +97,8 @@ public class MedicationMapperUtils {
         SimpleQuantity quantity = new SimpleQuantity();
         quantity.setValue(Double.parseDouble(quantitySupplied.getValue()));
         if (quantitySupplied.hasTranslation()
-            && quantitySupplied.getTranslation().get(0).hasOriginalText()) {
-            quantity.setUnit(quantitySupplied.getTranslation().get(0).getOriginalText());
+            && quantitySupplied.getTranslation().getFirst().hasOriginalText()) {
+            quantity.setUnit(quantitySupplied.getTranslation().getFirst().getOriginalText());
         }
         return Optional.of(quantity);
     }

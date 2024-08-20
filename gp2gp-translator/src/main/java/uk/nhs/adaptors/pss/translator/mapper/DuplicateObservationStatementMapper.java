@@ -109,12 +109,12 @@ public class DuplicateObservationStatementMapper {
     }
 
     private static RCMRMT030101UKAnnotation getPertinentAnnotation(RCMRMT030101UKObservationStatement linkedObservationStatement) {
-        return linkedObservationStatement.getPertinentInformation().get(0).getPertinentAnnotation();
+        return linkedObservationStatement.getPertinentInformation().getFirst().getPertinentAnnotation();
     }
 
     private static boolean hasSinglePertinentInformation(RCMRMT030101UKObservationStatement observation) {
         return observation.getPertinentInformation().size() == 1
-                && observation.getPertinentInformation().get(0).getSequenceNumber().getValue().intValueExact() == 1;
+                && observation.getPertinentInformation().getFirst().getSequenceNumber().getValue().intValueExact() == 1;
     }
 
     private static boolean doesTruncatedAnnotationMatchOtherAnnotation(
