@@ -107,7 +107,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private Condition getCondition(Patient patient, List<Encounter> encounters, RCMRMT030101UKEhrComposition composition,
-                                   RCMRMT030101UKLinkSet linkSet, String practiseCode) {
+                                   RCMRMT030101UKLinkSet linkSet, String practiceCode) {
 
         String id = linkSet.getId().getRoot();
 
@@ -117,11 +117,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             composition.getConfidentialityCode()
         );
 
-        Condition condition = (Condition) new Condition()
-            .addIdentifier(buildIdentifier(id, practiseCode))
-            .addCategory(generateCategory())
-            .setId(id)
-            .setMeta(meta);
+        Condition condition = initializeCondition(id, practiceCode, meta);
 
         buildClinicalStatus(linkSet.getCode()).ifPresentOrElse(
             condition::setClinicalStatus,
@@ -130,9 +126,9 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                 condition.addNote(new Annotation(new StringType(DEFAULT_CLINICAL_STATUS)));
             });
 
-        condition.setSubject(new Reference(patient));
+        condition.setSubject(new Reference(patient))
+                 .addExtension(buildProblemSignificance(linkSet.getCode()));
 
-        condition.addExtension(buildProblemSignificance(linkSet.getCode()));
         generateAnnotationToMinor(linkSet.getCode()).ifPresent(condition::addNote);
 
         buildContext(composition, encounters).ifPresent(condition::setContext);
@@ -150,6 +146,14 @@ public class ConditionMapper extends AbstractMapper<Condition> {
             );
 
         return condition;
+    }
+
+    private Condition initializeCondition(String id, String practiceCode, Meta meta) {
+        return (Condition) new Condition()
+            .addIdentifier(buildIdentifier(id, practiceCode))
+            .addCategory(generateCategory())
+            .setId(id)
+            .setMeta(meta);
     }
 
     public void addHierarchyReferencesToConditions(List<Condition> conditions, RCMRMT030101UKEhrExtract ehrExtract) {

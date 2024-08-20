@@ -282,20 +282,27 @@ public class EncounterMapper {
     }
 
     private Encounter mapToEncounter(
-            RCMRMT030101UKEhrComposition ehrComposition,
-            Patient patient,
-            String practiseCode,
-            List<Location> entryLocations
-    ) {
-        var id = ehrComposition.getId().getRoot();
+        RCMRMT030101UKEhrComposition ehrComposition,
+        Patient patient,
+        String practiseCode,
+        List<Location> entryLocations) {
 
-        var encounter = new Encounter();
+        var id = ehrComposition.getId().getRoot();
 
         final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             ENCOUNTER_META_PROFILE,
             ehrComposition.getConfidentialityCode()
         );
 
+        var encounter = initializeEncounter(ehrComposition, patient, practiseCode, id, meta);
+        setEncounterLocation(encounter, ehrComposition, entryLocations);
+
+        return encounter;
+    }
+
+    private Encounter initializeEncounter(RCMRMT030101UKEhrComposition ehrComposition, Patient patient,
+                                                   String practiseCode, String id, Meta meta) {
+        var encounter = new Encounter();
         encounter
             .setParticipant(getParticipants(ehrComposition.getAuthor(), ehrComposition.getParticipant2()))
             .setStatus(EncounterStatus.FINISHED)
@@ -305,9 +312,6 @@ public class EncounterMapper {
             .addIdentifier(buildIdentifier(id, practiseCode))
             .setMeta(meta)
             .setId(id);
-
-        setEncounterLocation(encounter, ehrComposition, entryLocations);
-
         return encounter;
     }
 
