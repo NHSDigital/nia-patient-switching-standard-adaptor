@@ -30,6 +30,8 @@ that immunizations are correctly identified when a match is found.
 ### Fixed
 * Resolved issue where the SNOMED import script would reject a password containing a '%' character.
 * Fixed some Test Results being given a duplicated `Observation.category` entries for `Laboratory`.
+* Fixed issue where the GPC Facade was not returning an error when an invalid `ConversationId` header 
+was provided.
 
 ## [3.0.2] - 2024-07-18
 
