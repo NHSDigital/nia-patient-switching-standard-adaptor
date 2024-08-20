@@ -610,8 +610,6 @@ TEST COMMENT
         );
     }
 
-
-
     private List<Observation> createObservationCommentList() {
         return new ArrayList<>(Arrays.asList(
                 (Observation) new Observation()
@@ -630,7 +628,7 @@ TEST COMMENT
         identifier.setSystem("https://PSSAdaptor/" + PRACTICE_CODE);
         identifier.setValue("C515E722-2473-11EE-808B-AC162D1F16F0");
         return (Observation) new Observation()
-                        .setEffective(new DateTimeType())
+                        .setIssuedElement(DateFormatUtil.parseToInstantType("20240102"))
                         .setComment("This is a comment from the doctor")
                         .setEffective(DateFormatUtil.parseToDateTimeType("20240101"))
                         .setId("C515E722-2473-11EE-808B-AC162D1F16F0");
