@@ -111,7 +111,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
         String id = linkSet.getId().getRoot();
 
-        final var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             linkSet.getConfidentialityCode(),
             composition.getConfidentialityCode()

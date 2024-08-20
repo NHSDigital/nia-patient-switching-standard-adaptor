@@ -31,7 +31,6 @@ import org.hl7.v3.RCMRMT030101UKPart;
 import org.hl7.v3.RCMRMT030101UKRequestStatement;
 import org.hl7.v3.RCMRMT030101UKResponsibleParty3;
 import org.hl7.v3.TS;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -91,7 +90,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         return referralRequest;
     }
 
-    private @NotNull ReferralRequest initializeReferralRequest(RCMRMT030101UKEhrComposition ehrComposition,
+    private ReferralRequest initializeReferralRequest(RCMRMT030101UKEhrComposition ehrComposition,
                                                                RCMRMT030101UKRequestStatement requestStatement,
                                                                Patient patient,
                                                                String practiceCode) {

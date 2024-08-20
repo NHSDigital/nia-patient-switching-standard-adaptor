@@ -25,7 +25,6 @@ import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.hl7.v3.TS;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -70,7 +69,7 @@ public class MedicationRequestOrderMapper {
         return null;
     }
 
-    private @NotNull MedicationRequest initializeMedicationRequest(RCMRMT030101UKEhrComposition ehrComposition,
+    private MedicationRequest initializeMedicationRequest(RCMRMT030101UKEhrComposition ehrComposition,
                                                             RCMRMT030101UKMedicationStatement medicationStatement,
                                                             RCMRMT030101UKPrescribe supplyPrescribe, String practiseCode,
                                                             String ehrSupplyPrescribeId) {

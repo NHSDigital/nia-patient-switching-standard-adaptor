@@ -172,7 +172,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
         return observation;
     }
 
-    private @NotNull Observation initializeObservation(RCMRMT030101UKEhrComposition ehrComposition,
+    private Observation initializeObservation(RCMRMT030101UKEhrComposition ehrComposition,
                                                        RCMRMT030101UKRequestStatement requestStatement,
                                                        Patient patient,
                                                        String practiceCode) {

@@ -25,7 +25,6 @@ import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKSpecimenRole;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,7 +96,7 @@ public class SpecimenMapper {
         return specimen;
     }
 
-    private @NotNull Specimen initializeSpecimen(RCMRMT030101UKEhrComposition ehrComposition,
+    private Specimen initializeSpecimen(RCMRMT030101UKEhrComposition ehrComposition,
                                                  RCMRMT030101UKCompoundStatement specimenCompoundStatement,
                                                  Patient patient,
                                                  String practiceCode) {

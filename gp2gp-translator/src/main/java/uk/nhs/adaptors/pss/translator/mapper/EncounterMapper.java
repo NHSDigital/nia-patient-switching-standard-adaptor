@@ -41,7 +41,6 @@ import org.hl7.v3.RCMRMT030101UKAuthor;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKParticipant2;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -301,7 +300,7 @@ public class EncounterMapper {
         return encounter;
     }
 
-    private @NotNull Encounter initializeEncounter(RCMRMT030101UKEhrComposition ehrComposition, Patient patient,
+    private Encounter initializeEncounter(RCMRMT030101UKEhrComposition ehrComposition, Patient patient,
                                                    String practiseCode, String id, Meta meta) {
         var encounter = new Encounter();
         encounter

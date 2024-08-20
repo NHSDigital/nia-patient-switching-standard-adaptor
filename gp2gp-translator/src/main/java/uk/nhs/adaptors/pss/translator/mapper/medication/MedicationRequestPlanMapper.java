@@ -22,7 +22,6 @@ import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation2;
 import org.hl7.v3.RCMRMT030101UKSupplyAnnotation;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -112,7 +111,7 @@ public class MedicationRequestPlanMapper {
         return null;
     }
 
-    private @NotNull MedicationRequest initializeMedicationRequest(RCMRMT030101UKEhrComposition ehrComposition,
+    private MedicationRequest initializeMedicationRequest(RCMRMT030101UKEhrComposition ehrComposition,
                                                             RCMRMT030101UKMedicationStatement medicationStatement,
                                                             RCMRMT030101UKAuthorise supplyAuthorise, String practiseCode,
                                                             String ehrSupplyAuthoriseId) {
