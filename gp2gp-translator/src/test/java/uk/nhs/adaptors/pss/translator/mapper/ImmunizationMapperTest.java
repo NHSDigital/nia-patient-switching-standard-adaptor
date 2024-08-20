@@ -12,8 +12,8 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.List;
@@ -35,7 +35,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -208,7 +208,7 @@ public class ImmunizationMapperTest {
 
     @Test
     public void When_EhrCompositionWithNoPatConfidentialityCode_Expect_MetaFromConfidentialityServiceWithSecurity() {
-        final var metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final var metaWithSecurity = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         when(
             confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 eq("Immunization-1"),
@@ -244,7 +244,7 @@ public class ImmunizationMapperTest {
 
     @Test
     public void When_ObservationWithNoPatConfidentialityCode_Expect_MetaFromConfidentialityServiceWithSecurity() {
-        final var metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final var metaWithSecurity = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         when(
             confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 eq("Immunization-1"),
@@ -287,8 +287,7 @@ public class ImmunizationMapperTest {
     }
 
     private void assertImmunizationWithEffectiveTimeLow(Immunization immunization) {
-        assertEquals(DateFormatUtil.parseToDateTimeType("20100118114100000").getValue(), immunization.getDateElement().getValue());
-        assertEquals(OBSERVATION_TEXT, immunization.getNote().getFirst().getText());
+        assertImmunizationWithHighEffectiveTimeCenter(immunization);
     }
 
     private void assertImmunizationWithHighEffectiveTime(Immunization immunization) {
@@ -353,7 +352,7 @@ public class ImmunizationMapperTest {
                 eq(Optional.empty()),
                 eq(Optional.empty())
             ))
-            .thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+            .thenReturn(MetaFactoryUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     private Patient getPatient() {

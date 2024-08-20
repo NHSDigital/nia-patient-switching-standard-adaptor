@@ -11,9 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
-import static uk.nhs.adaptors.pss.translator.MetaSecurityTestUtility.assertMetaSecurityIsNotPresent;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.assertMetaSecurityIsNotPresent;
 import static uk.nhs.adaptors.pss.translator.TestUtility.GET_EHR_COMPOSITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
@@ -60,7 +60,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.FileFactory;
-import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -124,7 +124,7 @@ class MedicationRequestPlanMapperTest {
             eq(META_PROFILE),
             confidentialityCodeCaptor.capture(),
             confidentialityCodeCaptor.capture()
-        )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+        )).thenReturn(MetaFactoryUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     @Test
@@ -494,7 +494,7 @@ class MedicationRequestPlanMapperTest {
     @Test
     void When_MappingAuthoriseResource_With_ConfidentialityCodeInEhrComposition_Expect_MetaPopulatedFromConfidentialityServiceWithSecurity()
         throws JAXBException {
-        final Meta meta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final Meta meta = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final File file = FileFactory.getXmlFileFor(
             "MedicationStatement",
             "ehrExtract_nopatConfidentialityCodePresentWithinEhrComposition.xml"
@@ -520,7 +520,7 @@ class MedicationRequestPlanMapperTest {
 
     @Test
     void When_MappingAuthoriseResource_Expect_MetaPopulatedFromConfidentialityServiceWithSecurity() {
-        final Meta meta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final Meta meta = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final String medicationStatement = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>
@@ -556,7 +556,7 @@ class MedicationRequestPlanMapperTest {
 
     @Test
     void When_MappingAuthoriseResource_Expect_MetaPopulatedFromConfidentialityServiceWithNoSecurity() {
-        final Meta meta = MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
+        final Meta meta = MetaFactoryUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
         final String medicationStatement = """
             <MedicationStatement xmlns="urn:hl7-org:v3" classCode="SBADM" moodCode="INT">
                 <id root="B4D70A6D-2EE4-41B6-B1FB-F9F0AD84C503"/>

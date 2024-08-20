@@ -9,11 +9,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.MetaSecurityTestUtility.assertMetaSecurityIsPresent;
-import static uk.nhs.adaptors.pss.translator.MetaSecurityTestUtility.assertMetaSecurityNotPresent;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.assertMetaSecurityIsPresent;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.assertMetaSecurityNotPresent;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -39,7 +39,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -64,8 +64,8 @@ public class ProcedureRequestMapperTest {
     private static final String STATUS_SEEN = "Status: Seen";
     private static final List<Encounter> ENCOUNTERS = getEncounterList();
     private static final Patient SUBJECT = createPatient();
-    private static final Meta META = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
-    private static final Meta ALTERNATIVE_META = MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
+    private static final Meta META = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+    private static final Meta ALTERNATIVE_META = MetaFactoryUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
     private static final CV NOPAT_CV = TestUtility.createCv(
         "NOPAT",
         "http://hl7.org/fhir/v3/ActCode",
