@@ -291,7 +291,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     }
 
     private boolean hasMajorCode(CD linkSetCode) {
-        return hasCode(linkSetCode) && MAJOR_CODE.equals(linkSetCode.getQualifier().get(0).getName().getCode());
+        return hasCode(linkSetCode) && MAJOR_CODE.equals(linkSetCode.getQualifier().getFirst().getName().getCode());
     }
 
     private Extension buildConditionReferenceExtension(String id, String heirarchyType) {
@@ -398,7 +398,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
 
         medicationStatements.forEach(medicationStatement -> {
             var medicationStatementId = medicationStatement.getId().getRoot();
-            var moodCode = medicationStatement.getMoodCode().get(0);
+            var moodCode = medicationStatement.getMoodCode().getFirst();
 
             switch (moodCode) {
                 case MEDICATION_MOOD_ORDER -> {

@@ -106,9 +106,9 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
         );
 
         immunization.setMeta(meta);
-        immunization.addIdentifier(buildIdentifier(id, practiseCode));
-        immunization.addExtension(createVaccineProcedureExtension(observationStatement));
-        immunization.addExtension(createRecordedTimeExtension(ehrComposition));
+        immunization.addIdentifier(buildIdentifier(id, practiseCode))
+                    .addExtension(createVaccineProcedureExtension(observationStatement))
+                    .addExtension(createRecordedTimeExtension(ehrComposition));
         immunization
             .setEncounter(encounter)
             .addPractitioner(recorder)

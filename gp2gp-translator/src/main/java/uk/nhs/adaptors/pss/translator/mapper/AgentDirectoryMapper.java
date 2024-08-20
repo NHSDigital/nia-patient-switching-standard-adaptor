@@ -73,7 +73,7 @@ public class AgentDirectoryMapper {
         var agentPerson = agent.getAgentPerson();
         var agentOrganization = agent.getAgentOrganization();
         var representedOrganization = agent.getRepresentedOrganization();
-        var resourceId = agent.getId().get(0).getRoot();
+        var resourceId = agent.getId().getFirst().getRoot();
         var gpNumber = agent.getId().size() > 1 ? agent.getId().get(1).getExtension() : "";
 
         if (agentPerson != null && representedOrganization != null) {
@@ -198,7 +198,7 @@ public class AgentDirectoryMapper {
 
     private ContactPoint getOrganizationTelecom(List<TEL> telecomList) {
         if (!telecomList.isEmpty()) {
-            return TelecomUtil.mapTelecom(telecomList.get(0));
+            return TelecomUtil.mapTelecom(telecomList.getFirst());
         }
 
         return null;
@@ -206,7 +206,7 @@ public class AgentDirectoryMapper {
 
     private Address getOrganizationAddress(List<AD> addressList) {
         if (!addressList.isEmpty()) {
-            return AddressUtil.mapAddress(addressList.get(0));
+            return AddressUtil.mapAddress(addressList.getFirst());
         }
 
         return null;

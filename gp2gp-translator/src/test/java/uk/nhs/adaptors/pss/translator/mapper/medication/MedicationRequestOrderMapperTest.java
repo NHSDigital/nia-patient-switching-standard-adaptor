@@ -156,11 +156,11 @@ class MedicationRequestOrderMapperTest {
         assertAll(
             () -> assertThat(medicationRequest.getMeta()).usingRecursiveComparison().isEqualTo(META),
             () -> assertThat(confidentialityCodeArgumentCaptor
-                .getAllValues().get(1)
-                .orElseThrow()
-                .getCode()).isEqualTo("NOPAT"),
-            () -> assertThat(confidentialityCodeArgumentCaptor.getAllValues().get(0).orElseThrow()).usingRecursiveComparison()
-                    .isEqualTo(compositionConfidentialityCode)
+                                 .getAllValues().get(1)
+                                 .orElseThrow()
+                                 .getCode()).isEqualTo("NOPAT"),
+            () -> assertThat(confidentialityCodeArgumentCaptor.getAllValues().getFirst().orElseThrow()).usingRecursiveComparison()
+                .isEqualTo(compositionConfidentialityCode)
         );
     }
 
@@ -183,7 +183,7 @@ class MedicationRequestOrderMapperTest {
         assertAll(
             () -> assertThat(medicationRequest.getMeta()).usingRecursiveComparison().isEqualTo(META),
             () -> assertThat(confidentialityCodeArgumentCaptor.getAllValues().get(1).orElseThrow().getCode()).isEqualTo("NOSCRUB"),
-            () -> assertThat(confidentialityCodeArgumentCaptor.getAllValues().get(0)).isEmpty()
+            () -> assertThat(confidentialityCodeArgumentCaptor.getAllValues().getFirst()).isEmpty()
         );
     }
 

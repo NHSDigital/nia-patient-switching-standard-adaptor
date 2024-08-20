@@ -78,7 +78,7 @@ public class BloodPressureMapper extends AbstractMapper<Observation> {
                                        RCMRMT030101UKCompoundStatement compoundStatement, Patient patient, List<Encounter> encounters,
                                        String practiseCode) {
         var observationStatements = getObservationStatementsFromCompoundStatement(compoundStatement);
-        var id = compoundStatement.getId().get(0);
+        var id = compoundStatement.getId().getFirst();
 
         Observation observation = new Observation()
             .addIdentifier(buildIdentifier(id.getRoot(), practiseCode))
