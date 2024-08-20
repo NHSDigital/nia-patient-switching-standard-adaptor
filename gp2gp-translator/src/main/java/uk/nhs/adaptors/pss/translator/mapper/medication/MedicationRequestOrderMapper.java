@@ -16,6 +16,7 @@ import java.util.Optional;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
@@ -74,11 +75,11 @@ public class MedicationRequestOrderMapper {
                                                             RCMRMT030101UKPrescribe supplyPrescribe, String practiseCode,
                                                             String ehrSupplyPrescribeId) {
 
-        final var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             MedicationMapperUtils.META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             medicationStatement.getConfidentialityCode()
-        );
+                                                                                                      );
 
         final MedicationRequest medicationRequest = new MedicationRequest();
         medicationRequest.addIdentifier(buildIdentifier(ehrSupplyPrescribeId, practiseCode))

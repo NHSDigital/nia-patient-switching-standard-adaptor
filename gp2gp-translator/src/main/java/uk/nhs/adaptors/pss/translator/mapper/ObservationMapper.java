@@ -179,7 +179,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
 
         var id = requestStatement.getId().getFirst().getRoot();
 
-        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             requestStatement.getConfidentialityCode());

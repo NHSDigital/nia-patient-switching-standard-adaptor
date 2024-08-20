@@ -14,6 +14,7 @@ import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 import org.hl7.fhir.dstu3.model.Identifier;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
@@ -101,7 +102,7 @@ public class SpecimenMapper {
                                                  Patient patient,
                                                  String practiceCode) {
 
-        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             SPECIMEN_META_PROFILE_SUFFIX,
             ehrComposition.getConfidentialityCode(),
             specimenCompoundStatement.getConfidentialityCode());

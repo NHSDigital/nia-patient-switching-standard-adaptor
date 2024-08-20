@@ -289,7 +289,7 @@ public class EncounterMapper {
 
         var id = ehrComposition.getId().getRoot();
 
-        final var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             ENCOUNTER_META_PROFILE,
             ehrComposition.getConfidentialityCode()
         );
