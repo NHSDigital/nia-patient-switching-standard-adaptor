@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.util;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.ProcedureRequest;
+import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.UriType;
 
 import java.util.Collections;
@@ -57,8 +58,8 @@ public final class MetaFactoryUtil {
         );
     }
 
-    public static void assertMetaSecurityNotPresent(final ProcedureRequest request, String metaProfile) {
-        final Meta meta = request.getMeta();
+    public static void assertMetaSecurityNotPresent(final Resource resource, String metaProfile) {
+        final Meta meta = resource.getMeta();
 
         assertMetaSecurityIsNotPresent(meta, metaProfile);
     }
