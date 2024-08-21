@@ -37,10 +37,10 @@ public class LocationMapperTest {
 
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), location.getId());
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
-        assertThat(location.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(location.getName()).isEqualTo(ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName());
         assertTelecom(location.getTelecomFirstRep(), ehrComposition.getLocation().getLocatedEntity().getLocatedPlace()
-                .getTelecom().get(0).getValue().substring(TEL_PREFIX_INT));
+                .getTelecom().getFirst().getValue().substring(TEL_PREFIX_INT));
         assertThat(location.getAddress().getLine().toString()).hasToString(ehrComposition.getLocation().getLocatedEntity()
                 .getLocatedPlace().getAddr().getStreetAddressLine().toString());
         assertThat(location.getAddress().getPostalCode()).isEqualTo(ehrComposition.getLocation().getLocatedEntity()
@@ -55,7 +55,7 @@ public class LocationMapperTest {
 
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), location.getId());
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
-        assertThat(location.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class LocationMapperTest {
 
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), location.getId());
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
-        assertThat(location.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class LocationMapperTest {
 
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), location.getId());
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
-        assertThat(location.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(location.getName()).isEqualTo(ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName());
     }
 
@@ -89,7 +89,7 @@ public class LocationMapperTest {
 
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), location.getId());
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
-        assertThat(location.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(location.getName()).isEqualTo(UNKNOWN_NAME);
     }
 
@@ -101,10 +101,10 @@ public class LocationMapperTest {
 
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), location.getId());
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
-        assertThat(location.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(location.getName()).isEqualTo(ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName());
         assertTelecom(location.getTelecomFirstRep(), ehrComposition.getLocation().getLocatedEntity().getLocatedPlace()
-                .getTelecom().get(0).getValue().substring(TEL_PREFIX_INT));
+                .getTelecom().getFirst().getValue().substring(TEL_PREFIX_INT));
     }
 
     @Test
@@ -115,10 +115,10 @@ public class LocationMapperTest {
 
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), location.getId());
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
-        assertThat(location.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(location.getName()).isEqualTo(ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName());
         assertTelecom(location.getTelecomFirstRep(), ehrComposition.getLocation().getLocatedEntity().getLocatedPlace()
-                .getTelecom().get(0).getValue());
+                .getTelecom().getFirst().getValue());
     }
 
     @Test
@@ -129,7 +129,7 @@ public class LocationMapperTest {
 
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), location.getId());
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
-        assertThat(location.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(location.getName()).isEqualTo(ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName());
         assertThat(location.getAddress().getLine().toString()).hasToString(ehrComposition.getLocation().getLocatedEntity()
                 .getLocatedPlace().getAddr().getStreetAddressLine().toString());
@@ -145,7 +145,7 @@ public class LocationMapperTest {
 
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), location.getId());
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
-        assertThat(location.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(location.getName()).isEqualTo(ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName());
         assertThat(location.getAddress().getLine().toString()).hasToString(ehrComposition.getLocation().getLocatedEntity()
                 .getLocatedPlace().getAddr().getStreetAddressLine().toString());
@@ -160,7 +160,7 @@ public class LocationMapperTest {
 
         assertThatIdentifierIsValid(location.getIdentifierFirstRep(), location.getId());
         assertThat(location.getStatus()).isEqualTo(Location.LocationStatus.ACTIVE);
-        assertThat(location.getMeta().getProfile().get(0).getValue()).isEqualTo(META_PROFILE);
+        assertThat(location.getMeta().getProfile().getFirst().getValue()).isEqualTo(META_PROFILE);
         assertThat(location.getName()).isEqualTo(ehrComposition.getLocation().getLocatedEntity().getLocatedPlace().getName());
         assertThat(location.getAddress().isEmpty()).isTrue();
     }

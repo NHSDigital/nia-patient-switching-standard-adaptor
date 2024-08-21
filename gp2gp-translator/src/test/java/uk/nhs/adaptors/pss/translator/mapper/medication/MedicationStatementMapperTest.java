@@ -113,7 +113,7 @@ class MedicationStatementMapperTest {
         var lastIssuedDate = result.getExtensionsByUrl(
             "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1");
         assertThat(lastIssuedDate).hasSize(1);
-        var dateTime = (DateTimeType) lastIssuedDate.get(0).getValue();
+        var dateTime = (DateTimeType) lastIssuedDate.getFirst().getValue();
         assertThat(dateTime.getValue()).isEqualTo(DateFormatUtil.parseToDateTimeType("20060428").getValue());
 
         var prescribingAgency = result
@@ -368,7 +368,7 @@ class MedicationStatementMapperTest {
     }
 
     private Optional<CV> getMedicationStatementConfidentialityCode() {
-        return confidentialityCodeCaptor.getAllValues().get(0);
+        return confidentialityCodeCaptor.getAllValues().getFirst();
     }
 
     private Optional<CV> getEhrCompositionConfidentialityCode() {

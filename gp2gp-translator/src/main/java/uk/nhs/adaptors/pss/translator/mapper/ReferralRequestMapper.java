@@ -81,9 +81,23 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                                                 List<Encounter> encounters,
                                                 String practiseCode) {
 
+        var referralRequest = initializeReferralRequest(ehrComposition, requestStatement, patient, practiseCode);
+
+        setReferralRequestContext(referralRequest, ehrComposition, encounters);
+        setReferralRequestRecipient(ehrExtract, requestStatement, referralRequest);
+        setReferralRequestReasonCode(referralRequest, requestStatement.getCode());
+
+        return referralRequest;
+    }
+
+    private ReferralRequest initializeReferralRequest(RCMRMT030101UKEhrComposition ehrComposition,
+                                                               RCMRMT030101UKRequestStatement requestStatement,
+                                                               Patient patient,
+                                                               String practiceCode) {
         var referralRequest = new ReferralRequest();
-        var id = requestStatement.getId().get(0).getRoot();
-        var identifier = buildIdentifier(id, practiseCode);
+        var id = requestStatement.getId().getFirst().getRoot();
+        var identifier = buildIdentifier(id, practiceCode);
+
         var agent = ParticipantReferenceUtil.getParticipantReference(requestStatement.getParticipant(), ehrComposition);
 
         var authoredOn = getAuthoredOn(requestStatement.getAvailabilityTime());
@@ -95,20 +109,16 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             ehrComposition.getConfidentialityCode()
         );
 
-        referralRequest.setId(id);
-        referralRequest.setMeta(meta);
+        referralRequest.setId(id)
+                       .setMeta(meta);
         referralRequest.getIdentifier().add(identifier);
-        referralRequest.setStatus(ReferralRequestStatus.UNKNOWN);
-        referralRequest.setIntent(ReferralCategory.ORDER);
-        referralRequest.getRequester().setAgent(agent);
-        referralRequest.setAuthoredOnElement(authoredOn);
-        referralRequest.setNote(getNotes(requestStatement));
-        referralRequest.setSubject(new Reference(patient));
-        referralRequest.setPriority(referralPriority);
-
-        setReferralRequestContext(referralRequest, ehrComposition, encounters);
-        setReferralRequestRecipient(ehrExtract, requestStatement, referralRequest);
-        setReferralRequestReasonCode(referralRequest, requestStatement.getCode());
+        referralRequest.setStatus(ReferralRequestStatus.UNKNOWN)
+                        .setIntent(ReferralCategory.ORDER)
+                        .setAuthoredOnElement(authoredOn)
+                        .setNote(getNotes(requestStatement))
+                        .setSubject(new Reference(patient))
+                        .setPriority(referralPriority)
+                        .getRequester().setAgent(agent);
 
         return referralRequest;
     }
@@ -130,7 +140,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     }
 
     private boolean isMatchingAgent(RCMRMT030101UKPart part, String requestAgentRoot) {
-        return part.getAgent().getId().get(0).getRoot().equals(requestAgentRoot)
+        return part.getAgent().getId().getFirst().getRoot().equals(requestAgentRoot)
                && part.getAgent().getAgentPerson() == null;
     }
 

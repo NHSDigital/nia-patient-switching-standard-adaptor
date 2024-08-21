@@ -3,6 +3,8 @@ package uk.nhs.adaptors.pss.translator.mapper.diagnosticreport;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.AdditionalAnswers.answer;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
@@ -165,7 +167,7 @@ public class SpecimenCompoundsMapperTest {
         assertThat(observationComments).hasSize(2);
         assertThat(observationComment.getComment()).isEqualTo(TEST_COMMENT_LINE_1);
         assertThat(observationComment.getRelated()).isNotEmpty();
-        assertThat(observationComment.getRelated().getFirst().getTarget().getResource()).isNotNull();
+        assertNotNull(observationComment.getRelated().getFirst().getTarget().getResource());
         assertThat(observationComment.getRelated().getFirst().getTarget().getResource().getIdElement().getValue())
                 .isEqualTo(observation.getId());
         assertThat(diagnosticReports.getFirst().getResult().size()).isOne();
@@ -240,7 +242,7 @@ public class SpecimenCompoundsMapperTest {
 
         final Observation observation = observations.getFirst();
 
-        assertThat(observation.getIssuedElement().asStringValue()).isNull();
+        assertNull(observation.getIssuedElement().asStringValue());
     }
 
     @Test void testOrderingIsPreservedForDiagnosticReportResults() {
@@ -292,8 +294,8 @@ public class SpecimenCompoundsMapperTest {
     }
 
     private void assertParentSpecimenIsReferenced(Observation observation) {
-        assertThat(observation.hasSpecimen()).isTrue();
-        assertThat(observation.getSpecimen().hasReference()).isTrue();
+        assertTrue(observation.hasSpecimen());
+        assertTrue(observation.getSpecimen().hasReference());
         assertThat(observation.getSpecimen().getReference()).contains(SPECIMEN_ID);
     }
 
