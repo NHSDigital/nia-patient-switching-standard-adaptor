@@ -246,7 +246,7 @@ public class BundleMapperService {
     }
 
     private RCMRMT030101UKEhrFolder getEhrFolder(RCMRIN030000UKMessage xmlMessage) {
-        return getEhrExtract(xmlMessage).getComponent().get(0).getEhrFolder();
+        return getEhrExtract(xmlMessage).getComponent().getFirst().getEhrFolder();
     }
 
     private RCMRMT030101UKEhrExtract getEhrExtract(RCMRIN030000UKMessage xmlMessage) {

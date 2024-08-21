@@ -3,6 +3,7 @@ package uk.nhs.adaptors.pss.translator.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -115,7 +116,7 @@ class ConditionMapperTest {
 
         assertThat(conditions).isNotEmpty();
 
-        final Condition condition = conditions.get(0);
+        final Condition condition = conditions.getFirst();
 
         assertGeneratedComponentsAreCorrect(condition);
         assertThat(condition.getId()).isEqualTo(LINKSET_ID);
@@ -125,15 +126,15 @@ class ConditionMapperTest {
         assertThat(condition.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL)).isEmpty();
 
         assertThat(condition.getClinicalStatus().getDisplay()).isEqualTo("Active");
-        assertThat(condition.getCode().getCodingFirstRep().hasDisplay()).isFalse();
+        assertFalse(condition.getCode().getCodingFirstRep().hasDisplay());
 
         assertThat(condition.getSubject().getResource().getIdElement().getIdPart()).isEqualTo(PATIENT_ID);
         assertThat(condition.getAsserter().getReference()).isEqualTo(ASSERTER_ID_REFERENCE);
-        assertThat(condition.getContext().hasReference()).isFalse();
+        assertFalse(condition.getContext().hasReference());
 
         assertThat(condition.getOnsetDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
         assertThat(condition.getAbatementDateTimeType()).isEqualTo(EHR_EXTRACT_AVAILABILITY_DATETIME);
-        assertThat(condition.getAssertedDateElement().getValue()).isNull();
+        assertNull(condition.getAssertedDateElement().getValue());
 
         assertThat(condition.getNote()).isEmpty();
     }
@@ -148,8 +149,8 @@ class ConditionMapperTest {
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
-        assertThat(conditions.get(0).getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
-        assertThat(conditions.get(0).getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY);
+        assertThat(conditions.getFirst().getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
+        assertThat(conditions.getFirst().getCode().getCoding().get(1).getDisplay()).isEqualTo(CODING_DISPLAY);
     }
 
     @Test
@@ -162,8 +163,8 @@ class ConditionMapperTest {
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
         assertThat(conditions).isNotEmpty();
-        assertThat(conditions.get(0).getExtensionsByUrl(ACTUAL_PROBLEM_URL)).isNotEmpty();
-        assertActualProblemExtension(conditions.get(0));
+        assertThat(conditions.getFirst().getExtensionsByUrl(ACTUAL_PROBLEM_URL)).isNotEmpty();
+        assertActualProblemExtension(conditions.getFirst());
     }
 
     @Test
@@ -176,8 +177,8 @@ class ConditionMapperTest {
         conditionMapper.addReferences(buildBundleWithStatementRefObservations(), conditions, ehrExtract);
 
         assertThat(conditions).isNotEmpty();
-        assertThat(conditions.get(0).getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL)).isNotEmpty();
-        assertRelatedClinicalContentExtension(conditions.get(0));
+        assertThat(conditions.getFirst().getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL)).isNotEmpty();
+        assertRelatedClinicalContentExtension(conditions.getFirst());
     }
 
     @Test
@@ -190,7 +191,7 @@ class ConditionMapperTest {
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, encounters, PRACTISE_CODE);
 
         assertThat(conditions).isNotEmpty();
-        assertThat(conditions.get(0).getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
+        assertThat(conditions.getFirst().getContext().getResource().getIdElement().getValue()).isEqualTo(ENCOUNTER_ID);
     }
 
     @Test
@@ -198,13 +199,13 @@ class ConditionMapperTest {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_no_dates.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
-        assertGeneratedComponentsAreCorrect(conditions.get(0));
-        assertThat(conditions.get(0).getId()).isEqualTo(LINKSET_ID);
+        assertGeneratedComponentsAreCorrect(conditions.getFirst());
+        assertThat(conditions.getFirst().getId()).isEqualTo(LINKSET_ID);
 
-        assertThat(conditions.get(0).getClinicalStatus().getDisplay()).isEqualTo("Inactive");
+        assertThat(conditions.getFirst().getClinicalStatus().getDisplay()).isEqualTo("Inactive");
 
-        assertThat(conditions.get(0).getAbatementDateTimeType()).isNull();
-        assertThat(conditions.get(0).getAssertedDateElement().getValue()).isNull();
+        assertNull(conditions.getFirst().getAbatementDateTimeType());
+        assertNull(conditions.getFirst().getAssertedDateElement().getValue());
     }
 
     @Test
@@ -213,22 +214,22 @@ class ConditionMapperTest {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_null_flavor_unk.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
-        assertGeneratedComponentsAreCorrect(conditions.get(0));
-        assertThat(conditions.get(0).getId()).isEqualTo(LINKSET_ID);
+        assertGeneratedComponentsAreCorrect(conditions.getFirst());
+        assertThat(conditions.getFirst().getId()).isEqualTo(LINKSET_ID);
 
-        assertNull(conditions.get(0).getOnsetDateTimeType());
+        assertNull(conditions.getFirst().getOnsetDateTimeType());
     }
 
     @Test
     void testLinkSetWithEffectiveTimeCenterNullFlavorUnkIsMappedCorrectly() {
-        //when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
+
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_center_null_flavor_unk.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 
-        assertGeneratedComponentsAreCorrect(conditions.get(0));
-        assertThat(conditions.get(0).getId()).isEqualTo(LINKSET_ID);
+        assertGeneratedComponentsAreCorrect(conditions.getFirst());
+        assertThat(conditions.getFirst().getId()).isEqualTo(LINKSET_ID);
 
-        assertNull(conditions.get(0).getOnsetDateTimeType());
+        assertNull(conditions.getFirst().getOnsetDateTimeType());
     }
 
     @Test
@@ -247,12 +248,12 @@ class ConditionMapperTest {
             assertThat(conditions.size()).isOne();
 
             var bundle = new Bundle();
-            bundle.addEntry(new BundleEntryComponent().setResource(conditions.get(0)));
+            bundle.addEntry(new BundleEntryComponent().setResource(conditions.getFirst()));
             addMedicationRequestsToBundle(bundle);
 
             conditionMapper.addReferences(bundle, conditions, ehrExtract);
 
-            var extensions = conditions.get(0).getExtension();
+            var extensions = conditions.getFirst().getExtension();
 
             assertThat(extensions).hasSize(EXPECTED_NUMBER_OF_EXTENSIONS);
             var relatedClinicalContentExtensions = extensions.stream()
@@ -286,9 +287,9 @@ class ConditionMapperTest {
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
         assertThat(conditions).isNotEmpty();
-        assertThat(conditions.get(0).getCode().getCodingFirstRep())
+        assertThat(conditions.getFirst().getCode().getCodingFirstRep())
             .isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
-        assertThat(conditions.get(0).getCode().getCoding().get(1).getDisplay())
+        assertThat(conditions.getFirst().getCode().getCoding().get(1).getDisplay())
             .isEqualTo(CODING_DISPLAY);
     }
 
@@ -304,7 +305,7 @@ class ConditionMapperTest {
         conditionMapper.addReferences(buildBundleWithNamedStatementObservation(), conditions, ehrExtract);
 
         assertThat(conditions).isNotEmpty();
-        assertEquals(codeableConcept, conditions.get(0).getCode());
+        assertEquals(codeableConcept, conditions.getFirst().getCode());
     }
 
     @Test
@@ -324,7 +325,7 @@ class ConditionMapperTest {
 
         final CV linksetConfidentialityCode = confidentialityCodeCaptor
             .getAllValues()
-            .get(0) // linkSet.getConfidentialityCode()
+            .getFirst() // linkSet.getConfidentialityCode()
             .orElseThrow();
 
         assertAllConditionsHaveMeta(conditions, metaWithSecurity);
@@ -357,7 +358,7 @@ class ConditionMapperTest {
         assertAllConditionsHaveMeta(conditions, metaWithSecurity);
         assertAll(
             () -> assertThat(ehrCompositionConfidentialityCode.getCode()).isEqualTo(NOPAT),
-            () -> assertThat(confidentialityCodeCaptor.getAllValues().get(0)).isNotPresent()
+            () -> assertThat(confidentialityCodeCaptor.getAllValues().getFirst()).isNotPresent()
         );
     }
 
@@ -406,7 +407,7 @@ class ConditionMapperTest {
     }
 
     private void assertActualProblemExtension(Condition condition) {
-        var extension = condition.getExtensionsByUrl(ACTUAL_PROBLEM_URL).get(0);
+        var extension = condition.getExtensionsByUrl(ACTUAL_PROBLEM_URL).getFirst();
         assertThat(extension.getValue()).isInstanceOf(Reference.class);
         assertThat(((Reference) extension.getValue()).getResource()).isInstanceOf(Observation.class);
         assertThat(((Observation) ((Reference) extension.getValue()).getResource()).getId()).isEqualTo(NAMED_STATEMENT_REF_ID);
@@ -415,12 +416,12 @@ class ConditionMapperTest {
     private void assertRelatedClinicalContentExtension(Condition condition) {
         var extensions = condition.getExtensionsByUrl(RELATED_CLINICAL_CONTENT_URL);
         assertThat(extensions).hasSize(2);
-        assertThat(((Reference) extensions.get(0).getValue()).getResource().getIdElement().getValue()).isEqualTo(STATEMENT_REF_ID);
+        assertThat(((Reference) extensions.getFirst().getValue()).getResource().getIdElement().getValue()).isEqualTo(STATEMENT_REF_ID);
         assertThat(((Reference) extensions.get(1).getValue()).getResource().getIdElement().getValue()).isEqualTo(STATEMENT_REF_ID_1);
     }
 
     private void assertGeneratedComponentsAreCorrect(Condition condition) {
-        assertThat(condition.getMeta().getProfile().get(0)).isNotNull();
+        assertThat(condition.getMeta().getProfile().getFirst()).isNotNull();
         assertThat(condition.getIdentifierFirstRep().getValue()).isEqualTo(LINKSET_ID);
         assertThat(condition.getCategoryFirstRep().getCodingFirstRep().getDisplay()).isEqualTo("Problem List Item");
     }

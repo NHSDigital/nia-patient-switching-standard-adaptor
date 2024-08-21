@@ -753,7 +753,7 @@ public class EhrExtractMessageHandlerTest {
 
         prepareMigrationRequestAndMigrationStatusMocks();
 
-        when(patientAttachmentLogService.findAttachmentLog(externalAttachmentsTestList.get(0).getMessageId(), CONVERSATION_ID))
+        when(patientAttachmentLogService.findAttachmentLog(externalAttachmentsTestList.getFirst().getMessageId(), CONVERSATION_ID))
             .thenReturn(null)
                 .thenReturn(patientAttachmentLog);
 

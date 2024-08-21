@@ -38,7 +38,7 @@ public class ResourceFilterUtil {
             && ALLERGY_CODES.contains(compoundStatement.getCode().getCode())
             && CODE_SYSTEM_READ_CODE_V2.equals(compoundStatement.getCode().getCodeSystem())
             && compoundStatement.getComponent().size() == 1
-            && compoundStatement.getComponent().get(0).hasObservationStatement();
+            && compoundStatement.getComponent().getFirst().hasObservationStatement();
     }
 
     public static boolean isDiagnosticReport(RCMRMT030101UKCompoundStatement compoundStatement) {
@@ -54,7 +54,7 @@ public class ResourceFilterUtil {
     public static boolean hasDiagnosticReportParent(RCMRMT030101UKEhrExtract ehrExtract,
                                                     RCMRMT030101UKCompoundStatement compoundStatement) {
 
-        return ehrExtract.getComponent().get(0).getEhrFolder().getComponent().stream()
+        return ehrExtract.getComponent().getFirst().getEhrFolder().getComponent().stream()
             .flatMap(component3 -> component3.getEhrComposition().getComponent().stream())
             .flatMap(CompoundStatementResourceExtractors::extractAllCompoundStatements)
             .filter(ResourceFilterUtil::isDiagnosticReport)
@@ -79,7 +79,7 @@ public class ResourceFilterUtil {
             && !isBloodPressure(compoundStatement)
             && !isDiagnosticReport(compoundStatement)
             && !isSpecimen(compoundStatement)
-            && List.of(BATTERY_VALUE, CLUSTER_VALUE).contains(compoundStatement.getClassCode().get(0));
+            && List.of(BATTERY_VALUE, CLUSTER_VALUE).contains(compoundStatement.getClassCode().getFirst());
     }
 
     private static boolean hasCode(RCMRMT030101UKCompoundStatement compoundStatement) {
