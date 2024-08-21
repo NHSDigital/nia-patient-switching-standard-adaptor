@@ -164,29 +164,38 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                                                            RCMRMT030101UKRequestStatement requestStatement, Patient patient,
                                                            List<Encounter> encounters, String practiseCode) {
 
+        var observation = initializeObservation(ehrComposition, requestStatement, patient, practiseCode);
+
+        addContextToObservation(observation, encounters, ehrComposition);
+        addEffective(observation, getEffective(requestStatement.getEffectiveTime(), requestStatement.getAvailabilityTime()));
+
+        return observation;
+    }
+
+    private Observation initializeObservation(RCMRMT030101UKEhrComposition ehrComposition,
+                                                       RCMRMT030101UKRequestStatement requestStatement,
+                                                       Patient patient,
+                                                       String practiceCode) {
+
         var id = requestStatement.getId().getFirst().getRoot();
-        var meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
+
+        final Meta meta = confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             requestStatement.getConfidentialityCode());
 
-
-        Observation observation = new Observation()
-                .setStatus(FINAL)
-                .addIdentifier(buildIdentifier(id, practiseCode))
-                .setCode(getCode(requestStatement.getCode()))
-                .setIssuedElement(getIssued(ehrComposition))
-                .addPerformer(getParticipantReference(requestStatement.getParticipant(), ehrComposition))
-                .setComment(SELF_REFERRAL)
-                .setSubject(new Reference(patient))
-                .setComponent(createComponentList(requestStatement));
-
-        observation.setId(id);
-        observation.setMeta(meta);
-
-        addContextToObservation(observation, encounters, ehrComposition);
-        addEffective(observation,
-                getEffective(requestStatement.getEffectiveTime(), requestStatement.getAvailabilityTime()));
+        Observation observation = new Observation();
+        observation
+            .setStatus(FINAL)
+            .addIdentifier(buildIdentifier(id, practiceCode))
+            .setCode(getCode(requestStatement.getCode()))
+            .setIssuedElement(getIssued(ehrComposition))
+            .addPerformer(getParticipantReference(requestStatement.getParticipant(), ehrComposition))
+            .setComment(SELF_REFERRAL)
+            .setSubject(new Reference(patient))
+            .setComponent(createComponentList(requestStatement))
+            .setMeta(meta)
+            .setId(id);
 
         return observation;
     }

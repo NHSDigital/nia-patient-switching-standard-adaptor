@@ -103,7 +103,7 @@ class ConfidentialityServiceTest {
 
     private void assertMetaSecurityIsNotPresent(final Meta meta) {
         assertAll(
-            () -> assertThat(meta.getSecurity().size()).isZero(),
+            () -> assertThat(meta.getSecurity()).isEmpty(),
             () -> assertThat(meta.getProfile().getFirst().getValue()).isEqualTo(DUMMY_PROFILE_URI)
         );
     }

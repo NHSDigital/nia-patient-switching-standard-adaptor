@@ -222,7 +222,7 @@ class ConditionMapperTest {
 
     @Test
     void testLinkSetWithEffectiveTimeCenterNullFlavorUnkIsMappedCorrectly() {
-        //when(dateTimeMapper.mapDateTime(any())).thenReturn(EHR_EXTRACT_AVAILABILITY_DATETIME);
+
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract("linkset_with_center_null_flavor_unk.xml");
         final List<Condition> conditions = conditionMapper.mapResources(ehrExtract, patient, List.of(), PRACTISE_CODE);
 

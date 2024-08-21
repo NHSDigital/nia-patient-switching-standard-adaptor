@@ -26,12 +26,16 @@ corresponding FHIR resource will now be [appropriately populated][nopat-docs].
 The adaptor now verifies the Snomed CT ID against both the Concept ID and the Description ID, ensuring 
 that immunizations are correctly identified when a match is found.
 
-
 ### Fixed
 * Resolved issue where the SNOMED import script would reject a password containing a '%' character.
 * Fixed some Test Results being given a duplicated `Observation.category` entries for `Laboratory`.
+
 * Fixed issue where the GPC Facade was not returning an error when an invalid `ConversationId` header 
 was provided.
+* Filing Comments were creating with incorrect `effectiveDateTime`, this is now set from the 
+`ehrComposition /author / time` instead.
+* Filing Comments were creating with an incorrect `performer`, this now references the 
+`ehrComposition / author / agentRef` instead.
 
 ## [3.0.2] - 2024-07-18
 
