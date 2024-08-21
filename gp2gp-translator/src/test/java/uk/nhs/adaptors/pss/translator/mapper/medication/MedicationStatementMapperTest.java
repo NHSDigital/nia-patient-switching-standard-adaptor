@@ -12,7 +12,6 @@ import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
 import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
-import static uk.nhs.adaptors.pss.translator.TestUtility.GET_EHR_COMPOSITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.io.File;
@@ -50,6 +49,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.FileFactory;
 import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
@@ -86,7 +86,7 @@ class MedicationStatementMapperTest {
     void When_MappingPrescribeResourceWithNoOptionals_Expect_AllFieldsToBeMappedCorrectly() throws JAXBException {
         final File file = FileFactory.getXmlFileFor("MedicationStatement", "ehrExtract3.xml");
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallFile(file, RCMRMT030101UKEhrExtract.class);
-        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract);
         final RCMRMT030101UKMedicationStatement medicationStatement =
             unmarshallMedicationStatement("medicationStatementAuthoriseAllOptionals_MedicationStatement.xml");
         final Optional<RCMRMT030101UKAuthorise> authorise = medicationStatement.getComponent()
@@ -324,7 +324,7 @@ class MedicationStatementMapperTest {
 
     private MedicationStatement mapMedicationStatementFromEhrFile(String fileName, DateTimeType authoredOn) {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtract(fileName);
-        final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
+        final RCMRMT030101UKEhrComposition ehrComposition = TestUtility.getEhrComposition(ehrExtract);
         final Optional<RCMRMT030101UKMedicationStatement> medicationStatement = extractMedicationStatement(ehrExtract);
         assertThat(medicationStatement).isPresent();
 
