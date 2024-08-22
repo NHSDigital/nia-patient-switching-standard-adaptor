@@ -10,8 +10,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.TestUtility.GET_EHR_COMPOSITION;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
@@ -48,7 +48,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.FileFactory;
-import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
 
@@ -500,7 +500,7 @@ class ReferralRequestMapperTest {
 
     @Test
     void When_MapToReferralRequest_With_NopatConfidentialityCode_Expect_MetaFromConfidentialityServiceWithSecurity() {
-        final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final Meta metaWithSecurity = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtractElement("full_valid_data_example_with_nopat_confidentiality_code.xml");
         final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
@@ -528,7 +528,7 @@ class ReferralRequestMapperTest {
 
     @Test
     void When_MapToReferralRequest_With_NopatConfidentialityCodeWithinEhrComposition_Expect_MetaFromConfidentialityServiceWithSecurity() {
-        final Meta metaWithSecurity = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final Meta metaWithSecurity = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtractElement("full_valid_data_example_with_nopat_confidentiality_code_in_ehr_composition.xml");
         final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
@@ -634,6 +634,6 @@ class ReferralRequestMapperTest {
             eq(META_PROFILE),
             confidentialityCodeCaptor.capture(),
             confidentialityCodeCaptor.capture()
-        )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+        )).thenReturn(MetaUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 }

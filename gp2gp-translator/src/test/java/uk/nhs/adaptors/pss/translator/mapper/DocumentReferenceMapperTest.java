@@ -11,8 +11,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.io.File;
@@ -44,7 +44,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.connector.model.PatientAttachmentLog;
 import uk.nhs.adaptors.pss.translator.FileFactory;
-import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
@@ -68,8 +68,8 @@ class DocumentReferenceMapperTest {
     private static final String PLACEHOLDER = "GP2GP generated placeholder. Original document not available. See notes for details";
     private static final Integer EXPECTED_DOCUMENT_REFERENCE_COUNT = 3;
     private static final String TEST_FILES_DIRECTORY = "DocumentReference";
-    private static final Meta META_WITH_SECURITY_ADDED = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
-    private static final Meta META_WITHOUT_SECURITY_ADDED = MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
+    private static final Meta META_WITH_SECURITY_ADDED = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+    private static final Meta META_WITHOUT_SECURITY_ADDED = MetaUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
     private static final String NOPAT = "NOPAT";
 
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
@@ -362,6 +362,6 @@ class DocumentReferenceMapperTest {
         Mockito.lenient().when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             eq(META_PROFILE),
             confidentialityCodeCaptor.capture()
-        )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+        )).thenReturn(MetaUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 }

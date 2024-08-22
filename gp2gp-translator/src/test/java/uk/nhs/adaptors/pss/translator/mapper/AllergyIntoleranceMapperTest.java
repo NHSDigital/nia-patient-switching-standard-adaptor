@@ -16,8 +16,8 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
 
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.List;
@@ -54,7 +54,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 
-import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -118,7 +118,7 @@ class AllergyIntoleranceMapperTest {
         Mockito.lenient()
             .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 any(String.class), any(Optional.class), any(Optional.class)
-            )).thenReturn(MetaFactory.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+            )).thenReturn(MetaUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     @Test
@@ -370,7 +370,7 @@ class AllergyIntoleranceMapperTest {
 
     @Test
     void testGivenAllergyIntoleranceWithNopatConfidentialityCodePresentWithinEhrCompositionExpectMetaSecurityAdded() {
-        final Meta stubbedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final Meta stubbedMeta = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtract("allergy-structure-with-ehr-composition-nopat-confidentiality-code.xml");
 
@@ -392,7 +392,7 @@ class AllergyIntoleranceMapperTest {
 
     @Test
     void testGivenAllergyIntoleranceWithNopatConfidentialityCodePresentWithinObservationStatementExpectMetaSecurityAdded() {
-        final Meta stubbedMeta = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final Meta stubbedMeta = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtract("allergy-structure-with-observation-statement-nopat-confidentiality-code.xml");
 

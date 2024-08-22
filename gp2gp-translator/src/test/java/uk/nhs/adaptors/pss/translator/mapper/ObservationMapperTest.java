@@ -1,7 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,7 +8,8 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.assertMetaSecurityIsPresent;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllCompoundStatements;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
@@ -19,7 +19,6 @@ import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Meta;
@@ -29,7 +28,6 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.dstu3.model.StringType;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKComponent02;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -43,7 +41,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
@@ -60,7 +58,6 @@ public class ObservationMapperTest {
     private static final String IDENTIFIER_SYSTEM = "https://PSSAdaptor/TESTPRACTISECODE";
     private static final String INTERPRETATION_SYSTEM = "http://hl7.org/fhir/v2/0078";
     private static final String CODING_DISPLAY_MOCK = "Test Display";
-    private static final String QUANTITY_SYSTEM = "http://unitsofmeasure.org";
     private static final String ISSUED_EHR_COMPOSITION_EXAMPLE = "2020-01-01T01:01:01.000+00:00";
     private static final String PPRF_PARTICIPANT_ID = "Practitioner/1230F602-6BB1-47E0-B2EC-39912A59787D";
     private static final String NEGATIVE_VALUE = "Negative";
@@ -83,7 +80,7 @@ public class ObservationMapperTest {
     private static final String EPISODICITY_WITH_ORIGINAL_TEXT_NOTE_TEXT_WITH_ORIGINAL_TEXT =
             "{Episodicity : code=303350001, displayName=Ongoing, originalText=Review}";
     private static final String META_PROFILE = "Observation-1";
-    private static final Meta META = MetaFactory.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+    private static final Meta META_WITH_SECURITY_ADDED = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
     private static final CV NOPAT_CV = TestUtility.createCv(
         "NOPAT",
         "http://hl7.org/fhir/v3/ActCode",
@@ -124,20 +121,20 @@ public class ObservationMapperTest {
             ehrComposition.getConfidentialityCode(),
             observationStatements.getFirst().getConfidentialityCode(),
             compoundStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             observationStatements.get(1).getConfidentialityCode(),
             compoundStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         var observations = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(observations).hasSize(2);
-        assertMetaSecurityIsPresent(observations.getFirst().getMeta());
-        assertMetaSecurityIsPresent(observations.get(1).getMeta());
+        assertMetaSecurityIsPresent(META_WITH_SECURITY_ADDED, observations.getFirst().getMeta());
+        assertMetaSecurityIsPresent(META_WITH_SECURITY_ADDED, observations.get(1).getMeta());
     }
 
     @Test
@@ -155,11 +152,11 @@ public class ObservationMapperTest {
             ehrComposition.getConfidentialityCode(),
             observationStatement.getConfidentialityCode(),
             Optional.empty()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).getFirst();
 
-        assertMetaSecurityIsPresent(observation.getMeta());
+        assertMetaSecurityIsPresent(META_WITH_SECURITY_ADDED, observation.getMeta());
     }
 
     @Test
@@ -174,11 +171,11 @@ public class ObservationMapperTest {
             ehrComposition.getConfidentialityCode(),
             Optional.empty(),
             Optional.empty()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).getFirst();
 
-        assertMetaSecurityIsPresent(observation.getMeta());
+        assertMetaSecurityIsPresent(META_WITH_SECURITY_ADDED, observation.getMeta());
     }
 
     @Test
@@ -192,7 +189,7 @@ public class ObservationMapperTest {
             ehrComposition.getConfidentialityCode(),
             observationStatement.getConfidentialityCode(),
             Optional.empty()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).getFirst();
 
@@ -227,7 +224,7 @@ public class ObservationMapperTest {
             ehrComposition.getConfidentialityCode(),
             observationStatement.getConfidentialityCode(),
             Optional.empty()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).getFirst();
 
@@ -249,7 +246,7 @@ public class ObservationMapperTest {
             ehrComposition.getConfidentialityCode(),
             observationStatement.getConfidentialityCode(),
             Optional.empty()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).getFirst();
 
@@ -267,7 +264,7 @@ public class ObservationMapperTest {
             ehrComposition.getConfidentialityCode(),
             observationStatement.getConfidentialityCode(),
             Optional.empty()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).getFirst();
 
@@ -304,7 +301,7 @@ public class ObservationMapperTest {
             ehrComposition.getConfidentialityCode(),
             observationStatement.getConfidentialityCode(),
             Optional.empty()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         var observation = observationMapper.mapResources(ehrExtract, patient, ENCOUNTER_LIST, PRACTISE_CODE).getFirst();
 
@@ -512,21 +509,6 @@ public class ObservationMapperTest {
         assertThat(quantity.getValue()).isEqualTo(value);
         assertThat(quantity.getUnit()).isEqualTo(unit);
         assertThat(quantity.getCode()).isEqualTo(code);
-    }
-
-    private void assertMetaSecurityIsPresent(final Meta meta) {
-        final List<Coding> metaSecurity = meta.getSecurity();
-        final int metaSecuritySize = metaSecurity.size();
-        final Coding metaSecurityCoding = metaSecurity.getFirst();
-        final UriType metaProfile = meta.getProfile().getFirst();
-
-        assertAll(
-            () -> assertThat(metaSecuritySize).isEqualTo(1),
-            () -> assertThat(metaProfile.getValue()).isEqualTo(META_PROFILE),
-            () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
-            () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
-            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem())
-        );
     }
 
     private RCMRMT030101UKEhrComposition getEhrComposition(RCMRMT030101UKEhrExtract ehrExtract) {

@@ -5,11 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import org.hl7.fhir.dstu3.model.Reference;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static uk.nhs.adaptors.pss.translator.MetaFactory.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.assertMetaSecurityIsPresent;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 import java.nio.file.Paths;
@@ -19,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -27,8 +28,6 @@ import org.hl7.fhir.dstu3.model.InstantType;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Reference;
-import org.hl7.fhir.dstu3.model.UriType;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -42,7 +41,7 @@ import static org.mockito.Mockito.when;
 import lombok.SneakyThrows;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import uk.nhs.adaptors.pss.translator.MetaFactory;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
@@ -65,7 +64,7 @@ public class DiagnosticReportMapperTest {
     private static final Patient PATIENT = (Patient) new Patient().setId("PATIENT_TEST_ID");
     private static final String CONCLUSION_FIELD_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_1\n"
         + "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_2";
-    private static final Meta META = MetaFactory.getMetaFor(META_WITH_SECURITY, DIAGNOSTIC_REPORT_META_SUFFIX);
+    private static final Meta META = MetaUtil.getMetaFor(META_WITH_SECURITY, DIAGNOSTIC_REPORT_META_SUFFIX);
     private static final CV NOPAT_CV = TestUtility.createCv(
         "NOPAT",
         "http://hl7.org/fhir/v3/ActCode",
@@ -195,7 +194,7 @@ public class DiagnosticReportMapperTest {
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
         var diagnosticReport = diagnosticReports.getFirst();
 
-        assertMetaSecurityIsPresent(diagnosticReport.getMeta());
+        assertMetaSecurityIsPresent(META, diagnosticReport.getMeta());
     }
 
     @Test
@@ -221,7 +220,7 @@ public class DiagnosticReportMapperTest {
         var diagnosticReports = diagnosticReportMapper.mapResources(ehrExtract, PATIENT, List.of(), PRACTICE_CODE);
         var diagnosticReport = diagnosticReports.getFirst();
 
-        assertMetaSecurityIsPresent(diagnosticReport.getMeta());
+        assertMetaSecurityIsPresent(META, diagnosticReport.getMeta());
     }
 
     @Test
@@ -643,20 +642,6 @@ TEST COMMENT
 
     private List<Encounter> createEncounterList() {
         return List.of((Encounter) new Encounter().setId(ENCOUNTER_ID));
-    }
-
-    private void assertMetaSecurityIsPresent(final Meta meta) {
-        final List<Coding> metaSecurity = meta.getSecurity();
-        final int metaSecuritySize = metaSecurity.size();
-        final Coding metaSecurityCoding = metaSecurity.getFirst();
-        final UriType metaProfile = meta.getProfile().getFirst();
-
-        assertAll(
-            () -> assertThat(metaSecuritySize).isEqualTo(1),
-            () -> assertThat(metaProfile.getValue()).isEqualTo(DIAGNOSTIC_REPORT_META_SUFFIX),
-            () -> assertThat(metaSecurityCoding.getCode()).isEqualTo(NOPAT_CV.getCode()),
-            () -> assertThat(metaSecurityCoding.getDisplay()).isEqualTo(NOPAT_CV.getDisplayName()),
-            () -> assertThat(metaSecurityCoding.getSystem()).isEqualTo(NOPAT_CV.getCodeSystem()));
     }
 
     @SneakyThrows
