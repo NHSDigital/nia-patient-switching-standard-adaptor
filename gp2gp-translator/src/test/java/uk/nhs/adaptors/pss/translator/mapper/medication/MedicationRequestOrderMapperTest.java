@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,7 +38,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -57,7 +57,7 @@ class MedicationRequestOrderMapperTest {
     private static final int THREE = 3;
     private static final int SEVEN = 7;
 
-    private static final Meta META = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+    private static final Meta META = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
 
     @Mock
     private MedicationMapper medicationMapper;

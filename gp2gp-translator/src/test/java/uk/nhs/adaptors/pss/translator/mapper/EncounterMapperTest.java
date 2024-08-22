@@ -13,8 +13,8 @@ import static org.mockito.Mockito.when;
 
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import static uk.nhs.adaptors.common.util.CodeableConceptUtils.createCodeableConcept;
@@ -56,7 +56,7 @@ import org.mockito.stubbing.Answer;
 
 import lombok.SneakyThrows;
 
-import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DatabaseImmunizationChecker;
@@ -158,7 +158,7 @@ public class EncounterMapperTest {
         Mockito.lenient()
             .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 any(String.class), any(Optional.class)
-            )).thenReturn(MetaFactoryUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+            )).thenReturn(MetaUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     @Test
@@ -245,7 +245,7 @@ public class EncounterMapperTest {
 
     @Test
     public void testMapValidEncounterWithNopatConfidentialityCodeWithinEhrCompositionExpectMetaSecurityAdded() {
-        final Meta stubbedMeta = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final Meta stubbedMeta = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final CodeableConcept codeableConcept = createCodeableConcept(null, "1.2.3.4.5", CODING_DISPLAY);
 
         when(codeableConceptMapper.mapToCodeableConcept(
@@ -285,7 +285,7 @@ public class EncounterMapperTest {
 
     @Test
     public void testMapValidEncounterWithNoscrubConfidentialityCodeWithinEhrCompositionExpectMetaSecurityNotAdded() {
-        final Meta stubbedMeta = MetaFactoryUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
+        final Meta metaWithoutSecurity = MetaUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
         final CodeableConcept codeableConcept = createCodeableConcept(null, "1.2.3.4.5", CODING_DISPLAY);
 
         when(codeableConceptMapper.mapToCodeableConcept(
@@ -305,7 +305,7 @@ public class EncounterMapperTest {
             .lenient()
             .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 any(String.class), any(Optional.class)
-            )).thenReturn(stubbedMeta);
+            )).thenReturn(metaWithoutSecurity);
 
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtractElement(ENCOUNTER_WITH_NOSCRUB_CONFIDENTIALITY_CODE_WITHIN_EHR_COMPOSITION);

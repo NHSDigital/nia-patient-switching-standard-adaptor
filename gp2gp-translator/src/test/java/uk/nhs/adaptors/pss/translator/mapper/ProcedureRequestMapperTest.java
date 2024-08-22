@@ -9,11 +9,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.assertMetaSecurityIsPresent;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.assertMetaSecurityNotPresent;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.assertMetaSecurityIsPresent;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.assertMetaSecurityNotPresent;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -39,7 +39,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -64,8 +64,8 @@ public class ProcedureRequestMapperTest {
     private static final String STATUS_SEEN = "Status: Seen";
     private static final List<Encounter> ENCOUNTERS = getEncounterList();
     private static final Patient SUBJECT = createPatient();
-    private static final Meta META = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
-    private static final Meta ALTERNATIVE_META = MetaFactoryUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
+    private static final Meta META_WITH_SECURITY_ADDED = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+    private static final Meta META_WITHOUT_SECURITY_ADDED = MetaUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE);
     private static final CV NOPAT_CV = TestUtility.createCv(
         "NOPAT",
         "http://hl7.org/fhir/v3/ActCode",
@@ -138,7 +138,7 @@ public class ProcedureRequestMapperTest {
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             planStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
@@ -162,12 +162,12 @@ public class ProcedureRequestMapperTest {
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             planStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
                                                                                          planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
 
-        assertMetaSecurityIsPresent(META, procedureRequest.getMeta());
+        assertMetaSecurityIsPresent(META_WITH_SECURITY_ADDED, procedureRequest.getMeta());
     }
 
     @Test
@@ -181,7 +181,7 @@ public class ProcedureRequestMapperTest {
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             Optional.empty()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         var procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
                                                                             planStatement,
@@ -189,7 +189,7 @@ public class ProcedureRequestMapperTest {
                                                                             ENCOUNTERS,
                                                                             PRACTISE_CODE);
 
-        assertMetaSecurityIsPresent(META, procedureRequest.getMeta());
+        assertMetaSecurityIsPresent(META_WITH_SECURITY_ADDED, procedureRequest.getMeta());
     }
 
     @Test
@@ -203,7 +203,7 @@ public class ProcedureRequestMapperTest {
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             Optional.empty()
-        )).thenReturn(ALTERNATIVE_META);
+        )).thenReturn(META_WITHOUT_SECURITY_ADDED);
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(
             ehrComposition,
@@ -239,7 +239,7 @@ public class ProcedureRequestMapperTest {
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             planStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
@@ -265,7 +265,7 @@ public class ProcedureRequestMapperTest {
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             planStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
@@ -291,7 +291,7 @@ public class ProcedureRequestMapperTest {
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             planStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(getEhrComposition(ehrExtract),
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);
@@ -317,7 +317,7 @@ public class ProcedureRequestMapperTest {
             META_PROFILE,
             ehrComposition.getConfidentialityCode(),
             planStatement.getConfidentialityCode()
-        )).thenReturn(META);
+        )).thenReturn(META_WITH_SECURITY_ADDED);
 
         ProcedureRequest procedureRequest = procedureRequestMapper.mapToProcedureRequest(ehrComposition,
             planStatement, SUBJECT, ENCOUNTERS, PRACTISE_CODE);

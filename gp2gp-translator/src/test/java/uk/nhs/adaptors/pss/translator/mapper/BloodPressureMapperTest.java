@@ -13,8 +13,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.math.BigDecimal;
@@ -43,7 +43,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -115,7 +115,7 @@ public class BloodPressureMapperTest {
             .when(confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 any(),
                 any(Optional[].class)))
-            .thenReturn(MetaFactoryUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+            .thenReturn(MetaUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 
     @Test
@@ -199,7 +199,7 @@ public class BloodPressureMapperTest {
     public void When_MappingBloodPressureWithConfidentialityCodes_Expect_BloodPressureObservationContainsSecurityMeta(
         String inputXml) {
 
-        final var metaFromConfidentialityService = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final var metaFromConfidentialityService = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         when(
             confidentialityService.createMetaAndAddSecurityIfConfidentialityCodesPresent(
                 eq(META_PROFILE),

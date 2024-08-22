@@ -11,9 +11,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public final class MetaFactoryUtil {
+public final class MetaUtil {
 
-    private MetaFactoryUtil() { }
+    private MetaUtil() { }
     private static final Coding NOPAT_CODING = new Coding()
         .setSystem("http://hl7.org/fhir/v3/ActCode")
         .setCode("NOPAT")

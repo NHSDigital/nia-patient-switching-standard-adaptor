@@ -10,8 +10,8 @@ import org.hl7.fhir.dstu3.model.Reference;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.assertMetaSecurityIsPresent;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.assertMetaSecurityIsPresent;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToInstantType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 import java.nio.file.Paths;
@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
 import lombok.SneakyThrows;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
@@ -64,7 +64,7 @@ public class DiagnosticReportMapperTest {
     private static final Patient PATIENT = (Patient) new Patient().setId("PATIENT_TEST_ID");
     private static final String CONCLUSION_FIELD_TEXT = "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_1\n"
         + "TEXT_OF_DIRECT_COMPOUND_STATEMENT_CHILD_NARRATIVE_STATEMENT_2";
-    private static final Meta META = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, DIAGNOSTIC_REPORT_META_SUFFIX);
+    private static final Meta META = MetaUtil.getMetaFor(META_WITH_SECURITY, DIAGNOSTIC_REPORT_META_SUFFIX);
     private static final CV NOPAT_CV = TestUtility.createCv(
         "NOPAT",
         "http://hl7.org/fhir/v3/ActCode",

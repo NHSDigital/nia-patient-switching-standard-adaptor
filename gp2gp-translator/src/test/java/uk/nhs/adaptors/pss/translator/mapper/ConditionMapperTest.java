@@ -10,8 +10,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITHOUT_SECURITY;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITHOUT_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
@@ -53,7 +53,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.FileFactory;
-import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DegradedCodeableConcepts;
@@ -311,7 +311,7 @@ class ConditionMapperTest {
 
     @Test
     void When_Condition_With_NopatConfidentialityCode_Expect_MetaFromConfidentialityServiceWithSecurity() {
-        final Meta metaWithSecurity = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final Meta metaWithSecurity = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtract("linkset_valid_nopat_confidentiality_code.xml");
 
@@ -319,7 +319,7 @@ class ConditionMapperTest {
             eq(META_PROFILE),
             confidentialityCodeCaptor.capture(),
             confidentialityCodeCaptor.capture()
-        )).thenReturn(MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE));
+        )).thenReturn(MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE));
 
         final List<Condition> conditions = conditionMapper
             .mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
@@ -338,7 +338,7 @@ class ConditionMapperTest {
 
     @Test
     void When_Condition_With_NopatConfidentialityCodeInEhrComposition_Expect_MetaFromConfidentialityServiceWithSecurity() {
-        final Meta metaWithSecurity = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+        final Meta metaWithSecurity = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
         final RCMRMT030101UKEhrExtract ehrExtract =
             unmarshallEhrExtract("linkset_valid_ehr_composition_nopat_confidentiality_code.xml");
 
@@ -346,7 +346,7 @@ class ConditionMapperTest {
             eq(META_PROFILE),
             confidentialityCodeCaptor.capture(),
             confidentialityCodeCaptor.capture()
-        )).thenReturn(MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE));
+        )).thenReturn(MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE));
 
         final List<Condition> conditions = conditionMapper
             .mapResources(ehrExtract, patient, Collections.emptyList(), PRACTISE_CODE);
@@ -462,6 +462,6 @@ class ConditionMapperTest {
             eq(META_PROFILE),
             confidentialityCodeCaptor.capture(),
             confidentialityCodeCaptor.capture()
-        )).thenReturn(MetaFactoryUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
+        )).thenReturn(MetaUtil.getMetaFor(META_WITHOUT_SECURITY, META_PROFILE));
     }
 }

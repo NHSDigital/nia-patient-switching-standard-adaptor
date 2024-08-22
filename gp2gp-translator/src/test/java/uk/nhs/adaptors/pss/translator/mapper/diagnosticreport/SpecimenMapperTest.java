@@ -5,8 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.assertMetaSecurityIsPresent;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.assertMetaSecurityIsPresent;
 import static uk.nhs.adaptors.pss.translator.util.DateFormatUtil.parseToDateTimeType;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
@@ -32,7 +32,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.mapper.DateTimeMapper;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 
@@ -53,7 +53,7 @@ public class SpecimenMapperTest {
     private static final DiagnosticReport DIAGNOSTIC_REPORT_WITH_SPECIMEN = generateDiagnosticReportWithSpecimenReference();
     private static final DiagnosticReport DIAGNOSTIC_REPORT_WITHOUT_SPECIMEN = generateDiagnosticReportWithNoSpecimenReference();
     private static final String SPECIMEN_META_PROFILE = "Specimen-1";
-    private static final Meta META_WITH_SECURITY_ADDED = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, SPECIMEN_META_PROFILE);
+    private static final Meta META_WITH_SECURITY_ADDED = MetaUtil.getMetaFor(META_WITH_SECURITY, SPECIMEN_META_PROFILE);
     private static final String NARRATIVE_STATEMENT_ID = "9326C01E-488B-4EDF-B9C9-529E69EE0361";
 
     @Mock

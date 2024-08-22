@@ -12,8 +12,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.MetaType.META_WITH_SECURITY;
-import static uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil.assertMetaSecurityIsPresent;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
+import static uk.nhs.adaptors.pss.translator.util.MetaUtil.assertMetaSecurityIsPresent;
 import static uk.nhs.adaptors.pss.translator.mapper.diagnosticreport.SpecimenBatteryMapper.SpecimenBatteryParameters;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
@@ -43,7 +43,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import org.mockito.stubbing.Answer1;
-import uk.nhs.adaptors.pss.translator.util.MetaFactoryUtil;
+import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.TestUtility;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 
@@ -63,7 +63,7 @@ public class SpecimenCompoundsMapperTest {
     private static final String TEST_COMMENT_LINE = "First comment Line";
     private static final String TEST_COMMENT_LINE_1 = "Test Comment";
     private static final String META_PROFILE = "Observation-1";
-    private static final Meta META = MetaFactoryUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
+    private static final Meta META = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
     private static final CV NOPAT_CV = TestUtility.createCv(
         "NOPAT",
         "http://hl7.org/fhir/v3/ActCode",
