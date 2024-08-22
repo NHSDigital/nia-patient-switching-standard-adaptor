@@ -72,8 +72,7 @@ public class ConversationIdFilterTest {
     @EmptySource
     public void When_ConversationIdFilter_Expect_MdcServiceIsReset(
         String conversationId
-    ) throws ServletException, IOException
-    {
+    ) throws ServletException, IOException {
         request.addHeader(CONVERSATION_ID, conversationId);
 
         conversationIdFilter.doFilter(request, response, filterChain);
@@ -89,8 +88,7 @@ public class ConversationIdFilterTest {
     })
     public void When_ConversationIdFilterWithValidConversationId_Expect_UppercaseIdIsAppliedToMdcService(
         String conversationId
-    ) throws ServletException, IOException
-    {
+    ) throws ServletException, IOException {
         request.addHeader(CONVERSATION_ID, conversationId);
 
         conversationIdFilter.doFilter(request, response, filterChain);
@@ -106,8 +104,7 @@ public class ConversationIdFilterTest {
     })
     public void When_ConversationIdFilterWithValidConversationId_Expect_UppercaseIdIsAddedToResponseHeaders(
         String conversationId
-    ) throws ServletException, IOException
-    {
+    ) throws ServletException, IOException {
         request.addHeader(CONVERSATION_ID, conversationId);
 
         conversationIdFilter.doFilter(request, response, filterChain);
@@ -118,8 +115,8 @@ public class ConversationIdFilterTest {
 
     @Test
     public void When_ConversationIdFilterWithNoConversationIdHeader_Expect_UppercaseIdIsAppliedToMdcService()
-        throws ServletException, IOException
-    {
+        throws ServletException, IOException {
+
         conversationIdFilter.doFilter(request, response, filterChain);
 
         Mockito.verify(mdcService, Mockito.times(1))
@@ -128,8 +125,8 @@ public class ConversationIdFilterTest {
 
     @Test
     public void When_ConversationIdFilterWithNoConversationIdHeader_Expect_UppercaseIdIsAddedToResponseHeaders()
-        throws ServletException, IOException
-    {
+        throws ServletException, IOException {
+
         conversationIdFilter.doFilter(request, response, filterChain);
 
         assertThat(response.getHeader(CONVERSATION_ID))
@@ -153,35 +150,35 @@ public class ConversationIdFilterTest {
     }
 
     @Test
-    public void WhenConversationIdFilterWithInvalidConversationId_Expect_BadRequestOperationOutcomeResponse()
-        throws ServletException, IOException
-    {
+    public void When_ConversationIdFilterWithInvalidConversationId_Expect_BadRequestOperationOutcomeResponse()
+        throws ServletException, IOException {
+
         request.addHeader(CONVERSATION_ID, "this-is-quite-clearly-not-a-conversation-id");
         var expectedContent = """
-        {
-            "resourceType": "OperationOutcome",
-            "meta": {
-                "profile": [
-                    "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-OperationOutcome-1"
+            {
+                "resourceType": "OperationOutcome",
+                "meta": {
+                    "profile": [
+                        "https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-OperationOutcome-1"
+                    ]
+                },
+                "issue": [
+                    {
+                        "severity": "error",
+                        "code": "invalid",
+                        "details": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1",
+                                    "code": "BAD_REQUEST",
+                                    "display": "ConversationId header must be either be absent, empty or a valid UUID"
+                                }
+                            ]
+                        },
+                        "diagnostics": "ConversationId header must be either be absent, empty or a valid UUID"
+                    }
                 ]
-            },
-            "issue": [
-                {
-                    "severity": "error",
-                    "code": "invalid",
-                    "details": {
-                        "coding": [
-                            {
-                                "system": "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1",
-                                "code": "BAD_REQUEST",
-                                "display": "ConversationId header must be either be absent, empty or a valid UUID"
-                            }
-                        ]
-                    },
-                    "diagnostics": "ConversationId header must be either be absent, empty or a valid UUID"
-                }
-            ]
-        }""";
+            }""";
         when(fhirParser.encodeToJson(any())).thenReturn(expectedContent);
 
         conversationIdFilter.doFilter(request, response, filterChain);
