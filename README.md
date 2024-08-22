@@ -39,8 +39,32 @@ To use this endpoint, you need to provide the following headers:
 - FROM-ASID : ASID identifier of the winning New Market Entrant (NME)
 - TO-ODS : ODS identifier of the losing incumbent
 - FROM-ODS : ODS identifier of the winning New Market Entrant (NME)
-- ConversationId : A unique GUID for the request. If not provided, the adaptor will generate one and include it in the response headers.
+- ConversationId : A unique UUID for the request. If not provided, the adaptor will generate one and include it in the response headers.
   It must be used for all further calls for the patient's NHS number.
+
+If a `ConversationId` header is provided where the value is populated but does not contain a valid UUID, then the 
+following response will be returned:
+
+```json
+{
+	"resourceType": "OperationOutcome",
+	"meta": {
+		"profile": ["https://fhir.nhs.uk/STU3/StructureDefinition/GPConnect-OperationOutcome-1"]
+	},
+	"issue": [{
+		"severity": "error",
+		"code": "invalid",
+		"details": {
+			"coding": [{
+				"system": "https://fhir.nhs.uk/STU3/ValueSet/Spine-ErrorOrWarningCode-1",
+				"code": "BAD_REQUEST",
+				"display": "Bad request"
+			}]
+		},
+		"diagnostics": "ConversationId header must be either be empty or a valid UUID"
+	}]
+}
+```
 
 For more details on how to query the losing practice details, see the [requesting site requirements].
 
@@ -64,7 +88,7 @@ Request Body Example:
             "name": "includeFullRecord",
             "part": [
                {
-                  "name": "includeSensitiveInfomation",
+                  "name": "includeSensitiveInformation",
                   "valueBoolean": true
                }
             ]

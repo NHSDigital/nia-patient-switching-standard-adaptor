@@ -29,6 +29,8 @@ that immunizations are correctly identified when a match is found.
 ### Fixed
 * Resolved issue where the SNOMED import script would reject a password containing a '%' character.
 * Fixed some Test Results being given a duplicated `Observation.category` entries for `Laboratory`.
+* Fixed issue where the GPC Facade was not returning an error when an invalid `ConversationId` header 
+was provided.
 * Filing Comments were creating with incorrect `effectiveDateTime`, this is now set from the 
 `ehrComposition /author / time` instead.
 * Filing Comments were creating with an incorrect `performer`, this now references the 
