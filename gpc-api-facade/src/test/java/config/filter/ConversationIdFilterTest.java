@@ -3,7 +3,6 @@ package config.filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletResponse;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,13 +48,6 @@ public class ConversationIdFilterTest {
     private static final String CONVERSATION_ID = "ConversationId";
     private static final UUID GENERATED_CONVERSATION_ID = UUID.randomUUID();
 
-    @BeforeAll
-    public static void setup() {
-        mockStatic(UUID.class)
-            .when(UUID::randomUUID)
-            .thenReturn(GENERATED_CONVERSATION_ID);
-    }
-
     @BeforeEach
     public void setUp() {
         conversationIdFilter = new ConversationIdFilter(mdcService, fhirParser);
@@ -75,7 +67,7 @@ public class ConversationIdFilterTest {
     ) throws ServletException, IOException {
         request.addHeader(CONVERSATION_ID, conversationId);
 
-        conversationIdFilter.doFilter(request, response, filterChain);
+        doConversationIdFilter();
 
         Mockito.verify(mdcService, Mockito.times(1))
             .resetAllMdcKeys();
@@ -91,7 +83,7 @@ public class ConversationIdFilterTest {
     ) throws ServletException, IOException {
         request.addHeader(CONVERSATION_ID, conversationId);
 
-        conversationIdFilter.doFilter(request, response, filterChain);
+        doConversationIdFilter();
 
         Mockito.verify(mdcService, Mockito.times(1))
             .applyConversationId(conversationId.toUpperCase());
@@ -107,7 +99,7 @@ public class ConversationIdFilterTest {
     ) throws ServletException, IOException {
         request.addHeader(CONVERSATION_ID, conversationId);
 
-        conversationIdFilter.doFilter(request, response, filterChain);
+        doConversationIdFilter();
 
         assertThat(response.getHeader(CONVERSATION_ID))
             .isEqualTo(conversationId.toUpperCase());
@@ -117,7 +109,7 @@ public class ConversationIdFilterTest {
     public void When_ConversationIdFilterWithNoConversationIdHeader_Expect_UppercaseIdIsAppliedToMdcService()
         throws ServletException, IOException {
 
-        conversationIdFilter.doFilter(request, response, filterChain);
+        doConversationIdFilter();
 
         Mockito.verify(mdcService, Mockito.times(1))
             .applyConversationId(GENERATED_CONVERSATION_ID.toString().toUpperCase());
@@ -127,7 +119,7 @@ public class ConversationIdFilterTest {
     public void When_ConversationIdFilterWithNoConversationIdHeader_Expect_UppercaseIdIsAddedToResponseHeaders()
         throws ServletException, IOException {
 
-        conversationIdFilter.doFilter(request, response, filterChain);
+        doConversationIdFilter();
 
         assertThat(response.getHeader(CONVERSATION_ID))
             .isEqualTo(GENERATED_CONVERSATION_ID.toString().toUpperCase());
@@ -143,7 +135,7 @@ public class ConversationIdFilterTest {
     ) throws ServletException, IOException {
         request.addHeader(CONVERSATION_ID, conversationId);
 
-        conversationIdFilter.doFilter(request, response, filterChain);
+        doConversationIdFilter();
 
         Mockito.verify(filterChain, Mockito.times(1))
             .doFilter(request, response);
@@ -181,7 +173,7 @@ public class ConversationIdFilterTest {
             }""";
         when(fhirParser.encodeToJson(any())).thenReturn(expectedContent);
 
-        conversationIdFilter.doFilter(request, response, filterChain);
+        doConversationIdFilter();
 
         assertAll(
             () -> assertThat(response.getStatus())
@@ -191,5 +183,13 @@ public class ConversationIdFilterTest {
             () -> assertThat(response.getContentAsString())
                 .isEqualTo(expectedContent)
         );
+    }
+
+    private void doConversationIdFilter() throws ServletException, IOException {
+        try (var mockedUuid = mockStatic(UUID.class)) {
+            mockedUuid.when(UUID::randomUUID).thenReturn(GENERATED_CONVERSATION_ID);
+
+            conversationIdFilter.doFilter(request, response, filterChain);
+        }
     }
 }
