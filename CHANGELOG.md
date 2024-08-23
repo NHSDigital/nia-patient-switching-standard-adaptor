@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.3] - 2024-08-23
+
+> [!NOTE]
+> **Upgrade information** This release includes an update to the SNOMED database
+> Users will need to perform an [update of their patient switching SNOMED database](OPERATING.md#updating-the-snomed-database).
+> This will need to be performed first, followed by deploying the updated version of the translator image.
+
 ## Added
 * If a `medicationStatement` or `medicationRequest` record includes a `confidentialityCode`, the `meta.security` field of the
 corresponding FHIR resource will now be [appropriately populated][nopat-docs].
@@ -22,19 +29,19 @@ corresponding FHIR resource will now be [appropriately populated][nopat-docs].
     corresponding FHIR resource will now be [appropriately populated][nopat-docs].
 * If a `Observation`, `Specimen`, `DiagnosticReport` record includes a `confidentialityCode`, the `meta.security` field of the
   corresponding FHIR resource will now be [appropriately populated][nopat-docs].
-* Addressed a bug in the PS adaptor where immunizations were incorrectly mapped to observations. 
-The adaptor now verifies the Snomed CT ID against both the Concept ID and the Description ID, ensuring 
-that immunizations are correctly identified when a match is found.
 
 ### Fixed
 * Resolved issue where the SNOMED import script would reject a password containing a '%' character.
 * Fixed some Test Results being given a duplicated `Observation.category` entries for `Laboratory`.
 * Fixed issue where the GPC Facade was not returning an error when an invalid `ConversationId` header 
-was provided.
+  was provided. The Facade will now return a 400 instead of a 500 HTTP response.
 * Filing Comments were creating with incorrect `effectiveDateTime`, this is now set from the 
-`ehrComposition /author / time` instead.
-* Filing Comments were creating with an incorrect `performer`, this now references the 
-`ehrComposition / author / agentRef` instead.
+  `ehrComposition /author / time` instead.
+* Filing Comments were creating with an incorrect `performer`, this now references the
+  `ehrComposition / author / agentRef` instead.
+* Addressed a bug in the PS adaptor where immunizations were incorrectly mapped to observations when
+  the Snomed CT code being sent was a Description ID. The adaptor previously only checked against
+  known vaccination Concept IDs.
 
 ## [3.0.2] - 2024-07-18
 
