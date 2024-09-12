@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- In the event that an inbound MHS message cannot be processed and needs to be sent to the dead letter queue, the
+  adaptor will now emit a log message at INFO level as opposed to DEBUG level.
+
 ## [3.0.3] - 2024-08-23
 
 > [!NOTE]
