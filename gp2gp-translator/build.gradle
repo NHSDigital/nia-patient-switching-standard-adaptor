@@ -43,7 +43,7 @@ dependencies {
 
     implementation 'com.azure:azure-storage-blob:12.27.1'
 
-    implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.771')
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.772')
     implementation 'com.amazonaws:aws-java-sdk-s3'
 }
 
