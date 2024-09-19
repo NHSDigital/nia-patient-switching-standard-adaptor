@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -28,6 +29,7 @@ import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.TS;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -46,46 +48,27 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
     private static final String PPRF = "PPRF";
     private static final String PRF = "PRF";
 
+    private static final String PRESCRIPTION_TYPE_EXTENSION_URL
+        = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1";
+    private static final String PRESCRIPTION_TYPE_CODING_SYSTEM
+        = "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1";
+
+
     public List<DomainResource> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
         try {
-            var resources = mapEhrExtractToFhirResource(
-                ehrExtract, (extract, composition, component) -> extractAllMedications(component)
-                        .filter(Objects::nonNull)
-                        .flatMap(
-                            medicationStatement ->
-                                mapMedicationStatement(
-                                    ehrExtract,
-                                    composition,
-                                    medicationStatement,
-                                    patient,
-                                    encounters,
-                                    practiseCode
-                                )
-                        )
-                ).collect(Collectors.toCollection(ArrayList::new));
+            var resources = mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+                extractAllMedications(component)
+                    .filter(Objects::nonNull)
+                    .flatMap(medicationStatement -> mapMedicationStatement(
+                        ehrExtract, composition, medicationStatement, patient, encounters, practiseCode)))
+                .collect(Collectors.toCollection(ArrayList::new));
 
-            var orderMedicationRequestsGroupedByBasedOn = resources.stream()
-                .filter(MedicationRequest.class::isInstance)
-                .map(MedicationRequest.class::cast)
-                .filter(medicationRequest -> ORDER.equals(medicationRequest.getIntent()))
-                .flatMap(medicationRequest -> medicationRequest.getBasedOn()
-                    .stream()
-                    .map(reference -> new AbstractMap.SimpleEntry<>(reference.getReference(), medicationRequest))
-                )
-                .collect(
-                    Collectors.groupingBy(
-                        Map.Entry::getKey,
-                        Collectors.mapping(Map.Entry::getValue, Collectors.toList())
-                    )
-                );
+            var medicationRequestOrderGroups = groupOrderMedicationRequestsByBasedOnReferenceToAcutePlans(resources);
 
-            orderMedicationRequestsGroupedByBasedOn.forEach((key, value) -> {
+            medicationRequestOrderGroups.forEach((key, value) -> {
                 if (value.size() > 1) {
                     value.stream()
-//                        .sorted(Comparator.comparing(
-//                            medicationRequest -> medicationRequest.getDispenseRequest().getValidityPeriod().getStart()
-//                        ))
                         .skip(1)
                         .forEach((discard) ->
                             resources.add(new MedicationRequest().setIntent(PLAN))
@@ -97,6 +80,36 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         } finally {
             medicationMapperContext.reset();
         }
+    }
+
+    private @NotNull Map<String, List<MedicationRequest>> groupOrderMedicationRequestsByBasedOnReferenceToAcutePlans(
+        ArrayList<DomainResource> resources
+    ) {
+        var acutePlanMedicationRequestIds = resources.stream()
+            .filter(MedicationRequest.class::isInstance)
+            .map(MedicationRequest.class::cast)
+            .filter(medicationRequest -> PLAN.equals(medicationRequest.getIntent()))
+            .filter(this::isAcute)
+            .map(MedicationRequest::getId)
+            .toList();
+
+        return resources.stream()
+            .filter(MedicationRequest.class::isInstance)
+            .map(MedicationRequest.class::cast)
+            .filter(medicationRequest -> ORDER.equals(medicationRequest.getIntent()))
+            .flatMap(medicationRequest -> medicationRequest.getBasedOn()
+                .stream()
+                .map(reference ->
+                    new AbstractMap.SimpleEntry<>(reference.getReference().split("/")[1], medicationRequest)
+                )
+            )
+            .filter(entry -> acutePlanMedicationRequestIds.contains(entry.getKey()))
+            .collect(
+                Collectors.groupingBy(
+                    Map.Entry::getKey,
+                    Collectors.mapping(Map.Entry::getValue, Collectors.toList())
+                )
+            );
     }
 
     private Stream<DomainResource> mapMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract,
@@ -288,5 +301,17 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
                                                 RCMRMT030101UKMedicationStatement medicationStatement) {
 
         return extractRequester(ehrComposition, medicationStatement);
+    }
+
+    private boolean isAcute(MedicationRequest medicationRequest) {
+
+        if (medicationRequest.hasExtension(PRESCRIPTION_TYPE_EXTENSION_URL)) {
+            var extensionCodeableConcept = (CodeableConcept) medicationRequest
+                .getExtensionByUrl(PRESCRIPTION_TYPE_EXTENSION_URL)
+                .getValue();
+            return (extensionCodeableConcept.hasCoding(PRESCRIPTION_TYPE_CODING_SYSTEM, "acute"));
+        }
+
+        return false;
     }
 }
