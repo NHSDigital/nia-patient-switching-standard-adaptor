@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DomainResource;
+import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Medication;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
@@ -23,6 +24,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -31,6 +34,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
+import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.Date;
@@ -281,6 +285,70 @@ public class MedicationRequestMapperTest {
                 .get();
 
         assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAuthoredOn.getValue());
+    }
+
+    // In this test file we have 3 MedicationStatements, 1 ehrSupplyPrescribe, 2 ehrSupplyAuthorise referencing
+    // the same ehr supplyPrescribe.
+    // For this, we would expect that the output produces: 2 Medication Request (Order), 2 Medication Request (Plan)
+    @Test
+    void When_MedicationStatementsWithMultipleEhrSupplyAuthoriseBasedOnTheSameEhrSupplyPrescribe_Expect_AdditionalPlanCreated() {
+        var ehrExtract = unmarshallEhrExtract(
+            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleSupplyAuthorise.xml"
+        );
+
+        when(
+            medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                eq(ehrExtract),
+                any(RCMRMT030101UKEhrComposition.class),
+                any(RCMRMT030101UKMedicationStatement.class),
+                any(RCMRMT030101UKAuthorise.class),
+                any(String.class)
+            )
+        ).thenReturn(
+            new MedicationRequest()
+                .setIntent(MedicationRequestIntent.PLAN)
+                .addIdentifier(
+                    buildIdentifier("000EEA41-289B-4B1C-A5AB-421A666A0D2C", PRACTISE_CODE)
+                )
+        );
+
+        when(
+            medicationRequestOrderMapper.mapToOrderMedicationRequest(
+                eq(ehrExtract),
+                any(RCMRMT030101UKEhrComposition.class),
+                any(RCMRMT030101UKMedicationStatement.class),
+                any(RCMRMT030101UKPrescribe.class),
+                any(String.class)
+            )
+        ).thenReturn(
+            new MedicationRequest()
+                .setIntent(MedicationRequestIntent.ORDER)
+                .addBasedOn(
+                    new Reference(
+                        new IdType(ResourceType.MedicationRequest.name(), "32774BF4-9245-4837-B3C0-A6BF4950EB8F")
+                    )
+                )
+        );
+
+        var resources = medicationRequestMapper
+            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+        );
+
+        var planMedicationRequests = resources.stream()
+            .filter(MedicationRequest.class::isInstance)
+            .map(MedicationRequest.class::cast)
+            .filter(medicationRequest -> MedicationRequestIntent.PLAN.equals(medicationRequest.getIntent()));
+
+        var orderMedicationRequests = resources.stream()
+            .filter(MedicationRequest.class::isInstance)
+            .map(MedicationRequest.class::cast)
+            .filter(medicationRequest -> MedicationRequestIntent.ORDER.equals(medicationRequest.getIntent()))
+            .toList();
+
+        assertAll(
+            () -> assertThat(planMedicationRequests).as("Plans").hasSize(2),
+            () -> assertThat(orderMedicationRequests).as("Orders").hasSize(2)
+        );
     }
 
     @Test

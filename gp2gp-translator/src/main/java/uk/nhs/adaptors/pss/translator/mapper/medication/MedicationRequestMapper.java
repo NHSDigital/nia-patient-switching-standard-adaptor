@@ -1,10 +1,16 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.ORDER;
+import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllMedications;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -43,12 +49,51 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
     public List<DomainResource> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
         String practiseCode) {
         try {
-            return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
-                    extractAllMedications(component)
-                            .filter(Objects::nonNull)
-                            .flatMap(medicationStatement -> mapMedicationStatement(
-                                    ehrExtract, composition, medicationStatement, patient, encounters, practiseCode)))
-                    .toList();
+            var resources = mapEhrExtractToFhirResource(
+                ehrExtract, (extract, composition, component) -> extractAllMedications(component)
+                        .filter(Objects::nonNull)
+                        .flatMap(
+                            medicationStatement ->
+                                mapMedicationStatement(
+                                    ehrExtract,
+                                    composition,
+                                    medicationStatement,
+                                    patient,
+                                    encounters,
+                                    practiseCode
+                                )
+                        )
+                ).collect(Collectors.toCollection(ArrayList::new));
+
+            var orderMedicationRequestsGroupedByBasedOn = resources.stream()
+                .filter(MedicationRequest.class::isInstance)
+                .map(MedicationRequest.class::cast)
+                .filter(medicationRequest -> ORDER.equals(medicationRequest.getIntent()))
+                .flatMap(medicationRequest -> medicationRequest.getBasedOn()
+                    .stream()
+                    .map(reference -> new AbstractMap.SimpleEntry<>(reference.getReference(), medicationRequest))
+                )
+                .collect(
+                    Collectors.groupingBy(
+                        Map.Entry::getKey,
+                        Collectors.mapping(Map.Entry::getValue, Collectors.toList())
+                    )
+                );
+
+            orderMedicationRequestsGroupedByBasedOn.forEach((key, value) -> {
+                if (value.size() > 1) {
+                    value.stream()
+//                        .sorted(Comparator.comparing(
+//                            medicationRequest -> medicationRequest.getDispenseRequest().getValidityPeriod().getStart()
+//                        ))
+                        .skip(1)
+                        .forEach((discard) ->
+                            resources.add(new MedicationRequest().setIntent(PLAN))
+                        );
+                }
+            });
+
+            return resources;
         } finally {
             medicationMapperContext.reset();
         }
