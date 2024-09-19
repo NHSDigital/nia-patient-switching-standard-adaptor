@@ -39,7 +39,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.ResourceUtils.getFile;
 
-import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
 import java.util.Date;
@@ -69,7 +68,6 @@ public class MedicationRequestMapperTest {
             )
         )
     );
-
     private static final Extension REPEAT_PRESCRIPTION_EXTENSION = new Extension(
         "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
         new CodeableConcept(
@@ -77,6 +75,12 @@ public class MedicationRequestMapperTest {
                 "repeat",
                 "Repeat"
             )
+        )
+    );
+    private static final Reference REFERENCE_TO_PLAN = new Reference(
+        new IdType(
+            ResourceType.MedicationRequest.name(),
+            "000EEA41-289B-4B1C-A5AB-421A666A0D2C"
         )
     );
 
@@ -328,9 +332,6 @@ public class MedicationRequestMapperTest {
         ).thenReturn(
             (MedicationRequest) new MedicationRequest()
                 .setIntent(MedicationRequestIntent.PLAN)
-                .addIdentifier(
-                    buildIdentifier("000EEA41-289B-4B1C-A5AB-421A666A0D2C", PRACTISE_CODE)
-                )
                 .setExtension(List.of(REPEAT_PRESCRIPTION_EXTENSION))
                 .setId("000EEA41-289B-4B1C-A5AB-421A666A0D2C")
 
@@ -346,14 +347,7 @@ public class MedicationRequestMapperTest {
         ).thenReturn(
             new MedicationRequest()
                 .setIntent(MedicationRequestIntent.ORDER)
-                .addBasedOn(
-                    new Reference(
-                        new IdType(
-                            ResourceType.MedicationRequest.name(),
-                            "000EEA41-289B-4B1C-A5AB-421A666A0D2C"
-                        )
-                    )
-                )
+                .addBasedOn(REFERENCE_TO_PLAN)
         );
 
         var resources = medicationRequestMapper
@@ -393,9 +387,6 @@ public class MedicationRequestMapperTest {
         ).thenReturn(
             (MedicationRequest) new MedicationRequest()
                 .setIntent(MedicationRequestIntent.PLAN)
-                .addIdentifier(
-                    buildIdentifier("000EEA41-289B-4B1C-A5AB-421A666A0D2C", PRACTISE_CODE)
-                )
                 .setExtension(List.of(ACUTE_PRESCRIPTION_EXTENSION))
                 .setId("000EEA41-289B-4B1C-A5AB-421A666A0D2C")
         );
@@ -411,14 +402,7 @@ public class MedicationRequestMapperTest {
         ).thenReturn(
             new MedicationRequest()
                 .setIntent(MedicationRequestIntent.ORDER)
-                .addBasedOn(
-                    new Reference(
-                        new IdType(
-                            ResourceType.MedicationRequest.name(),
-                            "000EEA41-289B-4B1C-A5AB-421A666A0D2C"
-                        )
-                    )
-                )
+                .addBasedOn(REFERENCE_TO_PLAN)
         );
 
         var resources = medicationRequestMapper
@@ -461,9 +445,6 @@ public class MedicationRequestMapperTest {
         ).thenReturn(
             (MedicationRequest) new MedicationRequest()
                 .setIntent(MedicationRequestIntent.PLAN)
-                .addIdentifier(
-                    buildIdentifier(initialPlanId, PRACTISE_CODE)
-                )
                 .setExtension(List.of(ACUTE_PRESCRIPTION_EXTENSION))
                 .setId(initialPlanId)
         );
@@ -479,14 +460,7 @@ public class MedicationRequestMapperTest {
         ).thenReturn(
             new MedicationRequest()
                 .setIntent(MedicationRequestIntent.ORDER)
-                .addBasedOn(
-                    new Reference(
-                        new IdType(
-                            ResourceType.MedicationRequest.name(),
-                            initialPlanId
-                        )
-                    )
-                )
+                .addBasedOn(REFERENCE_TO_PLAN)
                 .setDispenseRequest(
                     new MedicationRequestDispenseRequestComponent()
                         .setValidityPeriod(
@@ -495,14 +469,7 @@ public class MedicationRequestMapperTest {
                 ),
             new MedicationRequest()
                 .setIntent(MedicationRequestIntent.ORDER)
-                .addBasedOn(
-                    new Reference(
-                        new IdType(
-                            ResourceType.MedicationRequest.name(),
-                            initialPlanId
-                        )
-                    )
-                )
+                .addBasedOn(REFERENCE_TO_PLAN)
                 .setDispenseRequest(
                     new MedicationRequestDispenseRequestComponent()
                         .setValidityPeriod(
