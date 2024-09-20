@@ -427,7 +427,7 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
-    void When_DuplicatingAcutePlan_Expect_TheEarliestOrderReferencesTheOriginalPlan() {
+    void When_MultipleOrdersAreBasedOneAcutePlan_Expect_TheEarliestOrderReferencesTheOriginalPlan() {
         var ehrExtract = unmarshallEhrExtract(
             "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
         );
