@@ -436,7 +436,7 @@ public class MedicationRequestMapperTest {
 
         assertAll(
             () -> assertThat(firstOrderMedicationRequest.getBasedOn().getFirst().getReference())
-                .isEqualTo("MedicationRequest/"+initialPlanId)
+                .isEqualTo("MedicationRequest/" + initialPlanId)
         );
     }
 
