@@ -66,13 +66,11 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
             var medicationRequestOrderGroups = groupOrderMedicationRequestsByBasedOnReferenceToAcutePlans(resources);
 
-            medicationRequestOrderGroups.forEach((key, value) -> {
-                if (value.size() > 1) {
-                    value.stream()
-                        .skip(1)
-                        .forEach((discard) ->
-                            resources.add(new MedicationRequest().setIntent(PLAN))
-                        );
+            medicationRequestOrderGroups.forEach((referencedPlanId, medicationRequestOrders) -> {
+                if (medicationRequestOrders.size() > 1) {
+                    for (var index = 1; index < medicationRequestOrders.size(); index++) {
+                        resources.add(new MedicationRequest().setIntent(PLAN));
+                    }
                 }
             });
 
