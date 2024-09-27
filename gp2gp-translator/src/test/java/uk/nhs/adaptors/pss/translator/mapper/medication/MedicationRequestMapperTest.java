@@ -402,7 +402,6 @@ public class MedicationRequestMapperTest {
             () -> assertThat(generatedPlan.getIdentifierFirstRep().getValue())
                 .isEqualTo(GENERATED_PLAN_ID)
         );
-
     }
 
     @Test
@@ -436,14 +435,36 @@ public class MedicationRequestMapperTest {
         var resources = medicationRequestMapper
             .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
 
-       var latestOrder = getMedicationRequestById(resources, LATEST_ORDER_ID);
-       var generatedPlan = getMedicationRequestById(resources, GENERATED_PLAN_ID);
+        var latestOrder = getMedicationRequestById(resources, LATEST_ORDER_ID);
+        var generatedPlan = getMedicationRequestById(resources, GENERATED_PLAN_ID);
 
         assertAll(
             () -> assertThat(latestOrder.getBasedOn().getFirst().getReferenceElement().getIdPart())
                 .isEqualTo(generatedPlan.getId()),
             () -> assertThat(latestOrder.getBasedOn().getFirst().getReferenceElement().getResourceType())
                 .isEqualTo(ResourceType.MedicationRequest.name())
+        );
+    }
+
+    @Test
+    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_TheLatestOrderPriorPrescriptionReferencesTheOriginalPlan() {
+        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
+        var ehrExtract = unmarshallEhrExtract(
+            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
+        );
+
+        var resources = medicationRequestMapper
+            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
+
+        var generatedPlanReferenceElement = getMedicationRequestById(resources, GENERATED_PLAN_ID)
+            .getPriorPrescription()
+            .getReferenceElement();
+
+        assertAll(
+            () -> assertThat(generatedPlanReferenceElement.getResourceType())
+                .isEqualTo(ResourceType.MedicationRequest.name()),
+            () -> assertThat(generatedPlanReferenceElement.getIdPart())
+                .isEqualTo(INITIAL_PLAN_ID)
         );
     }
 
@@ -512,7 +533,7 @@ public class MedicationRequestMapperTest {
         assertThat(medicationRequestId).isEqualTo(PATIENT_ID);
     }
 
-    private MedicationRequest buildMedicationRequestOrder(String Id, String validityPeriodStartDate) {
+    private MedicationRequest buildMedicationRequestOrder(String id, String validityPeriodStartDate) {
         return (MedicationRequest) new MedicationRequest()
             .setIntent(MedicationRequestIntent.ORDER)
             .addBasedOn(REFERENCE_TO_PLAN)
@@ -522,7 +543,7 @@ public class MedicationRequestMapperTest {
                         new Period().setStartElement(DateFormatUtil.parseToDateTimeType(validityPeriodStartDate))
                     )
             )
-            .setId(Id);
+            .setId(id);
     }
 
     private MedicationRequest buildMedicationRequestPlan(Extension extension) {
@@ -566,9 +587,9 @@ public class MedicationRequestMapperTest {
                 any(RCMRMT030101UKPrescribe.class),
                 any(String.class)
             )
-        ).thenReturn(
-            buildMedicationRequestOrder(LATEST_ORDER_ID, "20240102"),
-            buildMedicationRequestOrder(EARLIEST_ORDER_ID ,"20240101")
+        ).thenReturn(buildMedicationRequestOrder(
+            LATEST_ORDER_ID, "20240102"),
+            buildMedicationRequestOrder(EARLIEST_ORDER_ID, "20240101")
         );
 
         lenient().when(idGeneratorService.generateUuid()).thenReturn(GENERATED_PLAN_ID);

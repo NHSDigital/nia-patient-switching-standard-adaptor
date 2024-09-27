@@ -31,6 +31,7 @@ import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.TS;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -73,7 +74,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             ordersGroupedByAcutePlan
                 .forEach((plan, orders) -> {
                     if (orders.size() > 1) {
-                        sortOrdersByStartDate(orders);
+                        sortOrdersByValidityPeriodStart(orders);
 
                         // the index starts at one as the earliest order remains referenced to the original plan
                         for (var index = 1; index < orders.size(); index++) {
@@ -88,6 +89,12 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
                             var basedOn = orders.get(index).getBasedOn();
                             updateBasedOnReferenceToReferenceDuplicatedPlan(basedOn, duplicatedPlanId);
 
+                            // we need to set the prior medication ref to either the initial plan (when index == 1)
+                            // or to id of the previously generated plan (that is the plan referenced index -1)
+                            var previousOrderBasedOn = orders.get(index - 1).getBasedOn();
+                            var previousBasedOnReference = getMedicationRequestBasedOnReference(previousOrderBasedOn);
+                            previousBasedOnReference.ifPresent(duplicatedPlan::setPriorPrescription);
+
                             resources.add(duplicatedPlan);
                         }
                     }
@@ -100,13 +107,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
     }
 
     private static void updateBasedOnReferenceToReferenceDuplicatedPlan(List<Reference> basedOn, String duplicatedPlanId) {
-        var basedOnReference = basedOn
-            .stream()
-            .filter(reference ->
-                ResourceType.MedicationRequest.name()
-                    .equals(reference.getReferenceElement().getResourceType())
-            )
-            .findFirst();
+        var basedOnReference = getMedicationRequestBasedOnReference(basedOn);
 
         if (basedOnReference.isPresent()) {
             var replacementIndex = basedOn.indexOf(basedOnReference.get());
@@ -117,7 +118,18 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         }
     }
 
-    private void sortOrdersByStartDate(List<MedicationRequest> orders) {
+    private static @NotNull Optional<Reference> getMedicationRequestBasedOnReference(List<Reference> basedOn) {
+        return basedOn
+            .stream()
+            .filter(reference ->
+                ResourceType.MedicationRequest.name()
+                    .equals(reference.getReferenceElement().getResourceType())
+            )
+            .findFirst();
+    }
+
+    // for Orders, GP Connect specification state that validity period will always have a start date.
+    private void sortOrdersByValidityPeriodStart(List<MedicationRequest> orders) {
         orders.sort(Comparator.comparing(medicationRequest ->
             medicationRequest.getDispenseRequest().getValidityPeriod().getStart()
         ));
