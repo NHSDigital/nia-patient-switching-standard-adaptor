@@ -6,6 +6,7 @@ import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtra
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DomainResource;
@@ -29,11 +31,11 @@ import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.TS;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 @Service
@@ -44,6 +46,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
     private MedicationStatementMapper medicationStatementMapper;
     private MedicationMapperContext medicationMapperContext;
+    private IdGeneratorService idGeneratorService;
 
     private static final String PPRF = "PPRF";
     private static final String PRF = "PRF";
@@ -64,15 +67,31 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
                         ehrExtract, composition, medicationStatement, patient, encounters, practiseCode)))
                 .collect(Collectors.toCollection(ArrayList::new));
 
-            var medicationRequestOrderGroups = groupOrderMedicationRequestsByBasedOnReferenceToAcutePlans(resources);
+            var acutePlans = getAcutePlans(resources);
+            var ordersGroupedByAcutePlan = getOrdersGroupedByReferencedAcutePlan(resources, acutePlans);
 
-            medicationRequestOrderGroups.forEach((referencedPlanId, medicationRequestOrders) -> {
-                if (medicationRequestOrders.size() > 1) {
-                    for (var index = 1; index < medicationRequestOrders.size(); index++) {
-                        resources.add(new MedicationRequest().setIntent(PLAN));
+            ordersGroupedByAcutePlan
+                .forEach((plan, orders) -> {
+                    if (orders.size() > 1) {
+                        sortOrdersByStartDate(orders);
+
+                        // the index starts at one as the earliest order remains referenced to the original plan
+                        for (var index = 1; index < orders.size(); index++) {
+                            var duplicatedPlan = plan.copy();
+
+                            // we need to update the id and identifier to the generated id;
+                            var duplicatedPlanId = idGeneratorService.generateUuid();
+                            duplicatedPlan.setId(duplicatedPlanId);
+                            duplicatedPlan.getIdentifierFirstRep().setValue(duplicatedPlanId);
+
+                            // we need to update the basedOn of the order to match the generated plan
+                            var basedOn = orders.get(index).getBasedOn();
+                            updateBasedOnReferenceToReferenceDuplicatedPlan(basedOn, duplicatedPlanId);
+
+                            resources.add(duplicatedPlan);
+                        }
                     }
-                }
-            });
+                });
 
             return resources;
         } finally {
@@ -80,34 +99,84 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         }
     }
 
-    private @NotNull Map<String, List<MedicationRequest>> groupOrderMedicationRequestsByBasedOnReferenceToAcutePlans(
-        ArrayList<DomainResource> resources
-    ) {
-        var acutePlanMedicationRequestIds = resources.stream()
-            .filter(MedicationRequest.class::isInstance)
-            .map(MedicationRequest.class::cast)
-            .filter(medicationRequest -> PLAN.equals(medicationRequest.getIntent()))
-            .filter(this::isAcute)
-            .map(MedicationRequest::getId)
-            .toList();
+    private static void updateBasedOnReferenceToReferenceDuplicatedPlan(List<Reference> basedOn, String duplicatedPlanId) {
+        var basedOnReference = basedOn
+            .stream()
+            .filter(reference ->
+                ResourceType.MedicationRequest.name()
+                    .equals(reference.getReferenceElement().getResourceType())
+            )
+            .findFirst();
 
+        if (basedOnReference.isPresent()) {
+            var replacementIndex = basedOn.indexOf(basedOnReference.get());
+            basedOn.set(replacementIndex, new Reference(
+                    new IdType(ResourceType.MedicationRequest.name(), duplicatedPlanId)
+                )
+            );
+        }
+    }
+
+    private void sortOrdersByStartDate(List<MedicationRequest> orders) {
+        orders.sort(Comparator.comparing(medicationRequest ->
+            medicationRequest.getDispenseRequest().getValidityPeriod().getStart()
+        ));
+    }
+
+    private List<MedicationRequest> getAcutePlans(List<DomainResource> resources) {
         return resources.stream()
             .filter(MedicationRequest.class::isInstance)
             .map(MedicationRequest.class::cast)
-            .filter(medicationRequest -> ORDER.equals(medicationRequest.getIntent()))
-            .flatMap(medicationRequest -> medicationRequest.getBasedOn()
-                .stream()
-                .map(reference ->
-                    new AbstractMap.SimpleEntry<>(reference.getReference().split("/")[1], medicationRequest)
-                )
-            )
-            .filter(entry -> acutePlanMedicationRequestIds.contains(entry.getKey()))
+            .filter(this::isAcutePlan)
+            .toList();
+    }
+
+    private Map<MedicationRequest, List<MedicationRequest>> getOrdersGroupedByReferencedAcutePlan(
+        List<DomainResource> resources,
+        List<MedicationRequest> acutePlans
+    ) {
+        return resources.stream()
+            .filter(MedicationRequest.class::isInstance)
+            .map(MedicationRequest.class::cast)
+            .filter(this::isOrder)
+            .filter(MedicationRequest::hasBasedOn)
+            .map(order -> getOrderToAcutePlanMapEntry(order, acutePlans))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
             .collect(
                 Collectors.groupingBy(
                     Map.Entry::getKey,
                     Collectors.mapping(Map.Entry::getValue, Collectors.toList())
                 )
             );
+    }
+
+    private Optional<AbstractMap.SimpleEntry<MedicationRequest, MedicationRequest>> getOrderToAcutePlanMapEntry(
+        MedicationRequest order,
+        List<MedicationRequest> plans
+    ) {
+        if (!order.hasBasedOn()) {
+            return Optional.empty();
+        }
+
+        var planReferenceId =  order
+            .getBasedOn()
+            .stream()
+            .map(reference -> reference.getReference().split("/")[1])
+            .findFirst()
+            .orElse(StringUtils.EMPTY);
+
+        if (StringUtils.isEmpty(planReferenceId)) {
+            return Optional.empty();
+        }
+
+        var referencedPlan = plans.stream()
+            .filter(plan -> planReferenceId.equals(plan.getId()))
+            .findFirst();
+
+        return referencedPlan
+            .map(medicationRequest -> new AbstractMap.SimpleEntry<>(medicationRequest, order));
+
     }
 
     private Stream<DomainResource> mapMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract,
@@ -301,9 +370,8 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         return extractRequester(ehrComposition, medicationStatement);
     }
 
-    private boolean isAcute(MedicationRequest medicationRequest) {
-
-        if (medicationRequest.hasExtension(PRESCRIPTION_TYPE_EXTENSION_URL)) {
+    private boolean isAcutePlan(MedicationRequest medicationRequest) {
+        if (medicationRequest.hasExtension(PRESCRIPTION_TYPE_EXTENSION_URL) && PLAN.equals(medicationRequest.getIntent())) {
             var extensionCodeableConcept = (CodeableConcept) medicationRequest
                 .getExtensionByUrl(PRESCRIPTION_TYPE_EXTENSION_URL)
                 .getValue();
@@ -311,5 +379,9 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         }
 
         return false;
+    }
+
+    private boolean isOrder(MedicationRequest medicationRequest) {
+        return ORDER.equals(medicationRequest.getIntent());
     }
 }
