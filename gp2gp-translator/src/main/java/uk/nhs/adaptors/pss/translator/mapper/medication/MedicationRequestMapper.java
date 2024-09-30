@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +26,7 @@ import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -158,6 +160,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .collect(
                 Collectors.groupingBy(
                     Map.Entry::getKey,
+                    () -> new TreeMap<>(Comparator.comparing(Resource::getId)),
                     Collectors.mapping(Map.Entry::getValue, Collectors.toList())
                 )
             );
