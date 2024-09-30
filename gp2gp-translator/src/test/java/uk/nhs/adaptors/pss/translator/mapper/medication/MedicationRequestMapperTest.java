@@ -1,19 +1,23 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
+import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.DomainResource;
+import org.hl7.fhir.dstu3.model.Dosage;
 import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Medication;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.MedicationStatement;
+import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.fhir.dstu3.model.StringType;
 import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UKConsumable;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
@@ -469,6 +473,39 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
+    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_TheLatestOrderUnchangedPropertiesAreCopiedToGeneratedPlan() {
+        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
+        var ehrExtract = unmarshallEhrExtract(
+            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
+        );
+
+        var resources = medicationRequestMapper
+            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
+
+        var originalPlan = getMedicationRequestById(resources, INITIAL_PLAN_ID);
+        var generatedPlan = getMedicationRequestById(resources, GENERATED_PLAN_ID);
+
+        assertAll(
+            () -> assertThat(originalPlan.getDosageInstructionFirstRep().getText())
+                .isEqualTo("TEST_DOSAGE"),
+            () -> assertThat(originalPlan.getDispenseRequest().getId())
+                .isEqualTo("TEST_DISPENSE_REQUEST_ID"),
+            () -> assertThat(originalPlan.getExtension().getFirst())
+                .usingRecursiveComparison()
+                .isEqualTo(generatedPlan.getExtension().getFirst()),
+            () -> assertThat(originalPlan.getStatus())
+                .isEqualTo(generatedPlan.getStatus()),
+            () -> assertThat(originalPlan.getNoteFirstRep().getText())
+                .isEqualTo(generatedPlan.getNoteFirstRep().getText()),
+            () -> assertThat(originalPlan.getMedicationReference().getReference())
+                .isEqualTo(generatedPlan.getMedicationReference().getReference()),
+            () -> assertThat(originalPlan.getMeta())
+                .usingRecursiveComparison()
+                .isEqualTo(generatedPlan.getMeta())
+        );
+    }
+
+    @Test
     public void When_MedicationRequestMapperThrowsException_Expect_MedicationMapperContextToBeReset() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
 
@@ -547,13 +584,25 @@ public class MedicationRequestMapperTest {
     }
 
     private MedicationRequest buildMedicationRequestPlan(Extension extension) {
-        return (MedicationRequest) new MedicationRequest()
-            .setIntent(MedicationRequestIntent.PLAN)
-            .addIdentifier(
-                new Identifier().setValue(INITIAL_PLAN_ID)
-            )
-            .setExtension(List.of(extension))
-            .setId(INITIAL_PLAN_ID);
+        var plan = new MedicationRequest();
+        plan.addIdentifier(new Identifier().setValue(INITIAL_PLAN_ID));
+        plan.setIntent(MedicationRequestIntent.PLAN);
+        plan.addDosageInstruction(new Dosage().setText("TEST_DOSAGE"));
+        plan.setDispenseRequest(
+            (MedicationRequestDispenseRequestComponent)
+                new MedicationRequestDispenseRequestComponent().setId("TEST_DISPENSE_REQUEST_ID")
+        );
+        plan.addExtension(new Extension("TEST_EXTENSION", new StringType("TEST_VALUE")));
+        plan.setStatus(MedicationRequest.MedicationRequestStatus.COMPLETED);
+        plan.addNote(new Annotation(new StringType("TEST_NOTE_TEXT")));
+        plan.setPriorPrescription(new Reference().setDisplay("TEST_PRIOR_PRESCRIPTION_DISPLAY"));
+        plan.setMedication(new Reference("MedicationRequest/00000000-0000-4000-0000-200000000000"));
+        plan.setMeta(new Meta().addSecurity("TEST_SYSTEM", "TEST_CODE", "TEST_DISPLAY"));
+
+        plan.setExtension(List.of(extension));
+        plan.setId(INITIAL_PLAN_ID);
+
+        return plan;
     }
 
     private static @NotNull MedicationRequest getMedicationRequestById(
