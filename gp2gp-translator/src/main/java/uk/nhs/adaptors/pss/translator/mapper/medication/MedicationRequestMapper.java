@@ -49,7 +49,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
     private MedicationStatementMapper medicationStatementMapper;
     private MedicationMapperContext medicationMapperContext;
-    private IdGeneratorService idGeneratorService;
+    private final IdGeneratorService idGeneratorService;
 
     private static final String PPRF = "PPRF";
     private static final String PRF = "PRF";
@@ -70,42 +70,54 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
                         ehrExtract, composition, medicationStatement, patient, encounters, practiseCode)))
                 .collect(Collectors.toCollection(ArrayList::new));
 
-            var acutePlans = getAcutePlans(resources);
-            var ordersGroupedByAcutePlan = getOrdersGroupedByReferencedAcutePlan(resources, acutePlans);
-
-            ordersGroupedByAcutePlan
-                .forEach((plan, orders) -> {
-                    if (orders.size() > 1) {
-                        sortOrdersByValidityPeriodStart(orders);
-
-                        // the index starts at one as the earliest order remains referenced to the original plan
-                        for (var index = 1; index < orders.size(); index++) {
-                            var duplicatedPlan = plan.copy();
-
-                            // we need to update the id and identifier to the generated id;
-                            var duplicatedPlanId = idGeneratorService.generateUuid();
-                            duplicatedPlan.setId(duplicatedPlanId);
-                            duplicatedPlan.getIdentifierFirstRep().setValue(duplicatedPlanId);
-
-                            // we need to update the basedOn of the order to match the generated plan
-                            var basedOn = orders.get(index).getBasedOn();
-                            updateBasedOnReferenceToReferenceDuplicatedPlan(basedOn, duplicatedPlanId);
-
-                            // we need to set the prior medication ref to either the initial plan (when index == 1)
-                            // or to id of the previously generated plan (that is the plan referenced index -1)
-                            var previousOrderBasedOn = orders.get(index - 1).getBasedOn();
-                            var previousBasedOnReference = getMedicationRequestBasedOnReference(previousOrderBasedOn);
-                            previousBasedOnReference.ifPresent(duplicatedPlan::setPriorPrescription);
-
-                            resources.add(duplicatedPlan);
-                        }
-                    }
-                });
+            generateResourcesForMultipleOrdersLinkedToASingleAcutePlan(resources);
 
             return resources;
         } finally {
             medicationMapperContext.reset();
         }
+    }
+
+    private void generateResourcesForMultipleOrdersLinkedToASingleAcutePlan(ArrayList<DomainResource> resources) {
+        var acutePlans = getAcutePlans(resources);
+        var ordersGroupedByAcutePlan = getOrdersGroupedByReferencedAcutePlan(resources, acutePlans);
+
+        ordersGroupedByAcutePlan
+            .forEach((plan, orders) -> {
+                if (orders.size() > 1) {
+                    sortOrdersByValidityPeriodStart(orders);
+
+                    // the index starts at one as the earliest order remains referenced to the original plan
+                    for (var index = 1; index < orders.size(); index++) {
+                        var duplicatedPlan = duplicateOrderBasedOnSharedAcutePlan(plan, orders, index);
+                        resources.add(duplicatedPlan);
+                    }
+                }
+            });
+    }
+
+    private @NotNull MedicationRequest duplicateOrderBasedOnSharedAcutePlan(
+        MedicationRequest plan,
+        List<MedicationRequest> orders,
+        int index
+    ) {
+        var duplicatedPlan = plan.copy();
+
+        // we need to update the id and identifier to the generated id;
+        var duplicatedPlanId = idGeneratorService.generateUuid();
+        duplicatedPlan.setId(duplicatedPlanId);
+        duplicatedPlan.getIdentifierFirstRep().setValue(duplicatedPlanId);
+
+        // we need to update the basedOn of the order to match the generated plan
+        var basedOn = orders.get(index).getBasedOn();
+        updateBasedOnReferenceToReferenceDuplicatedPlan(basedOn, duplicatedPlanId);
+
+        // we need to set the prior medication ref to either the initial plan (when index == 1)
+        // or to id of the previously generated plan (that is the plan referenced index -1)
+        var previousOrderBasedOn = orders.get(index - 1).getBasedOn();
+        var previousBasedOnReference = getMedicationRequestBasedOnReference(previousOrderBasedOn);
+        previousBasedOnReference.ifPresent(duplicatedPlan::setPriorPrescription);
+        return duplicatedPlan;
     }
 
     private static void updateBasedOnReferenceToReferenceDuplicatedPlan(List<Reference> basedOn, String duplicatedPlanId) {
