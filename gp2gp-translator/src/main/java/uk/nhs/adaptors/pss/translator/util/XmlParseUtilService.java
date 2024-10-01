@@ -168,11 +168,11 @@ public class XmlParseUtilService {
                 .getAny()
                 .getFirst();
 
-        return getFromPractiseValue(gp2gpElement);
+        return getFromPracticeValue(gp2gpElement);
     }
 
 
-    public static String getFromPractiseValue(Element gp2gpElement) {
+    public static String getFromPracticeValue(Element gp2gpElement) {
         for (int i = 0; i < gp2gpElement.getChildNodes().getLength(); i++) {
             Node currNode = gp2gpElement.getChildNodes().item(i);
             if (currNode.getLocalName().equals("From")) {

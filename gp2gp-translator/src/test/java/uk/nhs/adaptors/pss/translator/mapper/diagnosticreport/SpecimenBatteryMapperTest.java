@@ -446,7 +446,7 @@ public class SpecimenBatteryMapperTest {
             .diagnosticReport(getDiagnosticReport(ehrExtract))
             .patient((Patient) new Patient().setId("TEST_PATIENT_ID"))
             .encounters(List.of((Encounter) new Encounter().setId("ENCOUNTER_ID")))
-            .practiseCode("TEST_PRACTISE_CODE")
+            .practiceCode("TEST_PRACTISE_CODE")
             .observations(observations)
             .observationComments(observationComments)
             .build();

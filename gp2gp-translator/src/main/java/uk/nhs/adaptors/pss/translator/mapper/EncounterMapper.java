@@ -85,7 +85,7 @@ public class EncounterMapper {
     public Map<String, List<? extends DomainResource>> mapEncounters(
             RCMRMT030101UKEhrExtract ehrExtract,
             Patient patient,
-            String practiseCode,
+            String practiceCode,
             List<Location> entryLocations
     ) {
         List<Encounter> encounters = new ArrayList<>();
@@ -98,7 +98,7 @@ public class EncounterMapper {
         List<RCMRMT030101UKEhrComposition> ehrCompositionList = getEncounterEhrCompositions(ehrExtract);
 
         ehrCompositionList.forEach(ehrComposition -> {
-            var encounter = mapToEncounter(ehrComposition, patient, practiseCode, entryLocations);
+            var encounter = mapToEncounter(ehrComposition, patient, practiceCode, entryLocations);
             var consultation = consultationListMapper.mapToConsultation(ehrComposition, encounter);
 
             var topicCompoundStatementList = getTopicCompoundStatements(ehrComposition);
@@ -284,7 +284,7 @@ public class EncounterMapper {
     private Encounter mapToEncounter(
         RCMRMT030101UKEhrComposition ehrComposition,
         Patient patient,
-        String practiseCode,
+        String practiceCode,
         List<Location> entryLocations) {
 
         var id = ehrComposition.getId().getRoot();
@@ -294,14 +294,14 @@ public class EncounterMapper {
             ehrComposition.getConfidentialityCode()
         );
 
-        var encounter = initializeEncounter(ehrComposition, patient, practiseCode, id, meta);
+        var encounter = initializeEncounter(ehrComposition, patient, practiceCode, id, meta);
         setEncounterLocation(encounter, ehrComposition, entryLocations);
 
         return encounter;
     }
 
     private Encounter initializeEncounter(RCMRMT030101UKEhrComposition ehrComposition, Patient patient,
-                                                   String practiseCode, String id, Meta meta) {
+                                                   String practiceCode, String id, Meta meta) {
         var encounter = new Encounter();
         encounter
             .setParticipant(getParticipants(ehrComposition.getAuthor(), ehrComposition.getParticipant2()))
@@ -309,7 +309,7 @@ public class EncounterMapper {
             .setSubject(new Reference(patient))
             .setType(getType(ehrComposition.getCode()))
             .setPeriod(getPeriod(ehrComposition))
-            .addIdentifier(buildIdentifier(id, practiseCode))
+            .addIdentifier(buildIdentifier(id, practiceCode))
             .setMeta(meta)
             .setId(id);
         return encounter;

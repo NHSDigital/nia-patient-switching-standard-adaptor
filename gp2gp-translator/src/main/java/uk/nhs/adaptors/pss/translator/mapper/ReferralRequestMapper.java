@@ -63,14 +63,14 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
     public List<ReferralRequest> mapResources(RCMRMT030101UKEhrExtract ehrExtract,
                                               Patient patient,
                                               List<Encounter> encounters,
-                                              String practiseCode) {
+                                              String practiceCode) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllRequestStatements(component)
                 .filter(Objects::nonNull)
                 .filter(this::isNotSelfReferral)
                 .map(requestStatement
-                         -> mapToReferralRequest(ehrExtract, composition, requestStatement, patient, encounters, practiseCode)))
+                         -> mapToReferralRequest(ehrExtract, composition, requestStatement, patient, encounters, practiceCode)))
             .toList();
     }
 
@@ -79,9 +79,9 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                                                 RCMRMT030101UKRequestStatement requestStatement,
                                                 Patient patient,
                                                 List<Encounter> encounters,
-                                                String practiseCode) {
+                                                String practiceCode) {
 
-        var referralRequest = initializeReferralRequest(ehrComposition, requestStatement, patient, practiseCode);
+        var referralRequest = initializeReferralRequest(ehrComposition, requestStatement, patient, practiceCode);
 
         setReferralRequestContext(referralRequest, ehrComposition, encounters);
         setReferralRequestRecipient(ehrExtract, requestStatement, referralRequest);
