@@ -487,9 +487,9 @@ public class MedicationRequestMapperTest {
 
         assertAll(
             () -> assertThat(originalPlan.getDosageInstructionFirstRep().getText())
-                .isEqualTo("TEST_DOSAGE"),
+                .isEqualTo(generatedPlan.getDosageInstructionFirstRep().getText()),
             () -> assertThat(originalPlan.getDispenseRequest().getId())
-                .isEqualTo("TEST_DISPENSE_REQUEST_ID"),
+                .isEqualTo(generatedPlan.getDispenseRequest().getId()),
             () -> assertThat(originalPlan.getExtension().getFirst())
                 .usingRecursiveComparison()
                 .isEqualTo(generatedPlan.getExtension().getFirst()),
