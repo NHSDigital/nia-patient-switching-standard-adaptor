@@ -75,7 +75,7 @@ public class SpecimenBatteryMapper {
         final String id = batteryParameters.getBatteryCompoundStatement().getId().getFirst().getRoot();
         observation.setId(id);
         observation.setMeta(generateMeta(META_PROFILE_URL_SUFFIX));
-        observation.addIdentifier(buildIdentifier(id, batteryParameters.getPractiseCode()));
+        observation.addIdentifier(buildIdentifier(id, batteryParameters.getPracticeCode()));
         observation.setSubject(new Reference(batteryParameters.getPatient()));
         observation.setSpecimen(createSpecimenReference(batteryParameters.getSpecimenCompoundStatement()));
         observation.setStatus(Observation.ObservationStatus.FINAL);
@@ -293,6 +293,6 @@ public class SpecimenBatteryMapper {
         private List<Encounter> encounters;
         private List<Observation> observations;
         private List<Observation> observationComments;
-        private String practiseCode;
+        private String practiceCode;
     }
 }

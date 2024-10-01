@@ -56,13 +56,13 @@ public class ImmunizationMapper extends AbstractMapper<Immunization> {
     private final ConfidentialityService confidentialityService;
 
     public List<Immunization> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patientResource,
-                                           List<Encounter> encounterList, String practiseCode) {
+                                           List<Encounter> encounterList, String practiceCode) {
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllObservationStatements(component)
                 .filter(Objects::nonNull)
                 .filter(this::isImmunization)
                 .map(observationStatement ->
-                    mapImmunization(composition, observationStatement, patientResource, encounterList, practiseCode)))
+                    mapImmunization(composition, observationStatement, patientResource, encounterList, practiceCode)))
             .toList();
     }
 

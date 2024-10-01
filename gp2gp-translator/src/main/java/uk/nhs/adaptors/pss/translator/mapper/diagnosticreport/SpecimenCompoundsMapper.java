@@ -62,7 +62,7 @@ public class SpecimenCompoundsMapper {
         List<DiagnosticReport> diagnosticReports,
         Patient patient,
         List<Encounter> encounters,
-        String practiseCode) {
+        String practiceCode) {
 
         final List<Observation> batteryObservations = new ArrayList<>();
 
@@ -112,7 +112,7 @@ public class SpecimenCompoundsMapper {
                             .encounters(encounters)
                             .observations(observations)
                             .observationComments(observationComments)
-                            .practiseCode(practiseCode)
+                            .practiceCode(practiceCode)
                             .build();
 
                         batteryObservations.add(batteryMapper.mapBatteryObservation(batteryParameters));

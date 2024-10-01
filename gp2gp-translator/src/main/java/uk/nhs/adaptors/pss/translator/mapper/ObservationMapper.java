@@ -72,7 +72,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private final ConfidentialityService confidentialityService;
 
     public List<Observation> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-                                          String practiseCode) {
+                                          String practiceCode) {
 
         List<Observation> selfReferralObservations =
                 mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
@@ -81,7 +81,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                         .filter(this::isSelfReferral)
                         .map(observationStatement
                                 -> mapObservationFromRequestStatement(composition, observationStatement,
-                                                                      patient, encounters, practiseCode)))
+                                                                      patient, encounters, practiceCode)))
                 .toList();
 
         List<Observation> observations =
@@ -90,7 +90,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                 .filter(Objects::nonNull)
                 .filter(this::isNotImmunization)
                 .map(observationStatement
-                    -> mapObservation(composition, observationStatement, patient, encounters, practiseCode)))
+                    -> mapObservation(composition, observationStatement, patient, encounters, practiceCode)))
             .toList();
 
         return Stream.concat(selfReferralObservations.stream(), observations.stream()).collect(Collectors.toList());
@@ -100,7 +100,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
                                        RCMRMT030101UKObservationStatement observationStatement,
                                        Patient patient,
                                        List<Encounter> encounters,
-                                       String practiseCode) {
+                                       String practiceCode) {
 
         var compoundStatement = ehrComposition
             .getComponent()
@@ -116,7 +116,7 @@ public class ObservationMapper extends AbstractMapper<Observation> {
             observationStatement.getConfidentialityCode(),
             compoundStatement.getConfidentialityCode());
 
-        var observation = buildBaseObservation(ehrComposition, observationStatement, patient, practiseCode, id, meta);
+        var observation = buildBaseObservation(ehrComposition, observationStatement, patient, practiceCode, id, meta);
 
         addContextToObservation(observation, encounters, ehrComposition);
         addValue(observation, getValueQuantity(observationStatement.getValue(), observationStatement.getUncertaintyCode()),
@@ -130,12 +130,12 @@ public class ObservationMapper extends AbstractMapper<Observation> {
     private @NotNull Observation buildBaseObservation(RCMRMT030101UKEhrComposition ehrComposition,
                                                 RCMRMT030101UKObservationStatement observationStatement,
                                                 Patient patient,
-                                                String practiseCode,
+                                                String practiceCode,
                                                 String id,
                                                 Meta meta) {
         var observation = new Observation()
             .setStatus(FINAL)
-            .addIdentifier(buildIdentifier(id, practiseCode))
+            .addIdentifier(buildIdentifier(id, practiceCode))
             .setCode(getCode(observationStatement.getCode()))
             .setIssuedElement(getIssued(ehrComposition))
             .addPerformer(getParticipantReference(observationStatement.getParticipant(), ehrComposition))
@@ -162,9 +162,9 @@ public class ObservationMapper extends AbstractMapper<Observation> {
 
     private Observation mapObservationFromRequestStatement(RCMRMT030101UKEhrComposition ehrComposition,
                                                            RCMRMT030101UKRequestStatement requestStatement, Patient patient,
-                                                           List<Encounter> encounters, String practiseCode) {
+                                                           List<Encounter> encounters, String practiceCode) {
 
-        var observation = initializeObservation(ehrComposition, requestStatement, patient, practiseCode);
+        var observation = initializeObservation(ehrComposition, requestStatement, patient, practiceCode);
 
         addContextToObservation(observation, encounters, ehrComposition);
         addEffective(observation, getEffective(requestStatement.getEffectiveTime(), requestStatement.getAvailabilityTime()));

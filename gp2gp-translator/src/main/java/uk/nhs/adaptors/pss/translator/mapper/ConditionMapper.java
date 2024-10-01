@@ -91,7 +91,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
     private final ConfidentialityService confidentialityService;
 
     public List<Condition> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
-                                        String practiseCode) {
+                                        String practiceCode) {
 
         return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
                 extractAllLinkSets(component)
@@ -101,7 +101,7 @@ public class ConditionMapper extends AbstractMapper<Condition> {
                         encounters,
                         composition,
                         linkSet,
-                        practiseCode
+                        practiceCode
                     )))
             .toList();
     }

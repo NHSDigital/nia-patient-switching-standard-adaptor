@@ -260,7 +260,7 @@ public class DocumentReferenceMapper extends AbstractMapper<DocumentReference> {
 
     // stubbed method for abstract class
     public List<DocumentReference> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient,
-        List<Encounter> encounterList, String practiseCode) {
+        List<Encounter> encounterList, String practiceCode) {
         return List.of();
     }
 }
