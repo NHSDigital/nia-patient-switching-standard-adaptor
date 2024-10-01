@@ -117,10 +117,13 @@ public class SpecimenBatteryMapperTest {
         final var ehrExtract = unmarshallEhrExtractFromEhrCompositionXml(ehrCompositionXml);
         final var batteryCompoundStatements = getBatteryCompoundStatements(ehrExtract);
 
-        assertThat(batteryCompoundStatements).map(r -> r.getId().getFirst().getRoot())
-                    .isEqualTo(List.of("SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1",
-                                       "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_2",
-                                       "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_3"));
+        assertThat(batteryCompoundStatements)
+            .extracting(batteryCompoundStatement -> batteryCompoundStatement.getId().getFirst().getRoot())
+            .containsExactly(
+                "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_1",
+                "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_2",
+                "SPECIMEN_CHILD_BATTERY_COMPOUND_STATEMENT_ID_3"
+            );
     }
 
     @Test void When_MappingObservationWithAvailabilityTimeInBatteryCompoundStatement_Expect_IssuedUsesThisValue() {
