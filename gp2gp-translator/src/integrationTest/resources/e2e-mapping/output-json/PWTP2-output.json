@@ -6581,7 +6581,7 @@
         "value": "AF48B343-AC42-4B3B-B674-761698C9F06E"
       } ],
       "basedOn": [ {
-        "reference": "MedicationRequest/5C1AC485-77A3-4109-AB43-5D2E59EA10C9"
+        "reference": "MedicationRequest/00000000-0000-0000-0000-000000000019"
       } ],
       "status": "completed",
       "intent": "order",
@@ -6611,6 +6611,60 @@
           "value": 1.0,
           "unit": "device"
         }
+      }
+    }
+  }, {
+    "resource": {
+      "resourceType": "MedicationRequest",
+      "id": "00000000-0000-0000-0000-000000000019",
+      "meta": {
+        "profile": [ "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-MedicationRequest-1" ]
+      },
+      "extension": [ {
+        "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1",
+        "valueCodeableConcept": {
+          "coding": [ {
+            "system": "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1",
+            "code": "acute",
+            "display": "Acute"
+          } ]
+        }
+      } ],
+      "identifier": [ {
+        "system": "https://PSSAdaptor/B83002",
+        "value": "00000000-0000-0000-0000-000000000019"
+      } ],
+      "status": "completed",
+      "intent": "plan",
+      "medicationReference": {
+        "reference": "Medication/00000000-0000-0000-0000-000000000013"
+      },
+      "subject": {
+        "reference": "Patient/00000000-0000-0000-0000-000000000010"
+      },
+      "authoredOn": "2010-01-13",
+      "requester": {
+        "agent": {
+          "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+        }
+      },
+      "recorder": {
+        "reference": "Practitioner/1E473786-E7FA-785E-C911-A8D38FB56F20"
+      },
+      "dosageInstruction": [ {
+        "text": "n/a"
+      } ],
+      "dispenseRequest": {
+        "validityPeriod": {
+          "start": "2010-01-13"
+        },
+        "quantity": {
+          "value": 1.0,
+          "unit": "device"
+        }
+      },
+      "priorPrescription": {
+        "reference": "MedicationRequest/5C1AC485-77A3-4109-AB43-5D2E59EA10C9"
       }
     }
   }, {
