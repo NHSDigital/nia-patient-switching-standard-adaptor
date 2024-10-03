@@ -60,10 +60,10 @@ import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 @ExtendWith(MockitoExtension.class)
 public class MedicationRequestMapperTest {
 
-    private static final String INITIAL_PLAN_ID = "000EEA41-289B-4B1C-A5AB-421A666A0D2C";
-    private static final String GENERATED_PLAN_ID = "00000000-0000-4000-0000-000000000001";
-    private static final String EARLIEST_ORDER_ID = "00000000-0000-4000-0000-100000000001";
-    private static final String LATEST_ORDER_ID = "00000000-0000-4000-0000-100000000002";
+    public static final String INITIAL_PLAN_ID = "000EEA41-289B-4B1C-A5AB-421A666A0D2C";
+    public static final String GENERATED_PLAN_ID = "00000000-0000-4000-0000-000000000001";
+    public static final String EARLIEST_ORDER_ID = "00000000-0000-4000-0000-100000000001";
+    public static final String LATEST_ORDER_ID = "00000000-0000-4000-0000-100000000002";
     private static final String INITIAL_MEDICATION_STATEMENT_ID = INITIAL_PLAN_ID + "-MS";
     private static final String GENERATED_MEDICATION_STATEMENT_ID = GENERATED_PLAN_ID + "-MS";
 
@@ -840,8 +840,8 @@ public class MedicationRequestMapperTest {
                 any(RCMRMT030101UKPrescribe.class),
                 any(String.class)
             )
-        ).thenReturn(
-            buildMedicationRequestOrder(LATEST_ORDER_ID, "20240102"),
+        ).thenReturn(buildMedicationRequestOrder(
+            LATEST_ORDER_ID, "20240102"),
             buildMedicationRequestOrder(EARLIEST_ORDER_ID, "20240101")
         );
 
