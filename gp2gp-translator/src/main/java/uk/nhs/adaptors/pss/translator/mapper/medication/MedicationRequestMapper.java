@@ -113,21 +113,15 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         int index
     ) {
         var duplicatedPlan = plan.copy();
-
-        // we need to update the id and identifier to the generated id;
         var duplicatedPlanId = idGeneratorService.generateUuid();
         duplicatedPlan.setId(duplicatedPlanId);
         duplicatedPlan.getIdentifierFirstRep().setValue(duplicatedPlanId);
-
-        // we need to update the basedOn of the order to match the generated plan
         var basedOn = orders.get(index).getBasedOn();
         updateBasedOnReferenceToReferenceDuplicatedPlan(basedOn, duplicatedPlanId);
-
-        // we need to set the prior medication ref to either the initial plan (when index == 1)
-        // or to id of the previously generated plan (that is the plan referenced index -1)
         var previousOrderBasedOn = orders.get(index - 1).getBasedOn();
         var previousBasedOnReference = getMedicationRequestBasedOnReference(previousOrderBasedOn);
         previousBasedOnReference.ifPresent(duplicatedPlan::setPriorPrescription);
+
         return duplicatedPlan;
     }
 
@@ -149,42 +143,35 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         MedicationRequest originalPlan,
         MedicationRequest duplicatedPlan
     ) {
-
-        var originalMedicationStatement = medicationStatements
-            .stream()
-            .filter(medicationStatement -> medicationStatement.getId().equals(originalPlan.getId() + "-MS"))
-            .findFirst()
-            .orElseThrow(() ->
-                // there should always be a medication statement associated with an order, but we have to handle
-                // the possibility it is not found.
-                new IllegalStateException(
-                    "MedicationStatement referenced from MedicationRequest[Order] (%s) is not found."
-                        .formatted(order.getId())
-                )
-            );
+        var originalMedicationStatement = getMedicationStatementByPlanId(medicationStatements, originalPlan.getId());
 
         var duplicatedMedicationStatement = originalMedicationStatement.copy();
 
-        // we need to update the id and identifier to the generated id;
         duplicatedMedicationStatement.setId(duplicatedPlan.getId() + "-MS");
         duplicatedMedicationStatement.getIdentifierFirstRep().setValue(duplicatedPlan.getId() + "-MS");
-
-        // we need to update the basedOn of the order to match the generated plan
+        duplicatedMedicationStatement.setEffective(order.getDispenseRequest().getValidityPeriod());
+        duplicatedMedicationStatement
+            .getExtensionByUrl(MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL)
+            .setValue(order.getDispenseRequest().getValidityPeriod().getStartElement());
         updateBasedOnReferenceToReferenceDuplicatedPlan(
             duplicatedMedicationStatement.getBasedOn(),
             duplicatedPlan.getId()
         );
 
-        // we need to update the effective period to match that of dispenseRequest validityPeriod from the order.
-        duplicatedMedicationStatement.setEffective(order.getDispenseRequest().getValidityPeriod());
-
-        // finally, we need to update the LastIssueDateExtension to match the dispenseRequest validity period start from
-        // the order.
-        duplicatedMedicationStatement
-            .getExtensionByUrl(MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL)
-            .setValue(order.getDispenseRequest().getValidityPeriod().getStartElement());
-
         return duplicatedMedicationStatement;
+    }
+
+    private static MedicationStatement getMedicationStatementByPlanId(
+        List<MedicationStatement> medicationStatements,
+        String originalPlanId
+    ) {
+        // There will always be a medication statement related to a plan
+        //noinspection OptionalGetWithoutIsPresent
+        return medicationStatements
+            .stream()
+            .filter(medicationStatement -> medicationStatement.getId().equals(originalPlanId + "-MS"))
+            .findFirst()
+            .get();
     }
 
     private static @NotNull Optional<Reference> getMedicationRequestBasedOnReference(List<Reference> basedOn) {
