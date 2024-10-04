@@ -58,6 +58,9 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         = "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-PrescriptionType-1";
     private static final String PRESCRIPTION_TYPE_CODING_SYSTEM
         = "https://fhir.nhs.uk/STU3/CodeSystem/CareConnect-PrescriptionType-1";
+    private static final String MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL =
+        "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1";
+
 
 
     public List<DomainResource> mapResources(RCMRMT030101UKEhrExtract ehrExtract, Patient patient, List<Encounter> encounters,
@@ -80,6 +83,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
     private void generateResourcesForMultipleOrdersLinkedToASingleAcutePlan(ArrayList<DomainResource> resources) {
         var acutePlans = getAcutePlans(resources);
+        var medicationStatements = getMedicationStatements(resources);
         var ordersGroupedByAcutePlan = getOrdersGroupedByReferencedAcutePlan(resources, acutePlans);
 
         ordersGroupedByAcutePlan
@@ -90,7 +94,14 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
                     // the index starts at one as the earliest order remains referenced to the original plan
                     for (var index = 1; index < orders.size(); index++) {
                         var duplicatedPlan = duplicateOrderBasedOnSharedAcutePlan(plan, orders, index);
+                        var duplicatedMedicationStatement = duplicateMedicationStatementForOrderBasedOnSharedAcutePlan(
+                                medicationStatements,
+                                orders.get(index),
+                                plan,
+                                duplicatedPlan
+                            );
                         resources.add(duplicatedPlan);
+                        resources.add(duplicatedMedicationStatement);
                     }
                 }
             });
@@ -102,21 +113,15 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         int index
     ) {
         var duplicatedPlan = plan.copy();
-
-        // we need to update the id and identifier to the generated id;
         var duplicatedPlanId = idGeneratorService.generateUuid();
         duplicatedPlan.setId(duplicatedPlanId);
         duplicatedPlan.getIdentifierFirstRep().setValue(duplicatedPlanId);
-
-        // we need to update the basedOn of the order to match the generated plan
         var basedOn = orders.get(index).getBasedOn();
         updateBasedOnReferenceToReferenceDuplicatedPlan(basedOn, duplicatedPlanId);
-
-        // we need to set the prior medication ref to either the initial plan (when index == 1)
-        // or to id of the previously generated plan (that is the plan referenced index -1)
         var previousOrderBasedOn = orders.get(index - 1).getBasedOn();
         var previousBasedOnReference = getMedicationRequestBasedOnReference(previousOrderBasedOn);
         previousBasedOnReference.ifPresent(duplicatedPlan::setPriorPrescription);
+
         return duplicatedPlan;
     }
 
@@ -130,6 +135,43 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
                 )
             );
         }
+    }
+
+    private @NotNull MedicationStatement duplicateMedicationStatementForOrderBasedOnSharedAcutePlan(
+        List<MedicationStatement> medicationStatements,
+        MedicationRequest order,
+        MedicationRequest originalPlan,
+        MedicationRequest duplicatedPlan
+    ) {
+        var originalMedicationStatement = getMedicationStatementByPlanId(medicationStatements, originalPlan.getId());
+
+        var duplicatedMedicationStatement = originalMedicationStatement.copy();
+
+        duplicatedMedicationStatement.setId(duplicatedPlan.getId() + "-MS");
+        duplicatedMedicationStatement.getIdentifierFirstRep().setValue(duplicatedPlan.getId() + "-MS");
+        duplicatedMedicationStatement.setEffective(order.getDispenseRequest().getValidityPeriod());
+        duplicatedMedicationStatement
+            .getExtensionByUrl(MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL)
+            .setValue(order.getDispenseRequest().getValidityPeriod().getStartElement());
+        updateBasedOnReferenceToReferenceDuplicatedPlan(
+            duplicatedMedicationStatement.getBasedOn(),
+            duplicatedPlan.getId()
+        );
+
+        return duplicatedMedicationStatement;
+    }
+
+    private static MedicationStatement getMedicationStatementByPlanId(
+        List<MedicationStatement> medicationStatements,
+        String originalPlanId
+    ) {
+        // There will always be a medication statement related to a plan
+        //noinspection OptionalGetWithoutIsPresent
+        return medicationStatements
+            .stream()
+            .filter(medicationStatement -> medicationStatement.getId().equals(originalPlanId + "-MS"))
+            .findFirst()
+            .get();
     }
 
     private static @NotNull Optional<Reference> getMedicationRequestBasedOnReference(List<Reference> basedOn) {
@@ -154,6 +196,13 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .filter(MedicationRequest.class::isInstance)
             .map(MedicationRequest.class::cast)
             .filter(this::isAcutePlan)
+            .toList();
+    }
+
+    private List<MedicationStatement> getMedicationStatements(List<DomainResource> resources) {
+        return resources.stream()
+            .filter(MedicationStatement.class::isInstance)
+            .map(MedicationStatement.class::cast)
             .toList();
     }
 

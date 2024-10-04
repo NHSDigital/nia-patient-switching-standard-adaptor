@@ -12,6 +12,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fixed a bug when mapping `MedicationRequest` where multiple `MedicationRequest [Order]` are based on the same acute
 `MedicationRequest [Plan]`. Now the `Order` with the earliest `DispenseRequest` validity period start date will remain
 referencing the original `Plan` whilst later `Orders` will instead reference a generated `Plan` instead.
+-Fixed a bug when mapping `MedicationRequest` where multiple `MedicationRequest [Order]` are based on the same acute
+`MedicationRequest [Plan]`. Now the `Order` with the earliest `DispenseRequest` validity period start date will remain
+ referencing the original `MedicationStatement` whilst later `Orders` will instead reference a generated `MedicationRequest` instead.
 
 ## [3.0.3] - 2024-08-23
 
