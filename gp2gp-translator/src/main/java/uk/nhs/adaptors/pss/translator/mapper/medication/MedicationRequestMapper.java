@@ -157,9 +157,9 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .orElseThrow(() ->
                 // there should always be a medication statement associated with an order, but we have to handle
                 // the possibility it is not found.
-                new IllegalStateException("""
-                    MedicationStatement referenced from MedicationRequest[Order] (%s) is missing when mapping Acute
-                    Prescriptions""".formatted(order.getId())
+                new IllegalStateException(
+                    "MedicationStatement referenced from MedicationRequest[Order] (%s) is not found."
+                        .formatted(order.getId())
                 )
             );
 
