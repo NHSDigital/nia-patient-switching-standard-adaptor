@@ -96,10 +96,6 @@ public class MedicationRequestMapperTest {
             )
         )
     );
-    private static final Extension MEDICATION_STATEMENT_LAST_ISSUE_DATE_EXTENSION = new Extension(
-        "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1",
-        DateFormatUtil.parseToDateTimeType("20240726")
-    );
     private static final Reference REFERENCE_TO_PLAN = new Reference(
         new IdType(
             ResourceType.MedicationRequest.name(),
@@ -792,7 +788,10 @@ public class MedicationRequestMapperTest {
             .setEffective(new Period().setStartElement(DateFormatUtil.parseToDateTimeType("20240101")))
             .setStatus(MedicationStatementStatus.COMPLETED)
             .addExtension(new Extension("TEST_EXTENSION", new StringType("TEST_VALUE")))
-            .addExtension(MEDICATION_STATEMENT_LAST_ISSUE_DATE_EXTENSION)
+            .addExtension(new Extension(
+                "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1",
+                DateFormatUtil.parseToDateTimeType("20240726")
+            ))
             .setId(INITIAL_MEDICATION_STATEMENT_ID)
             .setMeta(new Meta().addSecurity("TEST_SYSTEM", "TEST_CODE", "TEST_DISPLAY"));
     }
