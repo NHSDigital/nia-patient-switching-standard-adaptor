@@ -121,6 +121,8 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         var previousOrderBasedOn = orders.get(index - 1).getBasedOn();
         var previousBasedOnReference = getMedicationRequestBasedOnReference(previousOrderBasedOn);
         previousBasedOnReference.ifPresent(duplicatedPlan::setPriorPrescription);
+        var validityPeriod = orders.get(index).getDispenseRequest().getValidityPeriod();
+        duplicatedPlan.getDispenseRequest().setValidityPeriod(validityPeriod);
 
         return duplicatedPlan;
     }

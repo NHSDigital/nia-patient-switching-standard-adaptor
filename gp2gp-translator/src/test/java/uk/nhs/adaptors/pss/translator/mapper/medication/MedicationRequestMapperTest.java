@@ -479,6 +479,29 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
+    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_GeneratedPlanDispenseRequestValidityPeriodIsCopiedFromTheLatestOrder() {
+        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
+        var ehrExtract = unmarshallEhrExtract(
+            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
+        );
+
+        var resources = medicationRequestMapper
+            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
+
+        var latestOrderValidityPeriod = getMedicationRequestById(resources, LATEST_ORDER_ID)
+            .getDispenseRequest()
+            .getValidityPeriod();
+
+        var generatedPlanValidityPeriod = getMedicationRequestById(resources, GENERATED_PLAN_ID)
+            .getDispenseRequest()
+            .getValidityPeriod();
+
+        assertThat(generatedPlanValidityPeriod)
+            .usingRecursiveComparison()
+            .isEqualTo(latestOrderValidityPeriod);
+    }
+
+    @Test
     void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_TheLatestOrderUnchangedPropertiesAreCopiedToGeneratedPlan() {
         setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
         var ehrExtract = unmarshallEhrExtract(
