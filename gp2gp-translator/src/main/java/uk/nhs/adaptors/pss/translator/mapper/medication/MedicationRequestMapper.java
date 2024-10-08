@@ -15,6 +15,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -41,6 +42,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
@@ -124,6 +126,12 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         var validityPeriod = orders.get(index).getDispenseRequest().getValidityPeriod();
         duplicatedPlan.getDispenseRequest().setValidityPeriod(validityPeriod);
 
+        LOGGER.info(
+            "Generated MedicationRequest(Plan) with Id: {} for MedicationRequest(Order) with Id: {}",
+            duplicatedPlan.getId(),
+            orders.get(index).getId()
+        );
+
         return duplicatedPlan;
     }
 
@@ -158,6 +166,12 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         updateBasedOnReferenceToReferenceDuplicatedPlan(
             duplicatedMedicationStatement.getBasedOn(),
             duplicatedPlan.getId()
+        );
+
+        LOGGER.info(
+            "Generated MedicationStatement with Id: {} for MedicationRequest(Order) with Id: {}",
+            duplicatedPlan.getId(),
+            order.getId()
         );
 
         return duplicatedMedicationStatement;
