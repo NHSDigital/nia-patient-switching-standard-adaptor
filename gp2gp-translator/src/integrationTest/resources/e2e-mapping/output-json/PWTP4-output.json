@@ -18394,7 +18394,7 @@
       } ],
       "dispenseRequest": {
         "validityPeriod": {
-          "start": "2010-01-14"
+          "start": "2013-01-03"
         },
         "quantity": {
           "value": 150.0,
@@ -18591,7 +18591,7 @@
       } ],
       "dispenseRequest": {
         "validityPeriod": {
-          "start": "2010-01-18"
+          "start": "2010-05-21"
         },
         "quantity": {
           "value": 56.0,

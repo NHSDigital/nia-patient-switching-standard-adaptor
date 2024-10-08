@@ -6656,7 +6656,7 @@
       } ],
       "dispenseRequest": {
         "validityPeriod": {
-          "start": "2010-01-13"
+          "start": "2010-02-26"
         },
         "quantity": {
           "value": 1.0,
