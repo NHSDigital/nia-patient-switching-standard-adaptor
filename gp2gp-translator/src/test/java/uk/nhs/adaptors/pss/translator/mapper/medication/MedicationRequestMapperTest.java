@@ -25,7 +25,10 @@ import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -179,11 +182,11 @@ public class MedicationRequestMapperTest {
         assertThat(resources).hasSize(EXPECTED_RESOURCES_MAPPED);
 
         var medicationRequest = resources
-                .stream()
-                        .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
-                        .map(MedicationRequest.class::cast)
-                        .findFirst()
-                .get();
+            .stream()
+            .filter(resource -> ResourceType.MedicationRequest.equals(resource.getResourceType()))
+            .map(MedicationRequest.class::cast)
+            .findFirst()
+            .get();
 
         assertThat(medicationRequest.getAuthoredOnElement().getValue()).isEqualTo(expectedAuthoredOn.getValue());
     }
@@ -338,370 +341,6 @@ public class MedicationRequestMapperTest {
     }
 
     @Test
-    void When_MultipleOrdersAreBasedOnOneRepeatPlan_Expect_NoAdditionalPlanCreated() {
-        setupMultipleOrdersToOnePlanStubs(REPEAT_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleNonAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-            );
-
-        var planMedicationRequests = resources.stream()
-            .filter(MedicationRequest.class::isInstance)
-            .map(MedicationRequest.class::cast)
-            .filter(medicationRequest -> MedicationRequestIntent.PLAN.equals(medicationRequest.getIntent()));
-
-        var orderMedicationRequests = resources.stream()
-            .filter(MedicationRequest.class::isInstance)
-            .map(MedicationRequest.class::cast)
-            .filter(medicationRequest -> MedicationRequestIntent.ORDER.equals(medicationRequest.getIntent()))
-            .toList();
-
-        assertAll(
-            () -> assertThat(planMedicationRequests).as("Plans").hasSize(1),
-            () -> assertThat(orderMedicationRequests).as("Orders").hasSize(2)
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_AdditionalPlanCreated() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-        );
-
-        var planMedicationRequests = resources.stream()
-            .filter(MedicationRequest.class::isInstance)
-            .map(MedicationRequest.class::cast)
-            .filter(medicationRequest -> MedicationRequestIntent.PLAN.equals(medicationRequest.getIntent()));
-
-        var orderMedicationRequests = resources.stream()
-            .filter(MedicationRequest.class::isInstance)
-            .map(MedicationRequest.class::cast)
-            .filter(medicationRequest -> MedicationRequestIntent.ORDER.equals(medicationRequest.getIntent()))
-            .toList();
-
-        assertAll(
-            () -> assertThat(planMedicationRequests).as("Plans").hasSize(2),
-            () -> assertThat(orderMedicationRequests).as("Orders").hasSize(2)
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_TheGeneratedPlanHasIdAndIdentityUpdatedToGeneratedId() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-            );
-
-        var generatedPlan = getMedicationRequestById(resources, GENERATED_PLAN_ID);
-
-        assertAll(
-            () -> assertThat(generatedPlan.getId())
-                .isEqualTo(GENERATED_PLAN_ID),
-            () -> assertThat(generatedPlan.getIdentifierFirstRep().getValue())
-                .isEqualTo(GENERATED_PLAN_ID)
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_TheEarliestOrderReferencesTheOriginalPlan() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-            );
-
-        var earliestOrder = getMedicationRequestById(resources, EARLIEST_ORDER_ID);
-
-        assertAll(
-            () -> assertThat(earliestOrder.getBasedOn().getFirst().getReferenceElement().getIdPart())
-                .isEqualTo(INITIAL_PLAN_ID),
-            () -> assertThat(earliestOrder.getBasedOn().getFirst().getReferenceElement().getResourceType())
-                .isEqualTo(ResourceType.MedicationRequest.name())
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_TheLatestOrderReferencesTheGeneratedPlan() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
-
-        var latestOrder = getMedicationRequestById(resources, LATEST_ORDER_ID);
-        var generatedPlan = getMedicationRequestById(resources, GENERATED_PLAN_ID);
-
-        assertAll(
-            () -> assertThat(latestOrder.getBasedOn().getFirst().getReferenceElement().getIdPart())
-                .isEqualTo(generatedPlan.getId()),
-            () -> assertThat(latestOrder.getBasedOn().getFirst().getReferenceElement().getResourceType())
-                .isEqualTo(ResourceType.MedicationRequest.name())
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_TheLatestOrderPriorPrescriptionReferencesTheOriginalPlan() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
-
-        var generatedPlanReferenceElement = getMedicationRequestById(resources, GENERATED_PLAN_ID)
-            .getPriorPrescription()
-            .getReferenceElement();
-
-        assertAll(
-            () -> assertThat(generatedPlanReferenceElement.getResourceType())
-                .isEqualTo(ResourceType.MedicationRequest.name()),
-            () -> assertThat(generatedPlanReferenceElement.getIdPart())
-                .isEqualTo(INITIAL_PLAN_ID)
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_GeneratedPlanDispenseRequestValidityPeriodIsCopiedFromTheLatestOrder() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
-
-        var latestOrderValidityPeriod = getMedicationRequestById(resources, LATEST_ORDER_ID)
-            .getDispenseRequest()
-            .getValidityPeriod();
-
-        var generatedPlanValidityPeriod = getMedicationRequestById(resources, GENERATED_PLAN_ID)
-            .getDispenseRequest()
-            .getValidityPeriod();
-
-        assertThat(generatedPlanValidityPeriod)
-            .usingRecursiveComparison()
-            .isEqualTo(latestOrderValidityPeriod);
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_TheLatestOrderUnchangedPropertiesAreCopiedToGeneratedPlan() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
-
-        var originalPlan = getMedicationRequestById(resources, INITIAL_PLAN_ID);
-        var generatedPlan = getMedicationRequestById(resources, GENERATED_PLAN_ID);
-
-        assertAll(
-            () -> assertThat(originalPlan.getDosageInstructionFirstRep().getText())
-                .isEqualTo(generatedPlan.getDosageInstructionFirstRep().getText()),
-            () -> assertThat(originalPlan.getDispenseRequest().getId())
-                .isEqualTo(generatedPlan.getDispenseRequest().getId()),
-            () -> assertThat(originalPlan.getExtension().getFirst())
-                .usingRecursiveComparison()
-                .isEqualTo(generatedPlan.getExtension().getFirst()),
-            () -> assertThat(originalPlan.getStatus())
-                .isEqualTo(generatedPlan.getStatus()),
-            () -> assertThat(originalPlan.getNoteFirstRep().getText())
-                .isEqualTo(generatedPlan.getNoteFirstRep().getText()),
-            () -> assertThat(originalPlan.getMedicationReference().getReference())
-                .isEqualTo(generatedPlan.getMedicationReference().getReference()),
-            () -> assertThat(originalPlan.getMeta())
-                .usingRecursiveComparison()
-                .isEqualTo(generatedPlan.getMeta())
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneRepeatPlan_Expect_NoAdditionalMedicationStatementCreated() {
-        setupMultipleOrdersToOnePlanStubs(REPEAT_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleNonAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-            );
-
-        var medicationStatements = resources.stream()
-            .filter(MedicationStatement.class::isInstance)
-            .map(MedicationStatement.class::cast);
-
-        var orderMedicationRequests = resources.stream()
-            .filter(MedicationRequest.class::isInstance)
-            .map(MedicationRequest.class::cast)
-            .filter(medicationRequest -> MedicationRequestIntent.ORDER.equals(medicationRequest.getIntent()))
-            .toList();
-
-        assertAll(
-            () -> assertThat(medicationStatements).as("MedicationStatements").hasSize(1),
-            () -> assertThat(orderMedicationRequests).as("Orders").hasSize(2)
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_AdditionalMedicationStatementCreated() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-            );
-
-        var medicationStatements = resources.stream()
-            .filter(MedicationStatement.class::isInstance)
-            .map(MedicationStatement.class::cast);
-
-        var orderMedicationRequests = resources.stream()
-            .filter(MedicationRequest.class::isInstance)
-            .map(MedicationRequest.class::cast)
-            .filter(medicationRequest -> MedicationRequestIntent.ORDER.equals(medicationRequest.getIntent()))
-            .toList();
-
-        assertAll(
-            () -> assertThat(medicationStatements).as("MedicationStatements").hasSize(2),
-            () -> assertThat(orderMedicationRequests).as("Orders").hasSize(2)
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_GeneratedMedicationStatementHasIdAndIdentityUpdatedToGeneratedPlan() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-            );
-
-        var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
-
-        assertAll(
-            () -> assertThat(generatedMedicationStatement.getId())
-                .isEqualTo(GENERATED_PLAN_ID + "-MS"),
-            () -> assertThat(generatedMedicationStatement.getIdentifierFirstRep().getValue())
-                .isEqualTo(GENERATED_PLAN_ID + "-MS")
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_GeneratedMedicationStatementReferencesTheGeneratedPlan() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-            );
-
-        var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
-
-        assertAll(
-            () -> assertThat(generatedMedicationStatement.getBasedOn().getFirst().getReferenceElement().getIdPart())
-                .isEqualTo(GENERATED_PLAN_ID),
-            () -> assertThat(generatedMedicationStatement.getBasedOn().getFirst().getReferenceElement().getResourceType())
-                .isEqualTo(ResourceType.MedicationRequest.name())
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_GeneratedMedicationStatementEffectivePeriodSetToOrderValidityPeriod() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-            );
-
-        var latestOrder = getMedicationRequestById(resources, LATEST_ORDER_ID);
-        var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
-
-        assertAll(
-            () -> assertThat(generatedMedicationStatement.getEffectivePeriod())
-                .usingRecursiveComparison()
-                .isEqualTo(latestOrder.getDispenseRequest().getValidityPeriod())
-        );
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_GeneratedMedicationStatementLastIssueDateExtensionSetToValidityPeriodStart() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-            );
-
-        var latestOrder = getMedicationRequestById(resources, LATEST_ORDER_ID);
-        var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
-
-        assertThat(generatedMedicationStatement.getExtensionByUrl(MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL).getValue())
-            .isEqualTo(latestOrder.getDispenseRequest().getValidityPeriod().getStartElement());
-    }
-
-    @Test
-    void When_MultipleOrdersAreBasedOnOneAcutePlan_Expect_OriginalMedicationStatementUnchangedPropertiesAreCopiedToGeneratedPlan() {
-        setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
-        var ehrExtract = unmarshallEhrExtract(
-            "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
-        );
-
-        var resources = medicationRequestMapper
-            .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
-            );
-
-        var originalMedicationStatement = getMedicationStatementById(resources, INITIAL_MEDICATION_STATEMENT_ID);
-        var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
-
-        assertAll(
-            () -> assertThat(generatedMedicationStatement.getTaken())
-                .isEqualTo(originalMedicationStatement.getTaken()),
-            () -> assertThat(generatedMedicationStatement.getDosage())
-                .usingRecursiveComparison()
-                .isEqualTo(originalMedicationStatement.getDosage()),
-            () -> assertThat(generatedMedicationStatement.getExtension().getFirst())
-                .isEqualTo(generatedMedicationStatement.getExtension().getFirst()),
-            () -> assertThat(generatedMedicationStatement.getMeta())
-                .usingRecursiveComparison()
-                .isEqualTo(originalMedicationStatement.getMeta()),
-            () -> assertThat(generatedMedicationStatement.getMedicationReference().getReferenceElement())
-                .isEqualTo(originalMedicationStatement.getMedicationReference().getReferenceElement()),
-            () -> assertThat(generatedMedicationStatement.getStatus())
-                .isEqualTo(originalMedicationStatement.getStatus())
-        );
-    }
-
-    @Test
     public void When_MedicationRequestMapperThrowsException_Expect_MedicationMapperContextToBeReset() {
         var ehrExtract = unmarshallEhrExtract("ehrExtract1.xml");
 
@@ -729,8 +368,334 @@ public class MedicationRequestMapperTest {
         verify(medicationMapperContext).reset();
     }
 
+    @Nested()
+    @DisplayName("WhenTwoEhrSupplyPrescribeReferenceOneRepeatEhrSupplyAuthorise")
+    class TwoEhrSupplyPrescribeReferenceOneRepeatEhrSupplyAuthorise {
+
+        private static RCMRMT030101UKEhrExtract ehrExtract;
+
+        @BeforeAll
+        static void beforeAll() {
+            ehrExtract = unmarshallEhrExtract(
+                "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleNonAcuteSupplyAuthorise.xml"
+            );
+        }
+
+        @BeforeEach
+        void beforeEach() {
+            setupMultipleOrdersToOnePlanStubs(REPEAT_PRESCRIPTION_EXTENSION);
+        }
+
+        @Test
+        void expectNoAdditionalPlanCreated() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var planMedicationRequests = resources.stream()
+                .filter(MedicationRequest.class::isInstance)
+                .map(MedicationRequest.class::cast)
+                .filter(medicationRequest -> MedicationRequestIntent.PLAN.equals(medicationRequest.getIntent()));
+
+            var orderMedicationRequests = resources.stream()
+                .filter(MedicationRequest.class::isInstance)
+                .map(MedicationRequest.class::cast)
+                .filter(medicationRequest -> MedicationRequestIntent.ORDER.equals(medicationRequest.getIntent()))
+                .toList();
+
+            assertAll(
+                () -> assertThat(planMedicationRequests).as("Plans").hasSize(1),
+                () -> assertThat(orderMedicationRequests).as("Orders").hasSize(2)
+            );
+        }
+
+        @Test
+        void expectNoAdditionalMedicationStatementCreated() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var medicationStatements = resources.stream()
+                .filter(MedicationStatement.class::isInstance)
+                .map(MedicationStatement.class::cast);
+
+            var orderMedicationRequests = resources.stream()
+                .filter(MedicationRequest.class::isInstance)
+                .map(MedicationRequest.class::cast)
+                .filter(medicationRequest -> MedicationRequestIntent.ORDER.equals(medicationRequest.getIntent()))
+                .toList();
+
+            assertAll(
+                () -> assertThat(medicationStatements).as("MedicationStatements").hasSize(1),
+                () -> assertThat(orderMedicationRequests).as("Orders").hasSize(2)
+            );
+        }
+    }
+
+    @Nested()
+    @DisplayName("WhenTwoEhrSupplyPrescribeReferenceOneAcuteEhrSupplyAuthorise")
+    class TwoEhrSupplyPrescribeReferenceOneAcuteEhrSupplyAuthorise {
+
+        private static RCMRMT030101UKEhrExtract ehrExtract;
+
+        @BeforeAll
+        static void beforeAll() {
+            ehrExtract = unmarshallEhrExtract(
+                "ehrExtract_MultipleSupplyPrescribeInFulfilmentOfSingleAcuteSupplyAuthorise.xml"
+            );
+        }
+        @BeforeEach
+        void beforeEach() {
+            setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
+        }
+
+        @Test
+        void expectAdditionalPlanCreated() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var planMedicationRequests = resources.stream()
+                .filter(MedicationRequest.class::isInstance)
+                .map(MedicationRequest.class::cast)
+                .filter(medicationRequest -> MedicationRequestIntent.PLAN.equals(medicationRequest.getIntent()));
+
+            var orderMedicationRequests = resources.stream()
+                .filter(MedicationRequest.class::isInstance)
+                .map(MedicationRequest.class::cast)
+                .filter(medicationRequest -> MedicationRequestIntent.ORDER.equals(medicationRequest.getIntent()))
+                .toList();
+
+            assertAll(
+                () -> assertThat(planMedicationRequests).as("Plans").hasSize(2),
+                () -> assertThat(orderMedicationRequests).as("Orders").hasSize(2)
+            );
+        }
+
+        @Test
+        void expectTheGeneratedPlanHasIdAndIdentityUpdatedToGeneratedId() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var generatedPlan = getMedicationRequestById(resources, GENERATED_PLAN_ID);
+
+            assertAll(
+                () -> assertThat(generatedPlan.getId())
+                    .isEqualTo(GENERATED_PLAN_ID),
+                () -> assertThat(generatedPlan.getIdentifierFirstRep().getValue())
+                    .isEqualTo(GENERATED_PLAN_ID)
+            );
+        }
+
+        @Test
+        void expectTheEarliestOrderBasedOnReferencesTheOriginalPlan() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var earliestOrder = getMedicationRequestById(resources, EARLIEST_ORDER_ID);
+
+            assertAll(
+                () -> assertThat(earliestOrder.getBasedOn().getFirst().getReferenceElement().getIdPart())
+                    .isEqualTo(INITIAL_PLAN_ID),
+                () -> assertThat(earliestOrder.getBasedOn().getFirst().getReferenceElement().getResourceType())
+                    .isEqualTo(ResourceType.MedicationRequest.name())
+            );
+        }
+
+        @Test
+        void expectTheLatestOrderBasedOnReferencesTheGeneratedPlan() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
+
+            var latestOrder = getMedicationRequestById(resources, LATEST_ORDER_ID);
+            var generatedPlan = getMedicationRequestById(resources, GENERATED_PLAN_ID);
+
+            assertAll(
+                () -> assertThat(latestOrder.getBasedOn().getFirst().getReferenceElement().getIdPart())
+                    .isEqualTo(generatedPlan.getId()),
+                () -> assertThat(latestOrder.getBasedOn().getFirst().getReferenceElement().getResourceType())
+                    .isEqualTo(ResourceType.MedicationRequest.name())
+            );
+        }
+
+        @Test
+        void expectTheLatestOrderPriorPrescriptionReferencesTheOriginalPlan() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
+
+            var generatedPlanReferenceElement = getMedicationRequestById(resources, GENERATED_PLAN_ID)
+                .getPriorPrescription()
+                .getReferenceElement();
+
+            assertAll(
+                () -> assertThat(generatedPlanReferenceElement.getResourceType())
+                    .isEqualTo(ResourceType.MedicationRequest.name()),
+                () -> assertThat(generatedPlanReferenceElement.getIdPart())
+                    .isEqualTo(INITIAL_PLAN_ID)
+            );
+        }
+
+        @Test
+        void expectGeneratedPlanDispenseRequestValidityPeriodIsCopiedFromTheLatestOrder() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
+
+            var latestOrderValidityPeriod = getMedicationRequestById(resources, LATEST_ORDER_ID)
+                .getDispenseRequest()
+                .getValidityPeriod();
+
+            var generatedPlanValidityPeriod = getMedicationRequestById(resources, GENERATED_PLAN_ID)
+                .getDispenseRequest()
+                .getValidityPeriod();
+
+            assertThat(generatedPlanValidityPeriod)
+                .usingRecursiveComparison()
+                .isEqualTo(latestOrderValidityPeriod);
+        }
+
+        @Test
+        void expectTheLatestOrderUnchangedPropertiesAreCopiedToGeneratedPlan() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE);
+
+            var originalPlan = getMedicationRequestById(resources, INITIAL_PLAN_ID);
+            var generatedPlan = getMedicationRequestById(resources, GENERATED_PLAN_ID);
+
+            assertAll(
+                () -> assertThat(originalPlan.getDosageInstructionFirstRep().getText())
+                    .isEqualTo(generatedPlan.getDosageInstructionFirstRep().getText()),
+                () -> assertThat(originalPlan.getDispenseRequest().getId())
+                    .isEqualTo(generatedPlan.getDispenseRequest().getId()),
+                () -> assertThat(originalPlan.getExtension().getFirst())
+                    .usingRecursiveComparison()
+                    .isEqualTo(generatedPlan.getExtension().getFirst()),
+                () -> assertThat(originalPlan.getStatus())
+                    .isEqualTo(generatedPlan.getStatus()),
+                () -> assertThat(originalPlan.getNoteFirstRep().getText())
+                    .isEqualTo(generatedPlan.getNoteFirstRep().getText()),
+                () -> assertThat(originalPlan.getMedicationReference().getReference())
+                    .isEqualTo(generatedPlan.getMedicationReference().getReference()),
+                () -> assertThat(originalPlan.getMeta())
+                    .usingRecursiveComparison()
+                    .isEqualTo(generatedPlan.getMeta())
+            );
+        }
+
+        @Test
+        void expectAdditionalMedicationStatementCreated() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var medicationStatements = resources.stream()
+                .filter(MedicationStatement.class::isInstance)
+                .map(MedicationStatement.class::cast);
+
+            var orderMedicationRequests = resources.stream()
+                .filter(MedicationRequest.class::isInstance)
+                .map(MedicationRequest.class::cast)
+                .filter(medicationRequest -> MedicationRequestIntent.ORDER.equals(medicationRequest.getIntent()))
+                .toList();
+
+            assertAll(
+                () -> assertThat(medicationStatements).as("MedicationStatements").hasSize(2),
+                () -> assertThat(orderMedicationRequests).as("Orders").hasSize(2)
+            );
+        }
+
+        @Test
+        void expectGeneratedMedicationStatementHasIdAndIdentityUpdatedToGeneratedPlanWithSuffix() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
+
+            assertAll(
+                () -> assertThat(generatedMedicationStatement.getId())
+                    .isEqualTo(GENERATED_PLAN_ID + "-MS"),
+                () -> assertThat(generatedMedicationStatement.getIdentifierFirstRep().getValue())
+                    .isEqualTo(GENERATED_PLAN_ID + "-MS")
+            );
+        }
+
+        @Test
+        void expectGeneratedMedicationStatementBasedOnReferencesTheGeneratedPlan() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
+
+            assertAll(
+                () -> assertThat(generatedMedicationStatement.getBasedOn().getFirst().getReferenceElement().getIdPart())
+                    .isEqualTo(GENERATED_PLAN_ID),
+                () -> assertThat(generatedMedicationStatement.getBasedOn().getFirst().getReferenceElement().getResourceType())
+                    .isEqualTo(ResourceType.MedicationRequest.name())
+            );
+        }
+
+        @Test
+        void expectGeneratedMedicationStatementEffectivePeriodSetToOrderValidityPeriod() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var latestOrder = getMedicationRequestById(resources, LATEST_ORDER_ID);
+            var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
+
+            assertAll(
+                () -> assertThat(generatedMedicationStatement.getEffectivePeriod())
+                    .usingRecursiveComparison()
+                    .isEqualTo(latestOrder.getDispenseRequest().getValidityPeriod())
+            );
+        }
+
+        @Test
+        void expectGeneratedMedicationStatementLastIssueDateExtensionSetToValidityPeriodStart() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var latestOrder = getMedicationRequestById(resources, LATEST_ORDER_ID);
+            var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
+
+            assertThat(generatedMedicationStatement.getExtensionByUrl(MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL).getValue())
+                .isEqualTo(latestOrder.getDispenseRequest().getValidityPeriod().getStartElement());
+        }
+
+        @Test
+        void expectOriginalMedicationStatementUnchangedPropertiesAreCopiedToGeneratedMedicationStatement() {
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var originalMedicationStatement = getMedicationStatementById(resources, INITIAL_MEDICATION_STATEMENT_ID);
+            var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
+
+            assertAll(
+                () -> assertThat(generatedMedicationStatement.getTaken())
+                    .isEqualTo(originalMedicationStatement.getTaken()),
+                () -> assertThat(generatedMedicationStatement.getDosage())
+                    .usingRecursiveComparison()
+                    .isEqualTo(originalMedicationStatement.getDosage()),
+                () -> assertThat(generatedMedicationStatement.getExtension().getFirst())
+                    .isEqualTo(generatedMedicationStatement.getExtension().getFirst()),
+                () -> assertThat(generatedMedicationStatement.getMeta())
+                    .usingRecursiveComparison()
+                    .isEqualTo(originalMedicationStatement.getMeta()),
+                () -> assertThat(generatedMedicationStatement.getMedicationReference().getReferenceElement())
+                    .isEqualTo(originalMedicationStatement.getMedicationReference().getReferenceElement()),
+                () -> assertThat(generatedMedicationStatement.getStatus())
+                    .isEqualTo(originalMedicationStatement.getStatus())
+            );
+        }
+    }
+
     @SneakyThrows
-    private RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
+    private static RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
