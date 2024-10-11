@@ -3434,7 +3434,7 @@
         }
       }, {
         "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1",
-        "valueDateTime": "2013-01-03"
+        "valueDateTime": "2010-01-14"
       } ],
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",
@@ -5953,7 +5953,7 @@
         }
       }, {
         "url": "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1",
-        "valueDateTime": "2010-05-21"
+        "valueDateTime": "2010-01-18"
       } ],
       "identifier": [ {
         "system": "https://PSSAdaptor/B83002",

@@ -105,6 +105,11 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
                         resources.add(duplicatedPlan);
                         resources.add(duplicatedMedicationStatement);
                     }
+
+                    final var originalMedicationStatement = getMedicationStatementByPlanId(medicationStatements, plan.getId());
+                    originalMedicationStatement.getExtensionByUrl(MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL).setValue(
+                        orders.get(0).getDispenseRequest().getValidityPeriod().getStartElement()
+                    );
                 }
             });
     }
