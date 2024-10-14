@@ -175,7 +175,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
         LOGGER.info(
             "Generated MedicationStatement with Id: {} for MedicationRequest(Order) with Id: {}",
-            duplicatedPlan.getId(),
+            duplicatedMedicationStatement.getId(),
             order.getId()
         );
 
