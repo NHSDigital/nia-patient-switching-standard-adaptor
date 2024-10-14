@@ -667,6 +667,19 @@ public class MedicationRequestMapperTest {
         }
 
         @Test
+        void expectOriginalMedicationStatementLastIssueDateExtensionSetToValidityPeriodStart() {
+            var resources = medicationRequestMapper
+                    .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                    );
+
+            var earliestOrder = getMedicationRequestById(resources, EARLIEST_ORDER_ID);
+            var originalMedicationStatement = getMedicationStatementById(resources, INITIAL_MEDICATION_STATEMENT_ID);
+
+            assertThat(originalMedicationStatement.getExtensionByUrl(MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL).getValue())
+                .isEqualTo(earliestOrder.getDispenseRequest().getValidityPeriod().getStartElement());
+        }
+
+        @Test
         void expectOriginalMedicationStatementUnchangedPropertiesAreCopiedToGeneratedMedicationStatement() {
             var resources = medicationRequestMapper
                 .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
