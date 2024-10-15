@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -36,6 +37,30 @@ public class DuplicateObservationStatementMapper {
                 .flatMap(List::stream)
                 .map(RCMRMT030101UKComponent3::getEhrComposition)
                 .forEach(DuplicateObservationStatementMapper::mergeDuplicateObservationStatements);
+    }
+
+    private static @NotNull Stream<RCMRMT030101UKEhrComposition> getEhrCompositionFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
+        return ehrExtract.getComponent()
+            .stream()
+            .map(RCMRMT030101UKComponent::getEhrFolder)
+            .map(RCMRMT030101UKEhrFolder::getComponent)
+            .flatMap(List::stream)
+            .map(RCMRMT030101UKComponent3::getEhrComposition);
+    }
+
+    public void removeDuplicateObservationStatements(RCMRMT030101UKEhrExtract ehrExtract) {
+        getEhrCompositionFromEhrExtract(ehrExtract)
+            .forEach(DuplicateObservationStatementMapper::removeDuplicateObservationStatements);
+    }
+
+    private static void removeDuplicateObservationStatements(RCMRMT030101UKEhrComposition ehrComposition) {
+        getLinksetsIn(ehrComposition).stream()
+            .map(id -> getLinkedObservationStatement(ehrComposition, id))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .filter(DuplicateObservationStatementMapper::hasSinglePertinentInformation)
+            .filter(DuplicateObservationStatementMapper::areAdditionalFieldsEmpty)
+            .forEach(observationStatement -> removeDeplicatedObservationStatements(observationStatement, ehrComposition.getComponent()));
     }
 
     private static void mergeDuplicateObservationStatements(RCMRMT030101UKEhrComposition ehrComposition) {
@@ -64,6 +89,27 @@ public class DuplicateObservationStatementMapper {
                 .map(RCMRMT030101UKStatementRef::getId)
                 .map(II::getRoot)
                 .toList();
+    }
+
+    private static void removeDeplicatedObservationStatements(RCMRMT030101UKObservationStatement observationStatementWithPertinentInfo,
+                                                              List<RCMRMT030101UKComponent4> components) {
+
+        for (Iterator<RCMRMT030101UKComponent4> observationIterator = components.iterator(); observationIterator.hasNext();) {
+            var observationStatement = observationIterator.next().getObservationStatement();
+            if (observationStatement != null
+                && !areSameObservationStatements(observationStatementWithPertinentInfo, observationStatement)
+                && observationsAreCodedTheSame(observationStatementWithPertinentInfo, observationStatement)
+                && areAdditionalFieldsEmpty(observationStatement)) {
+                observationIterator.remove();
+
+                LOGGER.info("ObservationStatement: '{}' Is truncated version of '{}' and will be merged into a single observation.",
+                            observationStatementWithPertinentInfo.getId().getRoot(),
+                            observationStatement.getId().getRoot());
+                return;
+            }
+        }
+        LOGGER.info("ObservationStatement: '{}' appears to have been truncated but no match was found.",
+                    observationStatementWithPertinentInfo.getId().getRoot());
     }
 
     private static void findAndMergeNonTruncatedObservationStatementIntoTruncatedObservationStatement(
