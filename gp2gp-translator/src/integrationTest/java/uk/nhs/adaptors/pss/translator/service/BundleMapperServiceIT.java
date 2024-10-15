@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.DocumentReference;
-import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Organization;
 import org.hl7.fhir.dstu3.model.Practitioner;
 import org.hl7.fhir.dstu3.model.PractitionerRole;
@@ -27,7 +26,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import lombok.SneakyThrows;
-import uk.nhs.adaptors.common.util.fhir.FhirParser;
 import uk.nhs.adaptors.pss.translator.exception.BundleMappingException;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -40,20 +38,7 @@ public class BundleMapperServiceIT {
     private static final String LOSING_PRACTICE_ODS_CODE = "A12345";
 
     @Autowired
-    FhirParser fhirParser;
-
-    @Autowired
     private BundleMapperService bundleMapperService;
-
-    @Test
-    public void When_MappingBundle_With_Documents_Expect_BundleWithJson() throws BundleMappingException {
-        var ehrMessage = unmarshallEhrExtractFromFile("ehr-document-and-no-organisations.xml");
-
-        var bundle = bundleMapperService.mapToBundle(ehrMessage, LOSING_PRACTICE_ODS_CODE, new ArrayList<>());
-        var observations = extractObservationsFromBundle(bundle);
-
-        assertThat(observations.size()).isOne();
-    }
 
     @Test
     public void When_MappingBundle_With_RepresentedOrganisation_Expect_OrganisationMapped() throws BundleMappingException {
@@ -177,14 +162,6 @@ public class BundleMapperServiceIT {
     @SneakyThrows
     private RCMRIN030000UKMessage unmarshallEhrExtractFromFile(String filename) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES_BASE + filename), RCMRIN030000UKMessage.class);
-    }
-
-    private List<Observation> extractObservationsFromBundle(Bundle bundle) {
-        return bundle.getEntry().stream()
-            .map(Bundle.BundleEntryComponent::getResource)
-            .filter(resource -> resource.getResourceType().equals(ResourceType.Observation))
-            .map(Observation.class::cast)
-            .toList();
     }
 
     private List<Organization> extractOrganisationsFromBundle(Bundle bundle) {
