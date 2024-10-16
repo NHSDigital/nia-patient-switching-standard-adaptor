@@ -105,8 +105,10 @@ public class DuplicateObservationStatementMapper {
             }
         }
 
-        LOGGER.info("ObservationStatement: '{}' appears to have been truncated but no match was found.",
-                    observationStatementWithPertinentInfo.getId().getRoot());
+        if (isTruncated) {
+            LOGGER.info("ObservationStatement: '{}' appears to have been truncated but no match was found.",
+                        observationStatementWithPertinentInfo.getId().getRoot());
+        }
     }
 
     @NotNull

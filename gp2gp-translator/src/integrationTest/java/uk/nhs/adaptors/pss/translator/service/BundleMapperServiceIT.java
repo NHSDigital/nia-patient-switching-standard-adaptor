@@ -46,7 +46,7 @@ public class BundleMapperServiceIT {
     private FhirParser fhirParser;
 
     @Test
-    public void When_MappingBundle_With_ObservationsThatHaveDuplicateCodeableConcepts_Expect_ObservationsRemoved()
+    public void When_MappingBundle_With_ObservationsThatHaveDuplicateCodeableConcepts_Expect_ObservationRemoved()
         throws BundleMappingException {
 
         var ehrMessage = unmarshallEhrExtractFromFile("ehr-document-and-no-organisations.xml");
