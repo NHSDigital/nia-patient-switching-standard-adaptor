@@ -95,8 +95,8 @@ public class BundleMapperService {
 
             Bundle bundle = generator.generateBundle();
             final RCMRMT030101UKEhrExtract ehrExtract = getEhrExtract(xmlMessage);
-            duplicateObservationStatementMapper.mergeDuplicateObservationStatements(ehrExtract);
-            duplicateObservationStatementMapper.removeDuplicateObservationStatements(ehrExtract);
+            duplicateObservationStatementMapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
+
             final RCMRMT030101UKEhrFolder ehrFolder = getEhrFolder(xmlMessage);
 
             var locations = mapLocations(ehrFolder, losingPracticeOdsCode);

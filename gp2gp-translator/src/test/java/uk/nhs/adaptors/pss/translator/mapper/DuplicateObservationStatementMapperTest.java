@@ -49,7 +49,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent()
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(1);
     }
@@ -62,7 +62,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(2);
         assertThat(firstEhrComposition(ehrExtract).getFirst().getObservationStatement().getId().getRoot()).isEqualTo("ID-1");
@@ -77,7 +77,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
         assertThat(firstEhrComposition(ehrExtract).getFirst().getObservationStatement().getId().getRoot()).isEqualTo("ID-3");
@@ -94,7 +94,7 @@ class DuplicateObservationStatementMapperTest {
                 )
         );
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(secondEhrComposition(firstEhrFolder(ehrExtract)).getComponent()).hasSize(2);
     }
@@ -110,7 +110,7 @@ class DuplicateObservationStatementMapperTest {
                 ))
         );
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(secondEhrFolder(ehrExtract)).getComponent()).hasSize(2);
     }
@@ -123,7 +123,7 @@ class DuplicateObservationStatementMapperTest {
                 createObservation("ID-1", "101", "This is an observation which ends with ellipses...")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
@@ -136,7 +136,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-3")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
@@ -149,7 +149,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
@@ -163,7 +163,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
@@ -177,7 +177,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(2);
     }
@@ -190,7 +190,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
@@ -203,7 +203,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
@@ -216,7 +216,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
@@ -229,7 +229,7 @@ class DuplicateObservationStatementMapperTest {
             generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
@@ -242,7 +242,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
@@ -255,7 +255,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
@@ -268,7 +268,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstPertinentInformationText(firstEhrComposition(ehrExtract).getFirst().getObservationStatement())).isEqualTo(
                 "FIRST PREFIX SECOND PREFIX This is an observation which ends with ellipses removed."
@@ -286,7 +286,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-3")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(4);
     }
@@ -303,7 +303,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
 
     }
@@ -321,7 +321,7 @@ class DuplicateObservationStatementMapperTest {
                 generateLinksetComponent("ID-1")
         ));
 
-        mapper.mergeDuplicateObservationStatements(ehrExtract);
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
 
     }
