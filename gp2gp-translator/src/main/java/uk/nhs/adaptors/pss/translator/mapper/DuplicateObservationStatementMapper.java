@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -39,22 +38,12 @@ public class DuplicateObservationStatementMapper {
                 .forEach(DuplicateObservationStatementMapper::mergeOrRemoveDuplicateObservationStatements);
     }
 
-    private static @NotNull Stream<RCMRMT030101UKEhrComposition> getEhrCompositionFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
-        return ehrExtract.getComponent()
-            .stream()
-            .map(RCMRMT030101UKComponent::getEhrFolder)
-            .map(RCMRMT030101UKEhrFolder::getComponent)
-            .flatMap(List::stream)
-            .map(RCMRMT030101UKComponent3::getEhrComposition);
-    }
-
     private static void mergeOrRemoveDuplicateObservationStatements(RCMRMT030101UKEhrComposition ehrComposition) {
         getLinksetsIn(ehrComposition).stream()
                 .map(id -> getLinkedObservationStatement(ehrComposition, id))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .filter(DuplicateObservationStatementMapper::hasSinglePertinentInformation)
-                //.filter(DuplicateObservationStatementMapper::isAnnotationTruncated)
                 .filter(DuplicateObservationStatementMapper::areAdditionalFieldsEmpty)
                 .forEach(observationStatement ->
                              findAndMergeNonTruncatedObservationStatementIntoTruncatedObservationStatementOrRemoveDuplicates(
@@ -77,7 +66,6 @@ public class DuplicateObservationStatementMapper {
 
     private static void findAndMergeNonTruncatedObservationStatementIntoTruncatedObservationStatementOrRemoveDuplicates(
             RCMRMT030101UKObservationStatement observationStatementWithPertinentInfo, List<RCMRMT030101UKComponent4> components) {
-
 
         RCMRMT030101UKAnnotation truncatedPertinentAnnotation = null;
         String annotationPrefix = null;
@@ -102,17 +90,16 @@ public class DuplicateObservationStatementMapper {
 
                     observationIterator.remove();
                     truncatedPertinentAnnotation.setText(annotationPrefix + getPertinentAnnotation(observationStatement).getText());
-                    LOGGER.info(
-                        "ObservationStatement: '{}' Is truncated version of '{}' and will be merged into a single observation.",
-                        observationStatementWithPertinentInfo.getId().getRoot(),
-                        observationStatement.getId().getRoot()
-                               );
-                    return;
-                } else if (!isTruncated) {
-                    observationIterator.remove();
+
                     LOGGER.info("ObservationStatement: '{}' Is truncated version of '{}' and will be merged into a single observation.",
                                 observationStatementWithPertinentInfo.getId().getRoot(),
                                 observationStatement.getId().getRoot());
+                    return;
+                } else if (!isTruncated) {
+                    observationIterator.remove();
+                    LOGGER.info("ObservationStatement: '{}' has been removed as it has the same codeable concept as '{}' observation.",
+                                observationStatement.getId().getRoot(),
+                                observationStatementWithPertinentInfo.getId().getRoot());
                     return;
                 }
             }
@@ -173,8 +160,8 @@ public class DuplicateObservationStatementMapper {
     }
 
     @NotNull
-    private static Optional<RCMRMT030101UKObservationStatement> getLinkedObservationStatement(
-            RCMRMT030101UKEhrComposition ehrComposition, String observationIdReferencedFromLinkset) {
+    private static Optional<RCMRMT030101UKObservationStatement> getLinkedObservationStatement(RCMRMT030101UKEhrComposition ehrComposition,
+                                                                                              String observationIdReferencedFromLinkset) {
 
         return ehrComposition.getComponent()
                 .stream()

@@ -235,10 +235,10 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @Test
-    public void doesntMergeObservationWhereTheObservationDoesNotEndInEllipses() {
+    public void doesntMergeObservationWhereTheObservationDoesNotEndInEllipsesAndCodeableConceptCodesAreDifferent() {
         var ehrExtract = createExtract(List.of(
                 createObservation("ID-1", "101", "This is an observation doesnt end with ellipses:::"),
-                createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
+                createObservation("ID-2", "102", "This is an observation which ends with ellipses removed."),
                 generateLinksetComponent("ID-1")
         ));
 
@@ -248,16 +248,40 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @Test
-    public void doesntMergeObservationWhereTheObservationIsLessThan47Chars() {
+    public void removeObservationWhereTheObservationDoesNotEndInEllipsesButCodeableConceptCodesAreTheSame() {
+        var ehrExtract = createExtract(
+            List.of(createObservation("ID-1", "101", "This is an observation doesnt end with ellipses:::"),
+                    createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
+                    generateLinksetComponent("ID-1")));
+
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
+
+        assertThat(firstEhrComposition(ehrExtract)).hasSize(2);
+    }
+
+    @Test
+    public void doesntMergeObservationWhereTheObservationIsLessThan47CharsAndCodeableConceptsAreDifferent() {
         var ehrExtract = createExtract(List.of(
                 createObservation("ID-1", "101", "This text is too short..."),
-                createObservation("ID-2", "101", "This text is too short to be replaced."),
+                createObservation("ID-2", "102", "This text is too short to be replaced."),
                 generateLinksetComponent("ID-1")
         ));
 
         mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
+    }
+
+    @Test
+    public void removeObservationWhereTheObservationIsLessThan47CharsButCodeableConceptsAreTheSame() {
+        var ehrExtract = createExtract(
+            List.of(createObservation("ID-1", "101", "This text is too short..."),
+                    createObservation("ID-2", "101", "This text is too short to be replaced."),
+                    generateLinksetComponent("ID-1")));
+
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
+
+        assertThat(firstEhrComposition(ehrExtract)).hasSize(2);
     }
 
     @Test

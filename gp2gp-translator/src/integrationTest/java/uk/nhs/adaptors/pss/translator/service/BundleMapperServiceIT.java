@@ -46,7 +46,9 @@ public class BundleMapperServiceIT {
     private FhirParser fhirParser;
 
     @Test
-    public void When_MappingBundle_With_Documents_Expect_BundleWithJson() throws BundleMappingException {
+    public void When_MappingBundle_With_ObservationsThatHaveDuplicateCodeableConcepts_Expect_ObservationsRemoved()
+        throws BundleMappingException {
+
         var ehrMessage = unmarshallEhrExtractFromFile("ehr-document-and-no-organisations.xml");
 
         var bundle = bundleMapperService.mapToBundle(ehrMessage, LOSING_PRACTICE_ODS_CODE, new ArrayList<>());
