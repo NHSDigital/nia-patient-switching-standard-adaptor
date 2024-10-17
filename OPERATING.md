@@ -66,6 +66,10 @@ The adaptor checks incomplete transfers periodically, at a default frequency of 
 
 For more configuration see the [Migration timeout variables](#migration-timeout-variables) section.
 
+## Dependent Service Downtime and PS Adaptor Behavior
+This section highlights the specific focus on the dependent services and how the PS Adaptor operates when those services are unavailable.
+[PS Adaptor User Guide: Service Failures and Expected Behavior](./dependent-service-downtime-and-ps-adaptor-behavior.md)
+
 ## Database requirements
 
 * The adaptor requires a [PostgreSQL] database
