@@ -1,5 +1,6 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
@@ -383,7 +384,7 @@ public class MedicationRequestMapperTest {
 
         @BeforeEach
         void beforeEach() {
-            setupMultipleOrdersToOnePlanStubs(REPEAT_PRESCRIPTION_EXTENSION);
+            setupMultipleOrdersToOnePlanStubs(REPEAT_PRESCRIPTION_EXTENSION, MedicationStatementStatus.ACTIVE, true);
         }
 
         @Test
@@ -446,7 +447,7 @@ public class MedicationRequestMapperTest {
         }
         @BeforeEach
         void beforeEach() {
-            setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION);
+            setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION, MedicationStatementStatus.ACTIVE, true);
         }
 
         @Test
@@ -638,7 +639,7 @@ public class MedicationRequestMapperTest {
         }
 
         @Test
-        void expectGeneratedMedicationStatementEffectivePeriodSetToOrderValidityPeriod() {
+        void When_Active_Expect_GeneratedMedicationStatementHasEffectivePeriodSetToOrderValidityPeriod() {
             var resources = medicationRequestMapper
                 .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
                 );
@@ -650,6 +651,44 @@ public class MedicationRequestMapperTest {
                 () -> assertThat(generatedMedicationStatement.getEffectivePeriod())
                     .usingRecursiveComparison()
                     .isEqualTo(latestOrder.getDispenseRequest().getValidityPeriod())
+            );
+        }
+
+        @Test
+        void When_NotActive_Expect_GeneratedStatementHasEffectiveTimeSetToOrderValidityPeriodWhenEndIsPresent() {
+            setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION, MedicationStatementStatus.COMPLETED, true);
+
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var latestOrder = getMedicationRequestById(resources, LATEST_ORDER_ID);
+            var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
+
+            assertAll(
+                () -> assertThat(generatedMedicationStatement.getEffectivePeriod())
+                    .usingRecursiveComparison()
+                    .isEqualTo(latestOrder.getDispenseRequest().getValidityPeriod())
+            );
+        }
+
+        @Test
+        void When_NotActive_Expect_GeneratedStatementHasEffectiveTimeEndSetToOrderValidityPeriodStartWhenEndIsNotPresent() {
+            setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION, MedicationStatementStatus.COMPLETED, false);
+
+            var resources = medicationRequestMapper
+                .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
+                );
+
+            var latestOrder = getMedicationRequestById(resources, LATEST_ORDER_ID);
+            var generatedMedicationStatement = getMedicationStatementById(resources, GENERATED_MEDICATION_STATEMENT_ID);
+            assertAll(
+                () -> assertThat(generatedMedicationStatement.getEffectivePeriod().getStart())
+                    .as("Start")
+                    .isEqualTo(latestOrder.getDispenseRequest().getValidityPeriod().getStart()),
+                () -> assertThat(generatedMedicationStatement.getEffectivePeriod().getEnd())
+                    .as("End")
+                    .isEqualTo(latestOrder.getDispenseRequest().getValidityPeriod().getStart())
             );
         }
 
@@ -744,14 +783,23 @@ public class MedicationRequestMapperTest {
         assertThat(medicationRequestId).isEqualTo(PATIENT_ID);
     }
 
-    private MedicationRequest buildMedicationRequestOrder(String id, String validityPeriodStartDate) {
+    private MedicationRequest buildMedicationRequestOrder(
+        String id,
+        String validityPeriodStartDate,
+        String validityPeriodEndDate
+    ) {
         return (MedicationRequest) new MedicationRequest()
             .setIntent(MedicationRequestIntent.ORDER)
             .addBasedOn(REFERENCE_TO_PLAN)
             .setDispenseRequest(
                 new MedicationRequestDispenseRequestComponent()
                     .setValidityPeriod(
-                        new Period().setStartElement(DateFormatUtil.parseToDateTimeType(validityPeriodStartDate))
+                        new Period()
+                            .setStartElement(DateFormatUtil.parseToDateTimeType(validityPeriodStartDate))
+                            .setEndElement(StringUtils.isNotEmpty(validityPeriodEndDate)
+                                ? DateFormatUtil.parseToDateTimeType(validityPeriodEndDate)
+                                : null
+                            )
                     )
             )
             .setId(id);
@@ -779,7 +827,7 @@ public class MedicationRequestMapperTest {
         return plan;
     }
 
-    private MedicationStatement buildMedicationStatement() {
+    private MedicationStatement buildMedicationStatement(MedicationStatementStatus status) {
         return (MedicationStatement) new MedicationStatement()
             .addIdentifier(new Identifier().setValue(INITIAL_MEDICATION_STATEMENT_ID))
             .setTaken(MedicationStatementTaken.UNK)
@@ -787,7 +835,7 @@ public class MedicationRequestMapperTest {
             .addDosage(new Dosage().setText("TEST_DOSAGE"))
             .setMedication(new Reference("MedicationRequest/00000000-0000-4000-0000-200000000000"))
             .setEffective(new Period().setStartElement(DateFormatUtil.parseToDateTimeType("20240101")))
-            .setStatus(MedicationStatementStatus.COMPLETED)
+            .setStatus(status)
             .addExtension(new Extension("TEST_EXTENSION", new StringType("TEST_VALUE")))
             .addExtension(new Extension(
                 "https://fhir.nhs.uk/STU3/StructureDefinition/Extension-CareConnect-GPC-MedicationStatementLastIssueDate-1",
@@ -821,8 +869,12 @@ public class MedicationRequestMapperTest {
             .orElseThrow();
     }
 
-    private void setupMultipleOrdersToOnePlanStubs(Extension planExtension) {
-        when(
+    private void setupMultipleOrdersToOnePlanStubs(
+        Extension planExtension,
+        MedicationStatementStatus medicationStatementStatus,
+        boolean hasOrderValidityPeriodEnd
+    ) {
+        lenient().when(
             medicationRequestPlanMapper.mapToPlanMedicationRequest(
                 any(RCMRMT030101UKEhrExtract.class),
                 any(RCMRMT030101UKEhrComposition.class),
@@ -832,7 +884,11 @@ public class MedicationRequestMapperTest {
             )
         ).thenReturn(buildMedicationRequestPlan(planExtension));
 
-        when(
+        var orderValidityPeriodEnd = hasOrderValidityPeriodEnd
+            ? "20240103"
+            : null;
+
+        lenient().when(
             medicationRequestOrderMapper.mapToOrderMedicationRequest(
                 any(RCMRMT030101UKEhrExtract.class),
                 any(RCMRMT030101UKEhrComposition.class),
@@ -840,14 +896,14 @@ public class MedicationRequestMapperTest {
                 any(RCMRMT030101UKPrescribe.class),
                 any(String.class)
             )
-        ).thenReturn(buildMedicationRequestOrder(
-            LATEST_ORDER_ID, "20240102"),
-            buildMedicationRequestOrder(EARLIEST_ORDER_ID, "20240101")
+        ).thenReturn(
+            buildMedicationRequestOrder(LATEST_ORDER_ID, "20240102", orderValidityPeriodEnd),
+            buildMedicationRequestOrder(EARLIEST_ORDER_ID, "20240101", orderValidityPeriodEnd)
         );
 
         lenient().when(idGeneratorService.generateUuid()).thenReturn(GENERATED_PLAN_ID);
 
-        when(
+        lenient().when(
             medicationStatementMapper.mapToMedicationStatement(
                 any(RCMRMT030101UKEhrExtract.class),
                 any(RCMRMT030101UKEhrComposition.class),
@@ -856,7 +912,7 @@ public class MedicationRequestMapperTest {
                 any(String.class),
                 any(DateTimeType.class)
             )
-        ).thenReturn(buildMedicationStatement());
+        ).thenReturn(buildMedicationStatement(medicationStatementStatus));
     }
 
     private void setupCommonStubs() {

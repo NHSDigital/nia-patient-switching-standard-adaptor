@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.ORDER;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.ACTIVE;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllMedications;
 
 import java.util.AbstractMap;
@@ -164,10 +165,10 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
         duplicatedMedicationStatement.setId(duplicatedPlan.getId() + "-MS");
         duplicatedMedicationStatement.getIdentifierFirstRep().setValue(duplicatedPlan.getId() + "-MS");
-        duplicatedMedicationStatement.setEffective(order.getDispenseRequest().getValidityPeriod());
         duplicatedMedicationStatement
             .getExtensionByUrl(MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL)
             .setValue(order.getDispenseRequest().getValidityPeriod().getStartElement());
+        updateDuplicatedMedicationStatementEffectivePeriod(duplicatedMedicationStatement, order);
         updateBasedOnReferenceToReferenceDuplicatedPlan(
             duplicatedMedicationStatement.getBasedOn(),
             duplicatedPlan.getId()
@@ -180,6 +181,19 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         );
 
         return duplicatedMedicationStatement;
+    }
+
+    private static void updateDuplicatedMedicationStatementEffectivePeriod(
+        MedicationStatement duplicatedMedicationStatement,
+        MedicationRequest order
+
+    ) {
+        duplicatedMedicationStatement.setEffective(order.getDispenseRequest().getValidityPeriod().copy());
+
+        var effectivePeriod = duplicatedMedicationStatement.getEffectivePeriod();
+        if (!ACTIVE.equals(duplicatedMedicationStatement.getStatus()) && !effectivePeriod.hasEnd()) {
+            effectivePeriod.setEndElement(effectivePeriod.getStartElement());
+        }
     }
 
     private static MedicationStatement getMedicationStatementByPlanId(
