@@ -40,6 +40,7 @@ dependencies {
     testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
     testImplementation 'org.skyscreamer:jsonassert:1.5.3'
     testImplementation 'org.awaitility:awaitility:4.2.2'
+    testImplementation group: 'com.github.valfirst', name: 'slf4j-test', version: '3.0.1'
 
     implementation 'com.azure:azure-storage-blob:12.27.1'
 

@@ -1,5 +1,8 @@
 package uk.nhs.adaptors.pss.translator.mapper;
 
+import com.github.valfirst.slf4jtest.LoggingEvent;
+import com.github.valfirst.slf4jtest.TestLogger;
+import com.github.valfirst.slf4jtest.TestLoggerFactory;
 import org.hl7.v3.CD;
 import org.hl7.v3.CV;
 import org.hl7.v3.II;
@@ -26,11 +29,13 @@ import org.hl7.v3.RCMRMT030101UKSpecimen;
 import org.hl7.v3.RCMRMT030101UKStatementRef;
 import org.hl7.v3.RCMRMT030101UKSubject;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.slf4j.event.Level;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -38,10 +43,37 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SuppressWarnings("checkstyle:MagicNumber")
 class DuplicateObservationStatementMapperTest {
+
     private final DuplicateObservationStatementMapper mapper = new DuplicateObservationStatementMapper();
+
+    private final TestLogger logger = TestLoggerFactory.getTestLogger(DuplicateObservationStatementMapper.class);
+
+    @AfterEach
+    void tearDown() {
+        logger.clear();
+    }
+
+    @Test
+    public void doesntMergeObservationNorDeleteItWhereObservationsAreTheSameAndHaveDifferentSameCodeableConcepts() {
+
+        var ehrExtract = createExtract(List.of(
+            createObservation("ID-1", "101", "This text is too short to be replaced and should be replaced..."),
+            createObservation("ID-2", "102", "This text is too short to be replaced and should be replaced."),
+            generateLinksetComponent("ID-1")));
+
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
+
+        assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
+        LoggingEvent loggingEvent = logger.getLoggingEvents().get(0);
+        assertEquals(Level.INFO, loggingEvent.getLevel());
+        assertEquals("ObservationStatement: '{}' appears to have been truncated but no match was found.",
+                     loggingEvent.getMessage());
+        assertEquals("ID-1", loggingEvent.getArguments().get(0));
+    }
 
     @Test
     public void ignoresLinksetsWithoutAConditionNamedElement() {
