@@ -639,7 +639,7 @@ public class MedicationRequestMapperTest {
         }
 
         @Test
-        void expectGeneratedMedicationStatementWhenActiveHasEffectivePeriodSetToOrderValidityPeriod() {
+        void When_Active_Expect_GeneratedMedicationStatementHasEffectivePeriodSetToOrderValidityPeriod() {
             var resources = medicationRequestMapper
                 .mapResources(ehrExtract, (Patient) new Patient().setId(PATIENT_ID), List.of(), PRACTISE_CODE
                 );
@@ -655,7 +655,7 @@ public class MedicationRequestMapperTest {
         }
 
         @Test
-        void expectGeneratedStatementWhenNotActiveHasEffectiveTimeSetToOrderValidityPeriodWhenEndIsPresent() {
+        void When_NotActive_Expect_GeneratedStatementHasEffectiveTimeSetToOrderValidityPeriodWhenEndIsPresent() {
             setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION, MedicationStatementStatus.COMPLETED, true);
 
             var resources = medicationRequestMapper
@@ -673,7 +673,7 @@ public class MedicationRequestMapperTest {
         }
 
         @Test
-        void expectGeneratedStatementWhenNotActiveHasEffectiveTimeEndSetToOrderValidityPeriodStartWhenEndIsNotPresent() {
+        void When_NotActive_Expect_GeneratedStatementHasEffectiveTimeEndSetToOrderValidityPeriodStartWhenEndIsNotPresent() {
             setupMultipleOrdersToOnePlanStubs(ACUTE_PRESCRIPTION_EXTENSION, MedicationStatementStatus.COMPLETED, false);
 
             var resources = medicationRequestMapper
