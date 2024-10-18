@@ -51,29 +51,6 @@ class DuplicateObservationStatementMapperTest {
     private final DuplicateObservationStatementMapper mapper = new DuplicateObservationStatementMapper();
 
     @Test
-    public void doesntMergeObservationNorDeleteItWhereObservationsAreTheSameAndHaveDifferentSameCodeableConcepts() {
-        Logger fooLogger = (Logger) LoggerFactory.getLogger(DuplicateObservationStatementMapper.class);
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-        fooLogger.addAppender(listAppender);
-
-        var ehrExtract = createExtract(List.of(
-            createObservation("ID-1", "101", "This text is too short to be replaced and should be replaced..."),
-            createObservation("ID-2", "102", "This text is too short to be replaced and should be replaced."),
-            generateLinksetComponent("ID-1")));
-
-        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
-
-        assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
-
-        List<ILoggingEvent> logsList = listAppender.list;
-        assertEquals(Level.INFO, logsList.get(0).getLevel());
-        assertEquals("ObservationStatement: 'ID-1' appears to have been truncated but no match was found.",
-                     logsList.get(0).getFormattedMessage());
-
-    }
-
-    @Test
     public void ignoresLinksetsWithoutAConditionNamedElement() {
         var ehrExtract = createExtract(List.of(
                 generateLinksetComponent()
@@ -187,15 +164,24 @@ class DuplicateObservationStatementMapperTest {
 
     @Test
     public void doesntMergeObservationWhereTheCodesArentTheSame() {
+        Logger fooLogger = (Logger) LoggerFactory.getLogger(DuplicateObservationStatementMapper.class);
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        fooLogger.addAppender(listAppender);
+
         var ehrExtract = createExtract(List.of(
-                createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
-                createObservation("ID-2", "102", "This is an observation which ends with ellipses but there is more."),
-                generateLinksetComponent("ID-1")
-        ));
+            createObservation("ID-1", "101", "This is an observation which ends with ellipses..."),
+            createObservation("ID-2", "102", "This is an observation which ends with ellipses but there is more."),
+            generateLinksetComponent("ID-1")
+                                              ));
 
         mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
+        List<ILoggingEvent> logsList = listAppender.list;
+        assertEquals(Level.INFO, logsList.get(0).getLevel());
+        assertEquals("ObservationStatement: 'ID-1' appears to have been truncated but no match was found.",
+                     logsList.get(0).getFormattedMessage());
     }
 
 
