@@ -172,9 +172,9 @@ public class MedicationMapperUtilsTest {
 
     @NotNull
     private static INT createINTFromInteger(int value) {
-        INT i = new INT();
-        i.setValue(BigInteger.valueOf(value));
-        return i;
+        INT intValue = new INT();
+        intValue.setValue(BigInteger.valueOf(value));
+        return intValue;
     }
 
 }
