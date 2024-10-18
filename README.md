@@ -20,6 +20,7 @@ Both are Java Spring Boot applications, released as separate docker images.
 
 ## Table of contents
 
+1. [Guidance for setting up the GP2GP adaptors in INT](/getting-started-instructions.md)
 1. [Guidance for operating the adaptor as a New Market Entrant](/OPERATING.md)
 1. [Guidance on integrating with the adaptors APIs](#endpoints)
 1. [Guidance for developing the adaptor](/developer-information.md)
