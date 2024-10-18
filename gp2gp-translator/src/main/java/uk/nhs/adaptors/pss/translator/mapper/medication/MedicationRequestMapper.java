@@ -2,6 +2,7 @@ package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.ORDER;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static org.hl7.fhir.dstu3.model.MedicationStatement.MedicationStatementStatus.ACTIVE;
 import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtractors.extractAllMedications;
 
 import java.util.AbstractMap;
@@ -15,6 +16,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.DateTimeType;
@@ -41,6 +43,7 @@ import uk.nhs.adaptors.pss.translator.mapper.AbstractMapper;
 import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
@@ -103,6 +106,11 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
                         resources.add(duplicatedPlan);
                         resources.add(duplicatedMedicationStatement);
                     }
+
+                    final var originalMedicationStatement = getMedicationStatementByPlanId(medicationStatements, plan.getId());
+                    originalMedicationStatement.getExtensionByUrl(MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL).setValue(
+                        orders.get(0).getDispenseRequest().getValidityPeriod().getStartElement()
+                    );
                 }
             });
     }
@@ -121,6 +129,14 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
         var previousOrderBasedOn = orders.get(index - 1).getBasedOn();
         var previousBasedOnReference = getMedicationRequestBasedOnReference(previousOrderBasedOn);
         previousBasedOnReference.ifPresent(duplicatedPlan::setPriorPrescription);
+        var validityPeriod = orders.get(index).getDispenseRequest().getValidityPeriod();
+        duplicatedPlan.getDispenseRequest().setValidityPeriod(validityPeriod);
+
+        LOGGER.info(
+            "Generated MedicationRequest(Plan) with Id: {} for MedicationRequest(Order) with Id: {}",
+            duplicatedPlan.getId(),
+            orders.get(index).getId()
+        );
 
         return duplicatedPlan;
     }
@@ -149,16 +165,35 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
         duplicatedMedicationStatement.setId(duplicatedPlan.getId() + "-MS");
         duplicatedMedicationStatement.getIdentifierFirstRep().setValue(duplicatedPlan.getId() + "-MS");
-        duplicatedMedicationStatement.setEffective(order.getDispenseRequest().getValidityPeriod());
         duplicatedMedicationStatement
             .getExtensionByUrl(MEDICATION_STATEMENT_LAST_ISSUE_DATE_URL)
             .setValue(order.getDispenseRequest().getValidityPeriod().getStartElement());
+        updateDuplicatedMedicationStatementEffectivePeriod(duplicatedMedicationStatement, order);
         updateBasedOnReferenceToReferenceDuplicatedPlan(
             duplicatedMedicationStatement.getBasedOn(),
             duplicatedPlan.getId()
         );
 
+        LOGGER.info(
+            "Generated MedicationStatement with Id: {} for MedicationRequest(Order) with Id: {}",
+            duplicatedMedicationStatement.getId(),
+            order.getId()
+        );
+
         return duplicatedMedicationStatement;
+    }
+
+    private static void updateDuplicatedMedicationStatementEffectivePeriod(
+        MedicationStatement duplicatedMedicationStatement,
+        MedicationRequest order
+
+    ) {
+        duplicatedMedicationStatement.setEffective(order.getDispenseRequest().getValidityPeriod().copy());
+
+        var effectivePeriod = duplicatedMedicationStatement.getEffectivePeriod();
+        if (!ACTIVE.equals(duplicatedMedicationStatement.getStatus()) && !effectivePeriod.hasEnd()) {
+            effectivePeriod.setEndElement(effectivePeriod.getStartElement());
+        }
     }
 
     private static MedicationStatement getMedicationStatementByPlanId(
