@@ -7,6 +7,7 @@ import static uk.nhs.adaptors.pss.translator.util.CompoundStatementResourceExtra
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -304,14 +305,14 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
 
         List<Medication> medications = mapMedications(medicationStatement);
 
-        List<MedicationRequest> medicationRequestsOrder = mapMedicationRequestsOrder(
+        List<MedicationRequest> medicationRequestsPlan = mapMedicationRequestsPlan(
             ehrExtract,
             ehrComposition,
             medicationStatement,
             practiseCode
         );
 
-        List<MedicationRequest> medicationRequestsPlan = mapMedicationRequestsPlan(
+        List<MedicationRequest> medicationRequestsOrder = mapMedicationRequestsOrder(
             ehrExtract,
             ehrComposition,
             medicationStatement,
@@ -418,6 +419,7 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
             .map(supplyAuthorise -> medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, ehrComposition, medicationStatement,
                 supplyAuthorise, practiseCode))
+            .flatMap(Collection::stream)
             .filter(Objects::nonNull)
             .toList();
     }

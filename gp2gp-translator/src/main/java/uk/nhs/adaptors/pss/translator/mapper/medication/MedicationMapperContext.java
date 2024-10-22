@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -17,6 +18,7 @@ public class MedicationMapperContext {
     private final IdGeneratorService idGeneratorService;
 
     private final ThreadLocal<Map<String, String>> medicationIds = ThreadLocal.withInitial(HashMap::new);
+    private final ThreadLocal<Map<String, List<String>>> generatedPlanIdMap = ThreadLocal.withInitial(HashMap::new);
 
     public String getMedicationId(CD code) {
         var key = buildKey(code);
@@ -29,6 +31,14 @@ public class MedicationMapperContext {
             medicationIds.get().put(key, newId);
             return newId;
         }
+    }
+
+    public void addSupplyAuthoriseIdToGeneratedIdsMapping(String supplyAuthoriseId, List<String> generatedPlanIds) {
+        generatedPlanIdMap.get().put(supplyAuthoriseId, generatedPlanIds);
+    }
+
+    public List<String> getGeneratedPlansIdsByOriginalPlanId(String originalPlanId) {
+        return generatedPlanIdMap.get().getOrDefault(originalPlanId, List.of());
     }
 
     public void reset() {

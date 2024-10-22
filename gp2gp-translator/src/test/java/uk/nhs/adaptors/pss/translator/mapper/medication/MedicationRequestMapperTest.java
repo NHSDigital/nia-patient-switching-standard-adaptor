@@ -882,7 +882,7 @@ public class MedicationRequestMapperTest {
                 any(RCMRMT030101UKAuthorise.class),
                 any(String.class)
             )
-        ).thenReturn(buildMedicationRequestPlan(planExtension));
+        ).thenReturn(List.of(buildMedicationRequestPlan(planExtension)));
 
         var orderValidityPeriodEnd = hasOrderValidityPeriodEnd
             ? "20240103"
@@ -922,7 +922,7 @@ public class MedicationRequestMapperTest {
             any(RCMRMT030101UKMedicationStatement.class),
             any(RCMRMT030101UKAuthorise.class),
             any(String.class)
-        )).thenReturn(new MedicationRequest());
+        )).thenReturn(List.of(new MedicationRequest()));
 
         Mockito.lenient().when(medicationRequestOrderMapper.mapToOrderMedicationRequest(
             any(RCMRMT030101UKEhrExtract.class),
