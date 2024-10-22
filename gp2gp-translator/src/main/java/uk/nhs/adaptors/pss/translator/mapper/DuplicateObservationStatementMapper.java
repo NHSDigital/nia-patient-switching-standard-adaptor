@@ -28,29 +28,27 @@ public class DuplicateObservationStatementMapper {
     public static final int CHAR_LIMIT_FOR_TRUNCATION = 50;
     public static final String ELLIPSIS = "...";
 
-    public void mergeDuplicateObservationStatements(RCMRMT030101UKEhrExtract ehrExtract) {
+    public void mergeOrRemoveDuplicateObservationStatements(RCMRMT030101UKEhrExtract ehrExtract) {
         ehrExtract.getComponent()
                 .stream()
                 .map(RCMRMT030101UKComponent::getEhrFolder)
                 .map(RCMRMT030101UKEhrFolder::getComponent)
                 .flatMap(List::stream)
                 .map(RCMRMT030101UKComponent3::getEhrComposition)
-                .forEach(DuplicateObservationStatementMapper::mergeDuplicateObservationStatements);
+                .forEach(DuplicateObservationStatementMapper::mergeOrRemoveDuplicateObservationStatements);
     }
 
-    private static void mergeDuplicateObservationStatements(RCMRMT030101UKEhrComposition ehrComposition) {
+    private static void mergeOrRemoveDuplicateObservationStatements(RCMRMT030101UKEhrComposition ehrComposition) {
         getLinksetsIn(ehrComposition).stream()
                 .map(id -> getLinkedObservationStatement(ehrComposition, id))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .filter(DuplicateObservationStatementMapper::hasSinglePertinentInformation)
-                .filter(DuplicateObservationStatementMapper::isAnnotationTruncated)
                 .filter(DuplicateObservationStatementMapper::areAdditionalFieldsEmpty)
-                .forEach(truncatedObservationStatement ->
-                        findAndMergeNonTruncatedObservationStatementIntoTruncatedObservationStatement(
-                                truncatedObservationStatement,
-                                ehrComposition.getComponent()
-                        ));
+                .forEach(observationStatement ->
+                             findAndMergeNonTruncatedObservationStatementIntoTruncatedObservationStatementOrRemoveDuplicates(
+                                 observationStatement,
+                                 ehrComposition.getComponent()));
     }
 
     @NotNull
@@ -66,37 +64,51 @@ public class DuplicateObservationStatementMapper {
                 .toList();
     }
 
-    private static void findAndMergeNonTruncatedObservationStatementIntoTruncatedObservationStatement(
-            RCMRMT030101UKObservationStatement truncatedObservationStatement, List<RCMRMT030101UKComponent4> components) {
+    private static void findAndMergeNonTruncatedObservationStatementIntoTruncatedObservationStatementOrRemoveDuplicates(
+            RCMRMT030101UKObservationStatement observationStatementWithPertinentInfo, List<RCMRMT030101UKComponent4> components) {
 
+        RCMRMT030101UKAnnotation truncatedPertinentAnnotation = null;
+        String annotationPrefix = null;
+        boolean isTruncated = isAnnotationTruncated(observationStatementWithPertinentInfo);
 
-        RCMRMT030101UKAnnotation truncatedPertinentAnnotation = getPertinentAnnotation(truncatedObservationStatement);
-        String truncatedAnnotation = truncatedPertinentAnnotation.getText();
-        String annotationPrefix = truncatedAnnotation.substring(0, truncatedAnnotation.length() - CHAR_LIMIT_FOR_TRUNCATION);
+        if (isTruncated) {
+            truncatedPertinentAnnotation = getPertinentAnnotation(observationStatementWithPertinentInfo);
+            String truncatedAnnotation = truncatedPertinentAnnotation.getText();
+            annotationPrefix = truncatedAnnotation.substring(0, truncatedAnnotation.length() - CHAR_LIMIT_FOR_TRUNCATION);
+        }
 
         for (Iterator<RCMRMT030101UKComponent4> observationIterator = components.iterator(); observationIterator.hasNext();) {
             var observationStatement = observationIterator.next().getObservationStatement();
             if (observationStatement != null
-                    && !areSameObservationStatements(truncatedObservationStatement, observationStatement)
-                    && hasSinglePertinentInformation(observationStatement)
+                && !areSameObservationStatements(observationStatementWithPertinentInfo, observationStatement)
+                && observationsAreCodedTheSame(observationStatementWithPertinentInfo, observationStatement)
+                && areAdditionalFieldsEmpty(observationStatement)) {
+
+                if (isTruncated && hasSinglePertinentInformation(observationStatement)
                     && doesTruncatedAnnotationMatchOtherAnnotation(truncatedPertinentAnnotation,
-                          getPertinentAnnotation(observationStatement))
-                    && observationsAreCodedTheSame(truncatedObservationStatement, observationStatement)
-                    && areAdditionalFieldsEmpty(observationStatement)) {
-                observationIterator.remove();
-                truncatedPertinentAnnotation.setText(annotationPrefix + getPertinentAnnotation(observationStatement).getText());
-                LOGGER.info(
-                        "ObservationStatement: '{}' Is truncated version of '{}' and will be merged into a single observation.",
-                        truncatedObservationStatement.getId().getRoot(),
-                        observationStatement.getId().getRoot()
-                );
-                return;
+                                                                   getPertinentAnnotation(observationStatement))) {
+
+                    observationIterator.remove();
+                    truncatedPertinentAnnotation.setText(annotationPrefix + getPertinentAnnotation(observationStatement).getText());
+
+                    LOGGER.info("ObservationStatement: '{}' Is truncated version of '{}' and will be merged into a single observation.",
+                                observationStatementWithPertinentInfo.getId().getRoot(),
+                                observationStatement.getId().getRoot());
+                    return;
+                } else if (!isTruncated) {
+                    observationIterator.remove();
+                    LOGGER.info("ObservationStatement: '{}' has been removed as it has the same codeable concept as '{}' observation.",
+                                observationStatement.getId().getRoot(),
+                                observationStatementWithPertinentInfo.getId().getRoot());
+                    return;
+                }
             }
         }
-        LOGGER.info(
-                "ObservationStatement: '{}' appears to have been truncated but no match was found.",
-                truncatedObservationStatement.getId().getRoot()
-        );
+
+        if (isTruncated) {
+            LOGGER.info("ObservationStatement: '{}' appears to have been truncated but no match was found.",
+                        observationStatementWithPertinentInfo.getId().getRoot());
+        }
     }
 
     @NotNull
@@ -117,8 +129,8 @@ public class DuplicateObservationStatementMapper {
                 && observation.getPertinentInformation().getFirst().getSequenceNumber().getValue().intValueExact() == 1;
     }
 
-    private static boolean doesTruncatedAnnotationMatchOtherAnnotation(
-            RCMRMT030101UKAnnotation truncatedPertinentAnnotation, RCMRMT030101UKAnnotation candidateMatchingPertinentAnnotation) {
+    private static boolean doesTruncatedAnnotationMatchOtherAnnotation(RCMRMT030101UKAnnotation truncatedPertinentAnnotation,
+                                                                       RCMRMT030101UKAnnotation candidateMatchingPertinentAnnotation) {
         String truncatedObservationText = truncatedPertinentAnnotation.getText();
         String truncatedObservationTextWithoutEllipsis = truncatedObservationText.substring(
                 truncatedObservationText.length() - CHAR_LIMIT_FOR_TRUNCATION,
@@ -150,8 +162,8 @@ public class DuplicateObservationStatementMapper {
     }
 
     @NotNull
-    private static Optional<RCMRMT030101UKObservationStatement> getLinkedObservationStatement(
-            RCMRMT030101UKEhrComposition ehrComposition, String observationIdReferencedFromLinkset) {
+    private static Optional<RCMRMT030101UKObservationStatement> getLinkedObservationStatement(RCMRMT030101UKEhrComposition ehrComposition,
+                                                                                              String observationIdReferencedFromLinkset) {
 
         return ehrComposition.getComponent()
                 .stream()
