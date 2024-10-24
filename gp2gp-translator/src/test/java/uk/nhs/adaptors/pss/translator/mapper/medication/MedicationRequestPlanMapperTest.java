@@ -5,12 +5,14 @@ import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
+import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITHOUT_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.MetaUtil.MetaType.META_WITH_SECURITY;
 import static uk.nhs.adaptors.pss.translator.util.MetaUtil.assertMetaSecurityIsNotPresent;
@@ -30,6 +32,7 @@ import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Meta;
+import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.UnsignedIntType;
@@ -43,9 +46,11 @@ import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
+import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Named;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -60,6 +65,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import lombok.SneakyThrows;
 import uk.nhs.adaptors.pss.translator.FileFactory;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.MetaUtil;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
@@ -110,6 +116,10 @@ class MedicationRequestPlanMapperTest {
     private MedicationMapper medicationMapper;
     @Mock
     private ConfidentialityService confidentialityService;
+    @Mock
+    private IdGeneratorService idGeneratorService;
+    @Mock
+    private MedicationMapperContext medicationMapperContext;
     @InjectMocks
     private MedicationRequestPlanMapper medicationRequestPlanMapper;
     @Captor
@@ -126,6 +136,214 @@ class MedicationRequestPlanMapperTest {
             confidentialityCodeCaptor.capture(),
             confidentialityCodeCaptor.capture()
         )).thenReturn(META_WITHOUT_SECURITY_ADDED);
+    }
+
+    @Nested
+    class WhenTwoEhrSupplyPrescribeAreInFulfillmentOfTheSameRepeatEhrSupplyAuthorise {
+        private static RCMRMT030101UKEhrExtract ehrExtract;
+        private static RCMRMT030101UKMedicationStatement medicationStatementContainingSupplyAuthorise;
+        private static RCMRMT030101UKAuthorise supplyAuthorise;
+        private static RCMRMT030101UKEhrComposition ehrCompositionContainingSupplyAuthorise;
+
+        @BeforeEach
+        void setUp() {
+            ehrExtract = unmarshallEhrExtract(
+                "ehrExtract_TwoSupplyPrescribeInFulfillmentOfTheSameRepeatSupplyAuthorise.xml"
+            );
+            medicationStatementContainingSupplyAuthorise = extractMedicationStatement(ehrExtract);
+            supplyAuthorise = extractSupplyAuthorise(medicationStatementContainingSupplyAuthorise);
+            ehrCompositionContainingSupplyAuthorise = GET_EHR_COMPOSITION.apply(ehrExtract);
+        }
+
+        @Test
+        @SneakyThrows
+        void expectNoAdditionalMedicationRequestPlanCreated() {
+            var planMedicationRequests = medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                ehrCompositionContainingSupplyAuthorise,
+                medicationStatementContainingSupplyAuthorise,
+                supplyAuthorise,
+                PRACTISE_CODE
+            );
+
+            assertThat(planMedicationRequests).hasSize(1);
+        }
+    }
+
+    @Nested
+    class WhenTwoEhrSupplyPrescribeAreInFulfillmentOfTheSameAcuteEhrSupplyAuthorise {
+        private static RCMRMT030101UKEhrExtract ehrExtract;
+        private static RCMRMT030101UKMedicationStatement medicationStatementContainingSupplyAuthorise;
+        private static RCMRMT030101UKAuthorise supplyAuthorise;
+        private static RCMRMT030101UKEhrComposition ehrCompositionContainingSupplyAuthorise;
+
+        @BeforeEach
+        void setUp() {
+            ehrExtract = unmarshallEhrExtract(
+                "ehrExtract_TwoSupplyPrescribeInFulfillmentOfTheSameAcuteSupplyAuthorise.xml"
+            );
+            medicationStatementContainingSupplyAuthorise = extractMedicationStatement(ehrExtract);
+            supplyAuthorise = extractSupplyAuthorise(medicationStatementContainingSupplyAuthorise);
+            ehrCompositionContainingSupplyAuthorise = GET_EHR_COMPOSITION.apply(ehrExtract);
+        }
+
+        @Test
+        @SneakyThrows
+        void expectAdditionalMedicationRequestPlanCreated() {
+            var planMedicationRequests = medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                ehrCompositionContainingSupplyAuthorise,
+                medicationStatementContainingSupplyAuthorise,
+                supplyAuthorise,
+                PRACTISE_CODE
+            );
+
+            assertThat(planMedicationRequests).hasSize(2);
+        }
+
+        @Test
+        @SneakyThrows
+        void expectAdditionalMedicationRequestPlanCreatedWithGeneratedIdAndIdentity() {
+            var generatedId = "generated-id";
+            when(idGeneratorService.generateUuid()).thenReturn(generatedId);
+
+            var planMedicationRequests = medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                ehrCompositionContainingSupplyAuthorise,
+                medicationStatementContainingSupplyAuthorise,
+                supplyAuthorise,
+                PRACTISE_CODE
+            );
+
+            assertAll(
+                () -> assertThat(planMedicationRequests)
+                    .anyMatch(plan -> generatedId.equals(plan.getId())),
+                () -> assertThat(planMedicationRequests)
+                    .anyMatch(plan -> plan.getIdentifierFirstRep().getValue().equals(generatedId))
+            );
+        }
+
+        @Test
+        void expectEarliestEhrSupplyPrescribeInFulfillmentOfReferencesOriginalPlan() {
+            medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                ehrCompositionContainingSupplyAuthorise,
+                medicationStatementContainingSupplyAuthorise,
+                supplyAuthorise,
+                PRACTISE_CODE
+            );
+
+            var earliestEhrSupplyPrescribe = extractEhrSupplyPrescribeById("EARLIEST_TEST_PRESCRIBE_ID");
+
+            assertThat(earliestEhrSupplyPrescribe.getInFulfillmentOf().getPriorMedicationRef().getId().getRoot())
+                .isEqualTo("TEST_AUTHORISE_ID");
+        }
+
+        @Test
+        void expectLatestEhrSupplyPrescribeInFulfilmentOfReferencesGeneratedPlan() {
+            var generatedId = "GENERATED_AUTHORISE_ID";
+            when(idGeneratorService.generateUuid()).thenReturn(generatedId);
+            medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                ehrCompositionContainingSupplyAuthorise,
+                medicationStatementContainingSupplyAuthorise,
+                supplyAuthorise,
+                PRACTISE_CODE
+            );
+
+            var latestEhrSupplyPrescribe = extractEhrSupplyPrescribeById("LATEST_TEST_PRESCRIBE_ID");
+
+            assertThat(latestEhrSupplyPrescribe.getInFulfillmentOf().getPriorMedicationRef().getId().getRoot())
+                .isEqualTo(generatedId);
+        }
+
+        @Test
+        void expectTheGeneratedPlanHasPriorPrescriptionReferencingOriginalPlan() {
+            var generatedId = "generated-id";
+            when(idGeneratorService.generateUuid()).thenReturn(generatedId);
+
+            var planMedicationRequests = medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                ehrCompositionContainingSupplyAuthorise,
+                medicationStatementContainingSupplyAuthorise,
+                supplyAuthorise,
+                PRACTISE_CODE
+            );
+
+            var generatedPlan = planMedicationRequests.stream()
+                .filter(plan -> generatedId.equals(plan.getId()))
+                .findFirst()
+                .orElseThrow();
+
+            assertAll(
+                () -> assertThat(generatedPlan.getPriorPrescription().getReferenceElement().getResourceType())
+                    .isEqualTo(ResourceType.MedicationRequest.name()),
+                () -> assertThat(generatedPlan.getPriorPrescription().getReferenceElement().getIdPart())
+                    .isEqualTo("TEST_AUTHORISE_ID")
+            );
+        }
+
+        @Test
+        void expectGeneratedPlanHasDispenseRequestValidityPeriodCopiedFromTheLatestOrder() {
+            var generatedId = "generated-id";
+            when(idGeneratorService.generateUuid()).thenReturn(generatedId);
+
+            var planMedicationRequests = medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                ehrCompositionContainingSupplyAuthorise,
+                medicationStatementContainingSupplyAuthorise,
+                supplyAuthorise,
+                PRACTISE_CODE
+            );
+
+            var generatedPlan = planMedicationRequests.stream()
+                .filter(plan -> generatedId.equals(plan.getId()))
+                .findFirst()
+                .orElseThrow();
+
+            var latestEhrSupplyPrescribe = extractEhrSupplyPrescribeById("LATEST_TEST_PRESCRIBE_ID");
+
+            assertThat(generatedPlan.getDispenseRequest().getValidityPeriod())
+                .usingRecursiveComparison()
+                .isEqualTo(
+                    new Period().setStartElement(
+                        DateFormatUtil.parseToDateTimeType(latestEhrSupplyPrescribe.getAvailabilityTime().getValue())
+                    )
+                );
+        }
+
+        @Test
+        void expectMappingIsAddedToMedicationMapperContext() {
+            var generatedId = "generated-id";
+            when(idGeneratorService.generateUuid()).thenReturn(generatedId);
+
+            medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                ehrExtract,
+                ehrCompositionContainingSupplyAuthorise,
+                medicationStatementContainingSupplyAuthorise,
+                supplyAuthorise,
+                PRACTISE_CODE
+            );
+
+            verify(medicationMapperContext, times(1))
+                .addSupplyAuthoriseIdToGeneratedIdsMapping("TEST_AUTHORISE_ID", List.of(generatedId));
+        }
+
+        private static RCMRMT030101UKPrescribe extractEhrSupplyPrescribeById(String id) {
+            return ehrExtract.getComponent().stream()
+                .filter(RCMRMT030101UKComponent::hasEhrFolder)
+                .map(RCMRMT030101UKComponent::getEhrFolder)
+                .flatMap(ehrFolder -> ehrFolder.getComponent().stream())
+                .filter(RCMRMT030101UKComponent3::hasEhrComposition)
+                .flatMap(component -> component.getEhrComposition().getComponent().stream())
+                .map(RCMRMT030101UKComponent4::getMedicationStatement)
+                .flatMap(statement -> statement.getComponent().stream())
+                .filter(RCMRMT030101UKComponent2::hasEhrSupplyPrescribe)
+                .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
+                .filter(supplyPrescribe -> id.equals(supplyPrescribe.getId().getRoot()))
+                .findFirst()
+                .orElseThrow();
+        }
     }
 
     @Test
@@ -508,7 +726,7 @@ class MedicationRequestPlanMapperTest {
             confidentialityCodeCaptor.capture()
         )).thenReturn(meta);
 
-        final MedicationRequest medicationRequest = getMedicationRequestFromEhrExtract(ehrExtract);
+        final MedicationRequest medicationRequest = getMedicationRequestFromEhrExtract(ehrExtract).getFirst();
         final List<Extension> extensions = medicationRequest.getExtensionsByUrl(MEDICATION_STATUS_REASON_URL);
 
         assertAll(
@@ -597,10 +815,10 @@ class MedicationRequestPlanMapperTest {
 
     private MedicationRequest mapPlanMedicationRequestFromMedicationStatement(String medicationStatementXml) {
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractFromMedicationRequestXml(medicationStatementXml);
-        return getMedicationRequestFromEhrExtract(ehrExtract);
+        return getMedicationRequestFromEhrExtract(ehrExtract).getFirst();
     }
 
-    private MedicationRequest getMedicationRequestFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
+    private List<MedicationRequest> getMedicationRequestFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
         final RCMRMT030101UKMedicationStatement medicationStatement = extractMedicationStatement(ehrExtract);
         final RCMRMT030101UKAuthorise supplyAuthorise = extractSupplyAuthorise(medicationStatement);
         final RCMRMT030101UKEhrComposition ehrComposition = GET_EHR_COMPOSITION.apply(ehrExtract);
@@ -640,7 +858,7 @@ class MedicationRequestPlanMapperTest {
         );
     }
 
-    private RCMRMT030101UKAuthorise extractSupplyAuthorise(RCMRMT030101UKMedicationStatement medicationStatement) {
+    private static RCMRMT030101UKAuthorise extractSupplyAuthorise(RCMRMT030101UKMedicationStatement medicationStatement) {
         return medicationStatement
             .getComponent()
             .stream()
@@ -681,7 +899,7 @@ class MedicationRequestPlanMapperTest {
         ));
     }
 
-    private RCMRMT030101UKMedicationStatement extractMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract) {
+    private static RCMRMT030101UKMedicationStatement extractMedicationStatement(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract
             .getComponent()
             .stream()
@@ -692,8 +910,16 @@ class MedicationRequestPlanMapperTest {
             .map(RCMRMT030101UKEhrComposition::getComponent)
             .flatMap(List::stream)
             .map(RCMRMT030101UKComponent4::getMedicationStatement)
-            .findFirst()
+            .filter(medicationStatement ->
+                medicationStatement.getComponent().stream().anyMatch(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
+             )
+             .findFirst()
             .orElseThrow();
+    }
+
+    @SneakyThrows
+    private static RCMRMT030101UKEhrExtract unmarshallEhrExtract(String fileName) {
+        return unmarshallFile(getFile("classpath:" + "xml/MedicationStatement/" + fileName), RCMRMT030101UKEhrExtract.class);
     }
 
     @SneakyThrows

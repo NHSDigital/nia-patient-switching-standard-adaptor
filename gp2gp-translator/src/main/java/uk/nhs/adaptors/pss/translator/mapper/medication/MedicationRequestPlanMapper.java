@@ -1,6 +1,7 @@
 package uk.nhs.adaptors.pss.translator.mapper.medication;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.Annotation;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
@@ -8,6 +9,7 @@ import org.hl7.fhir.dstu3.model.Extension;
 import org.hl7.fhir.dstu3.model.IdType;
 import org.hl7.fhir.dstu3.model.MedicationRequest;
 import org.hl7.fhir.dstu3.model.Meta;
+import org.hl7.fhir.dstu3.model.Period;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.StringType;
@@ -19,19 +21,24 @@ import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKDiscontinue;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
-import org.hl7.v3.RCMRMT030101UKEhrFolder;
 import org.hl7.v3.RCMRMT030101UKMedicationStatement;
 import org.hl7.v3.RCMRMT030101UKPertinentInformation2;
+import org.hl7.v3.RCMRMT030101UKPrescribe;
 import org.hl7.v3.RCMRMT030101UKSupplyAnnotation;
+import org.hl7.v3.TS;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import uk.nhs.adaptors.pss.translator.service.ConfidentialityService;
+import uk.nhs.adaptors.pss.translator.service.IdGeneratorService;
 import uk.nhs.adaptors.pss.translator.util.DateFormatUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestIntent.PLAN;
 import static org.hl7.fhir.dstu3.model.MedicationRequest.MedicationRequestStatus.ACTIVE;
@@ -44,8 +51,10 @@ import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperU
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.buildPrescriptionTypeExtension;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractEhrSupplyAuthoriseId;
 import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.extractMatchingDiscontinue;
+import static uk.nhs.adaptors.pss.translator.mapper.medication.MedicationMapperUtils.isAcutePrescription;
 import static uk.nhs.adaptors.pss.translator.util.ResourceUtil.buildIdentifier;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class MedicationRequestPlanMapper {
@@ -64,52 +73,201 @@ public class MedicationRequestPlanMapper {
     private static final String PRESCRIPTION_TYPE = "Prescription type: ";
     private static final String MISSING_REASON_STRING = "No information available";
 
+    private final MedicationMapperContext medicationMapperContext;
     private final MedicationMapper medicationMapper;
     private final ConfidentialityService confidentialityService;
+    private final IdGeneratorService idGeneratorService;
 
-    public MedicationRequest mapToPlanMedicationRequest(RCMRMT030101UKEhrExtract ehrExtract,
+    public List<MedicationRequest> mapToPlanMedicationRequest(RCMRMT030101UKEhrExtract ehrExtract,
                                                         RCMRMT030101UKEhrComposition ehrComposition,
                                                         RCMRMT030101UKMedicationStatement medicationStatement,
                                                         RCMRMT030101UKAuthorise supplyAuthorise,
                                                         String practiseCode) {
 
-        var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);
-
-        if (ehrSupplyAuthoriseIdExtract.isPresent()) {
-            var ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
-            var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, ehrExtract);
-
-            final var medicationRequest =
-                initializeMedicationRequest(ehrComposition, medicationStatement, supplyAuthorise, practiseCode, ehrSupplyAuthoriseId);
-
-            List<Extension> repeatInformationExtensions = new ArrayList<>();
-            extractSupplyAuthoriseRepeatInformation(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
-            extractRepeatInformationIssued(ehrExtract, supplyAuthorise, ehrSupplyAuthoriseId).ifPresent(repeatInformationExtensions::add);
-            extractAuthorisationExpiryDate(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
-
-            buildCondensedExtensions(REPEAT_INFORMATION_URL, repeatInformationExtensions)
-                .ifPresent(medicationRequest::addExtension);
-
-            List<Extension> statusChangeExtensions = discontinue
-                .map(this::getStatusChangedExtensions)
-                .orElse(Collections.emptyList());
-
-            var status = discontinue.isPresent()
-                ? buildMedicationRequestStatus(statusChangeExtensions)
-                : buildMedicationRequestStatus(supplyAuthorise);
-            medicationRequest.setStatus(status);
-
-            buildCondensedExtensions(STATUS_CHANGE_URL, statusChangeExtensions)
-                .ifPresent(medicationRequest::addExtension);
-            buildPrescriptionTypeExtension(supplyAuthorise).ifPresent(medicationRequest::addExtension);
-
-            buildNotesForAuthorise(supplyAuthorise).forEach(medicationRequest::addNote);
-            extractPriorPrescription(supplyAuthorise).ifPresent(medicationRequest::setPriorPrescription);
-            medicationMapper.extractMedicationReference(medicationStatement).ifPresent(medicationRequest::setMedication);
-
-            return medicationRequest;
+        final var ehrSupplyAuthoriseIdExtract = extractEhrSupplyAuthoriseId(supplyAuthorise);
+        if (ehrSupplyAuthoriseIdExtract.isEmpty()) {
+            return List.of();
         }
-        return null;
+        final var ehrSupplyAuthoriseId = ehrSupplyAuthoriseIdExtract.get();
+        final var planMedicationRequests = new ArrayList<MedicationRequest>();
+
+        final var initialMedicationRequest =
+            initializeMedicationRequest(ehrComposition, medicationStatement, supplyAuthorise, practiseCode, ehrSupplyAuthoriseId);
+
+        extractPriorPrescription(supplyAuthorise).ifPresent(initialMedicationRequest::setPriorPrescription);
+        planMedicationRequests.add(initialMedicationRequest);
+
+        if (isAcutePrescription(supplyAuthorise)) {
+            var generatedMedicationRequests = generateAdditionalPlansForAcuteEhrSupplyAuthorise(
+                ehrExtract,
+                ehrSupplyAuthoriseId,
+                initialMedicationRequest
+            );
+
+            var generatedIds = generatedMedicationRequests.stream()
+                .map(MedicationRequest::getId)
+                .toList();
+
+            // we need to use these Ids to generate MedicationStatements later, so we need to add these to context
+            if (!generatedMedicationRequests.isEmpty()) {
+                medicationMapperContext.addSupplyAuthoriseIdToGeneratedIdsMapping(ehrSupplyAuthoriseId, generatedIds);
+            }
+
+            planMedicationRequests.addAll(generatedMedicationRequests);
+        }
+
+        var discontinue = extractMatchingDiscontinue(ehrSupplyAuthoriseId, ehrExtract);
+
+        List<Extension> statusChangeExtensions = discontinue
+            .map(this::getStatusChangedExtensions)
+            .orElse(Collections.emptyList());
+
+        var extension = buildMedicationRequestExtension(ehrExtract, supplyAuthorise, ehrSupplyAuthoriseId, statusChangeExtensions);
+
+        var status = discontinue.isPresent()
+            ? buildMedicationRequestStatus(statusChangeExtensions)
+            : buildMedicationRequestStatus(supplyAuthorise);
+        var notes = buildNotesForAuthorise(supplyAuthorise);
+        var medicationReference = medicationMapper.extractMedicationReference(medicationStatement);
+
+        for (MedicationRequest medicationRequest : planMedicationRequests) {
+            medicationRequest.setStatus(status);
+            medicationRequest.setExtension(extension);
+            notes.forEach(medicationRequest::addNote);
+            medicationReference.ifPresent(medicationRequest::setMedication);
+        }
+
+        return planMedicationRequests;
+    }
+
+    private List<MedicationRequest> generateAdditionalPlansForAcuteEhrSupplyAuthorise(
+        RCMRMT030101UKEhrExtract ehrExtract,
+        String ehrSupplyAuthoriseId,
+        MedicationRequest initialMedicationRequest
+    ) {
+        final var ehrSupplyPrescribes = extractMatchingSupplyPrescribes(ehrExtract, ehrSupplyAuthoriseId);
+        if (ehrSupplyPrescribes.size() < 2) {
+            return List.of();
+        }
+
+        final List<MedicationRequest> generatedPlans = new ArrayList<>();
+
+        for (var index = 1; index < ehrSupplyPrescribes.size(); index++) {
+            final var generatedPlan = initialMedicationRequest.copy();
+            final var supplyPrescribe = ehrSupplyPrescribes.get(index);
+            final var generatedPlanId = idGeneratorService.generateUuid();
+
+            generatedPlan.setId(generatedPlanId);
+            generatedPlan.getIdentifierFirstRep().setValue(generatedPlanId);
+            setPriorPrescriptionForGeneratedMedicationRequestToReferenceClosestPreviousInTime(
+                generatedPlans,
+                ehrSupplyAuthoriseId,
+                generatedPlan
+            );
+            updateValidityPeriodForPlanMedicationRequestToMatchEhrSupplyPrescribe(
+                generatedPlan,
+                supplyPrescribe.getAvailabilityTime()
+            );
+            updateInFulfillmentOfForEhrSupplyPrescribeToReferenceGeneratedPlan(supplyPrescribe, generatedPlanId);
+
+            LOGGER.info(
+                "Generated MedicationRequest(Plan) with Id: {} for MedicationRequest(Order) with Id: {}",
+                generatedPlan.getId(),
+                supplyPrescribe.getId()
+            );
+
+            generatedPlans.addLast(generatedPlan);
+        }
+
+        return generatedPlans;
+    }
+
+    private @NotNull List<Extension> buildMedicationRequestExtension(
+        RCMRMT030101UKEhrExtract ehrExtract,
+        RCMRMT030101UKAuthorise supplyAuthorise,
+        String ehrSupplyAuthoriseId,
+        List<Extension> statusChangeExtensions
+    ) {
+        var repeatInformationExtension = buildRepeatInformationExtension(ehrExtract, supplyAuthorise, ehrSupplyAuthoriseId);
+
+        var statusChangeExtension = buildCondensedExtensions(STATUS_CHANGE_URL, statusChangeExtensions);
+        var prescriptionTypeExtension = buildPrescriptionTypeExtension(supplyAuthorise);
+
+        return Stream.of(repeatInformationExtension, statusChangeExtension, prescriptionTypeExtension)
+            .flatMap(Optional::stream)
+            .toList();
+    }
+
+    private Optional<Extension> buildRepeatInformationExtension(
+        RCMRMT030101UKEhrExtract ehrExtract,
+        RCMRMT030101UKAuthorise supplyAuthorise,
+        String ehrSupplyAuthoriseId
+    ) {
+        List<Extension> repeatInformationExtensions = new ArrayList<>();
+        extractSupplyAuthoriseRepeatInformation(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
+        extractRepeatInformationIssued(ehrExtract, supplyAuthorise, ehrSupplyAuthoriseId).ifPresent(repeatInformationExtensions::add);
+        extractAuthorisationExpiryDate(supplyAuthorise).ifPresent(repeatInformationExtensions::add);
+        return buildCondensedExtensions(REPEAT_INFORMATION_URL, repeatInformationExtensions);
+    }
+
+    private static void setPriorPrescriptionForGeneratedMedicationRequestToReferenceClosestPreviousInTime(
+        List<MedicationRequest> planMedicationRequests,
+        String ehrSupplyAuthoriseId,
+        MedicationRequest generatedPlanMedicationRequest
+    ) {
+        var priorPrescriptionId = planMedicationRequests.isEmpty()
+            ? ehrSupplyAuthoriseId
+            : planMedicationRequests.getLast().getId();
+
+        generatedPlanMedicationRequest.setPriorPrescription(
+            new Reference(new IdType(ResourceType.MedicationRequest.name(), priorPrescriptionId)));
+    }
+
+    private static void updateInFulfillmentOfForEhrSupplyPrescribeToReferenceGeneratedPlan(
+        RCMRMT030101UKPrescribe supplyPrescribe,
+        String generatedPlanMedicationRequestId
+    ) {
+        supplyPrescribe.getInFulfillmentOf()
+            .getPriorMedicationRef()
+            .getId()
+            .setRoot(generatedPlanMedicationRequestId);
+    }
+
+    private static void updateValidityPeriodForPlanMedicationRequestToMatchEhrSupplyPrescribe(
+        MedicationRequest planMedicationRequest, TS supplyPrescribeAvailabilityTime) {
+        if (supplyPrescribeAvailabilityTime.hasValue() && !supplyPrescribeAvailabilityTime.hasNullFlavor()) {
+            planMedicationRequest.getDispenseRequest()
+                .setValidityPeriod(
+                    new Period()
+                        .setStartElement(
+                            DateFormatUtil.parseToDateTimeType(supplyPrescribeAvailabilityTime.getValue())
+                        )
+                );
+        }
+    }
+
+    private static Stream<RCMRMT030101UKMedicationStatement> extractAllMedicationStatementsAsStream(RCMRMT030101UKEhrExtract ehrExtract) {
+        return ehrExtract.getComponent().stream()
+            .filter(RCMRMT030101UKComponent::hasEhrFolder)
+            .map(RCMRMT030101UKComponent::getEhrFolder)
+            .flatMap(ehrFolder -> ehrFolder.getComponent().stream())
+            .filter(RCMRMT030101UKComponent3::hasEhrComposition)
+            .flatMap(component -> component.getEhrComposition().getComponent().stream())
+            .flatMap(MedicationMapperUtils::extractAllMedications)
+            .filter(Objects::nonNull);
+    }
+
+    private @NotNull List<RCMRMT030101UKPrescribe> extractMatchingSupplyPrescribes(
+        RCMRMT030101UKEhrExtract ehrExtract,
+        String ehrSupplyAuthoriseId
+    ) {
+        return extractAllMedicationStatementsAsStream(ehrExtract)
+            .flatMap(statement -> statement.getComponent().stream())
+            .filter(component -> hasInFulfillmentOfReference(component, ehrSupplyAuthoriseId))
+            .map(RCMRMT030101UKComponent2::getEhrSupplyPrescribe)
+            .sorted(Comparator.comparing(supplyPrescribe ->
+                DateFormatUtil.parseToDateTimeType(supplyPrescribe.getAvailabilityTime().getValue()).getValue())
+            ).toList();
     }
 
     private MedicationRequest initializeMedicationRequest(RCMRMT030101UKEhrComposition ehrComposition,
@@ -121,7 +279,7 @@ public class MedicationRequestPlanMapper {
             MedicationMapperUtils.META_PROFILE,
             medicationStatement.getConfidentialityCode(),
             ehrComposition.getConfidentialityCode()
-                                                                                                      );
+        );
 
         final var medicationRequest = new MedicationRequest();
         medicationRequest.addIdentifier(buildIdentifier(ehrSupplyAuthoriseId, practiseCode))
@@ -158,28 +316,20 @@ public class MedicationRequestPlanMapper {
 
     private Optional<Extension> extractRepeatInformationIssued(RCMRMT030101UKEhrExtract ehrExtract,
                                                                RCMRMT030101UKAuthorise supplyAuthorise, String supplyAuthoriseId) {
-
-        if ((supplyAuthorise.hasRepeatNumber() && supplyAuthorise.getRepeatNumber().getValue().intValue() != 0)
-            || !supplyAuthorise.hasRepeatNumber()) {
-
-            var repeatCount = ehrExtract.getComponent().stream()
-                .map(RCMRMT030101UKComponent::getEhrFolder)
-                .map(RCMRMT030101UKEhrFolder::getComponent)
-                .flatMap(List::stream)
-                .map(RCMRMT030101UKComponent3::getEhrComposition)
-                .map(RCMRMT030101UKEhrComposition::getComponent)
-                .flatMap(List::stream)
-                .flatMap(MedicationMapperUtils::extractAllMedications)
-                .filter(Objects::nonNull)
-                .map(RCMRMT030101UKMedicationStatement::getComponent)
-                .flatMap(List::stream)
-                .filter(prescribe -> hasInFulfillmentOfReference(prescribe, supplyAuthoriseId))
-                .count();
-
-            return Optional.of(
-                new Extension(REPEATS_ISSUED_URL, new UnsignedIntType(repeatCount)));
+        if (MedicationMapperUtils.isAcutePrescription(supplyAuthorise)) {
+            return Optional.empty();
         }
-        return Optional.empty();
+
+        var repeatCount = extractAllMedicationStatementsAsStream(ehrExtract)
+            .filter(Objects::nonNull)
+            .map(RCMRMT030101UKMedicationStatement::getComponent)
+            .flatMap(List::stream)
+            .filter(prescribe -> hasInFulfillmentOfReference(prescribe, supplyAuthoriseId))
+            .count();
+
+        return Optional.of(
+            new Extension(REPEATS_ISSUED_URL, new UnsignedIntType(repeatCount)));
+
     }
 
     private Optional<Extension> extractAuthorisationExpiryDate(RCMRMT030101UKAuthorise supplyAuthorise) {
@@ -301,7 +451,6 @@ public class MedicationRequestPlanMapper {
     }
 
     private boolean hasInFulfillmentOfReference(RCMRMT030101UKComponent2 component, String id) {
-
         return component.hasEhrSupplyPrescribe()
             && component.getEhrSupplyPrescribe().hasInFulfillmentOf()
             && component.getEhrSupplyPrescribe().getInFulfillmentOf().hasPriorMedicationRef()
