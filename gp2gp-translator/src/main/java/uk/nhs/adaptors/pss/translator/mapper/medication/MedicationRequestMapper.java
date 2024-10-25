@@ -30,6 +30,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.ResourceType;
+import org.hl7.v3.RCMRMT030101UKAuthorise;
 import org.hl7.v3.RCMRMT030101UKComponent2;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
@@ -311,25 +312,31 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             practiseCode
         );
 
-        List<MedicationRequest> medicationRequestsPlan = mapMedicationRequestsPlan(
-            ehrExtract,
-            ehrComposition,
-            medicationStatement,
-            practiseCode
-        );
+        var medicationPlansAndStatements = getEhrSupplyAuthorises(medicationStatement).flatMap(
+                supplyAuthorise -> Stream.of(
+                        medicationRequestPlanMapper.mapToPlanMedicationRequest(
+                                ehrExtract,
+                                ehrComposition,
+                                medicationStatement,
+                                supplyAuthorise,
+                                practiseCode
+                        ),
+                        mapMedicationStatement(
+                                ehrExtract,
+                                ehrComposition,
+                                medicationStatement,
+                                supplyAuthorise,
+                                context,
+                                subject,
+                                authoredOn,
+                                practiseCode,
+                                dateAsserted
+                        )
+                )
+        ).filter(Objects::nonNull).toList();
 
-        List<MedicationStatement> medicationStatements = mapMedicationStatements(
-            ehrExtract,
-            ehrComposition,
-            medicationStatement,
-            context,
-            subject,
-            authoredOn,
-            practiseCode,
-            dateAsserted
-        );
 
-        return Stream.of(medications, medicationRequestsOrder, medicationRequestsPlan, medicationStatements)
+        return Stream.of(medications, medicationRequestsOrder, medicationPlansAndStatements)
             .flatMap(List::stream)
             .map(DomainResource.class::cast)
             .map(medicationRequest -> setCommonFields(
@@ -408,39 +415,32 @@ public class MedicationRequestMapper extends AbstractMapper<DomainResource> {
             .toList();
     }
 
-    private List<MedicationRequest> mapMedicationRequestsPlan(RCMRMT030101UKEhrExtract ehrExtract,
-        RCMRMT030101UKEhrComposition ehrComposition,
-        RCMRMT030101UKMedicationStatement medicationStatement, String practiseCode) {
-
+    private Stream<RCMRMT030101UKAuthorise> getEhrSupplyAuthorises(RCMRMT030101UKMedicationStatement medicationStatement) {
         return medicationStatement.getComponent()
             .stream()
             .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
-            .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
-            .map(supplyAuthorise -> medicationRequestPlanMapper.mapToPlanMedicationRequest(ehrExtract, ehrComposition, medicationStatement,
-                supplyAuthorise, practiseCode))
-            .filter(Objects::nonNull)
-            .toList();
+            .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise);
     }
 
     @SuppressWarnings("checkstyle:ParameterNumber")
-    private List<MedicationStatement> mapMedicationStatements(RCMRMT030101UKEhrExtract ehrExtract,
+    private MedicationStatement mapMedicationStatement(
+          RCMRMT030101UKEhrExtract ehrExtract,
           RCMRMT030101UKEhrComposition ehrComposition,
-          RCMRMT030101UKMedicationStatement medicationStatement, Optional<Encounter> context, Patient subject,
+          RCMRMT030101UKMedicationStatement medicationStatement,
+          RCMRMT030101UKAuthorise authorise,
+          Optional<Encounter> context, Patient subject,
           DateTimeType authoredOn, String practiseCode, DateTimeType dateAsserted) {
 
-        return medicationStatement.getComponent()
-            .stream()
-            .filter(RCMRMT030101UKComponent2::hasEhrSupplyAuthorise)
-            .map(RCMRMT030101UKComponent2::getEhrSupplyAuthorise)
-            .map(supplyAuthorise -> medicationStatementMapper
-                .mapToMedicationStatement(ehrExtract, ehrComposition, medicationStatement, supplyAuthorise, practiseCode, authoredOn))
-            .filter(Objects::nonNull)
-            .peek(medicationStatement1 -> {
-                context.ifPresent(context1 -> medicationStatement1.setContext(new Reference(context1)));
-                medicationStatement1.setSubject(new Reference(subject));
-                medicationStatement1.setDateAssertedElement(dateAsserted);
-            })
-            .toList();
+        var statement = medicationStatementMapper.mapToMedicationStatement(
+            ehrExtract, ehrComposition, medicationStatement, authorise, practiseCode, authoredOn
+        );
+
+        if (statement != null) {
+            context.ifPresent(context1 -> statement.setContext(new Reference(context1)));
+            statement.setSubject(new Reference(subject));
+            statement.setDateAssertedElement(dateAsserted);
+        }
+        return statement;
     }
 
     private Optional<Reference> extractRequester(RCMRMT030101UKEhrComposition ehrComposition,
