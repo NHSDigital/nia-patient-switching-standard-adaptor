@@ -29,7 +29,7 @@ The PS Adaptor initiates a conversation for transferring patient records, relyin
    - Recovery: After the database is restored, the system may resume operations, but requests during the outage are not processed.
 4. Facade Application is Down
    - Scenario: The facade application that works with the PS Adaptor is down.
-   - Expected Behavior: The initial request to the incumbent system is not sent. The communication between the PS Adaptor and the incumbent system is blocked.
+   - Expected Behavior: The initial transfer request is not sent. The communication between the PS Adaptor and the incumbent system is blocked.
    - Recovery: Once the facade application is operational, the system can process requests as normal.
 5. MHS Outbound Adaptor is down
    - Scenario: The MHS Outbound adaptor is not operational.
