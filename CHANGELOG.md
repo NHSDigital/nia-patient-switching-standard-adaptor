@@ -5,16 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.4] - 2024-10-28
+
 ### Fixed
 
 - In the event that an inbound MHS message cannot be processed and needs to be sent to the dead letter queue, the
   adaptor will now emit a log message at INFO level as opposed to DEBUG level.
-- Fixed a bug when mapping `MedicationRequest` where multiple `MedicationRequest [Order]` are based on the same acute
-`MedicationRequest [Plan]`. Now the `Order` with the earliest `DispenseRequest` validity period start date will remain
-referencing the original `Plan` whilst later `Orders` will instead reference a generated `Plan` instead.
--Fixed a bug when mapping `MedicationRequest` where multiple `MedicationRequest [Order]` are based on the same acute
-`MedicationRequest [Plan]`. Now the `Order` with the earliest `DispenseRequest` validity period start date will remain
- referencing the original `MedicationStatement` whilst later `Orders` will instead reference a generated `MedicationRequest` instead.
+- Fixed a bug when mapping a post-dated acute prescription with multiple issues, whereby the adaptor was generating
+  a `MedicationRequest [Plan]` which was being referenced by multiple `MedicationRequest [Order]`.
+  Now each acute prescription issue gets its own `MedicationRequest [Plan]`, with the `priorPrescription` field linking
+  the plans together.
 
 ## [3.0.3] - 2024-08-23
 
