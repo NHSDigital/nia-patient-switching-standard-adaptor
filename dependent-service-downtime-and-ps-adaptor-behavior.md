@@ -11,7 +11,7 @@ The PS Adaptor initiates a conversation for transferring patient records, relyin
 - MHS Adaptor: Manages inbound and outbound queues, which are responsible for transferring patient records to the incumbent system.
 - Other Dependencies: Include PS Adaptor database, MHS inbound and outbound services, file storage, Redis cache, and MHS outbound SDS.
 
-### Service Outage Scenarios and Expected Behavior
+### Service Outage Scenarios And Behavior Of The Adaptor In Certain Scenarios
 1. GP2GP Translator is Down
    - Scenario: The GP2GP Translator is not operational and cannot send patient records.
    - Expected Behavior: No messages are sent to the incumbent system while the translator is down. Once the GP2GP Translator recovers, 
@@ -20,6 +20,8 @@ The PS Adaptor initiates a conversation for transferring patient records, relyin
 2. Message Broker is Down
    - Scenario: The message broker responsible for transferring data between the GP2GP Translator and PS Adaptor is down.
    - Expected Behavior: The initial request is never sent to the incumbent system because the queue is unavailable.
+                        The facade responds with 500 "Internal Server Error". The transfer wasn't sent to the sending adapter.
+                        The transfer can be requested again once the message broker is up and running.
    - Recovery: After the queue is restored, the request can be processed normally, but any messages queued during downtime are not sent.
 3. PS Adaptor Database (DB) is Down
    - Scenario: The PS Adaptor's database is not operational.
