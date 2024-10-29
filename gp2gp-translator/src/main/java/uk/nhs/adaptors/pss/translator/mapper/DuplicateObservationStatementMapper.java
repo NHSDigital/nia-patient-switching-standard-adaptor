@@ -46,7 +46,7 @@ public class DuplicateObservationStatementMapper {
                 .filter(DuplicateObservationStatementMapper::hasSinglePertinentInformation)
                 .filter(DuplicateObservationStatementMapper::areAdditionalFieldsEmpty)
                 .forEach(observationStatement ->
-                             findAndMergeNonTruncatedObservationStatementIntoTruncatedObservationStatementOrRemoveDuplicates(
+                             findAndMergeOrRemoveDuplicates(
                                  observationStatement,
                                  ehrComposition.getComponent()));
     }
@@ -64,51 +64,72 @@ public class DuplicateObservationStatementMapper {
                 .toList();
     }
 
-    private static void findAndMergeNonTruncatedObservationStatementIntoTruncatedObservationStatementOrRemoveDuplicates(
-            RCMRMT030101UKObservationStatement observationStatementWithPertinentInfo, List<RCMRMT030101UKComponent4> components) {
-
-        RCMRMT030101UKAnnotation truncatedPertinentAnnotation = null;
-        String annotationPrefix = null;
-        boolean isTruncated = isAnnotationTruncated(observationStatementWithPertinentInfo);
-
-        if (isTruncated) {
-            truncatedPertinentAnnotation = getPertinentAnnotation(observationStatementWithPertinentInfo);
-            String truncatedAnnotation = truncatedPertinentAnnotation.getText();
-            annotationPrefix = truncatedAnnotation.substring(0, truncatedAnnotation.length() - CHAR_LIMIT_FOR_TRUNCATION);
+    private static void findAndMergeOrRemoveDuplicates(RCMRMT030101UKObservationStatement observationStatementWithPertinentInfo,
+                                                       List<RCMRMT030101UKComponent4> components) {
+        if (isAnnotationTruncated(observationStatementWithPertinentInfo)) {
+            mergeIfTruncated(observationStatementWithPertinentInfo, components);
+        } else {
+            removeExactDuplicates(observationStatementWithPertinentInfo, components);
         }
+    }
 
-        for (Iterator<RCMRMT030101UKComponent4> observationIterator = components.iterator(); observationIterator.hasNext();) {
-            var observationStatement = observationIterator.next().getObservationStatement();
-            if (observationStatement != null
-                && !areSameObservationStatements(observationStatementWithPertinentInfo, observationStatement)
-                && observationsAreCodedTheSame(observationStatementWithPertinentInfo, observationStatement)
-                && areAdditionalFieldsEmpty(observationStatement)) {
+    private static void removeExactDuplicates(RCMRMT030101UKObservationStatement observationStatement,
+                                              List<RCMRMT030101UKComponent4> components) {
 
-                if (isTruncated && hasSinglePertinentInformation(observationStatement)
-                    && doesTruncatedAnnotationMatchOtherAnnotation(truncatedPertinentAnnotation,
-                                                                   getPertinentAnnotation(observationStatement))) {
+        components.removeIf(component -> {
+            var candidateObservationStatement = component.getObservationStatement();
 
-                    observationIterator.remove();
-                    truncatedPertinentAnnotation.setText(annotationPrefix + getPertinentAnnotation(observationStatement).getText());
+            if (isExactCodeableConceptDuplicate(observationStatement, candidateObservationStatement)) {
+                LOGGER.info("Removed duplicate ObservationStatement: '{}' matching '{}'.",
+                            candidateObservationStatement.getId().getRoot(),
+                            observationStatement.getId().getRoot());
+                return true;
+            }
+            return false;
+        });
+    }
 
-                    LOGGER.info("ObservationStatement: '{}' Is truncated version of '{}' and will be merged into a single observation.",
-                                observationStatementWithPertinentInfo.getId().getRoot(),
-                                observationStatement.getId().getRoot());
-                    return;
-                } else if (!isTruncated) {
-                    observationIterator.remove();
-                    LOGGER.info("ObservationStatement: '{}' has been removed as it has the same codeable concept as '{}' observation.",
-                                observationStatement.getId().getRoot(),
-                                observationStatementWithPertinentInfo.getId().getRoot());
-                    return;
-                }
+    private static boolean isEligibleForMerge(RCMRMT030101UKObservationStatement truncatedObservationStatement,
+                                              RCMRMT030101UKObservationStatement candidateObservationStatement,
+                                              RCMRMT030101UKAnnotation truncatedAnnotation) {
+
+        return isExactCodeableConceptDuplicate(truncatedObservationStatement, candidateObservationStatement)
+               && hasSinglePertinentInformation(candidateObservationStatement)
+               && doesTruncatedAnnotationMatchOtherAnnotation(truncatedAnnotation, getPertinentAnnotation(candidateObservationStatement));
+    }
+
+    private static boolean isExactCodeableConceptDuplicate(RCMRMT030101UKObservationStatement observationStatement,
+                                                           RCMRMT030101UKObservationStatement candidateObservationStatement) {
+
+        return candidateObservationStatement != null
+               && !areSameObservationStatements(observationStatement, candidateObservationStatement)
+               && observationsAreCodedTheSame(observationStatement, candidateObservationStatement)
+               && areAdditionalFieldsEmpty(candidateObservationStatement);
+    }
+
+    private static void mergeIfTruncated(RCMRMT030101UKObservationStatement truncatedObservationStatement,
+                                         List<RCMRMT030101UKComponent4> components) {
+
+        RCMRMT030101UKAnnotation truncatedAnnotation = getPertinentAnnotation(truncatedObservationStatement);
+        String annotationPrefix =
+            truncatedAnnotation.getText().substring(0, truncatedAnnotation.getText().length() - CHAR_LIMIT_FOR_TRUNCATION);
+
+        for (Iterator<RCMRMT030101UKComponent4> iterator = components.iterator(); iterator.hasNext();) {
+            var candidateObservationStatement = iterator.next().getObservationStatement();
+
+            if (isEligibleForMerge(truncatedObservationStatement, candidateObservationStatement, truncatedAnnotation)) {
+                iterator.remove();
+                truncatedAnnotation.setText(annotationPrefix + getPertinentAnnotation(candidateObservationStatement).getText());
+
+                LOGGER.info("Merged truncated ObservationStatement: '{}' into '{}' observation.",
+                            truncatedObservationStatement.getId().getRoot(),
+                            candidateObservationStatement.getId().getRoot());
+                return;
             }
         }
 
-        if (isTruncated) {
-            LOGGER.info("ObservationStatement: '{}' appears to have been truncated but no match was found.",
-                        observationStatementWithPertinentInfo.getId().getRoot());
-        }
+        LOGGER.info("ObservationStatement: '{}' appears to have been truncated but no match was found.",
+                    truncatedObservationStatement.getId().getRoot());
     }
 
     @NotNull
@@ -143,7 +164,6 @@ public class DuplicateObservationStatementMapper {
         String annotationText = getPertinentAnnotation(observationStatement).getText();
         return annotationText.endsWith(ELLIPSIS) && annotationText.length() >= CHAR_LIMIT_FOR_TRUNCATION;
     }
-
 
     private static boolean areAdditionalFieldsEmpty(RCMRMT030101UKObservationStatement observationStatement) {
         return  observationStatement.getPriorityCode() == null

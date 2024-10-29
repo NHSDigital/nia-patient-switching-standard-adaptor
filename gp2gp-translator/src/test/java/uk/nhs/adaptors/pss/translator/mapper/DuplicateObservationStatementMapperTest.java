@@ -161,7 +161,6 @@ class DuplicateObservationStatementMapperTest {
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
 
-
     @Test
     public void doesntMergeObservationWhereTheCodesArentTheSame() {
         Logger fooLogger = (Logger) LoggerFactory.getLogger(DuplicateObservationStatementMapper.class);
