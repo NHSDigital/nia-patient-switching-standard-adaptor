@@ -1,11 +1,13 @@
 # nia-patient-switching-standard-adaptor
 National Integration Adaptor - [GP2GP Requesting Adaptor](https://digital.nhs.uk/developer/api-catalogue/gp2gp/patient-switching---integration-adaptor)
 
-Incumbent providers (e.g. TPP, EMIS, SystemOne) in order to deploy GP2GP Adaptor in their infrastructure
-to support losing practice scenario - i.e. whereby a different practice transfers patient data from the incumbent
-would have to make changes to their GP Connect interface implementations.
+Incumbent providers (e.g. TPP, EMIS, SystemOne) would have to make changes to their GP Connect interface implementations
+in order to deploy GP2GP Adaptor in their infrastructure to support losing practice scenario - i.e. whereby a different 
+practice transfers patient data from the incumbent.
+
 In particular, they would need to implement 1.6.0 version that is required by the GPC Consumer and GP2GP adaptors.
-This business case is not always easy to be accepted by the incumbent providers, as they would have to invest time to make those changes.
+This business case is not always easy to be accepted by the incumbent providers, as they would have to invest time to 
+make those changes.
 
 The motivation for the Switching Standard Adaptor is to remove the dependency from incumbent providers to do that work.
 The idea is to build an adaptor that could be installed and configured in a New Market Entrant (NME) infrastructure,
@@ -17,13 +19,12 @@ Adaptor consists of two main components:
 
 Both are Java Spring Boot applications, released as separate docker images.
 
-
 ## Table of contents
 
-1. [Guidance for setting up the GP2GP adaptors in INT](/getting-started-instructions.md)
-1. [Guidance for operating the adaptor as a New Market Entrant](/OPERATING.md)
+1. [Guidance for setting up the GP2GP adaptors in INT](documentation/getting-started-instructions.md)
+1. [Guidance for operating the adaptor as a New Market Entrant](documentation/OPERATING.md)
 1. [Guidance on integrating with the adaptors APIs](#endpoints)
-1. [Guidance for developing the adaptor](/developer-information.md)
+1. [Guidance for developing the adaptor](documentation/developer-information.md)
 1. [Documentation on how this adaptor maps GP2GP concepts to GPConnect concepts](https://github.com/NHSDigital/patient-switching-adaptors-mapping-documentation)
 
 ## Endpoints
@@ -143,7 +144,8 @@ Responds with one of:
 ### POST /$gpc.ack
 
 This endpoint finalizes the EHR transfer process.
-If you do not call this endpoint after receiving an EHR from the migratestructuredrecord enpoint, then you risk the losing practise triggering off the manual postal transfer.
+If you do not call this endpoint after receiving an EHR from the migratestructuredrecord enpoint, then you risk the 
+losing practise triggering off the manual postal transfer.
 
 To use this endpoint, you need to provide the following headers:
 
@@ -157,7 +159,9 @@ Endpoint calling:
 This endpoint is a fire-and-forget endpoint.
 - If your request is successful, you will get a 200: Success response.
 - If your request is unsuccessful, you will get a 500: Server error response.
-- If you receive a 500 response, you can retry again at any point, however, it should be noted that you must receive a 200: Success response from the migratestructuredrecord for the given conversation ID to receive a 200: Success from this endpoint.
+- If you receive a 500 response, you can retry again at any point, however, it should be noted that you must receive 
+a 200: Success response from the migratestructuredrecord for the given conversation ID to receive a 200: Success from 
+this endpoint.
 
 ## Licensing
 This code is dual licensed under the MIT license and the OGL (Open Government License).

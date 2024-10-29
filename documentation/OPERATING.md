@@ -22,7 +22,7 @@ The consumption of these logs form an essential part of issue investigation and 
 The log messages relating to a specific transfer can be identified by the Conversation ID. Which is a correlating ID present throughout the patient record migration and carried in the GP2GP messages themselves.
 
 ### Resources allocation
-Based on the use cases outlined in [Performance](README.md#Performance), 
+Based on the use cases outlined in [Performance](../README.md#Performance), 
 allocating 2 vCPUs and 4 GB RAM to the PS Adaptor components (Facade and Translator) is a solid starting point 
 and can be considered a moderate resource allocation. 
 However, if the system encounters performance challenges under higher concurrency or larger file sizes, 
@@ -75,7 +75,7 @@ For more configuration see the [Migration timeout variables](#migration-timeout-
 * In addition to the [/Patient/$gpc.migratestructuredrecord][migratestructuredrecord] endpoint, the database can be used to monitor for any failed or incomplete transfers
 
 [PostgreSQL]: https://www.postgresql.org/
-[migratestructuredrecord]: README.md#patientgpcmigratestructuredrecord
+[migratestructuredrecord]: ../README.md#patientgpcmigratestructuredrecord
 
 ### Updating the application schema
 
@@ -115,7 +115,7 @@ You will need to provide this file to the container.
 
 The SNOMED loader script is also responsible for populating the materialised view `immunization_codes` which is used to
 identify which `Observations` are to be treated as `Immunizations`. Details of how these are built are provided in the 
-documentation snomed database loader documentation [README.md](snomed-database-loader/README.md).
+documentation snomed database loader documentation [README.md](../snomed-database-loader/README.md).
 
 To test immunization codes are loaded correctly the script [test-load-immunization-codes.sh](snomed-database-loader/test-load-immunization-codes.sh)
 can be executed against the database using the required environment variables listed above.
@@ -132,7 +132,7 @@ $ docker run --rm -e PS_DB_OWNER_NAME=postgres -e POSTGRES_PASSWORD=super5ecret 
 #### First installation
 
 As part of the installation of the adaptor, we do not provide the SNOMED database files as they are updated regularly under TRUD (Technology Reference Update Distribution).
-To acquire the most recent SNOMED database:-
+To acquire the most recent SNOMED database:
 
 1. Head to https://isd.digital.nhs.uk/ and create a new account.
 2. Log in
@@ -145,7 +145,7 @@ To acquire the most recent SNOMED database:-
 
 You will now receive email notifications from TRUD once the subscribed data source is updated.
 We recommend updating your SNOMED version as soon as you receive the notification.
-To do this:-
+To do this:
 
 1. Log in to https://isd.digital.nhs.uk/
 2. Download the newest version of the SNOMED Monolith edition.
@@ -296,7 +296,7 @@ communicate.
 #### HTTP
 
 **Optional**
-  - `GPC_FACADE_SERVER_PORT`: HTTP server port for the [services endpoints](README.md#endpoints), default = `8081` 
+  - `GPC_FACADE_SERVER_PORT`: HTTP server port for the [services endpoints](../README.md#endpoints), default = `8081` 
 
 #### SSL/TLS
 
