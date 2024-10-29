@@ -3,7 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.6'
     id 'java'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '6.0.22'
+    id 'com.github.spotbugs' version '6.0.24'
     id 'io.freefair.lombok' version '8.10'
 }
 
@@ -32,7 +32,7 @@ dependencies {
     implementation 'org.jetbrains:annotations:24.1.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.3'
     testImplementation 'org.assertj:assertj-core:3.26.3'
     testImplementation 'org.mockito:mockito-inline:5.2.0'
@@ -41,7 +41,7 @@ dependencies {
     testImplementation 'org.skyscreamer:jsonassert:1.5.3'
     testImplementation 'org.awaitility:awaitility:4.2.2'
 
-    implementation 'com.azure:azure-storage-blob:12.27.1'
+    implementation 'com.azure:azure-storage-blob:12.28.1'
 
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.772')
     implementation 'com.amazonaws:aws-java-sdk-s3'
@@ -62,6 +62,13 @@ sourceSets {
             srcDir file('src/integrationTest/java')
         }
     }
+
+    transformXmlToJson {
+        java {
+            compileClasspath += sourceSets.main.output + sourceSets.test.output
+            runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+        }
+    }
 }
 
 configurations {
@@ -69,6 +76,8 @@ configurations {
     integrationTestImplementation.extendsFrom testImplementation
     integrationTestRuntime.extendsFrom testRuntime
     integrationTestAnnotationProcessor.extendsFrom testAnnotationProcessor
+
+    transformXmlToJsonImplementation.extendsFrom testImplementation
 }
 
 task integrationTest(type: Test) {
@@ -80,6 +89,11 @@ task integrationTest(type: Test) {
         classpath = sourceSets.integrationTest.runtimeClasspath
         shouldRunAfter test
     }
+}
+
+tasks.register('transformXmlToJson', JavaExec) {
+    mainClass = 'uk.nhs.adaptors.pss.translator.TransformXmlToJsonApplication'
+    classpath = sourceSets.transformXmlToJson.runtimeClasspath
 }
 
 check.dependsOn integrationTest

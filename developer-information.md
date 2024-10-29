@@ -50,6 +50,12 @@
    - For common code: `cd ../ && ./gradlew common:check`
    - For DB connector code: `cd ../ && ./gradlew db-connector:check`
 
+5. To get the Adaptor to translate a GP2GP XML file to a GP Connect JSON file, place the XML file you wish to be
+   translated inside the folder `/gp2gp-translator/src/transformXmlToJson/resources/input/` and then run the
+   `transformXmlToJson` gradle task. The task will log out details of what it has transformed.
+
+   - `cd gp2gp-translator && ./gradlew transformXmlToJson`
+
 ## Releasing a new version to Docker Hub
 
 First identify which is the most recent commit within GitHub which contains only changes which are marked as Done within Jira.
