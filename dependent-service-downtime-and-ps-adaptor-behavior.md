@@ -26,7 +26,7 @@ The PS Adaptor initiates a conversation for transferring patient records, relyin
 3. PS Adaptor Database (DB) is Down
    - Scenario: The PS Adaptor's database is not operational.
    - Expected Behavior: The initial transfer request is not sent because the adaptor cannot access the necessary data.
-   - Recovery: After the database is restored, the system may resume operations, but requests during the outage are not processed.
+   - Recovery: After the database is restored the transfer is processed as normal.
 4. Facade Application is Down
    - Scenario: The facade application that works with the PS Adaptor is down.
    - Expected Behavior: The initial transfer request is not sent. The communication between the PS Adaptor and the incumbent system is blocked.
@@ -34,20 +34,22 @@ The PS Adaptor initiates a conversation for transferring patient records, relyin
 5. MHS Outbound Adaptor is down
    - Scenario: The MHS Outbound adaptor is not operational.
    - Expected Behavior: The EHR request is not sent to the incumbent system while the MHS Outbound Adaptor is down. 
-     Once the MHS Outbound adaptor recovers, the request is sent as normal.
+     Facade responds with 204 indicating the migration is still in progress. Once the MHS Outbound adaptor recovers, the request is sent as normal.
    - Recovery: Once the MHS Outbound Adaptor is operational, the system can process incoming requests as normal.
 6. Message Broker (Inbound Queue) is Down
    - Scenario: The inbound queue managed by the MHS Adaptor is down.
-   - Expected Behavior: The EHR request is successfully sent to the incumbent system.
+   - Expected Behavior: As the EHR extract never reaches the adaptor, the facade receives 204 "No Content" response.
    - Recovery: No action is required as the request is still processed.
 7. File Storage is Down
    - Scenario: The file storage system is not operational.
-   - Expected Behavior: Despite the outage, the EHR request is still sent to the incumbent system. 
-     However, any operations that rely on file storage will fail.
-   - Recovery: File storage recovery may be necessary for non-EHR-related operations, but the EHR transfer proceeds.
+   - Expected Behavior: 
+                   - If the EHR Extract doesn't contain inline attachments, the Facade responds with 204, to indicate the migration is in progress.
+                   - If the EHR Extract does contain inline attachments, the Facacde responds with 500 "Internal Server Error" 
+                     and the body doesn't have any error details.
+   - Recovery: After the file storage is restored, the request can be processed normally.
 
 ### Conclusion
 In the event of a service outage, the PS Adaptor system behaves differently based on the specific service affected. 
-In many cases, the system will automatically recover and resume processing once the affected service is restored. 
+In some cases, the system will automatically recover and resume processing once the affected service is restored. 
 However, some outages, particularly those involving the queue or MHS outbound, 
 may require manual intervention to resend requests that were missed during downtime.
