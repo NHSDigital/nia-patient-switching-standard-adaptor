@@ -79,7 +79,8 @@ public class DuplicateObservationStatementMapper {
         components.removeIf(component -> {
             var candidateObservationStatement = component.getObservationStatement();
 
-            if (isExactCodeableConceptDuplicate(observationStatement, candidateObservationStatement)) {
+            if (!hasSinglePertinentInformation(candidateObservationStatement)
+                        && isExactCodeableConceptDuplicate(observationStatement, candidateObservationStatement)) {
                 LOGGER.info("Removed duplicate ObservationStatement: '{}' matching '{}'.",
                             candidateObservationStatement.getId().getRoot(),
                             observationStatement.getId().getRoot());
@@ -146,7 +147,8 @@ public class DuplicateObservationStatementMapper {
     }
 
     private static boolean hasSinglePertinentInformation(RCMRMT030101UKObservationStatement observation) {
-        return observation.getPertinentInformation().size() == 1
+        return observation != null
+                && observation.getPertinentInformation().size() == 1
                 && observation.getPertinentInformation().getFirst().getSequenceNumber().getValue().intValueExact() == 1;
     }
 

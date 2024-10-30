@@ -263,10 +263,22 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @Test
-    public void removeObservationWhereTheObservationDoesNotEndInEllipsesButCodeableConceptCodesAreTheSame() {
+    public void doNotRemoveObservationWhereTheObservationDoesNotEndInEllipsesButObservationStatementsAllHavePertinentAnnotation() {
         var ehrExtract = createExtract(
             List.of(createObservation("ID-1", "101", "This is an observation doesnt end with ellipses:::"),
                     createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
+                    generateLinksetComponent("ID-1")));
+
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
+
+        assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
+    }
+
+    @Test
+    public void removeObservationWhereTheObservationDoesNotEndInEllipsesButCodeableConceptCodesAreTheSame() {
+        var ehrExtract = createExtract(
+            List.of(createObservation("ID-1", "101", "This is an observation doesnt end with ellipses:::"),
+                    createObservationWithoutPertinentAnnotation("ID-2", "101"),
                     generateLinksetComponent("ID-1")));
 
         mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
@@ -397,6 +409,11 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @NotNull
+    private static RCMRMT030101UKComponent4 createObservationWithoutPertinentAnnotation(String id, String code) {
+        return createObservationWithoutPertinentAnnotation(id, generateCodeableConcept(code));
+    }
+
+    @NotNull
     private static RCMRMT030101UKComponent4 createObservation(String id, String code, String pertinentAnnotation) {
         return createObservation(id, generateCodeableConcept(code), pertinentAnnotation, 1);
     }
@@ -409,6 +426,16 @@ class DuplicateObservationStatementMapperTest {
         observationStatement.setCode(code);
         observationStatement.setId(generateId(id));
         observationStatement.getPertinentInformation().add(getPertinentInformation(pertinentAnnotation, annotationSequenceNumber));
+        rcmrmt030101UKComponent4.setObservationStatement(observationStatement);
+        return rcmrmt030101UKComponent4;
+    }
+
+    @NotNull
+    private static RCMRMT030101UKComponent4 createObservationWithoutPertinentAnnotation(String id, @NotNull CD code) {
+        RCMRMT030101UKComponent4 rcmrmt030101UKComponent4 = new RCMRMT030101UKComponent4();
+        RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
+        observationStatement.setCode(code);
+        observationStatement.setId(generateId(id));
         rcmrmt030101UKComponent4.setObservationStatement(observationStatement);
         return rcmrmt030101UKComponent4;
     }
