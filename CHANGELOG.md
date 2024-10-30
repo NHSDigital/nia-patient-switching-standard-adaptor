@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+* Added a guidance that highlights the specific focus on the dependent services and how the PS Adaptor operates when those services are unavailable
+
 ## [3.0.4] - 2024-10-28
 
 ### Fixed
