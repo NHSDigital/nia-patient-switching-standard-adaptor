@@ -76,7 +76,7 @@ The Requesting Adaptor initiates a conversation for transferring patient records
    - Initial Request:
       - Scenario: The MHS Inboound adaptor is not operational.
       - Expected Behavior: As the EHR extract never reaches the adaptor, the facade receives 204 "No Content" response.
-      - Recovery: No action is required as the request is still processed.
+      - Recovery: After the service is restored, the transfer request can be requested manually once again.
      
    - Transfer in Progress:
       - Scenario: The MHS Inboound adaptor is not operational.
