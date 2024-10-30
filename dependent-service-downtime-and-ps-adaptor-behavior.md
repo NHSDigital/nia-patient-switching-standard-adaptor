@@ -72,14 +72,14 @@ The Requesting Adaptor initiates a conversation for transferring patient records
       - Expected Behavior: Facade responds with 204, indicating the migration is still in progress.
       - Recovery: When the MHS Outbound service recovers, the migration is processed as normal.
      
-6. Message Broker (Inbound Queue) is Down
+6. MHS Inbound Adaptor is Down
    - Initial Request:
-      - Scenario: The inbound queue managed by the MHS Adaptor is down.
+      - Scenario: The MHS Inboound adaptor is not operational.
       - Expected Behavior: As the EHR extract never reaches the adaptor, the facade receives 204 "No Content" response.
       - Recovery: No action is required as the request is still processed.
      
    - Transfer in Progress:
-      - Scenario: The inbound queue managed by the MHS Adaptor is down.
+      - Scenario: The MHS Inboound adaptor is not operational.
       - Expected Behavior: As the EHR extract never reaches the adaptor, the facade receives 204 "No Content" response.
       - Recovery: After the service is restored, the transfer request can be requested manually once again.
 
