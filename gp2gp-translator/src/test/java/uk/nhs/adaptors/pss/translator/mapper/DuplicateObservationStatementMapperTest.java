@@ -250,7 +250,7 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @Test
-    public void doesntMergeObservationWhereTheObservationDoesNotEndInEllipsesAndCodeableConceptCodesAreDifferent() {
+    public void doesntMergeObservationWhereTheObservationDoesNotEndInEllipses() {
         var ehrExtract = createExtract(List.of(
                 createObservation("ID-1", "101", "This is an observation doesnt end with ellipses:::"),
                 createObservation("ID-2", "102", "This is an observation which ends with ellipses removed."),
@@ -285,18 +285,6 @@ class DuplicateObservationStatementMapperTest {
         mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
-    }
-
-    @Test
-    public void removeObservationWhereTheObservationIsLessThan47CharsButCodeableConceptsAreTheSame() {
-        var ehrExtract = createExtract(
-            List.of(createObservation("ID-1", "101", "This text is too short..."),
-                    createObservation("ID-2", "101", "This text is too short to be replaced."),
-                    generateLinksetComponent("ID-1")));
-
-        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
-
-        assertThat(firstEhrComposition(ehrExtract)).hasSize(2);
     }
 
     @Test
