@@ -27,23 +27,23 @@ Sending acknowledgement to sending system - This describes what happens to the G
 request to the Facade acknowledgement endpoint during the stated scenario.
 
 1. GP2GP Translator is Down
-    - Initial Request:
+   - Initial Request:
       - Scenario: The GP2GP Translator is not operational
       - Expected Behavior: No request is made to the incumbent system to start the GP2GP process while the translator is down.
         Once the GP2GP Translator recovers, the transfer process resumes.
       - Recovery: Automatic upon Translator recovery; transfer resumes without manual intervention.
    
-    - Transfer in Progress:
+   - Transfer in Progress:
       - Scenario: The GP2GP Translator is not operational
       - Expected Behaviour: GP2GP transfer is delayed while the Translator is not operational. 
         Facade will continue to respond to requests without being affected.
       - Recovery: When the GP2GP Translator recovers the transfer is processed as normal.
 
    - Sending acknowledgement to sending system:
-     - Scenario: The GP2GP Translator is not operational
-     - Expected Behaviour: GP2GP acknowledgement is delayed while the Translator is not operational.
-       Facade will continue to respond to requests without being affected.
-     - Recovery: When the GP2GP Translator recovers the acknowledgement is sent as normal.
+      - Scenario: The GP2GP Translator is not operational
+      - Expected Behaviour: GP2GP acknowledgement is delayed while the Translator is not operational.
+        Facade will continue to respond to requests without being affected.
+      - Recovery: When the GP2GP Translator recovers the acknowledgement is sent as normal.
  
 2. Message Broker is Down
    - Initial Request:
@@ -54,11 +54,11 @@ request to the Facade acknowledgement endpoint during the stated scenario.
                   but the transfer can be requested again by the user via the Facade.
 
    - Transfer in Progress:
-     - Scenario: The message broker responsible for storing MHS Inbound messages is down.
-     - Expected Behaviour: The MHS inbound responds with a 500 error to spine, and that inbound message is lost.
-         The GP2GP transfer will appear stuck even after the message broker is restored as the Requesting Adaptor is
-         waiting for a message it won't get. The Facade responds with a 204 status code.
-     - Recovery: The transfer is non-recoverable.
+      - Scenario: The message broker responsible for storing MHS Inbound messages is down.
+      - Expected Behaviour: The MHS inbound responds with a 500 error to spine, and that inbound message is lost.
+        The GP2GP transfer will appear stuck even after the message broker is restored as the Requesting Adaptor is
+        waiting for a message it won't get. The Facade responds with a 204 status code.
+      - Recovery: The transfer is non-recoverable.
 
    - Sending acknowledgement to sending system:
       - Scenario: The message broker responsible for transferring data between the GP2GP Translator and Requesting Adaptor is down.
@@ -80,9 +80,9 @@ request to the Facade acknowledgement endpoint during the stated scenario.
       - Recovery: After the database is restored the transfer is processed as normal.
 
    - Sending acknowledgement to sending system:
-     - Scenario: The Requesting Adaptor's database is not operational.
-     - Expected Behavior: Facade responds with 500 and no acknowledgement is sent to the sending system.
-     - Recovery: Once the DB is working again another acknowledgement request can be made for the transfer which will be sent to the sending system.
+      - Scenario: The Requesting Adaptor's database is not operational.
+      - Expected Behavior: Facade responds with 500 and no acknowledgement is sent to the sending system.
+      - Recovery: Once the DB is working again another acknowledgement request can be made for the transfer which will be sent to the sending system.
 
 4. Facade Application is Down
    - Initial Request:
@@ -96,9 +96,9 @@ request to the Facade acknowledgement endpoint during the stated scenario.
       - Recovery: Once the Facade Application is operational, the status of the transfer can be checked as normal.
 
    - Sending acknowledgement to sending system:
-       - Scenario: The Facade Application is down.
-       - Expected Behavior: No acknowledgement is sent to the sending system.
-       - Recovery: Once the Facade Application is working again another acknowledgement request can be made for the transfer which will be sent to the sending system.
+      - Scenario: The Facade Application is down.
+      - Expected Behavior: No acknowledgement is sent to the sending system.
+      - Recovery: Once the Facade Application is working again another acknowledgement request can be made for the transfer which will be sent to the sending system.
 
 5. MHS Outbound Adaptor is down
    - Initial Request:
@@ -113,9 +113,9 @@ request to the Facade acknowledgement endpoint during the stated scenario.
       - Recovery: When the MHS Outbound service recovers, the transfer is processed as normal.
 
    - Sending acknowledgement to sending system:
-     - Scenario: The MHS Outbound adaptor is not operational.
-     - Expected Behavior: The acknowledgement is queued up but not sent to the sending system.
-     - Recovery: When the MHS Outbound service recovers, the acknowledgement is sent as normal.
+      - Scenario: The MHS Outbound adaptor is not operational.
+      - Expected Behavior: The acknowledgement is queued up but not sent to the sending system.
+      - Recovery: When the MHS Outbound service recovers, the acknowledgement is sent as normal.
 
 
 6. MHS Inbound Adaptor is Down
