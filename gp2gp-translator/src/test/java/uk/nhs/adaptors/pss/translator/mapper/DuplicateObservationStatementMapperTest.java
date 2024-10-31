@@ -275,7 +275,7 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @Test
-    public void removeObservationWhereTheObservationDoesNotEndInEllipsesButCodeableConceptCodesAreTheSame() {
+    public void removeObservationWithoutPertinentAnnotation() {
         var ehrExtract = createExtract(
             List.of(createObservation("ID-1", "101", "This is an observation doesnt end with ellipses:::"),
                     createObservationWithoutPertinentAnnotation("ID-2", "101"),
