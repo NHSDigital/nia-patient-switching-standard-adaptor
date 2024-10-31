@@ -48,8 +48,7 @@ request to the Facade acknowledgement endpoint during the stated scenario.
 2. Message Broker is Down
    - Initial Request:
       - Scenario: The message broker responsible for transferring data between the GP2GP Translator and Requesting Adaptor is down.
-      - Expected Behavior: The GP2GP transfer is never sent to the sending adapter.
-                           The Facade responds with 500 "Internal Server Error".
+      - Expected Behavior: The GP2GP transfer is never sent to the sending adapter. The Facade responds with 500 "Internal Server Error".
       - Recovery: After the queue is restored, any transfers requested during downtime are not sent,
                   but the transfer can be requested again by the user via the Facade.
 
@@ -68,15 +67,13 @@ request to the Facade acknowledgement endpoint during the stated scenario.
 4. Requesting Adaptor Database (DB) is Down
    - Initial Request:
       - Scenario: The Requesting Adaptor's database is not operational.
-      - Expected Behavior: The GP2GP transfer is never sent to the sending adapter.
-          The Facade responds with 500 "Internal Server Error".
+      - Expected Behavior: The GP2GP transfer is never sent to the sending adapter. The Facade responds with 500 "Internal Server Error".
       - Recovery: After the DB is restored, any transfers requested during downtime are not sent,
         but the transfer can be requested again by the user via the Facade.
      
    - Transfer in Progress:
       - Scenario: The Requesting Adaptor's database is not operational.
-      - Expected Behavior: Facade responds with 500 "Internal Server Error".
-          GP2GP transfer is delayed while the Translator is not operational. 
+      - Expected Behavior: Facade responds with 500 "Internal Server Error". GP2GP transfer is delayed while the Translator is not operational. 
       - Recovery: After the database is restored the transfer is processed as normal.
 
    - Sending acknowledgement to sending system:
@@ -122,28 +119,24 @@ request to the Facade acknowledgement endpoint during the stated scenario.
    - Initial Request:
       - Scenario: The MHS Inbound adaptor is not operational.
       - Expected Behavior: Facade responds with 204, indicating the migration is still in progress.
-      - Recovery: After the service is restored, any transfers requested during downtime remain pending.
-                  The transfer is non-recoverable.
+      - Recovery: After the service is restored, any transfers requested during downtime remain pending. The transfer is non-recoverable.
 
    - Transfer in Progress:
       - Scenario: The MHS Inbound adaptor is not operational.
       - Expected Behavior: As the EHR extract never reaches the adaptor, the facade receives 204 "No Content" response.
-      - Recovery: After the service is restored, any transfers requested during downtime remain pending.
-                  The transfer is non-recoverable.
+      - Recovery: After the service is restored, any transfers requested during downtime remain pending. The transfer is non-recoverable.
 
 7. File Storage is Down
    - Initial Request:
       - Scenario: The file storage system is not operational.
       - Expected Behavior: 
-                       - If the EHR Extract doesn't contain attachments, the Facade responds with 204, to indicate the migration is in progress.
-                       - If the EHR Extract does contain attachments, the Facacde responds with 500 "Internal Server Error" 
-                         and the body doesn't have any error details.
+          - If the EHR Extract doesn't contain attachments, the Facade responds with 204, to indicate the migration is in progress.
+          - If the EHR Extract does contain attachments, the Facacde responds with 500 "Internal Server Error" and the body doesn't have any error details.
       - Recovery: After the file storage is restored, the transfer request can be repeated.
 
    - Transfer in Progress:
       - Scenario: The file storage system is not operational.
       - Expected Behavior:
           - If the EHR Extract doesn't contain attachments, the transfer will complete successfully.
-          - If the EHR Extract does contain attachments, the Facade responds with 500 "Internal Server Error"
-              and the body doesn't have any error details.
+          - If the EHR Extract does contain attachments, the Facade responds with 500 "Internal Server Error" and the body doesn't have any error details.
       - Recovery: After the file storage is restored, the transfer request can be repeated.
