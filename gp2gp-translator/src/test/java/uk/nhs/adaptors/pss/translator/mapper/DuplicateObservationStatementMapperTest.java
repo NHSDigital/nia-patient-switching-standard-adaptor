@@ -253,7 +253,7 @@ class DuplicateObservationStatementMapperTest {
     public void doesntMergeObservationWhereTheObservationDoesNotEndInEllipses() {
         var ehrExtract = createExtract(List.of(
                 createObservation("ID-1", "101", "This is an observation doesnt end with ellipses:::"),
-                createObservation("ID-2", "102", "This is an observation which ends with ellipses removed."),
+                createObservation("ID-2", "101", "This is an observation which ends with ellipses removed."),
                 generateLinksetComponent("ID-1")
         ));
 
@@ -284,6 +284,19 @@ class DuplicateObservationStatementMapperTest {
         mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
 
         assertThat(firstEhrComposition(ehrExtract)).hasSize(2);
+    }
+
+    @Test
+    public void doesNotRemoveObservationWithTwoPertinentAnnotations() {
+        var ehrExtract = createExtract(
+            List.of(createObservation("ID-1", "101", "This is an observation doesnt end with ellipses:::"),
+                    createObservationWithTwoPertinentAnnotations("ID-2", "101", "Pertinent annotation 1",
+                                                                 "Pertinent annotation 2"),
+                    generateLinksetComponent("ID-1")));
+
+        mapper.mergeOrRemoveDuplicateObservationStatements(ehrExtract);
+
+        assertThat(firstEhrComposition(ehrExtract)).hasSize(3);
     }
 
     @Test
@@ -414,8 +427,30 @@ class DuplicateObservationStatementMapperTest {
     }
 
     @NotNull
+    private static RCMRMT030101UKComponent4 createObservationWithTwoPertinentAnnotations(String id,
+                                                                                         String code,
+                                                                                         String pertinentAnnotation1,
+                                                                                         String pertinentAnnotation2) {
+        return createObservationWithTwoPertinentAnnotations(id, generateCodeableConcept(code),
+                                                            pertinentAnnotation1, pertinentAnnotation2, 1);
+    }
+
+    @NotNull
     private static RCMRMT030101UKComponent4 createObservation(String id, String code, String pertinentAnnotation) {
         return createObservation(id, generateCodeableConcept(code), pertinentAnnotation, 1);
+    }
+
+    @NotNull
+    private static RCMRMT030101UKComponent4 createObservationWithTwoPertinentAnnotations(
+        String id, @NotNull CD code, String pertinentAnnotation1, String pertinentAnnotation2, int annotationSequenceNumber) {
+        RCMRMT030101UKComponent4 rcmrmt030101UKComponent4 = new RCMRMT030101UKComponent4();
+        RCMRMT030101UKObservationStatement observationStatement = new RCMRMT030101UKObservationStatement();
+        observationStatement.setCode(code);
+        observationStatement.setId(generateId(id));
+        observationStatement.getPertinentInformation().add(getPertinentInformation(pertinentAnnotation1, annotationSequenceNumber));
+        observationStatement.getPertinentInformation().add(getPertinentInformation(pertinentAnnotation2, annotationSequenceNumber + 1));
+        rcmrmt030101UKComponent4.setObservationStatement(observationStatement);
+        return rcmrmt030101UKComponent4;
     }
 
     @NotNull
