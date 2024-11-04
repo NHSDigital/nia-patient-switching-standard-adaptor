@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
-* Added a guidance that highlights the specific focus on the dependent services and how the PS Adaptor operates when those services are unavailable
+* Documented how the Adaptor behaves when dependent services are unavailable.
+* Expanded the functionality added in [version 2.1.0](#210---2024-04-17) to deduplicate SystmOne Problems.
+  Handle the case where a duplicate, empty `ObservationStatement` is provided by SystmOne and ignore it from the
+  generated FHIR output.
 
 ## [3.0.4] - 2024-10-28
 
