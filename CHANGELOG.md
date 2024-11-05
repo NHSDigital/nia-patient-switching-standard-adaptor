@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.5] - 2024-11-05
+
 ### Added
 * Documented how the Adaptor behaves when dependent services are unavailable.
 * Expanded the functionality added in [version 2.1.0](#210---2024-04-17) to deduplicate SystmOne Problems.
