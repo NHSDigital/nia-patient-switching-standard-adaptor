@@ -31,6 +31,7 @@ import static uk.nhs.adaptors.common.util.FileUtil.readResourceAsString;
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 public class AcknowledgeRecordServiceIT {
 
+    public static final int SIZE_22_MB = 22 * 1024 * 1024;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -38,7 +39,7 @@ public class AcknowledgeRecordServiceIT {
     private AcknowledgeRecordService acknowledgeRecordService;
 
     @MockBean
-    NackAckPrepInterface nackAckPrepInterface;
+    private NackAckPrepInterface nackAckPrepInterface;
 
     private static final String CONVERSATION_ID_VALUE = UUID.randomUUID().toString();
     private static final String EBXML_PART_PATH = "/xml/RCMR_IN030000UK06/ebxml_part.xml";
@@ -71,7 +72,7 @@ public class AcknowledgeRecordServiceIT {
         inboundMessage.setAttachments(
             List.of(InboundMessage.Attachment.builder()
                                              .contentType("application/text")
-                                             .payload("1".repeat(22 * 1024 * 1024))
+                                             .payload("1".repeat(SIZE_22_MB))
                                              .build()));
         return inboundMessage;
     }

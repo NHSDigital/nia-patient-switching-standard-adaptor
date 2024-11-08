@@ -13,9 +13,7 @@ public class ObjectMapperConfig {
     public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
         ObjectMapper objectMapper = builder.build();
         objectMapper.getFactory().setStreamReadConstraints(
-            StreamReadConstraints.builder()
-                .maxStringLength(Integer.MAX_VALUE)
-                .build());
+            StreamReadConstraints.builder().maxStringLength(Integer.MAX_VALUE).build());
 
         return objectMapper;
     }
