@@ -64,10 +64,6 @@ public class SpecimenCompoundsMapperTest {
     private static final String TEST_COMMENT_LINE_1 = "Test Comment";
     private static final String META_PROFILE = "Observation-1";
     private static final Meta META = MetaUtil.getMetaFor(META_WITH_SECURITY, META_PROFILE);
-    private static final CV NOPAT_CV = TestUtility.createCv(
-        "NOPAT",
-        "http://hl7.org/fhir/v3/ActCode",
-        "no disclosure to patient, family or caregivers without attending provider's authorization");
 
     private static final Patient PATIENT = (Patient) new Patient().setId("TEST_PATIENT_ID");
 

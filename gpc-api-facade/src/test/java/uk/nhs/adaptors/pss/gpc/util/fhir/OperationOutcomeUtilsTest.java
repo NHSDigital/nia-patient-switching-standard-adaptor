@@ -20,7 +20,7 @@ public class OperationOutcomeUtilsTest {
 
         var result = OperationOutcomeUtils.createOperationOutcome(NOTSUPPORTED, ERROR, details, diagnostics);
 
-        assertThat(result.getMeta().getProfile().getFirst().equals(URI_TYPE)).isTrue();
+        assertThat(result.getMeta().getProfile().getFirst()).isEqualTo(URI_TYPE);
         assertEquals(NOTSUPPORTED, result.getIssueFirstRep().getCode());
         assertEquals(ERROR, result.getIssueFirstRep().getSeverity());
         assertEquals(details, result.getIssueFirstRep().getDetails());

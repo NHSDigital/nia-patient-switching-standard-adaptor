@@ -92,7 +92,7 @@ public class FailedProcessHandlingServiceTest {
         String conversationId = UUID.randomUUID().toString();
 
         when(ehrExtractMessage.getId()).thenReturn(mockId);
-        when(nackAckPreparationService.prepareNackMessageData(eq(UNEXPECTED_CONDITION), eq(ehrExtractMessage), eq(conversationId)))
+        when(nackAckPreparationService.prepareNackMessageData(UNEXPECTED_CONDITION, ehrExtractMessage, conversationId))
             .thenReturn(messageData);
 
         failedProcessHandlingService.handleFailedProcess(ehrExtractMessage, conversationId);
@@ -123,7 +123,7 @@ public class FailedProcessHandlingServiceTest {
         when(migrationStatusLogService.getLatestMigrationStatusLog(conversationId))
             .thenReturn(statusLog);
 
-        when(nackAckPreparationService.prepareNackMessageData(eq(UNEXPECTED_CONDITION), eq(copcMessage), eq(conversationId)))
+        when(nackAckPreparationService.prepareNackMessageData(UNEXPECTED_CONDITION, copcMessage, conversationId))
             .thenReturn(messageData);
 
         failedProcessHandlingService.handleFailedProcess(copcMessage, conversationId);
@@ -142,7 +142,7 @@ public class FailedProcessHandlingServiceTest {
         when(migrationStatusLogService.getLatestMigrationStatusLog(conversationId))
             .thenReturn(statusLog);
 
-        when(nackAckPreparationService.prepareNackMessageData(eq(LARGE_MESSAGE_TIMEOUT), eq(copcMessage), eq(conversationId)))
+        when(nackAckPreparationService.prepareNackMessageData(LARGE_MESSAGE_TIMEOUT, copcMessage, conversationId))
             .thenReturn(messageData);
 
         failedProcessHandlingService.handleFailedProcess(copcMessage, conversationId);
@@ -161,7 +161,7 @@ public class FailedProcessHandlingServiceTest {
         when(migrationStatusLogService.getLatestMigrationStatusLog(conversationId))
             .thenReturn(statusLog);
 
-        when(nackAckPreparationService.prepareNackMessageData(eq(LARGE_MESSAGE_TIMEOUT), eq(copcMessage), eq(conversationId)))
+        when(nackAckPreparationService.prepareNackMessageData(LARGE_MESSAGE_TIMEOUT, copcMessage, conversationId))
             .thenReturn(messageData);
 
         failedProcessHandlingService.handleFailedProcess(copcMessage, conversationId);
@@ -206,7 +206,7 @@ public class FailedProcessHandlingServiceTest {
         when(migrationStatusLogService.getLatestMigrationStatusLog(conversationId))
             .thenReturn(statusLog);
 
-        when(nackAckPreparationService.prepareNackMessageData(eq(LARGE_MESSAGE_GENERAL_FAILURE), eq(copcMessage), eq(conversationId)))
+        when(nackAckPreparationService.prepareNackMessageData(LARGE_MESSAGE_GENERAL_FAILURE, copcMessage, conversationId))
             .thenReturn(messageData);
 
         failedProcessHandlingService.handleFailedProcess(copcMessage, conversationId);

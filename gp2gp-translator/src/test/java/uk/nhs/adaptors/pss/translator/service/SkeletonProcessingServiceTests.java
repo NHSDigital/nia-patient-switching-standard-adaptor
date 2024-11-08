@@ -107,7 +107,7 @@ public class SkeletonProcessingServiceTests {
         when(node.getParentNode()).thenReturn(node);
     }
 
-    private void prepareSkeletonRCMRMocks(InboundMessage inboundMessage) throws SAXException, TransformerException {
+    private void prepareSkeletonRCMRMocks(InboundMessage inboundMessage) throws TransformerException {
 
         var fileAsBytes = readInboundMessagePayloadFromFile().getBytes(StandardCharsets.UTF_8);
         when(xmlParseUtilService.getStringFromDocument(any())).thenReturn(inboundMessage.getPayload());
@@ -115,8 +115,7 @@ public class SkeletonProcessingServiceTests {
     }
 
     @Test
-    public void When_UpdateInboundMessageAttachmentHandlerServiceThrowsIllegalArgumentException_Expect_ThrowsException()
-        throws JAXBException, JsonProcessingException, TransformerException, SAXException {
+    public void When_UpdateInboundMessageAttachmentHandlerServiceThrowsIllegalArgumentException_Expect_ThrowsException() {
 
         var inboundMessage = new InboundMessage();
         var attachmentLog = createSkeletonPatientAttachmentLog();
@@ -147,7 +146,7 @@ public class SkeletonProcessingServiceTests {
 
     @Test
     public void When_HappyPathWithSkeletonAsRCMRMessage_Expect_InboundMessagePayloadIsNewRCMRMessage()
-        throws JAXBException, JsonProcessingException, TransformerException, SAXException {
+        throws TransformerException, SAXException {
         var inboundMessage = new InboundMessage();
         var attachmentLog = createSkeletonPatientAttachmentLog();
 
@@ -164,7 +163,7 @@ public class SkeletonProcessingServiceTests {
 
     @Test
     public void When_HappyPathWithSkeletonAsSectionMessage_Expect_ThrowNoErrors()
-        throws JAXBException, JsonProcessingException, TransformerException, SAXException {
+        throws TransformerException, SAXException {
         var inboundMessage = new InboundMessage();
         var attachmentLog = createSkeletonPatientAttachmentLog();
 
@@ -177,8 +176,7 @@ public class SkeletonProcessingServiceTests {
     }
 
     @Test
-    public void When_SkeletonAsSectionMessage_Expect_ThrowNoErrors() throws JAXBException, JsonProcessingException, TransformerException,
-        SAXException {
+    public void When_SkeletonAsSectionMessage_Expect_ThrowNoErrors() throws TransformerException, SAXException {
         var inboundMessage = new InboundMessage();
         var attachmentLog = createSkeletonPatientAttachmentLog();
 

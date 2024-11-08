@@ -44,7 +44,6 @@ public class TemplateMapperTest {
         + "-QuestionnaireResponse-1";
     private static final String OBSERVATION_META = "https://fhir.nhs.uk/STU3/StructureDefinition/CareConnect-GPC-Observation-1";
     private static final String IDENTIFIER = "https://PSSAdaptor/TESTPRACTISECODE";
-    private static final int THREE = 3;
     private static final String SNOMED_SYSTEM = "http://snomed.info/sct";
     private static final CodeableConcept CODEABLE_CONCEPT = createCodeableConcept(null, SNOMED_SYSTEM, CODING_DISPLAY_MOCK);
 
@@ -182,26 +181,6 @@ public class TemplateMapperTest {
         var parentObservation = (Observation) mappedResources.getFirst();
 
         assertThat(parentObservation.getCode().getCodingFirstRep()).isEqualTo(DegradedCodeableConcepts.DEGRADED_OTHER);
-    }
-
-    private void assertQuestionnaireResponse(QuestionnaireResponse questionnaireResponse, String encounter, String linkId,
-        String authored) {
-        assertThat(questionnaireResponse.getId()).isEqualTo(COMPOUND_ID + QUESTIONNAIRE_SUFFIX);
-        assertThat(questionnaireResponse.getMeta().getProfile().getFirst().getValue()).isEqualTo(QUESTIONNAIRE_META);
-        assertThat(questionnaireResponse.getIdentifier().getSystem()).isEqualTo(IDENTIFIER);
-        assertThat(questionnaireResponse.getIdentifier().getValue()).isEqualTo(COMPOUND_ID);
-        assertThat(questionnaireResponse.getParentFirstRep().getResource().getIdElement().getValue()).isEqualTo(COMPOUND_ID);
-        assertThat(questionnaireResponse.getStatus()).isEqualTo(QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED);
-        assertThat(questionnaireResponse.getSubject().getResource().getIdElement().getValue()).isEqualTo(PATIENT_ID);
-        assertThat(questionnaireResponse.getItemFirstRep().getLinkId()).isEqualTo(linkId);
-        assertThat(questionnaireResponse.getAuthoredElement().asStringValue()).isEqualTo(
-            DateFormatUtil.parseToDateTimeType(authored).asStringValue());
-
-        if (encounter == null) {
-            assertThat(questionnaireResponse.getContext().getResource()).isNull();
-        } else {
-            assertThat(questionnaireResponse.getContext().getResource().getIdElement().getValue()).isEqualTo(encounter);
-        }
     }
 
     private void assertParentObservation(Observation parentObservation, String encounter, String issued, String performer) {
