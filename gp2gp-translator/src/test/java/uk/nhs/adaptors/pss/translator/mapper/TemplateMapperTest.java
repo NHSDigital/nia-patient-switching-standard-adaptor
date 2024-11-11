@@ -16,7 +16,6 @@ import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Encounter;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.QuestionnaireResponse;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,13 +69,10 @@ public class TemplateMapperTest {
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isEqualTo(1);
-        // var questionnaireResponse = (QuestionnaireResponse) mappedResources.getFirst();
+
         var parentObservation = (Observation) mappedResources.getFirst();
 
-        // assertQuestionnaireResponse(questionnaireResponse, ENCOUNTER_ID, "original-text", "20100113151332");
         assertParentObservation(parentObservation, ENCOUNTER_ID, "20100113151332", "3707E1F0-9011-11EC-B1E5-0800200C9A66");
-
-        // verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromTemplate(any(), anyList());
     }
 
     @Test
@@ -89,14 +85,11 @@ public class TemplateMapperTest {
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isEqualTo(1);
-//      var questionnaireResponse = (QuestionnaireResponse) mappedResources.getFirst();
+
         var parentObservation = (Observation) mappedResources.getFirst();
 
-//      assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
         assertParentObservation(parentObservation, null, null, "9007E1F0-9011-11EC-B1E5-0800200C9A66");
 
-        // The assertion below is poor as we manually select 1 item above / removed
-//      assertThat(questionnaireResponse.getItem().size()).isOne();
     }
 
     @Test
@@ -109,13 +102,11 @@ public class TemplateMapperTest {
         var mappedResources = templateMapper.mapResources(ehrExtract, getPatient(), ENCOUNTER_LIST, PRACTISE_CODE);
 
         assertThat(mappedResources.size()).isEqualTo(1);
-        //var questionnaireResponse = (QuestionnaireResponse) mappedResources.getFirst();
+
         var parentObservation = (Observation) mappedResources.getFirst();
 
-        //assertQuestionnaireResponse(questionnaireResponse, null, "display-text", "20200101010101");
         assertParentObservation(parentObservation, null, null, "9007E1F0-9011-11EC-B1E5-0800200C9A66");
 
-        // verify(resourceReferenceUtil, atLeast(1)).extractChildReferencesFromTemplate(any(), anyList());
     }
 
     @Test
