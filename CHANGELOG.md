@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+* Removed 20 MB data processing limit to enable the Adaptor to handle larger pieces of data.
+
 ## [3.0.5] - 2024-11-05
 
 ### Added
