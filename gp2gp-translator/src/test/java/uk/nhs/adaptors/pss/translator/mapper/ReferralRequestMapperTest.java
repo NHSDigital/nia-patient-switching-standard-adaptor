@@ -70,8 +70,6 @@ class ReferralRequestMapperTest {
     private static final String PRIORITY_NOTE_PREPENDAGE = "Priority: ";
     private static final String NOPAT = "NOPAT";
 
-    private static final String NOSCRUB = "NOSCRUB";
-
     private static final String TEST_DIRECTORY_NAME = "RequestStatement";
 
     @Mock
