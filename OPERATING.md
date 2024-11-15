@@ -22,12 +22,11 @@ The consumption of these logs form an essential part of issue investigation and 
 The log messages relating to a specific transfer can be identified by the Conversation ID. Which is a correlating ID present throughout the patient record migration and carried in the GP2GP messages themselves.
 
 ### Resources allocation
-Based on the use cases outlined in [Performance](README.md#Performance), 
-allocating 2 vCPUs and 4 GB RAM to the PS Adaptor components (Facade and Translator) is a solid starting point 
-and can be considered a moderate resource allocation. 
-However, if the system encounters performance challenges under higher concurrency or larger file sizes, 
-vertical scaling may be required. If performance degradation is observed, consider increasing the allocation to 4 vCPUs 
-and 8 GB RAM for both the Facade and Translator.
+Based on the use cases outlined in [Performance](README.md#Performance), allocating 2 vCPUs and 4 GB RAM to the facade and translator will
+handle most patient record transfers.
+During testing of receiving an electronic health record of size >100MB which we considered to be beyond the upper limit
+based on analysis of GP2GP transfers made in early 2024 we identified a need to increase the translator RAM up to 8 GB
+for the transfer to complete successfully.
 
 ### Log message format
 
