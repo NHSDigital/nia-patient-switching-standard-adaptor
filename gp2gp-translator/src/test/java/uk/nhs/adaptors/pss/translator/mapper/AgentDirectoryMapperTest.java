@@ -23,8 +23,6 @@ import static org.springframework.util.ResourceUtils.getFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallString;
 
-import java.util.List;
-
 public class AgentDirectoryMapperTest {
 
     private static final String XML_RESOURCES_BASE = "xml/AgentDirectory/";
@@ -42,7 +40,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryWithMultipleAgents() {
         var agentDirectory = unmarshallAgentDirectoryElement("multiple_agents_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         // asserts that for the 3 varying Agents in the input, that there are correctly 5 mapped resources output
         assertEquals(FIVE_RESOURCES_MAPPED, mappedAgents.size());
@@ -52,7 +50,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryWithAgentPersonAndRepresentedOrganizationNoCode() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_person_and_represented_org_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertEquals(THREE_RESOURCES_MAPPED, mappedAgents.size());
 
@@ -93,7 +91,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryWithAgentPersonAndRepresentedOrganizationWithOriginalText() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_person_and_represented_org_with_original_text_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertEquals(THREE_RESOURCES_MAPPED, mappedAgents.size());
 
@@ -121,7 +119,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryWithAgentPersonAndRepresentedOrganizationWithDisplayName() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_person_and_represented_org_with_display_name_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertEquals(THREE_RESOURCES_MAPPED, mappedAgents.size());
 
@@ -149,7 +147,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryOnlyAgentPersonNoOptionalFields() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_person_only_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertThat(mappedAgents).hasSize(1);
 
@@ -166,7 +164,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryOnlyAgentPersonUnknownName() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_person_only_no_name_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertThat(mappedAgents).hasSize(1);
 
@@ -184,7 +182,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryOnlyAgentPersonFullName() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_person_only_full_name_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertThat(mappedAgents).hasSize(1);
 
@@ -201,7 +199,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryOnlyAgentOrganizationNoOptionalFields() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_org_only_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertThat(mappedAgents).hasSize(1);
 
@@ -218,7 +216,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryOnlyAgentOrganizationUnknownName() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_org_no_name_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertThat(mappedAgents).hasSize(1);
 
@@ -235,7 +233,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryOnlyAgentOrganizationWithValidIdentifier() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_org_valid_identifier_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertEquals(1, mappedAgents.size());
 
@@ -253,7 +251,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryOnlyAgentOrganizationWithInvalidIdentifier() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_org_invalid_identifier_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertEquals(1, mappedAgents.size());
 
@@ -270,7 +268,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryOnlyAgentOrganizationWithNonWPAddressAndTelecom() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_org_non_wp_address_and_telecom_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertEquals(1, mappedAgents.size());
 
@@ -287,7 +285,7 @@ public class AgentDirectoryMapperTest {
     public void mapAgentDirectoryOnlyAgentOrganizationWithWPTelecom() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_org_wp_telecom_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertEquals(1, mappedAgents.size());
 
@@ -304,7 +302,7 @@ public class AgentDirectoryMapperTest {
     public void  mapAgentDirectoryOnlyAgentOrganizationWithWPAddress() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_org_wp_address_example.xml");
 
-        List mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
 
         assertEquals(1, mappedAgents.size());
 
