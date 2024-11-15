@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+* When provided an `agentPerson` without a `name` element, the adaptor will no longer throw an exception, but will
+  instead map the `Practitioner` with a `familyName` of `"unknown"`.
+
 ## [3.0.6] - 2024-11-11
 
 ### Fixed
