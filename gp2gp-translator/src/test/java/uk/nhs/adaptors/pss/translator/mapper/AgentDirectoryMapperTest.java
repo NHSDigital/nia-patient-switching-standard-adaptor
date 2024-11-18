@@ -161,7 +161,7 @@ public class AgentDirectoryMapperTest {
     }
 
     @Test
-    public void mapAgentDirectoryOnlyAgentPersonUnknownName() {
+    public void mapAgentDirectoryOnlyAgentPersonWithEmptyNameElement() {
         var agentDirectory = unmarshallAgentDirectoryElement("agent_person_only_no_name_example.xml");
 
         var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
@@ -176,6 +176,33 @@ public class AgentDirectoryMapperTest {
         assertThat(practitioner.getNameFirstRep().getFamily()).isEqualTo("Unknown");
         assertThat(practitioner.getNameFirstRep().getGiven()).isEmpty();
         assertThat(practitioner.getNameFirstRep().getPrefix()).isEmpty();
+    }
+
+    @Test
+    public void When_MappingAgentDirectoryWithAgentWithoutNameElement_Expect_ExpectFamilyNameIsSetToUnknown() {
+        var agentDirectoryXml = """
+            <agentDirectory xmlns="urn:hl7-org:v3" classCode="AGNT">
+                <part typeCode="PART">
+                    <Agent classCode="AGNT">
+                        <id root="6C8AC7E0-4D90-10C5-5FD3-F2C05C658E18" />
+                            <code code="125676002" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Person">
+                               <originalText>Other</originalText>
+                            </code>
+                        <agentPerson classCode="PSN" determinerCode="INSTANCE" />
+                    </Agent>
+                </part>
+            </agentDirectory>""";
+        var agentDirectory = unmarshallAgentDirectoryFromXmlString(agentDirectoryXml);
+
+        var mappedAgents = agentDirectoryMapper.mapAgentDirectory(agentDirectory);
+        var practitioner = (Practitioner) mappedAgents.getFirst();
+
+        assertAll(
+            () -> assertThat(practitioner.getNameFirstRep().getUse()).isEqualTo(NameUse.OFFICIAL),
+            () -> assertThat(practitioner.getNameFirstRep().getFamily()).isEqualTo("Unknown"),
+            () -> assertThat(practitioner.getNameFirstRep().getGiven()).isEmpty(),
+            () -> assertThat(practitioner.getNameFirstRep().getPrefix()).isEmpty()
+        );
     }
 
     @Test
