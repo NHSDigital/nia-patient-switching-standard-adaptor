@@ -18,6 +18,7 @@ This is a __required__ prerequisite for both requesting and sending adaptors.
 1. ITOC will provide a Party Key once this has been done, copy this into the `MHS_SECRET_PARTY_KEY` environment variable for Inbound/Outbound adaptors.
 1. Populate the `MHS_SECRET_CA_CERTS` environment variable for Inbound/Outbound adaptors using both [Root and Sub CA certificates for INT][spine-certificates].
    When a certificate rotation is announced, you can provide the two older certificates and two newer certificates to tell the adaptor that all are trusted.
+   The ordering of certificates within this environment variable is unimportant.
    Each certificate should be concatenated back to back within the environment variable, looking like the following:
    ```
    -----BEGIN CERTIFICATE-----
