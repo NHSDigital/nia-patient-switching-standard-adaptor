@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.7] - 2024-11-19
+
 ### Fixed
 
 * When provided an `agentPerson` without a `name` element, the adaptor will no longer throw an exception, but will
