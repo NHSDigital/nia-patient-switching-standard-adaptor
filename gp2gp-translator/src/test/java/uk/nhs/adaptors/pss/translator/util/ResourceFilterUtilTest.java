@@ -5,9 +5,14 @@ import static org.springframework.util.ResourceUtils.getFile;
 
 import static uk.nhs.adaptors.pss.translator.util.XmlUnmarshallUtil.unmarshallFile;
 
+import java.util.Objects;
 import java.util.stream.Stream;
 
+import org.hl7.v3.RCMRMT030101UKComponent;
+import org.hl7.v3.RCMRMT030101UKComponent4;
 import org.hl7.v3.RCMRMT030101UKCompoundStatement;
+import org.hl7.v3.RCMRMT030101UKEhrExtract;
+import org.hl7.v3.RCMRMT030101UKLinkSet;
 import org.hl7.v3.RCMRMT030101UKNarrativeStatement;
 import org.hl7.v3.RCMRMT030101UKObservationStatement;
 import org.junit.jupiter.api.Test;
@@ -157,6 +162,26 @@ public class ResourceFilterUtilTest {
         );
     }
 
+    @Test
+    public void testIsReferralRequestToExternalDocumentLinkSet() {
+        final var ehrExtract = unmarshallEhrExtractElement("ehr_extract_with_referral_request_to_external_document_linkset.xml");
+        final var linkSet = extractFirstLinkSetFromEhrExtract(ehrExtract);
+
+        assertThat(ResourceFilterUtil.isReferralRequestToExternalDocumentLinkSet(ehrExtract, linkSet))
+            .isTrue();
+    }
+
+    private RCMRMT030101UKLinkSet extractFirstLinkSetFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
+        return ehrExtract.getComponent().stream()
+            .map(RCMRMT030101UKComponent::getEhrFolder)
+            .flatMap(ehrFolder -> ehrFolder.getComponent().stream())
+            .flatMap(component -> component.getEhrComposition().getComponent().stream())
+            .map(RCMRMT030101UKComponent4::getLinkSet)
+            .filter(Objects::nonNull)
+            .findFirst()
+            .orElseThrow();
+    }
+
     @SneakyThrows
     private RCMRMT030101UKCompoundStatement unmarshallCompoundStatementElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES + fileName),
@@ -173,5 +198,11 @@ public class ResourceFilterUtilTest {
     private RCMRMT030101UKNarrativeStatement unmarshallNarrativeStatementElement(String fileName) {
         return unmarshallFile(getFile("classpath:" + XML_RESOURCES + fileName),
             RCMRMT030101UKNarrativeStatement.class);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
+        return unmarshallFile(getFile("classpath:" + XML_RESOURCES + fileName),
+            RCMRMT030101UKEhrExtract.class);
     }
 }
