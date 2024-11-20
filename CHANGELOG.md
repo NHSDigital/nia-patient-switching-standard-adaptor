@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+* When a `LinkSet` which is a linkage between a `ReferralRequest` and one or more `DocumentReferences` is mapped then a
+  `Condition` will no longer be mapped for this `Linkset`.
+  Instead, the `statementRef`s will be added to the `supportingInfo` when mapping the `ReferralRequest`
+  as `DocumentReferences`
+
 ## [3.0.7] - 2024-11-19
 
 ### Fixed
