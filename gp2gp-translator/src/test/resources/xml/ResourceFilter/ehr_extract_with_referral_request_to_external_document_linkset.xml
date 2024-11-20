@@ -87,7 +87,26 @@
                                                         <originalText>e-RS Letter (25-May-2021)</originalText>
                                                     </code>
                                                     <text mediaType="text/rtf">
-                                                        <reference value="https://gb-nhs-prod-gp2gp-adaptor-documents.s3.eu-west-2.amazonaws.com/[url redacted]"/>
+                                                        <reference value="https://[url redacted]"/>
+                                                    </text>
+                                                </referredToExternalDocument>
+                                            </reference>
+                                        </NarrativeStatement>
+                                    </component>
+                                    <component contextConductionInd="true" typeCode="COMP">
+                                        <NarrativeStatement classCode="OBS" moodCode="EVN">
+                                            <id root="8227E990-A72F-11EF-BE87-0800200C9A66"/>
+                                            <text>NHS e-Referral UBRN [redacted] for Orthopaedic referral, NHS e-RS UBRN [redacted] for Orthopaedic referral</text>
+                                            <statusCode code="COMPLETE"/>
+                                            <availabilityTime value="20210525"/>
+                                            <reference typeCode="REFR">
+                                                <referredToExternalDocument classCode="DOC" moodCode="EVN">
+                                                    <id root="74E407FF-8C96-4B8F-873A-566B3AC921BE"/>
+                                                    <code code="25821000000100" codeSystem="2.16.840.1.113883.2.1.3.2.4.15" displayName="Original text document">
+                                                        <originalText>e-RS Letter (25-May-2021)</originalText>
+                                                    </code>
+                                                    <text mediaType="text/rtf">
+                                                        <reference value="https://[url redacted]"/>
                                                     </text>
                                                 </referredToExternalDocument>
                                             </reference>
@@ -109,6 +128,11 @@
                             <component typeCode="COMP">
                                 <statementRef classCode="OBS" moodCode="EVN">
                                     <id root="5BFD7297-4ACC-420A-BF2F-3448D4665DDA"/>
+                                </statementRef>
+                            </component>
+                            <component typeCode="COMP">
+                                <statementRef classCode="OBS" moodCode="EVN">
+                                    <id root="8227E990-A72F-11EF-BE87-0800200C9A66"/>
                                 </statementRef>
                             </component>
                             <conditionNamed inversionInd="true" typeCode="NAME">
