@@ -29,6 +29,7 @@ import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
+import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
@@ -552,6 +553,36 @@ class ReferralRequestMapperTest {
         );
     }
 
+    @Test
+    void When_MappingReferralRequestReferencedByReferralRequestToExternalDocumentLinkSet_Expect_SupportingInfoReferencesLinksetDocuments() {
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractElement(
+            "ResourceFilter",
+            "ehr_extract_with_referral_request_to_external_document_linkset.xml"
+        );
+
+        final var referralRequests = referralRequestMapper.mapResources(
+            ehrExtract,
+            (Patient) new Patient().setId(PATIENT_ID),
+            List.of(),
+            PRACTISE_CODE
+        );
+        final var referralRequest = referralRequests.getFirst();
+
+        assertAll(
+            () -> assertThat(referralRequest.getSupportingInfo())
+                .hasSize(2),
+            () -> assertThat(referralRequest.getSupportingInfo().getFirst().getReferenceElement().getResourceType())
+                .isEqualTo(ResourceType.DocumentReference.name()),
+            () -> assertThat(referralRequest.getSupportingInfo().getFirst().getReferenceElement().getIdPart())
+                .isEqualTo("5BFD7297-4ACC-420A-BF2F-3448D4665DDA"),
+            () -> assertThat(referralRequest.getSupportingInfo().getLast().getReferenceElement().getResourceType())
+                .isEqualTo(ResourceType.DocumentReference.name()),
+            () -> assertThat(referralRequest.getSupportingInfo().getLast().getReferenceElement().getIdPart())
+                .isEqualTo("8227E990-A72F-11EF-BE87-0800200C9A66")
+        );
+
+    }
+
     private RCMRMT030101UKRequestStatement getNestedRequestStatement(RCMRMT030101UKEhrComposition ehrComposition) {
         return ehrComposition.getComponent()
             .getFirst()
@@ -618,9 +649,16 @@ class ReferralRequestMapperTest {
 
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
-        final File file = FileFactory.getXmlFileFor(TEST_DIRECTORY_NAME, fileName);
+        return unmarshallEhrExtractElement(TEST_DIRECTORY_NAME, fileName);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String testDirectory, String fileName) {
+        final File file = FileFactory.getXmlFileFor(testDirectory, fileName);
         return unmarshallFile(file, RCMRMT030101UKEhrExtract.class);
     }
+
+
 
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallStringToEhrExtractElement(String inputXml) {
