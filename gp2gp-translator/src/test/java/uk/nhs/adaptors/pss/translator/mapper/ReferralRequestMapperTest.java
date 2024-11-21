@@ -626,6 +626,7 @@ class ReferralRequestMapperTest {
                 requestStatement,
                 patient,
                 List.of(encounter),
+                List.of(),
                 PRACTISE_CODE);
     }
 

@@ -74,17 +74,28 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                                               List<Encounter> encounters,
                                               String practiceCode) {
 
-        var referralRequests = mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
+        var referralRequestToDocumentReferences = extractReferralRequestIdToDocumentReferences(ehrExtract);
+
+        return mapEhrExtractToFhirResource(ehrExtract, (extract, composition, component) ->
             extractAllRequestStatements(component)
                 .filter(Objects::nonNull)
                 .filter(this::isNotSelfReferral)
-                .map(requestStatement
-                    -> mapToReferralRequest(ehrExtract, composition, requestStatement, patient, encounters, practiceCode)))
+                .map(requestStatement -> {
+                    var documentReferences = referralRequestToDocumentReferences.getOrDefault(
+                        requestStatement.getId().getFirst().getRoot(),
+                        List.of()
+                    );
+                    return mapToReferralRequest(
+                        ehrExtract,
+                        composition,
+                        requestStatement,
+                        patient,
+                        encounters,
+                        documentReferences,
+                        practiceCode
+                    );
+                }))
             .toList();
-
-        populateSupportingInfoWithDocumentReferencesFromLinkSets(ehrExtract, referralRequests);
-
-        return referralRequests;
     }
 
     public ReferralRequest mapToReferralRequest(RCMRMT030101UKEhrExtract ehrExtract,
@@ -92,13 +103,19 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
                                                 RCMRMT030101UKRequestStatement requestStatement,
                                                 Patient patient,
                                                 List<Encounter> encounters,
-                                                String practiceCode) {
+                                                List<Reference> documentReferences,
+                                                String practiceCode
+    ) {
 
         var referralRequest = initializeReferralRequest(ehrComposition, requestStatement, patient, practiceCode);
 
         setReferralRequestContext(referralRequest, ehrComposition, encounters);
         setReferralRequestRecipient(ehrExtract, requestStatement, referralRequest);
         setReferralRequestReasonCode(referralRequest, requestStatement.getCode());
+
+        if (!documentReferences.isEmpty()) {
+            referralRequest.setSupportingInfo(documentReferences);
+        }
 
         return referralRequest;
     }
@@ -288,17 +305,6 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         return true;
     }
 
-    private static void populateSupportingInfoWithDocumentReferencesFromLinkSets(
-        RCMRMT030101UKEhrExtract ehrExtract,
-        List<ReferralRequest> referralRequests
-    ) {
-        extractReferralRequestIdToDocumentReferences(ehrExtract).forEach(
-            (referralRequestId, documentReferences) -> referralRequests.stream()
-                .filter(referralRequest -> referralRequestId.equals(referralRequest.getId()))
-                .findFirst()
-                .ifPresent(referencedReferralRequest -> referencedReferralRequest.setSupportingInfo(documentReferences))
-        );
-    }
 
     private static Map<String, List<Reference>> extractReferralRequestIdToDocumentReferences(
         RCMRMT030101UKEhrExtract ehrExtract) {
