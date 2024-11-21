@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -65,6 +66,18 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             "88694003", "asap"
     );
     private static final String SNOMED_CODE_SYSTEM = "2.16.840.1.113883.2.1.3.2.4.15";
+
+    private static final BinaryOperator<List<Reference>> DOCUMENT_REFERENCE_MERGE_FUNCTION = (existing, added) -> {
+        added.forEach(addedReference -> {
+            if (existing.stream().noneMatch(
+                existingReference -> addedReference.getReference().equals(existingReference.getReference())
+            )) {
+                existing.add(addedReference);
+            }
+        });
+
+        return existing;
+    };
 
     private CodeableConceptMapper codeableConceptMapper;
     private ConfidentialityService confidentialityService;
@@ -305,7 +318,6 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         return true;
     }
 
-
     private static Map<String, List<Reference>> extractReferralRequestIdToDocumentReferences(
         RCMRMT030101UKEhrExtract ehrExtract) {
 
@@ -319,7 +331,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
             .filter(Objects::nonNull)
             .filter(linkSet -> ResourceFilterUtil.isReferralRequestToExternalDocumentLinkSet(ehrExtract, linkSet))
             .map(ReferralRequestMapper::buildReferralRequestToDocumentReferenceSimpleEntry)
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, DOCUMENT_REFERENCE_MERGE_FUNCTION));
     }
 
     private static AbstractMap.SimpleEntry<String, List<Reference>> buildReferralRequestToDocumentReferenceSimpleEntry(
@@ -329,7 +341,7 @@ public class ReferralRequestMapper extends AbstractMapper<ReferralRequest> {
         var documentReferences = linkSet.getComponent().stream()
             .map(component -> component.getStatementRef().getId().getRoot())
             .map(id -> new Reference(new IdType(ResourceType.DocumentReference.name(), id)))
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new));
 
         return new AbstractMap.SimpleEntry<>(referralRequestId, documentReferences);
     }

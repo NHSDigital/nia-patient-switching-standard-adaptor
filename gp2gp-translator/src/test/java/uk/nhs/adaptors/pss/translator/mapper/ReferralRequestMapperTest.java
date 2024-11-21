@@ -580,6 +580,31 @@ class ReferralRequestMapperTest {
             () -> assertThat(referralRequest.getSupportingInfo().getLast().getReferenceElement().getIdPart())
                 .isEqualTo("narrative-statement-2")
         );
+    }
+
+    @Test
+    void When_ReferralRequestReferencedByMultipleLinkSets_Expect_AllRelatedDocumentReferencesAddedAsSupportingInfo() {
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractElement(
+            "ehr_extract_with_multiple_request_statement_to_external_document_linksets.xml"
+        );
+
+        final var referralRequests = referralRequestMapper.mapResources(
+            ehrExtract,
+            (Patient) new Patient().setId(PATIENT_ID),
+            List.of(),
+            PRACTISE_CODE
+        );
+        final var referralRequest = referralRequests.getFirst();
+        assertAll(
+            () -> assertThat(referralRequest.getSupportingInfo()).hasSize(3),
+            () -> assertThat(referralRequest.getSupportingInfo())
+                .extracting(reference -> reference.getReferenceElement().getIdPart())
+                .containsExactly(
+                    "narrative-statement-1",
+                    "narrative-statement-2",
+                    "narrative-statement-3"
+                )
+        );
 
     }
 
