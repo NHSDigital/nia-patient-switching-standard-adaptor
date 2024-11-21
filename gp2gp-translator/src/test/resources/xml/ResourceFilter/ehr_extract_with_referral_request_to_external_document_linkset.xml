@@ -44,7 +44,7 @@
                                     <availabilityTime value="202105251602"/>
                                     <component contextConductionInd="true" typeCode="COMP">
                                         <RequestStatement classCode="OBS" moodCode="RQO">
-                                            <id root="22148CD1-B1ED-4D43-A62A-B5201471BB39"/>
+                                            <id root="request-statement-1"/>
                                             <code code="8H54.00" codeSystem="2.16.840.1.113883.2.1.6.2" displayName="Orthopaedic referral">
                                                 <qualifier codeSystem="2.16.840.1.113883.2.1.6.3" inverted="false">
                                                     <name code="RequestType" displayName="RequestType"/>
@@ -76,7 +76,7 @@
                                     <availabilityTime value="202105251602"/>
                                     <component contextConductionInd="true" typeCode="COMP">
                                         <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                            <id root="5BFD7297-4ACC-420A-BF2F-3448D4665DDA"/>
+                                            <id root="narrative-statement-1"/>
                                             <text>NHS e-Referral UBRN [redacted] for Orthopaedic referral, NHS e-RS UBRN [redacted] for Orthopaedic referral</text>
                                             <statusCode code="COMPLETE"/>
                                             <availabilityTime value="20210525"/>
@@ -95,7 +95,7 @@
                                     </component>
                                     <component contextConductionInd="true" typeCode="COMP">
                                         <NarrativeStatement classCode="OBS" moodCode="EVN">
-                                            <id root="8227E990-A72F-11EF-BE87-0800200C9A66"/>
+                                            <id root="narrative-statement-2"/>
                                             <text>NHS e-Referral UBRN [redacted] for Orthopaedic referral, NHS e-RS UBRN [redacted] for Orthopaedic referral</text>
                                             <statusCode code="COMPLETE"/>
                                             <availabilityTime value="20210525"/>
@@ -127,17 +127,17 @@
                             <availabilityTime value="20230913121921"/>
                             <component typeCode="COMP">
                                 <statementRef classCode="OBS" moodCode="EVN">
-                                    <id root="5BFD7297-4ACC-420A-BF2F-3448D4665DDA"/>
+                                    <id root="narrative-statement-1"/>
                                 </statementRef>
                             </component>
                             <component typeCode="COMP">
                                 <statementRef classCode="OBS" moodCode="EVN">
-                                    <id root="8227E990-A72F-11EF-BE87-0800200C9A66"/>
+                                    <id root="narrative-statement-2"/>
                                 </statementRef>
                             </component>
                             <conditionNamed inversionInd="true" typeCode="NAME">
                                 <namedStatementRef classCode="OBS" moodCode="EVN">
-                                    <id root="22148CD1-B1ED-4D43-A62A-B5201471BB39"/>
+                                    <id root="request-statement-1"/>
                                 </namedStatementRef>
                             </conditionNamed>
                         </LinkSet>
