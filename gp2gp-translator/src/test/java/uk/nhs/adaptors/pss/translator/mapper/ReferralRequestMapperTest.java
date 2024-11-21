@@ -574,11 +574,11 @@ class ReferralRequestMapperTest {
             () -> assertThat(referralRequest.getSupportingInfo().getFirst().getReferenceElement().getResourceType())
                 .isEqualTo(ResourceType.DocumentReference.name()),
             () -> assertThat(referralRequest.getSupportingInfo().getFirst().getReferenceElement().getIdPart())
-                .isEqualTo("5BFD7297-4ACC-420A-BF2F-3448D4665DDA"),
+                .isEqualTo("narrative-statement-1"),
             () -> assertThat(referralRequest.getSupportingInfo().getLast().getReferenceElement().getResourceType())
                 .isEqualTo(ResourceType.DocumentReference.name()),
             () -> assertThat(referralRequest.getSupportingInfo().getLast().getReferenceElement().getIdPart())
-                .isEqualTo("8227E990-A72F-11EF-BE87-0800200C9A66")
+                .isEqualTo("narrative-statement-2")
         );
 
     }
