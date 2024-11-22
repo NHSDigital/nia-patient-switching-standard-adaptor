@@ -241,7 +241,7 @@ public class ResourceFilterUtilTest {
         assertThat(ResourceFilterUtil.isReferralRequestToExternalDocumentLinkSet(ehrExtract, linkSet))
             .isFalse();
     }
-  
+
     private RCMRMT030101UKLinkSet extractFirstLinkSetFromEhrExtract(RCMRMT030101UKEhrExtract ehrExtract) {
         return ehrExtract.getComponent().stream()
             .map(RCMRMT030101UKComponent::getEhrFolder)

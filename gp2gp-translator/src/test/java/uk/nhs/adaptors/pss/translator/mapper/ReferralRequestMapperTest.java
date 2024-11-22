@@ -584,9 +584,11 @@ class ReferralRequestMapperTest {
 
     @Test
     void When_ReferralRequestReferencedByMultipleLinkSets_Expect_AllRelatedDocumentReferencesAddedAsSupportingInfo() {
+        final var expectedSize = 3;
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractElement(
             "ehr_extract_with_multiple_request_statement_to_external_document_linksets.xml"
         );
+
 
         final var referralRequests = referralRequestMapper.mapResources(
             ehrExtract,
@@ -596,7 +598,7 @@ class ReferralRequestMapperTest {
         );
         final var referralRequest = referralRequests.getFirst();
         assertAll(
-            () -> assertThat(referralRequest.getSupportingInfo()).hasSize(3),
+            () -> assertThat(referralRequest.getSupportingInfo()).hasSize(expectedSize),
             () -> assertThat(referralRequest.getSupportingInfo())
                 .extracting(reference -> reference.getReferenceElement().getIdPart())
                 .containsExactly(
