@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.8] - 2024-11-22
+
 ### Fixed
 
 * When a `LinkSet` which is a linkage between a `ReferralRequest` and one or more `DocumentReferences` is mapped then a
