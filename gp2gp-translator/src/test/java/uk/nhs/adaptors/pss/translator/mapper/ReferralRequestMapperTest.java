@@ -29,6 +29,7 @@ import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.ReferralRequest;
 import org.hl7.fhir.dstu3.model.ReferralRequest.ReferralRequestStatus;
+import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.v3.CV;
 import org.hl7.v3.RCMRMT030101UKEhrComposition;
 import org.hl7.v3.RCMRMT030101UKEhrExtract;
@@ -552,6 +553,63 @@ class ReferralRequestMapperTest {
         );
     }
 
+    @Test
+    void When_MappingReferralRequestReferencedByReferralRequestToExternalDocumentLinkSet_Expect_SupportingInfoReferencesLinksetDocuments() {
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractElement(
+            "ResourceFilter",
+            "ehr_extract_with_referral_request_to_external_document_linkset.xml"
+        );
+
+        final var referralRequests = referralRequestMapper.mapResources(
+            ehrExtract,
+            (Patient) new Patient().setId(PATIENT_ID),
+            List.of(),
+            PRACTISE_CODE
+        );
+        final var referralRequest = referralRequests.getFirst();
+
+        assertAll(
+            () -> assertThat(referralRequest.getSupportingInfo())
+                .hasSize(2),
+            () -> assertThat(referralRequest.getSupportingInfo().getFirst().getReferenceElement().getResourceType())
+                .isEqualTo(ResourceType.DocumentReference.name()),
+            () -> assertThat(referralRequest.getSupportingInfo().getFirst().getReferenceElement().getIdPart())
+                .isEqualTo("narrative-statement-1"),
+            () -> assertThat(referralRequest.getSupportingInfo().getLast().getReferenceElement().getResourceType())
+                .isEqualTo(ResourceType.DocumentReference.name()),
+            () -> assertThat(referralRequest.getSupportingInfo().getLast().getReferenceElement().getIdPart())
+                .isEqualTo("narrative-statement-2")
+        );
+    }
+
+    @Test
+    void When_ReferralRequestReferencedByMultipleLinkSets_Expect_AllRelatedDocumentReferencesAddedAsSupportingInfo() {
+        final var expectedSize = 3;
+        final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractElement(
+            "ehr_extract_with_multiple_request_statement_to_external_document_linksets.xml"
+        );
+
+
+        final var referralRequests = referralRequestMapper.mapResources(
+            ehrExtract,
+            (Patient) new Patient().setId(PATIENT_ID),
+            List.of(),
+            PRACTISE_CODE
+        );
+        final var referralRequest = referralRequests.getFirst();
+        assertAll(
+            () -> assertThat(referralRequest.getSupportingInfo()).hasSize(expectedSize),
+            () -> assertThat(referralRequest.getSupportingInfo())
+                .extracting(reference -> reference.getReferenceElement().getIdPart())
+                .containsExactly(
+                    "narrative-statement-1",
+                    "narrative-statement-2",
+                    "narrative-statement-3"
+                )
+        );
+
+    }
+
     private RCMRMT030101UKRequestStatement getNestedRequestStatement(RCMRMT030101UKEhrComposition ehrComposition) {
         return ehrComposition.getComponent()
             .getFirst()
@@ -595,6 +653,7 @@ class ReferralRequestMapperTest {
                 requestStatement,
                 patient,
                 List.of(encounter),
+                List.of(),
                 PRACTISE_CODE);
     }
 
@@ -618,9 +677,16 @@ class ReferralRequestMapperTest {
 
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String fileName) {
-        final File file = FileFactory.getXmlFileFor(TEST_DIRECTORY_NAME, fileName);
+        return unmarshallEhrExtractElement(TEST_DIRECTORY_NAME, fileName);
+    }
+
+    @SneakyThrows
+    private RCMRMT030101UKEhrExtract unmarshallEhrExtractElement(String testDirectory, String fileName) {
+        final File file = FileFactory.getXmlFileFor(testDirectory, fileName);
         return unmarshallFile(file, RCMRMT030101UKEhrExtract.class);
     }
+
+
 
     @SneakyThrows
     private RCMRMT030101UKEhrExtract unmarshallStringToEhrExtractElement(String inputXml) {
