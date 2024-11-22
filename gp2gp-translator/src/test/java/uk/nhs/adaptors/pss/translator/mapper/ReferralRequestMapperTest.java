@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.groups.Tuple;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Coding;
 import org.hl7.fhir.dstu3.model.Encounter;
@@ -568,27 +569,19 @@ class ReferralRequestMapperTest {
         );
         final var referralRequest = referralRequests.getFirst();
 
-        assertAll(
-            () -> assertThat(referralRequest.getSupportingInfo())
-                .hasSize(2),
-            () -> assertThat(referralRequest.getSupportingInfo().getFirst().getReferenceElement().getResourceType())
-                .isEqualTo(ResourceType.DocumentReference.name()),
-            () -> assertThat(referralRequest.getSupportingInfo().getFirst().getReferenceElement().getIdPart())
-                .isEqualTo("narrative-statement-1"),
-            () -> assertThat(referralRequest.getSupportingInfo().getLast().getReferenceElement().getResourceType())
-                .isEqualTo(ResourceType.DocumentReference.name()),
-            () -> assertThat(referralRequest.getSupportingInfo().getLast().getReferenceElement().getIdPart())
-                .isEqualTo("narrative-statement-2")
-        );
+        assertThat(referralRequest.getSupportingInfo())
+            .extracting("referenceElement.resourceType", "referenceElement.idPart")
+            .containsExactly(
+                Tuple.tuple(ResourceType.DocumentReference.name(), "narrative-statement-1"),
+                Tuple.tuple(ResourceType.DocumentReference.name(), "narrative-statement-2")
+            );
     }
 
     @Test
     void When_ReferralRequestReferencedByMultipleLinkSets_Expect_AllRelatedDocumentReferencesAddedAsSupportingInfo() {
-        final var expectedSize = 3;
         final RCMRMT030101UKEhrExtract ehrExtract = unmarshallEhrExtractElement(
             "ehr_extract_with_multiple_request_statement_to_external_document_linksets.xml"
         );
-
 
         final var referralRequests = referralRequestMapper.mapResources(
             ehrExtract,
@@ -596,18 +589,14 @@ class ReferralRequestMapperTest {
             List.of(),
             PRACTISE_CODE
         );
-        final var referralRequest = referralRequests.getFirst();
-        assertAll(
-            () -> assertThat(referralRequest.getSupportingInfo()).hasSize(expectedSize),
-            () -> assertThat(referralRequest.getSupportingInfo())
-                .extracting(reference -> reference.getReferenceElement().getIdPart())
-                .containsExactly(
-                    "narrative-statement-1",
-                    "narrative-statement-2",
-                    "narrative-statement-3"
-                )
-        );
 
+        assertThat(referralRequests.getFirst().getSupportingInfo())
+            .extracting("referenceElement.resourceType", "referenceElement.idPart")
+            .containsExactly(
+                Tuple.tuple(ResourceType.DocumentReference.name(), "narrative-statement-1"),
+                Tuple.tuple(ResourceType.DocumentReference.name(), "narrative-statement-2"),
+                Tuple.tuple(ResourceType.DocumentReference.name(), "narrative-statement-3")
+            );
     }
 
     private RCMRMT030101UKRequestStatement getNestedRequestStatement(RCMRMT030101UKEhrComposition ehrComposition) {
