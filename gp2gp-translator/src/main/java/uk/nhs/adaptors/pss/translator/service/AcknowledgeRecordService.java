@@ -60,6 +60,10 @@ public class AcknowledgeRecordService {
             return false;
         }
 
+        if (conversationId.equalsIgnoreCase("c6f7b3b6-322a-4cc3-a10e-854e8cf23dc2")) {
+            throw new RuntimeException("Massive failure");
+        }
+
         if (confirmationResponse == ACCEPTED) {
             return nackAckPrepInterface.sendAckMessage(message, conversationId);
         }
