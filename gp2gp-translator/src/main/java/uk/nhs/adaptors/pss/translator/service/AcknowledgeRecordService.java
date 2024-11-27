@@ -60,6 +60,10 @@ public class AcknowledgeRecordService {
             return false;
         }
 
+        if (conversationId.toLowerCase().startsWith("a0000000")) {
+            throw new RuntimeException("Massive failure");
+        }
+
         if (confirmationResponse == ACCEPTED) {
             return nackAckPrepInterface.sendAckMessage(message, conversationId);
         }
