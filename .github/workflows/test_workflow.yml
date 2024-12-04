@@ -127,7 +127,7 @@ jobs:
 
   integration_tests:
     name: ${{ inputs.name }} Integration Tests
-    needs: [ checkstyle, spotbugs, unit-tests]
+#    needs: [ checkstyle, spotbugs, unit-tests]
     permissions:
       id-token: write
       contents: read
@@ -143,17 +143,30 @@ jobs:
           role-session-name: gp2gp_github_action_build_workflow
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Retrieve Snomed CT Image
+        run: |
+          aws s3 cp s3://snomed-schema/${{ vars.SNOMED_CT_TERMINOLOGY_FILE }} \
+            ./snomed-database-loader/${{ vars.SNOMED_CT_TERMINOLOGY_FILE }}
+
+      - name: Setup Required Docker Images
+        run: |
+          source vars.local.tests.sh
+          docker compose -f ./docker-compose.yml build ps_db db_migration mhs-adaptor-mock activemq
+          docker compose -f ./docker-compose.yml up -d ps_db db_migration mhs-adaptor-mock activemq
+        working-directory: ./docker
+
+      - name: List Docker (TEST STEP)
+        run: docker ps
+
+
   mutation-testing:
-    name:  ${{ inputs.name }} Mutation Testing
-    # Only run on PRs from the repo.
-    # PRs from forks will fail due to lack of permissions.
     if: github.event.pull_request.head.repo.full_name == github.repository
+    name:  ${{ inputs.name }} Mutation Testing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
         with:
-          # It is important to set a fetch depth of 2, as by default the checkout action makes no history available
           fetch-depth: 2
       - name: Setup Java JDK
         uses: actions/setup-java@v4.2.2
