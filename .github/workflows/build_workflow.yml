@@ -10,6 +10,7 @@ on:
 
 jobs:
   facade-tests:
+    name: "GPC API Facade Tests"
     uses: ./.github/workflows/test_workflow.yml
     with:
       name: GPC API Facade
@@ -17,6 +18,7 @@ jobs:
     secrets: inherit
 
   translator-tests:
+    name: "GP2GP Translator Tests"
     uses: ./.github/workflows/test_workflow.yml
     with:
       name: GP2GP Translator

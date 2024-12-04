@@ -125,6 +125,24 @@ jobs:
       - name: Temporary Artifacts Cleanup
         run: rm -rf ./artifacts
 
+  integration_tests:
+    name: ${{ inputs.name }} Integration Tests
+    needs: [ checkstyle, spotbugs, unit-tests]
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: gp2gp_github_action_build_workflow
+          aws-region: ${{ secrets.AWS_REGION }}
+
   mutation-testing:
     name:  ${{ inputs.name }} Mutation Testing
     # Only run on PRs from the repo.
