@@ -1,4 +1,4 @@
-# Operating The Patient Switching Adaptor
+# Operating The Adaptor
 
 ## Dependencies
 
@@ -15,7 +15,9 @@ To run the adaptor you will need:
 
 ## Logging and tracing
 
-The Patient Switching Adaptors services emit logs which are captured by the docker containers they are hosted within. Whichever Docker container orchestration technology is used, the log streams can be captured and forwarded to an appropriate log indexing service for consumption, storage and subsequent queries. 
+The Adaptors services emit logs which are captured by the docker containers they are hosted within.
+Whichever Docker container orchestration technology is used, the log streams can be captured and forwarded to an
+appropriate log indexing service for consumption, storage and subsequent queries. 
 
 The consumption of these logs form an essential part of issue investigation and resolution. 
 
@@ -65,8 +67,8 @@ The adaptor checks incomplete transfers periodically, at a default frequency of 
 
 For more configuration see the [Migration timeout variables](#migration-timeout-variables) section.
 
-## Dependent Service Downtime and PS Adaptor Behavior
-This section highlights the specific focus on the dependent services and how the PS Adaptor operates when those services are unavailable.
+## Dependent Service Downtime and Adaptor Behavior
+This section highlights the specific focus on the dependent services and how the Adaptor operates when those services are unavailable.
 [PS Adaptor User Guide: Service Failures and Expected Behavior](./dependent-service-downtime-and-ps-adaptor-behavior.md)
 
 ## Database requirements
@@ -153,8 +155,8 @@ To do this:-
 1. Log in to https://isd.digital.nhs.uk/
 2. Download the newest version of the SNOMED Monolith edition.
 3. Before continuing, please be aware that the SNOMED database will be unavailable whilst being rebuilt.
-   All instances of the patient switching translator service should be stopped before performing the SNOMED update, any in progress GP2GP transfers will be on hold while the translator is stopped.
-   The patient switching facade does not need to be stopped, so API requests can continue to be made.
+   All instances of the translator service should be stopped before performing the SNOMED update, any in progress GP2GP transfers will be on hold while the translator is stopped.
+   The facade does not need to be stopped, so API requests can continue to be made.
 4. Run the loader script as described above.
 5. Start the translator service again, which will resume processing any in progress transfers.
 
@@ -162,7 +164,7 @@ To do this:-
 
 ### PS Queue
 
-The patient switching service uses a queue for communication between the HTTP facade, and GP2GP translator.
+The service uses a queue for communication between the HTTP facade, and GP2GP translator.
 
 For this communication to be successful, each service [needs to be configured](#ps-queue-variables) to communicate to the same queue. 
 
@@ -175,18 +177,19 @@ The MHS Inbound adaptor accepts incoming HTTPS spine messages, and pushes them o
 graph LR
    ActiveMQ[(ActiveMQ)];
    style ActiveMQ fill:#000080,color:#fff
-   PSAdaptor[Patient Switching Adaptor];
-   GP2GPAdaptor[GP2GP Adaptor];
+   RequestingAdaptor[GP2GP FHIR Request Adaptor];
+   SendingAdaptor[GP2GP FHIR Send Adaptor];
    MHSInbound[MHS Inbound Adaptor];
-   ActiveMQ -- MHS Inbound Queue --> PSAdaptor
-   PSAdaptor -- GP2GP Inbound Queue --> ActiveMQ
-   ActiveMQ -- GP2GP Inbound Queue --> GP2GPAdaptor
+   ActiveMQ -- MHS Inbound Queue --> RequestingAdaptor
+   RequestingAdaptor -- GP2GP Inbound Queue --> ActiveMQ
+   ActiveMQ -- GP2GP Inbound Queue --> SendingAdaptor
    MHSInbound -- MHS Inbound Queue --> ActiveMQ
 ```
 
 The set-up shown above is described as the daisy-chaining configuration.
-In this mode, the PS Adaptor and [GP2GP Adaptor] execute against a single instance of the MHS Adaptor.
-Messages received by the PS Adaptor with a conversation ID it doesn't recognise are forwarded to the GP2GP Adaptor queue.
+In this mode, the Request Adaptor and [Send Adaptor] execute against a single instance of the MHS Adaptor.
+Messages received by the GP2GP FHIR Request Adaptor with a conversation ID it doesn't recognise are forwarded to the
+GP2GP FHIR Send Adaptor queue.
 
 When the daisy-chaining configuration is disabled, the adaptor will put messages it doesn't recognise into the dead letter queue.
 
@@ -200,7 +203,7 @@ The adaptor will put messages it doesn't recognise into the dead letter queue.
 Additionally, any messages which is recognised but can't be processed due to an error are sent to the dead letter queue once the number of attempted redeliveries exceeds the threshold.
 The number of redeliveries is configurable with the [`MHS_AMQP_MAX_REDELIVERIES` environment variable](#ps-queue-variables).
 
-[GP2GP Adaptor]: https://github.com/NHSDigital/integration-adaptor-gp2gp
+[Send Adaptor]: https://github.com/NHSDigital/integration-adaptor-gp2gp-sending
 
 ### Broker Requirements
 
@@ -320,7 +323,7 @@ See also the [Apache Tomcat SSL/TLS guidance](https://tomcat.apache.org/tomcat-9
   - `GPC_FACADE_USER_DB_PASSWORD`: DB password for the `gpc_user` user
 
 ### Translator
-The recommended heap space for the PS Adaptor Translator is 4 GB. Also, it should be run on (at least) two CPUs for better GC performance.
+The recommended heap space for the Translator is 4 GB. Also, it should be run on (at least) two CPUs for better GC performance.
 
 #### HTTP
 
@@ -336,7 +339,7 @@ The recommended heap space for the PS Adaptor Translator is 4 GB. Also, it shoul
 
 **Required**
   - `MHS_AMQP_BROKER`: the location of the MHS Adaptors inbound queue. This should be set to the url of a single JMS broker
-    (the PS Adaptor does not support concurrent MHS Adaptor brokers), default = `amqp://localhost:5672`
+    (the Adaptor does not support concurrent MHS Adaptor brokers), default = `amqp://localhost:5672`
   - `MHS_AMQP_USERNAME`: The username for accessing the MHS broker
   - `MHS_AMQP_PASSWORD`: The password for accessing the MHS broker
 
@@ -346,7 +349,7 @@ The recommended heap space for the PS Adaptor Translator is 4 GB. Also, it shoul
   - `MHS_DLQ_PREFIX`: Prefix added to `MHS_QUEUE_NAME` for unprocessable messages, default = `DLQ.`
   - `PS_DAISY_CHAINING_ACTIVE`: set to `true` to enable daisy-chaining, default = `false`
   - `GP2GP_AMQP_BROKERS`: the location of the GP2GP Adaptors inbound queue. This should be set to the url of a single JMS broker
-    (the PS Adaptor does not support concurrent GP2GP Adaptor brokers), default = `amqp://localhost:5672`
+    (the Adaptor does not support concurrent GP2GP Adaptor brokers), default = `amqp://localhost:5672`
   - `GP2GP_MHS_INBOUND_QUEUE`: The name of the GP2GP Adaptors inbound queue, default = `gp2gpInboundQueue`
   - `GP2GP_AMQP_USERNAME`: The username for accessing the GP2GP broker
   - `GP2GP_AMQP_PASSWORD`: The password for accessing the GP2GP broker
