@@ -124,3 +124,27 @@ jobs:
 
       - name: Temporary Artifacts Cleanup
         run: rm -rf ./artifacts
+
+  mutation-testing:
+    name:  ${{ inputs.name }} Mutation Testing
+    # Only run on PRs from the repo.
+    # PRs from forks will fail due to lack of permissions.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+        with:
+          # It is important to set a fetch depth of 2, as by default the checkout action makes no history available
+          fetch-depth: 2
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.2
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: run pitest
+        working-directory: ${{ inputs.path }}
+        run: ./gradlew pitest-github
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
