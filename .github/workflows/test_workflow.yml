@@ -1,0 +1,127 @@
+name: ${{ inputs.name }} Test Workflow
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+      path:
+        required: true
+        type: string
+
+jobs:
+  checkstyle:
+    name: ${{ inputs.name }} Checkstyle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21 LTS
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Checkstyle
+        run: |
+          ./gradlew checkStyleMain --parallel
+          ./gradlew checkstyleTest --parallel
+        working-directory: ${{ inputs.path }}
+
+      - name: Collect Artifacts
+        if: always()
+        run: |
+          mkdir -p artifacts
+          cp -r ./${{ inputs.path }}/build/reports ./artifacts
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: '${{ inputs.name }} Checkstyle Reports'
+          path: ./artifacts/**
+          compression-level: 9
+
+      - name: Temporary Artifacts Cleanup
+        run: rm -rf ./artifacts
+
+  spotbugs:
+    name: ${{ inputs.name }} Spotbugs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21 LTS
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Spotbugs
+        run: |
+          ./gradlew spotbugsMain --parallel
+          ./gradlew spotbugsTest --parallel
+        working-directory: ${{ inputs.path }}
+
+      - name: Collect Artifacts
+        if: always()
+        run: |
+          mkdir -p artifacts
+          cp -r ./${{ inputs.path }}/build/reports ./artifacts
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: '${{ inputs.name }} Spotbugs Reports'
+          path: ./artifacts/**
+          compression-level: 9
+
+      - name: Temporary Artifacts Cleanup
+        run: rm -rf ./artifacts
+
+  unit-tests:
+    name: ${{ inputs.name }} Unit Tests
+    runs-on: ubuntu-latest
+    needs: [checkstyle, spotbugs]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21 LTS
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Execute Unit Tests
+        run: ./gradlew test --parallel --build-cache
+        working-directory: ${{ inputs.path }}
+
+      - name: Collect Artifacts
+        if: always()
+        run: |
+          mkdir -p artifacts
+          cp -r ./${{ inputs.path }}/build/reports ./artifacts
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: '${{ inputs.name }} Unit Test Reports'
+          path: ./artifacts/**
+          compression-level: 9
+
+      - name: Temporary Artifacts Cleanup
+        run: rm -rf ./artifacts
