@@ -132,6 +132,9 @@ jobs:
       id-token: write
       contents: read
     runs-on: ubuntu-latest
+    env:
+      PS_DB_OWNER_NAME: "postgres"
+      POSTGRES_PASSWORD: "pass_test"
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -149,16 +152,32 @@ jobs:
             ./snomed-database-loader/${{ vars.SNOMED_CT_TERMINOLOGY_FILE }}
 
       - name: Setup Required Docker Images
+        working-directory: ./docker
         run: |
           source vars.local.tests.sh
           docker network create ps-network || true
-          docker compose -f ./docker-compose.yml build ps_db db_migration mhs-adaptor-mock activemq
-          docker compose -f ./docker-compose.yml up -d ps_db db_migration mhs-adaptor-mock activemq
+          docker compose -f ./docker-compose.yml up -d ps_db mhs-adaptor-mock activemq
+
+      - name: Run Migrations
         working-directory: ./docker
+        env:
+          PS_DB_URL: "jdbc:postgresql://ps_db:5432"
+        run: docker compose -f ./docker-compose.yml up db_migration
 
-      - name: List Docker (TEST STEP)
-        run: docker ps
+      - name: Populate Database
+        continue-on-error: true
+        working-directory: ./snomed-database-loader
+        env:
+          PS_DB_HOST: "localhost"
+          PS_DB_PORT: "5436"
+        run: ./load_release-postgresql.sh ${{ vars.SNOMED_CT_TERMINOLOGY_FILE }}
 
+      - name: Test Immunizations Loaded
+        working-directory: ./snomed-database-loader
+        env:
+          PS_DB_HOST: "localhost"
+          PS_DB_PORT: "5436"
+        run: ./test-load-immunization-codes.sh
 
   mutation-testing:
     if: github.event.pull_request.head.repo.full_name == github.repository

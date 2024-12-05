@@ -9,6 +9,23 @@ on:
       - main
 
 jobs:
+  common_modules_tests:
+    name: "Common Modules Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Common Modules Tests
+        working-directory: ./docker
+        run: |
+          docker network create ps-network || true
+          docker compose -f ./docker-compose.yml -f ./docker-compose-checks.yml build common_modules
+          docker compose -f ./docker-compose.yml -f ./docker-compose-checks.yml up \
+           --exit-code-from common_modules common_modules
+          docker cp common_modules_checks:/home/gradle/service/db-connector/build db-connector-build
+          docker cp common_modules_checks:/home/gradle/service/common/build common-build
+
   facade-tests:
     name: "GPC API Facade Tests"
     uses: ./.github/workflows/test_workflow.yml
