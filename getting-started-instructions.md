@@ -28,7 +28,10 @@ This is a __required__ prerequisite for both requesting and sending adaptors.
    MIIFhzCC...
    -----END CERTIFICATE-----
    ```
+1. Specify the `MHS_FORWARD_RELIABLE_ENDPOINT_URL` environment variable for Inbound/Outbound adaptors set to the value
+   specified by the [Integration Environment - Messaging URLs][messaging-urls] "Used for all domain reliable messaging".
 
+[messaging-urls]: https://digital.nhs.uk/services/path-to-live-environments/integration-environment#messaging-urls
 [spine-certificates]: https://digital.nhs.uk/services/path-to-live-environments/integration-environment#rootca-and-subca-certificates
 
 ### Requesting adaptor
