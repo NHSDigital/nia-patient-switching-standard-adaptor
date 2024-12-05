@@ -151,6 +151,7 @@ jobs:
       - name: Setup Required Docker Images
         run: |
           source vars.local.tests.sh
+          docker network create ps-network || true
           docker compose -f ./docker-compose.yml build ps_db db_migration mhs-adaptor-mock activemq
           docker compose -f ./docker-compose.yml up -d ps_db db_migration mhs-adaptor-mock activemq
         working-directory: ./docker
