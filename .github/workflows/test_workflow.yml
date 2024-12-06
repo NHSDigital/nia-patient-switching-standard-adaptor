@@ -25,6 +25,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          add-job-summary: "on-failure"
 
       - name: Execute Checkstyle
         run: |
@@ -42,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: '${{ inputs.name }} Checkstyle Reports'
+          name: '${{ inputs.name }} Checkstyle Report'
           path: ./artifacts/**
           compression-level: 9
 
@@ -64,6 +66,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          add-job-summary: "on-failure"
 
       - name: Execute Spotbugs
         run: |
@@ -81,7 +85,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: '${{ inputs.name }} Spotbugs Reports'
+          name: '${{ inputs.name }} Spotbugs Report'
           path: ./artifacts/**
           compression-level: 9
 
@@ -90,6 +94,7 @@ jobs:
 
   unit-tests:
     name: ${{ inputs.name }} Unit Tests
+    needs: [ checkstyle, spotbugs ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -103,6 +108,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          add-job-summary: "on-failure"
 
       - name: Execute Unit Tests
         run: ./gradlew test --parallel --build-cache
@@ -118,16 +125,22 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: '${{ inputs.name }} Unit Test Reports'
+          name: '${{ inputs.name }} Unit Test Report'
           path: ./artifacts/**
           compression-level: 9
+
+      - name: Test Job Summary
+        if: always()
+        uses: test-summary/action@v2
+        with:
+          paths: "${{ inputs.path }}/build/test-results/test/TEST-*.xml"
 
       - name: Temporary Artifacts Cleanup
         run: rm -rf ./artifacts
 
   integration_tests:
     name: ${{ inputs.name }} Integration Tests
-#    needs: [ checkstyle, spotbugs, unit-tests]
+    needs: [ checkstyle, spotbugs ]
     permissions:
       id-token: write
       contents: read
@@ -188,6 +201,11 @@ jobs:
           PS_DB_PORT: "5436"
         run: ./test-load-immunization-codes.sh
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          add-job-summary: "on-failure"
+
       - name: Execute Integration Tests
         working-directory: ${{ inputs.path }}
         env:
@@ -219,9 +237,15 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: '${{ inputs.name }} Integration Test Reports & Docker Logs'
+          name: '${{ inputs.name }} Integration Test Report & Docker Logs'
           path: ./artifacts/**
           compression-level: 9
+
+      - name: Test Job Summary
+        if: always()
+        uses: test-summary/action@v2
+        with:
+          paths: "./${{ inputs.path }}/build/test-results/integrationTest/TEST-*.xml"
 
       - name: Stop Docker Dependencies
         if: always()
@@ -235,8 +259,9 @@ jobs:
         run: rm -rf ./artifacts
 
   mutation-testing:
-    if: github.event.pull_request.head.repo.full_name == github.repository
     name:  ${{ inputs.name }} Mutation Testing
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    needs: [ checkstyle, spotbugs ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
