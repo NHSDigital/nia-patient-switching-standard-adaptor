@@ -79,9 +79,9 @@ corresponding FHIR resource will now be [appropriately populated][nopat-docs].
   `ehrComposition /author / time` instead.
 * Filing Comments were creating with an incorrect `performer`, this now references the
   `ehrComposition / author / agentRef` instead.
-* Addressed a bug in the PS adaptor where immunizations were incorrectly mapped to observations when
-  the Snomed CT code being sent was a Description ID. The adaptor previously only checked against
-  known vaccination Concept IDs.
+* Addressed a bug where immunizations were incorrectly mapped to observations when the Snomed CT code being sent was a
+  Description ID.
+  The adaptor previously only checked against known vaccination Concept IDs.
 
 ## [3.0.2] - 2024-07-18
 

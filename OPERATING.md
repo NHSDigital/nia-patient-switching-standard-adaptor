@@ -67,9 +67,10 @@ The adaptor checks incomplete transfers periodically, at a default frequency of 
 
 For more configuration see the [Migration timeout variables](#migration-timeout-variables) section.
 
-## Dependent Service Downtime and Adaptor Behavior
-This section highlights the specific focus on the dependent services and how the Adaptor operates when those services are unavailable.
-[PS Adaptor User Guide: Service Failures and Expected Behavior](./dependent-service-downtime-and-ps-adaptor-behavior.md)
+## Adaptor behavior during dependent component downtime
+
+A separate guide identifies [dependent components and how the Adaptor behaves](./behaviour-during-component-failure.md)
+when they are unavailable.
 
 ## Database requirements
 
