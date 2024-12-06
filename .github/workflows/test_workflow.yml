@@ -26,7 +26,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Checkstyle
+      - name: Execute Checkstyle
         run: |
           ./gradlew checkStyleMain --parallel
           ./gradlew checkstyleTest --parallel
@@ -65,7 +65,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Spotbugs
+      - name: Execute Spotbugs
         run: |
           ./gradlew spotbugsMain --parallel
           ./gradlew spotbugsTest --parallel
@@ -139,6 +139,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -156,12 +162,15 @@ jobs:
         run: |
           source vars.local.tests.sh
           docker network create ps-network || true
-          docker compose -f ./docker-compose.yml up -d ps_db mhs-adaptor-mock activemq
+          docker compose -f ./docker-compose.yml up -d ps_db mhs-adaptor-mock activemq gp2gp_translator gpc_facade
 
       - name: Run Migrations
         working-directory: ./docker
         env:
           PS_DB_URL: "jdbc:postgresql://ps_db:5432"
+          PS_DB_OWNER_NAME: "postgres"
+          GP2GP_TRANSLATOR_USER_DB_PASSWORD: "pass_test"
+          GPC_FACADE_USER_DB_PASSWORD: "pass_test"
         run: docker compose -f ./docker-compose.yml up db_migration
 
       - name: Populate Database
@@ -172,12 +181,58 @@ jobs:
           PS_DB_PORT: "5436"
         run: ./load_release-postgresql.sh ${{ vars.SNOMED_CT_TERMINOLOGY_FILE }}
 
-      - name: Test Immunizations Loaded
+      - name: Check Immunizations Loaded
         working-directory: ./snomed-database-loader
         env:
           PS_DB_HOST: "localhost"
           PS_DB_PORT: "5436"
         run: ./test-load-immunization-codes.sh
+
+      - name: Execute Integration Tests
+        working-directory: ${{ inputs.path }}
+        env:
+          GPC_FACADE_SERVER_PORT: "8081"
+          GPC_FACADE_USER_DB_PASSWORD: "pass_test"
+          GP2GP_TRANSLATOR_USER_DB_PASSWORD: "pass_test"
+        run: ./gradlew integrationTest
+
+      - name: Dump Docker Logs
+        if: always()
+        run: |
+          mkdir -p ./logs
+          container_names=$(docker ps -a --format '{{.Names}}')
+          for container in $container_names; do
+              docker logs "$container" > ./logs/"$container".log
+              echo "Logs saved for container: $container"
+          done
+        working-directory: ./scripts
+        shell: bash
+
+      - name: Collect Artifacts
+        if: always()
+        run: |
+          mkdir -p artifacts
+          cp -r ./${{ inputs.path }}/build/reports ./artifacts
+          cp -r ./scripts/logs ./artifacts
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: '${{ inputs.name }} Integration Test Reports & Docker Logs'
+          path: ./artifacts/**
+          compression-level: 9
+
+      - name: Stop Docker Dependencies
+        if: always()
+        run: |
+          docker compose down --rmi=local --remove-orphans
+          docker compose rm
+          docker network rm ps-network
+        working-directory: ./docker
+
+      - name: Temporary Artifacts Cleanup
+        run: rm -rf ./artifacts
 
   mutation-testing:
     if: github.event.pull_request.head.repo.full_name == github.repository
