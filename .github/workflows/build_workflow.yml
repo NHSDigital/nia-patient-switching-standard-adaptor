@@ -16,7 +16,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Common Modules Tests
+      - name: "Common Modules Tests"
         working-directory: ./docker
         run: |
           docker network create ps-network || true
@@ -42,11 +42,59 @@ jobs:
       path: ./gp2gp-translator
     secrets: inherit
 
-  publish-docker-images:
-    name: "Build and publish docker images to ECR"
+  generate-build-id:
+    name: "Generate Build Id"
     runs-on: ubuntu-latest
-    needs: [ common-modules-tests, facade-tests, translator-tests ]
+    outputs:
+      build-id: ${{ steps.generate.outputs.buildId }}
     steps:
-      - name: Build Docker Images
-        run: echo "TODO"
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - id: generate
+        working-directory: ./scripts
+        shell: bash
+        run: |
+          chmod +x ./create_build_id.sh
+          
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          GIT_BRANCH=PR
+          elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+          GIT_BRANCH=main
+          fi
+          
+          BUILD_ID=$(./create_build_id.sh $GIT_BRANCH ${{ github.run_number }} ${{ github.sha }})
+          echo "Generated the build tag: $BUILD_ID"
+          echo "buildId=$BUILD_ID" >> "$GITHUB_OUTPUT" 
+
+  publish-docker-images:
+    name: "Publish docker images to ECR"
+    needs: [ generate-build-id, common-modules-tests, facade-tests, translator-tests ]
+    strategy:
+      matrix:
+        config:
+          - directory: gpc-facade
+            repository: pss_gpc_facade
+            build-context: .
+          - directory: gp2gp-translator
+            repository: pss_gp2gp-translator
+            build-context: .
+          - directory: snomed-schema
+            repository: pss_snomed_schema
+            build-context: .
+          - directory: db-migration
+            repository: pss_db_migration
+            build-context: .
+          - directory: mhs-adaptor-mock
+            repository: pss-mock-mhs
+            build-context: ./docker/mhs-adaptor-mock
+
+    uses: ./.github/workflows/publish_workflow.yml
+    with:
+      directory: ${{ matrix.config.directory }}
+      repository: ${{ matrix.config.repository }}
+      build-context: ${{ matrix.config.build-context }}
+      build-id: ${{ needs.generate-build-id.outputs.build-id }}
+    secrets: inherit
 

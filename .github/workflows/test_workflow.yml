@@ -138,9 +138,30 @@ jobs:
       - name: Temporary Artifacts Cleanup
         run: rm -rf ./artifacts
 
+  mutation-testing:
+    name:  ${{ inputs.name }} Mutation Testing
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    needs: [ checkstyle, spotbugs ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.2
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: run pitest
+        working-directory: ${{ inputs.path }}
+        run: ./gradlew pitest-github
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   integration_tests:
     name: ${{ inputs.name }} Integration Tests
-    needs: [ checkstyle, spotbugs ]
     permissions:
       id-token: write
       contents: read
@@ -257,25 +278,3 @@ jobs:
 
       - name: Temporary Artifacts Cleanup
         run: rm -rf ./artifacts
-
-  mutation-testing:
-    name:  ${{ inputs.name }} Mutation Testing
-    if: github.event.pull_request.head.repo.full_name == github.repository
-    needs: [ checkstyle, spotbugs ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-      - name: Setup Java JDK
-        uses: actions/setup-java@v4.2.2
-        with:
-          distribution: 'temurin'
-          java-version: 21
-
-      - name: run pitest
-        working-directory: ${{ inputs.path }}
-        run: ./gradlew pitest-github
-        env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
