@@ -1,4 +1,4 @@
-name: GP2GP Sending Adaptor Build Workflow
+name: "GP2GP Sending Adaptor Build Workflow"
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -28,7 +28,7 @@ jobs:
 
   facade-tests:
     name: "GPC API Facade Tests"
-    uses: ./.github/workflows/test_workflow.yml
+    uses: ./.github/workflows/test.yml
     with:
       name: GPC API Facade
       path: ./gpc-api-facade
@@ -36,7 +36,7 @@ jobs:
 
   translator-tests:
     name: "GP2GP Translator Tests"
-    uses: ./.github/workflows/test_workflow.yml
+    uses: ./.github/workflows/test.yml
     with:
       name: GP2GP Translator
       path: ./gp2gp-translator
@@ -44,33 +44,37 @@ jobs:
 
   generate-build-id:
     name: "Generate Build Id"
+#    needs: [common-modules-tests, facade-tests, translator-tests]
     runs-on: ubuntu-latest
     outputs:
       build-id: ${{ steps.generate.outputs.buildId }}
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
       - id: generate
         working-directory: ./scripts
         shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           chmod +x ./create_build_id.sh
           
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-          GIT_BRANCH=PR
+            GIT_BRANCH=PR
+            PR_NUMBER=${{ github.event.pull_request_number }}
           elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
-          GIT_BRANCH=main
+            GIT_BRANCH=main
+            PR_NUMBER=(gh pr list --search  ${{ github.sha }} --json number --jq '.[].number') 
           fi
           
-          BUILD_ID=$(./create_build_id.sh $GIT_BRANCH ${{ github.run_number }} ${{ github.sha }})
+          BUILD_ID=$("./create_build_id.sh $GIT_BRANCH $PR_NUMBER ${{ github.sha }}")
           echo "Generated the build tag: $BUILD_ID"
           echo "buildId=$BUILD_ID" >> "$GITHUB_OUTPUT" 
 
   publish-docker-images:
     name: "Publish docker images to ECR"
-    needs: [ generate-build-id, common-modules-tests, facade-tests, translator-tests ]
+    needs: [ generate-build-id ]
     strategy:
       matrix:
         config:
@@ -90,7 +94,7 @@ jobs:
             repository: pss-mock-mhs
             build-context: ./docker/mhs-adaptor-mock
 
-    uses: ./.github/workflows/publish_workflow.yml
+    uses: ./.github/workflows/publish.yml
     with:
       directory: ${{ matrix.config.directory }}
       repository: ${{ matrix.config.repository }}
