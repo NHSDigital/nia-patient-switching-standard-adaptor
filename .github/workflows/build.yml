@@ -44,7 +44,7 @@ jobs:
 
   generate-build-id:
     name: "Generate Build Id"
-#    needs: [common-modules-tests, facade-tests, translator-tests]
+    needs: [ common-modules-tests, facade-tests, translator-tests ]
     runs-on: ubuntu-latest
     outputs:
       build-id: ${{ steps.generate.outputs.buildId }}
@@ -61,16 +61,14 @@ jobs:
           chmod +x ./create_build_id.sh
           
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            GIT_BRANCH=PR
-            PR_NUMBER=${{ github.event.pull_request_number }}
+          GIT_BRANCH=PR
           elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
-            GIT_BRANCH=main
-            PR_NUMBER=(gh pr list --search  ${{ github.sha }} --json number --jq '.[].number') 
+          GIT_BRANCH=main
           fi
           
-          BUILD_ID=$("./create_build_id.sh $GIT_BRANCH $PR_NUMBER ${{ github.sha }}")
+          BUILD_ID=$(./create_build_id.sh $GIT_BRANCH ${{ github.run_number }} ${{ github.sha }})
           echo "Generated the build tag: $BUILD_ID"
-          echo "buildId=$BUILD_ID" >> "$GITHUB_OUTPUT" 
+          echo "buildId=$BUILD_ID" >> "$GITHUB_OUTPUT"  
 
   publish-docker-images:
     name: "Publish docker images to ECR"
@@ -93,7 +91,6 @@ jobs:
           - directory: mhs-adaptor-mock
             repository: pss-mock-mhs
             build-context: ./docker/mhs-adaptor-mock
-
     uses: ./.github/workflows/publish.yml
     with:
       directory: ${{ matrix.config.directory }}
@@ -101,4 +98,20 @@ jobs:
       build-context: ${{ matrix.config.build-context }}
       build-id: ${{ needs.generate-build-id.outputs.build-id }}
     secrets: inherit
+
+  comment:
+    name: "Create Build ID Comment"
+    needs: [ generate-build-id, publish-docker-images]
+    continue-on-error: true
+    permissions: write-all
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Images built and published to ECR using a Build Id of ${{ needs.generate-build-id.outputs.build-id }}
+        
 

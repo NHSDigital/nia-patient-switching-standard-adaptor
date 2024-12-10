@@ -49,7 +49,7 @@ jobs:
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin $DOCKER_REGISTRY
 
       - name: Publish image to ECR
-        run: echo "NOT pushing image $DOCKER_TAG"
+        run: docker push $DOCKER_TAG
 
       - name: Logout of AWS ECR (Clean up Credentials)
         if: always()
