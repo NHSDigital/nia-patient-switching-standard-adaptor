@@ -100,6 +100,7 @@ jobs:
     secrets: inherit
 
   comment:
+    if: github.event_name == 'pull_request'
     name: "Create Build ID Comment"
     needs: [ generate-build-id, publish-docker-images]
     continue-on-error: true
