@@ -114,5 +114,6 @@ jobs:
         with:
           message: |
             Images built and published to ECR using a Build Id of ${{ needs.generate-build-id.outputs.build-id }}
-        
+          comment_tag: images-built
+          mode: upsert
 
